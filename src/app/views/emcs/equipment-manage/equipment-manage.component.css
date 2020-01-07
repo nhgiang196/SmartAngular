@@ -1,0 +1,18 @@
+/* .custom{
+    background: white;
+    border: 1px solid
+} */
+
+
+.ng-select.custom {
+  border:0px;
+  min-height: 0px;
+  border-radius: 0;
+  z-index: 2;
+}
+.ng-select.custom .ng-control  {
+  min-height: 0px;
+  border-radius: 0;
+  z-index: 2
+}
+

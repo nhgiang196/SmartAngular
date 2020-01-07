@@ -1,0 +1,18 @@
+<h3>All My Task</h3>
+<div class="panel panel-info" *ngFor="let task of engineApi.processDefinitions; let i = index">
+   <div class="panel-heading">
+       <h5 class="panel-title">
+           <a data-toggle="collapse" data-parent="#accordion" href="#collapse{{i}}" (click)="taskItemByProcess()">
+              {{task.name}} <small class="label label-danger">Version: {{task.version}}</small></a>
+           
+           <small class="pull-right"><span class="label label-warning">{{task.count}}</span></small>
+       </h5>
+   </div>
+   <div id="collapse{{i}}" class="panel-collapse collapse" >
+       <div class="panel-body">
+         <ul *ngFor="let taskItem of engineApi.taskItems">
+            <app-task-item [taskItem]="taskItem"></app-task-item>           
+         </ul>
+       </div>
+   </div>  
+</div>

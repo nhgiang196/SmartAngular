@@ -1,0 +1,24 @@
+<!-- <div class="row">
+    <div class="col-lg-2 pull-right">
+        <br>
+        <br>
+        <button type="button" class="btn btn-outline btn-success" [routerLink]="['/showDiagram',taskCurrent.id]"><i
+                class="fa fa-cogs"></i></button>
+        <button type="button" class="btn btn-outline btn-info" [routerLink]="['/timelineLog',businessKey]"><i class="fa fa-history"></i></button>
+    </div>
+</div> -->
+<div>
+    <!-- Detail Dynamic Component -->
+    <ng-container *ngComponentOutlet="approveComponent; 
+                                      injector:myInjector">
+    </ng-container>
+
+    <!-- Bonus Dynamic Component -->
+    <ng-container *ngComponentOutlet="bonusComponent; 
+                                      injector:myInjector">
+    </ng-container>
+    <div class="wrapper wrapper-content">
+        <app-task-approval [camundaTask] ="taskCurrent" checkCondition={{checkCondition}}></app-task-approval>
+        <app-check-list></app-check-list>
+    </div>
+</div>

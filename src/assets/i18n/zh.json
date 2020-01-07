@@ -1,0 +1,100 @@
+{
+    "Button": {
+      "Save": "Save",
+      "Close": "Close",
+      "Search": "Search",
+      "Add": "Add",
+      "Delete": "Delete",
+      "Edit": "Edit",
+      "Yes": "Yes",
+      "Upload": "Upload",
+      "Action": "Action",
+      "Submit":"Submit"
+    },
+    "CommandTree": {
+      "Dashboard": "Dashboard",
+       
+        "LabEquipment": "Lab Equipment",
+        "EQMana": "Equipment Management",
+        "Planning": "Planning Schedule",
+        "Voucher":"Voucher Requistion"
+      },
+      "Header": {
+        "Logout": "Logout",
+        "ShowAllTask": "Show ALl My Task"
+      },
+    "Upload": {
+      "FileName": "FileName",
+      "Name": "Name",
+      "UploadFile": "Upload File",
+      "DownLoadMethod" : "Click Here To Download Method",
+      "DownLoadManual": "Click Here To Download Manual"
+    },
+    "EQComponent": {
+      "TITLE": "Equipment Management",
+      "AddEQ": "Add Equipment",
+      "AssetID": "Asset ID",
+      "EQName": "Equipment Name",
+      "Department": "Department",
+      "ProcessDepartment": "Process Department",
+      "All": "All",
+      "GetAll": "Only Query Equipment Created By Me",
+      "Name": "Equipment Name",
+      "Brand": "Brand",
+      "Author": "Author",
+      "UsedDate": "Used Date",
+      "Model": "Model",
+      "IsAdjust": "Is Adjust",
+      "Remark": "Remark",
+      "UploadFileManual": "Upload File Manual",
+      "UploadFileMethod": "Upload File Method",
+      "Manual" : "Manual",
+      "Method": "Method",
+      "DetailTitle":"Equipment Information"
+    },
+    "VoucherComponent":{
+      "TITLE": "Voucher Requistion",
+      "Information": "Information",
+      "ProcessDepartment": "Process Department",
+      "Type": "Type",
+      "Year":"Year",
+      "Month": "Month",
+      "Status": "Status",
+      "AddVoucher": "Add Voucher",
+      "VoucherID": "Voucher ID",
+      "Equipment": "Equipment",
+      "MonthAdjust": "Month Adjust",
+      "YearAdjust": "Year Adjust",
+      "Remark": "Remark",
+      "Detail": "Detail",
+      "Temparature": "Temparature",
+      "Humidity": "Humidity",
+      "Passed": "Is Passed",
+      "State": "State"
+    },
+    "PSComponent":{
+      "TITLE": "PLANING SCHEDULE",
+      "Department" : "Department",
+      "Type": "Type",
+      "Year": "Year"
+    },
+    "VoucherDetailComponent":{
+      "TITLE": "Voucher Requistion",
+      "Manual" : "Manual",
+      "Method": "Method",
+      "Department": "Department",
+      "ProcessDepartment": "Process Department",
+      "VoucherInfo": "Voucher Requistion Information",
+      "AdjustResult":"Adjust Result",
+      "VoucherID": "Voucher ID",
+      "Equipment": "Equipment",
+      "MonthAdjust": "Month Adjust",
+      "YearAdjust": "Year Adjust",
+      "Remark": "Remark",
+      "Detail": "Detail",
+      "Temparature": "Temparature",
+      "Humidity": "Humidity",
+      "Passed": "Is Passed",
+      "FileResult" :"File Result"
+    }
+  }

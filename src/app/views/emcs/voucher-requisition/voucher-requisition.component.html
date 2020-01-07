@@ -1,0 +1,402 @@
+<!-- HEADER -->
+<div class="row wrapper border-bottom white-bg page-heading animated fadeInRight">
+  <div class="col-lg-10">
+    <h2>{{'VoucherComponent.TITLE' | translate}}</h2>
+    <ol class="breadcrumb">
+      <li>
+        <a href="#">Home</a>
+      </li>
+      <li>
+        <a>Lab Equipments</a>
+      </li>
+      <li class="active">
+        <strong>{{'VoucherComponent.TITLE' | translate}}</strong>
+      </li>
+    </ol>
+  </div>
+  <div class="col-lg-2">
+  </div>
+</div>
+<!-- CONTENT -->
+<div class="wrapper wrapper-content">
+  <div class="animated fadeInRight">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="ibox float-e-margins">
+          <div class="ibox-title">
+            <h5>{{'VoucherComponent.Information' | translate}}</h5>
+            <div class="ibox-tools">
+              <a class="collapse-link">
+                <i class="fa fa-chevron-up"></i>
+              </a>
+              <a class="close-link">
+                <i class="fa fa-times"></i>
+              </a>
+            </div>
+          </div>
+          <div class="ibox-content m-b-sm border-bottom">
+            <div class="row">
+              <div class="col-sm-4">
+                <div class="form-group">
+                  <label class="control-label"
+                    for="product_name">{{'VoucherComponent.ProcessDepartment' | translate}}</label>
+                  <!-- <input class="form-control"> -->
+
+                  <ng-select [items]="list.Departments" bindLabel="name" bindValue="id"
+                    [(ngModel)]="searchParams.Department" name="ProcessDepartment">
+                  </ng-select>
+
+                </div>
+              </div>
+              <div class="col-sm-2">
+                <div class="form-group">
+                  <label class="control-label">{{'VoucherComponent.Type' | translate}}</label>
+                  <select [(ngModel)]="searchParams.Type" class=" form-control ">
+                    <option value="">All</option>
+                    <option value="__">Đăng ký</option>
+                    <option value="__">Kế hoạch</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-sm-2">
+                <div class="form-group">
+                  <label class="control-label">{{'VoucherComponent.Year' | translate}}</label>
+                  <select [(ngModel)]="searchParams.Year" class=" form-control ">
+                    <option value="">All</option>
+                    <option value="2017">2017</option>
+                    <option value="2018">2018</option>
+                    <option value="2019">2019</option>
+                    <option value="2020">2020</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-sm-4">
+                <div class="form-group">
+                  <label class="control-label">{{'VoucherComponent.Status' | translate}}</label>
+                  <select [(ngModel)]="searchParams.Status" class="form-control">
+                    <option value="" selected="">All</option>
+                    <option value="1" selected="">Enabled</option>
+                    <option value="0">Disabled</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="ibox-content" [ngClass]=" {'sk-loading': loading}">
+            <!-- loading spinner -->
+            <div class="sk-spinner sk-spinner-wave">
+              <div class="sk-rect1"></div>
+              <div class="sk-rect2"></div>
+              <div class="sk-rect3"></div>
+              <div class="sk-rect4"></div>
+              <div class="sk-rect5"></div>
+            </div>
+            <button type="button" class="btn btn-success dim " (click)="fnSearch()" data-toggle="modal"><i
+                class="fa fa-search"></i> {{'Button.Search' | translate}}</button>
+            <div class="pull-right">
+              <div class="btn-group">
+                <button type="button" class="btn btn-primary dim pull-right" data-target="#myModal" (click)="fnAdd()"
+                  data-toggle="modal"><i class="fa fa-plus"></i> {{'Button.Add' | translate}}</button>
+              </div>
+              <div class="btn-group">
+                <button type="button" class="btn btn-danger dim dropdown-toggle" data-toggle="dropdown"><i class="fa fa-list"></i></button>
+                <ul class="dropdown-menu">
+                  <li><a>Option 1</a></li>
+                  <li><a>Option 2</a></li>
+                  <li><a>Option 3</a></li>
+                  <li class="divider"></li>
+                  <li><a>Option ...</a></li>
+                </ul>
+              </div>
+            </div>
+            <div class="hr-line-dashed"></div>
+            <div class="table-responsive">
+              <table datatable [dtOptions]="helper.dtOptions" [dtTrigger]="dtTrigger"
+                class="table table-bordered table-hover table-stripped table-responisve text-center">
+                <thead>
+                  <tr>
+                    <th>{{'Button.Action'|translate}}</th>
+                    <th>{{'VoucherComponent.VoucherID'|translate}}</th>
+                    <th>{{'EQComponent.AssetID'|translate}}</th>
+                    <th>{{'EQComponent.Name'|translate}}</th>
+                    <th>{{'EQComponent.Brand'|translate}}</th>
+                    <th>{{'EQComponent.Model'|translate}}</th>
+                    <th>{{'EQComponent.ProcessDepartment'|translate}}</th>
+                    <th>{{'UserID'|translate}}</th>
+                    <th>{{'VoucherComponent.Remark'|translate}}</th>
+                    <th>{{'VoucherComponent.DateAdjust'|translate}}</th>
+                    <th>{{'Stamp'|translate}}</th>
+                    <th>{{'CreateTime'|translate}}</th>
+                    <th>{{'State'|translate}}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of this.lsVoucher"
+                    [ngClass]="{'validateSubmit': checkVoucherNeedSubmit(item.DateAdjust)}">
+                    <!-- BUTTONS -->
+                    <td class="action-list">
+                      <!-- routerLink="/VoucherView/?VoucherID={{item.VoucherID}}" -->
+                      <a [routerLink]="['/VoucherView/',item.VoucherID]"><button
+                          class="btn btn-default btn-xs"><i class="fa fa-eye"></i></button></a>
+                      <div class="btn-group">
+                        <button data-toggle="dropdown" class="btn btn-default btn-xs dropdown-toggle">
+                          <i class="fa fa-list"></i><span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu">
+                          <li><a data-target="#myModal" data-toggle="modal" (click)="fnShowEdit(item)">Modify</a></li>
+                          <li [hidden]="item.State =='S'|| item.State =='P'"><a [swal]="
+                              {
+                                title: 'Are you sure?',
+                                text: 'You will not be able to recover this imaginary file!',
+                                type: 'warning',
+                                showCancelButton: true,
+                                confirmButtonColor: '#DD6B55',
+                                confirmButtonText: 'Yes, delete it!',
+                                closeOnConfirm: false
+                              }" (confirm)="fnDelete(item)">Delete</a></li>
+                          <li class="divider"></li>
+                          <li><a>Others...</a></li>
+                        </ul>
+                      </div>
+                    </td>
+                    <td>{{item.VoucherID}}</td>
+                    <td style="text-align: left">{{item.AssetID}}</td>
+                    <td>{{item.Name}}</td>
+                    <td>{{item.Brand}}</td>
+                    <td>{{item.Model}}</td>
+                    <td>{{item.ProcessDepartment}}</td>
+                    <td>{{item.UserID}}</td>
+                    <td>{{item.Remark}}</td>
+                    <td>{{item.DateAdjust}}</td>
+                    <td>{{item.Stamp}}</td>
+                    <td>{{item.CreateTime}}</td>
+                    <td>{{item.State}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- MODAL -->
+  <div class="modal inmodal fade in" id="myModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <form #myForm="ngForm" name="myForm">
+      <div class="modal-dialog modal-lg modal-dial">
+        <div class="modal-content animated fadeIn">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">
+              <span aria-hidden="true">&times;</span>
+              <span class="sr-only">Close</span></button>
+            <!-- <i class="fa fa-clock-o modal-icon"></i> -->
+            <h4 class="modal-title" style="color: red">{{'VoucherComponent.AddVoucher' | translate}}</h4>
+          </div>
+          <div class="modal-body">
+            <div class="form-horizontal">
+              <!-- [hidden]="actionstatus!='N'" -->
+              <div class="form-group">
+                <div class="col-xs-6">
+                  <label class="control-label" [hidden]="this.Status =='N'">{{'VoucherComponent.VoucherID' | translate}}
+
+                    <a routerLink="/VoucherView/{{choosenEntity.VoucherID}}"
+                      target="_blank">{{choosenEntity.VoucherID}}</a>
+                  </label>
+                </div>
+                <div class="col-xs-6">
+                  <label class="control-label" [hidden]="this.Status =='N'">{{'VoucherComponent.State' | translate}}
+
+                    <a *ngIf="choosenEntity.State =='N' || choosenEntity.State =='M'">Draft</a>
+                    <a *ngIf="choosenEntity.State =='P'">Publish</a>
+                    <a *ngIf="choosenEntity.State =='S'">Processing</a>
+                  </label>
+                </div>
+
+              </div>
+
+              <div class="hr-line-dashed"></div>
+            </div>
+            <div class="form-horizontal">
+              <div class="form-group">
+                <!-- <label class="col-sm-2  control-label">Department</label>
+                <div class="col-sm-4">
+                  <select [(ngModel)]="choosenEntity.Department" class=" form-control ">
+                    <option [value]="d.id" *ngFor="let d of list.Departments">{{d.name}}</option>
+                  </select>
+                </div> -->
+                <label class="col-sm-2 control-label">{{'VoucherComponent.Equipment' | translate}}</label>
+                <div class="col-sm-10">
+                  <!-- <select [(ngModel)]="choosenEntity.EQID" name="EQID" #EQID="ngModel"
+                    class="form-control  form-control " required>
+                    <option [value]="e.id" *ngFor="let e of list.Equipments">{{e.AssetID}}- {{e.name}}</option>
+                  </select> -->
+
+                  <ng-select [items]="list.Equipments" bindLabel="name" bindValue="id" #EQID="ngModel"
+                    [(ngModel)]="choosenEntity.EQID" name="EQID">
+                  </ng-select>
+
+
+                  <div *ngIf="EQID.invalid && (EQID.dirty || EQID.touched)" class="alert alert-danger">
+
+                    <div *ngIf="EQID.errors.required">
+                      Equipment is required.
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+
+
+              <div class="form-group">
+                <label class="col-sm-2 control-label">{{'VoucherComponent.MonthAdjust' | translate}}</label>
+                <div class="col-sm-4">
+                  <select [(ngModel)]="choosenEntity.MonthAdjust" [disabled]="this.Status == 'M'" name="MonthAdjust"
+                    #MonthAdjust="ngModel" class="form-control  form-control " required>
+                    <option value="1">January</option>
+                    <option value="2">February</option>
+                    <option value="3">March</option>
+                    <option value="4">April</option>
+                    <option value="5">May</option>
+                    <option value="6">June</option>
+                    <option value="7">July</option>
+                    <option value="8">August</option>
+                    <option value="9">September</option>
+                    <option value="10">October</option>
+                    <option value="11">November</option>
+                    <option value="12">December</option>
+                  </select>
+                  <div *ngIf="MonthAdjust.invalid && (MonthAdjust.dirty || MonthAdjust.touched)"
+                    class="alert alert-danger">
+
+                    <div *ngIf="MonthAdjust.errors.required">
+                      Month Adjust is required.
+                    </div>
+                  </div>
+                </div>
+
+                <label class="col-sm-2 control-label">{{'VoucherComponent.YearAdjust' | translate}}</label>
+                <div class="col-sm-4">
+                  <select [(ngModel)]="choosenEntity.YearAdjust" class="form-control  form-control "
+                    [disabled]="this.Status == 'M'" name="YearAdjust" #YearAdjust="ngModel" required>
+                    <option value="2017">2017</option>
+                    <option value="2018">2018</option>
+                    <option value="2019">2019</option>
+                    <option value="2020">2020</option>
+                    <option value="2021">2021</option>
+                    <option value="2022">2022</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label">{{'VoucherComponent.Remark' | translate}}</label>
+                <div class="col-sm-10"><textarea [(ngModel)]="choosenEntity.Remark" name="Remark" #Remark="ngModel"
+                    type="text" class="form-control"></textarea></div>
+              </div>
+              <div class="hr-line-dashed"></div>
+            </div>
+            <div class="form-horizontal ibox-content">
+              <div class="text-center">
+                <h3>DETAIL</h3>
+              </div>
+
+              <!-- DETAIL ADDED -->
+
+              <div class="form-group">
+                <label class="col-sm-2 control-label">{{'VoucherComponent.Temparature' | translate}}</label>
+                <div class="col-sm-4">
+                  <input type="number" class="form-control" [(ngModel)]="this.Profile.Temparature" name="Temparature"
+                    #Temparature="ngModel">
+                </div>
+                <label class="col-sm-2 control-label">{{'VoucherComponent.Humidity' | translate}}</label>
+                <div class="col-sm-4">
+                  <input type="number" class="form-control" [(ngModel)]="this.Profile.Humidity" name="Humidity"
+                    #Humidity="ngModel">
+                </div>
+                <label class="col-sm-2 control-label">{{'VoucherComponent.Passed' | translate}}</label>
+                <div class="col-sm-4">
+                  <div class="i-checks"><label>
+                      <input type="checkbox" value="true" class="form-control" [(ngModel)]="this.Profile.Passed"
+                        name="Passed" #Passed="ngModel"> <i></i>
+                      {{'Button.Yes' | translate}} </label>
+                  </div>
+                </div>
+                <label class="col-sm-2 control-label">{{'Upload.UploadFile' | translate}}</label>
+                <div class="col-sm-4">
+                  <div class="from-group">
+                    <div class="fileinput fileinput-new" data-provides="fileinput">
+                      <span class=" col-sm-12 btn btn-default btn-file"><span class="fileinput-new">Select file</span>
+                        <span class="fileinput-exists">Change</span>
+                        <input type="file" name="..." id="fileupload" class="col-sm-12 btn btn-default btn-file"
+                          (change)="handleFileInput($event.target.files)" /></span>
+                      <span class="fileinput-filename" [ngClass]=" {'fileinput-new': this.file == null}"
+                        style="text-overflow: ellipsis; width: 200px; overflow: hidden;white-space: nowrap;">
+                      </span>
+                      <a class="close fileinput-exists" data-dismiss="fileinput" style="float: none">×</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label">{{'VoucherComponent.Remark' | translate}}</label>
+                <div class="col-sm-8"><textarea type="text" class="form-control" [(ngModel)]="this.Profile.Remark"
+                    name="Remark1" #Remark="ngModel"></textarea></div>
+                <div class="col-sm-2"><button type="button form-control" class="btn btn-primary"
+                    (click)="addDetail()"><i class="fa fa-plus"></i> {{'Button.Add' | translate}}</button></div>
+              </div>
+
+
+              <!-- <div class="hr-line-dashed"></div> -->
+            </div>
+            <!-- TABLE DETAIL -->
+            <div class="form-horizontal">
+              <div class="hr-line-dashed"></div>
+              <div class="form-group">
+                <div class="col-sm-12">
+                  <table [ngClass]=" {'sk-loading': loading}"
+                    class="table table-bordered table-hover table-stripped table-responisve text-center">
+                    <thead>
+                      <tr>
+                        <th>{{'Upload.FileName' | translate}}</th>
+                        <th>{{'Upload.Name' | translate}}</th>
+                        <th>{{'VoucherComponent.Remark' | translate}}</th>
+                        <th>{{'VoucherComponent.Temparature' | translate}}</th>
+                        <th>{{'VoucherComponent.Humidity' | translate}}</th>
+                        <th>{{'VoucherComponent.Passed' | translate}}</th>
+                        <th>{{'Button.Action' | translate}}</th>
+                      </tr>
+                    </thead>
+                    <tbody *ngFor="let item of this.choosenEntity.Profiles">
+                      <tr>
+                        <td style="text-align: left;text-overflow: ellipsis; width: 200px; overflow: hidden"> <a
+                            (click)="onGetFile(item.FileResult)">{{item.FileResult}}</a></td>
+                        <td style="text-align: left; text-overflow: ellipsis; width: 200px; overflow: hidden">
+                          {{item.Name}}</td>
+                        <td style="text-align: left">{{item.Remark}}</td>
+                        <td style="text-align: left">{{item.Temparature}}</td>
+                        <td style="text-align: left">{{item.Humidity}}</td>
+                        <td style="text-align: left">{{item.Passed}}</td>
+                        <td><button type="button" class="btn btn-outline btn-danger" (click)="onDeleteProfiles(item)"><i
+                              class="fa fa-trash"></i></button></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            <!-- CheckList[disabled]="myForm.invalid" -->
+            <!-- Show leader check list -->
+            <app-check-list flowKey="EMCSWorkFlow"></app-check-list>
+          </div>
+          <div class="modal-footer">
+            <button type="button" id="#closeBtn" class="btn btn-white" data-dismiss="modal">Close</button>
+            <button type="button" [hidden]="actionstatus!='View'" [disabled]="this.disableButton"
+              [disabled]="myForm.invalid" (click)="fnSave()"
+              class="btn btn-primary">{{'Button.Save' | translate}}</button>
+            <button type="button" [disabled]="this.disableButton" [disabled]="myForm.invalid" (click)="fnSubmit()"
+              class="btn btn-primary">{{'Button.Submit' | translate}}</button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>

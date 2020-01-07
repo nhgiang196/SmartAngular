@@ -1,0 +1,117 @@
+<!-- HEADER -->
+<!-- <div class="row wrapper border-bottom white-bg page-heading animated fadeInRight">
+  <div class="col-lg-10">
+    <h2>{{ 'EQComponent.DetailTitle' | translate }}</h2>
+    <ol class="breadcrumb">
+      <li>
+        <a href="#">Home</a>
+      </li>
+      <li>
+        <a>Lab Equipments</a>
+      </li>
+      <li class="active">
+        <strong>Equipment View</strong>
+      </li>
+    </ol>
+  </div>
+  <div class="col-lg-2">
+  </div>
+</div> -->
+
+<!-- Content -->
+<div class="wrapper wrapper-content">
+  <div class="animated fadeInRight">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="ibox float-e-margins">
+          <div class="ibox-title text-center">
+            <h2>{{ 'EQComponent.EQName' | translate }}: {{Equipment.Name}}</h2>
+            <small>{{ 'EQComponent.AssetID' | translate }}: {{Equipment.AssetID}}</small>
+          </div>
+          <div class="ibox-content">
+            <div class="row">
+              <!-- Left Panel -->
+              <div class="col-lg-4 col-md-6">
+                <br>
+                <!-- Manual Files -->
+                <div class="panel panel-info">
+                  <div class="panel-heading">
+                    <i class="fa fa-info-circle"></i> {{ 'EQComponent.Manual' | translate }}
+                  </div>
+                  <div class="panel-body">
+                    <a *ngFor="let item of Equipment.Manuals" (click)="onGetFile(item.FileName)">
+                      <p>{{item.FileName}}</p>
+                    </a>
+                  </div>
+                </div>
+                <!-- Method Files -->
+                <div class="panel panel-info">
+                  <div class="panel-heading">
+                    <i class="fa fa-info-circle"></i> {{ 'EQComponent.Method' | translate }}
+                  </div>
+                  <div class="panel-body">
+                    <a *ngFor="let item of Equipment.Methods" (click)="onGetFile(item.FileName)">
+                      <p>{{item.FileName}}</p>
+                    </a>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Right Panel -->
+              <div class="col-lg-8 col-md-6">
+                <div class="form-group">
+                  <div class="pull-right">
+                    <table>
+                      <tbody>
+                        <tr>
+                          <th>{{ 'EQComponent.Today' | translate }}: </th>
+                          <td>{{Today}}</td>
+                        </tr>
+                        <tr>
+                          <th>{{ 'EQComponent.Author' | translate }}: </th>
+                          <td> {{Equipment.UserID}}</td>
+                        </tr>
+
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                <h3>{{ 'EQComponent.DetailTitle' | translate }}</h3>                
+                <table class="table table-bordered">
+                  <tr>
+                    <th>{{ 'EQComponent.Model' | translate }}</th>
+                    <td>{{Equipment.Model}}</td>
+
+                    <th>{{ 'EQComponent.Brand' | translate }}</th>
+                    <td>{{Equipment.Brand}}</td>
+                  </tr>
+
+                  <tr>
+                    <th>{{ 'EQComponent.Department' | translate }}</th>
+                    <td>{{Equipment.DepartmentName}}</td>
+
+                    <th>{{ 'EQComponent.ProcessDepartment' | translate }}</th>
+                    <td>{{Equipment.ProcessDeptName}}</td>
+                  </tr>
+
+                  <tr>
+                    <th>{{ 'EQComponent.UsedDate' | translate }}</th>
+                    <td>{{Equipment.UsedDate}}</td>
+
+                    <th>{{ 'EQComponent.Author' | translate }}</th>
+                    <td>{{Equipment.UserID}}</td>
+                  </tr>
+
+                  <tr>
+                    <th>{{ 'EQComponent.Remark' | translate }}</th>
+                    <td colspan="3">{{Equipment.Remark}}</td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

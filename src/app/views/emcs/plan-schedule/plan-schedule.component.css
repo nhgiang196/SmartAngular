@@ -1,0 +1,11 @@
+.scheduletable {
+    cursor: pointer;
+  }
+
+  .scheduletable:hover   {
+    background-color: #8a8a8a;
+  }
+
+  .pagination {
+    margin: 2px 0;
+  }

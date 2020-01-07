@@ -1,0 +1,11 @@
+<button class="btn btn-success"
+[swal]="
+      {
+        title: 'Are you sure?',
+        text: 'This Voucher will be submit!',
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#DD6B55',
+        confirmButtonText: 'Yes, submit it!',
+        closeOnConfirm: false
+      }" (confirm)="fnSubmit()"><i class="fa fa-paper-plane"></i> Submit</button>

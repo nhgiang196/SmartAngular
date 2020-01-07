@@ -1,0 +1,249 @@
+<!-- HEADER -->
+<div class="row wrapper border-bottom white-bg page-heading animated fadeInRight">
+  <div class="col-lg-10">
+    <h2>{{ 'PSComponent.TITLE' | translate }}</h2>
+    <ol class="breadcrumb">
+      <li>
+        <a>Home</a>
+      </li>
+      <li>
+        <a>Lab Equipments</a>
+      </li>
+      <li class="active">
+        <strong>{{ 'PSComponent.TITLE' | translate }}</strong>
+      </li>
+    </ol>
+  </div>
+  <div class="col-lg-2">
+
+  </div>
+</div>
+<!-- CONTENT -->
+<div class="wrapper wrapper-content">
+  <div class="animated fadeInRight">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="ibox float-e-margins">
+          <div class="ibox-content m-b-sm border-bottom">
+            <div class="row">
+              <div class="col-sm-4">
+                <div class="form-group">
+                  <label class="control-label" for="product_name"
+                    i18n>{{ 'PSComponent.Department' | translate }}</label>
+                  <ng-select [items]="list.Departments" bindLabel="name" bindValue="id"
+                    [(ngModel)]="searchParams.Department">
+                  </ng-select>
+
+
+                </div>
+              </div>
+              <div class="col-sm-4">
+                <label class="control-label">{{ 'PSComponent.Year' | translate }}</label>
+
+                <br>
+                <ul class="pagination pagination-lg">
+                  <li><a (click)="searchParams.Year=searchParams.Year-1; fnSearch()">‹</a></li>
+                  <li><a>{{searchParams.Year.toString()}}</a></li>
+                  <li><a (click)="searchParams.Year=searchParams.Year+1; fnSearch()">›</a></li>
+                </ul>
+                <!-- <select [(ngModel)]="searchParams.Year" class="form-control">
+                              <option *ngFor="let y of list.Years" [value]="y.Year">{{y.Year}}</option>
+                            </select> -->
+              </div>
+
+            </div>
+          </div>
+          <div class="ibox-content" [ngClass]=" {'sk-loading': loading}">
+            <!-- loading cube type -->
+            <div class="sk-spinner sk-spinner-wave">
+              <div class="sk-rect1"></div>
+              <div class="sk-rect2"></div>
+              <div class="sk-rect3"></div>
+              <div class="sk-rect4"></div>
+              <div class="sk-rect5"></div>
+            </div>
+
+            <div class="row">
+              <div class="col-sm-4 m-b-xs">
+                <button type="button" class="btn btn-success dim " (click)="fnSearch()" data-toggle="modal"><i
+                    class="fa fa-search"></i> {{ 'Button.Search' | translate }}</button>
+              </div>
+              <!-- <div class="form-group">
+                  <label class="control-label" for="date_added">Date added</label>
+                  <div class="input-group date">
+                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                    <input class="form-control" bsDatepicker [bsConfig]="{dateInputFormat: 'MM/YYYY'}" [minMode]="'month'">
+                    <input bsDatepicker id="date_added" type="text" class="form-control" value="03/04/2014">
+                    <input type="text" placeholder="Daterangepicker" class="form-control" bsDaterangepicker>
+                  </div>
+                </div> -->
+              <div class="col-sm-8">
+                <div class="pull-right">
+                  <div class="btn-group">
+                    <!-- <button type="button" class="btn btn-warning dim" ><i class="fa fa-legal"></i>
+                        {{ 'Button.Clear' | translate }}
+                      </button> -->
+                    <button type="button" class="btn btn-default dim" [disabled]="!(this.undoList.length > 0)"
+                      (click)="fnUndo()"><i class="fa fa-mail-reply"></i>
+                      {{ 'Button.Undo' | translate }}
+                    </button>
+                    <button type="button" class="btn btn-info dim" (click)="actionstatus='M'"><i class="fa fa-edit"></i>
+                      {{ 'Button.Edit' | translate }}</button>
+                  </div>
+                  <div class="btn-group">
+                    <button type="button" class="btn btn-danger dim dropdown-toggle" data-toggle="dropdown"><i
+                        class="fa fa-list"></i></button>
+                    <ul class="dropdown-menu">
+                      <li><a [swal]="
+                          {
+                            title: 'Are you sure?',
+                            text: '_text_',
+                            type: 'warning',
+                            showCancelButton: true,
+                            confirmButtonColor: '#DD6B55',
+                            confirmButtonText: 'Yes, delete it!',
+                            closeOnConfirm: false
+                          }" (confirm)="fnClear()"><i class="fa fa-legal"></i> {{ 'Button.Clear' | translate }}</a>
+                      </li>
+                      <li><a>Option 2</a></li>
+                      <li><a>Option 3</a></li>
+                      <li class="divider"></li>
+                      <li><a>Others </a></li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="hr-line-dashed"></div>
+            <h3 class="text-center" [hidden]="!(plansHeader.length==0)">No data to show </h3>
+            <div [hidden]="plansHeader.length==0||plansHeader==null" class="table-responsive">
+              <table class="table table-bordered table-hover">
+                <thead>
+
+                  <tr style="background-color: #1cc09f">
+                    <th></th>
+                    <th *ngFor="let h of plansHeader">{{h.data.replace('_','')}}</th>
+                  </tr>
+                </thead>
+                <tbody>
+
+                  <tr *ngFor="let item of list.Data; index as i">
+                    <td class="action-list">
+                      <!-- <button class="btn btn-default btn-xs"><i class="fa fa-eye"></i></button> -->
+                      <div class="btn-group">
+                        <button (click)="fnShowEdit(item)" data-target="#myModal" data-toggle="modal"
+                          class="btn btn-default btn-xs dropdown-toggle">
+                          <i class="fa fa-edit"></i>
+                        </button>
+                      </div>
+                    </td>
+                    <td *ngFor="let h of plansHeader"
+                      [ngClass]="{'scheduletable': h.data.indexOf('_')>-1&&actionstatus=='M'}"
+                      (click)="fnToogleCheck(h.data,i, item);">
+                      <span [hidden]="item[h.data]!='X'"> <i class="fa fa-check "></i></span>
+                      <span *ngIf="item[h.data]=='Y'"> <i class="fa fa-check text-navy"></i></span>
+                      <span *ngIf="item[h.data]!='X' && item[h.data]!='Y'"> {{item[h.data]}} </span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+
+
+<!-- MODAL -->
+<div class="modal inmodal " id="myModal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dial">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">
+          <span aria-hidden="true">&times;</span>
+          <span class="sr-only">Close</span></button>
+        <h4 class="modal-title">{{'PSComponent.ConfigTitle' | translate}}</h4>
+      </div>
+      <div class="modal-body">
+        <div class="form-horizontal">
+          <div class="form-group">
+            <label class="col-sm-3 col-sm-offset-2 control-label">{{'PSComponent.StartTime' | translate}}</label>
+            <div class="col-sm-4">
+              <timepicker [disabled]='!choosenEntity.MakeVoucherEnable' [(ngModel)]="choosenEntity.StartTime"
+                [showMeridian]="false" [arrowkeys]="true"></timepicker>
+              <!-- EQID	StartTime	CreateInDay	ArrivalNoticeDay	NoiticeEnable	MakeVoucherEnable	UserID -->
+            </div>
+
+
+
+          </div>
+
+
+          <div class="form-group">
+            <!-- <label class="col-sm-2  control-label">Department</label>
+                <div class="col-sm-4">
+                  <select [(ngModel)]="choosenEntity.Department" class="form-control">
+                    <option [value]="d.id" *ngFor="let d of list.Departments">{{d.name}}</option>
+                  </select>
+                </div> -->
+            <label class="col-sm-3 control-label">{{'PSComponent.MakeVoucherEnable' | translate}}</label>
+            <div class="col-sm-2">
+              <div class="switch">
+                <div class="onoffswitch">
+                  <input type="checkbox" class="onoffswitch-checkbox" id="example1"
+                    [(ngModel)]="choosenEntity.MakeVoucherEnable">
+                  <label class="onoffswitch-label" for="example1">
+                    <span class="onoffswitch-inner"></span>
+                    <span class="onoffswitch-switch"></span>
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <label class="col-sm-4 control-label">{{'PSComponent.CreateInDay' | translate}}</label>
+            <div class="col-sm-3">
+              <select [disabled]='!choosenEntity.MakeVoucherEnable' [(ngModel)]="choosenEntity.CreateInDay"
+                class="form-control form-control">
+                <option *ngFor="let num of  [].constructor(31); let i = index" [value]="i+1"> {{i+1}} </option>
+              </select>
+            </div>
+
+          </div>
+          <div class="form-group">
+
+            <label class="col-sm-3 control-label">{{'PSComponent.NoiticeEnable' | translate}}</label>
+            <div class="col-sm-2">
+              <div class="switch">
+                <div class="onoffswitch">
+                  <input type="checkbox" class="onoffswitch-checkbox" id="ttt"
+                    [(ngModel)]="choosenEntity.NoiticeEnable">
+                  <label class="onoffswitch-label" for="ttt">
+                    <span class="onoffswitch-inner"></span>
+                    <span class="onoffswitch-switch"></span>
+                  </label>
+                </div>
+              </div>
+            </div>
+            <label class="col-sm-4 control-label">{{'PSComponent.ArrivalNoticeDay' | translate}}</label>
+            <div class="col-sm-3">
+              <select [disabled]='!choosenEntity.NoiticeEnable' [(ngModel)]="choosenEntity.ArrivalNoticeDay"
+                class="form-control form-control">
+                <option *ngFor="let num of  [].constructor(31); let i = index" [value]="i+1"> {{i+1}} </option>
+              </select>
+            </div>
+          </div>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" id="#closeBtn" class="btn btn-white" data-dismiss="modal">Close</button>
+          <button type="button"  (click)="fnSubmit()" class="btn btn-primary">Save
+            changes</button>
+        </div>
+      </div>
+    </div>
+  </div>

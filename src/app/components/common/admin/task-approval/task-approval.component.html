@@ -1,0 +1,30 @@
+<div class="row">
+  <div class="col-xs-4">
+  </div>
+  <div class="col-xs-8">
+    <div class="form-group">
+      <label class="col-lg-2 col-md-4 col-sm-5 control-label">Is Argee or not?</label>
+      <div class="col-lg-8 col-lg-6 col-sm-5">
+        <select class="form-control m-b" [(ngModel)]="selectedValue">
+          <option [value]="item.name" *ngFor="let item of engine.decisionList">{{item.name}}</option>
+        </select>
+      </div>
+      <div [hidden]="engine.saveDraft"> <button  class="btn btn-info"><i class="fa fa-save"></i> Save</button></div>     
+      <button class="btn btn-success"  
+      [swal]="
+      {
+        title: 'Are you sure?',
+        text: 'This Voucher will be submit!',
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#DD6B55',
+        confirmButtonText: 'Yes, submit it!',
+        closeOnConfirm: false
+      }" (confirm)="fnSubmit()"><i class="fa fa-paper-plane"></i> Submit</button>
+    </div>
+  </div>
+  <!-- <div class="col-lg-12">
+    select Name:{{selectedValue}}
+    select value:{{selectedValue}}
+  </div> -->
+</div>

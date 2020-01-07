@@ -1,0 +1,13 @@
+<div class="row">
+  <div class="col-sm-6">
+      <h2 style="color: blue">The next step</h2>
+    <table class="table table-bordered table-hover" style="font-size: 20px !important">
+      <thead>      
+      </thead>
+      <tbody *ngFor="let item of this.lsCheckerWithName">
+        <td style="width: 20%">Candidate: </td>
+        <td style="color: red">{{item.Username}}</td>
+      </tbody>
+    </table>
+  </div>
+</div>

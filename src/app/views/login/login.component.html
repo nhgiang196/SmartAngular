@@ -1,0 +1,21 @@
+<div class="middle-box text-center loginscreen animated fadeInDown">
+  <div>
+      <div>
+          <h1 class="logo-name">FE+</h1>
+      </div>
+      <h3>FEPV Team FE+</h3>    
+      <form class="m-t" role="form" #userForm="ngForm" (submit)="loginUser()"  >
+          <div class="form-group">
+              <input type="text" class="form-control" [(ngModel)]="authService.currentUser.Username" #Username="ngModel" name="Username" placeholder="Username" required>
+          </div>        
+          <div class="form-group">
+              <input type="password" class="form-control" [(ngModel)]="authService.currentUser.Password" #Password="ngModel" name="Password" placeholder="Password" required>
+          </div>        
+          <button type="submit" [disabled]="userForm.invalid" class="btn btn-primary block full-width m-b">Login</button>        
+      </form>
+      <p class="m-t"> <small>FEPV Team  &copy; 2019 </small> </p>
+  </div>
+</div>
+
+
+

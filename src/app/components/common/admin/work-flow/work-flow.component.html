@@ -1,0 +1,139 @@
+<div class="ibox float-e-margins">
+  <div class="ibox-title">
+      <h5>WorkFlow Panel</h5>
+      <div class="ibox-tools">
+          <a class="collapse-link">
+              <i class="fa fa-chevron-up"></i>
+          </a>
+          <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+              <i class="fa fa-wrench"></i>
+          </a>
+          <ul class="dropdown-menu dropdown-user">
+              <li><a href="#">Config option 1</a>
+              </li>
+              <li><a href="#">Config option 2</a>
+              </li>
+          </ul>
+          <a class="close-link">
+              <i class="fa fa-times"></i>
+          </a>
+      </div>
+  </div>
+  <div class="ibox-content">
+      <div class="row">
+          <div class="col-lg-2">
+              <label for="">KeyName:</label>
+          </div>
+          <div class="col-lg-10">
+              <div class="input-group">
+                  <input type="text" class="form-control"> <span class="input-group-btn">
+                      <button type="button" class="btn btn-primary">Search
+                      </button> </span></div>
+          </div>
+
+      </div>
+  </div>
+</div>
+
+<div class="ibox float-e-margins">
+  <div class="ibox-title">
+      <h5>List WorkFlow <small>All workflow in system</small></h5>
+      <div class="ibox-tools">
+          <a class="collapse-link">
+              <i class="fa fa-chevron-up"></i>
+          </a>
+          <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+              <i class="fa fa-wrench"></i>
+          </a>
+          <ul class="dropdown-menu dropdown-user">
+              <li><a href="#">Config option 1</a>
+              </li>
+              <li><a href="#">Config option 2</a>
+              </li>
+          </ul>
+          <a class="close-link">
+              <i class="fa fa-times"></i>
+          </a>
+      </div>
+  </div>
+  <div class="ibox-content">
+      <div class="row">
+          <div class="row  border-bottom white-bg dashboard-header">
+              <button class="btn btn-info" type="button" (click)="fnAdd()"><i class="fa fa-plus"></i> Upload
+                  BPMN</button>
+              <table class="table table-bordered table-hover table-stripped table-responsive text-center">
+                  <tr style="background-color:darkcyan">
+                      <th>Name</th>
+                      <th>DeploymentTime</th>
+                      <th>Action</th>
+                  </tr>
+                  <tbody *ngFor="let item of api.workFlows">
+                      <tr>
+                          <td>{{item.name}}</td>
+                          <td>{{item.deploymentTime}}</td>
+                          <td  >
+                              <button type="button" class="btn btn-danger" (click)="fnDelete(item.id)"><i
+                                      class="fa fa-trash"></i></button>
+                              <button type="button" class="btn btn-info" (click)="fnEdit(item)"><i
+                                      class="fa fa-eye"></i></button>
+                              <button type="button" class="btn btn-success" (click)="fnEdit(item)"><i
+                                      class="fa fa-paper-plane"></i></button>
+                          </td>
+                      </tr>
+                  </tbody>
+              </table>
+          </div>
+      </div>
+  </div>
+</div>
+
+<!-- This is Modal -->
+<div class="modal" id="myModal" tabindex="-1" role="dialog">
+  <form #myForm="ngForm" >
+      <div class="modal-dialog" role="document">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <h5 class="modal-title">Upload WorkFlow BPMN</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                      (click)="fnCloseModal()">
+                      <span aria-hidden="true">&times;</span>
+                  </button>
+              </div>
+              <div class="modal-body">
+                  <input type="hidden" name="id" #id="ngModel" [(ngModel)]="api.entity.id">
+                  <div class="form-group">
+                      <div class="control-lable">Name: </div>
+                      <input type="text" class="form-control" [(ngModel)]="api.entity.name" name="name"
+                          #name="ngModel" required />
+                  </div>
+                  <div class="from-group">
+                      <div class="control-lable">File: </div>
+                      <div class="fileinput fileinput-new" data-provides="fileinput">
+                          <span class="btn btn-default btn-file"><span class="fileinput-new">Select file</span>
+                              <span class="fileinput-exists">Change</span>
+                              <input type="file" name="..." accept=".bpmn"
+                                  (change)="handleFileInput($event.target.files)" /></span>
+                          <span class="fileinput-filename"></span>
+                          <a class="close fileinput-exists" data-dismiss="fileinput" style="float: none">×</a>
+                      </div>
+                  </div>
+                  <div *ngIf="fileUpload.status==='error'">
+                      <div [innerHTML]="fileUpload.message"></div>
+                  </div>
+                  <div *ngIf="fileUpload.status==='progress'"  class="progress progress-striped active">
+                      <h5>Upload Progress</h5>
+                      <div  class="progress-bar progress-bar-success" role="progressbar" [style.width.%]="fileUpload.message">
+                         {{fileUpload.message}}%
+                      </div>   
+                  </div>
+                  <div  *ngIf="fileUpload.status === '200'">Upload File Complete</div>                  
+                  <div class="modal-footer">
+                      <button type="button" class="btn btn-primary" (click)="fnUpload()">Upload</button>
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                          (click)="fnCloseModal()">Close</button>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </form>
+</div>

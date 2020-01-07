@@ -1,0 +1,8 @@
+<li class="warning-element ui-sortable-handle">
+  <a [routerLink]="['/taskFormView',taskItem.formKey,taskItem.id,taskItem.businessKey]"><h5>{{taskItem.name}} - {{taskItem.businessKey}}</h5></a>
+  <div class="agile-detail">
+     <p> {{taskItem.description}}</p>
+      <i class="fa fa-clock-o"></i> {{taskItem.created}}
+  </div>
+<hr>
+</li>
