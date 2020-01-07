@@ -4,6 +4,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { ApiEMCSService } from 'src/app/services/api-ecms.service';
 import { MongoApiService } from 'src/app/services/mongo-api.service';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-start-process',
@@ -21,17 +22,18 @@ export class StartProcessComponent implements OnInit {
     private toastr: ToastrService,
     private api: ApiEMCSService,
     private mongoApi: MongoApiService,
+    private auth: AuthService,
     private router: Router) { }
 
   ngOnInit() {
   }
-  
+
   //submit to BPMN and MongoDB too
-  fnSubmit() {    
+  fnSubmit() {
     switch (this.flowKey) {
       case "EMCSWorkFlow":
-      //form feilds save to mongoDB        
-        //Change Voucher state to S 
+      //form feilds save to mongoDB
+        //Change Voucher state to S
         this.api.updateVoucherState(this.docId, "S").subscribe(res => {
           if (res.Success) this.startProcess();
           else { this.toastr.error(res.Caption,res.Message);}
@@ -45,23 +47,24 @@ export class StartProcessComponent implements OnInit {
   startProcess() {
     var myObject = {}
     myObject[this.userChecklist] = { "value": this.engineApi.lsCheckers }
+    myObject['initiator'] = { "value": this.auth.currentUser.Username }
     //set start for Camunda
     let formHistory = {
       "variables": myObject,
-      "businessKey": this.docId
+      "businessKey": this.docId||''
     }
     this.engineApi.processDefinitionStart(this.flowKey, formHistory).subscribe(res => {
       if (res != null) {
         this.itemCollection={
           processIntanceId: 'xx',
           processDefinitionId: res.definitionId,
-          activityName:'khongco',
+          activityName:'StartProcess',
           activityId:res.id,
           voucherId:res.businessKey,
-          description: "demo"
+          description: "demo",
+          initiator: this.auth.currentUser.Username
         }
         this.mongoApi.createCollection(this.itemCollection).subscribe(res=>{
-          console.log(res);
         },err=>this.toastr.error(err));
         this.toastr.success('Submit Sucess!', 'Your voucher already submitted\n Thank you!');
         //after complete Task have been refresh TaskList
@@ -70,7 +73,7 @@ export class StartProcessComponent implements OnInit {
           this.router.navigateByUrl('mainView');
         }, 1500)
       }
-      
+
       else {
         this.toastr.error('Error!', 'Your task did not submit\n Please try again!');
       }

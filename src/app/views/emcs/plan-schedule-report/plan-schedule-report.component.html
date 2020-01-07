@@ -1,0 +1,64 @@
+<div class="wrapper wrapper-content">
+
+
+
+  <div style="font-family: 'Times New Roman', Times, serif" class="row wrapper border-bottom white-bg page-heading">
+    <div class="header-report">
+      <h2><strong>遠東紡纖(越南)有限公司 化纖總廠</strong></h2>
+      <h2><strong>CÔNG TY TNHH POLYTEX FAR EASTERN (VIỆT NAM)</strong></h2>
+      <h2><strong>量測設備校正計劃表</strong></h2>
+      <h2><strong>BẢNG KẾ HOẠCH HIỆU CHUẨN THIẾT BỊ ĐO LƯỜNG</strong></h2>
+      <p>
+        單位 Đơn vị:<u> {{lsData[0].Department}}       </u> 年度 Năm:<u>  {{lsData.Year}}       </u>   
+      </p>
+    </div>
+    <div class="content-report">
+
+      <table class="table table-bordered table-hover">
+        <thead>
+          <tr>
+            <td rowspan="2" width="47"> 編 號 Mã </td>
+            <td rowspan="2" width="192"> 量 測 設 備 名 稱 Tên thiết bị đo lường </td>
+            <td colspan="12" width="422"> 校 正 月 份 Tháng hiệu chỉnh </td>
+          </tr>
+          <tr>
+            <td width="35"> 1 </td>
+            <td width="35"> 2 </td>
+            <td width="35"> 3 </td>
+            <td width="35"> 4 </td>
+            <td width="35"> 5 </td>
+            <td width="35"> 6 </td>
+            <td width="35"> 7 </td>
+            <td width="35"> 8 </td>
+            <td width="35"> 9 </td>
+            <td width="35"> 10 </td>
+            <td width="35"> 11 </td>
+            <td width="35"> 12 </td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of lsData; index as i">
+            <!-- <td class="action-list">                        <div class="btn-group">                          <button (click)="fnShowEdit(item)" data-target="#myModal" data-toggle="modal"                            class="btn btn-default btn-xs dropdown-toggle">                            <i class="fa fa-edit"></i>                          </button>                        </div>                      </td> -->
+            <td *ngFor="let h of plansHeader" [ngClass]="{'scheduletable': h.data.indexOf('_')>-1&&actionstatus=='M'}"
+              (click)="fnToogleCheck(h.data,i, item);"> <span [hidden]="item[h.data]!='X'"> <i
+                  class="fa fa-check "></i></span> <span *ngIf="item[h.data]=='Y'"> <i
+                  class="fa fa-check text-navy"></i></span> <span *ngIf="item[h.data]!='X' && item[h.data]!='Y'">
+                {{item[h.data]}} </span> </td>
+          </tr>
+        </tbody>
+      </table>
+      主管 Chủ quản:<u>    </u>
+      製表 Người  lập:<u>  </u> 5VGAAQR113-01
+    </div>
+    <div id="myfooter" class="footer-report">
+      <p>
+
+        <strong>遠東紡纖</strong><strong>(越南)有限公司 化纖總廠</strong>
+
+      </p>
+
+    </div>
+  </div>
+
+
+</div>

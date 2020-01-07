@@ -1,0 +1,20 @@
+
+
+
+h2 {
+  text-align: center
+
+
+}
+
+
+
+@media print {
+  #myfooter {
+      position: fixed;
+      width: 90%;
+      bottom: 20mm;
+      padding-top:10pt;
+  }
+}
+

@@ -1,6 +1,6 @@
 <div class="row wrapper border-bottom white-bg page-heading">
   <div class="col-lg-10">
-    <h2>{{ 'EQComponent.TITLE' | translate }}</h2>
+    <h2>{{ 'StandardEquipment' | translate }}</h2>
 
     <ol class="breadcrumb">
       <li>
@@ -10,7 +10,7 @@
         <a>Lab Equipments</a>
       </li>
       <li class="active">
-        <strong>{{ 'EQComponent.TITLE' | translate }}</strong>
+        <strong>{{ 'EQComponent' | translate }}</strong>
       </li>
     </ol>
   </div>
@@ -47,11 +47,15 @@
                   <input type="text" class="form-control" autocomplete="off" [(ngModel)]="pEQName" name="pEQName">
                 </div>
               </div>
-              <div class="col-xs-3">
+
+              <div class="col-xs-4">
                 <div class="form-group">
                   <label class="control-label" for="order_id">{{ 'EQComponent.Department' | translate }}</label>
+                  <!-- <ng-select [items]="list.Equipments  " bindLabel="name" bindValue="id" #EQID="ngModel"
+                            [(ngModel)]="choosenEntity.EQID" name="EQID">
+                          </ng-select> -->
                   <ng-select class="custom" [items]="lsDepartment" [(ngModel)]="pDepartment" bindLabel="name"
-                    bindValue="id"> </ng-select>
+                    name="pDepartment" bindValue="id"> </ng-select>
                 </div>
               </div>
               <div class="col-xs-3">
@@ -62,7 +66,7 @@
             <div class="row">
               <div class="col-xs-12">
                 <div class="checkbox">
-                  <input type="checkbox" id="checkbox1" style="margin-left: 5px;" [(ngModel)]="pGetall" name="pGetall">
+                  <input type="checkbox" id="checkbox1" style="margin-left: 5px;" [(ngModel)]="this.pGetall" name="pGetall">
                   <label class="control-label" for="checkbox1">
                     {{ 'EQComponent.GetAll' | translate }}
                   </label>
@@ -94,7 +98,6 @@
           </div>
           <div class="ibox-title">
             <h5>Thiết bị hiệu chuẩn</h5>
-
             <div class="ibox-tools">
               <a class="collapse-link" data-toggle="collapse" data-parent="#accordion" href="myCollapse2">
                 <i class="fa fa-chevron-up"></i>
@@ -103,11 +106,9 @@
 
           </div>
           <div class="ibox-content" id="myCollapse2">
-            <a [routerLink]="[ '/equipmentReportView', pDepartment ]" class="pull-right btn btn-primary"><i
-                class="fa fa-print"></i></a>
             <div class="table-responsive">
               <table datatable [dtOptions]="helper.dtOptions" [dtTrigger]="dtTrigger"
-                class="table table-bordered table-hover table-stripped table-responsive text-center">
+                class="table table-bordered table-hover table-stripped table-responisve text-center">
                 <thead>
                   <tr>
                     <th>{{ 'Button.Action' | translate }}</th>
@@ -115,15 +116,14 @@
                     <th>{{ 'EQComponent.Name' | translate }}</th>
                     <th>{{ 'EQComponent.Brand' | translate }}</th>
                     <th>{{ 'EQComponent.Model' | translate }}</th>
-                    <th>{{ 'EQComponent.AdjustType' | translate }}</th>
                     <th>{{ 'EQComponent.Manual' | translate }}</th>
                     <th>{{ 'EQComponent.Method' | translate }}</th>
                     <th>{{'VoucherComponent.Status' | translate}}</th>
-                    <th>{{ 'EQComponent.Frequency' | translate }}</th>
-                    <th>{{ 'EQComponent.Department' | translate }}</th>
-                    <th>{{ 'EQComponent.ProcessDepartment' | translate }}</th>
+                    <th>{{ 'EQComponent.Frequency' | translate }}</th>   
                     <th>{{ 'EQComponent.UsedDate' | translate }}</th>
                     <th>{{ 'EQComponent.Author' | translate }}</th>
+
+
                   </tr>
                 </thead>
                 <tbody>
@@ -144,7 +144,7 @@
                                     type: 'warning',
                                     showCancelButton: true,
                                     confirmButtonColor: '#DD6B55',
-                                    confirmButtonText: 'Yes, I will do it!',
+                                     confirmButtonText: 'Yes, I will do it!',
                                     closeOnConfirm: false
                                   }" (confirm)="fnCancel(item)">Cancel</a></li>
                         </ul>
@@ -155,21 +155,18 @@
                     <td style="text-align: left">{{item.Name}}</td>
                     <td>{{item.Brand}}</td>
                     <td>{{item.Model}}</td>
-                    <td>{{'EQComponent.AdjustType_'+item.AdjustType | translate}}</td>
                     <td>
-                      <input type="checkbox" [checked]="item.Manual =='1'" disabled>
+                      <input  type="checkbox" [checked]="item.Manual =='1'" disabled>
                     </td>
                     <td>
-                      <input type="checkbox" [checked]="item.Method =='1'" disabled>
+                        <input  type="checkbox" [checked]="item.Method =='1'" disabled>
                     </td>
                     <td><span class="label" [ngClass]="{
                       'label-info': item.State=='N'
                       ,'label-warning':item.State=='M'
                       ,'label-danger':item.State=='X'
                       }">{{item.State}}</span></td>
-                    <td>{{item.Frequency}}</td>
-                    <td>{{item.Department}}</td>
-                    <td>{{item.ProcessDepartment}}</td>
+                    <td >{{item.Frequency}}</td>
                     <td>{{item.UsedDate}}</td>
                     <td>{{item.UserID}}</td>
                   </tr>
@@ -196,7 +193,7 @@
           <small class="font-bold">Equipment're informations</small>
         </div>
         <div class="modal-body">
-          <input type="hidden" class="form-control" [(ngModel)]="equipment.EQID" name="EQID" #EQID="ngModel">
+          <input type="hidden" class="form-control" [(ngModel)]="equipment.EQID" name="EQID">
           <div class="row">
             <div class="col-sm-6">
               <div class="form-group">
@@ -218,22 +215,22 @@
             <div class="col-sm-6">
               <div class="form-group">
                 <label class="control-label" for="order_id">{{ 'EQComponent.Name' | translate }}</label>
-                <input type="text" class="form-control" [(ngModel)]="equipment.Name" name="Name" #Name="ngModel"
-                  required autocomplete="off">
+                <input type="text" class="form-control" [(ngModel)]="equipment.Name" name="Name" required
+                  autocomplete="off">
               </div>
             </div>
             <div class="col-sm-6">
               <div class="form-group">
                 <label class="control-label" for="order_id">{{ 'EQComponent.Brand' | translate }}</label>
-                <input type="text" class="form-control" [(ngModel)]="equipment.Brand" name="Brand" #Brand="ngModel"
-                  required autocomplete="off">
+                <input type="text" class="form-control" [(ngModel)]="equipment.Brand" name="Brand" required
+                  autocomplete="off">
               </div>
             </div>
             <div class="col-sm-6">
               <div class="form-group">
                 <label class="control-label" for="order_id">{{ 'EQComponent.Model' | translate }}</label>
-                <input type="text" class="form-control" [(ngModel)]="equipment.Model" name="Model" #Model="ngModel"
-                  required autocomplete="off">
+                <input type="text" class="form-control" [(ngModel)]="equipment.Model" name="Model" required
+                  autocomplete="off">
               </div>
             </div>
             <div class="col-sm-6">
@@ -256,34 +253,10 @@
               <div class="form-group">
                 <label class="control-label" for="order_id">{{ 'EQComponent.UsedDate' | translate }}</label>
                 <input type="text" class="form-control" [(ngModel)]="equipment.UsedDate" name="UsedDate" bsDatepicker
-                  #UsedDate="ngModel" required autocomplete="off" [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' }">
+                  required autocomplete="off" [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' }">
               </div>
             </div>
-            <div class="col-sm-3">
-              <div class="form-group">
-                <label class="control-label" for="order_id">{{ 'EQComponent.AdjustType' | translate }}</label>
-                <div class="checkbox m-r-xs">
-                  <div class="radio">
-                    <input checked="" type="radio" name="AdjustType" id="AdjustType2" value="I"
-                      [(ngModel)]="equipment.AdjustType">
-                    <label for="AdjustType2"> {{'EQComponent.AdjustType_I' | translate}} </label>
-                  </div>
-                  <!-- <div class="radio">
-                    <input checked="" type="radio" name="AdjustType" id="AdjustType2" value="N" [(ngModel)]="equipment.AdjustType">
-                    <label for="AdjustType2"> {{'EQComponent.AdjustType_N' | translate}} </label>
-                  </div> -->
-                  <div class="radio">
-                    <input type="radio" name="AdjustType" id="AdjustType3" value="O" [(ngModel)]="equipment.AdjustType">
-                    <label for="AdjustType3"> {{'EQComponent.AdjustType_O' | translate}} </label>
-                  </div>
-
-
-                </div>
-
-
-              </div>
-            </div>
-            <div class="col-sm-3">
+            <div class="col-sm-6">
               <div class="form-group">
                 <label class="control-label" for="order_id">{{ 'EQComponent.Frequency' | translate }}</label>
                 <select [(ngModel)]="equipment.Frequency" class="form-control form-control" name="Frequency">
@@ -293,126 +266,105 @@
 
               </div>
             </div>
-            <div class="col-sm-6">
+            <div class="col-sm-12">
               <div class="form-group">
                 <label class="control-label">{{ 'EQComponent.Remark' | translate }}</label>
-                <textarea cols="3" class="form-control" [(ngModel)]="equipment.Remark" name="Remark" #Remark="ngModel"
+                <textarea cols="3" class="form-control" [(ngModel)]="equipment.Remark" name="Remark"
                   autocomplete="off"></textarea>
               </div>
             </div>
             <div class="col-sm-6">
-              <div class="form-group">
-                <label>{{ 'EQComponent.StandardListEQ' | translate }} </label>
-                <ng-select [items]="lsStandardEQ" bindLabel="name" bindValue="id" [multiple]="true"
-                  placeholder="Select multiple...  " [(ngModel)]="StandardListEQ" name="StandardListEQ">
-                </ng-select>
+              <div class="from-group">
+                <label class="control-label" for="order_id">{{ 'EQComponent.UploadFileManual' | translate }}</label>
+
+                <div class="fileinput fileinput-new" data-provides="fileinput">
+                  <span class="btn btn-default btn-file"><span class="fileinput-new">Select file</span>
+                    <span class="fileinput-exists">Change</span>
+                    <input type="file" name="..." (change)="handleFileInput($event.target.files)" /></span>
+                  <span class="fileinput-filename" id="fileuploadManual"
+                    [ngClass]=" {'fileinput-new': this.file == null}"
+                    style="text-overflow: ellipsis; width: 200px; overflow: hidden;white-space: nowrap;">
+                  </span>
+                  <a class="close fileinput-exists" data-dismiss="fileinput" style="float: none" #myInputFile>×</a>
+                  <button type="button" class="btn btn-primary" (click)="onUploadFile(1)"><i class="fa fa-upload"></i>
+                    {{ 'Button.Upload' | translate }}</button>
+                </div>
               </div>
             </div>
-            <div class="ibox-content">
-              <div class="row">
+            <div class="col-sm-6">
+              <div class="from-group">
+                <label class="control-label" for="order_id">{{ 'EQComponent.UploadFileMethod' | translate }}</label>
 
-
-
-                <div class="col-sm-6">
-                  <div class="from-group">
-                    <label class="control-label" for="order_id">{{ 'EQComponent.UploadFileManual' | translate }}</label>
-
-                    <div class="fileinput fileinput-new" data-provides="fileinput">
-                      <span class="btn btn-default btn-file"><span class="fileinput-new">Select file</span>
-                        <span class="fileinput-exists">Change</span>
-                        <input type="file" name="..." (change)="handleFileInput($event.target.files)" /></span>
-                      <span class="fileinput-filename" id="fileuploadManual"
-                        [ngClass]=" {'fileinput-new': this.file == null}"
-                        style="text-overflow: ellipsis; width: 200px; overflow: hidden;white-space: nowrap;">
-                      </span>
-                      <a class="close fileinput-exists" data-dismiss="fileinput" style="float: none" #myInputFile>×</a>
-                      <button type="button" class="btn btn-primary" (click)="onUploadFile(1)"><i
-                          class="fa fa-upload"></i>
-                        {{ 'Button.Upload' | translate }}</button>
-                    </div>
-                  </div>
+                <div class="fileinput fileinput-new" data-provides="fileinput">
+                  <span class="btn btn-default btn-file"><span class="fileinput-new">Select file</span>
+                    <span class="fileinput-exists">Change</span>
+                    <input type="file" name="..." (change)="handleFileInput($event.target.files)" /></span>
+                  <span class="fileinput-filename" [ngClass]=" {'fileinput-new': this.file == null}"
+                    style="text-overflow: ellipsis; width: 200px; overflow: hidden;white-space: nowrap;">
+                  </span>
+                  <a class="close fileinput-exists" data-dismiss="fileinput" style="float: none" #myInputFile2>×</a>
+                  <button type="button" class="btn btn-primary" (click)="onUploadFile(2)"><i class="fa fa-upload"></i>
+                    {{ 'Button.Upload' | translate }}</button>
                 </div>
-                <div class="col-sm-6">
-                  <div class="from-group">
-                    <label class="control-label" for="order_id">{{ 'EQComponent.UploadFileMethod' | translate }}</label>
-
-                    <div class="fileinput fileinput-new" data-provides="fileinput">
-                      <span class="btn btn-default btn-file"><span class="fileinput-new">Select file</span>
-                        <span class="fileinput-exists">Change</span>
-                        <input type="file" name="..." (change)="handleFileInput($event.target.files)" /></span>
-                      <span class="fileinput-filename" [ngClass]=" {'fileinput-new': this.file == null}"
-                        style="text-overflow: ellipsis; width: 200px; overflow: hidden;white-space: nowrap;">
-                      </span>
-                      <a class="close fileinput-exists" data-dismiss="fileinput" style="float: none" #myInputFile2>×</a>
-                      <button type="button" class="btn btn-primary" (click)="onUploadFile(2)"><i
-                          class="fa fa-upload"></i>
-                        {{ 'Button.Upload' | translate }}</button>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-sm-12">
-                  <div *ngIf="fileUpload.status==='error'">
-                    <div [innerHTML]="fileUpload.message"></div>
-                  </div>
-                  <div *ngIf="fileUpload.status==='progress'" class="progress progress-striped active">
-                    <div class="progress-bar progress-bar-success" role="progressbar"
-                      [style.width.%]="fileUpload.message">
-                      {{fileUpload.message}}%
-                    </div>
-                  </div>
-                  <div *ngIf="fileUpload.status === 'true'" class="sr-only">Upload File Completed</div>
-                </div>
-                <!-- Table file uploaded Manual -->
-                <div class="col-sm-6">
-                  <table class="table table-bordered table-hover table-stripped table-responisve text-center">
-                    <thead style="background-color: #1ab394;">
-                      <tr>
-                        <th>File Name</th>
-                        <th>Name</th>
-                        <th>Action</th>
-                      </tr>
-                    </thead>
-                    <tbody *ngFor="let item of equipment.Manuals">
-                      <tr>
-                        <td style="text-align: left"> <a (click)="onGetFile(item.FileName)">{{item.FileName}}</a></td>
-                        <td style="text-align: left">{{item.Name}}</td>
-                        <td><button type="button" class="btn btn-outline btn-danger"
-                            (click)="onDeleteManualFile(item)"><i class="fa fa-trash" id="btnManualTrash"></i></button>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-                <!-- File Upload in Method -->
-                <div class="col-sm-6">
-                  <table class="table table-bordered table-hover table-stripped table-responisve text-center">
-                    <thead>
-                      <tr style="background-color: #1ab394;">
-                        <th>File Name</th>
-                        <th>Name</th>
-                        <th>Action</th>
-                      </tr>
-                    </thead>
-                    <tbody *ngFor="let item of equipment.Methods">
-                      <tr>
-                        <td style="text-align: left"> <a (click)="onGetFile(item.FileName)">{{item.FileName}}</a></td>
-                        <td style="text-align: left">{{item.Name}}</td>
-                        <td><button type="button" class="btn btn-outline btn-danger"
-                            (click)="onDeleteMethodFile(item)"><i class="fa fa-trash" id="btnMethodTrash"></i></button>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-
               </div>
             </div>
-
-
-
-
+            <div class="col-sm-12">
+              <div *ngIf="fileUpload.status==='error'">
+                <div [innerHTML]="fileUpload.message"></div>
+              </div>
+              <div *ngIf="fileUpload.status==='progress'" class="progress progress-striped active">
+                <div class="progress-bar progress-bar-success" role="progressbar" [style.width.%]="fileUpload.message">
+                  {{fileUpload.message}}%
+                </div>
+              </div>
+              <div *ngIf="fileUpload.status === 'true'" class="sr-only">Upload File Completed</div>
+            </div>
+            <!-- Table file uploaded Manual -->
+            <div class="col-sm-6">
+              <table class="table table-bordered table-hover table-stripped table-responisve text-center">
+                <thead style="background-color: #1ab394;">
+                  <tr>
+                    <th>File Name</th>
+                    <th>Name</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody *ngFor="let item of equipment.Manuals">
+                  <tr>
+                    <td style="text-align: left"> <a (click)="onGetFile(item.FileName)">{{item.FileName}}</a></td>
+                    <td style="text-align: left">{{item.Name}}</td>
+                    <td><button type="button" class="btn btn-outline btn-danger" id="btnManualTrash" (click)="onDeleteManualFile(item)"><i
+                          class="fa fa-trash"></i></button></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <!-- File Upload in Method -->
+            <div class="col-sm-6">
+              <table class="table table-bordered table-hover table-stripped table-responisve text-center">
+                <thead>
+                  <tr style="background-color: #1ab394;">
+                    <th>File Name</th>
+                    <th>Name</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody *ngFor="let item of equipment.Methods">
+                  <tr>
+                    <td style="text-align: left"> <a (click)="onGetFile(item.FileName)">{{item.FileName}}</a></td>
+                    <td style="text-align: left">{{item.Name}}</td>
+                    <td><button type="button" class="btn btn-outline btn-danger" id="btnMethodTrash" (click)="onDeleteMethodFile(item)"><i
+                          class="fa fa-trash"></i></button></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
+
+
         </div>
+
+
         <div class="modal-footer">
           <button type="button" class="btn btn-white" data-dismiss="modal"
             id="closeBtn">{{ 'Button.Close' | translate }}</button>

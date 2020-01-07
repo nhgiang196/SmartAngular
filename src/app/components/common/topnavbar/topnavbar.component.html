@@ -9,7 +9,7 @@
                     </div>
                 </form>
             </div>
-      
+
             <ul class="nav navbar-top-links navbar-right">
                 <li>
                     <span class="m-r-sm text-muted welcome-message">Welcome to FEPV Team</span>
@@ -18,13 +18,13 @@
                 <li class="dropdown">
                         <a class="dropdown-toggle count-info">
                             <i class="fa fa-language"></i>
-                            <select #langSelect (change)="translate.use(langSelect.value)">
+                            <select #langSelect (change)="langChanged(langSelect.value); ">
                                 <option *ngFor="let lang of translate.getLangs()" [value]="lang"
                                     [selected]="lang === translate.currentLang">{{ lang }}
                                 </option>
                             </select>
                         </a>
-                        
+
                         <ul class="dropdown-menu dropdown-alerts animated fadeInDown m-t-xs">
                             <li (click)="'en' === translate.currentLang">
                                 <a>
@@ -83,15 +83,15 @@
                                 <a [routerLink]="['/taskManageView']">
                                     <i class="fa fa-envelope"></i> <strong>Show All My Tasks</strong>
                                 </a>
-      
+
                             </div>
                         </li>
                     </ul>
                 </li>
                 <li class="dropdown">
-                    <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
+                    <!-- <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
                         <i class="fa fa-bell"></i> <span class="label label-primary">8</span>
-                    </a>
+                    </a> -->
                     <ul class="dropdown-menu dropdown-alerts animated fadeInDown m-t-xs">
                         <li>
                             <a href="mailbox.html">
@@ -135,22 +135,22 @@
                         <i class="fa fa-sign-out"></i> {{'Header.Logout' | translate}}
                     </a>
                 </li>
-                <li>
+                <!-- <li>
                     <a class="right-sidebar-toggle">
                         <i class="fa fa-tasks"></i>
                     </a>
-                </li>
+                </li> -->
             </ul>
-      
+
         </nav>
-      
+
         <!-- Right Sidebar -->
-       
+
         <!-- <div id="right-sidebar">
             <div class="sidebar-container">
-      
+
                 <ul class="nav nav-tabs navs-3">
-      
+
                     <li class="active"><a data-toggle="tab" href="#tab-1">
                             Online
                         </a></li>
@@ -161,31 +161,31 @@
                             <i class="fa fa-gear"></i>
                         </a></li>
                 </ul>
-      
+
                 <div class="tab-content">
-      
-      
+
+
                     <div id="tab-1" class="tab-pane active">
-      
+
                         <div class="sidebar-title">
                             <h3> <i class="fa fa-comments-o"></i> Latest Notes</h3>
                             <small><i class="fa fa-tim"></i> You have 10 new message.</small>
                         </div>
-      
+
                         <div>
-      
+
                             <div class="sidebar-message">
                                 <a href="#">
                                     <div class="pull-left text-center">
                                         <img alt="image" class="img-circle message-avatar" src="assets/img/a1.jpg">
-      
+
                                         <div class="m-t-xs">
                                             <i class="fa fa-star text-warning"></i>
                                             <i class="fa fa-star text-warning"></i>
                                         </div>
                                     </div>
                                     <div class="media-body">
-      
+
                                         There are many variations of passages of Lorem Ipsum available.
                                         <br>
                                         <small class="text-muted">Today 4:21 pm</small>
@@ -208,7 +208,7 @@
                                 <a href="#">
                                     <div class="pull-left text-center">
                                         <img alt="image" class="img-circle message-avatar" src="assets/img/a3.jpg">
-      
+
                                         <div class="m-t-xs">
                                             <i class="fa fa-star text-warning"></i>
                                             <i class="fa fa-star text-warning"></i>
@@ -228,7 +228,7 @@
                                     <div class="pull-left text-center">
                                         <img alt="image" class="img-circle message-avatar" src="assets/img/a4.jpg">
                                     </div>
-      
+
                                     <div class="media-body">
                                         Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the
                                         <br>
@@ -242,7 +242,7 @@
                                         <img alt="image" class="img-circle message-avatar" src="assets/img/a8.jpg">
                                     </div>
                                     <div class="media-body">
-      
+
                                         All the Lorem Ipsum generators on the Internet tend to repeat.
                                         <br>
                                         <small class="text-muted">Today 4:21 pm</small>
@@ -266,7 +266,7 @@
                                 <a href="#">
                                     <div class="pull-left text-center">
                                         <img alt="image" class="img-circle message-avatar" src="assets/img/a3.jpg">
-      
+
                                         <div class="m-t-xs">
                                             <i class="fa fa-star text-warning"></i>
                                             <i class="fa fa-star text-warning"></i>
@@ -293,23 +293,23 @@
                                 </a>
                             </div>
                         </div>
-      
+
                     </div>
-      
+
                     <div id="tab-2" class="tab-pane">
-      
+
                         <div class="sidebar-title">
                             <h3> <i class="fa fa-cube"></i> Latest projects</h3>
                             <small><i class="fa fa-tim"></i> You have 14 projects. 10 not completed.</small>
                         </div>
-      
+
                         <ul class="sidebar-list">
                             <li>
                                 <a href="#">
                                     <div class="small pull-right m-t-xs">9 hours ago</div>
                                     <h4>Business valuation</h4>
                                     It is a long established fact that a reader will be distracted.
-      
+
                                     <div class="small">Completion with: 22%</div>
                                     <div class="progress progress-mini">
                                         <div style="width: 22%;" class="progress-bar progress-bar-warning"></div>
@@ -322,7 +322,7 @@
                                     <div class="small pull-right m-t-xs">9 hours ago</div>
                                     <h4>Contract with Company </h4>
                                     Many desktop publishing packages and web page editors.
-      
+
                                     <div class="small">Completion with: 48%</div>
                                     <div class="progress progress-mini">
                                         <div style="width: 48%;" class="progress-bar"></div>
@@ -334,7 +334,7 @@
                                     <div class="small pull-right m-t-xs">9 hours ago</div>
                                     <h4>Meeting</h4>
                                     By the readable content of a page when looking at its layout.
-      
+
                                     <div class="small">Completion with: 14%</div>
                                     <div class="progress progress-mini">
                                         <div style="width: 14%;" class="progress-bar progress-bar-info"></div>
@@ -356,7 +356,7 @@
                                     <div class="small pull-right m-t-xs">9 hours ago</div>
                                     <h4>Business valuation</h4>
                                     It is a long established fact that a reader will be distracted.
-      
+
                                     <div class="small">Completion with: 22%</div>
                                     <div class="progress progress-mini">
                                         <div style="width: 22%;" class="progress-bar progress-bar-warning"></div>
@@ -369,7 +369,7 @@
                                     <div class="small pull-right m-t-xs">9 hours ago</div>
                                     <h4>Contract with Company </h4>
                                     Many desktop publishing packages and web page editors.
-      
+
                                     <div class="small">Completion with: 48%</div>
                                     <div class="progress progress-mini">
                                         <div style="width: 48%;" class="progress-bar"></div>
@@ -381,7 +381,7 @@
                                     <div class="small pull-right m-t-xs">9 hours ago</div>
                                     <h4>Meeting</h4>
                                     By the readable content of a page when looking at its layout.
-      
+
                                     <div class="small">Completion with: 14%</div>
                                     <div class="progress progress-mini">
                                         <div style="width: 14%;" class="progress-bar progress-bar-info"></div>
@@ -398,18 +398,18 @@
                                     <div class="small text-muted m-t-xs">Project end: 4:00 pm - 12.06.2014</div>
                                 </a>
                             </li>
-      
+
                         </ul>
-      
+
                     </div>
-      
+
                     <div id="tab-3" class="tab-pane">
-      
+
                         <div class="sidebar-title">
                             <h3><i class="fa fa-gears"></i> Settings</h3>
                             <small><i class="fa fa-tim"></i> You have 14 projects. 10 not completed.</small>
                         </div>
-      
+
                         <div class="setings-item">
                             <span>
                                 Show notifications
@@ -511,7 +511,7 @@
                                 </div>
                             </div>
                         </div>
-      
+
                         <div class="sidebar-content">
                             <h4>Settings</h4>
                             <div class="small">
@@ -521,10 +521,10 @@
                                 Over the years, sometimes by accident, sometimes on purpose (injected humour and the like).
                             </div>
                         </div>
-      
+
                     </div>
                 </div>
-      
+
             </div>
-      
+
         </div> -->

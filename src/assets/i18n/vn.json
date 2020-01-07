@@ -15,6 +15,7 @@
   "CommandTree": {
     "Dashboard": "Trang đầu",
     "LabEquipment": "Thiết Bị Phòng Lab",
+    "StandardEquipment": "Thiết bị ngoại vi",
     "EQMana": "Quản Lý Thiết Bị",
     "Planning": "Kế Hoạch Hiệu Chuẩn",
     "Voucher": "Đơn Hiệu Chuẩn"
@@ -44,7 +45,11 @@
     "Author": "Người tạo",
     "UsedDate": "Ngày sử dụng",
     "Model": "Kiểu dáng",
-    "IsAdjust": "Thiết Bị Cần Hiệu Chuẩn",
+    "AdjustType": "Kiểu hiệu chuẩn",
+    "AdjustType_I": "TB có hiệu chuẩn",
+    "AdjustType_N": "TB không hiệu chuẩn",
+    "AdjustType_O": "Hiệu chuẩn ngoài",
+    "Frequency":"Tần suất",
     "Remark": "Ghi Chú",
     "UploadFileManual": "Tải lên tệp hướng dẫn sử dụng",
     "UploadFileMethod": "Tải lên tệp phương thức hiệu chuẩn",
@@ -52,7 +57,8 @@
     "Method": "Phương Thức Hiệu Chuẩn",
     "DetailTitle":"Thông Tin Thiết Bị",
     "Stamp":"Dấu",
-    "Today":"Hôm nay"
+    "Today":"Hôm nay",
+    "StandardListEQ":"Sử dụng thiết bị chuẩn khi hiệu chuẩn"
   },
   "VoucherComponent": {
     "TITLE": "Đơn Hiệu Chuẩn",
@@ -113,5 +119,13 @@
   "Remark": "Ghi chú",
   "Stamp": "Thời gian điều chỉnh",
   "CreateTime": "Ngày tạo",
-  "State": "Trạng thái"
+  "State": "Trạng thái",
+  "StatusN":"Mới",
+  "StatusM":"Điều chỉnh",
+  "StatusX":"Đã xóa",
+  "StatusP":"Công bố",
+  "StatusS":"Đang ký duyệt",
+  "Month":"Tháng",
+  "VoucherUpdate.TITLE":"Cập nhật đơn hiệu chuẩn",
+  "VoucherUpdate.SaveNotice":"*Vui lòng Save trước khi submit nếu bạn chấp nhận các thông tin trên"
 }

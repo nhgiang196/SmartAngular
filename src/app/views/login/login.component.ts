@@ -25,15 +25,31 @@ export class LoginComponent implements OnInit {
       form.resetForm();
   }
   loginUser() {
-    this.authService.login().subscribe((res: any) => {
-      let current:User = res as User
-      if (res.Username != null) {       
-        localStorage.setItem('currentUser', JSON.stringify(current));   
-        this.router.navigateByUrl('mainView');
-      }
-      else {
-        this.toastr.warning('Incorrect password or username', 'Login failed!');
-      }
-    });
+     var objectUser = {
+      Username: 'WHATEVER_USER',
+      Password: 'WHATEVER_USER',
+      Token: 'WHATEVER_USER',
+      Email: 'WHATEVER_USER',
+      Specification: 'WHATEVER_USER',
+      Department : 'WHATEVER_USER',
+      Position : 'WHATEVER_USER',
+      Nickname : 'WHATEVER_USER'
+    };
+    localStorage.setItem('currentUser',JSON.stringify(objectUser)  );
+    this.authService.currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    this.router.navigateByUrl('mainView');
+
+
+    // this.authService.login().subscribe((res: any) => {
+    //   let current:User = res as User
+    //   if (res.Username != null) {
+    //     localStorage.setItem('currentUser', JSON.stringify(current));
+    //     this.authService.currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    //     this.router.navigateByUrl('mainView');
+    //   }
+    //   else {
+    //     this.toastr.warning('Incorrect password or username', 'Login failed!');
+    //   }
+    // });
   }
 }

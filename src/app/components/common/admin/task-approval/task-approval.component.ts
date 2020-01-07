@@ -4,6 +4,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { ApiEMCSService } from 'src/app/services/api-ecms.service';
 import { Task } from 'src/app/models/camunda';
+import { MongoApiService } from 'src/app/services/mongo-api.service';
 
 @Component({
   selector: 'app-task-approval',
@@ -12,16 +13,17 @@ import { Task } from 'src/app/models/camunda';
 })
 export class TaskApprovalComponent implements OnInit {
   @Input() checkCondition: any;
-  @Input() camundaTask:Task
+  @Input() camundaTask: Task
   Params: any;
   selectedValue: any;
   lsChecker: any[] = [];
-   constructor(
+  constructor(
     private api: ApiEMCSService,
     public engine: EngineService,
     private toastr: ToastrService,
-    private router: Router) { 
-    }
+    private mongo: MongoApiService,
+    private router: Router) {
+  }
 
   ngOnInit() {
     this.selectedValue = '';
@@ -30,6 +32,9 @@ export class TaskApprovalComponent implements OnInit {
   fnSubmit() {
     switch (this.camundaTask.formKey) {
       case "VoucherRequisitionComponent":
+        this.emcsWorkFlow();
+        break;
+      case "UploadResultComponent":
         this.emcsWorkFlow();
         break;
       default:
@@ -79,6 +84,12 @@ export class TaskApprovalComponent implements OnInit {
     this.Params = {
       variables: myCheck
     }
+    this.submitCamunda();
+
+  }
+
+  submitCamunda() {
+    debugger;
     this.engine.completeTask(this.camundaTask.id, this.Params).subscribe(res => {
       if (res === null || res === '') {
         this.toastr.success('Task Complete!', 'Your task already submitted\n Thank you!');
@@ -91,6 +102,7 @@ export class TaskApprovalComponent implements OnInit {
         this.toastr.error('Error!', 'Your task did not submit\n Please try again!');
       }
     })
+
   }
 
 }

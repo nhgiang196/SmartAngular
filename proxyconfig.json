@@ -1,28 +1,28 @@
 {
     "/api/*":{
-        "target":"http://10.20.46.41:9090",
+        "target":"http://10.20.46.153:9090",
         "secure": false,
-        "changeOrigin": true    
+        "changeOrigin": true
     },
     "/bpmn/engine-rest/*": {
-        "target": "http://10.20.46.41:8080/engine-rest",
+        "target": "http://10.20.46.153:8080/engine-rest",
         "secure": false,
         "changeOrigin": true,
         "logLevel": "debug",
-        "pathRewrite": {"^/bpmn/engine-rest" : ""}        
+        "pathRewrite": {"^/bpmn/engine-rest" : ""}
     },
     "/engine-file/*": {
-        "target": "http://10.20.46.41:4300/api/file",
+        "target": "http://10.20.46.153:4300/api/file",
         "secure": false,
         "changeOrigin": true,
         "logLevel": "debug",
-        "pathRewrite": {"^/engine-file" : ""}      
+        "pathRewrite": {"^/engine-file" : ""}
     },
     "/mongo-api/*": {
-        "target": "http://10.20.46.41:4300/api",
+        "target": "http://10.20.46.153:4300/api",
         "secure": false,
         "changeOrigin": true,
         "logLevel": "debug",
-        "pathRewrite": {"^/mongo-api" : ""}      
+        "pathRewrite": {"^/mongo-api" : ""}
     }
 }

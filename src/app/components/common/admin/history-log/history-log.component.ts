@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { EngineService } from 'src/app/services/engine.service';
-import { MongoApiService } from 'src/app/services/mongo-api.service';
 
 @Component({
   selector: 'app-history-log',

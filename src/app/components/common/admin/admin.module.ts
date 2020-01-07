@@ -10,13 +10,13 @@ import { DiagramComponent } from './diagram/diagram.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { VoucherApprovalComponent } from 'src/app/views/emcs/voucher-approval/voucher-approval.component';
 import { CheckListComponent } from './check-list/check-list.component';
 import { TaskApprovalComponent } from './task-approval/task-approval.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { TimelineLogComponent } from './timeline-log/timeline-log.component';
 import { HistoryLogComponent } from './history-log/history-log.component';
 import { NotFoundComponent } from './not-found/not-found.component';
+import { UpdateVoucherComponent } from 'src/app/views/emcs/update-voucher/update-voucher.component';
 
 @NgModule({
   declarations: [StartProcessComponent,
@@ -39,6 +39,6 @@ import { NotFoundComponent } from './not-found/not-found.component';
     SharedModule
   ],
   exports:[CheckListComponent,StartProcessComponent,HistoryLogComponent],
-  entryComponents:[VoucherApprovalComponent],//Add here for new Approve component
+  entryComponents:[UpdateVoucherComponent],//Add here for new Approve component
 })
 export class AdminModule { }

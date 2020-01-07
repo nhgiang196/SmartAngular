@@ -1,0 +1,151 @@
+<div style="font-family: 'Times New Roman', Times, serif;" class="border-bottom white-bg page-heading">
+  <div class="container">
+    <div class="header-report">
+      <h2 class="text-center">
+        遠東紡纖(越南)有限公司 化纖總廠 <br>
+        CÔNG TY TNHH POLYTEX FAR EASTERN (VIỆT NAM)<br>
+        TỔNG XƯỞNG HÓA SỢI <br>
+        量測設備校正報告<br>
+        BÁO CÁO HIỆU CHUẨN THIẾT BỊ ĐO LƯỜNG<br>
+      </h2>
+    </div>
+    <br>
+    <div class="content-report">
+      <table class="table table-resposinve table-borderless">
+        <tbody>
+          <tr>
+            <td>No: {{header.VoucherID}}</td>
+            <td>送校單位: {{header.Department}} </td>
+            <td>校正日期: {{header.Stamp}}</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>Đơn vị gửi hiệu chuẩn</td>
+            <td>Ngày hiệu chuẩn</td>
+          </tr>
+          <tr>
+            <td>校正時溫度: {{header.Temparature}}℃</td>
+            <td>濕度: {{header.Humidity}}％</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>Nhiệt độ khi hiệu chuẩn: {{header.Temparature}}℃</td>
+            <td>Độ ẩm: {{header.Humidity}}%</td>
+            <td></td>
+          </tr>
+        </tbody>
+      </table>
+      <!-- Equipment -->
+      <table class="table table-bordered table-hover table-stripped table-responisve">
+        <thead class="thead-dark">
+          <tr>
+            <th style="text-align: center">設備名稱<br>
+              Tên thiết bị</th>
+            <th style="text-align: center">設備廠商<br>
+              Nhà SX</th>
+            <th>設備型號<br>
+              Loại thiết bị</th>
+            <th>設備序號<br>
+              Số thiết bị</th>
+            <th>校正程序<br>
+              Trình tự hiệu chuẩn</th>
+            <th>標準參數<br>
+              Thông số chuẩn</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>{{header.Name}}</td>
+            <td>{{header.Brand}}</td>
+            <td>{{header.Model}}</td>
+            <td>{{header.AssetID}}</td>
+            <td></td>
+            <td></td>
+          </tr>
+        </tbody>
+      </table>
+      <!-- Calibriation equipments detail -->
+
+      <h3>
+        校正時使用之標準件<br>
+        Sử dụng thiết bị chuẩn khi hiệu chuẩn
+      </h3>
+      <table class="table table-bordered table-hover table-stripped table-responisve">
+        <thead>
+          <tr>
+            <th>標準件名稱<br>
+              Tên thiết bị chuẩn</th>
+            <th>標準件廠商<br>
+              Nhà SX thiết bị chuẩn</th>
+            <th>標準件型號<br>
+              Loại thiết bị chuẩn</th>
+            <th>標準件序號<br>
+              Số thiết bị chuẩn</th>
+            <th>到期月<br>
+              Ngày đến hạn</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of detail">
+            <td>{{item.Name}}</td>
+            <td>{{item.Brand}}</td>
+            <td>{{item.Model}}</td>
+            <td>{{item.AssetID}}</td>
+            <td></td>
+          </tr>
+        </tbody>
+      </table>
+
+    </div>
+    <div class="footer-report">
+      <p>
+        校正記錄:(如附件)<br>
+        Hồ sơ hiệu chuẩn: (đính kèm)
+      </p>
+      <div class="col-sm-8">
+        <div class="col-sm-4">＊校正結果 <br>Kết quả hiệu chuẩn </div>
+        <div class="col-sm-4">
+          <div class="checkbox">
+            <input type="checkbox" style="margin-left: 5px;" [checked]="header.Passed">
+            <label class="control-label" for="checkbox1">
+              合格<br>Đạt chuẩn
+            </label>
+          </div>
+        </div>
+        <div class="col-sm-4">
+          <div class="checkbox">
+            <input type="checkbox" style="margin-left: 5px;" [checked]="!header.Passed">
+            <label class="control-label" for="checkbox1" >
+              不合格<br>Không đạt chuẩn
+            </label>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-4"></div>
+      <br>
+
+      <div class="col-sm-12">
+        <p>
+          <em> Ps :</em> 若校正結果為不合格,請通知設備所屬校正中心。<br>
+          Nếu kết quả hiệu chuẩn không đạt, vui lòng thông báo Trung tâm hiệu chuẩn thiết bị.
+        </p>
+      </div>
+
+      <div class="row">
+        <div class="col-sm-8">
+          <div class="col-sm-6">送校 <br>Gửi hiệu chuẩn: {{header.Department}}</div>
+          <div class="col-sm-6">校正 <br>Hiệu chuẩn: {{'EQComponent.AdjustType_'+header.AdjustType | translate}}</div>
+        </div>
+        <div class="col-sm-4"></div>
+        <div class="col-sm-12">
+          主管 Chủ quản：{{header.LeaderCheck}}<br>
+          主管 Người gửi：{{header.Initiator}}<br>
+        </div>
+
+      </div>
+      <strong class="pull-right">
+        5VGAAQR115-01
+      </strong>
+    </div>
+  </div>
+</div>

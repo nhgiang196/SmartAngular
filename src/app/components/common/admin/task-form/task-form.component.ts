@@ -3,10 +3,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MyTaskInjector } from 'src/app/helpers/MyTaskInjector';
 
 import { Task } from 'src/app/models/camunda';
-import { VoucherApprovalComponent } from 'src/app/views/emcs/voucher-approval/voucher-approval.component';
-import { VoucherRequisitionDetailComponent } from 'src/app/views/emcs/voucher-requisition-detail/voucher-requisition-detail.component';
 import { EngineService } from 'src/app/services/engine.service';
 import { TaskCompleteComponent } from '../task-complete/task-complete.component';
+import { UpdateVoucherComponent } from 'src/app/views/emcs/update-voucher/update-voucher.component';
+import { VoucherDetailComponent } from 'src/app/views/emcs/voucher-detail/voucher-detail.component';
 
 @Component({
   selector: 'app-task-form',
@@ -20,6 +20,7 @@ export class TaskFormComponent implements OnInit {
   bonusComponent: any;
   myInjector: Injector;
   checkCondition: String;
+  flowKey: string;
   constructor(private injector: Injector, private route: ActivatedRoute, private router: Router, public engineApi: EngineService) { }
 
   ngOnInit() {
@@ -34,11 +35,17 @@ export class TaskFormComponent implements OnInit {
   loadComponent() {
     switch (this.taskCurrent.formKey) {
       case 'VoucherRequisitionComponent':
-              this.approveComponent = VoucherRequisitionDetailComponent; // detailComponent
-              this.bonusComponent = TaskCompleteComponent; //This is bonus Component
-              this.checkCondition = "IsPublish";//condition Completed              
-              this.engineApi.decisionList = [{ name: 'Agree', value: 'Yes' }, { name: 'Disagree', value: 'No' }]; //List conditions in dropdownlist
-
+        this.approveComponent = VoucherDetailComponent; // detailComponent
+        // this.bonusComponent = TaskCompleteComponent; //This is bonus Component
+        this.checkCondition = "IsPublish";//condition Completed
+        this.engineApi.decisionList = [{ name: 'Agree', value: 'Yes' }, { name: 'Disagree', value: 'No' }]; //List conditions in dropdownlist
+        this.flowKey = "EMCSWorkFlow"
+        break;
+      case 'UploadResultComponent':
+        this.approveComponent = UpdateVoucherComponent; // update Voucher Component
+        this.checkCondition = "IsPublish";//condition Completed
+        this.engineApi.decisionList = [{ name: 'Agree', value: 'Yes' }]; //List conditions in dropdownlist
+        this.flowKey = "EMCSWorkFlow"
         break;
       default:
         break;

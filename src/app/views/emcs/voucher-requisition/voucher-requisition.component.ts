@@ -11,7 +11,7 @@ import swal from 'sweetalert2';
 import { Router } from '@angular/router';
 import { DataTableDirective } from 'angular-datatables';
 import { TranslateService } from '@ngx-translate/core';
-const NodeApiUrl = "http://10.20.46.41:4300/api/file";
+const NodeApiUrl = "/engine-file/";
 @Component({
   selector: 'app-voucher-requisition',
   templateUrl: './voucher-requisition.component.html',
@@ -35,11 +35,11 @@ export class VoucherRequisitionComponent implements OnInit, OnDestroy {
   dtElement: DataTableDirective;
   dtTrigger: Subject<any> = new Subject();
 
-  list: { Departments: any, Equipments: any, Data?: any }; //lists return after Get Data
+  list: { Departments: any, Equipments: any[], Data?: any }; //lists return after Get Data
   /**init */
   operationResult: any;
   Profile: Profile; // Use to add to Requisition.Profiles
-  actionstatus:string
+  actionstatus: string
   //Upload File
   fileName: string;
   file: File;
@@ -61,6 +61,7 @@ export class VoucherRequisitionComponent implements OnInit, OnDestroy {
   disableButton: boolean;
   lang: string = this.trans.currentLang.toString()
 
+
   /************************************Init ****************************************************/
   ngOnInit() {
     this.auth.nagClass.emcsViewToogle = true; //nag-toogle
@@ -68,13 +69,14 @@ export class VoucherRequisitionComponent implements OnInit, OnDestroy {
     this.choosenEntity = {
       VoucherID: null, EQID: null, State: null, Remark: '', YearAdjust: null, MonthAdjust: null, Profiles: [],
       UserID: this.auth.currentUser.Username,
-      CreateTime:''
+      CreateTime: ''
     } // choosed params on edit modal page
     this.Profile = {
       VoucherID: '', FileResult: '', Name: '', EQID: '', Temparature: '', Humidity: '', Passed: false, UploadBy: '', Stamp: null, Remark: '', State: '',
     } //??
     this.fileName = '';
-    this.searchParams = { Department: '', Type: '', Year: '', Status: '' }; //search params
+    this.searchParams = { Department: this.auth.currentUser.Department, Type: '', Year: '', Status: '' }; //search params
+
     this.lsVoucher = null
     this.list = { Departments: [], Equipments: [] };//lists return after Get Data
     this.getBasic();
@@ -84,7 +86,7 @@ export class VoucherRequisitionComponent implements OnInit, OnDestroy {
     this.disableButton = true;
     this.fnSearch();
 
-          }
+  }
   /**Exit page */
   ngOnDestroy(): void {
     this.dtTrigger.unsubscribe();
@@ -92,15 +94,18 @@ export class VoucherRequisitionComponent implements OnInit, OnDestroy {
 
   private getBasic() {
     this.api.getBasic("Department", this.lang).subscribe((res) => {
-      if (res.length > 0) {
+      if (res.length >= 0) {
         this.list.Departments = res;
       }
       else this.toastr.error("Failed load Department", "Error");
     })
-    this.api.getBasic("Equipment", '').subscribe((res) => {
-      if (res.length > 0) {
-        this.list.Equipments = res;
-        console.log(res);
+    this.api.getBasic("Equipment", this.auth.currentUser.Department).subscribe((res) => {
+      if (res.length >= 0) {
+        this.list.Equipments = [];
+        res.forEach(element => {
+          if (element.Department == this.auth.currentUser.Department || this.auth.isLabUser())
+            this.list.Equipments.push(element);
+        });
       }
       else {
         this.toastr.error("Failed load Equipments", "Error");
@@ -182,7 +187,7 @@ export class VoucherRequisitionComponent implements OnInit, OnDestroy {
           this.operationResult = res
           if (this.operationResult.Success) {
             this.toastr.success(this.operationResult.Message, this.operationResult.Caption);
-            $('#btnClose').click();
+            $('#closeBtn').click();
             this.fnSearch();
           }
           else
@@ -211,21 +216,16 @@ export class VoucherRequisitionComponent implements OnInit, OnDestroy {
 
   }
 
-  rerender(): void {
-    this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
-      // Destroy the table first
-      dtInstance.destroy();
-      // Call the dtTrigger to rerender again
-      this.dtTrigger.next();
-    });
-  }
   ngAfterViewInit(): void {
     this.dtTrigger.next();
   }
   fnSubmit() {
     let camundaForm = {
       "variables":
-        { "LeaderCheckList": { "value": this.engineApi.lsCheckers } },
+      {
+        "LeaderCheckList": { "value": this.engineApi.lsCheckers },
+        "initiator": { "value": this.auth.currentUser.Username }
+      },
       "businessKey": this.choosenEntity.VoucherID
     }
     switch (this.Status) {
@@ -243,7 +243,7 @@ export class VoucherRequisitionComponent implements OnInit, OnDestroy {
               }
             })
             this.toastr.success(this.operationResult.Message, this.operationResult.Caption);
-            $('#btnClose').click();
+            $('#closeBtn').click();
             this.fnSearch();
           }
           else
@@ -299,11 +299,9 @@ export class VoucherRequisitionComponent implements OnInit, OnDestroy {
 
   fnShowEdit(item) { //open modal
     this.Status = 'M';
-    console.log(this.choosenEntity);
     this.api.findVoucher(item.VoucherID).subscribe((res) => {
       this.choosenEntity = res.Header[0];
       this.choosenEntity.Profiles = res.Detail;
-      console.log(this.choosenEntity);
     })
     this.DisableButton();
   }

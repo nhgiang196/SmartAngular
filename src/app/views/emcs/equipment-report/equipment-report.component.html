@@ -1,0 +1,60 @@
+<div style="font-family: 'Times New Roman', Times, serif" class="row wrapper border-bottom white-bg page-heading">
+  <div class="header-report">
+    <div class="wrapper wrapper-content">
+      <button type="button" id="btnPrint" class="btn btn-success pull-right" style="margin-right: 50px" (click)="btnPrint()">Print <i class="fa fa-print"></i></button>
+      <h2 class="text-center">遠東紡纖(越南)有限公司 化纖總廠<br>
+        CÔNG TY TNHH POLYTEX FAR EASTERN (VIỆT NAM)<br>
+        TỔNG XƯỞNG HÓA SỢI <br>
+        量測設備一覽表<br>
+        BẢNG DANH SÁCH THIẾT BỊ ĐO LƯỜNG<br>
+      </h2>
+
+    </div>
+  </div>
+  <div class="content-report">
+    <div id="pageFooter" class="pull-right" style="margin-right:30px ">
+      頁次 số trang:
+    </div>
+    <table class="table table-bordered table-hover table-stripped table-responisve">
+      <thead>
+        <tr>
+          <th class="text-center">編 號<br>Mã</th>
+          <th class="text-center">名稱<br>Tên thiết bị</th>
+          <th class="text-center">廠 牌 規 格<br>Nhà sản xuất</th>
+          <th class="text-center">數量<br>Mẫu mã</th>
+          <th class="text-center">購置日期<br>Ngày mua</th>
+          <th class="text-center">校正週期<br>Ngày hiệu chỉnh</th>
+          <th class="text-center">校正別<br>Loại hiệu chỉnh</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of lsEquipments" class="text-center">
+          <td>{{item.AssetID}}</td>
+          <td>{{item.Name}}</td>
+          <td>{{item.Brand}}</td>
+          <td>{{item.Model}}</td>
+          <td>{{item.UsedDate}}</td>
+          <td></td>
+          <td>{{'EQComponent.AdjustType_'+item.AdjustType | translate}}</td>
+
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="footer-report">
+    <div class="text-center">主管 Chủ quản:___________________________________製表 Người
+      lập:___________________________________</div>
+    <br>
+    <div class="pull-right" style="margin-right: 50px;font-weight: bold">
+      5VGAAQR111-01
+    </div>
+    <p>
+      註: 須定期校正之非製程量測設備列於本表。<br>
+      Ghi chú: những thiết bị không thuộc loại thiết bị đo lường quy trình phải được hiệu chuẩn định kỳ
+      thì ghi vào bảng này.
+
+    </p>
+
+  </div>
+</div>

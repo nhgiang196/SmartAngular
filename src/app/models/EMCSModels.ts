@@ -9,32 +9,37 @@ export class Equipments {
   UsedDate?: Date
   Stamp?: Date
   UserID?: string
-  IsAdjust?: boolean
   State?: string
   Remark?: string
   Department?: string
   ProcessDepartment?: string
+  AdjustType: string
+  Frequency? : string
   Manuals?: Manual[]
   Methods?: Method[]
-  ProcessDeptName?:string
-  DepartmentName?:string
+  StandardEQs?: StandardEQ[];
 }
 
+export class StandardEQ {
+  EQID?: string;
+  StandardEQID  : string;
+
+}
 export class Manual {
-  MethodID: number
-  EQID: string
+  MethodID?: number
+  EQID?: string
   Name?: string
   FileName?: string
-  Version: number
+  Version?: number
   Stamp?: Date
   Remark?: string
 }
 export class Method {
-  MethodID: number
+  MethodID?: number
   EQID: string
   Name?: string
   FileName?: string
-  Version: number
+  Version?: number
   Stamp?: Date
   Remark?: string
 }
@@ -60,10 +65,10 @@ export class PlanTimeJob {
 }
 
 export class Profile {
-  VoucherID: string
-  FileResult: string
-  Name: string
-  EQID: string
+  VoucherID?: string
+  FileResult?: string
+  Name?: string
+  EQID?: string
   Temparature?: string
   Humidity?: string
   Passed?: boolean
@@ -71,6 +76,7 @@ export class Profile {
   Stamp?: Date
   Remark?: string
   State?: string
+
 
 }
 
@@ -80,11 +86,11 @@ export class Requisition {
   State: string
   UserID: string
   Remark: string
-  Profiles?: Profile[]
   Department?: string
   MonthAdjust: number
   YearAdjust: number
   CreateTime?: string
+  Profiles?: Profile[]
 }
 export class Department {
   CostCenter: string

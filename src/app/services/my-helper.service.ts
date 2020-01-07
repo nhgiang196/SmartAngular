@@ -17,19 +17,22 @@ export class MyHelperService {
     buttons: [
       { extend: 'colvis' },
       { extend: 'copy' },
-      { extend: 'excel', title: 'ExampleFile' },
+      { extend: 'excel', title: 'ExampleFile', exportOptions: { columns: ':visible' } },
       { extend: 'pdf', title: 'MyFile' },
-      {
-        extend: 'print',
-        customize: function (win) {
-          $(win.document.body).addClass('white-bg');
-          $(win.document.body).css('font-size', '10px');
+      // {
+      //   extend: 'print',
+      //   exportOptions: {
+      //     columns: ':visible'
+      //   },
+      //   customize: function (win) {
+      //     $(win.document.body).addClass('white-bg');
+      //     $(win.document.body).css('font-size', '10px');
 
-          $(win.document.body).find('table')
-            .addClass('compact')
-            .css('font-size', 'inherit');
-        }
-      }
+      //     $(win.document.body).find('table')
+      //       .addClass('compact')
+      //       .css('font-size', 'inherit');
+      //   }
+      // }
     ],
     pagingType: 'full_numbers',
     pageLength: 10,
@@ -45,7 +48,7 @@ export class MyHelperService {
   constructor() {
 
 
-   }
+  }
   /**
   * Get FileName with structure yyy-mm-dd...
   */
@@ -76,7 +79,7 @@ export class MyHelperService {
     return yyyy + mm + dd + HH + MM + ss + iii;
   }
 
-  getCurrentDate(){
+  getCurrentDate() {
     var today = new Date();
     var dd = String(today.getDate()).padStart(2, '0');
     var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
@@ -84,8 +87,8 @@ export class MyHelperService {
     var HH = today.getHours();
     var MM = today.getMinutes();
     var ss = today.getSeconds();
-    return yyyy +'-'+ mm +'-'+ dd +' '+ HH +':'+ MM +':'+ ss;
+    return yyyy + '-' + mm + '-' + dd + ' ' + HH + ':' + MM + ':' + ss;
   }
-  
+
 
 }

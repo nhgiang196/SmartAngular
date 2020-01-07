@@ -14,7 +14,8 @@
   },
   "CommandTree": {
     "Dashboard": "Dash board",
-    "LabEquipment": "Lab Equipment",
+    "LabEquipment": "Lab Equipments",
+    "StandardEquipment":"Standard Equipments",
     "EQMana": "Equipment Management",
     "Planning": "Planning Schedule",
     "Voucher": "Voucher Requistion"
@@ -45,7 +46,11 @@
     "Author": "Author",
     "UsedDate": "Used Date",
     "Model": "Model",
-    "IsAdjust": "Is Adjust",
+    "AdjustType": "Type of Adjust",
+    "AdjustType_N": "Non ajust",
+    "AdjustType_I": "Inside",
+    "AdjustType_O": "Outside",
+    "Frequency":"Frequency",
     "Remark": "Remark",
     "UploadFileManual": "Upload File Manual",
     "UploadFileMethod": "Upload File Method",
@@ -89,7 +94,7 @@
     "ArrivalNoticeDay": "Day to notice"
   },
   "VoucherDetailComponent": {
-    "TITLE": "Voucher Requistion",
+    "TITLE": "Voucher Detail",
     "Manual": "Manual",
     "Method": "Method",
     "Department": "Department",
@@ -114,5 +119,12 @@
   "Remark": "Remark",
   "Stamp": "Stamp",
   "CreateTime": "Create Time",
-  "State": "State"
+  "State": "State",
+  "StatusN":"New",
+  "StatusM":"Modified",
+  "StatusX":"Deleted",
+  "StatusP":"Published",
+  "StatusS":"Submited",
+  "VoucherUpdate.TITLE":"Update Voucher Information",
+  "VoucherUpdate.SaveNotice":"* Please check information and press save before submit your voucher"
 }

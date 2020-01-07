@@ -30,7 +30,9 @@
                 <div class="form-group">
                   <label class="control-label" for="product_name"
                     i18n>{{ 'PSComponent.Department' | translate }}</label>
-                  <ng-select [items]="list.Departments" bindLabel="name" bindValue="id"
+                    <!-- [disabled]="!auth.isLabUser()" -->
+                  <ng-select   [items]="list.Departments" bindLabel="name"
+                    bindValue="id"
                     [(ngModel)]="searchParams.Department">
                   </ng-select>
 
@@ -53,7 +55,7 @@
 
             </div>
           </div>
-          <div class="ibox-content" [ngClass]=" {'sk-loading': loading}">
+          <div class="ibox-content"  [ngClass]=" {'sk-loading': loading}">
             <!-- loading cube type -->
             <div class="sk-spinner sk-spinner-wave">
               <div class="sk-rect1"></div>
@@ -62,6 +64,7 @@
               <div class="sk-rect4"></div>
               <div class="sk-rect5"></div>
             </div>
+
 
             <div class="row">
               <div class="col-sm-4 m-b-xs">
@@ -111,33 +114,37 @@
                       <li><a>Others </a></li>
                     </ul>
                   </div>
+                  <a [routerLink]="[ '/planScheduleReportView', searchParams.Department , searchParams.Year.toString()]" class="pull-right btn btn-primary"><i
+                    class="fa fa-print"></i></a>
+
+
                 </div>
               </div>
             </div>
 
             <div class="hr-line-dashed"></div>
             <h3 class="text-center" [hidden]="!(plansHeader.length==0)">No data to show </h3>
+
             <div [hidden]="plansHeader.length==0||plansHeader==null" class="table-responsive">
               <table class="table table-bordered table-hover">
                 <thead>
 
                   <tr style="background-color: #1cc09f">
-                    <th></th>
+                    <!-- <th></th> -->
                     <th *ngFor="let h of plansHeader">{{h.data.replace('_','')}}</th>
                   </tr>
                 </thead>
                 <tbody>
 
                   <tr *ngFor="let item of list.Data; index as i">
-                    <td class="action-list">
-                      <!-- <button class="btn btn-default btn-xs"><i class="fa fa-eye"></i></button> -->
+                    <!-- <td class="action-list">
                       <div class="btn-group">
                         <button (click)="fnShowEdit(item)" data-target="#myModal" data-toggle="modal"
                           class="btn btn-default btn-xs dropdown-toggle">
                           <i class="fa fa-edit"></i>
                         </button>
                       </div>
-                    </td>
+                    </td> -->
                     <td *ngFor="let h of plansHeader"
                       [ngClass]="{'scheduletable': h.data.indexOf('_')>-1&&actionstatus=='M'}"
                       (click)="fnToogleCheck(h.data,i, item);">

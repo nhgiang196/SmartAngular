@@ -11,10 +11,15 @@ export class TimelineLogComponent implements OnInit {
 
   constructor(private mongoApi: MongoApiService, private route: ActivatedRoute) { }
 
+  historyCollection :any= [] ;
+
+
   ngOnInit() {
+
     this.route.params.subscribe((res) => {
       this.mongoApi.findCollection({ voucherId: res.businessKey }).subscribe(res => {
-        console.log(res);
+        this.historyCollection = res;
+        console.log(this.historyCollection);
       })
     })
     this.load();

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { EngineService } from 'src/app/services/engine.service';
 import { Observable } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
@@ -10,7 +10,7 @@ import { ApiEMCSService } from 'src/app/services/api-ecms.service';
   styleUrls: ['./check-list.component.css']
 })
 export class CheckListComponent implements OnInit {
-
+  @Input() flowKey: any;
   constructor(
     private engineApi: EngineService,
     private AuthService: AuthService,
@@ -23,10 +23,10 @@ export class CheckListComponent implements OnInit {
   ngOnInit() {
     this.lsChecker=null;
     this.lsCheckerWithName=null;
-    this.getChecker(this.AuthService.currentUser.Username, "EMCSOverFlow");
+    this.getChecker(this.AuthService.currentUser.Username, this.flowKey);
   }
 
-  getChecker(owner:string, flowkey: string){    
+  getChecker(owner:string, flowkey: string){
     this.apiService.GetChecker(owner, flowkey, "", null).subscribe((res)=>{
       let xx =res.Person as any[];
       let tmp:any[]=[]
@@ -35,7 +35,7 @@ export class CheckListComponent implements OnInit {
       })
       this.engineApi.lsCheckers=tmp;
       this.lsCheckerWithName = res.UserName as Observable<any[]>;
-    }); 
+    });
   }
 
 }

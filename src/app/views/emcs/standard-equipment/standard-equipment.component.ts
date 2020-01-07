@@ -2,7 +2,6 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ApiEMCSService } from 'src/app/services/api-ecms.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { Equipments, Method, Manual, Department } from 'src/app/models/EMCSModels';
-import { NgForm } from '@angular/forms';
 import { Observable, Subject } from 'rxjs';
 import { OperationResult } from 'src/app/helpers/operationResult';
 import { ToastrService } from 'ngx-toastr';
@@ -12,11 +11,11 @@ import { TranslateService } from '@ngx-translate/core';
 
 const TCode: string = 'EMCS-01' // TCode for Add or Update Equipment
 @Component({
-  selector: 'app-equipment-manage',
-  templateUrl: './equipment-manage.component.html',
-  styleUrls: ['./equipment-manage.component.css']
+  selector: 'app-standard-equipment',
+  templateUrl: './standard-equipment.component.html',
+  styleUrls: ['./standard-equipment.component.css']
 })
-export class EquipmentManageComponent implements OnInit {
+export class StandardEquipmentComponent implements OnInit {
   @ViewChild(DataTableDirective)
   dtElement: DataTableDirective;
   @ViewChild('myInputFile')// set for emtpy file after Close or Reload
@@ -70,15 +69,12 @@ export class EquipmentManageComponent implements OnInit {
   dtTrigger: Subject<any> = new Subject();
 
   lsDepartment: Observable<Department[]>;
-  lsStandardEQ: any;
 
-  StandardListEQ: string[];
   /******************************************Init *******************************************/
   ngOnInit() {
     this.auth.nagClass.emcsViewToogle = true;
     this.resetForm();
     this.loadDepartments();
-    this.loadStandardEquipments();
   }
   loadDepartments() {
     this.api.getBasic("Department", this.lang).subscribe((res) => {
@@ -86,30 +82,20 @@ export class EquipmentManageComponent implements OnInit {
         this.lsDepartment = res;
       }
       else this.toastr.error("Failed load Department", "Error");
-    }) 
-  }
-  loadStandardEquipments(){
-    this.api.getBasic("StandardEquipments", this.lang).subscribe((res) => {
-      if (res.length >= 0) {
-        this.lsStandardEQ = res;
-      }
-      else this.toastr.error("Failed load StandardEquipments", "Error");
     })
- 
+
   }
   private resetForm() {
     // if (form != null) ///????
     //   form.resetForm();
-    this.StandardListEQ = [];
     this.equipment = {
       EQID: null, Name: '', AssetID: '', Brand: '', Model: '', UsedDate: null, Stamp: null, UserID: '', State: '', Remark: '',
       Department: this.auth.currentUser.Department,
       ProcessDepartment: '',
-      AdjustType: 'I',
+      AdjustType: 'N',
       Frequency: '3',
       Methods: [],
       Manuals: [],
-      StandardEQs: []
     };
     this.manual = {
       FileName: '', Name: '', Version: 0, EQID: '', Stamp: null, Remark: '', MethodID: 0
@@ -134,11 +120,11 @@ export class EquipmentManageComponent implements OnInit {
 
   /******************************************Functions *******************************************/
   fnSearch() {
-    this.pUserName = (this.pGetall === false ? "" : this.auth.currentUser.Username);
+    this.pUserName = (this.pGetall == false ? "" : this.auth.currentUser.Username);
     this.loading = true;
     /** Refresh grid view */
-    this.api.getAllEquipment(this.pAssetID
-      , this.pEQName
+    this.api.getAllEquipment(
+      this.pAssetID, 'N' //AdjustType
       , this.pEQName
       , this.pDepartment || ''
       , this.pProcessDepartment || ''
@@ -168,17 +154,12 @@ export class EquipmentManageComponent implements OnInit {
   }
 
   fnEdit(item: Equipments) {
-    this.resetForm();
     this.ACTION_STATUS = 'Modify'
     this._checkAssetID = true;
     this.api.getDetailEquipment(item.EQID).toPromise().then((res) => {
       this.equipment = res[0][0];
       this.equipment.Manuals = res[1];
       this.equipment.Methods = res[2];
-      this.StandardListEQ = [];
-      for (var index in res[3]) {
-        this.StandardListEQ.push(res[3][index].StandardEQID);
-      };
     })
   }
   fnCancel(item: Equipments) {
@@ -191,20 +172,8 @@ export class EquipmentManageComponent implements OnInit {
     this.resetForm();
   }
 
+  //Save Equiment
   fnSave() {
-
-    if (this.StandardListEQ) //if exists this list
-    {
-      this.equipment.StandardEQs = [];
-      for (var key in this.StandardListEQ) { //then add to choosen Entity StandardEQs
-        this.equipment.StandardEQs.push({
-          EQID: this.equipment.EQID || '',
-          StandardEQID: this.StandardListEQ[key]
-        })
-      }
-
-    }
-
     if (this.ACTION_STATUS === 'Add') {
       this.equipment.UserID = this.auth.currentUser.Username;
       this.equipment.State = 'N';
@@ -215,8 +184,6 @@ export class EquipmentManageComponent implements OnInit {
       this.api.updateEquipment(this.equipment).subscribe(res => this.showMessage(res)
       )
     }
-
-
   }
   private showMessage(res: any) {
     var operationResult = res as OperationResult;
@@ -236,14 +203,12 @@ export class EquipmentManageComponent implements OnInit {
     this.api.uploadFile(formData).subscribe(res => {
       this.fileUpload = res;
     }, err => {
-      this.toastr.error('Can not upload File\n Api upload Error '+ err.Message, 'Error');
-      if(type ==1){
+      this.toastr.error('Can not upload File\n Api upload Error ' + err.Message, 'Error');
+      if (type == 1) {
         $('#btnManualTrash').click();
-      }else{
+      } else {
         $('#btnMethodTrash').click();
       }
-       
-      
     });
     //1 for Manual
     if (type === 1) {
@@ -290,21 +255,21 @@ export class EquipmentManageComponent implements OnInit {
   }
   /**Download File without RestAPI */
   onGetFile(FileName) {
-    let url: string = '/engine-file/'+FileName;
+    let url: string = '/engine-file/' + FileName;
     window.open(url, '_blank');
   }
 
   /**Delete Manual Item */
   onDeleteManualFile(item) {
     this.equipment.Manuals.splice(this.equipment.Manuals.indexOf(item), 1);
-    this.api.deleteFile(item.FileName).subscribe(res=>{
+    this.api.deleteFile(item.FileName).subscribe(res => {
       console.log(res);
     })
   }
   /**Delete Method Item */
   onDeleteMethodFile(item) {
     this.equipment.Methods.splice(this.equipment.Methods.indexOf(item), 1);
-    this.api.deleteFile(item.FileName).subscribe(res=>{
+    this.api.deleteFile(item.FileName).subscribe(res => {
       console.log(res);
     })
   }

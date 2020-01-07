@@ -6,10 +6,9 @@
 /out-tsc
 # Only exists if Bazel was run
 /bazel-out
-/.svn
 
 # dependencies
-/node_modules
+#/node_modules
 
 # profiling files
 chrome-profiler-events.json
@@ -45,4 +44,3 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
-

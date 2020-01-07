@@ -1,0 +1,9 @@
+.table-borderless td, .table-borderless th {
+    border: none;
+  }
+
+ .table th {
+    text-align: center;   
+ }
+
+

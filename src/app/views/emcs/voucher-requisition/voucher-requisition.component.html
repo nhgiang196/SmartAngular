@@ -39,11 +39,11 @@
               <div class="col-sm-4">
                 <div class="form-group">
                   <label class="control-label"
-                    for="product_name">{{'VoucherComponent.ProcessDepartment' | translate}}</label>
+                    for="product_name">{{'VoucherDetailComponent.Department' | translate}}</label>
                   <!-- <input class="form-control"> -->
-
+                  <!-- [disabled]="!auth.isLabUser()" -->
                   <ng-select [items]="list.Departments" bindLabel="name" bindValue="id"
-                    [(ngModel)]="searchParams.Department" name="ProcessDepartment">
+                    [(ngModel)]="searchParams.Department" name="Department">
                   </ng-select>
 
                 </div>
@@ -53,8 +53,8 @@
                   <label class="control-label">{{'VoucherComponent.Type' | translate}}</label>
                   <select [(ngModel)]="searchParams.Type" class=" form-control ">
                     <option value="">All</option>
-                    <option value="__">Đăng ký</option>
-                    <option value="__">Kế hoạch</option>
+                    <option value="RE">Đăng ký</option>
+                    <option value="PE">Kế hoạch</option>
                   </select>
                 </div>
               </div>
@@ -74,9 +74,12 @@
                 <div class="form-group">
                   <label class="control-label">{{'VoucherComponent.Status' | translate}}</label>
                   <select [(ngModel)]="searchParams.Status" class="form-control">
-                    <option value="" selected="">All</option>
-                    <option value="1" selected="">Enabled</option>
-                    <option value="0">Disabled</option>
+                    <option value="">All</option>
+                    <option value="N">{{'StatusN' | translate}}</option>
+                    <option value="M">{{'StatusM' | translate}}</option>
+                    <option value="S">{{'StatusS' | translate}}</option>
+                    <option value="P">{{'StatusP' | translate}}</option>
+                    <option value="X">{{'StatusX' | translate}}</option>
                   </select>
                 </div>
               </div>
@@ -99,7 +102,8 @@
                   data-toggle="modal"><i class="fa fa-plus"></i> {{'Button.Add' | translate}}</button>
               </div>
               <div class="btn-group">
-                <button type="button" class="btn btn-danger dim dropdown-toggle" data-toggle="dropdown"><i class="fa fa-list"></i></button>
+                <button type="button" class="btn btn-danger dim dropdown-toggle" data-toggle="dropdown"><i
+                    class="fa fa-list"></i></button>
                 <ul class="dropdown-menu">
                   <li><a>Option 1</a></li>
                   <li><a>Option 2</a></li>
@@ -109,25 +113,26 @@
                 </ul>
               </div>
             </div>
-            <div class="hr-line-dashed"></div>
             <div class="table-responsive">
               <table datatable [dtOptions]="helper.dtOptions" [dtTrigger]="dtTrigger"
                 class="table table-bordered table-hover table-stripped table-responisve text-center">
                 <thead>
                   <tr>
                     <th>{{'Button.Action'|translate}}</th>
+                    <th>{{'State'|translate}}</th>
                     <th>{{'VoucherComponent.VoucherID'|translate}}</th>
                     <th>{{'EQComponent.AssetID'|translate}}</th>
                     <th>{{'EQComponent.Name'|translate}}</th>
-                    <th>{{'EQComponent.Brand'|translate}}</th>
-                    <th>{{'EQComponent.Model'|translate}}</th>
+                    <!-- <th>{{'EQComponent.Brand'|translate}}</th>
+                    <th>{{'EQComponent.Model'|translate}}</th> -->
                     <th>{{'EQComponent.ProcessDepartment'|translate}}</th>
-                    <th>{{'UserID'|translate}}</th>
-                    <th>{{'VoucherComponent.Remark'|translate}}</th>
                     <th>{{'VoucherComponent.DateAdjust'|translate}}</th>
-                    <th>{{'Stamp'|translate}}</th>
+                    <th>{{'UserID'|translate}}</th>
                     <th>{{'CreateTime'|translate}}</th>
-                    <th>{{'State'|translate}}</th>
+                    <th>{{'Stamp'|translate}}</th>
+                    <th>{{'VoucherComponent.Remark'|translate}}</th>
+
+
                   </tr>
                 </thead>
                 <tbody>
@@ -136,14 +141,16 @@
                     <!-- BUTTONS -->
                     <td class="action-list">
                       <!-- routerLink="/VoucherView/?VoucherID={{item.VoucherID}}" -->
-                      <a [routerLink]="['/VoucherView/',item.VoucherID]"><button
-                          class="btn btn-default btn-xs"><i class="fa fa-eye"></i></button></a>
+                      <a [routerLink]="['/VoucherView/',item.VoucherID]"><button class="btn btn-default btn-xs"><i
+                            class="fa fa-eye"></i></button></a>
                       <div class="btn-group">
                         <button data-toggle="dropdown" class="btn btn-default btn-xs dropdown-toggle">
                           <i class="fa fa-list"></i><span class="caret"></span>
                         </button>
                         <ul class="dropdown-menu">
-                          <li><a data-target="#myModal" data-toggle="modal" (click)="fnShowEdit(item)">Modify</a></li>
+                          <li><a data-target="#myModal" data-toggle="modal" (click)="fnShowEdit(item)"><i class="fa fa-pencil"></i> Modify</a></li>
+                          <li> <a [routerLink]="['/voucherReportView/',item.VoucherID]">
+                            <i class="fa fa-print"></i> Print</a></li>
                           <li [hidden]="item.State =='S'|| item.State =='P'"><a [swal]="
                               {
                                 title: 'Are you sure?',
@@ -158,19 +165,29 @@
                           <li><a>Others...</a></li>
                         </ul>
                       </div>
+                     
                     </td>
+                    <td><span class="label" [ngClass]="{
+                        'label-info': ['N','M'].indexOf(item.State)>-1
+                        ,'label-warning':item.State=='S'
+                        ,'label-primary':item.State=='P'
+                        ,'label-danger':item.State=='X'
+                        }">{{item.State}}</span></td>
                     <td>{{item.VoucherID}}</td>
                     <td style="text-align: left">{{item.AssetID}}</td>
                     <td>{{item.Name}}</td>
-                    <td>{{item.Brand}}</td>
-                    <td>{{item.Model}}</td>
+                    <!-- <td>{{item.Brand}}</td>
+                    <td>{{item.Model}}</td> -->
                     <td>{{item.ProcessDepartment}}</td>
                     <td>{{item.UserID}}</td>
-                    <td>{{item.Remark}}</td>
+
                     <td>{{item.DateAdjust}}</td>
-                    <td>{{item.Stamp}}</td>
+
                     <td>{{item.CreateTime}}</td>
-                    <td>{{item.State}}</td>
+                    <td>{{item.Stamp}}</td>
+                    <td>{{item.Remark}}</td>
+
+
                   </tr>
                 </tbody>
               </table>
@@ -214,7 +231,7 @@
 
               </div>
 
-              <div class="hr-line-dashed"></div>
+
             </div>
             <div class="form-horizontal">
               <div class="form-group">
@@ -231,7 +248,7 @@
                     <option [value]="e.id" *ngFor="let e of list.Equipments">{{e.AssetID}}- {{e.name}}</option>
                   </select> -->
 
-                  <ng-select [items]="list.Equipments" bindLabel="name" bindValue="id" #EQID="ngModel"
+                  <ng-select [items]="list.Equipments  " bindLabel="name" bindValue="id" #EQID="ngModel"
                     [(ngModel)]="choosenEntity.EQID" name="EQID">
                   </ng-select>
 
@@ -294,56 +311,60 @@
               </div>
               <div class="hr-line-dashed"></div>
             </div>
-            <div class="form-horizontal ibox-content">
+            <div class="form-horizontal">
               <div class="text-center">
                 <h3>DETAIL</h3>
               </div>
 
               <!-- DETAIL ADDED -->
-
-              <div class="form-group">
-                <label class="col-sm-2 control-label">{{'VoucherComponent.Temparature' | translate}}</label>
-                <div class="col-sm-4">
-                  <input type="number" class="form-control" [(ngModel)]="this.Profile.Temparature" name="Temparature"
-                    #Temparature="ngModel">
-                </div>
-                <label class="col-sm-2 control-label">{{'VoucherComponent.Humidity' | translate}}</label>
-                <div class="col-sm-4">
-                  <input type="number" class="form-control" [(ngModel)]="this.Profile.Humidity" name="Humidity"
-                    #Humidity="ngModel">
-                </div>
-                <label class="col-sm-2 control-label">{{'VoucherComponent.Passed' | translate}}</label>
-                <div class="col-sm-4">
-                  <div class="i-checks"><label>
-                      <input type="checkbox" value="true" class="form-control" [(ngModel)]="this.Profile.Passed"
-                        name="Passed" #Passed="ngModel"> <i></i>
-                      {{'Button.Yes' | translate}} </label>
+              <form name="subForm" #subForm="ngForm">
+                <div class="form-group">
+                  <label class="col-sm-2 control-label">{{'VoucherComponent.Temparature' | translate}}</label>
+                  <div class="col-sm-4">
+                    <input required type="number" class="form-control" [(ngModel)]="this.Profile.Temparature"
+                      name="Temparature" #Temparature="ngModel">
+                  </div>
+                  <label class="col-sm-2 control-label">{{'VoucherComponent.Humidity' | translate}}</label>
+                  <div class="col-sm-4">
+                    <input required type="number" class="form-control" [(ngModel)]="this.Profile.Humidity"
+                      name="Humidity" #Humidity="ngModel">
                   </div>
                 </div>
-                <label class="col-sm-2 control-label">{{'Upload.UploadFile' | translate}}</label>
-                <div class="col-sm-4">
-                  <div class="from-group">
-                    <div class="fileinput fileinput-new" data-provides="fileinput">
-                      <span class=" col-sm-12 btn btn-default btn-file"><span class="fileinput-new">Select file</span>
-                        <span class="fileinput-exists">Change</span>
-                        <input type="file" name="..." id="fileupload" class="col-sm-12 btn btn-default btn-file"
-                          (change)="handleFileInput($event.target.files)" /></span>
-                      <span class="fileinput-filename" [ngClass]=" {'fileinput-new': this.file == null}"
-                        style="text-overflow: ellipsis; width: 200px; overflow: hidden;white-space: nowrap;">
-                      </span>
-                      <a class="close fileinput-exists" data-dismiss="fileinput" style="float: none">×</a>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label">{{'VoucherComponent.Passed' | translate}}</label>
+                  <div class="col-sm-4">
+                    <div class="i-checks"><label>
+                        <input type="checkbox" value="true" class="form-control" [(ngModel)]="this.Profile.Passed"
+                          name="Passed" #Passed="ngModel"> <i></i>
+                        {{'Button.Yes' | translate}} </label>
+                    </div>
+                  </div>
+                  <label class="col-sm-2 control-label">{{'Upload.UploadFile' | translate}}</label>
+                  <div class="col-sm-4">
+                    <div class="from-group">
+                      <div class="fileinput fileinput-new" data-provides="fileinput">
+                        <span class=" col-sm-12 btn btn-default btn-file"><span class="fileinput-new">Select file</span>
+                          <span class="fileinput-exists">Change</span>
+                          <input required type="file" name="..." id="fileupload"
+                            class="col-sm-12 btn btn-default btn-file"
+                            (change)="handleFileInput($event.target.files)" /></span>
+                        <span class="fileinput-filename" [ngClass]=" {'fileinput-new': this.file == null}"
+                          style="text-overflow: ellipsis; width: 200px; overflow: hidden;white-space: nowrap;">
+                        </span>
+                        <a class="close fileinput-exists" data-dismiss="fileinput" style="float: none">×</a>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-              <div class="form-group">
-                <label class="col-sm-2 control-label">{{'VoucherComponent.Remark' | translate}}</label>
-                <div class="col-sm-8"><textarea type="text" class="form-control" [(ngModel)]="this.Profile.Remark"
-                    name="Remark1" #Remark="ngModel"></textarea></div>
-                <div class="col-sm-2"><button type="button form-control" class="btn btn-primary"
-                    (click)="addDetail()"><i class="fa fa-plus"></i> {{'Button.Add' | translate}}</button></div>
-              </div>
-
+                <div class="form-group">
+                  <label class="col-sm-2 control-label">{{'VoucherComponent.Remark' | translate}}</label>
+                  <div class="col-sm-8"><textarea type="text" class="form-control" [(ngModel)]="this.Profile.Remark"
+                      name="Remark1" #Remark="ngModel"></textarea></div>
+                  <div class="col-sm-2"><button type="button form-control" class="btn btn-primary" (click)="addDetail()"
+                      [disabled]="subForm.invalid"><i class="fa fa-plus"></i> {{'Button.Add' | translate}}</button>
+                  </div>
+                </div>
+              </form>
 
               <!-- <div class="hr-line-dashed"></div> -->
             </div>
@@ -383,18 +404,18 @@
                 </div>
               </div>
             </div>
-
+            <div class="hr-line-dashed"></div>
             <!-- CheckList[disabled]="myForm.invalid" -->
             <!-- Show leader check list -->
-            <app-check-list flowKey="EMCSWorkFlow"></app-check-list>
+            <app-check-list flowKey={{flowKey}}></app-check-list>
           </div>
           <div class="modal-footer">
-            <button type="button" id="#closeBtn" class="btn btn-white" data-dismiss="modal">Close</button>
+            <button type="button" id="closeBtn" class="btn btn-white" data-dismiss="modal">Close</button>
             <button type="button" [hidden]="actionstatus!='View'" [disabled]="this.disableButton"
               [disabled]="myForm.invalid" (click)="fnSave()"
               class="btn btn-primary">{{'Button.Save' | translate}}</button>
-            <button type="button" [disabled]="this.disableButton" [disabled]="myForm.invalid" (click)="fnSubmit()"
-              class="btn btn-primary">{{'Button.Submit' | translate}}</button>
+            <!-- <button type="button" [disabled]="this.disableButton" [disabled]="myForm.invalid" (click)="fnSubmit()"
+              class="btn btn-primary">{{'Button.Submit' | translate}}</button> -->
           </div>
         </div>
       </div>

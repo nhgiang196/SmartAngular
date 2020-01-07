@@ -11,9 +11,25 @@ const CheckerUrl = "/api/Gate/Checker";
 })
 export class ApiEMCSService {
   // CustomResult: {Header?: Requisition[], Detail?:Profile[], Equipment: Equipments, Manual: Manual, Method: Method};
-  isCheck:boolean;
+  isCheck: boolean;
   constructor(private http: HttpClient,
-              private fileService: FileService) { }
+    private fileService: FileService) { }
+
+  /**
+   * BasicData = {
+   * Departments: [],
+   Equipments * Departments: []
+   * */
+  public BasicData = {
+    Departments: [],
+    Equipments: []
+  }
+
+  ngOnInit(): void {
+
+
+
+  }
   /**
    * Api for Equipment
    */
@@ -26,30 +42,25 @@ export class ApiEMCSService {
   deleteEquipment(entity) {
     return this.http.put(`${ApiUrl}/EQ/DeleteEquipment`, entity);
   }
-  getAllEquipment(AssetID: string, EQName: string, Department: string, ProcessDepartment: string, UserID: string) {
-    return this.http.get(`${ApiUrl}/EQ/GetEquipment?AssetID=${AssetID}&EQName=${EQName}&Department=${Department}&ProcessDepartment=${ProcessDepartment}&UserID=${UserID}`);
+  getAllEquipment(AssetID,AdjustType, EQName, Department, ProcessDepartment, UserID, Lang) {
+    return this.http.get(`${ApiUrl}/EQ/GetEquipment?AssetID=${AssetID}&AdjustType=${AdjustType}&EQName=${EQName}&Department=${Department}&ProcessDepartment=${ProcessDepartment}&UserID=${UserID}&Lang=${Lang}`);
   }
-  getBasic(table: string, lang: string) {
+  getBasic(table, lang: string) {
     return this.http.get<any>(`${ApiUrl}/EQ/GetBasic?table=${table}&lang=${lang}`);
   }
-  uploadFile(data){
-    return this.fileService.uploadFile(`engine-file/upload`,data);
+  uploadFile(data) {
+    return this.fileService.uploadFile(`engine-file/upload`, data);
   }
-  deleteFile(fileName){
-    return this.fileService.deleteFile(`engine-file`,fileName);
+  deleteFile(fileName) {
+    return this.fileService.deleteFile(`engine-file`, fileName);
   }
-  getFile(fileName){
-    return this.fileService.getFile(`engine-file`,fileName);
-  }
-  getDepartment()
-  {
-    return this.http.get(`${ApiUrl}/EQ/GetDepartment?Table=Department&Lang=VN`);
+  getFile(fileName) {
+    return this.fileService.getFile(`engine-file`, fileName);
   }
   getDetailEquipment(EQID: string) {
     return this.http.get<any>(`${ApiUrl}/EQ/GetDetailEquipment?EQID=${EQID}`);
   }
-
-  checkAssetID(AssetID:string){
+  checkAssetID(AssetID: string) {
     return this.http.get<any>(`${ApiUrl}/EQ/CheckUnique?Table=Equipment&ColumnName=AssetID&Value=${AssetID}`);
   }
   /**
@@ -80,25 +91,28 @@ export class ApiEMCSService {
     return this.http.get<any>(`${ApiUrl}/Voucher/FindVoucher?VoucherID=${voucherid}`)
 
   }
+
+  findVoucherReport(voucherid: string) {
+    return this.http.get<any>(`${ApiUrl}/Voucher/FindVoucherReport?VoucherID=${voucherid}`)
+
+  }
   addVoucher(entity) {
     return this.http.post(`${ApiUrl}/Voucher/AddVoucher`, entity);
   }
   updateVoucher(entity) {
-    return this.http.post(`${ApiUrl}/Voucher/UpdateVoucher`,entity);
+    return this.http.post(`${ApiUrl}/Voucher/UpdateVoucher`, entity);
   }
   deleteVoucher(voucherid) {
     return this.http.delete(`${ApiUrl}/Voucher/DeleteVoucher?voucherid=${voucherid}`);
   }
 
-  public GetChecker = (owner: string, FLowKey:string, Kinds: string, CheckDate:Date) =>
-  {
+  public GetChecker = (owner, FLowKey: string, Kinds, CheckDate: Date) => {
     return this.http.get<any>(`${CheckerUrl}/GetCheckersByLevel?owner=${owner}&FLowKey=${FLowKey}&Kinds=${Kinds}&CheckDate=${CheckDate}`);
   }
 
-  updateVoucherState(voucherid :string ,state: string) {
-    var parram = { VoucherID: voucherid, State: state};
+  updateVoucherState(voucherid: string, state: string) {
+    var parram = { VoucherID: voucherid, State: state };
     return this.http.get<OperationResult>(`${ApiUrl}/Voucher/UpdateVoucherState?VoucherID=${voucherid}&State=${state}`);
-
   }
 
 

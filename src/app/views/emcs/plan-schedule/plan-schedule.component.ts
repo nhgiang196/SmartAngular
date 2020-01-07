@@ -5,8 +5,9 @@ import { PlanTimeJob } from 'src/app/models/EMCSModels';
 import { MyHelperService } from 'src/app/services/my-helper.service';
 import { TranslateService } from '@ngx-translate/core';
 import { AuthService } from 'src/app/services/auth.service';
+import { isNull } from 'util';
 
-const TCode: string ='EMCS-02' // TCode for Make Schedule
+const TCode: string = 'EMCS-02' // TCode for Make Schedule
 
 @Component({
   selector: 'app-plan-schedule',
@@ -19,7 +20,7 @@ export class PlanScheduleComponent implements OnInit {
     private api: ApiEMCSService,
     private toastr: ToastrService,
     public helperService: MyHelperService,
-    private authService: AuthService,
+    private auth: AuthService,
     private trans: TranslateService) {
   }
   /**************************************************INIT *************************************************/
@@ -33,35 +34,33 @@ export class PlanScheduleComponent implements OnInit {
   lang: string = this.trans.currentLang.toString()
 
   ngOnInit() {
-    this.authService.nagClass.emcsViewToogle = true; //nag-toogle
+
+    this.auth.nagClass.emcsViewToogle = true; //nag-toogle
     this.list = { Departments: [], Years: ['2018', '2019', '2020'] }; //lists return after Get Data
-    this.choosenEntity = { UserID: this.authService.currentUser.Username, StartTime: new Date(), }; // choosed params on edit modal page
-    this.searchParams = { Department: '', Type: '', Year: new Date().getFullYear() }; // search param
+    this.choosenEntity = { UserID: this.auth.currentUser.Username, StartTime: new Date(), }; // choosed params on edit modal page
+    this.searchParams = { Department: this.auth.currentUser.Department, Type: '', Year: new Date().getFullYear() }; // search param
     /** command */
-    this.fnSearch();
     this.getBasic();
 
   }
-
   private getBasic() {
     this.api.getBasic("Department", this.lang).subscribe((res) => {
       if (res.length > 0) {
         this.list.Departments = res;
-        console.log(res);
+        console.log("Get department list:", res);
       }
       else this.toastr.error("Failed load Department", "Error");
     })
     this.api.getBasic("WorkingYear", '').subscribe(res => {
       if (res.length > 0) {
         this.list.Years = res;
-        console.log(res);
+        console.log("Get working year: ", res);
       }
     })
     if (this.list.Departments == null)
       this.loading = false;
+    else this.fnSearch();
   }
-
-
   /**************************************************Fuctions *************************************************/
   fnSearch() {
     this.loading = true;
@@ -73,7 +72,6 @@ export class PlanScheduleComponent implements OnInit {
     ).subscribe((res) => {
       this.list.searchYear = this.searchParams.Year;
       this.list.Data = res;
-      console.log(this.list.Data);
       this.plansHeader = [];
       for (var key in this.list.Data[0]) {
         if (['$', 'EQID'].indexOf(key) < 0) {
@@ -95,7 +93,7 @@ export class PlanScheduleComponent implements OnInit {
   }
 
   fnToogleCheck(h, index, item) {
-    if (this.actionstatus != 'M' && h.indexOf('_')>-1)
+    if (this.actionstatus != 'M' && h.indexOf('_') > -1)
       alert(this.trans.instant('PSComponent.alert_noclick'))
     else {
       this._UpdateTable(h, index)
@@ -104,18 +102,13 @@ export class PlanScheduleComponent implements OnInit {
       }
       this.undoList.push(param);
       this.api.checkItem(param.eqid, param.month.replace('_', ''), param.year).subscribe(res => { });
-      console.log(this.undoList);
     }
-  }
-  fnClear() {
-
   }
   fnUndo() {
     var param = this.undoList[this.undoList.length - 1];
     this._UpdateTable(param.month, param.index)
     this.undoList.pop();
     this.api.checkItem(param.eqid, param.month.replace('_', ''), param.year).subscribe(res => { });
-    console.log(this.undoList);
   }
 
 
@@ -128,7 +121,6 @@ export class PlanScheduleComponent implements OnInit {
   fnSubmit() {
     var time = new Date(this.choosenEntity.StartTime);
     this.choosenEntity.StartTime = time.getHours().toString() + ':' + time.getMinutes().toString();
-    console.log(this.choosenEntity.StartTime);
     this.api.updateSchedulePlan(this.choosenEntity).subscribe(res => {
       var operationResult: any = res
       if (operationResult.Success) {
