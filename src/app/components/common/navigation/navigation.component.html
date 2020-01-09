@@ -19,7 +19,7 @@
           </ul>
         </div>
         <div class="logo-element">
-          FEPV
+          bcm
         </div>
       </li>
       <li [ngClass]="{'active': authService.nagClass.mainViewToggle}"  >
@@ -27,7 +27,6 @@
             class="fa fa-th-large"></i><span class="nav-label">{{ 'CommandTree.Dashboard' | translate }}</span><span class="fa arrow"></span></a>
         <ul class="nav nav-second-level collapse" [ngClass]="{in: authService.nagClass.mainViewToggle}">
           <li ><a [routerLink]="['/']" >Dashboard v1</a></li>
-          <li ><a [routerLink]="['/']">Dashboard v2</a></li>
         </ul>
       </li>
       <!-- EMCS MODULES -->
@@ -36,14 +35,12 @@
             class="nav-label">{{ 'CommandTree.LabEquipment' | translate }}</span><span class="fa arrow"></span></a>
         <ul  class="nav nav-second-level collapse" [ngClass]="{in: authService.nagClass.emcsViewToogle}">
           <li ><a [routerLink]="['/EQManageView']">{{ 'CommandTree.EQMana' | translate }}</a></li>
-          <li ><a [routerLink]="['/NonAdjustEQView']">{{ 'CommandTree.StandardEquipment' | translate }}</a></li>
           <li ><a [routerLink]="['/planScheduleView']">{{ 'CommandTree.Planning' | translate }}</a></li>
           <li ><a [routerLink]="['/voucherRequisitionView']">{{ 'CommandTree.Voucher' | translate }}</a></li>
         </ul>
       </li>
       <li class="landing_link">
-        <a target="_blank" [routerLink]="['/landingView']"><i class="fa fa-star"></i> <span class="nav-label">Landing
-            Page</span> <span class="label label-warning pull-right">NEW</span></a>
+        <a href="http://webapplayers.com/inspinia_admin-v2.9.3/dashboard_4_1.html" target="_blank" ><i class="fa fa-star"></i> <span class="nav-label">Mẫu template</span> <span class="label label-warning pull-right">NEW</span></a>
       </li>
     </ul>
   </div>

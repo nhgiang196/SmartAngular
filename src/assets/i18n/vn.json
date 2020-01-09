@@ -1,4 +1,6 @@
 {
+  "Title":"Phần mềm quản trị",
+  "About":"TRUNG TÂM CHUYỂN ĐỔI SỐ BECAMEX IDC",
   "Button": {
     "Save": "Lưu",
     "Close": "Đóng",
@@ -10,7 +12,8 @@
     "Upload": "Upload",
     "Action": "Tác Vụ",
     "Submit": "Submit",
-    "Undo": "Hoàn tác"
+    "Undo": "Hoàn tác",
+    "Login": "Đăng nhập"
   },
   "CommandTree": {
     "Dashboard": "Trang đầu",
