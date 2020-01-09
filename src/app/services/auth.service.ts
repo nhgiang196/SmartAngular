@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { User } from '../models/user';
 import { Router } from '@angular/router';
 
+const ApiUrl ='api/v1/identity'
 @Injectable({
   providedIn: 'root'
 })
@@ -12,6 +13,7 @@ export class AuthService {
   public labID = '513901200';
   redirectUrl: string;
   constructor(private http: HttpClient, private router: Router) {
+
     if (this.isLoggedIn()) {
       this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
     } else {
@@ -34,6 +36,14 @@ export class AuthService {
 
 
   }
+
+  httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json'
+    })
+  }
+
+
   isLoggedIn() {
     return localStorage.getItem('currentUser') != null;
   }
@@ -44,13 +54,19 @@ export class AuthService {
     localStorage.removeItem('currentUser');
     this.router.navigateByUrl('login');
   }
+
+  
+
+
   login() {
-    // return this.http.get('api/HSSE/ValidateUser', {
-    //   params: {
-    //     username: this.currentUser.Username,
-    //     password: this.currentUser.Password
-    //   }
-    // });
+    
+    let params =
+    {
+      Username: this.currentUser.Username,
+      Password: this.currentUser.Password
+    };
+    debugger;
+    return this.http.post(`http://localhost:6789/api/v1/identity/ldapLogin`, params);
   }
   checkTcode(Tcode) {
     // return this.http.get<boolean>(`api/HSSE/CheckTCode`, {

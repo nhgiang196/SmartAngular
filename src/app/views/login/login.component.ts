@@ -3,7 +3,7 @@ import { NgForm } from '@angular/forms';
 import { ToastrService } from 'node_modules/ngx-toastr';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
-import { User } from 'src/app/models/user';
+import { User, Login } from 'src/app/models/user';
 import { EngineService } from 'src/app/services/engine.service';
 @Component({
   selector: 'app-login',
@@ -25,31 +25,18 @@ export class LoginComponent implements OnInit {
       form.resetForm();
   }
   loginUser() {
-     var objectUser = {
-      Username: 'WHATEVER_USER',
-      Password: 'WHATEVER_USER',
-      Token: 'WHATEVER_USER',
-      Email: 'WHATEVER_USER',
-      Specification: 'WHATEVER_USER',
-      Department : 'WHATEVER_USER',
-      Position : 'WHATEVER_USER',
-      Nickname : 'WHATEVER_USER'
-    };
-    localStorage.setItem('currentUser',JSON.stringify(objectUser)  );
-    this.authService.currentUser = JSON.parse(localStorage.getItem('currentUser'));
-    this.router.navigateByUrl('mainView');
-
-
-    // this.authService.login().subscribe((res: any) => {
-    //   let current:User = res as User
-    //   if (res.Username != null) {
-    //     localStorage.setItem('currentUser', JSON.stringify(current));
-    //     this.authService.currentUser = JSON.parse(localStorage.getItem('currentUser'));
-    //     this.router.navigateByUrl('mainView');
-    //   }
-    //   else {
-    //     this.toastr.warning('Incorrect password or username', 'Login failed!');
-    //   }
-    // });
+    this.authService.login().subscribe(res=> {
+      debugger;
+      if (res["token"] != null) {
+        localStorage.setItem('currentUser', JSON.stringify(this.authService.currentUser));
+        localStorage.setItem('userToken', JSON.stringify(res["token"]));
+        this.authService.currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        this.router.navigateByUrl('mainView');
+      }
+      else {
+        this.toastr.warning('Incorrect password or username', 'Login failed!');
+        console.log(res["errors"]);
+      }
+    });
   }
 }
