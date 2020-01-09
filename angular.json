@@ -23,9 +23,8 @@
               "src/assets"
             ],
             "styles": [
-              "./node_modules/bootstrap/dist/css/bootstrap.min.css",
               "node_modules/bootstrap/dist/css/bootstrap.css",
-              "node_modules/bootstrap/dist/css/awesome-bootstrap-checkbox.css",
+              "node_modules/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css",
               "node_modules/font-awesome/css/font-awesome.css",
               "node_modules/ngx-toastr/toastr.css",
               "node_modules/datatables.net-bs/css/dataTables.bootstrap.css",
@@ -41,7 +40,7 @@
               "node_modules/metismenu/dist/metisMenu.js",
               "node_modules/bootstrap/dist/js/bootstrap.js",
               "node_modules/jquery-slimscroll/jquery.slimscroll.js",
-              "node_modules/pace/pace.min.js",
+              "node_modules/pace/pace.js",
               "node_modules/wowjs/dist/wow.js",
               "node_modules/jasny-bootstrap/dist/js/jasny-bootstrap.js",
               "node_modules/datatables.net/js/jquery.dataTables.min.js",
