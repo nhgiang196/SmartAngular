@@ -26,6 +26,7 @@
     "@types/charm": "^1.0.1",
     "angular-datatables": "^7.0.0",
     "angular-user-idle": "^2.1.2",
+    "awesome-bootstrap-checkbox": "^1.0.1",
     "bootstrap": "^3.3.7",
     "bpmn-js": "^3.4.1",
     "charm": "^1.0.2",
