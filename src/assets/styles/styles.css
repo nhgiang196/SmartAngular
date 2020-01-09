@@ -5700,10 +5700,11 @@ body.mini-navbar.fixed-sidebar .logo-element {
 
 .logo-name {
   color: #e6e6e6;
-  font-size: 180px;
+  font-size: 130px;
   font-weight: 800;
   letter-spacing: -10px;
   margin-bottom: 0;
+  text-align: center;
 }
 
 .middle-box h1 {

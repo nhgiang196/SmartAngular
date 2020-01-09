@@ -27,6 +27,12 @@ import { StandardEquipmentComponent } from './views/emcs/standard-equipment/stan
 import { VoucherReportComponent } from './views/emcs/voucher-report/voucher-report.component';
 import { PlanScheduleReportComponent } from './views/emcs/plan-schedule-report/plan-schedule-report.component';
 
+
+/**XLNT */
+import { RegisterComponent} from './views/login/register/register.component';
+
+
+
 export const ROUTES: Routes = [
   // Main redirect
   { path: '', redirectTo: 'mainView', pathMatch: 'full' },

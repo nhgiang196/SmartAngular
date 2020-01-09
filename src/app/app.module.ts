@@ -22,12 +22,14 @@ import { UserIdleModule } from 'angular-user-idle';
 import { MainViewModule } from './views/main-view/main-view.module';
 import { SharedModule } from './shared/shared.module';
 import { TimepickerModule } from 'ngx-bootstrap/timepicker';
+import { RegisterComponent } from './views/login/register/register.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent
+    LoginComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,

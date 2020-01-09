@@ -65,7 +65,6 @@ export class AuthService {
       Username: this.currentUser.Username,
       Password: this.currentUser.Password
     };
-    debugger;
     return this.http.post(`http://localhost:6789/api/v1/identity/ldapLogin`, params);
   }
   checkTcode(Tcode) {
