@@ -54,6 +54,7 @@ h5 {
   padding: 14px 20px 14px 25px;
 }
 
+
 .nav.navbar-right>li>a {
   color: #999c9e;
 }
@@ -68,11 +69,7 @@ h5 {
   color: white;
 }
 
-.nav .open>a,
-.nav .open>a:hover,
-.nav .open>a:focus {
-  background: #337ab7;
-}
+
 
 .nav.navbar-top-links>li>a:hover,
 .nav.navbar-top-links>li>a:focus {
@@ -631,6 +628,7 @@ body.canvas-menu.mini-navbar nav.navbar-static-side {
 .top-navigation #page-wrapper {
   margin-left: 0;
 }
+
 
 .top-navigation .navbar-nav .dropdown-menu>.active>a {
   background: white;
