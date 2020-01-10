@@ -2,17 +2,19 @@ import { Component, OnInit } from '@angular/core';
 import { smoothlyMenu } from '../../../../app.helpers';
 declare let $: any;
 @Component({
-  selector: 'basic',
-  templateUrl: './basic.component.html',
-  styleUrls: ['./basic.component.css']
+  selector: 'app-home-menu',
+  templateUrl: './home-menu.component.html',
+  styleUrls: ['./home-menu.component.css']
 })
-export class BasicComponent implements OnInit {
+export class HomeMenuComponent implements OnInit {
 
   constructor() { }
 
   ngOnInit() {
+    
     // MetisMenu
     $('#side-menu').metisMenu();
+    
     // Collapse ibox function
     $('.collapse-link').on('click', function () {
       var ibox = $(this).closest('div.ibox');
@@ -161,8 +163,8 @@ export class BasicComponent implements OnInit {
       .popover(); 
   }
 
-  ngAfterViewInit(){
-    $('.navbar-header').show();
+  ngOnDestroy() {
+    $('body').removeClass('top-navigation');
   }
 
 }

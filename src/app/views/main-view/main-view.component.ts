@@ -10,6 +10,14 @@ export class MainViewComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    $('body').addClass('top-navigation');
+    $('#lefNav').hide();
+    $('.navbar-header').hide();
+  }
+
+  ngOnDestroy(){
+    $('body').removeClass('top-navigation');
+    $('.navbar-header').show();
   }
 
 }

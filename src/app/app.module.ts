@@ -15,21 +15,20 @@ import { LoginComponent } from './views/login/login.component';
 import { FormsModule } from '@angular/forms';
 import { AuthGuard } from './services/auth.guard';
 import { AuthService } from './services/auth.service';
-import { EngineService } from './services/engine.service';
+//import { EngineService } from './services/engine.service';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { EMCSModule } from './views/emcs/emcs.module';
 import { UserIdleModule } from 'angular-user-idle';
 import { MainViewModule } from './views/main-view/main-view.module';
 import { SharedModule } from './shared/shared.module';
 import { TimepickerModule } from 'ngx-bootstrap/timepicker';
-import { RegisterComponent } from './views/login/register/register.component';
+
 
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    RegisterComponent
   ],
   imports: [
     BrowserModule,
@@ -70,7 +69,7 @@ import { RegisterComponent } from './views/login/register/register.component';
   exports: [
     CommonModule
   ],
-  providers: [{ provide: LocationStrategy, useClass: HashLocationStrategy }, AuthGuard, AuthService, EngineService],
+  providers: [{ provide: LocationStrategy, useClass: HashLocationStrategy }, AuthGuard, AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

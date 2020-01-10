@@ -23,7 +23,9 @@
     "Planning": "Planning Schedule",
     "Voucher": "Voucher Requistion"
   },
-  "Header": {
+  "TopNav": {
+    "Home": "HOME",
+    "Welcome": "Welcome to Water Treatment System",
     "Logout": "Logout",
     "Dashboard": "Dashboard",
     "ShowAllTask": "Show ALl My Task"

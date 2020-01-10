@@ -69,6 +69,11 @@ h5 {
   color: white;
 }
 
+.nav .open>a,
+.nav .open>a:hover,
+.nav .open>a:focus {
+  background: #ffffff;
+}
 
 
 .nav.navbar-top-links>li>a:hover,

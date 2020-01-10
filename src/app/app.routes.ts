@@ -2,6 +2,7 @@ import { Routes } from "@angular/router";
 
 import { BasicComponent } from './components/common/layouts/basic/basic.component';
 import { BlankComponent } from './components/common/layouts/blank/blank.component';
+import { HomeMenuComponent } from './components/common/layouts/home-menu/home-menu.component';
 
 import { LoginComponent } from './views/login/login.component';
 import { AuthGuard } from './services/auth.guard';
@@ -29,16 +30,16 @@ import { PlanScheduleReportComponent } from './views/emcs/plan-schedule-report/p
 
 
 /**XLNT */
-import { RegisterComponent} from './views/login/register/register.component';
+
 
 
 
 export const ROUTES: Routes = [
   // Main redirect
-  { path: '', redirectTo: 'mainView', pathMatch: 'full' },
+  { path: '', redirectTo: 'login', pathMatch: 'full' },
 
   // App views
-  {
+  { //BasicComponent
     path: '', component: BasicComponent,
     children: [
       { path: 'mainView', component: MainViewComponent, canActivate: [AuthGuard] },
@@ -48,15 +49,13 @@ export const ROUTES: Routes = [
       { path: 'showDiagram/:id', component: DiagramComponent },//Show Diagram
       { path: 'taskFormView/:formKey/:id/:businessKey', component: TaskFormComponent },//Open detail form Approve by Key
       { path: 'timelineLog/:businessKey', component: TimelineLogComponent },//Open detail form TimeLine Log by Key
-
-
       /**
        * EMCS ComponentRoutes
        */
       { path: 'EQManageView', component: EquipmentManageComponent, canActivate: [AuthGuard] },
       { path: 'planScheduleView', component: PlanScheduleComponent, canActivate: [AuthGuard] },
       { path: 'voucherRequisitionView', component: VoucherRequisitionComponent, canActivate: [AuthGuard] },
-        { path: 'equipmentReportView/:DeptID', component: EquipmentReportComponent, canActivate: [AuthGuard] },
+      { path: 'equipmentReportView/:DeptID', component: EquipmentReportComponent, canActivate: [AuthGuard] },
       { path: 'EquipmentView/:EQID', component: EquipmentDetailComponent },//Open detail form Approve by Key
       { path: 'VoucherView/:businessKey', component: VoucherDetailComponent },//Open detail form Approve by Key
       { path: 'NonAdjustEQView', component: StandardEquipmentComponent },//Open detail form Approve by Key
@@ -64,16 +63,22 @@ export const ROUTES: Routes = [
 
     ]
   },
-  {
+  { //HomeMenuComponent
+    path: '', component: HomeMenuComponent,
+    children: [
+      
+    ]
+  },
+  { //BlankComponent
     path: '', component: BlankComponent,
     children: [
       // { path: 'landingView', component: LandingViewComponent },
       { path: 'login', component: LoginComponent },
-
       { path: 'voucherReportView/:VoucherId', component: VoucherReportComponent, canActivate: [AuthGuard] },
       { path: '**', component: NotFoundComponent }
     ]
   },
+  
   // Handle all other routes
 
 ];

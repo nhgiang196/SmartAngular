@@ -23,8 +23,11 @@
     "Planning": "Kế Hoạch Hiệu Chuẩn",
     "Voucher": "Đơn Hiệu Chuẩn"
   },
-  "Header": {
+  "TopNav": {
+    "Home": "TRANG CHỦ",
+    "Welcome": "Chào mừng đến với hệ thống quản lý",
     "Logout": "Đăng Xuất",
+    "Dashboard": "Dashboard",
     "ShowAllTask": "Hiển Thị Tất Cả Công Việc Của Tôi"
   },
   "Upload": {

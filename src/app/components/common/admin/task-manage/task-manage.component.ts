@@ -10,10 +10,10 @@ export class TaskManageComponent implements OnInit {
 
   constructor(public engineApi:EngineService) { }
   ngOnInit() {
-   this.engineApi.allTaskInProcess();
+  //  this.engineApi.allTaskInProcess();
   }
   taskItemByProcess(){
-    this.engineApi.loadAllTask(false);// if false load all user tasks
+    // this.engineApi.loadAllTask(false);// if false load all user tasks
   }
 
 }
