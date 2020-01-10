@@ -42,7 +42,6 @@
               "src/assets/js/jquery.metisMenu.js",
               "node_modules/jquery-slimscroll/jquery.slimscroll.js",
               "node_modules/wowjs/dist/wow.js",
-              "src/assets/js/inspinia.js",
               "src/assets/js/pace.min.js",
               "node_modules/jasny-bootstrap/dist/js/jasny-bootstrap.js",
               "node_modules/datatables.net/js/jquery.dataTables.min.js",
