@@ -22,18 +22,18 @@
           bcm
         </div>
       </li>
-      <li [ngClass]="{'active': authService.nagClass.mainViewToggle}"  >
-        <a (click)="authService.nagClass.mainViewToggle=!authService.nagClass.mainViewToggle" data-toggle="dropdown" class="dropdown-toggle"><i
+      <li  >
+        <a  data-toggle="dropdown" class="dropdown-toggle"><i
             class="fa fa-th-large"></i><span class="nav-label">{{ 'CommandTree.Dashboard' | translate }}</span><span class="fa arrow"></span></a>
-        <ul class="nav nav-second-level collapse" [ngClass]="{in: authService.nagClass.mainViewToggle}">
+        <ul class="nav nav-second-level collapse">
           <li ><a [routerLink]="['/']" >Dashboard v1</a></li>
         </ul>
       </li>
       <!-- EMCS MODULES -->
-      <li [ngClass]="{'active': authService.nagClass.emcsViewToogle}"   >
-        <a (click)="authService.nagClass.emcsViewToogle=!authService.nagClass.emcsViewToogle"    data-toggle="dropdown" class="dropdown-toggle" ><i class="fa fa-flask"></i><span
+      <li >
+        <a    data-toggle="dropdown" class="dropdown-toggle" ><i class="fa fa-flask"></i><span
             class="nav-label">{{ 'CommandTree.LabEquipment' | translate }}</span><span class="fa arrow"></span></a>
-        <ul  class="nav nav-second-level collapse" [ngClass]="{in: authService.nagClass.emcsViewToogle}">
+        <ul  class="nav nav-second-level collapse" >
           <li ><a [routerLink]="['/EQManageView']">{{ 'CommandTree.EQMana' | translate }}</a></li>
           <li ><a [routerLink]="['/planScheduleView']">{{ 'CommandTree.Planning' | translate }}</a></li>
           <li ><a [routerLink]="['/voucherRequisitionView']">{{ 'CommandTree.Voucher' | translate }}</a></li>

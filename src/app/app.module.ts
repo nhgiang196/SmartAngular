@@ -47,6 +47,8 @@ import { RegisterComponent } from './views/login/register/register.component';
     LayoutsModule,
     EMCSModule,
 
+    
+    BrowserAnimationsModule,
     SweetAlert2Module.forRoot(
       {
         buttonsStyling: false,
@@ -55,7 +57,6 @@ import { RegisterComponent } from './views/login/register/register.component';
         cancelButtonClass: 'btn'
       }
     ),
-    BrowserAnimationsModule,
     ToastrModule.forRoot({
       timeOut: 3000,
       positionClass: 'toast-top-right',
