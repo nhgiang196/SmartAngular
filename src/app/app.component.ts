@@ -8,7 +8,7 @@ import { TranslateService } from '@ngx-translate/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  title = 'FEPV';
+  title = 'BCM';
   constructor(private userIdle: UserIdleService,
     private auth: AuthService,
     public translate: TranslateService) {
