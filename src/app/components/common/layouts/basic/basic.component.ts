@@ -161,8 +161,4 @@ export class BasicComponent implements OnInit {
       .popover(); 
   }
 
-  ngAfterViewInit(){
-    $('.navbar-header').show();
-  }
-
 }

@@ -6,10 +6,10 @@ import { FooterModule } from '../footer/footer.module';
 import { RouterModule } from '@angular/router';
 import { BasicComponent } from './basic/basic.component';
 import { BlankComponent } from './blank/blank.component';
-import { HomeMenuComponent } from './home-menu/home-menu.component';
+
 
 @NgModule({
-  declarations: [BasicComponent,BlankComponent, HomeMenuComponent],
+  declarations: [BasicComponent,BlankComponent],
   imports: [
     CommonModule,
     NavigationModule,
@@ -17,6 +17,6 @@ import { HomeMenuComponent } from './home-menu/home-menu.component';
     FooterModule,
     RouterModule
   ],
-  exports     : [BasicComponent,BlankComponent, HomeMenuComponent]
+  exports     : [BasicComponent,BlankComponent]
 })
 export class LayoutsModule { }

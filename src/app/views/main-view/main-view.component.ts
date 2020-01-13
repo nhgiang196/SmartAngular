@@ -11,13 +11,19 @@ export class MainViewComponent implements OnInit {
 
   ngOnInit() {
     $('body').addClass('top-navigation');
+    
+  }
+  ngAfterViewInit(){
     $('#lefNav').hide();
-    $('.navbar-header').hide();
+    $('#homeMenuButton').hide();
+
   }
 
   ngOnDestroy(){
     $('body').removeClass('top-navigation');
-    $('.navbar-header').show();
+    $('#lefNav').show();
+    $('#homeMenuButton').show();
+    
   }
 
 }

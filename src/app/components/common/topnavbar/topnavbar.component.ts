@@ -37,8 +37,8 @@ export class TopnavbarComponent implements OnInit {
 
   langChanged(value) {
     localStorage.setItem('locallanguage', value);
-    window.location.reload();
-    // this.translate.use(value);
+    // window.location.reload();
+    this.translate.use(value);
     
   }
   logOut() {

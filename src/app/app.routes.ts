@@ -2,7 +2,7 @@ import { Routes } from "@angular/router";
 
 import { BasicComponent } from './components/common/layouts/basic/basic.component';
 import { BlankComponent } from './components/common/layouts/blank/blank.component';
-import { HomeMenuComponent } from './components/common/layouts/home-menu/home-menu.component';
+
 
 import { LoginComponent } from './views/login/login.component';
 import { AuthGuard } from './services/auth.guard';
@@ -32,11 +32,9 @@ import { PlanScheduleReportComponent } from './views/emcs/plan-schedule-report/p
 /**XLNT */
 
 
-
-
 export const ROUTES: Routes = [
   // Main redirect
-  { path: '', redirectTo: 'login', pathMatch: 'full' },
+  { path: '', redirectTo: 'mainView', pathMatch: 'full' },
 
   // App views
   { //BasicComponent
@@ -61,12 +59,6 @@ export const ROUTES: Routes = [
       { path: 'NonAdjustEQView', component: StandardEquipmentComponent },//Open detail form Approve by Key
       { path: 'planScheduleReportView/:DeptID/:Year', component: PlanScheduleReportComponent, canActivate: [AuthGuard] },
 
-    ]
-  },
-  { //HomeMenuComponent
-    path: '', component: HomeMenuComponent,
-    children: [
-      
     ]
   },
   { //BlankComponent
