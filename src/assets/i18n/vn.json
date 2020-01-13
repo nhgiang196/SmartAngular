@@ -1,6 +1,26 @@
 {
   "Title":"Phần mềm quản trị",
   "About":"TRUNG TÂM CHUYỂN ĐỔI SỐ BECAMEX IDC",
+  "Users":{
+    "Username": "Tên tài khoản",
+    "Password": "Mật khẩu",
+    "Email": "Email",
+    "Department" : "Bộ phận",
+    "Position" : "Vị trí",
+    "Phone": "Số điện thoại"
+  },
+  "Register":{
+    
+    "PleaseInput": "Nhập các thông tin cần thiết để tạo tài khoản",
+    "Register": "Đăng ký",
+    "AskLogin": "Có tài khoản? Đăng nhập ở đây",
+    "AskConfirmPassword": "Nhập mật khẩu lần nữa",
+    "Validate": "Kiểm tra lại nội dung",
+    "Valid_PasswordLength": "Mật khẩu không đủ 6 ký tự",
+    "Valid_ConfirmPasswork": "Mật khẩu không giống nhau",
+    "ErrorSubmit": "Lỗi khi tạo tài khoản",
+    "SuccessSubmit": "Tạo tài khoản thành công"
+  },
   "Button": {
     "Save": "Lưu",
     "Close": "Đóng",
@@ -120,6 +140,7 @@
     "Creator": "Người Tạo",
     "CreateTime": "Ngày Tạo"
   },
+
   "VoucherID": "Mã đơn",
   "UserID": "Người dùng",
   "Remark": "Ghi chú",

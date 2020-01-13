@@ -2,7 +2,7 @@ export class User
 {
     Username: string;
     Password: string;
-    Token: string;
+    Token?: string;
     Email?: string;
     Specification?: string;
     Department? : string;
@@ -19,4 +19,12 @@ export class Login
     RememberMe?: boolean;
 }
 
+
+export class RegisterAccount
+{
+     Username?    :string ;   
+     Password?       :string;
+     ConfirmPassword?:string;
+     Email?          :string;
+}
 

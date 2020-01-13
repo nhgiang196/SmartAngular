@@ -67,12 +67,11 @@ export class AuthService {
     };
     return this.http.post(`${url}/ldapLogin`, params);
   }
-  checkTcode(Tcode) {
-    // return this.http.get<boolean>(`api/HSSE/CheckTCode`, {
-    //   params: {
-    //     username: this.currentUser.Username,
-    //     tcode: Tcode
-    //   }
-    // })
+  register(entity: any )
+  {
+    return this.http.post(`${url}/register`, entity);
   }
+
+
+
 }

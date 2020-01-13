@@ -9,6 +9,8 @@ import { NgwWowModule } from 'ngx-wow';
 import { AppComponent } from './app.component';
 import { ROUTES } from './app.routes';
 import { ToastrModule } from 'node_modules/ngx-toastr';
+import { LaddaModule } from 'node_modules/angular2-ladda';
+
 import { LayoutsModule } from './components/common/layouts/layouts.module';
 import { AdminModule } from './components/common/admin/admin.module';
 import { LoginComponent } from './views/login/login.component';
@@ -22,6 +24,8 @@ import { UserIdleModule } from 'angular-user-idle';
 import { MainViewModule } from './views/main-view/main-view.module';
 import { SharedModule } from './shared/shared.module';
 import { TimepickerModule } from 'ngx-bootstrap/timepicker';
+import { LoginRegisterComponent } from './views/login-register/login-register.component';
+
 
 
 
@@ -29,6 +33,7 @@ import { TimepickerModule } from 'ngx-bootstrap/timepicker';
   declarations: [
     AppComponent,
     LoginComponent,
+    LoginRegisterComponent,
   ],
   imports: [
     BrowserModule,
@@ -45,9 +50,10 @@ import { TimepickerModule } from 'ngx-bootstrap/timepicker';
     //Views
     LayoutsModule,
     EMCSModule,
-
-    
     BrowserAnimationsModule,
+
+     LaddaModule.forRoot({
+        }),
     SweetAlert2Module.forRoot(
       {
         buttonsStyling: false,
@@ -63,8 +69,11 @@ import { TimepickerModule } from 'ngx-bootstrap/timepicker';
       progressBar: true,
       closeButton: true
     }),
-    RouterModule.forRoot(ROUTES),
-    TimepickerModule.forRoot()
+    TimepickerModule.forRoot(),
+
+
+    RouterModule.forRoot(ROUTES)
+    
   ],
   exports: [
     CommonModule

@@ -1,6 +1,25 @@
 {
   "Title":"Phần mềm quản trị",
   "About":"TRUNG TÂM CHUYỂN ĐỔI SỐ BECAMEX IDC",
+  "Users":{
+    "Username": "Account name",
+    "Password": "Password",
+    "Email": "Email",
+    "Department" : "Department",
+    "Position" : "Position",
+    "Phone": "Phone"
+  },
+  "Register":{
+    "PleaseInput": "Input your information",
+    "Register": "Register",
+    "AskLogin": "Already have account? Sign in here",
+    "AskConfirmPassword": "Confirm password",
+    "Validate": "Validation check message",
+    "Valid_PasswordLength": "Password length should be more than six",
+    "Valid_ConfirmPasswork": "Wrong confirm password",
+    "ErrorSubmit": "Error on submitting",
+    "SuccessSubmit": "Created new account"
+  },
   "Button": {
     "Save": "Save",
     "Close": "Close",

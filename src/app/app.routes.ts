@@ -27,6 +27,10 @@ import { StandardEquipmentComponent } from './views/emcs/standard-equipment/stan
 
 import { VoucherReportComponent } from './views/emcs/voucher-report/voucher-report.component';
 import { PlanScheduleReportComponent } from './views/emcs/plan-schedule-report/plan-schedule-report.component';
+import { LoginRegisterComponent } from './views/login-register/login-register.component';
+
+
+
 
 
 /**XLNT */
@@ -59,6 +63,9 @@ export const ROUTES: Routes = [
       { path: 'NonAdjustEQView', component: StandardEquipmentComponent },//Open detail form Approve by Key
       { path: 'planScheduleReportView/:DeptID/:Year', component: PlanScheduleReportComponent, canActivate: [AuthGuard] },
 
+
+      { path: 'register', component: LoginRegisterComponent },
+
     ]
   },
   { //BlankComponent
@@ -66,6 +73,7 @@ export const ROUTES: Routes = [
     children: [
       // { path: 'landingView', component: LandingViewComponent },
       { path: 'login', component: LoginComponent },
+      
       { path: 'voucherReportView/:VoucherId', component: VoucherReportComponent, canActivate: [AuthGuard] },
       { path: '**', component: NotFoundComponent }
     ]

@@ -1,0 +1,36 @@
+
+
+
+
+<div>
+  <h1 class="logo-name">BECAMEX</h1>
+</div>
+<div class="middle-box text-center loginscreen animated fadeInDown">
+  <div>
+      <h3>HỆ THỐNG XỬ LÝ NƯỚC THẢI</h3> 
+      <p>{{'Register.PleaseInput' | translate}} </p>
+      <form class="m-t" role="form" #userForm="ngForm" >
+          <div class="form-group">
+              <input type="text" class="form-control" [(ngModel)]="regUser.Username" name="Username" placeholder="{{'Users.Username' | translate}}" required="">
+          </div>
+          <div class="form-group">
+              <input type="email" class="form-control" [(ngModel)]="regUser.Email" name="Email" placeholder="Mail" required="">
+          </div>
+          <div class="form-group">
+              <input type="password" class="form-control" [(ngModel)]="regUser.Password" name="Password" placeholder="{{'Users.Password' | translate}}" required="">
+          </div>
+          <div class="form-group">
+              <input type="password" class="form-control" [(ngModel)]="regUser.ConfirmPassword" name="Confirmpassword" placeholder="{{'Register.AskConfirmPassword' | translate}}" required="">
+          </div>
+          <!-- <div class="form-group">
+              <div class="checkbox i-checks"><label> <input type="checkbox"><i></i> Đọc điều khoản và xác thực
+                  </label></div>
+          </div> -->
+          <button [ladda]="laddaSubmitLoading" type="submit" class="btn btn-primary block full-width m-b" [disabled]="!userForm.form.valid" (click)="registerSubmit()">{{'Register.Register' | translate}}</button>
+
+          <p class="text-muted text-center"><small>{{'Register.AskLogin' | translate}} </small></p>
+          <a class="btn btn-sm btn-white btn-block" href="/#/login">{{'Button.Login' | translate}} </a>
+      </form>
+      <p class="m-t"> <small>{{'About' | translate}} </small> </p>
+  </div>
+</div>
