@@ -17,7 +17,8 @@
             <a aria-expanded="false" role="button" href="#" class="dropdown-toggle"
                 data-toggle="dropdown"> Test Here<span class="caret"></span></a>
             <ul role="menu" class="dropdown-menu">
-                <li><a href="/#/planScheduleView">Test Module</a></li>
+                <li><a href="/#/planScheduleView">Test MOdule</a></li>
+                <li><a href="/#/register">Register Page</a></li>
             </ul>
         </li>
 
@@ -28,7 +29,7 @@
 
     <ul class="nav navbar-top-links navbar-right">
       <li>
-        <span class="m-r-sm text-muted welcome-message">{{'TopNav.Welcome' | translate}} </span>
+        <span class="m-r-sm text-muted welcome-message">{{'TopNav.Welcome' | translate}}, {{authService.currentUser.Username}} </span>
       </li>
       <li>
 

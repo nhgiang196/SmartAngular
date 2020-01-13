@@ -13,7 +13,7 @@ declare var jQuery: any;
 })
 export class TopnavbarComponent implements OnInit {
 
-  constructor(private authService: AuthService
+  constructor(public authService: AuthService
    // , public engineApi: EngineService
     , public translate: TranslateService
     , private router: Router) {

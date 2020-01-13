@@ -25,12 +25,12 @@ export class LoginRegisterComponent implements OnInit {
    /****************************************** DECLARATION *******************************************/
    regUser: RegisterAccount;
    laddaSubmitLoading : boolean;
-   userForm : NgForm;
+   regForm : NgForm;
    /****************************************** DECLARATION *******************************************/
 
 
   ngOnInit() {
-    this.resetForm(this.userForm);
+    this.resetForm(this.regForm);
   }
   resetForm(form?: NgForm) {
     if (form != null) form.resetForm();
@@ -39,8 +39,7 @@ export class LoginRegisterComponent implements OnInit {
   }
 
   registerSubmit(){
-    if (this.validateForm())
-    console.log(this.regUser);
+    if (!this.validateForm()) return;
     this.authService.register(this.regUser).subscribe(res =>{
       debugger;
       console.log(res);
