@@ -27,6 +27,8 @@
               "node_modules/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css",
               "node_modules/font-awesome/css/font-awesome.css",
               "node_modules/ngx-toastr/toastr.css",
+              "node_modules/ladda/dist/ladda.min.css",
+              "node_modules/ladda/dist/ladda-themeless.min.css",
               "node_modules/datatables.net-bs/css/dataTables.bootstrap.css",
               "node_modules/datatables.net-buttons-dt/css/buttons.dataTables.css",
               "node_modules/jasny-bootstrap/dist/css/jasny-bootstrap.css",
@@ -34,6 +36,7 @@
               "node_modules/@ng-select/ng-select/themes/default.theme.css",
               "src/assets/styles/animate.css",
               "src/assets/styles/styles.css"
+
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.js",
