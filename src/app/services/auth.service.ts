@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { User } from '../models/user';
 import { Router } from '@angular/router';
 
-const ApiUrl ='api/v1/identity'
+const url ='api/v1/identity'
 @Injectable({
   providedIn: 'root'
 })
@@ -65,7 +65,7 @@ export class AuthService {
       Username: this.currentUser.Username,
       Password: this.currentUser.Password
     };
-    return this.http.post(`http://localhost:6789/api/v1/identity/ldapLogin`, params);
+    return this.http.post(`${url}/ldapLogin`, params);
   }
   checkTcode(Tcode) {
     // return this.http.get<boolean>(`api/HSSE/CheckTCode`, {
