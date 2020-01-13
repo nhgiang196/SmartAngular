@@ -5,10 +5,6 @@ import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { User,RegisterAccount} from 'src/app/models/user';
 import { TranslateService } from '@ngx-translate/core';
-import { WindowService } from 'ngx-wow';
-import { timeout } from 'rxjs/operators';
-import { setTimeout } from 'timers';
-
 
 @Component({
   selector: 'app-login-register',
