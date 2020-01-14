@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { smoothlyMenu } from '../../../../app.helpers';
+import { detectBody,smoothlyMenu } from '../../../../app.helpers';
 declare let $: any;
 @Component({
   selector: 'basic',
@@ -11,78 +11,10 @@ export class BasicComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    detectBody();
     // MetisMenu
     $('#side-menu').metisMenu();
-    // Collapse ibox function
-    $('.collapse-link').on('click', function () {
-      var ibox = $(this).closest('div.ibox');
-      var button = $(this).find('i');
-      var content = ibox.children('.ibox-content');
-      content.slideToggle(200);
-      button.toggleClass('fa-chevron-up').toggleClass('fa-chevron-down');
-      ibox.toggleClass('').toggleClass('border-bottom');
-      setTimeout(function () {
-        ibox.resize();
-        ibox.find('[id^=map-]').resize();
-      }, 50);
-    });
-
-    // Close ibox function
-    $('.close-link').on('click', function () {
-      var content = $(this).closest('div.ibox');
-      content.remove();
-    });
-    // Fullscreen ibox function
-    $('.fullscreen-link').on('click', function () {
-      var ibox = $(this).closest('div.ibox');
-      var button = $(this).find('i');
-      $('body').toggleClass('fullscreen-ibox-mode');
-      button.toggleClass('fa-expand').toggleClass('fa-compress');
-      ibox.toggleClass('fullscreen');
-      setTimeout(function () {
-        $(window).trigger('resize');
-      }, 100);
-    });
-
-    // Close menu in canvas mode
-    $('.close-canvas-menu').on('click', function () {
-      $("body").toggleClass("mini-navbar");
-      smoothlyMenu();
-    });
-
-
-    // Open close right sidebar
-    $('.right-sidebar-toggle').on('click', function () {
-      $('#right-sidebar').toggleClass('sidebar-open');
-    });
-
-    // Initialize slimscroll for right sidebar
-    $('.sidebar-container').slimScroll({
-      height: '100%',
-      railOpacity: 0.4,
-      wheelStep: 10
-    });
-
-    // Open close small chat
-    $('.open-small-chat').on('click', function () {
-      $(this).children().toggleClass('fa-comments').toggleClass('fa-remove');
-      $('.small-chat-box').toggleClass('active');
-    });
-
-    // Initialize slimscroll for small chat
-    $('.small-chat-box .content').slimScroll({
-      height: '234px',
-      railOpacity: 0.4
-    });
-
-    // Small todo handler
-    $('.check-link').on('click', function () {
-      var button = $(this).find('i');
-      var label = $(this).next('span');
-      button.toggleClass('fa-check-square').toggleClass('fa-square-o');
-      label.toggleClass('todo-completed');
-      return false;
-    });
+    
 
     // Append config box / Only for demo purpose
     // Uncomment on server mode to enable XHR calls
@@ -91,18 +23,6 @@ export class BasicComponent implements OnInit {
         $('body').append(data);
     });
 
-    // Minimalize menu
-    $('.navbar-minimalize').on('click', function () {
-      $("body").toggleClass("mini-navbar");
-     smoothlyMenu();
-
-    });
-
-    // Tooltips demo
-    $('.tooltip-demo').tooltip({
-      selector: "[data-toggle=tooltip]",
-      container: "body"
-    });
 
     // Full height of sidebar
     function fix_height() {
@@ -159,6 +79,98 @@ export class BasicComponent implements OnInit {
 
     $("[data-toggle=popover]")
       .popover(); 
+
+    
+
+    // Close menu in canvas mode
+    $('.close-canvas-menu').on('click', function () {
+      $("body").toggleClass("mini-navbar");
+      smoothlyMenu();
+    });
+
+
+    // Open close right sidebar
+    $('.right-sidebar-toggle').on('click', function () {
+      $('#right-sidebar').toggleClass('sidebar-open');
+    });
+
+    // Initialize slimscroll for right sidebar
+    $('.sidebar-container').slimScroll({
+      height: '100%',
+      railOpacity: 0.4,
+      wheelStep: 10
+    });
+
+    // Open close small chat
+    $('.open-small-chat').on('click', function () {
+      $(this).children().toggleClass('fa-comments').toggleClass('fa-remove');
+      $('.small-chat-box').toggleClass('active');
+    });
+
+    // Initialize slimscroll for small chat
+    $('.small-chat-box .content').slimScroll({
+      height: '234px',
+      railOpacity: 0.4
+    });
+
+    // Small todo handler
+    $('.check-link').on('click', function () {
+      var button = $(this).find('i');
+      var label = $(this).next('span');
+      button.toggleClass('fa-check-square').toggleClass('fa-square-o');
+      label.toggleClass('todo-completed');
+      return false;
+    });
+
+    
+    // Minimalize menu
+    $('.navbar-minimalize').on('click', function () {
+      $("body").toggleClass("mini-navbar");
+     smoothlyMenu();
+
+    });
+
+    // Tooltips demo
+    $('.tooltip-demo').tooltip({
+      selector: "[data-toggle=tooltip]",
+      container: "body"
+    });
+
+
+  }
+
+  ngAfterViewInit(){
+    // Collapse ibox function
+    $('.collapse-link').on('click', function () {
+      var ibox = $(this).closest('div.ibox');
+      var button = $(this).find('i');
+      var content = ibox.children('.ibox-content');
+      content.slideToggle(200);
+      button.toggleClass('fa-chevron-up').toggleClass('fa-chevron-down');
+      ibox.toggleClass('').toggleClass('border-bottom');
+      setTimeout(function () {
+        ibox.resize();
+        ibox.find('[id^=map-]').resize();
+      }, 50);
+    });
+
+    // Close ibox function
+    $('.close-link').on('click', function () {
+      var content = $(this).closest('div.ibox');
+      content.remove();
+    });
+    // Fullscreen ibox function
+    $('.fullscreen-link').on('click', function () {
+      var ibox = $(this).closest('div.ibox');
+      var button = $(this).find('i');
+      $('body').toggleClass('fullscreen-ibox-mode');
+      button.toggleClass('fa-expand').toggleClass('fa-compress');
+      ibox.toggleClass('fullscreen');
+      setTimeout(function () {
+        $(window).trigger('resize');
+      }, 100);
+    });
+    
   }
 
 }
