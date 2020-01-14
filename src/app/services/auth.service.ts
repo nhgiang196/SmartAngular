@@ -71,6 +71,10 @@ export class AuthService {
   {
     return this.http.post(`${url}/register`, entity);
   }
+  getRole()
+  {
+    return this.http.get<any>(`${url}/getRoles`);
+  }
 
 
 
