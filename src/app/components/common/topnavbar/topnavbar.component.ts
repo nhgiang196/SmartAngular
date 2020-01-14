@@ -23,9 +23,6 @@ export class TopnavbarComponent implements OnInit {
         this.router.navigate([reloadpath]));
     })
   }
-
-
-
   toggleNavigation(): void {
     jQuery("body").toggleClass("mini-navbar");
     smoothlyMenu();
@@ -34,12 +31,10 @@ export class TopnavbarComponent implements OnInit {
     // this.allTasks();
   }
 
-
   langChanged(value) {
     localStorage.setItem('locallanguage', value);
-    // window.location.reload();
     this.translate.use(value);
-    
+    this.router.onSameUrlNavigation = 'reload';
   }
   logOut() {
     this.authService.logout();
