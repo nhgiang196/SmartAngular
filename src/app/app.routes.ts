@@ -28,6 +28,7 @@ import { StandardEquipmentComponent } from './views/emcs/standard-equipment/stan
 import { VoucherReportComponent } from './views/emcs/voucher-report/voucher-report.component';
 import { PlanScheduleReportComponent } from './views/emcs/plan-schedule-report/plan-schedule-report.component';
 import { LoginRegisterComponent } from './views/login-register/login-register.component';
+import { RoleComponent } from './views/role/role.component';
 
 
 
@@ -65,6 +66,7 @@ export const ROUTES: Routes = [
 
 
       { path: 'register', component: LoginRegisterComponent },
+      { path: 'admin/role', component: RoleComponent , canActivate: [AuthGuard]},
 
     ]
   },

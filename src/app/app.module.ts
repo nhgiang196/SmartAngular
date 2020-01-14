@@ -25,6 +25,7 @@ import { MainViewModule } from './views/main-view/main-view.module';
 import { SharedModule } from './shared/shared.module';
 import { TimepickerModule } from 'ngx-bootstrap/timepicker';
 import { LoginRegisterComponent } from './views/login-register/login-register.component';
+import { RoleComponent } from './views/role/role.component';
 
 
 
@@ -34,6 +35,7 @@ import { LoginRegisterComponent } from './views/login-register/login-register.co
     AppComponent,
     LoginComponent,
     LoginRegisterComponent,
+    RoleComponent,
   ],
   imports: [
     BrowserModule,

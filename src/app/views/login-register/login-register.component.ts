@@ -40,9 +40,7 @@ export class LoginRegisterComponent implements OnInit {
 
   registerSubmit(){
     if (!this.validateForm()) return;
-    this.authService.register(this.regUser).subscribe(res =>{
-      debugger;
-      console.log(res);
+    this.authService.register(this.regUser).toPromise().then(res =>{
       if (res['errors']!=null)
       {
         let errTitle= this.trans.instant('Register.ErrorSubmit');
@@ -55,7 +53,11 @@ export class LoginRegisterComponent implements OnInit {
         this.toastr.success(errTitle);
         this.router.navigate(['/mainView']);
       }
-    })
+    }).catch(err=>{
+      this.toastr.error(err.message,err.statusText+': '+err.status);
+      this.laddaSubmitLoading= false;
+    }
+    );
   }
 
   validateForm(){
