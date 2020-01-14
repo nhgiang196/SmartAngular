@@ -13,7 +13,7 @@
         <p>
           {{'Role.Description' | translate}}
         </p>
-        <ng-select [items]="list.Users" bindLabel="name" bindValue="id" [(ngModel)]="searchParams.User" (change)="selectOnChange()">
+        <ng-select [items]="list.Users" bindLabel="userName" bindValue="userName" [(ngModel)]="searchParams.User" (change)="selectOnChange()">
 		</ng-select>
 		
         <table class="footable table table-stripped toggle-arrow-tiny default breakpoint footable-loaded"
@@ -32,7 +32,7 @@
               <td class="footable-visible">
                 <div class="switch">
                   <div class="onoffswitch">
-                    <input type="checkbox" [name]="item.id" class="onoffswitch-checkbox" [id]="item.id">
+                    <input type="checkbox" [name]="item.id" class="onoffswitch-checkbox" [id]="item.id" [checked]="entity.UserInRole.indexOf(item.name)>=0">
                     <label class="onoffswitch-label" [for]="item.id" >
                       <span class="onoffswitch-inner"></span>
                       <span class="onoffswitch-switch"></span>

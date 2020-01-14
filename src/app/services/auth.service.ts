@@ -34,13 +34,7 @@ export class AuthService {
       , emcsViewToogle: false
     };
 
-
-  }
-
-  httpOptions = {
-    headers: new HttpHeaders({
-      'Content-Type': 'application/json'
-    })
+    
   }
 
 
@@ -71,11 +65,6 @@ export class AuthService {
   {
     return this.http.post(`${url}/register`, entity);
   }
-  getRole()
-  {
-    return this.http.get<any>(`${url}/getRoles`);
-  }
-
-
+  
 
 }
