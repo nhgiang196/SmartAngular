@@ -3,6 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
 import { TranslateService } from '@ngx-translate/core';
 import { AdminService } from 'src/app/services/admin.service';
+import { ToastrService } from 'ngx-toastr';
+
 
 
 @Component({
@@ -14,7 +16,10 @@ export class RoleComponent implements OnInit {
 
   constructor(
     private adminService: AdminService,
+    private toastr: ToastrService,
     private trans: TranslateService
+    
+    
     
 
 
@@ -50,32 +55,43 @@ export class RoleComponent implements OnInit {
     })
   }
   /******************************************Functions *******************************************/
-
-
-  
-  
-
-
+  assignRole(userID: string,roleID: string,check: boolean ){
+    this.adminService.toogleRole(userID,[roleID],check).toPromise().then(res=>{
+      console.log(res);
+      if (res['errors']!=null)
+      {
+        let errTitle= this.trans.instant('Role.Error_RoleAdd');
+        this.toastr.error(res['errors'][0],errTitle);
+      }
+      else 
+      {
+        let errTitle= this.trans.instant('Role.Success_RoleAdd');
+        this.toastr.success(errTitle);
+      }
+      this.selectOnChange();
+      }).catch(err=>{
+        this.toastr.error(err.message,err.statusText+': '+err.status);
+        
+      })
+  }
   /******************************************On change event *******************************************/
   selectOnChange(){
     console.log(this.searchParams);
     var _user= this.searchParams.User;
+    if (_user=='' || _user==null) return;
     this.loading = true;
-    
     this.adminService.getRoleByUser(_user).toPromise().then(res=>{
       console.log(res);
       this.entity.UserInRole = res;
       this.loading= false;
     }).catch(err=>{
-
+      this.toastr.error(err.message,err.statusText+': '+err.status);
     });
 
 
     
   }
-  assignRole_OnChange(roleID: string, userID: string){
-
-  }
+  
 
 
 

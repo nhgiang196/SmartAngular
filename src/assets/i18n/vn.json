@@ -15,7 +15,9 @@
     "Name": "Tên quyền",
     "Name.ADMIN": "Admin",
     "Name.POSTER": "Quyền gửi POST",
-    "Name.READ": "Quyền đọc"
+    "Name.READ": "Quyền đọc",
+    "Error_RoleAdd":"Lỗi dữ liệu khi thay đổi quyền",
+    "Success_RoleAdd":"Thay đổi quyền thành công"
   },
   "Register":{
     "PleaseInput": "Nhập các thông tin cần thiết để tạo tài khoản",

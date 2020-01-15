@@ -15,7 +15,9 @@
     "Name": "Role name",
     "Name.ADMIN": "Admin",
     "Name.POSTER": "POST",
-    "Name.READ": "READ"
+    "Name.READ": "READ",
+    "Error_RoleAdd":"Role change error",
+    "Success_RoleAdd":"Role change success"
   },
   "Register":{
     "PleaseInput": "Input your information",

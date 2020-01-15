@@ -20,7 +20,7 @@ export class AdminService {
 
    httpOptions = {
     headers: new HttpHeaders({
-      'Content-Type': 'application/json',
+      'Content-Type': 'application/json; charset=utf-8 ',
       'Authorization': "Bearer "+ this.authService.currentUser.Token
     })
   }
@@ -45,7 +45,24 @@ export class AdminService {
     return this.http.get<any>(`${url}/getRoles`,option);
   }
 
+  toogleRole(Username: string, roles: string[],toogleValue: boolean)
+  {
+    var urlString = toogleValue? 'addtoRole': 'removeToRole';
+    var method = toogleValue? 'POST': 'DELETE';
+    return this.http.request(method,`${url}/${urlString}`,{
+      body:{
+        Username:Username,
+        roles:roles
+      },
+      headers: this.httpOptions.headers,
+      params:{
+        Username:Username,
+        roles:roles
+      }
+    },
+    );
 
+  }
 
 
 
