@@ -29,6 +29,7 @@ import { VoucherReportComponent } from './views/emcs/voucher-report/voucher-repo
 import { PlanScheduleReportComponent } from './views/emcs/plan-schedule-report/plan-schedule-report.component';
 import { LoginRegisterComponent } from './views/login-register/login-register.component';
 import { RoleComponent } from './views/role/role.component';
+import { UserMangamentComponent } from './views/user-mangament/user-mangament.component';
 
 
 
@@ -67,6 +68,7 @@ export const ROUTES: Routes = [
 
       { path: 'register', component: LoginRegisterComponent },
       { path: 'admin/role', component: RoleComponent , canActivate: [AuthGuard]},
+      { path: 'admin/usersManagment', component: UserMangamentComponent , canActivate: [AuthGuard]},
 
     ]
   },

@@ -26,6 +26,7 @@ import { SharedModule } from './shared/shared.module';
 import { TimepickerModule } from 'ngx-bootstrap/timepicker';
 import { LoginRegisterComponent } from './views/login-register/login-register.component';
 import { RoleComponent } from './views/role/role.component';
+import { UserMangamentComponent } from './views/user-mangament/user-mangament.component';
 
 
 
@@ -36,6 +37,7 @@ import { RoleComponent } from './views/role/role.component';
     LoginComponent,
     LoginRegisterComponent,
     RoleComponent,
+    UserMangamentComponent,
   ],
   imports: [
     BrowserModule,
