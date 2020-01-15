@@ -13,7 +13,7 @@
           <div class="form-group">
               <input type="password" class="form-control" [(ngModel)]="authService.currentUser.Password" #Password="ngModel" name="Password" placeholder="{{'Users.Password' | translate}}" required>
           </div>        
-          <button type="submit" [disabled]="userForm.invalid" class="btn btn-primary block full-width m-b">{{'Button.Login' | translate}} </button>        
+          <button [ladda]="laddaSubmitLoading" type="submit" [disabled]="userForm.invalid" class="btn btn-primary block full-width m-b">{{'Button.Login' | translate}} </button>        
       </form>
       <p class="m-t"> <small>{{'About' | translate}} </small> </p>
   </div>

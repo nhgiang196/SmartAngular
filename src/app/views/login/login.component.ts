@@ -16,6 +16,8 @@ export class LoginComponent implements OnInit {
     private router: Router,
     private toastr: ToastrService,
   ) { }
+
+  laddaSubmitLoading = false;
   ngOnInit() {
     this.resetForm();
   }
@@ -24,7 +26,8 @@ export class LoginComponent implements OnInit {
       form.resetForm();
   }
   loginUser() {
-    this.authService.login().subscribe(res=> {
+    this.laddaSubmitLoading = true;
+    this.authService.login().toPromise().then(res=> {
       if (res["token"] != null) {
         this.authService.currentUser.Token = res["token"];
         localStorage.setItem('currentUser', JSON.stringify(this.authService.currentUser));
@@ -36,6 +39,10 @@ export class LoginComponent implements OnInit {
         this.toastr.warning('Incorrect password or username', 'Login failed!');
         console.log(res["errors"]);
       }
+      this.laddaSubmitLoading = false;
+    }).catch(err=>{
+      this.toastr.error(err.message,err.statusText+': '+err.status);
     });
+    ;
   }
 }
