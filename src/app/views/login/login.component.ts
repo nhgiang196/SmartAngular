@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { NgForm } from '@angular/forms';
 import { ToastrService } from 'node_modules/ngx-toastr';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 import { User, Login } from 'src/app/models/user';
 import { EngineService } from 'src/app/services/engine.service';
+import { LanguageService } from 'src/app/services/language.services';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -14,7 +16,10 @@ export class LoginComponent implements OnInit {
   constructor(
     public authService: AuthService,
     private router: Router,
+    public translate: TranslateService,
     private toastr: ToastrService,
+    public languageService: LanguageService
+    
   ) { }
 
   laddaSubmitLoading = false;
@@ -45,4 +50,8 @@ export class LoginComponent implements OnInit {
     });
     ;
   }
+
+
+
+
 }

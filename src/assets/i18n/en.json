@@ -23,6 +23,7 @@
     "PleaseInput": "Input your information",
     "Register": "Register",
     "AskLogin": "Already have account? Sign in here",
+    "AskResgister": "Do not have an account?",
     "AskConfirmPassword": "Confirm password",
     "Validate": "Validation check message",
     "Valid_PasswordLength": "Password length should be more than six",

@@ -3,11 +3,11 @@
 
 
 <div>
-  <h1 class="logo-name">BECAMEX</h1>
+  <h1 class="logo-name">SMARTIN</h1>
 </div>
 <div class="middle-box text-center loginscreen animated fadeInDown">
   <div>
-      <h3>HỆ THỐNG XỬ LÝ NƯỚC THẢI</h3> 
+      <!-- <h3>HỆ THỐNG XỬ LÝ NƯỚC THẢI</h3>  -->
       <p>{{'Register.PleaseInput' | translate}} </p>
       <form class="m-t" role="form" #regForm="ngForm" name="regForm">
           <div class="form-group">
@@ -30,7 +30,15 @@
 
           <p class="text-muted text-center"><small>{{'Register.AskLogin' | translate}} </small></p>
           <a class="btn btn-sm btn-white btn-block" href="/#/login">{{'Button.Login' | translate}} </a>
+          
+
+
+
       </form>
       <p class="m-t"> <small>{{'About' | translate}} </small> </p>
+      <a (click)="languageService.langChanged('en')" class="btn btn-white btn-sm" [ngClass]="{active: translate.currentLang=='en'}"><img
+        src="/assets/img/flags/32/United-States.png"> English</a>
+        <a (click)="languageService.langChanged('vn')" class="btn btn-white btn-sm " [ngClass]="{active: translate.currentLang=='vn'}"><img
+            src="/assets/img/flags/32/Vietnam.png"> Tiếng Việt</a>
   </div>
 </div>

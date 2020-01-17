@@ -23,6 +23,7 @@
     "PleaseInput": "Nhập các thông tin cần thiết để tạo tài khoản",
     "Register": "Đăng ký",
     "AskLogin": "Có tài khoản? Đăng nhập ở đây",
+    "AskResgister": "Chưa có tài khoản, đăng ký ở đây",
     "AskConfirmPassword": "Nhập mật khẩu lần nữa",
     "Validate": "Kiểm tra lại nội dung",
     "Valid_PasswordLength": "Mật khẩu không đủ 6 ký tự",
