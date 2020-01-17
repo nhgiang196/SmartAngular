@@ -66,7 +66,7 @@ export const ROUTES: Routes = [
       { path: 'planScheduleReportView/:DeptID/:Year', component: PlanScheduleReportComponent, canActivate: [AuthGuard] },
 
 
-      { path: 'register', component: LoginRegisterComponent },
+      
       { path: 'admin/role', component: RoleComponent , canActivate: [AuthGuard]},
       { path: 'admin/usersManagment', component: UserMangamentComponent , canActivate: [AuthGuard]},
 
@@ -77,6 +77,7 @@ export const ROUTES: Routes = [
     children: [
       // { path: 'landingView', component: LandingViewComponent },
       { path: 'login', component: LoginComponent },
+      { path: 'register', component: LoginRegisterComponent },
       
       { path: 'voucherReportView/:VoucherId', component: VoucherReportComponent, canActivate: [AuthGuard] },
       { path: '**', component: NotFoundComponent }
