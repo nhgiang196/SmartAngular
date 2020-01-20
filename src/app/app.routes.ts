@@ -30,6 +30,8 @@ import { PlanScheduleReportComponent } from './views/emcs/plan-schedule-report/p
 import { LoginRegisterComponent } from './views/login-register/login-register.component';
 import { RoleComponent } from './views/role/role.component';
 import { UserMangamentComponent } from './views/user-mangament/user-mangament.component';
+import { NavigationComponent } from './components/common/navigation/navigation.component';
+import { NavigationAdminComponent } from './components/nav/navigation-admin/navigation-admin.component';
 
 
 
@@ -41,6 +43,7 @@ import { UserMangamentComponent } from './views/user-mangament/user-mangament.co
 export const ROUTES: Routes = [
   // Main redirect
   { path: '', redirectTo: 'mainView', pathMatch: 'full' },
+  { path: 'admin', redirectTo: '/admin/usersManagment', pathMatch: 'full' },
 
   // App views
   { //BasicComponent
@@ -67,8 +70,13 @@ export const ROUTES: Routes = [
 
 
       
-      { path: 'admin/role', component: RoleComponent , canActivate: [AuthGuard]},
-      { path: 'admin/usersManagment', component: UserMangamentComponent , canActivate: [AuthGuard]},
+      { path: 'admin', canActivate: [AuthGuard], children:[
+        { path: 'usersManagment', component: UserMangamentComponent },
+        { path: 'role', component: RoleComponent },
+        { path: '', component: NavigationAdminComponent, outlet: 'sidemenu' },
+      ]},
+      
+      
 
     ]
   },

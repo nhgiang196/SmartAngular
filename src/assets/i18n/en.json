@@ -66,5 +66,22 @@
     "UploadFile": "Upload File",
     "DownLoadMethod": "Click Here To Download Method",
     "DownLoadManual": "Click Here To Download Manual"
+  } ,
+
+  "LeftNav": {
+    "AdminGeneral": "SYSTEM MASTER DATA",
+    "AdminFull": "ADMINISTRATION & CONFIRGURATION",
+    "User": "Users",
+    "GroupUser":  "Groups",
+    "Role": "Roles",
+    "AccessRole" : "Access role Permision",
+    "NotificationConfig": "NOtification Confirguration",
+    "LanguageConfig": "Language Confirguration",
+    "Factory" : "Factory",
+    "Warehouse": "Warehouse",
+    "EQMachine": "Equipments and Machine",
+    "Chemical": "Chemical"
   }
+
+
 }

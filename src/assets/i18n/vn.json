@@ -66,5 +66,20 @@
     "UploadFile": "Tải Lên Tệp",
     "DownLoadMethod": "Nhấn Vào Đây Để Tải",
     "DownLoadManual": "Nhấn Vào Đây Để Tải"
+  },
+
+  "LeftNav": {
+    "AdminGeneral": "QUẢN TRỊ NỘI DUNG",
+    "AdminFull": "QUẢN TRỊ HỆ THỐNG",
+    "User": "Người dùng",
+    "GroupUser":  "Nhóm người dùng",
+    "Role": "Vai trò",
+    "AccessRole" : "Quản trị vai trò truy cập",
+    "NotificationConfig": "Cấu hình thông báo",
+    "LanguageConfig": "Câu hình ngôn ngữ",
+    "Factory" : "Nhà máy",
+    "Warehouse": "Kho",
+    "EQMachine": "Máy móc & thiết bị",
+    "Chemical": "Hóa chất"
   }
 }

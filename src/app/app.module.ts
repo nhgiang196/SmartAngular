@@ -27,6 +27,7 @@ import { TimepickerModule } from 'ngx-bootstrap/timepicker';
 import { LoginRegisterComponent } from './views/login-register/login-register.component';
 import { RoleComponent } from './views/role/role.component';
 import { UserMangamentComponent } from './views/user-mangament/user-mangament.component';
+import { NavigationAdminComponent } from './components/nav/navigation-admin/navigation-admin.component';
 
 
 
@@ -38,6 +39,7 @@ import { UserMangamentComponent } from './views/user-mangament/user-mangament.co
     LoginRegisterComponent,
     RoleComponent,
     UserMangamentComponent,
+    NavigationAdminComponent,
   ],
   imports: [
     BrowserModule,
