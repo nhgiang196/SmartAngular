@@ -14,7 +14,10 @@ export class AppComponent implements OnInit {
     public translate: TranslateService) {
     translate.addLangs(['en', 'vn', 'zh']);
     translate.setDefaultLang('en');
+    translate.reloadLang('en');
+    translate.reloadLang('vn');
     translate.use(localStorage.getItem('locallanguage') || 'en');
+    
 
   }
   ngOnInit() {
