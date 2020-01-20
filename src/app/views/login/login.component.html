@@ -4,9 +4,8 @@
 </div>
 <div class="middle-box text-center loginscreen animated fadeInDown">
   <div>
-      
-      <!-- <h3>HỆ THỐNG XỬ LÝ NƯỚC THẢI</h3>     -->
-      <form class="m-t" role="form" #userForm="ngForm" (submit)="loginUser()"  >
+    <h2><strong>ĐĂNG NHẬP</strong></h2> 
+    <form class="m-t" role="form" #userForm="ngForm" (submit)="loginUser()"  >
           <div class="form-group">
               <input type="text" class="form-control" [(ngModel)]="authService.currentUser.Username" #Username="ngModel" name="Username" placeholder="{{'Users.Username' | translate}}" required>
           </div>        
