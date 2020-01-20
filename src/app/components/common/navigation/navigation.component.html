@@ -2,24 +2,9 @@
   <div class="sidebar-collapse">
     <ul class="nav metismenu" id="side-menu">
       <li class="nav-header">
-        <div class="dropdown profile-element">
-          <span>
-            <img alt="image" class="img-circle" src="assets/img/user.png">
-          </span>
-          <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-            <span class="block m-t-xs"> <strong class="font-bold">{{authService.currentUser.Username}}</strong>  <b class="caret"></b> </span>
-            <span class="text-muted text-xs block">{{authService.currentUser.Specification}} </span>
-          </a>
-          <ul class="dropdown-menu animated fadeInRight m-t-xs">
-            <li><a  [routerLink]="['/profile']" >Profile</a></li>
-            <li><a  [routerLink]="['/contacts']">Contacts</a></li>
-            <li><a  [routerLink]="['/mailbox']" >Mailbox</a></li>
-            <li class="divider"></li>
-            
-          </ul>
-        </div>
+        
         <div class="logo-element">
-          bcm
+          BCM
         </div>
       </li>
       <li  >

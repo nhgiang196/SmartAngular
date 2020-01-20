@@ -14,12 +14,21 @@
             <a aria-expanded="false" role="button" href="/#/mainView">{{'TopNav.Home' | translate }} </a>
         </li>
         <li class="dropdown">
-            <a aria-expanded="false" role="button" href="#" class="dropdown-toggle"
-                data-toggle="dropdown"><i>(test)</i> Administration <span class="caret"></span></a>
+            <a role="button" href="#" class="dropdown-toggle"
+                data-toggle="dropdown">MODULE 1 <span class="caret"></span></a>
             <ul role="menu" class="dropdown-menu">
-                <li><a [routerLink]="['/admin/usersManagment']">User Managment</a></li>
-                <li><a [routerLink]="['/admin/role']">Role & Authentication</a></li>
-                <li><a [routerLink]="['/register']">Register Page</a></li>
+                <li><a>Feature 1</a></li>
+                <li><a>Feature 2</a></li>
+                <li><a>...</a></li>
+            </ul>
+        </li>
+        <li class="dropdown">
+            <a role="button" href="#" class="dropdown-toggle"
+                data-toggle="dropdown">MODULE 2 <span class="caret"></span></a>
+            <ul role="menu" class="dropdown-menu">
+                <li><a>Feature 1</a></li>
+                <li><a>Feature 2</a></li>
+                <li><a>...</a></li>
             </ul>
         </li>
 
@@ -51,6 +60,7 @@
             <a (click)="langChanged('vn')" class="btn btn-white btn-sm " [ngClass]="{active: translate.currentLang=='vn'}"><img
                 src="/assets/img/flags/32/Vietnam.png"> Tiếng Việt</a>
           </li>
+          
 
 
         </ul>
@@ -132,9 +142,29 @@
         </ul>
       </li>
       <li>
-        <a (click)="logOut()">
-          <i class="fa fa-sign-out"></i> {{'TopNav.Logout' | translate}}
+          
+        <img alt="image" class="img-circle" src="assets/img/user.png">
+      </li>
+      <li class="dropdown">
+       
+        <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+          <span class="block m-t-xs"> <strong class="font-bold">{{authService.currentUser.Username}}</strong>  <b class="caret"></b> </span>
+          <span class="text-muted text-xs block">{{authService.currentUser.Specification}} </span>
         </a>
+        <ul class="dropdown-menu animated fadeInRight m-t-xs">
+          <li><a  [routerLink]="['/profile']" >Profile</a></li>
+          <li><a  [routerLink]="['/contacts']">Contacts</a></li>
+          <li><a  [routerLink]="['/mailbox']" >Mailbox</a></li>
+          <li class="divider"></li>
+          <li><a  (click)="authService.logout()" ><i class="fa fa-sign-out"></i> {{'TopNav.Logout' | translate}}</a></li>
+          
+        </ul>
+      </li>
+
+
+
+      <li>
+        
       </li>
       <!-- <li>
             <a class="right-sidebar-toggle">
