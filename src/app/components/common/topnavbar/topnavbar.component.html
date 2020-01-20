@@ -114,7 +114,7 @@
           </li>
           <li class="divider"></li>
           <li>
-            <a href="profile.html">
+            <a href="#/profile">
               <div>
                 <i class="fa fa-twitter fa-fw"></i> 3 New Followers
                 <span class="pull-right text-muted small">12 minutes ago</span>
@@ -133,7 +133,7 @@
           <li class="divider"></li>
           <li>
             <div class="text-center link-block">
-              <a href="notifications.html">
+              <a href="#/notification">
                 <strong>See All Alerts</strong>
                 <i class="fa fa-angle-right"></i>
               </a>
@@ -152,9 +152,9 @@
           <span class="text-muted text-xs block">{{authService.currentUser.Specification}} </span>
         </a>
         <ul class="dropdown-menu animated fadeInRight m-t-xs">
-          <li><a  [routerLink]="['/profile']" >Profile</a></li>
-          <li><a  [routerLink]="['/contacts']">Contacts</a></li>
-          <li><a  [routerLink]="['/mailbox']" >Mailbox</a></li>
+          <li><a  [routerLink]="['/profile']">{{'TopNav.Profile' | translate}}  </a></li>
+          <li><a  [routerLink]="['/admin']" >{{'TopNav.Administration' | translate}}</a></li>
+          
           <li class="divider"></li>
           <li><a  (click)="authService.logout()" ><i class="fa fa-sign-out"></i> {{'TopNav.Logout' | translate}}</a></li>
           

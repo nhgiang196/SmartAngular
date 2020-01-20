@@ -32,6 +32,8 @@ import { RoleComponent } from './views/role/role.component';
 import { UserMangamentComponent } from './views/user-mangament/user-mangament.component';
 import { NavigationComponent } from './components/common/navigation/navigation.component';
 import { NavigationAdminComponent } from './components/nav/navigation-admin/navigation-admin.component';
+import { ProfileComponent } from './views/profile/profile.component';
+import { NotificationComponent } from './views/notification/notification.component';
 
 
 
@@ -49,7 +51,11 @@ export const ROUTES: Routes = [
   { //BasicComponent
     path: '', component: BasicComponent,
     children: [
-      { path: 'mainView', component: MainViewComponent, canActivate: [AuthGuard] },
+      { path: 'mainView', component: MainViewComponent, canActivate: [AuthGuard] }, //custom
+      { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] }, //custom
+      { path: 'notification', component: NotificationComponent, canActivate: [AuthGuard] }, //custom
+
+
       { path: 'workFlowView', component: WorkFlowComponent, canActivate: [AuthGuard] },
       { path: 'taskManageView', component: TaskManageComponent, canActivate: [AuthGuard] },
       { path: 'taskCompleteView', component: TaskCompleteComponent },

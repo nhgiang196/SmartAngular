@@ -28,6 +28,8 @@ import { LoginRegisterComponent } from './views/login-register/login-register.co
 import { RoleComponent } from './views/role/role.component';
 import { UserMangamentComponent } from './views/user-mangament/user-mangament.component';
 import { NavigationAdminComponent } from './components/nav/navigation-admin/navigation-admin.component';
+import { ProfileComponent } from './views/profile/profile.component';
+import { NotificationComponent } from './views/notification/notification.component';
 
 
 
@@ -40,6 +42,8 @@ import { NavigationAdminComponent } from './components/nav/navigation-admin/navi
     RoleComponent,
     UserMangamentComponent,
     NavigationAdminComponent,
+    ProfileComponent,
+    NotificationComponent,
   ],
   imports: [
     BrowserModule,

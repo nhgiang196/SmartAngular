@@ -58,7 +58,9 @@
     "Welcome": "Chào mừng đến với hệ thống quản lý",
     "Logout": "Đăng Xuất",
     "Dashboard": "Dashboard",
-    "ShowAllTask": "Hiển Thị Tất Cả Công Việc Của Tôi"
+    "ShowAllTask": "Hiển Thị Tất Cả Công Việc Của Tôi",
+    "Profile":"Thông tin cá nhân",
+    "Administration":"Quản trị"
   },
   "Upload": {
     "FileName": "Tên File",

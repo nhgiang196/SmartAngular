@@ -58,7 +58,10 @@
     "Welcome": "Welcome to Water Treatment System",
     "Logout": "Logout",
     "Dashboard": "Dashboard",
-    "ShowAllTask": "Show ALl My Task"
+    "ShowAllTask": "Show ALl My Task",
+    "Profile":"Profile",
+    "Administration":"Administration"
+
   },
   "Upload": {
     "FileName": "FileName",
