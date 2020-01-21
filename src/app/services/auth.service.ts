@@ -3,9 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { User } from '../models/user';
 import { Router } from '@angular/router';
 const url ='auth/v1/identity'
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable({providedIn: 'root'})
 export class AuthService {
   public nagClass: { mainViewToggle: boolean, emcsViewToogle: boolean }
   public currentUser: User;

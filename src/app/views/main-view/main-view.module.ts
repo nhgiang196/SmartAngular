@@ -3,6 +3,7 @@ import {FormsModule} from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MainViewComponent } from './main-view.component';
 import { ApiEMCSService } from 'src/app/services/api-ecms.service';
+import { WaterTreatmentService } from 'src/app/services/api-watertreatment.service';
 // import { LandingViewComponent } from './landing-view/landing-view.component';
 
 
@@ -15,7 +16,7 @@ import { ApiEMCSService } from 'src/app/services/api-ecms.service';
     CommonModule,
     FormsModule
   ],
-  providers:[ApiEMCSService],
+  providers:[ApiEMCSService, WaterTreatmentService],
   exports:[
   MainViewComponent,
   // LandingViewComponent
