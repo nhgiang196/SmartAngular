@@ -2,8 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { User } from '../models/user';
 import { Router } from '@angular/router';
-
-const url ='api/v1/identity'
+const url ='auth/v1/identity'
 @Injectable({
   providedIn: 'root'
 })

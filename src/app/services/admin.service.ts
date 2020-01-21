@@ -2,10 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthService } from './auth.service';
 
-
-
-
-const url = "api/v1/admin"
+const url = "auth/v1/admin"
 
 
 @Injectable({providedIn: 'root'})

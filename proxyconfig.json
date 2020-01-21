@@ -4,6 +4,12 @@
         "secure": false,
         "changeOrigin": true
     },
+    "/auth/*":{
+        "target":"http://supporteoffice.becamex.com.vn:6789",
+        "secure": false,
+        "changeOrigin": true,
+        "pathRewrite": {"^/auth" : "api"}
+    },
     "/bpmn/engine-rest/*": {
         "target": "http://10.20.46.153:8080/engine-rest",
         "secure": false,
