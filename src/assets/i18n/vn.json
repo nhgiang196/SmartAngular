@@ -83,5 +83,11 @@
     "Warehouse": "Kho",
     "EQMachine": "Máy móc & thiết bị",
     "Chemical": "Hóa chất"
+  },
+  "UserMangament":{
+    "Name":"Họ tên",
+    "Role":"Test"
   }
+
+
 }

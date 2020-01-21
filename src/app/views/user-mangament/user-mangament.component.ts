@@ -1,4 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { collapseIboxHelper } from '../../app.helpers';
+
+
+
+
 
 @Component({
   selector: 'app-user-mangament',
@@ -11,5 +16,10 @@ export class UserMangamentComponent implements OnInit {
 
   ngOnInit() {
   }
+  
+  ngAfterViewInit(){
+    collapseIboxHelper();
+  }
+  
 
 }

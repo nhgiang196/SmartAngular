@@ -1,0 +1,139 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-lg-10">
+    <h2>{{ 'EQComponent.TITLE' | translate }}</h2>
+
+    <ol class="breadcrumb">
+      <li>
+        <a>Home</a>
+      </li>
+      <li>
+        <a>Lab Equipments</a>
+      </li>
+      <li class="active">
+        <strong>{{ 'EQComponent.TITLE' | translate }}</strong>
+      </li>
+    </ol>
+  </div>
+  <div class="col-lg-2">
+
+  </div>
+</div>
+<div class="wrapper wrapper-content">
+  <div class=" animated fadeInRight">
+
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="ibox float-e-margins border-bottom">
+          <div class="ibox-title">
+            <h5>Tìm kiếm</h5>
+            <div class="ibox-tools">
+              <a class="collapse-link" data-toggle="collapse" data-parent="#accordion" href="myCollapse">
+                <i class="fa fa-chevron-down"></i>
+              </a>
+            </div>
+          </div>
+          <div class="ibox-content" id="myCollapse" style="display: none;">
+            <div class="row">
+              <div class="col-xs-3">
+                <div class="form-group">
+                  <label class="control-label" for="order_id">{{ 'EQComponent.AssetID' | translate }}</label>
+                  <!-- <input type="text" class="form-control" autocomplete="off" [(ngModel)]="pAssetID" name="pAssetID"> -->
+                </div>
+              </div>
+
+              <div class="col-xs-3">
+                <div class="form-group">
+                  <label class="control-label" for="order_id">{{ 'EQComponent.EQName' | translate }}</label>
+                  <!-- <input type="text" class="form-control" autocomplete="off" [(ngModel)]="pEQName" name="pEQName"> -->
+                </div>
+              </div>
+              <div class="col-xs-3">
+                <div class="form-group">
+                  <label class="control-label" for="order_id">{{ 'EQComponent.Department' | translate }}</label>
+                  <!-- <ng-select class="custom" [items]="lsDepartment" [(ngModel)]="pDepartment" bindLabel="name"
+                      bindValue="id"> </ng-select> -->
+                </div>
+              </div>
+              <div class="col-xs-3">
+              </div>
+            </div>
+
+
+            <div class="row">
+              <div class="col-xs-12">
+                <div class="checkbox">
+                  <!-- <input type="checkbox" id="checkbox1" style="margin-left: 5px;" [(ngModel)]="pGetall" name="pGetall"> -->
+                  <label class="control-label" for="checkbox1">
+                    {{ 'EQComponent.GetAll' | translate }}
+                  </label>
+                </div>
+              </div>
+            </div>
+
+          </div>
+          <div class="ibox-footer">
+            <div>
+                <button type="button" class="btn btn-success dim " (click)="fnSearch()" data-toggle="modal">
+                  <i class="fa fa-search"></i> {{ 'Button.Search' | translate }}</button>
+                <button type="button" class="btn btn-primary dim " (click)="fnAdd()" data-toggle="modal"
+                  data-target="#myModal">
+                  <i class="fa fa-plus"></i> {{ 'Button.Add' | translate }}</button>
+              </div>
+ 
+           </div>
+
+           
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+
+      <div class="col-lg-12">
+        <div class="ibox">
+          <!-- <div class="sk-spinner sk-spinner-wave">
+              <div class="sk-rect1"></div>
+              <div class="sk-rect2"></div>
+              <div class="sk-rect3"></div>
+              <div class="sk-rect4"></div>
+              <div class="sk-rect5"></div>
+            </div> -->
+          <div class="ibox-title">
+            <h5>Kết quả</h5>
+            <div class="ibox-tools" >
+              <a class="collapse-link" data-toggle="collapse" data-parent="#accordion" href="myCollapse2">
+                <i class="fa fa-chevron-up"></i>
+              </a>
+            </div>
+          </div>
+          <div class="ibox-content" id="myCollapse2">
+            <table class="table table-bordered table-hover table-stripped table-responisve text-center">
+              <thead style="background-color: #1ab394;">
+                <tr>
+                  <th>User</th>
+                  <th>UserName</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <!-- <tbody *ngFor="let item of equipment.Manuals">
+                <tr>
+                  <td style="text-align: left"> <a (click)="onGetFile(item.FileName)">{{item.FileName}}</a></td>
+                  <td style="text-align: left">{{item.Name}}</td>
+                  <td><button type="button" class="btn btn-outline btn-danger" (click)="onDeleteManualFile(item)"><i
+                        class="fa fa-trash" id="btnManualTrash"></i></button>
+                  </td>
+                </tr>
+              </tbody> -->
+            </table>
+
+          </div>
+         
+        </div>
+      </div>
+    </div>
+
+
+
+  </div>
+
+</div>

@@ -4805,6 +4805,7 @@ table.table-mail tr td {
 }
 
 .ibox-tools {
+  cursor: pointer;
   display: block;
   float: none;
   margin-top: 0;

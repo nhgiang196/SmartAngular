@@ -84,7 +84,13 @@
     "Warehouse": "Warehouse",
     "EQMachine": "Equipments and Machine",
     "Chemical": "Chemical"
+  },
+  "UserMangament":{
+    "Name":"User name",
+    "Role":"Role"
   }
+  
+
 
 
 }
