@@ -40,7 +40,10 @@ private dataTableContruct (data){
   $('#myTable').DataTable({
     autoWidth: true,
     responsive: true,
-    dom:` <"row"<"col-sm-4 m-b-xs"l><"#myid.col-sm-4 m-b-xs"f><"col-sm-4"p>><t><"row"<"col-sm-4 m-b-xs"><"#myid2.col-sm-4 m-b-xs"f><"col-sm-4"p>>`,
+    dom:` <"row"<"col-sm-4 m-b-xs"l>
+    <"#myid.col-sm-4 m-b-xs"f><"col-sm-4"p>>
+    <t>
+    <"row"<"col-sm-4 m-b-xs"i><"#myid2.col-sm-4 m-b-xs"f><"col-sm-4"p>>`,
     columns: [
       {data: "Id"},
       {data: "Name"},
