@@ -54,7 +54,6 @@ ngAfterViewInit(){ //CSS
 }
 
 
-
 /****************************************** MAIN FUNCTION *******************************************/
 fnSearch(){
   this.loading= true;

@@ -33,16 +33,17 @@ export class LoginComponent implements OnInit {
   loginUser() {
     this.laddaSubmitLoading = true;
     this.authService.login().toPromise().then(res=> {
-      if (res["token"] != null) {
-        this.authService.currentUser.Token = res["token"];
+      debugger;
+      if (res["Token"] != null) {
+        this.authService.currentUser.Token = res["Token"];
         localStorage.setItem('currentUser', JSON.stringify(this.authService.currentUser));
-        localStorage.setItem('userToken', JSON.stringify(res["token"]));
+        localStorage.setItem('userToken', JSON.stringify(res["Token"]));
         this.authService.currentUser = JSON.parse(localStorage.getItem('currentUser'));
         this.router.navigateByUrl('mainView');
       }
       else {
         this.toastr.warning('Incorrect password or username', 'Login failed!');
-        console.log(res["errors"]);
+        console.log(res["Errors"]);
         this.router.navigate(['/register']);
       }
       this.laddaSubmitLoading = false;
