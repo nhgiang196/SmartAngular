@@ -17,7 +17,7 @@
         <p>
           {{'Role.Description' | translate}}
         </p>
-        <ng-select [items]="list.Users" bindLabel="userName" bindValue="userName" [(ngModel)]="searchParams.User" (change)="selectOnChange()">
+        <ng-select [items]="list.Users" bindLabel="UserName" bindValue="UserName" [(ngModel)]="searchParams.User" (change)="selectOnChange()">
 		</ng-select>
 		
         <table class="footable table table-stripped toggle-arrow-tiny default breakpoint footable-loaded"
@@ -31,18 +31,18 @@
           <tbody>
             <tr *ngFor="let item of list.Roles">
               <td >
-                {{'Role.Name.'+item.normalizedName | translate}}
+                {{'Role.Name.'+item.NormalizedName | translate}}
               </td>
               <td class="footable-visible">
                 <div class="switch">
                   <div class="onoffswitch">
 					<input type="checkbox" class="onoffswitch-checkbox" 
-					[name]="item.id" 
-					[id]="item.id" 
-					[checked]="entity.UserInRole.indexOf(item.name)>=0" 
+					[name]="item.Id" 
+					[id]="item.Id" 
+					[checked]="entity.UserInRole.indexOf(item.Name)>=0" 
           [disabled]="searchParams.User==''||searchParams.User==null"
-					(click)="assignRole(searchParams.User,item.name,$event.target.checked)">
-                    <label class="onoffswitch-label" [for]="item.id" >
+					(click)="assignRole(searchParams.User,item.Name,$event.target.checked)">
+                    <label class="onoffswitch-label" [for]="item.Id" >
                       <span class="onoffswitch-inner"></span>
                       <span class="onoffswitch-switch"></span>
                     </label>
