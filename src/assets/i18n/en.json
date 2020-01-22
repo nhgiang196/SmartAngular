@@ -88,9 +88,25 @@
   "UserMangament":{
     "Name":"User name",
     "Role":"Role"
-  }
+  },
+  "DefaultTable":{
+    "emptyTable": "",
+    "info": "Show _START_ đến _END_ thuộc _TOTAL_",
+    "infoEmpty": "Bảng không có dữ liệu",
+    "infoFiltered": "(lọc từ _MAX_ tổng số dòng)",
+    "infoPostFix": " số dòng",
+    "thousands": ",",
+    "lengthMenu": "Hiển thị _MENU_ dòng mỗi trang",
+    "loadingRecords": "Đang lấy dữ liệu",
+    "processing": "Đang lấy dữ liệu (processing)",
+    "search": "Tìm kiếm",
+    "zeroRecords": "Không có Record",
+    "url": "Đường dẫn"
+}
+  
+}
   
 
 
 
-}
+

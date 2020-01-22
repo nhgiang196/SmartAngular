@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { collapseIboxHelper } from '../../app.helpers';
 import { WaterTreatmentService } from 'src/app/services/api-watertreatment.service';
 import { ToastrService } from 'ngx-toastr';
+import { TranslateService } from '@ngx-translate/core';
 
 
 
@@ -17,7 +18,7 @@ export class UserMangamentComponent implements OnInit {
   constructor(
     private api: WaterTreatmentService,
     private toastr: ToastrService,
-    
+    private trans: TranslateService
     
     ) { }
 /****************************************** DECLARATION *******************************************/
@@ -31,8 +32,6 @@ loading= false;
 /****************************************** STARTUP FUNCTION *******************************************/
 ngOnInit() {
   this.dataTableContruct(null);
-  
-
 }
 
 private dataTableContruct (data){
@@ -50,10 +49,35 @@ private dataTableContruct (data){
       {data: "Gender"},
       {data: "Email"},
       {data: "Address"},
-      { data:null, render: function(data, type, full){
+      { render: (data, type, full)=>{
         return `<button type="button" class="btn btn-outline btn-danger"><i class="fa fa-trash"></i></button>`
       }},
     ],
+    language:  {
+      emptyTable:     this.trans.instant('DefaultTable.emptyTable'),
+      info:           this.trans.instant('DefaultTable.info'),
+      infoEmpty:      this.trans.instant('DefaultTable.infoEmpty'),
+      infoFiltered:   this.trans.instant('DefaultTable.infoFiltered'),
+      infoPostFix:    this.trans.instant('DefaultTable.infoPostFix'),
+      thousands:      this.trans.instant('DefaultTable.thousands'),
+      lengthMenu:     this.trans.instant('DefaultTable.lengthMenu'),
+      loadingRecords: this.trans.instant('DefaultTable.loadingRecords'),
+      processing:     this.trans.instant('DefaultTable.processing'),
+      search:         this.trans.instant('DefaultTable.search'),
+      searchPlaceholder: 'Nhập nội dung tìm kiếm',
+      zeroRecords:    this.trans.instant('DefaultTable.zeroRecords'),
+      url:            this.trans.instant('DefaultTable.url'),
+      paginate:  {
+          first: 'Đầu tiên',
+          last: "Cuối cùng",
+          next: ">",
+          previous: "<"
+      },
+      aria:{
+        sortAscending: "sắp xếp  tăng dần",
+        sortDescending: "sắp xếp giảm dần"
+    }
+  },
     data: data,
   });
 }
