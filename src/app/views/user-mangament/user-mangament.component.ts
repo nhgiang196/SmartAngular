@@ -38,16 +38,23 @@ ngOnInit() {
 private dataTableContruct (data){
   $('#myTable').DataTable().clear().destroy();
   $('#myTable').DataTable({
+    autoWidth: true,
+    responsive: true,
+    dom:` <"row"<"col-sm-4 m-b-xs"l><"#myid.col-sm-4 m-b-xs"f><"col-sm-4"p>><t><"row"<"col-sm-4 m-b-xs"><"#myid2.col-sm-4 m-b-xs"f><"col-sm-4"p>>`,
     columns: [
       {data: "Id"},
       {data: "Name"},
+      {data: "Gender"},
+      {data: "Email"},
+      {data: "Address"},
       { data:null, render: function(data, type, full){
         return `<button type="button" class="btn btn-outline btn-danger"><i class="fa fa-trash"></i></button>`
       }},
     ],
-    data: data
+    data: data,
   });
 }
+
 
 ngAfterViewInit(){ //CSS
   collapseIboxHelper();
@@ -55,15 +62,13 @@ ngAfterViewInit(){ //CSS
 
 
 /****************************************** MAIN FUNCTION *******************************************/
-fnSearch(){
+fnSearch(){ //Search button
   this.loading= true;
   this.api.getUser().toPromise().then(res=>{
     this.resultdata.User = res;
     console.log(res);
     this.loading= false;
     this.dataTableContruct(res);
-    
-
   }).catch(err=>{
     this.toastr.error(err.message,err.statusText+': '+err.status);
     this.loading= false;
