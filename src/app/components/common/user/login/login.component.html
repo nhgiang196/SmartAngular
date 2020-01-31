@@ -1,0 +1,30 @@
+
+<div>
+  <h1 class="logo-name">SMARTIN</h1>
+</div>
+<div class="middle-box text-center loginscreen animated fadeInDown">
+<div>
+  <h2><strong>ĐĂNG NHẬP</strong></h2> 
+  <form class="m-t" role="form" #userForm="ngForm" (submit)="loginUser()"  >
+        <div class="form-group">
+            <input type="text" class="form-control" [(ngModel)]="authService.currentUser.Username" #Username="ngModel" name="Username" placeholder="{{'Users.Username' | translate}}" required>
+        </div>        
+        <div class="form-group">
+            <input type="password" class="form-control" [(ngModel)]="authService.currentUser.Password" #Password="ngModel" name="Password" placeholder="{{'Users.Password' | translate}}" required>
+        </div>        
+        <button [ladda]="laddaSubmitLoading" type="submit" [disabled]="userForm.invalid" class="btn btn-primary block full-width m-b">{{'Button.Login' | translate}} </button>        
+    </form>
+    <p class="text-muted text-center"><small>{{'Register.AskResgister' | translate}} </small></p>
+      <a class="btn btn-sm btn-white btn-block" href="#/register">{{'Register.Register' | translate}} </a>
+    <p class="m-t"> <small>{{'About' | translate}} </small> </p>
+
+      <a (click)="languageService.langChanged('en')" class="btn btn-white btn-sm" [ngClass]="{active: translate.currentLang=='en'}"><img
+          src="/assets/img/flags/32/United-States.png"> English</a>
+      <a (click)="languageService.langChanged('vn')" class="btn btn-white btn-sm " [ngClass]="{active: translate.currentLang=='vn'}"><img
+          src="/assets/img/flags/32/Vietnam.png"> Tiếng Việt</a>
+
+</div>
+</div>
+
+
+

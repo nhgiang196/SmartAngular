@@ -4,36 +4,35 @@ import { BasicComponent } from './components/common/layouts/basic/basic.componen
 import { BlankComponent } from './components/common/layouts/blank/blank.component';
 
 
-import { LoginComponent } from './views/login/login.component';
 import { AuthGuard } from './services/auth.guard';
-import { WorkFlowComponent } from './components/common/admin/work-flow/work-flow.component';
-import { TaskManageComponent } from './components/common/admin/task-manage/task-manage.component';
-import { TaskFormComponent } from './components/common/admin/task-form/task-form.component';
-import { TaskCompleteComponent } from './components/common/admin/task-complete/task-complete.component';
-import { TimelineLogComponent } from './components/common/admin/timeline-log/timeline-log.component';
+import { WorkFlowComponent } from './components/common/work-flow/work-flow/work-flow.component';
+import { TaskManageComponent } from './components/common/work-flow/task-manage/task-manage.component';
+import { TaskFormComponent } from './components/common/work-flow/task-form/task-form.component';
+import { TaskCompleteComponent } from './components/common/work-flow/task-complete/task-complete.component';
+import { TimelineLogComponent } from './components/common/work-flow/timeline-log/timeline-log.component';
 
 /**EMCS */
 // import { LandingViewComponent } from './views/main-view/landing-view/landing-view.component';
 import { PlanScheduleComponent } from './views/emcs/plan-schedule/plan-schedule.component';
 import { VoucherRequisitionComponent } from './views/emcs/voucher-requisition/voucher-requisition.component';
-import { DiagramComponent } from './components/common/admin/diagram/diagram.component';
+import { DiagramComponent } from './components/common/work-flow/diagram/diagram.component';
 import { MainViewComponent } from './views/main-view/main-view.component';
 import { EquipmentManageComponent } from './views/emcs/equipment-manage/equipment-manage.component';
 import { EquipmentDetailComponent } from './views/emcs/equipment-detail/equipment-detail.component';
-import { NotFoundComponent } from './components/common/admin/not-found/not-found.component';
+import { NotFoundComponent } from './components/common/work-flow/not-found/not-found.component';
 import { VoucherDetailComponent } from './views/emcs/voucher-detail/voucher-detail.component';
 import { EquipmentReportComponent } from './views/emcs/equipment-report/equipment-report.component';
 import { StandardEquipmentComponent } from './views/emcs/standard-equipment/standard-equipment.component';
 
 import { VoucherReportComponent } from './views/emcs/voucher-report/voucher-report.component';
 import { PlanScheduleReportComponent } from './views/emcs/plan-schedule-report/plan-schedule-report.component';
-import { LoginRegisterComponent } from './views/login-register/login-register.component';
-import { RoleComponent } from './views/role/role.component';
 import { UserMangamentComponent } from './views/user-mangament/user-mangament.component';
 import { NavigationComponent } from './components/common/navigation/navigation.component';
 import { NavigationAdminComponent } from './components/nav/navigation-admin/navigation-admin.component';
-import { ProfileComponent } from './views/profile/profile.component';
-import { NotificationComponent } from './views/notification/notification.component';
+import { LoginComponent } from './components/common/user/login/login.component';
+import { RegisterComponent } from './components/common/admin/register/register.component';
+import { RolesComponent } from './components/common/admin/roles/roles.component';
+import { ProfileComponent } from './components/common/user/profile/profile.component';
 
 
 
@@ -53,7 +52,7 @@ export const ROUTES: Routes = [
     children: [
       { path: 'mainView', component: MainViewComponent, canActivate: [AuthGuard] }, //custom
       { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] }, //custom
-      { path: 'notification', component: NotificationComponent, canActivate: [AuthGuard] }, //custom
+     // { path: 'notification', component: NotificationComponent, canActivate: [AuthGuard] }, //custom
 
 
       { path: 'workFlowView', component: WorkFlowComponent, canActivate: [AuthGuard] },
@@ -78,12 +77,9 @@ export const ROUTES: Routes = [
       
       { path: 'admin', canActivate: [AuthGuard], children:[
         { path: 'usersManagment', component: UserMangamentComponent },
-        { path: 'role', component: RoleComponent },
+        { path: 'role', component: RolesComponent },
         { path: '', component: NavigationAdminComponent, outlet: 'sidemenu' },
-      ]},
-      
-      
-
+      ]},     
     ]
   },
   { //BlankComponent
@@ -91,7 +87,7 @@ export const ROUTES: Routes = [
     children: [
       // { path: 'landingView', component: LandingViewComponent },
       { path: 'login', component: LoginComponent },
-      { path: 'register', component: LoginRegisterComponent },
+      { path: 'register', component: RegisterComponent },
       
       { path: 'voucherReportView/:VoucherId', component: VoucherReportComponent, canActivate: [AuthGuard] },
       { path: '**', component: NotFoundComponent }

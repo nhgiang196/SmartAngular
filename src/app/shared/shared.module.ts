@@ -8,7 +8,14 @@ import { DataTablesModule } from 'angular-datatables';
 import { FormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
-import { BsDatepickerModule , PopoverModule, TimepickerModule } from 'ngx-bootstrap/';
+import { BsDatepickerModule, PopoverModule, TimepickerModule } from 'ngx-bootstrap/';
+import { LaddaModule } from 'node_modules/angular2-ladda';
+import { BrowserModule } from '@angular/platform-browser';
+import { RouterModule } from '@angular/router';
+import { ToastrModule } from 'ngx-toastr';
+import { UserIdleModule } from 'angular-user-idle';
+import { NgwWowModule } from 'ngx-wow';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -17,7 +24,16 @@ export function HttpLoaderFactory(http: HttpClient) {
 @NgModule({
   declarations: [],
   imports: [
-    CommonModule,
+    BrowserModule,
+    RouterModule,
+    FormsModule,
+    CommonModule,    
+    BrowserAnimationsModule,  
+    NgwWowModule,
+    // Optionally you can set time for `idle`, `timeout` and `ping` in seconds.
+    // Default values: `idle` is 600 (10 minutes), `timeout` is 300 (5 minutes)
+    // and `ping` is 120 (2 minutes).
+    UserIdleModule.forRoot({ idle: 600, timeout: 5, ping: 300 }),
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
@@ -25,23 +41,47 @@ export function HttpLoaderFactory(http: HttpClient) {
         deps: [HttpClient]
       }
     }),
+    ToastrModule.forRoot({
+      timeOut: 3000,
+      positionClass: 'toast-top-right',
+      preventDuplicates: true,
+      progressBar: true,
+      closeButton: true
+    }),
     DataTablesModule,
-    FormsModule,
     NgSelectModule,
-    SweetAlert2Module.forRoot(),
+    LaddaModule.forRoot({
+    }),
+    SweetAlert2Module.forRoot(
+      {
+        buttonsStyling: false,
+        customClass: 'sweet-alert',
+        confirmButtonClass: 'btn btn-primary',
+        cancelButtonClass: 'btn'
+      }
+    ),
     BsDatepickerModule.forRoot(),
     PopoverModule.forRoot(),
     TimepickerModule.forRoot()
   ],
   exports: [
-    TranslateModule,
+    BrowserModule,
+    RouterModule,
     FormsModule,
+    CommonModule,
+    UserIdleModule,    
+    BrowserAnimationsModule,  
+    NgwWowModule,
+    TranslateModule,
     DataTablesModule,
     NgSelectModule,
     SweetAlert2Module,
     BsDatepickerModule,
     PopoverModule,
-    TimepickerModule
+    TimepickerModule,
+    ToastrModule,
+    LaddaModule
+
   ]
 
 })

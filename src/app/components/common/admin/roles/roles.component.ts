@@ -8,21 +8,15 @@ import { ToastrService } from 'ngx-toastr';
 
 
 @Component({
-  selector: 'app-role',
-  templateUrl: './role.component.html',
-  styleUrls: ['./role.component.css']
+  selector: 'app-roles',
+  templateUrl: './roles.component.html',
+  styleUrls: ['./roles.component.css']
 })
-export class RoleComponent implements OnInit {
-
+export class RolesComponent implements OnInit {
   constructor(
     private adminService: AdminService,
     private toastr: ToastrService,
     private trans: TranslateService
-    
-    
-    
-
-
   ) { }
 
   /******************************************DECLARATION *******************************************/

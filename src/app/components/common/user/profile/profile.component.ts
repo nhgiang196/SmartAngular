@@ -29,8 +29,6 @@ export class ProfileComponent implements OnInit {
     $('#lefNav').show();
     $('#homeMenuButton').show();
     
-  }
-
-  
+  }  
 
 }

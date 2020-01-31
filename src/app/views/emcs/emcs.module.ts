@@ -6,7 +6,7 @@ import { VoucherRequisitionComponent } from './voucher-requisition/voucher-requi
 
 import { RouterModule } from '@angular/router';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { AdminModule } from 'src/app/components/common/admin/admin.module';
+import { WorkFlowModule } from 'src/app/components/common/work-flow/work-flow.module';
 import { EquipmentDetailComponent } from './equipment-detail/equipment-detail.component';
 import { UpdateVoucherComponent } from './update-voucher/update-voucher.component';
 import { VoucherDetailComponent } from './voucher-detail/voucher-detail.component';
@@ -30,7 +30,7 @@ import { PlanScheduleReportComponent } from './plan-schedule-report/plan-schedul
     CommonModule,
     SharedModule,
     RouterModule,
-    AdminModule
+    WorkFlowModule
   ],
   exports:[EquipmentManageComponent,PlanScheduleComponent,VoucherRequisitionComponent,EquipmentDetailComponent]
 })

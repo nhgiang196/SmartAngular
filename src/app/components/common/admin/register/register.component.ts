@@ -9,11 +9,11 @@ import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from 'src/app/services/language.services';
 
 @Component({
-  selector: 'app-login-register',
-  templateUrl: './login-register.component.html',
-  styleUrls: ['./login-register.component.css']
+  selector: 'app-register',
+  templateUrl: './register.component.html',
+  styleUrls: ['./register.component.css']
 })
-export class LoginRegisterComponent implements OnInit {
+export class RegisterComponent implements OnInit {
 
   constructor(
     public authService: AuthService,
