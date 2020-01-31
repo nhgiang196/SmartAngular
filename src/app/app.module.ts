@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { LocationStrategy, HashLocationStrategy, CommonModule } from '@angular/common';
 
@@ -19,6 +19,7 @@ import { UserMangamentComponent } from './views/user-mangament/user-mangament.co
 import { NavigationAdminComponent } from './components/nav/navigation-admin/navigation-admin.component';
 import { AdminModule } from './components/common/admin/admin.module';
 import { UserModule } from './components/common/user/user.module';
+import { AuthInterceptor } from './helpers/AuthInterceptor';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,16 @@ import { UserModule } from './components/common/user/user.module';
   exports: [
     CommonModule
   ],
-  providers: [{ provide: LocationStrategy, useClass: HashLocationStrategy }, AuthGuard, AuthService],
+  providers: [
+    { provide: LocationStrategy, useClass: HashLocationStrategy }, 
+    AuthGuard, 
+    AuthService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true,
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

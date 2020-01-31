@@ -6,39 +6,29 @@
           BCM
         </div>
       </li>
-      <li  >
-        <a  data-toggle="dropdown" class="dropdown-toggle"><i
-            class="fa fa-th-large"></i><span class="nav-label">{{ 'LeftNav.AdminGeneral' | translate }}</span><span class="fa arrow"></span></a>
-          <ul class="nav nav-second-level collapse">
-            <li ><a [routerLink]="['/admin/usersManagment']" >🎉{{'LeftNav.User' | translate}} </a></li>
-            <li ><a [routerLink]="['/admin/']" >{{'LeftNav.GroupUser' | translate}} </a></li>
-            <li ><a [routerLink]="['/admin/']" >{{'LeftNav.Factory' | translate}} </a></li>
-            <li ><a [routerLink]="['/admin/']" >{{'LeftNav.Warehouse' | translate}} </a></li>
-            <li ><a [routerLink]="['/admin/']" >{{'LeftNav.EQMachine' | translate}} </a></li>
-            <li ><a [routerLink]="['/admin/']" >{{'LeftNav.Chemical' | translate}} </a></li>
+      <li>
+        <a data-toggle="dropdown" class="dropdown-toggle"><i class="fa fa-th-large"></i><span
+            class="nav-label">{{ 'LeftNav.AdminGeneral' | translate }}</span><span class="fa arrow"></span></a>
+        <ul class="nav nav-second-level collapse">
+          <li><a [routerLink]="['/admin/usersManagment']">🎉{{'LeftNav.User' | translate}} </a></li>
+          <li><a [routerLink]="['/admin/']">{{'LeftNav.GroupUser' | translate}} </a></li>
+          <li><a [routerLink]="['/admin/']">{{'LeftNav.Factory' | translate}} </a></li>
+          <li><a [routerLink]="['/admin/']">{{'LeftNav.Warehouse' | translate}} </a></li>
+          <li><a [routerLink]="['/admin/']">{{'LeftNav.EQMachine' | translate}} </a></li>
+          <li><a [routerLink]="['/admin/']">{{'LeftNav.Chemical' | translate}} </a></li>
         </ul>
       </li>
-      <li  >
-        <a  data-toggle="dropdown" class="dropdown-toggle"><i
-            class="fa fa-th-large"></i><span class="nav-label">{{ 'LeftNav.AdminFull' | translate }}</span><span class="fa arrow"></span></a>
-            <ul class="nav nav-second-level collapse"><li ><a [routerLink]="['/admin/role']" >🎉{{'LeftNav.Role' | translate}} </a></li>
-           <li ><a [routerLink]="['/admin/']" >{{'LeftNav.AccessRole' | translate}} </a></li>
-           <li ><a [routerLink]="['/admin/']" >{{'LeftNav.NotificationConfig' | translate}} </a></li>
-           <li ><a [routerLink]="['/admin/']" >{{'LeftNav.LanguageConfig' | translate}} </a></li></ul>
-      </li>
-      <!-- EMCS MODULES -->
-      <!-- <li >
-        <a    data-toggle="dropdown" class="dropdown-toggle" ><i class="fa fa-flask"></i><span
-            class="nav-label">{{ 'CommandTree.LabEquipment' | translate }}</span><span class="fa arrow"></span></a>
-        <ul  class="nav nav-second-level collapse" >
-          <li ><a [routerLink]="['/EQManageView']">{{ 'CommandTree.EQMana' | translate }}</a></li>
-          <li ><a [routerLink]="['/planScheduleView']">{{ 'CommandTree.Planning' | translate }}</a></li>
-          <li ><a [routerLink]="['/voucherRequisitionView']">{{ 'CommandTree.Voucher' | translate }}</a></li>
+      <li>
+        <a data-toggle="dropdown" class="dropdown-toggle"><i class="fa fa-th-large"></i><span
+            class="nav-label">{{ 'LeftNav.AdminFull' | translate }}</span><span class="fa arrow"></span></a>
+        <ul class="nav nav-second-level collapse">
+          <li><a [routerLink]="['/admin/role']">🎉{{'LeftNav.Role' | translate}} </a></li>
+          <li><a [routerLink]="['/admin/']">{{'LeftNav.AccessRole' | translate}} </a></li>
+          <li><a [routerLink]="['/admin/resetPass']">{{'LeftNav.ResetPass' | translate}} </a></li>
+          <li><a [routerLink]="['/admin/']">{{'LeftNav.NotificationConfig' | translate}} </a></li>
+          <li><a [routerLink]="['/admin/']">{{'LeftNav.LanguageConfig' | translate}} </a></li>
         </ul>
-      </li> -->
-      <!-- <li class="landing_link">
-        <a href="http://webapplayers.com/inspinia_admin-v2.9.3/dashboard_4_1.html" target="_blank" ><i class="fa fa-star"></i> <span class="nav-label">Mẫu template</span></a>
-      </li> -->
+      </li>    
     </ul>
   </div>
 </nav>

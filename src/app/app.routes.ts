@@ -33,6 +33,7 @@ import { LoginComponent } from './components/common/user/login/login.component';
 import { RegisterComponent } from './components/common/admin/register/register.component';
 import { RolesComponent } from './components/common/admin/roles/roles.component';
 import { ProfileComponent } from './components/common/user/profile/profile.component';
+import { ResetpasswordComponent } from './components/common/admin/resetpassword/resetpassword.component';
 
 
 
@@ -51,9 +52,7 @@ export const ROUTES: Routes = [
     path: '', component: BasicComponent,
     children: [
       { path: 'mainView', component: MainViewComponent, canActivate: [AuthGuard] }, //custom
-      { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] }, //custom
-     // { path: 'notification', component: NotificationComponent, canActivate: [AuthGuard] }, //custom
-
+      { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] }, //custom     
 
       { path: 'workFlowView', component: WorkFlowComponent, canActivate: [AuthGuard] },
       { path: 'taskManageView', component: TaskManageComponent, canActivate: [AuthGuard] },
@@ -74,12 +73,15 @@ export const ROUTES: Routes = [
       { path: 'planScheduleReportView/:DeptID/:Year', component: PlanScheduleReportComponent, canActivate: [AuthGuard] },
 
 
-      
-      { path: 'admin', canActivate: [AuthGuard], children:[
-        { path: 'usersManagment', component: UserMangamentComponent },
-        { path: 'role', component: RolesComponent },
-        { path: '', component: NavigationAdminComponent, outlet: 'sidemenu' },
-      ]},     
+
+      {
+        path: 'admin', canActivate: [AuthGuard], children: [
+          { path: 'usersManagment', component: UserMangamentComponent },
+          { path: 'role', component: RolesComponent },
+          { path: 'resetPass', component: ResetpasswordComponent, canActivate: [AuthGuard] },
+          { path: '', component: NavigationAdminComponent, outlet: 'sidemenu' },
+        ]
+      },
     ]
   },
   { //BlankComponent
@@ -88,12 +90,12 @@ export const ROUTES: Routes = [
       // { path: 'landingView', component: LandingViewComponent },
       { path: 'login', component: LoginComponent },
       { path: 'register', component: RegisterComponent },
-      
+
       { path: 'voucherReportView/:VoucherId', component: VoucherReportComponent, canActivate: [AuthGuard] },
       { path: '**', component: NotFoundComponent }
     ]
   },
-  
+
   // Handle all other routes
 
 ];

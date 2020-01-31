@@ -46,9 +46,6 @@ export class AuthService {
     this.router.navigateByUrl('login');
   }
 
-  
-
-
   login() {
     
     let params =
@@ -56,7 +53,7 @@ export class AuthService {
       Username: this.currentUser.Username,
       Password: this.currentUser.Password
     };
-    return this.http.post(`${url}/ldapLogin`, params);
+    return this.http.post(`${url}/login`, params);
   }
   register(entity: any )
   {
