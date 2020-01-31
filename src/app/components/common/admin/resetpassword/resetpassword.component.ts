@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AdminService } from 'src/app/services/admin.service';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
+import { OperationResult } from 'src/app/helpers/operationResult';
 
 @Component({
   selector: 'app-resetpassword',
@@ -32,23 +33,12 @@ export class ResetpasswordComponent implements OnInit {
   getUsers = () => this.adminService.getUsers().subscribe(res => this.Users = res)
   ChangePassword() {
     this.adminService.resetPassword(this.Account).toPromise().then(res => {
-      console.log(res)
+      let operationResult = res as OperationResult;
+      this.toastr.success(operationResult.Message, operationResult.Caption);
       this.loading = false;
     }).catch(err => {
       this.toastr.error(err.message, err.statusText + ': ' + err.status);
     });
-  }
-
-  /******************************************On change event *******************************************/
-  selectOnChange() {
-    // this.loading = true;
-    // this.adminService.getRoleByUser(_user).toPromise().then(res=>{
-    //   console.log(res);
-    //   this.entity.UserInRole = res;
-    //   this.loading= false;
-    // }).catch(err=>{
-    //   this.toastr.error(err.message,err.statusText+': '+err.status);
-    // });
   }
 
 }
