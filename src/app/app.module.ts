@@ -16,7 +16,6 @@ import { EMCSModule } from './views/emcs/emcs.module';
 import { MainViewModule } from './views/main-view/main-view.module';
 import { SharedModule } from './shared/shared.module';
 import { UserMangamentComponent } from './views/user-mangament/user-mangament.component';
-import { NavigationAdminComponent } from './components/nav/navigation-admin/navigation-admin.component';
 import { AdminModule } from './components/common/admin/admin.module';
 import { UserModule } from './components/common/user/user.module';
 import { AuthInterceptor } from './helpers/AuthInterceptor';
@@ -25,7 +24,6 @@ import { AuthInterceptor } from './helpers/AuthInterceptor';
   declarations: [
     AppComponent,
     UserMangamentComponent,
-    NavigationAdminComponent,
   ],
   imports: [
     BrowserModule,

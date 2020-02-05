@@ -28,12 +28,13 @@ import { VoucherReportComponent } from './views/emcs/voucher-report/voucher-repo
 import { PlanScheduleReportComponent } from './views/emcs/plan-schedule-report/plan-schedule-report.component';
 import { UserMangamentComponent } from './views/user-mangament/user-mangament.component';
 import { NavigationComponent } from './components/common/navigation/navigation.component';
-import { NavigationAdminComponent } from './components/nav/navigation-admin/navigation-admin.component';
 import { LoginComponent } from './components/common/user/login/login.component';
 import { RegisterComponent } from './components/common/admin/register/register.component';
 import { RolesComponent } from './components/common/admin/roles/roles.component';
 import { ProfileComponent } from './components/common/user/profile/profile.component';
 import { ResetpasswordComponent } from './components/common/admin/resetpassword/resetpassword.component';
+import { AdminNavigationComponent } from './components/common/navigation/admin-navigation/admin-navigation.component';
+import { FactoryComponent } from './views/smartin/factory/factory.component';
 
 
 
@@ -79,7 +80,8 @@ export const ROUTES: Routes = [
           { path: 'usersManagment', component: UserMangamentComponent },
           { path: 'role', component: RolesComponent },
           { path: 'resetPass', component: ResetpasswordComponent, canActivate: [AuthGuard] },
-          { path: '', component: NavigationAdminComponent, outlet: 'sidemenu' },
+          { path: 'factory', component: FactoryComponent, canActivate: [AuthGuard] },
+          { path: '', component: AdminNavigationComponent, outlet: 'sidemenu' },
         ]
       },
     ]
