@@ -15,8 +15,21 @@ export class AdminService {
   getRoleByUser = (username: string) => this.http.get<any>(`${url}/getRolesAsync`, { params: { username: username } });
   getUsers = () => this.http.get<any>(`${url}/getUsers`);
 
+  addPolicy = (entity) => this.http.post(`${url}/addPolicy`,entity);
+  addPoliciesToRoles = (entity) => this.http.post(`${url}/addPoliciesToRoles`,entity);
+  removeRole = (roleName) => this.http.delete(`${url}/removeRole/${roleName}`);
+  createRole = (roleName) => this.http.post(`${url}/createRole`,roleName);
+  addUserToRole = (entity) => this.http.post(`${url}/addToRole`,entity);
+  removeUserToRole = (entity) => this.http.delete(`${url}/removeUserToRole/${entity.Username}`,entity);  
   getRoles = () => this.http.get<any>(`${url}/getRoles`);
-  resetPassword = (entity) => this.http.put(`${url}/resetPasswordAsync?userName=${entity.Username}&Password=${entity.Password}`,{body:{ userName: "xx", Password: "fdsfs" }});
+  lockAccount = (entity) => this.http.put<any>(`${url}/lockAccount`,entity);
+  deleteAccount = (userName) => this.http.delete<any>(`${url}/deleteAccount/${userName}`);
+  getUsersInRoleAsync = (roleName) => this.http.get<any>(`${url}/getUsersInRoleAsync?roleName=${roleName}`);
+  getRolesUserAsync = (userName) => this.http.get<any>(`${url}/getRolesAsync?userName=${userName}`);
+  getPoliciesInRoleAsync = (roleName) => this.http.get<any>(`${url}/getPoliciesInRoleAsync?roleName=${roleName}`);
+  resetPasswordAsync = (entity) => this.http.post<any>(`${url}/resetPasswordAsync`,entity);
+  sendMailAsync = (entity) => this.http.post<any>(`${url}/sendMailAsync`,entity);
+  sendMail= (entity) => this.http.post<any>(`${url}/sendMail`,entity);
   toogleRole(Username: string, roles: string[], toogleValue: boolean) {
     var urlString = toogleValue ? 'addtoRole' : 'removeToRole';
     var method = toogleValue ? 'POST' : 'DELETE';

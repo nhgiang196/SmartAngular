@@ -1,11 +1,11 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 declare var jQuery: any;
 @Component({
-  selector: 'app-admin-navigation',
-  templateUrl: './admin-navigation.component.html',
-  styleUrls: ['./admin-navigation.component.css']
+  selector: 'app-user-navigation',
+  templateUrl: './user-navigation.component.html',
+  styleUrls: ['./user-navigation.component.css']
 })
-export class AdminNavigationComponent implements OnInit, AfterViewInit {
+export class UserNavigationComponent implements OnInit,AfterViewInit {
 
   constructor() { }
 

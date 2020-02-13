@@ -32,7 +32,7 @@ export class ResetpasswordComponent implements OnInit {
   }
   getUsers = () => this.adminService.getUsers().subscribe(res => this.Users = res)
   ChangePassword() {
-    this.adminService.resetPassword(this.Account).toPromise().then(res => {
+    this.adminService.resetPasswordAsync(this.Account).toPromise().then(res => {
       let operationResult = res as OperationResult;
       this.toastr.success(operationResult.Message, operationResult.Caption);
       this.loading = false;

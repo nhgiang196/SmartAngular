@@ -35,6 +35,9 @@ import { ProfileComponent } from './components/common/user/profile/profile.compo
 import { ResetpasswordComponent } from './components/common/admin/resetpassword/resetpassword.component';
 import { AdminNavigationComponent } from './components/common/navigation/admin-navigation/admin-navigation.component';
 import { FactoryComponent } from './views/smartin/factory/factory.component';
+import { UserNavigationComponent } from './components/common/navigation/user-navigation/user-navigation.component';
+import { UserResetPasswordComponent } from './components/common/user/user-reset-password/user-reset-password.component';
+import { ForgotPasswordComponent } from './components/common/user/forgot-password/forgot-password.component';
 
 
 
@@ -47,13 +50,13 @@ export const ROUTES: Routes = [
   // Main redirect
   { path: '', redirectTo: 'mainView', pathMatch: 'full' },
   { path: 'admin', redirectTo: '/admin/usersManagment', pathMatch: 'full' },
+  { path: 'user', redirectTo: '/user/profile', pathMatch: 'full' },
 
   // App views
   { //BasicComponent
     path: '', component: BasicComponent,
     children: [
       { path: 'mainView', component: MainViewComponent, canActivate: [AuthGuard] }, //custom
-      { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] }, //custom     
 
       { path: 'workFlowView', component: WorkFlowComponent, canActivate: [AuthGuard] },
       { path: 'taskManageView', component: TaskManageComponent, canActivate: [AuthGuard] },
@@ -84,6 +87,13 @@ export const ROUTES: Routes = [
           { path: '', component: AdminNavigationComponent, outlet: 'sidemenu' },
         ]
       },
+      {
+        path: 'user', canActivate: [AuthGuard], children: [
+          { path: 'profile', component: ProfileComponent },
+          { path: 'changePass', component: RolesComponent },
+          { path: '', component: AdminNavigationComponent, outlet: 'sidemenu' },
+        ]
+      },
     ]
   },
   { //BlankComponent
@@ -92,6 +102,8 @@ export const ROUTES: Routes = [
       // { path: 'landingView', component: LandingViewComponent },
       { path: 'login', component: LoginComponent },
       { path: 'register', component: RegisterComponent },
+      { path: 'forgotPassword', component: ForgotPasswordComponent },      
+      { path: 'resetPassword', component: UserResetPasswordComponent },
 
       { path: 'voucherReportView/:VoucherId', component: VoucherReportComponent, canActivate: [AuthGuard] },
       { path: '**', component: NotFoundComponent }

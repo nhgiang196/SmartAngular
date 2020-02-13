@@ -45,20 +45,13 @@ export class AuthService {
     localStorage.removeItem('currentUser');
     this.router.navigateByUrl('login');
   }
-
-  login() {
-    
-    let params =
-    {
-      Username: this.currentUser.Username,
-      Password: this.currentUser.Password
-    };
-    return this.http.post(`${url}/login`, params);
-  }
-  register(entity: any )
-  {
-    return this.http.post(`${url}/register`, entity);
-  }
+  login =() =>  this.http.post(`${url}/login`, this.currentUser);  
+  ldapLogin =() =>  this.http.post(`${url}/ldapLogin`, this.currentUser); 
+  LDAP =() =>  this.http.post(`${url}/ldap`, this.currentUser); 
+  register = (entity) =>this.http.post(`${url}/register`, entity);  
+  forgotPassword = (email)=> this.http.get(`${url}/forgotPassword?Email=${email}`);
+  resetPassword = (entity)=> this.http.put(`${url}/resetPassword`, entity);
+  refreshToken = (entity)=> this.http.post(`${url}/forgotPassword`, entity);
   
 
 }
