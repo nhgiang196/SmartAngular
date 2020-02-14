@@ -103,7 +103,34 @@
     "search": "Tìm kiếm",
     "zeroRecords": "Không có Record",
     "url": "Đường dẫn"
-}
+  },
+  "Factory":{
+    "data":{
+      "FactoryID"	:"FactoryID",
+      "FactoryCode"	:"Factory Code",
+      "FactoryName"	:"Factory Name",
+      "FactoryAddress"	:"Factory Address",
+      "FactoryContact"	:"Factory Contact",
+      "ContactPhone"	:"Contact Phone",
+      "FactoryType"	:"Factory Type",
+      "FactoryType_1": "FactoryType_1",
+      "FactoryType_2": "FactoryType_2",
+      "FactoryType_3": "FactoryType_3",
+      "FactoryBuiltDate"	:"Factory Built Date",
+      "FactoryStartDate": "Factory Built Start Date",
+      "FactoryEndDate":"Factory End Date",
+      "Status":"Factory Status",
+      "FactoryTechnologyID":"FactoryTechnologyID",
+      "TechnologyFromDate":"TechnologyFromDate",
+      "TechnologyToDate":"Technology To Date",
+      "TechnologyDescription":"Technology Description",
+      "TechnologyName":"Technology Name",
+      "IsCurrent":"IsCurrent",
+      "FileOriginalName":"FileOriginalName",
+      "FileName":"FileName"
+    },
+    "CommandButton1":"Test"
+  }
   
 }
   

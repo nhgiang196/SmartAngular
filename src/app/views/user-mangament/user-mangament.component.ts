@@ -1,12 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { collapseIboxHelper } from '../../app.helpers';
 import { WaterTreatmentService } from 'src/app/services/api-watertreatment.service';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
-
-
-
-
 
 @Component({
   selector: 'app-user-mangament',
@@ -54,6 +50,7 @@ private dataTableContruct (data){
       }},
     ],
     language:  {
+      searchPlaceholder: 'Nhập nội dung tìm kiếm',
       emptyTable:     this.trans.instant('DefaultTable.emptyTable'),
       info:           this.trans.instant('DefaultTable.info'),
       infoEmpty:      this.trans.instant('DefaultTable.infoEmpty'),
@@ -64,19 +61,14 @@ private dataTableContruct (data){
       loadingRecords: this.trans.instant('DefaultTable.loadingRecords'),
       processing:     this.trans.instant('DefaultTable.processing'),
       search:         this.trans.instant('DefaultTable.search'),
-      searchPlaceholder: 'Nhập nội dung tìm kiếm',
       zeroRecords:    this.trans.instant('DefaultTable.zeroRecords'),
       url:            this.trans.instant('DefaultTable.url'),
       paginate:  {
-          first: 'Đầu tiên',
-          last: "Cuối cùng",
+          first: '<<',
+          last: ">>",
           next: ">",
           previous: "<"
       },
-      aria:{
-        sortAscending: "sắp xếp  tăng dần",
-        sortDescending: "sắp xếp giảm dần"
-    }
   },
     data: data,
   });

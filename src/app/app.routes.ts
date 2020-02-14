@@ -52,11 +52,11 @@ export const ROUTES: Routes = [
   { //BasicComponent
     path: '', component: BasicComponent,
     children: [
-      { path: 'mainView', component: MainViewComponent, canActivate: [AuthGuard] }, //custom
-      { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] }, //custom     
+      { path: 'mainView', component: MainViewComponent }, //custom
+      { path: 'profile', component: ProfileComponent }, //custom     
 
-      { path: 'workFlowView', component: WorkFlowComponent, canActivate: [AuthGuard] },
-      { path: 'taskManageView', component: TaskManageComponent, canActivate: [AuthGuard] },
+      { path: 'workFlowView', component: WorkFlowComponent },
+      { path: 'taskManageView', component: TaskManageComponent },
       { path: 'taskCompleteView', component: TaskCompleteComponent },
       { path: 'showDiagram/:id', component: DiagramComponent },//Show Diagram
       { path: 'taskFormView/:formKey/:id/:businessKey', component: TaskFormComponent },//Open detail form Approve by Key
@@ -64,23 +64,23 @@ export const ROUTES: Routes = [
       /**
        * EMCS ComponentRoutes
        */
-      { path: 'EQManageView', component: EquipmentManageComponent, canActivate: [AuthGuard] },
-      { path: 'planScheduleView', component: PlanScheduleComponent, canActivate: [AuthGuard] },
-      { path: 'voucherRequisitionView', component: VoucherRequisitionComponent, canActivate: [AuthGuard] },
-      { path: 'equipmentReportView/:DeptID', component: EquipmentReportComponent, canActivate: [AuthGuard] },
+      { path: 'EQManageView', component: EquipmentManageComponent },
+      { path: 'planScheduleView', component: PlanScheduleComponent },
+      { path: 'voucherRequisitionView', component: VoucherRequisitionComponent },
+      { path: 'equipmentReportView/:DeptID', component: EquipmentReportComponent },
       { path: 'EquipmentView/:EQID', component: EquipmentDetailComponent },//Open detail form Approve by Key
       { path: 'VoucherView/:businessKey', component: VoucherDetailComponent },//Open detail form Approve by Key
       { path: 'NonAdjustEQView', component: StandardEquipmentComponent },//Open detail form Approve by Key
-      { path: 'planScheduleReportView/:DeptID/:Year', component: PlanScheduleReportComponent, canActivate: [AuthGuard] },
+      { path: 'planScheduleReportView/:DeptID/:Year', component: PlanScheduleReportComponent },
 
 
 
       {
-        path: 'admin', canActivate: [AuthGuard], children: [
+        path: 'admin', children: [
           { path: 'usersManagment', component: UserMangamentComponent },
           { path: 'role', component: RolesComponent },
-          { path: 'resetPass', component: ResetpasswordComponent, canActivate: [AuthGuard] },
-          { path: 'factory', component: FactoryComponent, canActivate: [AuthGuard] },
+          { path: 'resetPass', component: ResetpasswordComponent },
+          { path: 'factory', component: FactoryComponent },
           { path: '', component: AdminNavigationComponent, outlet: 'sidemenu' },
         ]
       },
@@ -93,7 +93,7 @@ export const ROUTES: Routes = [
       { path: 'login', component: LoginComponent },
       { path: 'register', component: RegisterComponent },
 
-      { path: 'voucherReportView/:VoucherId', component: VoucherReportComponent, canActivate: [AuthGuard] },
+      { path: 'voucherReportView/:VoucherId', component: VoucherReportComponent },
       { path: '**', component: NotFoundComponent }
     ]
   },

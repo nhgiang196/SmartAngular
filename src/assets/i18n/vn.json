@@ -1,25 +1,25 @@
 {
-  "Title":"Phần mềm quản trị",
-  "About":"TRUNG TÂM CHUYỂN ĐỔI SỐ BECAMEX IDC",
-  "Users":{
+  "Title": "Phần mềm quản trị",
+  "About": "TRUNG TÂM CHUYỂN ĐỔI SỐ BECAMEX IDC",
+  "Users": {
     "Username": "Tên tài khoản",
     "Password": "Mật khẩu",
     "Email": "Email",
-    "Department" : "Bộ phận",
-    "Position" : "Vị trí",
+    "Department": "Bộ phận",
+    "Position": "Vị trí",
     "Phone": "Số điện thoại"
   },
-  "Role":{
-    "Description":"Chọn người dùng và chọn các quyền liên quan của họ",
+  "Role": {
+    "Description": "Chọn người dùng và chọn các quyền liên quan của họ",
     "AssignTo": "Gán",
     "Name": "Tên quyền",
     "Name.ADMIN": "Admin",
     "Name.POSTER": "Quyền gửi POST",
     "Name.READ": "Quyền đọc",
-    "Error_RoleAdd":"Lỗi dữ liệu khi thay đổi quyền",
-    "Success_RoleAdd":"Thay đổi quyền thành công"
+    "Error_RoleAdd": "Lỗi dữ liệu khi thay đổi quyền",
+    "Success_RoleAdd": "Thay đổi quyền thành công"
   },
-  "Register":{
+  "Register": {
     "PleaseInput": "Nhập các thông tin cần thiết để tạo tài khoản",
     "Register": "Đăng ký",
     "AskLogin": "Có tài khoản? Đăng nhập ở đây",
@@ -59,8 +59,8 @@
     "Logout": "Đăng Xuất",
     "Dashboard": "Dashboard",
     "ShowAllTask": "Hiển Thị Tất Cả Công Việc Của Tôi",
-    "Profile":"Thông tin cá nhân",
-    "Administration":"Quản trị"
+    "Profile": "Thông tin cá nhân",
+    "Administration": "Quản trị"
   },
   "Upload": {
     "FileName": "Tên File",
@@ -74,34 +74,61 @@
     "AdminGeneral": "QUẢN TRỊ NỘI DUNG",
     "AdminFull": "QUẢN TRỊ HỆ THỐNG",
     "User": "Người dùng",
-    "GroupUser":  "Nhóm người dùng",
+    "GroupUser": "Nhóm người dùng",
     "Role": "Vai trò",
-    "AccessRole" : "Quản trị vai trò truy cập",
+    "AccessRole": "Quản trị vai trò truy cập",
     "NotificationConfig": "Cấu hình thông báo",
     "ResetPass": "Khôi phục mật khẩu",
     "LanguageConfig": "Câu hình ngôn ngữ",
-    "Factory" : "Nhà máy",
+    "Factory": "Nhà máy",
     "Warehouse": "Kho",
     "EQMachine": "Máy móc & thiết bị",
     "Chemical": "Hóa chất"
   },
-  "UserMangament":{
-    "Name":"Họ tên",
-    "Role":"Test"
+  "UserMangament": {
+    "Name": "Họ tên",
+    "Role": "Test"
   },
-  "DefaultTable":{
-      "emptyTable": "",
-      "info": "Hiển thị _START_ đến _END_ thuộc _TOTAL_",
-      "infoEmpty": "Bảng không có dữ liệu",
-      "infoFiltered": "(lọc từ _MAX_ tổng số dòng)",
-      "infoPostFix": " số dòng",
-      "thousands": ",",
-      "lengthMenu": "Hiển thị _MENU_ dòng mỗi trang",
-      "loadingRecords": "Đang lấy dữ liệu",
-      "processing": "Đang lấy dữ liệu (processing)",
-      "search": "Tìm kiếm",
-      "zeroRecords": "Không có Record",
-      "url": "Đường dẫn"
+  "DefaultTable": {
+    "emptyTable": "",
+    "info": "Hiển thị _START_ đến _END_ thuộc _TOTAL_",
+    "infoEmpty": "Bảng không có dữ liệu",
+    "infoFiltered": "(lọc từ _MAX_ tổng số dòng)",
+    "infoPostFix": " số dòng",
+    "thousands": ",",
+    "lengthMenu": "Hiển thị _MENU_ dòng mỗi trang",
+    "loadingRecords": "Đang lấy dữ liệu",
+    "processing": "Đang lấy dữ liệu (processing)",
+    "search": "Tìm kiếm",
+    "zeroRecords": "Không có Record",
+    "url": "Đường dẫn"
+  },
+  "Factory": {
+    "data": {
+      "FactoryID": "Mã nhà máy",
+      "FactoryCode"	:"Factory Code",
+      "FactoryName": "Tên nhà máy",
+      "FactoryAddress": "Địa chỉ",
+      "FactoryContact": "Thông tin người liên lạc",
+      "ContactPhone": "Số điện thoại liên lạc",
+      "FactoryType": "Kiểu nhà máy",
+      "FactoryType_1": "Nhà máy XLNT Khu dân cư",
+      "FactoryType_2": "Nhà máy XLNT Khu công nghiệp",
+      "FactoryType_3": "Nhà máy XLNT Khu dân cư và khu công nghiệp",
+      "FactoryBuiltDate": "Ngày xây dựng",
+      "FactoryStartDate": "Ngày kết thúc dự án xây dựng",
+      "FactoryEndDate": "Ngày kết thúc dự án xây dựng",
+      "Status": "Trạng thái nhà máy",
+      "FactoryTechnologyID":"Công nghệ",
+      "TechnologyFromDate":"Công nghệ từ",
+      "TechnologyToDate":"Công nghệ đến",
+      "TechnologyDescription":"Diễn giải công nghệ",
+      "TechnologyName":"Tên công nghệ",
+      "IsCurrent":"Hiện tại",
+      "FileOriginalName":"Tên file",
+      "FileName":"Tên file"
+    },
+    "CommandButton1": "Test"
   }
 
 

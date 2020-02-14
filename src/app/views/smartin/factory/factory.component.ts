@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { collapseIboxHelper } from '../../../app.helpers';
+import { TranslateService } from '@ngx-translate/core';
+
 
 @Component({
   selector: 'app-factory',
@@ -10,6 +13,13 @@ export class FactoryComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+
+
+    
+  }
+
+  ngAfterViewInit(){ //CSS
+    collapseIboxHelper();
   }
 
 }
