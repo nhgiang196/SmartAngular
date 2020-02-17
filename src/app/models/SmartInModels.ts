@@ -1,6 +1,6 @@
 
 export class Factory {
-  FactoryId?: number
+  FactoryId?: number = 0
   FactoryName?: string
   FactoryAddress?: string
   FactoryContact?: string
@@ -8,15 +8,15 @@ export class Factory {
   FactoryBuiltDate?: Date
   FactoryStartDate?: Date
   FactoryEndDate?: Date
-  FactoryType: number = 1
-  Status: number = 1
-  FactoryFile?: []
-  FactoryTechnology?: []
+  FactoryType: number = 1 //type1
+  Status: number = 1 //working
+  FactoryFile?: FactoryFile[] = []
+  FactoryTechnology?: FactoryTechnology[] = []
 }
 
 export class FactoryTechnology {
-  FactoryTechnologyId: number
-  FactoryId: number
+  FactoryTechnologyId?: number = 0
+  FactoryId?: number = 0
   TechnologyFromDate: Date
   TechnologyToDate: Date
   TechnologyDescription: string
@@ -25,20 +25,20 @@ export class FactoryTechnology {
 
 }
 export class FactoryFile {
-  FactoryFileId: number
-  FactoryId: number
-  FileId: number
+  FactoryFileId: number = 0
+  FactoryId: number = 0
+  FileId: number = 0
   File: File[]
 }
 
 
 
 export class File{
-  FileId: number
+  FileId: number = 0
   FileOriginalName: string
   FileName: string
   Path: string
   CreateBy: string
   CreateDate:Date
-  Status: number
+  Status: number = 1 //current
 }

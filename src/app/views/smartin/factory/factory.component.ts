@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { collapseIboxHelper } from '../../../app.helpers';
 import { TranslateService } from '@ngx-translate/core';
 import { WaterTreatmentService } from 'src/app/services/api-watertreatment.service';
-import { Factory } from 'src/app/models/SmartInModels';
+import { Factory, FactoryTechnology } from 'src/app/models/SmartInModels';
 import { ToastrService } from 'ngx-toastr';
 
 
@@ -22,6 +22,7 @@ export class FactoryComponent implements OnInit {
   /** INIT */
   factory : Factory[];
   entity : Factory;
+  tech_entity : FactoryTechnology;
   laddaSubmitLoading = false;
   loading = false;
 
@@ -39,6 +40,7 @@ export class FactoryComponent implements OnInit {
 
   private resetEntity() {
     this.entity = new Factory();
+    this.tech_entity = new FactoryTechnology();
   }
 
   fnAdd(){
@@ -56,8 +58,32 @@ export class FactoryComponent implements OnInit {
       this.loading = false;
       this.toastr.error(error.statusText,"Load factory information error" );
     })
-    
+  }
+  fnAddItem(){
+    var itemAdd = this.tech_entity;
+    this.tech_entity = new FactoryTechnology();
+    debugger;
+    this.entity.FactoryTechnology.push(itemAdd);
+  }
 
+  fnDeleteItem(index){
+    this.entity.FactoryTechnology.splice(index,1);
+  }
+
+  fnSave(){
+    this.laddaSubmitLoading=true;
+    var e = this.entity;
+    if (this.fnValidate(e)) 
+      {
+        
+        this.laddaSubmitLoading=false
+      }
+  }
+
+  private fnValidate(e){
+    this.toastr.warning('test');
+    this.laddaSubmitLoading=false
+    return false;
   }
 
   ngAfterViewInit(){ //CSS

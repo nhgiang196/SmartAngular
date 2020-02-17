@@ -161,13 +161,13 @@
             <div class="col-lg-6">
               <div class="form-group">
                 <label>{{ 'Factory.data.FactoryTechnologyID' | translate }}: </label>
-                <input type="text" class="form-control" name="Technology" id="Technology">
+                <input type="text" class="form-control" name="Technology" id="Technology" [(ngModel)]="tech_entity.FactoryTechnologyID">
               </div>
             </div>
             <div class="col-lg-6">
               <div class="form-group">
                 <label>{{ 'Factory.data.TechnologyDescription' | translate }}: </label>
-                <input type="text" class="form-control" name="Description" id="Description">
+                <input type="text" class="form-control" name="Description" id="Description" [(ngModel)]="tech_entity.TechnologyDescription">
               </div>
             </div>
           </div>
@@ -175,18 +175,18 @@
             <div class="col-lg-6">
               <div class="form-group">
                 <label>{{ 'Factory.data.TechnologyFromDate' | translate }}: </label>
-                <input type="date" class="form-control" name="BeginDate" id="BeginDate">
+                <input bsDatepicker [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' }"  type="text" class="form-control" name="BeginDate" id="BeginDate" [(ngModel)]="tech_entity.TechnologyFromDate">
               </div>
             </div>
             <div class="col-lg-6">
               <div class="form-group">
                 <label>{{ 'Factory.data.TechnologyToDate' | translate }}: </label>
-                <input type="date" class="form-control" name="EndDate" id="EndDate">
+                <input bsDatepicker [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' }"  type="text" class="form-control" name="EndDate" id="EndDate" [(ngModel)]="tech_entity.TechnologyToDate">
               </div>
             </div>
           </div>
           <div class="row">
-            <button type="button" class="btn btn-success pull-right">Add</button>
+            <button type="button" class="btn btn-success pull-right" (click)="fnAddItem()">Add</button>
             <table class="table table-bordered">
               <thead>
                 <tr>
@@ -199,22 +199,16 @@
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>1</td>
-                  <td>Abc</td>
-                  <td>def</td>
-                  <td>20-02-2020</td>
-                  <td>20-03-2020</td>
-                  <td><button class="btn btn-danger"><i class="fa fa-trash"></i></button></td>
-                </tr>
-                <tr>
-                  <td>2</td>
-                  <td>Abc</td>
-                  <td>def</td>
-                  <td>20-02-2022</td>
-                  <td>20-03-2035</td>
-                  <td><button class="btn btn-danger"><i class="fa fa-trash"></i></button></td>
-                </tr>
+                
+                <tr  class="animated fadeInRight" *ngFor="let item of entity.FactoryTechnology; let i = index" >
+                  <td> {{i+1}} </td>
+                  <td>{{item.FactoryTechnologyID}} </td>
+                  <td>{{item.TechnologyDescription}} </td>
+                  <td>{{item.TechnologyFromDate | amDateFormat: 'YYYY-MM-DD' }} </td>
+                  <td>{{item.TechnologyToDate | amDateFormat: 'YYYY-MM-DD'}} </td>
+                  <td><button class="btn btn-danger" (click)="fnDeleteItem(i)" ><i class="fa fa-trash"></i></button></td>
+                </tr >
+                
               </tbody>
             </table>
           </div>
@@ -222,7 +216,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" (click)="laddaSubmitLoading=true" [ladda]="laddaSubmitLoading" >Save changes</button>
+        <button type="button" class="btn btn-primary" (click)="fnSave();" [ladda]="laddaSubmitLoading"  >Save changes</button>
       </div>
     </div>
   </div>

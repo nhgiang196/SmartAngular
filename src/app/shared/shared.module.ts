@@ -16,6 +16,8 @@ import { ToastrModule } from 'ngx-toastr';
 import { UserIdleModule } from 'angular-user-idle';
 import { NgwWowModule } from 'ngx-wow';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MomentModule } from 'ngx-moment';
+
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -62,7 +64,9 @@ export function HttpLoaderFactory(http: HttpClient) {
     ),
     BsDatepickerModule.forRoot(),
     PopoverModule.forRoot(),
-    TimepickerModule.forRoot()
+    TimepickerModule.forRoot(),
+    MomentModule.forRoot(),
+    
   ],
   exports: [
     BrowserModule,
@@ -80,8 +84,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     PopoverModule,
     TimepickerModule,
     ToastrModule,
-    LaddaModule
-
+    LaddaModule,
+    MomentModule
   ]
 
 })
