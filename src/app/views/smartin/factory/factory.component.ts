@@ -7,6 +7,7 @@ import { ToastrService } from 'ngx-toastr';
 
 
 
+
 declare let $:any;
 
 @Component({
@@ -75,6 +76,7 @@ export class FactoryComponent implements OnInit {
     var e = this.entity;
     if (this.fnValidate(e)) 
       {
+      console.log(e);
         
         this.laddaSubmitLoading=false
       }
@@ -83,7 +85,7 @@ export class FactoryComponent implements OnInit {
   private fnValidate(e){
     this.toastr.warning('test');
     this.laddaSubmitLoading=false
-    return false;
+    return true;
   }
 
   ngAfterViewInit(){ //CSS
