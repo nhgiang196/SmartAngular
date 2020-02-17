@@ -130,7 +130,8 @@
       "FileOriginalName":"Tên file",
       "FileName":"Tên file"
     },
-    "CommandButton1": "Test"
+    "CommandButton1": "Test",
+    "AddFactory":"Thêm nhà máy"
   }
 
 

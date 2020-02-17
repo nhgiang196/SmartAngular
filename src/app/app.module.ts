@@ -19,6 +19,7 @@ import { UserMangamentComponent } from './views/user-mangament/user-mangament.co
 import { AdminModule } from './components/common/admin/admin.module';
 import { UserModule } from './components/common/user/user.module';
 import { AuthInterceptor } from './helpers/AuthInterceptor';
+import { SmartinModule } from './views/smartin/smartin.module';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { AuthInterceptor } from './helpers/AuthInterceptor';
     UserModule,
     AdminModule, 
     SharedModule,
+    SmartinModule,
     //Views
     LayoutsModule,
     EMCSModule,  

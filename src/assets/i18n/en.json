@@ -131,7 +131,8 @@
       "FileOriginalName":"FileOriginalName",
       "FileName":"FileName"
     },
-    "CommandButton1":"Test"
+    "CommandButton1":"Test",
+    "AddFactory":"Add Factory"
   }
   
 }

@@ -15,78 +15,33 @@
   <div class="row">
     <div class="col-lg-12">
       <div class="ibox float-e-margins">
-        <!-- <div class="ibox-title">
-          <div class="ibox-tools">
-            <a class="collapse-link">
-              <i class="fa fa-chevron-up"></i>
-            </a>
-            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-              <i class="fa fa-wrench"></i>
-            </a>
-            <ul class="dropdown-menu dropdown-user">
-              <li><a href="#">Config option 1</a>
-              </li>
-              <li><a href="#">Config option 2</a>
-              </li>
-            </ul>
-            <a class="close-link">
-              <i class="fa fa-times"></i>
-            </a>
-          </div>
-        </div> -->
         <div class="ibox-content">
           <div class="row">
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal4"><i
-                class="fa fa-plus"></i> Add Factory</button>
+            <button (click)="resetEntity()" type="button" class="btn btn-primary dim" data-toggle="modal" data-target="#myModal4">
+              <i class="fa fa-plus" ></i> {{ 'Factory.AddFactory' | translate}} </button>
+            <div class="pull-right">
+              <input placeholder="Tìm kiếm" type="text" class="form-control" style="width: 318px;" > 
+           </div>
           </div>
+          <hr>
           <!-- Detail Factories  -->
           <div class="row">
-            <div class="col-lg-3">
-              <a data-toggle="modal" data-target="#myModal4">
+            <div class="col-lg-3" *ngFor="let item of factory" >
                 <div class="panel panel-info">
                   <div class="panel-heading text-center">
-                    <i class="fa fa-info-circle"></i> Info Panel
+                    <a>
+                      <i class="fa fa-info-circle"></i> {{item.FactoryName}}
+                    </a>
                   </div>
                   <div class="panel-body">
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt est vitae ultrices
-                      accumsan. Aliquam ornare lacus adipiscing, posuere lectus et, fringilla augue.</p>
+                    <p> {{item.FactoryAddress}}</p>
+                    <p> {{item.FactoryContact}}</p>
+                    <p> {{item.ContactPhone}}</p>
+                    <p> {{item.FactoryType}}</p>
+                    <p> {{item.Status}}</p>
                   </div>
                 </div>
-              </a>
 
-            </div>
-            <div class="col-lg-3">
-              <div class="panel panel-info">
-                <div class="panel-heading text-center">
-                  <i class="fa fa-info-circle"></i> Info Panel
-                </div>
-                <div class="panel-body">
-                  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt est vitae ultrices
-                    accumsan. Aliquam ornare lacus adipiscing, posuere lectus et, fringilla augue.</p>
-                </div>
-              </div>
-            </div>
-            <div class="col-lg-3">
-              <div class="panel panel-info">
-                <div class="panel-heading text-center">
-                  <i class="fa fa-info-circle"></i> Info Panel
-                </div>
-                <div class="panel-body">
-                  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt est vitae ultrices
-                    accumsan. Aliquam ornare lacus adipiscing, posuere lectus et, fringilla augue.</p>
-                </div>
-              </div>
-            </div>
-            <div class="col-lg-3">
-              <div class="panel panel-info">
-                <div class="panel-heading text-center">
-                  <i class="fa fa-info-circle"></i> Info Panel
-                </div>
-                <div class="panel-body">
-                  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt est vitae ultrices
-                    accumsan. Aliquam ornare lacus adipiscing, posuere lectus et, fringilla augue.</p>
-                </div>
-              </div>
             </div>
           </div>
         </div>
@@ -110,25 +65,27 @@
             <div class="col-lg-6">
               <div class="form-group">
                 <label>   {{ 'Factory.data.FactoryCode' | translate }}  : </label>
-                <input type="text" name="Numcode" id="Numcode" class="form-control" placeholder="Enter your Numcode">
+                <input type="text" name="Numcode" id="Numcode" class="form-control" placeholder="Enter your Numcode"  [(ngModel)]="entity.FactoryId">
               </div>
             </div>
             <div class="col-lg-6">
               <label>{{ 'Factory.data.FactoryBuiltDate' | translate }} :</label>
               <input type="text"  name="DateBuild" id="DateBuild" class="form-control"
-                placeholder="Enter your DateBuild" bsDatepicker [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' }">
+                placeholder="Enter your DateBuild" bsDatepicker [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' }" [(ngModel)]="entity.FactoryId">
             </div>
           </div>
           <div class="row">
             <div class="col-lg-6">
               <div class="form-group">
                 <label>{{ 'Factory.data.FactoryName' | translate }} :</label>
-                <input type="text" name="Name" id="Name" class="form-control" placeholder="Enter your Name">
+                <input type="text" name="Name" id="Name" class="form-control" placeholder="Enter your Name" 
+                [(ngModel)]="entity.FactoryName">
               </div>
             </div>
             <div class="col-lg-6">
               <label>{{ 'Factory.data.FactoryStartDate' | translate }} :</label>
-              <input type="text" name="DateStart" id="DateStart" class="form-control" bsDatepicker [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' }">
+              <input type="text" name="DateStart" id="DateStart" class="form-control" bsDatepicker [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' }" 
+              [(ngModel)]="entity.FactoryStartDate">
               
             </div>
           </div>
@@ -136,33 +93,35 @@
             <div class="col-lg-6">
               <div class="form-group">
                 <label>{{ 'Factory.data.FactoryAddress' | translate }} :</label>
-                <input type="text" name="Address" id="Address" class="form-control" placeholder="Enter your Address">
+                <input type="text" name="Address" id="Address" class="form-control" placeholder="Enter your Address" 
+                [(ngModel)]="entity.FactoryAddress">
               </div>
             </div>
             <div class="col-lg-6">
               <label>{{ 'Factory.data.FactoryEndDate' | translate }} :</label>
-              <input type="text" name="DateEnd" id="DateEnd" class="form-control" bsDatepicker [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' }">
+              <input type="text" name="DateEnd" id="DateEnd" class="form-control" bsDatepicker [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' }" 
+              [(ngModel)]="entity.FactoryEndDate">
             </div>
           </div>
           <div class="row">
             <div class="col-lg-6">
               <div class="form-group">
                 <label>{{ 'Factory.data.FactoryType' | translate }}:</label>
-                <select class="select2_demo_3 form-control">
+                <select class="select2_demo_3 form-control" [(ngModel)]="entity.FactoryType" name="FactoryType">
                   <option></option>
-                  <option selected value="1"> {{ 'Factory.data.FactoryType_1' | translate }} </option>
-                  <option value="2"> {{ 'Factory.data.FactoryType_2' | translate }} </option>
-                  <option value="3"> {{ 'Factory.data.FactoryType_3' | translate }} </option>
+                  <option selected value=1> {{ 'Factory.data.FactoryType_1' | translate }} </option>
+                  <option value=2> {{ 'Factory.data.FactoryType_2' | translate }} </option>
+                  <option value=3> {{ 'Factory.data.FactoryType_3' | translate }} </option>
                 </select>
               </div>
             </div>
             <div class="col-lg-6">
               <div class="form-group">
                 <label>{{ 'Factory.data.Status' | translate }} :</label>
-                <select class="select2_demo_3 form-control">
+                <select class="select2_demo_3 form-control" [(ngModel)]="entity.Status" name="Status">
                   <option></option>
-                  <option selected value="1">{{ 'Factory.data.Status_1' | translate }}</option>
-                  <option value="0">{{ 'Factory.data.Status_0' | translate }}</option>
+                  <option selected value=1>{{ 'Factory.data.Status_1' | translate }}</option>
+                  <option value=0>{{ 'Factory.data.Status_0' | translate }}</option>
                 </select>
               </div>
             </div>

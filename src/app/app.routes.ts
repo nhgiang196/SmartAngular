@@ -38,6 +38,7 @@ import { FactoryComponent } from './views/smartin/factory/factory.component';
 import { UserNavigationComponent } from './components/common/navigation/user-navigation/user-navigation.component';
 import { UserResetPasswordComponent } from './components/common/user/user-reset-password/user-reset-password.component';
 import { ForgotPasswordComponent } from './components/common/user/forgot-password/forgot-password.component';
+import { ChangePasswordComponent } from './components/common/user/change-password/change-password.component';
 
 
 
@@ -90,7 +91,7 @@ export const ROUTES: Routes = [
       {
         path: 'user', canActivate: [AuthGuard], children: [
           { path: 'profile', component: ProfileComponent },
-          { path: 'changePass', component: RolesComponent },
+          { path: 'changePass', component: ChangePasswordComponent },
           { path: '', component: AdminNavigationComponent, outlet: 'sidemenu' },
         ]
       },
