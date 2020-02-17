@@ -35,6 +35,9 @@ import { ProfileComponent } from './components/common/user/profile/profile.compo
 import { ResetpasswordComponent } from './components/common/admin/resetpassword/resetpassword.component';
 import { AdminNavigationComponent } from './components/common/navigation/admin-navigation/admin-navigation.component';
 import { FactoryComponent } from './views/smartin/factory/factory.component';
+import { UserNavigationComponent } from './components/common/navigation/user-navigation/user-navigation.component';
+import { UserResetPasswordComponent } from './components/common/user/user-reset-password/user-reset-password.component';
+import { ForgotPasswordComponent } from './components/common/user/forgot-password/forgot-password.component';
 
 
 
@@ -47,16 +50,16 @@ export const ROUTES: Routes = [
   // Main redirect
   { path: '', redirectTo: 'mainView', pathMatch: 'full' },
   { path: 'admin', redirectTo: '/admin/usersManagment', pathMatch: 'full' },
+  { path: 'user', redirectTo: '/user/profile', pathMatch: 'full' },
 
   // App views
   { //BasicComponent
     path: '', component: BasicComponent,
     children: [
-      { path: 'mainView', component: MainViewComponent }, //custom
-      { path: 'profile', component: ProfileComponent }, //custom     
+      { path: 'mainView', component: MainViewComponent}, //custom
 
-      { path: 'workFlowView', component: WorkFlowComponent },
-      { path: 'taskManageView', component: TaskManageComponent },
+      { path: 'workFlowView', component: WorkFlowComponent},
+      { path: 'taskManageView', component: TaskManageComponent},
       { path: 'taskCompleteView', component: TaskCompleteComponent },
       { path: 'showDiagram/:id', component: DiagramComponent },//Show Diagram
       { path: 'taskFormView/:formKey/:id/:businessKey', component: TaskFormComponent },//Open detail form Approve by Key
@@ -64,23 +67,30 @@ export const ROUTES: Routes = [
       /**
        * EMCS ComponentRoutes
        */
-      { path: 'EQManageView', component: EquipmentManageComponent },
-      { path: 'planScheduleView', component: PlanScheduleComponent },
-      { path: 'voucherRequisitionView', component: VoucherRequisitionComponent },
-      { path: 'equipmentReportView/:DeptID', component: EquipmentReportComponent },
+      { path: 'EQManageView', component: EquipmentManageComponent},
+      { path: 'planScheduleView', component: PlanScheduleComponent},
+      { path: 'voucherRequisitionView', component: VoucherRequisitionComponent},
+      { path: 'equipmentReportView/:DeptID', component: EquipmentReportComponent},
       { path: 'EquipmentView/:EQID', component: EquipmentDetailComponent },//Open detail form Approve by Key
       { path: 'VoucherView/:businessKey', component: VoucherDetailComponent },//Open detail form Approve by Key
       { path: 'NonAdjustEQView', component: StandardEquipmentComponent },//Open detail form Approve by Key
-      { path: 'planScheduleReportView/:DeptID/:Year', component: PlanScheduleReportComponent },
+      { path: 'planScheduleReportView/:DeptID/:Year', component: PlanScheduleReportComponent},
 
 
 
       {
-        path: 'admin', children: [
+        path: 'admin', canActivate: [AuthGuard], children: [
           { path: 'usersManagment', component: UserMangamentComponent },
           { path: 'role', component: RolesComponent },
-          { path: 'resetPass', component: ResetpasswordComponent },
-          { path: 'factory', component: FactoryComponent },
+          { path: 'resetPass', component: ResetpasswordComponent},
+          { path: 'factory', component: FactoryComponent},
+          { path: '', component: AdminNavigationComponent, outlet: 'sidemenu' },
+        ]
+      },
+      {
+        path: 'user', canActivate: [AuthGuard], children: [
+          { path: 'profile', component: ProfileComponent },
+          { path: 'changePass', component: RolesComponent },
           { path: '', component: AdminNavigationComponent, outlet: 'sidemenu' },
         ]
       },
@@ -92,8 +102,10 @@ export const ROUTES: Routes = [
       // { path: 'landingView', component: LandingViewComponent },
       { path: 'login', component: LoginComponent },
       { path: 'register', component: RegisterComponent },
+      { path: 'forgotPassword', component: ForgotPasswordComponent },      
+      { path: 'resetPassword', component: UserResetPasswordComponent },
 
-      { path: 'voucherReportView/:VoucherId', component: VoucherReportComponent },
+      { path: 'voucherReportView/:VoucherId', component: VoucherReportComponent},
       { path: '**', component: NotFoundComponent }
     ]
   },
