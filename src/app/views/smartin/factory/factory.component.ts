@@ -4,7 +4,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { WaterTreatmentService } from 'src/app/services/api-watertreatment.service';
 import { Factory } from 'src/app/models/SmartInModels';
 
-
+declare let $:any;
 
 @Component({
   selector: 'app-factory',
@@ -19,22 +19,37 @@ export class FactoryComponent implements OnInit {
   entity : Factory;
 
   ngOnInit() {
+    this.factory = [];
     this.resetEntity();
 
     this.api.getFactory().subscribe(res=>{
       this.factory = res;
     })
-
-
-
     
   }
 
-  resetEntity() {
-    this.entity = { FactoryType: 1, Status: 1};
+  private resetEntity() {
+    this.entity = new Factory();
+  }
+
+  fnAdd(){
+    this.resetEntity();
+
+
+  }
+
+  fnEdit(id){
+    this.api.getFactoryById(id).subscribe(res=>{
+      console.log(res);
+      this.entity = res;
+      $("#myModal4").modal('show');
+    })
+    
+
   }
 
   ngAfterViewInit(){ //CSS
+    
     
   }
 

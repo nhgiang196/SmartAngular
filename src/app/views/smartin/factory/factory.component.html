@@ -18,12 +18,12 @@
         <div class="ibox-content">
           <div class="row">
             <div class="col-sm-4">
-              <button (click)="resetEntity()" type="button" class="btn btn-primary dim" data-toggle="modal" data-target="#myModal4">
+              <button (click)="fnAdd()" type="button" class="btn btn-primary dim" data-toggle="modal" data-target="#myModal4">
                 <i class="fa fa-plus" ></i> {{ 'Factory.AddFactory' | translate}} </button>
 
             </div>
             <div class="col-sm-4 text-center">
-              <h2> Tổng cộng {{factory.length}}</h2>
+              <h2> Tổng cộng {{factory.length}} nhà máy</h2>
             </div>
 
             <div class="col-sm-4">
@@ -32,9 +32,6 @@
              </div>
               
             </div>
-
-            
-            
           </div>
           <hr>
           <!-- Detail Factories  -->
@@ -42,7 +39,7 @@
             <div class="col-lg-3" *ngFor="let item of factory" >
                 <div class="panel panel-info">
                   <div class="panel-heading text-center">
-                    <a>
+                    <a (click)="fnEdit(item.FactoryId)"  >
                       <i class="fa fa-info-circle"></i> {{item.FactoryName}}
                     </a>
                   </div>
