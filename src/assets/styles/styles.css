@@ -5550,7 +5550,7 @@ body.fullscreen-ibox-mode {
   min-height: calc(100% - 48px);
 }
 
-body.modal-open {
+/* body.modal-open {
   padding-right: inherit !important;
 }
 
@@ -5558,7 +5558,7 @@ body.modal-open .wrapper-content.animated {
   -webkit-animation: none;
   -ms-animation-nam: none;
   animation: none;
-}
+} */
 
 body.modal-open .animated {
   animation-fill-mode: initial;
