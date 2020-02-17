@@ -120,6 +120,8 @@
       "FactoryStartDate": "Factory Built Start Date",
       "FactoryEndDate":"Factory End Date",
       "Status":"Factory Status",
+      "Status_0": "Postpone",
+      "Status_1": "Working",
       "FactoryTechnologyID":"FactoryTechnologyID",
       "TechnologyFromDate":"TechnologyFromDate",
       "TechnologyToDate":"Technology To Date",

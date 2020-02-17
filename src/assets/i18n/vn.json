@@ -106,7 +106,7 @@
   "Factory": {
     "data": {
       "FactoryID": "Mã nhà máy",
-      "FactoryCode"	:"Factory Code",
+      "FactoryCode"	:"Mã nhà máy",
       "FactoryName": "Tên nhà máy",
       "FactoryAddress": "Địa chỉ",
       "FactoryContact": "Thông tin người liên lạc",
@@ -119,6 +119,8 @@
       "FactoryStartDate": "Ngày kết thúc dự án xây dựng",
       "FactoryEndDate": "Ngày kết thúc dự án xây dựng",
       "Status": "Trạng thái nhà máy",
+      "Status_0": "Tạm dừng",
+      "Status_1": "Đang hoạt động",
       "FactoryTechnologyID":"Công nghệ",
       "TechnologyFromDate":"Công nghệ từ",
       "TechnologyToDate":"Công nghệ đến",
