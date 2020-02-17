@@ -6,9 +6,10 @@ import { BrowserModule } from '@angular/platform-browser';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { AdminNavigationComponent } from './admin-navigation/admin-navigation.component';
 import { SmartinModule } from 'src/app/views/smartin/smartin.module';
+import { UserNavigationComponent } from './user-navigation/user-navigation.component';
 
 @NgModule({
-  declarations: [NavigationComponent, AdminNavigationComponent],
+  declarations: [NavigationComponent, AdminNavigationComponent, UserNavigationComponent],
   imports: [
     CommonModule,
     RouterModule,

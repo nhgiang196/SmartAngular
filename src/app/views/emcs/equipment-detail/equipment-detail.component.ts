@@ -40,7 +40,7 @@ export class EquipmentDetailComponent implements OnInit {
       Manuals: [],
       Methods:[],
     }
-    this.route.params.subscribe(params => {
+    this.route.paramMap.subscribe(params => {
       this.GetEQ(params['EQID']);
     });
 

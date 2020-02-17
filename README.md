@@ -25,3 +25,7 @@ Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protrac
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+
+# Reset password
+Trang reset password nhận từ email đã xử lý được. Tuy nhiên nhận token từ route active xuống bị lỗi cần fix lại là có thể đổi mật khẩu được
+
