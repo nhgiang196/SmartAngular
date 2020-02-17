@@ -130,8 +130,9 @@
     "data.FileOriginalName":"FileOriginalName",
     "data.FileName":"FileName",
     "UploadFile":"Upload File",
-    "CommandButton1":"Test",
-    "AddFactory":"Add Factory"
+    "AddFactory":"Add Factory",
+    "Breadcrumb":"Factory managment",
+    "CommandButton1":"Test"
   }
   
 }

@@ -14,8 +14,6 @@ export class BasicComponent implements OnInit {
     detectBody();
     // MetisMenu
     $('#side-menu').metisMenu();
-    
-
     // Append config box / Only for demo purpose
     // Uncomment on server mode to enable XHR calls
     $.get("assets/skin-config.html", function (data) {

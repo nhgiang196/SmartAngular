@@ -129,8 +129,11 @@
     "data.FileOriginalName":"Tên file",
     "data.FileName":"Tên file",
     "UploadFile":"Tải Lên Tệp",
-    "CommandButton1": "Test",
-    "AddFactory":"Thêm nhà máy"
+    "AddFactory":"Thêm nhà máy",
+    "Breadcrumb":"QUẢN TRỊ NHÀ MÁY",
+    "CommandButton1": "Test"
+    
+    
   }
 
 
