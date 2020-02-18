@@ -40,14 +40,18 @@ export class FactoryComponent implements OnInit {
   ACTION_STATUS : string;
 
   ngOnInit() {
-    
     this.resetEntity();
+    this.loadInit();
+  }
+
+  private loadInit(){
     this.factory = [];
     this.api.getFactory().subscribe(res=>{
       this.factory = res;
     }, err=> {
       this.toastr.error(err.statusText, "Load init failed!");
     })
+
   }
 
   private resetEntity() {
@@ -85,20 +89,18 @@ export class FactoryComponent implements OnInit {
     })
     .then((result) => {
       if (result.value) {
-        swal.fire(
-          'Deleted!',
-          'Your file has been deleted.',
-          'success'
-        )
-      } else if (
-        result.dismiss === swal.DismissReason.cancel
-      ) {
-        swal.fire(
-          'Cancelled',
-          'Your imaginary file is safe :)',
-          'error'
-        )
-      }
+        this.api.deleteFactory(id).subscribe(res=>{
+          var operationResult: any = res
+          if (operationResult.Success){
+            swal.fire(
+              'Deleted!',this.trans.instant('messg.delete.success'),'success'
+            );
+            this.loadInit();
+            $("#myModal4").modal('hide');
+          }
+          else this.toastr.warning(operationResult.Message);
+        }, err=> {this.toastr.error(err.statusText)})
+      } 
     })
     
 
