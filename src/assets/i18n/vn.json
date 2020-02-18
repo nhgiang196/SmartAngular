@@ -134,6 +134,19 @@
     "CommandButton1": "Test"
     
     
+    
+  },
+  "messg":{
+    "add.success":"Thêm thành công ",
+    "add.error":"Thêm thành công ",
+    "add.warning1":"",
+    "add.warning2":"",
+    "add.warning3":"",
+    "update.sucess":"Chỉnh sửa thành công ",
+    "update.error":" ",
+    "update.warning1":" ",
+    "update.warning2":" ",
+    "update.warning3":" "
   }
 
 

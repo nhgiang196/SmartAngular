@@ -1,62 +1,70 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { Factory, FactoryFile, FactoryTechnology, DataTablePaginationParram } from '../models/SmartInModels';
 
 const ApiUrl = "api/v1";
 
 
-@Injectable({providedIn: 'root'})
+@Injectable({ providedIn: 'root' })
 export class WaterTreatmentService {
   constructor(
     private http: HttpClient, private router: Router
   ) { }
 
   // public BasicData = {
-  //   Users: [],
+  // Users: [],
   // }
 
   getUser() {
     return this.http.get<any>(`${ApiUrl}/User/getUser`);
   }
   addUser(entity: any) {
-    return this.http.post(`${ApiUrl}/User/AddUser`,entity);
+    return this.http.post(`${ApiUrl}/User/AddUser`, entity);
   }
   updateUser(entity: any) {
     return this.http.put(`${ApiUrl}/User/UpdateUser`, entity);
   }
 
-  getFactory(){
+  /** FACTORY */
+  getFactory() {
     return this.http.get<any>(`${ApiUrl}/Factory/GetFactory`);
   }
-  getFactoryPagination(key: string, page: string, pageSize: string){
-    return this.http.get<any>(`${ApiUrl}/Factory/GetFactoryPagination`,{ params: {
-      key: key,
-      page: page,
-      pageSize:pageSize 
-    }});
+  getFactoryPagination(pr) {
+    return this.http.get<any>(`${ApiUrl}/Factory/GetFactoryPagination`, {
+      params: {
+        key: pr.key
+        , keyFields: pr.keyFields
+        , page: pr.page
+        , pageSize: pr.pageSize
+        , orderBy: pr.orderBy
+        , orderDir: pr.orderDir
+      }
+    });
   }
-  getFactoryById(id: string){
-    return this.http.get<any>(`${ApiUrl}/Factory/FindFactoryById`,{ params: {  id: id } } );
+
+  getFactoryById(id) {
+    return this.http.get<any>(`${ApiUrl}/Factory/FindFactoryById`, { params: { id: id } });
   }
-  AddFactoryFile(entity: any){
+
+  addFactory(entity) {
+    return this.http.post(`${ApiUrl}/Factory/AddFactory`, entity);
+  }
+  updateFactory(entity) {
+    return this.http.put(`${ApiUrl}/Factory/UpdateFactory`, entity);
+  }
+  DeleteFactory(id) {
+    return this.http.delete(`${ApiUrl}/Factory/DeleteFactory`, { params: { id: id } });
+  }
+  
+
+  /** FACTORYFILE */
+
+  AddFactoryFile(entity) {
     return this.http.post(`${ApiUrl}/PlanSchedule/AddFactoryFile`, entity);
   }
-  UpdateFactory(entity: any){
+  UpdateFactory(entity) {
     return this.http.put(`${ApiUrl}/PlanSchedule/AddFactoryFDeleteFactoryFileile`, entity);
   }
-  DeleteFactory(){
-    return null;
-  }
 
-
-
-
-
-
-
-
-  
-
-
-  
 }

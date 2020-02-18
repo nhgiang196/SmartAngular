@@ -133,6 +133,18 @@
     "AddFactory":"Add Factory",
     "Breadcrumb":"Factory managment",
     "CommandButton1":"Test"
+  },
+  "messg":{
+    "add.success":"Add Success",
+    "add.error":"Error on adding",
+    "add.warning1":"",
+    "add.warning2":"",
+    "add.warning3":"",
+    "update.sucess":"Update Sucess ",
+    "update.error":" ",
+    "update.warning1":" ",
+    "update.warning2":" ",
+    "update.warning3":" "
   }
   
 }
