@@ -113,6 +113,31 @@ export class FactoryComponent implements OnInit {
 
   fnAddItem(){
     var itemAdd = this.tech_entity;
+    if (itemAdd.TechnologyName==null){
+      this.toastr.warning("Validate",this.trans.instant('Factory.data.TechnologyName') + this.trans.instant('messg.isnull'))
+      return;
+    }
+    if (itemAdd.TechnologyDescription==null){
+      this.toastr.warning("Validate",this.trans.instant('Factory.data.TechnologyDescription') + this.trans.instant('messg.isnull'))
+      return;
+    }
+    debugger;
+    if (itemAdd.TechnologyFromDate==null){
+      this.toastr.warning("Validate",this.trans.instant('Factory.data.TechnologyFromDate') + this.trans.instant('messg.isnull'))
+      return;
+    }
+    if (itemAdd.TechnologyToDate==null){
+      this.toastr.warning("Validate",this.trans.instant('Factory.data.TechnologyToDate') + this.trans.instant('messg.isnull'))
+      return;
+    }
+    if (itemAdd.TechnologyFromDate.toString()!='Invalid date'){
+      this.toastr.warning("Validate",this.trans.instant('Factory.data.TechnologyFromDate') + this.trans.instant('messg.isnull'))
+      return;
+    }
+    if (itemAdd.TechnologyToDate.toString()!='Invalid date'){
+      this.toastr.warning("Validate",this.trans.instant('Factory.data.TechnologyToDate') + this.trans.instant('messg.isnull'))
+      return;
+    }
     itemAdd.FactoryId = this.entity.FactoryId;
     this.tech_entity = new FactoryTechnology();
     this.entity.FactoryTechnology.push(itemAdd);
