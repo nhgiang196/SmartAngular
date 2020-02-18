@@ -53,7 +53,7 @@ export class WaterTreatmentService {
   updateFactory(entity) {
     return this.http.put(`${ApiUrl}/Factory/UpdateFactory`, entity);
   }
-  DeleteFactory(id) {
+  deleteFactory(id) {
     return this.http.delete(`${ApiUrl}/Factory/DeleteFactory`, { params: { id: id } });
   }
   

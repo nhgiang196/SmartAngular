@@ -132,6 +132,8 @@
     "UploadFile":"Upload File",
     "AddFactory":"Add Factory",
     "Breadcrumb":"Factory managment",
+    "DeleteAsk_Title":"Delete this Factory?",
+    "DeleteAsk_Text":"Delete this factory? Including related data",
     "CommandButton1":"Test"
   },
   "messg":{
@@ -140,11 +142,13 @@
     "add.warning1":"",
     "add.warning2":"",
     "add.warning3":"",
-    "update.sucess":"Update Sucess ",
-    "update.error":" ",
+    "update.success":"Update Sucess ",
+    "update.error":"Erron on Updating ",
     "update.warning1":" ",
     "update.warning2":" ",
-    "update.warning3":" "
+    "update.warning3":" ",
+    "delete.success":"Delete Success",
+    "delete.error":"Erron on Deleteing "
   }
   
 }

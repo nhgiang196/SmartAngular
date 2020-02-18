@@ -131,6 +131,8 @@
     "UploadFile":"Tải Lên Tệp",
     "AddFactory":"Thêm nhà máy",
     "Breadcrumb":"QUẢN TRỊ NHÀ MÁY",
+    "DeleteAsk_Title":"Xóa nhà máy?",
+    "DeleteAsk_Text":"Bạn có chắc muốn xóa thông tin về nhà máy này chứ (bao gồm các dữ liệu liên quan)",
     "CommandButton1": "Test"
     
     
@@ -138,15 +140,17 @@
   },
   "messg":{
     "add.success":"Thêm thành công ",
-    "add.error":"Thêm thành công ",
+    "add.error":"Lỗi khi thêm ",
     "add.warning1":"",
     "add.warning2":"",
     "add.warning3":"",
-    "update.sucess":"Chỉnh sửa thành công ",
+    "update.success":"Chỉnh sửa thành công ",
     "update.error":" ",
     "update.warning1":" ",
     "update.warning2":" ",
-    "update.warning3":" "
+    "update.warning3":" ",
+    "delete.success":"Xóa thành công ",
+    "delete.error":"Lỗi khi xóa "
   }
 
 

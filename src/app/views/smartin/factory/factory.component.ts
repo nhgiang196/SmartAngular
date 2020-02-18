@@ -5,23 +5,31 @@ import { WaterTreatmentService } from 'src/app/services/api-watertreatment.servi
 import { Factory, FactoryTechnology } from 'src/app/models/SmartInModels';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
-
-
-
-
+import swal from 'sweetalert2';
+import { trigger, transition, style, animate } from '@angular/animations';
 declare let $:any;
 
 @Component({
   selector: 'app-factory',
   templateUrl: './factory.component.html',
-  styleUrls: ['./factory.component.css']
+  styleUrls: ['./factory.component.css'],
+  animations: [
+    // the fade-in/fade-out animation.
+    trigger('simpleFadeAnimation', [
+      transition(':leave',
+        animate(300, style({opacity: 0})))
+    ])
+  ]
+
+  
 })
 export class FactoryComponent implements OnInit {
 
   constructor(
     private api : WaterTreatmentService,
     private toastr: ToastrService,
-    public trans: TranslateService) { }
+    public trans: TranslateService,
+    ) { }
   /** INIT */
   factory : Factory[]; //init data
   entity : Factory;
@@ -29,9 +37,10 @@ export class FactoryComponent implements OnInit {
   laddaSubmitLoading = false;
   iboxloading = false;
   
-  private ACTION_STATUS : string;
+  ACTION_STATUS : string;
 
   ngOnInit() {
+    
     this.resetEntity();
     this.factory = [];
     this.api.getFactory().subscribe(res=>{
@@ -65,6 +74,36 @@ export class FactoryComponent implements OnInit {
     })
   }
 
+
+  fnDelete(id){
+    swal.fire({
+      title: this.trans.instant('Factory.DeleteAsk_Title'),
+      titleText: this.trans.instant('Factory.DeleteAsk_Text'),
+      type: 'warning',
+      showCancelButton: true,
+      reverseButtons: true
+    })
+    .then((result) => {
+      if (result.value) {
+        swal.fire(
+          'Deleted!',
+          'Your file has been deleted.',
+          'success'
+        )
+      } else if (
+        result.dismiss === swal.DismissReason.cancel
+      ) {
+        swal.fire(
+          'Cancelled',
+          'Your imaginary file is safe :)',
+          'error'
+        )
+      }
+    })
+    
+
+  }
+
   fnCheckBeforeEdit(id){
     this.toastr.warning("User not dont have permission");
   }
@@ -74,7 +113,6 @@ export class FactoryComponent implements OnInit {
     var itemAdd = this.tech_entity;
     itemAdd.FactoryId = this.entity.FactoryId;
     this.tech_entity = new FactoryTechnology();
-    
     this.entity.FactoryTechnology.push(itemAdd);
   }
 
@@ -87,7 +125,7 @@ export class FactoryComponent implements OnInit {
     var e = this.entity;
     if (this.fnValidate(e)) 
       {
-        console.log(e);
+        console.log('send entity: ',e);
         if (this.ACTION_STATUS =='add')
         {
           this.api.addFactory(e).subscribe(res=>{
@@ -96,7 +134,7 @@ export class FactoryComponent implements OnInit {
               this.toastr.success(this.trans.instant("messg.add.success"));
             else this.toastr.warning(operationResult.Message);
             this.laddaSubmitLoading=false;
-          }, err=> {this.toastr.error(err); this.laddaSubmitLoading=false;})
+          }, err=> {this.toastr.error(err.statusText); this.laddaSubmitLoading=false;})
         }
 
         if (this.ACTION_STATUS =='update')
@@ -107,7 +145,7 @@ export class FactoryComponent implements OnInit {
               this.toastr.success(this.trans.instant("messg.update.success"));
             else this.toastr.warning(operationResult.Message);
             this.laddaSubmitLoading=false;
-          }, err=> {this.toastr.error(err); this.laddaSubmitLoading=false;})
+          }, err=> {this.toastr.error(err.statusText); this.laddaSubmitLoading=false;})
         }
         
       }
