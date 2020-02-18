@@ -50,7 +50,7 @@ import { ChangePasswordComponent } from './components/common/user/change-passwor
 export const ROUTES: Routes = [
   // Main redirect
   { path: '', redirectTo: 'mainView', pathMatch: 'full' },
-  { path: 'admin', redirectTo: '/admin/usersManagment', pathMatch: 'full' },
+  { path: 'admin', redirectTo: '/admin/factory', pathMatch: 'full' },
   { path: 'user', redirectTo: '/user/profile', pathMatch: 'full' },
 
   // App views
