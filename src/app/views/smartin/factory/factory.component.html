@@ -15,7 +15,7 @@
   <div class="row">
     <div class="col-lg-12">
       <div class="ibox float-e-margins">
-        <div class="ibox-content"  [ngClass]=" {'sk-loading': iboxloading}">
+        <div class="ibox-content" [ngClass]=" {'sk-loading': iboxloading}">
           <div class="sk-spinner sk-spinner-wave">
             <div class="sk-rect1"></div>
             <div class="sk-rect2"></div>
@@ -25,8 +25,9 @@
           </div>
           <div class="row">
             <div class="col-sm-4">
-              <button (click)="fnAdd()" type="button" class="btn btn-primary dim" data-toggle="modal" data-target="#myModal4">
-                <i class="fa fa-plus" ></i> {{ 'Factory.AddFactory' | translate}} </button>
+              <button (click)="fnAdd()" type="button" class="btn btn-primary dim" data-toggle="modal"
+                data-target="#myModal4">
+                <i class="fa fa-plus"></i> {{ 'Factory.AddFactory' | translate}} </button>
 
             </div>
             <div class="col-sm-4 text-center">
@@ -35,29 +36,29 @@
 
             <div class="col-sm-4">
               <div class="pull-right">
-                <input placeholder="Tìm kiếm" type="text" class="form-control"  > 
-             </div>
-              
+                <input placeholder="Tìm kiếm" type="text" class="form-control">
+              </div>
+
             </div>
           </div>
           <hr>
           <!-- Detail Factories  -->
           <div class="row">
-            <div class="col-lg-3" *ngFor="let item of factory" >
-                <div class="panel panel-info">
-                  <div class="panel-heading text-center">
-                    <a (click)="fnEditSignal(item.FactoryId)"  >
-                      <i class="fa fa-info-circle"></i> {{item.FactoryName}}
-                    </a>
-                  </div>
-                  <div class="panel-body">
-                    <p> {{item.FactoryAddress}}</p>
-                    <p> {{item.FactoryContact}}</p>
-                    <p> {{item.ContactPhone}}</p>
-                    <p> {{item.FactoryType}}</p>
-                    <p> {{item.Status}}</p>
-                  </div>
+            <div class="col-lg-3" *ngFor="let item of factory">
+              <div class="panel panel-info">
+                <div class="panel-heading text-center">
+                  <a (click)="fnEditSignal(item.FactoryId)">
+                    <i class="fa fa-info-circle"></i> {{item.FactoryName}}
+                  </a>
                 </div>
+                <div class="panel-body">
+                  <p> {{item.FactoryAddress}}</p>
+                  <p> {{item.FactoryContact}}</p>
+                  <p> {{item.ContactPhone}}</p>
+                  <p> {{item.FactoryType}}</p>
+                  <p> {{item.Status}}</p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -70,53 +71,55 @@
   <div class="modal-dialog modal-lg">
     <div class="modal-content animated fadeIn">
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-        
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
+            class="sr-only">Close</span></button>
+
         <h4 class="modal-title"> {{'Factory.Information' | translate }}</h4>
-        
+
       </div>
       <div class="modal-body">
         <form role="form">
           <div class="row">
             <div class="col-lg-6">
               <div class="form-group">
-                <label>   {{ 'Factory.data.FactoryCode' | translate }}  : </label>
-                <input type="text" name="Numcode" id="Numcode" class="form-control" placeholder="Enter your Numcode"  [(ngModel)]="entity.FactoryCode">
+                <label> {{ 'Factory.data.FactoryCode' | translate }} : </label>
+                <input type="text" name="Numcode" id="Numcode" class="form-control" placeholder="Enter your Numcode"
+                  [(ngModel)]="entity.FactoryCode">
               </div>
             </div>
             <div class="col-lg-6">
               <label>{{ 'Factory.data.FactoryBuiltDate' | translate }} :</label>
-              <input type="text"  name="DateBuild" id="DateBuild" class="form-control"
-                placeholder="Enter your DateBuild" bsDatepicker [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' }" [(ngModel)]="entity.FactoryBuiltDate">
+              <input type="text" name="DateBuild" id="DateBuild" class="form-control" placeholder="Enter your DateBuild"
+                bsDatepicker [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' }" [(ngModel)]="entity.FactoryBuiltDate">
             </div>
           </div>
           <div class="row">
             <div class="col-lg-6">
               <div class="form-group">
                 <label>{{ 'Factory.data.FactoryName' | translate }} :</label>
-                <input type="text" name="Name" id="Name" class="form-control" placeholder="Enter your Name" 
-                [(ngModel)]="entity.FactoryName">
+                <input type="text" name="Name" id="Name" class="form-control" placeholder="Enter your Name"
+                  [(ngModel)]="entity.FactoryName">
               </div>
             </div>
             <div class="col-lg-6">
               <label>{{ 'Factory.data.FactoryStartDate' | translate }} :</label>
-              <input type="text" name="DateStart" id="DateStart" class="form-control" bsDatepicker [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' }" 
-              [(ngModel)]="entity.FactoryStartDate">
-              
+              <input type="text" name="DateStart" id="DateStart" class="form-control" bsDatepicker
+                [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' }" [(ngModel)]="entity.FactoryStartDate">
+
             </div>
           </div>
           <div class="row">
             <div class="col-lg-6">
               <div class="form-group">
                 <label>{{ 'Factory.data.FactoryAddress' | translate }} :</label>
-                <input type="text" name="Address" id="Address" class="form-control" placeholder="Enter your Address" 
-                [(ngModel)]="entity.FactoryAddress">
+                <input type="text" name="Address" id="Address" class="form-control" placeholder="Enter your Address"
+                  [(ngModel)]="entity.FactoryAddress">
               </div>
             </div>
             <div class="col-lg-6">
               <label>{{ 'Factory.data.FactoryEndDate' | translate }} :</label>
-              <input type="text" name="DateEnd" id="DateEnd" class="form-control" bsDatepicker [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' }" 
-              [(ngModel)]="entity.FactoryEndDate">
+              <input type="text" name="DateEnd" id="DateEnd" class="form-control" bsDatepicker
+                [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' }" [(ngModel)]="entity.FactoryEndDate">
             </div>
           </div>
           <div class="row">
@@ -146,12 +149,13 @@
           <div class="row">
             <div class="col-lg-12">
               <div class="form-group">
-                <label>{{ 'Factory.UploadFile' | translate }} </label>
-                <form action="#" class="dropzone" id="dropzoneForm">
-                  <div class="fallback">
-                    <input name="file" type="file" multiple (change)="uploadFile($event.target.files)"  />
-                  </div>
-                </form>
+                <label>{{ 'Factory.UploadFile' | translate }} </label>             
+                <ngx-dropzone (change)="onSelect($event)">
+                  <ngx-dropzone-label>Kéo thả file ở đây!</ngx-dropzone-label>
+                  <ngx-dropzone-preview *ngFor="let f of files" [removable]="true" (removed)="onRemove(f)">
+                    <ngx-dropzone-label>{{ f.name }}</ngx-dropzone-label>
+                  </ngx-dropzone-preview>
+                </ngx-dropzone>
               </div>
             </div>
           </div>
@@ -160,13 +164,15 @@
             <div class="col-lg-6">
               <div class="form-group">
                 <label>{{ 'Factory.data.FactoryTechnologyID' | translate }}: </label>
-                <input type="text" class="form-control" name="Technology" id="Technology" [(ngModel)]="tech_entity.TechnologyName">
+                <input type="text" class="form-control" name="Technology" id="Technology"
+                  [(ngModel)]="tech_entity.TechnologyName">
               </div>
             </div>
             <div class="col-lg-6">
               <div class="form-group">
                 <label>{{ 'Factory.data.TechnologyDescription' | translate }}: </label>
-                <input type="text" class="form-control" name="Description" id="Description" [(ngModel)]="tech_entity.TechnologyDescription">
+                <input type="text" class="form-control" name="Description" id="Description"
+                  [(ngModel)]="tech_entity.TechnologyDescription">
               </div>
             </div>
           </div>
@@ -174,13 +180,15 @@
             <div class="col-lg-6">
               <div class="form-group">
                 <label>{{ 'Factory.data.TechnologyFromDate' | translate }}: </label>
-                <input bsDatepicker [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' }"  type="text" class="form-control" name="BeginDate" id="BeginDate" [(ngModel)]="tech_entity.TechnologyFromDate">
+                <input bsDatepicker [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' }" type="text" class="form-control"
+                  name="BeginDate" id="BeginDate" [(ngModel)]="tech_entity.TechnologyFromDate">
               </div>
             </div>
             <div class="col-lg-6">
               <div class="form-group">
                 <label>{{ 'Factory.data.TechnologyToDate' | translate }}: </label>
-                <input bsDatepicker [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' }"  type="text" class="form-control" name="EndDate" id="EndDate" [(ngModel)]="tech_entity.TechnologyToDate">
+                <input bsDatepicker [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' }" type="text" class="form-control"
+                  name="EndDate" id="EndDate" [(ngModel)]="tech_entity.TechnologyToDate">
               </div>
             </div>
           </div>
@@ -198,16 +206,17 @@
                 </tr>
               </thead>
               <tbody>
-                
-                <tr class="animated fadeInRight"  *ngFor="let item of entity.FactoryTechnology; let i = index"  [@simpleFadeAnimation]="'in'">
+
+                <tr class="animated fadeInRight" *ngFor="let item of entity.FactoryTechnology; let i = index"
+                  [@simpleFadeAnimation]="'in'">
                   <td> {{i+1}} </td>
                   <td>{{item.TechnologyName}} </td>
                   <td>{{item.TechnologyDescription}} </td>
                   <td>{{item.TechnologyFromDate | amDateFormat: 'YYYY-MM-DD' }} </td>
                   <td>{{item.TechnologyToDate | amDateFormat: 'YYYY-MM-DD'}} </td>
-                  <td><button class="btn btn-danger" (click)="fnDeleteItem(i)" ><i class="fa fa-trash"></i></button></td>
-                </tr >
-                
+                  <td><button class="btn btn-danger" (click)="fnDeleteItem(i)"><i class="fa fa-trash"></i></button></td>
+                </tr>
+
               </tbody>
             </table>
           </div>
@@ -215,8 +224,10 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
-        <button type="button" *ngIf="ACTION_STATUS=='update'" class="btn btn-danger" (click)="fnDelete(entity.FactoryId)"><i class="fa fa-trash"></i> Delete</button>
-        <button type="button" class="btn btn-primary" (click)="fnSave();" [ladda]="laddaSubmitLoading"  >Save changes</button>
+        <button type="button" *ngIf="ACTION_STATUS=='update'" class="btn btn-danger"
+          (click)="fnDelete(entity.FactoryId)"><i class="fa fa-trash"></i> Delete</button>
+        <button type="button" class="btn btn-primary" (click)="fnSave();" [ladda]="laddaSubmitLoading">Save
+          changes</button>
       </div>
     </div>
   </div>

@@ -17,6 +17,7 @@ import { UserIdleModule } from 'angular-user-idle';
 import { NgwWowModule } from 'ngx-wow';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MomentModule } from 'ngx-moment';
+import { NgxDropzoneModule } from 'ngx-dropzone';
 
 
 // AoT requires an exported function for factories
@@ -50,6 +51,7 @@ export function HttpLoaderFactory(http: HttpClient) {
       progressBar: true,
       closeButton: true
     }),
+    NgxDropzoneModule,
     DataTablesModule,
     NgSelectModule,
     LaddaModule.forRoot({
@@ -85,7 +87,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     TimepickerModule,
     ToastrModule,
     LaddaModule,
-    MomentModule
+    MomentModule,
+    NgxDropzoneModule
   ]
 
 })

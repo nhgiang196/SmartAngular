@@ -5643,6 +5643,13 @@ ngx-bootstrap@^5.3.2:
   resolved "https://registry.yarnpkg.com/ngx-bootstrap/-/ngx-bootstrap-5.3.2.tgz#0668b01202610657e998b3ca87669645e0b31dc9"
   integrity sha512-gSMf8EXYl99Q3gqkq4RVhoTNSTYHz2Or6Cig2BJRbLJyqk15ZQE5qcq/ldHS8zzx/wgCA3HQeI63t2j2mEU9PA==
 
+ngx-dropzone@^2.2.2:
+  version "2.2.2"
+  resolved "https://registry.yarnpkg.com/ngx-dropzone/-/ngx-dropzone-2.2.2.tgz#450609031efb909461181c6b693d7c5f793a278d"
+  integrity sha512-REuBcPNTY33OtcZD6dw8Fq/jFqwviiYydYaCn74yig8TvDDYhtJ/BPjtvbw7uEgF4BJr/UEHbKMvkdZIyCgsww==
+  dependencies:
+    tslib "^1.9.0"
+
 ngx-moment@^3.5.0:
   version "3.5.0"
   resolved "https://registry.yarnpkg.com/ngx-moment/-/ngx-moment-3.5.0.tgz#97a4575a05d038612229b9fe09c4910353020613"

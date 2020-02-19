@@ -12,10 +12,6 @@ export class WaterTreatmentService {
     private http: HttpClient, private router: Router
   ) { }
 
-  // public BasicData = {
-  // Users: [],
-  // }
-
   getUser() {
     return this.http.get<any>(`${ApiUrl}/User/getUser`);
   }
@@ -57,8 +53,8 @@ export class WaterTreatmentService {
     return this.http.delete(`${ApiUrl}/Factory/DeleteFactory`, { params: { id: id } });
   }
 
-  
-  
+
+
 
   /** FACTORYFILE */
 
@@ -66,15 +62,17 @@ export class WaterTreatmentService {
     return this.http.post(`${ApiUrl}/PlanSchedule/AddFactoryFile`, entity);
   }
   UpdateFactory(entity) {
-    return this.http.put(`${ApiUrl}/PlanSchedule/AddFactoryFDeleteFactoryFileile`, entity);
+    return this.http.put(`${ApiUrl}/PlanSchedule/AddFactoryFDeleteFactoryFileile`, entity);//?? hàm gì đây??
   }
   /**FILES */
-  uploadFile(formData, pathFile){
-    return this.http.post(`${ApiUrl}/File/UploadFiles/${pathFile}`,  formData);
+  uploadFile(formData, pathFile) {
+    return this.http.post(`${ApiUrl}/File/UploadFiles/${pathFile}`, formData);
   }
-  deleteFile(fileName){
+  deleteFile(fileName) {
     return this.http.delete(`${ApiUrl}/File/DeleteFiles`, { params: { fileName: fileName } });
   }
-
+  downloadFile(fileName) {
+    return this.http.delete(`${ApiUrl}/File/DownloadFile`, { params: { fileName: fileName } });
+  }
 
 }

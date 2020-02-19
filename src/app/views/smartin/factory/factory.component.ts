@@ -39,10 +39,9 @@ export class FactoryComponent implements OnInit {
   tech_entity: FactoryTechnology;
   laddaSubmitLoading = false;
   iboxloading = false;
-  private _file: FileList;
-
+  pathFile = "abc"
+  files: File[] = [];
   ACTION_STATUS: string;
-
   ngOnInit() {
     this.resetEntity();
     this.loadInit();
@@ -172,24 +171,27 @@ export class FactoryComponent implements OnInit {
     }
   }
 
-  uploadFile(files: File[]){
-    var formData = new FormData();
-    let pathFile = "demo";
-    for (let file of files)
-    formData.append("files", file);
-    
-    // for (let index = 0; index < files.length; index++) {
-    //   const file = files[index];
-      
-    //   formData.set("files", file ,  this.helper.getFileNameWithExtension(file));
-    // }
-    this.api.uploadFile(formData,pathFile).subscribe(res => {
-      console.log('upload Res',res);
-    }, err => {
-      this.toastr.error('Can not upload File\n Api upload Error ' + err.Message, 'Error');
-    });
+  onSelect(event) {
+    console.log(event);
+    this.files.push(...event.addedFiles);
+    this.uploadFile();
+  }
+   
+  onRemove(event) {
+    console.log(event);
+    this.files.splice(this.files.indexOf(event), 1);
+    this.removeFile(event);
+  }
+  uploadFile()
+  {
+      let formData = new FormData();
+      this.files.forEach(file => {
+          formData.append("files",file)
+      });
+      this.api.uploadFile(formData, this.pathFile).subscribe(res=> console.log(res));
   }
 
+  removeFile = (file) => this.api.deleteFile(`${this.pathFile}\\${file.name}`).subscribe(res=>console.log(res));
   private fnValidate(e) {
     // this.toastr.warning('test');
     // this.laddaSubmitLoading=false
