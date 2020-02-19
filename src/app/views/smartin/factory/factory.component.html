@@ -150,9 +150,9 @@
             <div class="col-lg-12">
               <div class="form-group">
                 <label>{{ 'Factory.UploadFile' | translate }} </label>             
-                <ngx-dropzone (change)="onSelect($event)">
+                <ngx-dropzone (change)="onSelect($event)" [expandable]="true">
                   <ngx-dropzone-label>Kéo thả file ở đây!</ngx-dropzone-label>
-                  <ngx-dropzone-preview *ngFor="let f of files" [removable]="true" (removed)="onRemove(f)">
+                  <ngx-dropzone-preview *ngFor="let f of files" [removable]="true" (removed)="onRemove(f)" >
                     <ngx-dropzone-label>{{ f.name }}</ngx-dropzone-label>
                   </ngx-dropzone-preview>
                 </ngx-dropzone>

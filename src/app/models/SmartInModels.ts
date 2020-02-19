@@ -33,18 +33,18 @@ export class FactoryFile {
   FactoryFileId: number = 0
   FactoryId: number = 0
   FileId: number = 0
-  File: File[]
+  File: Files= new Files()
 }
 
 
 
-export class File{
+export class Files{
   FileId: number = 0
   FileOriginalName: string
-  FileName: string
+  FileName: string 
   Path: string
-  CreateBy: string
-  CreateDate:Date
+  CreateBy: string = ''
+  CreateDate:Date = new Date()
   Status: number = 1 //current
 }
 

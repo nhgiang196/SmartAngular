@@ -2,13 +2,12 @@ import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { collapseIboxHelper } from '../../../app.helpers';
 import { MyHelperService } from 'src/app/services/my-helper.service';
 import { WaterTreatmentService } from 'src/app/services/api-watertreatment.service';
-import { Factory, FactoryTechnology } from 'src/app/models/SmartInModels';
+import { Factory, FactoryTechnology, FactoryFile, Files } from 'src/app/models/SmartInModels';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 import swal from 'sweetalert2';
 import { trigger, transition, style, animate } from '@angular/animations';
 declare let $: any;
-
 @Component({
   selector: 'app-factory',
   templateUrl: './factory.component.html',
@@ -20,13 +19,10 @@ declare let $: any;
         animate(300, style({ opacity: 0 })))
     ])
   ]
-
-
 })
 export class FactoryComponent implements OnInit {
   @ViewChild('myInputFile')// set for emtpy file after Close or Reload
   InputManual: ElementRef;
-
   constructor(
     private api: WaterTreatmentService,
     private toastr: ToastrService,
@@ -39,14 +35,14 @@ export class FactoryComponent implements OnInit {
   tech_entity: FactoryTechnology;
   laddaSubmitLoading = false;
   iboxloading = false;
-  pathFile = "abc"
   files: File[] = [];
-  ACTION_STATUS: string;
+  private pathFile = "uploadFilesFactory"
+  private ACTION_STATUS: string;
+  
   ngOnInit() {
     this.resetEntity();
     this.loadInit();
   }
-
   private loadInit() {
     this.factory = [];
     this.api.getFactory().subscribe(res => {
@@ -54,36 +50,38 @@ export class FactoryComponent implements OnInit {
     }, err => {
       this.toastr.error(err.statusText, "Load init failed!");
     })
-
   }
-
   private resetEntity() {
     this.entity = new Factory();
     this.tech_entity = new FactoryTechnology();
+    this.files = [];
   }
-
-
-
   fnAdd() {
     this.ACTION_STATUS = 'add';
     this.resetEntity();
   }
-
   fnEditSignal(id) {
+    this.resetEntity();
     this.ACTION_STATUS = 'update';
     this.iboxloading = true;
     this.api.getFactoryById(id).subscribe(res => {
       console.log(res);
       this.entity = res;
+      
+      this.entity.FactoryFile.forEach(item =>{
+        let _tempFile = new File([],item.File.FileOriginalName);
+        this.files.push(_tempFile);
+      })
+      
+      this.files.push()
       $("#myModal4").modal('show');
       this.iboxloading = false;
+      
     }, error => {
       this.iboxloading = false;
       this.toastr.error(error.statusText, "Load factory information error");
     })
   }
-
-
   fnDelete(id) {
     swal.fire({
       title: this.trans.instant('Factory.DeleteAsk_Title'),
@@ -107,15 +105,10 @@ export class FactoryComponent implements OnInit {
           }, err => { this.toastr.error(err.statusText) })
         }
       })
-
-
   }
-
   fnCheckBeforeEdit(id) {
     this.toastr.warning("User not dont have permission");
   }
-
-
   fnAddItem() {
     var itemAdd = this.tech_entity;
     if (itemAdd.TechnologyName == null) {
@@ -138,11 +131,9 @@ export class FactoryComponent implements OnInit {
     this.tech_entity = new FactoryTechnology();
     this.entity.FactoryTechnology.push(itemAdd);
   }
-
   fnDeleteItem(index) {
     this.entity.FactoryTechnology.splice(index, 1);
   }
-
   fnSave() {
     this.laddaSubmitLoading = true;
     var e = this.entity;
@@ -157,7 +148,6 @@ export class FactoryComponent implements OnInit {
           this.laddaSubmitLoading = false;
         }, err => { this.toastr.error(err.statusText); this.laddaSubmitLoading = false; })
       }
-
       if (this.ACTION_STATUS == 'update') {
         this.api.updateFactory(e).subscribe(res => {
           var operationResult: any = res
@@ -167,40 +157,44 @@ export class FactoryComponent implements OnInit {
           this.laddaSubmitLoading = false;
         }, err => { this.toastr.error(err.statusText); this.laddaSubmitLoading = false; })
       }
-
     }
   }
-
   onSelect(event) {
     console.log(event);
     this.files.push(...event.addedFiles);
-    this.uploadFile();
+    this.uploadFile(event.addedFiles);
+    event.addedFiles.forEach(item =>{
+      let _factoryFile = new FactoryFile();
+      _factoryFile.File.FileOriginalName= item.name;
+      _factoryFile.File.FileName = this.helper.getFileNameWithExtension(item) ;
+      _factoryFile.File.Path = this.pathFile + '/' + item.name
+      this.entity.FactoryFile.push(_factoryFile);
+    });
   }
    
   onRemove(event) {
     console.log(event);
-    this.files.splice(this.files.indexOf(event), 1);
-    this.removeFile(event);
+    let index = this.files.indexOf(event);
+    debugger;
+    this.files.splice(index, 1); //UI del
+    this.entity.FactoryFile.splice(index,1);
+    
+    // this.removeFile(event);
   }
-  uploadFile()
+  uploadFile(files: File[])
   {
       let formData = new FormData();
-      this.files.forEach(file => {
+      files.forEach(file => {
           formData.append("files",file)
       });
       this.api.uploadFile(formData, this.pathFile).subscribe(res=> console.log(res));
   }
-
-  removeFile = (file) => this.api.deleteFile(`${this.pathFile}\\${file.name}`).subscribe(res=>console.log(res));
+  // removeFile = (file) => this.api.deleteFile(`${this.pathFile}\\${file.name}`).subscribe(res=>console.log(res));
   private fnValidate(e) {
     // this.toastr.warning('test');
     // this.laddaSubmitLoading=false
     return true;
   }
-
   ngAfterViewInit() { //CSS
-
-
   }
-
 }
