@@ -56,6 +56,8 @@ export class WaterTreatmentService {
   deleteFactory(id) {
     return this.http.delete(`${ApiUrl}/Factory/DeleteFactory`, { params: { id: id } });
   }
+
+  
   
 
   /** FACTORYFILE */
@@ -66,5 +68,13 @@ export class WaterTreatmentService {
   UpdateFactory(entity) {
     return this.http.put(`${ApiUrl}/PlanSchedule/AddFactoryFDeleteFactoryFileile`, entity);
   }
+  /**FILES */
+  uploadFile(formData){
+    return this.http.post(`${ApiUrl}/File/UploadFiles`,  formData);
+  }
+  deleteFile(fileName){
+    return this.http.delete(`${ApiUrl}/File/DeleteFiles`, { params: { fileName: fileName } });
+  }
+
 
 }

@@ -105,6 +105,7 @@
     "url": "Đường dẫn"
   },
   "Factory":{
+    "":"Factories",
     "data.FactoryID"	:"FactoryID",
     "data.FactoryCode"	:"Factory Code",
     "data.FactoryName"	:"Factory Name",
@@ -131,6 +132,8 @@
     "data.FileName":"FileName",
     "UploadFile":"Upload File",
     "AddFactory":"Add Factory",
+    "Information":"Factory's Information",
+    "TotalFactory":"Total ",
     "Breadcrumb":"Factory managment",
     "DeleteAsk_Title":"Delete this Factory?",
     "DeleteAsk_Text":"Delete this factory? Including related data",

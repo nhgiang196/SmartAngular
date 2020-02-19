@@ -104,6 +104,7 @@
     "url": "Đường dẫn"
   },
   "Factory": {
+    "":"Nhà máy",
     "data.FactoryID": "Mã nhà máy",
     "data.FactoryCode"	:"Mã nhà máy",
     "data.FactoryName": "Tên nhà máy",
@@ -130,6 +131,8 @@
     "data.FileName":"Tên file",
     "UploadFile":"Tải Lên Tệp",
     "AddFactory":"Thêm nhà máy",
+    "Information":"Thông tin nhà máy",
+    "TotalFactory":"Tổng cộng",
     "Breadcrumb":"QUẢN TRỊ NHÀ MÁY",
     "DeleteAsk_Title":"Xóa nhà máy?",
     "DeleteAsk_Text":"Bạn có chắc muốn xóa thông tin về nhà máy này chứ (bao gồm các dữ liệu liên quan)",
@@ -139,6 +142,7 @@
     
   },
   "messg":{
+    "isnull":" bị rỗng",
     "add.success":"Thêm thành công ",
     "add.error":"Lỗi khi thêm ",
     "add.warning1":"",

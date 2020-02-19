@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { collapseIboxHelper } from '../../../app.helpers';
-
+import { MyHelperService } from 'src/app/services/my-helper.service';
 import { WaterTreatmentService } from 'src/app/services/api-watertreatment.service';
 import { Factory, FactoryTechnology } from 'src/app/models/SmartInModels';
 import { ToastrService } from 'ngx-toastr';
@@ -24,11 +24,14 @@ declare let $:any;
   
 })
 export class FactoryComponent implements OnInit {
+  @ViewChild('myInputFile')// set for emtpy file after Close or Reload
+  InputManual: ElementRef;
 
   constructor(
     private api : WaterTreatmentService,
     private toastr: ToastrService,
     public trans: TranslateService,
+    public helper: MyHelperService
     ) { }
   /** INIT */
   factory : Factory[]; //init data
@@ -36,6 +39,7 @@ export class FactoryComponent implements OnInit {
   tech_entity : FactoryTechnology;
   laddaSubmitLoading = false;
   iboxloading = false;
+  private _file : FileList;
   
   ACTION_STATUS : string;
 
@@ -58,6 +62,8 @@ export class FactoryComponent implements OnInit {
     this.entity = new Factory();
     this.tech_entity = new FactoryTechnology();
   }
+
+
 
   fnAdd(){
     this.ACTION_STATUS = 'add';
@@ -121,20 +127,11 @@ export class FactoryComponent implements OnInit {
       this.toastr.warning("Validate",this.trans.instant('Factory.data.TechnologyDescription') + this.trans.instant('messg.isnull'))
       return;
     }
-    debugger;
     if (itemAdd.TechnologyFromDate==null){
       this.toastr.warning("Validate",this.trans.instant('Factory.data.TechnologyFromDate') + this.trans.instant('messg.isnull'))
       return;
     }
     if (itemAdd.TechnologyToDate==null){
-      this.toastr.warning("Validate",this.trans.instant('Factory.data.TechnologyToDate') + this.trans.instant('messg.isnull'))
-      return;
-    }
-    if (itemAdd.TechnologyFromDate.toString()!='Invalid date'){
-      this.toastr.warning("Validate",this.trans.instant('Factory.data.TechnologyFromDate') + this.trans.instant('messg.isnull'))
-      return;
-    }
-    if (itemAdd.TechnologyToDate.toString()!='Invalid date'){
       this.toastr.warning("Validate",this.trans.instant('Factory.data.TechnologyToDate') + this.trans.instant('messg.isnull'))
       return;
     }
@@ -176,6 +173,26 @@ export class FactoryComponent implements OnInit {
         }
         
       }
+  }
+
+  uploadFile(files: File[]){
+    debugger;
+    var formData = new FormData();
+
+    for (let file of files)
+    formData.append("files", file);
+    
+    // for (let index = 0; index < files.length; index++) {
+    //   const file = files[index];
+      
+    //   formData.set("files", file ,  this.helper.getFileNameWithExtension(file));
+    // }
+      debugger;
+    this.api.uploadFile(formData).subscribe(res => {
+      console.log('upload Res',res);
+    }, err => {
+      this.toastr.error('Can not upload File\n Api upload Error '+ err.Message, 'Error');
+    });
   }
 
   private fnValidate(e){
