@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { Factory, FactoryFile, FactoryTechnology, DataTablePaginationParram } from '../models/SmartInModels';
+import { Factory, FactoryFile, FactoryTechnology, ServerSideParram } from '../models/SmartInModels';
 
 const ApiUrl = "api/v1";
 
@@ -26,17 +26,9 @@ export class WaterTreatmentService {
   getFactory() {
     return this.http.get<any>(`${ApiUrl}/Factory/GetFactory`);
   }
-  getFactoryPagination(pr) {
-    return this.http.get<any>(`${ApiUrl}/Factory/GetFactoryPagination`, {
-      params: {
-        key: pr.key
-        , keyFields: pr.keyFields
-        , page: pr.page
-        , pageSize: pr.pageSize
-        , orderBy: pr.orderBy
-        , orderDir: pr.orderDir
-      }
-    });
+  getFactoryPagination(keyvalue) {
+    let pr = new ServerSideParram(); pr.key = keyvalue; 
+    return this.http.post(`${ApiUrl}/Factory/GetFactoryPagination`, pr);
   }
 
   getFactoryById(id) {

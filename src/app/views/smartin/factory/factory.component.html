@@ -32,11 +32,12 @@
             </div>
             <div class="col-sm-4 text-center">
               <h2> {{'Factory.TotalFactory' | translate}} {{factory.length}} {{'Factory.' | translate}} </h2>
+              <small>Hiển thị x nhà máy </small>
             </div>
 
             <div class="col-sm-4">
               <div class="pull-right">
-                <input placeholder="Tìm kiếm" type="text" class="form-control">
+                <input placeholder="Tìm kiếm" type="text" class="form-control" [(ngModel)]="searchValue">
               </div>
 
             </div>

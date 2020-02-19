@@ -36,8 +36,10 @@ export class FactoryComponent implements OnInit {
   laddaSubmitLoading = false;
   iboxloading = false;
   files: File[] = [];
+  searchValue : string = '';
   private pathFile = "uploadFilesFactory"
   private ACTION_STATUS: string;
+  
   
   ngOnInit() {
     this.resetEntity();
@@ -45,8 +47,11 @@ export class FactoryComponent implements OnInit {
   }
   private loadInit() {
     this.factory = [];
-    this.api.getFactory().subscribe(res => {
-      this.factory = res;
+    this.api.getFactoryPagination(this.searchValue).subscribe(res => {
+      
+      var data = res as any;
+      this.factory = data.result;
+      debugger;
     }, err => {
       this.toastr.error(err.statusText, "Load init failed!");
     })
@@ -61,11 +66,13 @@ export class FactoryComponent implements OnInit {
     this.resetEntity();
   }
   fnEditSignal(id) {
+    debugger;
     this.resetEntity();
     this.ACTION_STATUS = 'update';
     this.iboxloading = true;
     this.api.getFactoryById(id).subscribe(res => {
       console.log(res);
+      debugger;
       this.entity = res;
       
       this.entity.FactoryFile.forEach(item =>{

@@ -48,11 +48,11 @@ export class Files{
   Status: number = 1 //current
 }
 
-export class DataTablePaginationParram{
-  key: string
-  keyFields: string
-  page: number
-  pageSize :number
-  orderBy: string
-  orderDir: string
+export class ServerSideParram{
+  key: string =null
+  keyFields: string = null
+  page: number = 1
+  pageSize :number = 50
+  orderBy: string =null 
+  orderDir: string ='asc'
 }
