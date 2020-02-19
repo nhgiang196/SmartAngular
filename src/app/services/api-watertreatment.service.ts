@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Factory, FactoryFile, FactoryTechnology, DataTablePaginationParram } from '../models/SmartInModels';
 
@@ -69,8 +69,8 @@ export class WaterTreatmentService {
     return this.http.put(`${ApiUrl}/PlanSchedule/AddFactoryFDeleteFactoryFileile`, entity);
   }
   /**FILES */
-  uploadFile(formData){
-    return this.http.post(`${ApiUrl}/File/UploadFiles`,  formData);
+  uploadFile(formData, pathFile){
+    return this.http.post(`${ApiUrl}/File/UploadFiles/${pathFile}`,  formData);
   }
   deleteFile(fileName){
     return this.http.delete(`${ApiUrl}/File/DeleteFiles`, { params: { fileName: fileName } });
