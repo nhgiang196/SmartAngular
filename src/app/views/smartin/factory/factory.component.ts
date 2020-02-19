@@ -172,24 +172,19 @@ export class FactoryComponent implements OnInit {
     }
   }
 
-  uploadFile(files: File[]) {
-    debugger;
+  uploadFile(files: File[]){
     var formData = new FormData();
     let pathFile = "demo";
     for (let file of files)
-    {
-      formData.append("files", file);
-    }
-
-    debugger;
-    for (let index = 0; index < files.length; index++) {
-      const file = files[index];
-      formData.append("files", file);
-      formData.set("files", file ,  this.helper.getFileNameWithExtension(file));
-    }
-
-    this.api.uploadFile(formData, pathFile).subscribe(res => {
-      console.log('upload Res', res);
+    formData.append("files", file);
+    
+    // for (let index = 0; index < files.length; index++) {
+    //   const file = files[index];
+      
+    //   formData.set("files", file ,  this.helper.getFileNameWithExtension(file));
+    // }
+    this.api.uploadFile(formData,pathFile).subscribe(res => {
+      console.log('upload Res',res);
     }, err => {
       this.toastr.error('Can not upload File\n Api upload Error ' + err.Message, 'Error');
     });
