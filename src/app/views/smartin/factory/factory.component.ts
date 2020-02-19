@@ -176,7 +176,6 @@ export class FactoryComponent implements OnInit {
   }
 
   uploadFile(files: File[]){
-    debugger;
     var formData = new FormData();
 
     for (let file of files)
@@ -187,7 +186,6 @@ export class FactoryComponent implements OnInit {
       
     //   formData.set("files", file ,  this.helper.getFileNameWithExtension(file));
     // }
-      debugger;
     this.api.uploadFile(formData).subscribe(res => {
       console.log('upload Res',res);
     }, err => {
