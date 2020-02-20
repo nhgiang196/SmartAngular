@@ -59,11 +59,11 @@ export class FactoryComponent implements OnInit {
     })
   }
   searchValueOnChange(){
-    let wordSearch = this.keyword;
-    setTimeout(() => {
-        if (wordSearch == this.keyword) this.loadInit();
-    }, 2000);
-
+    this.loadInit();
+    // let wordSearch = this.keyword;
+    // setTimeout(() => {
+    //     if (wordSearch == this.keyword) this.loadInit();
+    // }, 2000);
   }
   private resetEntity() {
     this.entity = new Factory();
