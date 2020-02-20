@@ -80,7 +80,7 @@ export class FactoryComponent implements OnInit {
     this.iboxloading = true;
     this.api.getFactoryById(id).subscribe(res => {
       console.log(res);
-      debugger;
+      
       this.entity = res;
       
       this.entity.FactoryFile.forEach(item =>{
@@ -194,6 +194,26 @@ export class FactoryComponent implements OnInit {
     this.entity.FactoryFile.splice(index,1);
     
     // this.removeFile(event);
+  }
+  downloadFile(filename){
+    this.api.downloadFile(this.pathFile+'/'+filename).subscribe(response=>{
+      if (response==null){
+        this.toastr.warning('File not exits'); return;
+      }
+      let downloadLink = document.createElement('a');
+      let respontype = filename.indexOf('pdf')>0 ? 'application/pdf' : response.type
+      downloadLink.href = window.URL.createObjectURL(new Blob([response], {type: respontype}));
+      if (filename) downloadLink.setAttribute('download', filename);
+      document.body.appendChild(downloadLink);
+      // downloadLink.click();
+      let pwa = window.open(downloadLink.href,"_blank");
+      if (!pwa || pwa.closed || typeof pwa.closed == 'undefined') {
+          alert( 'Please disable your Pop-up blocker and try again.');
+      }
+
+
+    })
+    
   }
   uploadFile(files: File[])
   {
