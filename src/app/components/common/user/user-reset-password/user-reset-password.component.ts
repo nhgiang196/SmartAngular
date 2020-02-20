@@ -12,6 +12,7 @@ export class UserResetPasswordComponent implements OnInit {
   ConfirmPassword: '';
   Token: any;
   Email:''
+  laddaSubmitLoading = false;
 
   constructor(private authService: AuthService, private route: ActivatedRoute) { }
 
@@ -20,13 +21,14 @@ export class UserResetPasswordComponent implements OnInit {
     console.log(decodeURI(this.Token));
   }
   resetPassword() {
+    this.laddaSubmitLoading = true;
     let ResetObj = {
       Token: this.replaceStr(this.Token),
       Password: this.Password,
       Email: this.Email
     }
     console.log(ResetObj);
-    this.authService.resetPassword(ResetObj).subscribe(res => console.log(res));
+    this.authService.resetPassword(ResetObj).subscribe(res => this.laddaSubmitLoading=false, err => this.laddaSubmitLoading=false );
   }
   replaceStr = (source)=> source.replace('%20','+','%2F','/');
 

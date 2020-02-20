@@ -51,6 +51,9 @@ export class WaterTreatmentService {
   deleteFactory(id) {
     return this.http.delete(`${ApiUrl}/Factory/DeleteFactory`, { params: { id: id } });
   }
+  validateFactory(e){
+    return this.http.post(`${ApiUrl}/Factory/ValidateFactory`,e);
+  }
 
 
 
@@ -90,6 +93,7 @@ export class WaterTreatmentService {
   getItemTypePropertyPagination =(entity) => this.http.post<any>(`${ApiUrl}/ItemTypeProperty/GetItemTypePropertyPagination`,entity,{} );
   getItemTypeProperty =() => this.http.get(`${ApiUrl}/ItemTypeProperty/GetItemType` );
   findItemTypePropertyById =(id) => this.http.get<any>(`${ApiUrl}/ItemTypeProperty/FindItemTypePropertyById?id=${id}` );
+
 
 
 }

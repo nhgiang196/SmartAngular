@@ -45,13 +45,13 @@ export class AuthService {
     localStorage.removeItem('currentUser');
     this.router.navigateByUrl('login');
   }
-  login =() =>  this.http.post(`${url}/login`, this.currentUser);  
+  login =() =>  this.http.post(`${url}/loginSharePoint`, this.currentUser);  
   ldapLogin =() =>  this.http.post(`${url}/ldapLogin`, this.currentUser); 
   LDAP =() =>  this.http.post(`${url}/ldap`, this.currentUser); 
   register = (entity) =>this.http.post(`${url}/register`, entity);  
   forgotPassword = (email)=> this.http.get(`${url}/forgotPassword?Email=${email}`);
   resetPassword = (entity)=> this.http.put(`${url}/resetPassword`, entity);
   refreshToken = (entity)=> this.http.post(`${url}/forgotPassword`, entity);
-  
+  profile =() => this.http.post(`${url}/getInfoSharePoint`, this.currentUser);
 
 }
