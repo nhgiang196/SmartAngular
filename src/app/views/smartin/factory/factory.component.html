@@ -154,7 +154,7 @@
                 <ngx-dropzone (change)="onSelect($event)" [expandable]="true" [disableClick]="true">
                   
                   <ngx-dropzone-label>Kéo thả file ở đây!</ngx-dropzone-label>
-                  <ngx-dropzone-preview *ngFor="let f of files"   [removable]="true" (removed)="onRemove(f)" (click)=downloadFile(f.name) >
+                  <ngx-dropzone-preview class="animated fadeInUp"  ngProjectAs="ngx-dropzone-preview" *ngFor="let f of files"   [removable]="true" (removed)="onRemove(f)" (click)=downloadFile(f.name) >
                     <ngx-dropzone-label >{{ f.name }}</ngx-dropzone-label>
                   </ngx-dropzone-preview>
                   
