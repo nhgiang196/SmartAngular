@@ -44,6 +44,9 @@ export class WaterTreatmentService {
   deleteFactory(id) {
     return this.http.delete(`${ApiUrl}/Factory/DeleteFactory`, { params: { id: id } });
   }
+  validateFactory(e){
+    return this.http.post(`${ApiUrl}/Factory/ValidateFactory`,e);
+  }
 
 
 
@@ -67,5 +70,6 @@ export class WaterTreatmentService {
     let url: string = '/api/v1/File/DownloadFile?fileName='+fileName;
     window.open(url);
   }
+
 
 }

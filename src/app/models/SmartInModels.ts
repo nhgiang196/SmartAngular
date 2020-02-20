@@ -6,9 +6,9 @@ export class Factory {
   FactoryAddress?: string = null
   FactoryContact?: string = null
   ContactPhone?:   string = null  
-  FactoryBuiltDate?:  Date = new Date()
-  FactoryStartDate?:  Date = new Date()
-  FactoryEndDate?: Date    = new Date()
+  FactoryBuiltDate?:  Date
+  FactoryStartDate?:  Date
+  FactoryEndDate?: Date    
   CreateDate?: Date = null
   ModifyDate?: Date = null
   CreateBy?:   string = null

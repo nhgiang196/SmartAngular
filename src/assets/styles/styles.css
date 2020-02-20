@@ -10625,3 +10625,7 @@ bs-datepicker-container, bs-daterangepicker-container { z-index: 9999 !important
 
 
 
+.form-control[readonly] {
+  background-color: #FFFFFF;
+}
+

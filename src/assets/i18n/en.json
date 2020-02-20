@@ -137,7 +137,33 @@
     "Breadcrumb":"Factory managment",
     "DeleteAsk_Title":"Delete this Factory?",
     "DeleteAsk_Text":"Delete this factory? Including related data",
+    "Valid_FactoryNameNull":"Factory name is null",
+    "Valid_FactoryName":"Factory name was registered!",
+    "Valid_FactoryDate":"Please choose Factory Date ",
     "CommandButton1":"Test"
+  },
+  "Item": {
+    "ItemID":"",
+    "ItemTypeID":"",
+    "ItemTypeID1":"",
+    "ItemTypeID2":"",
+    "ItemNo":"",
+    "ItemName":"",
+    "ItemPrintName":"",
+    "ItemUnitID":"",
+    "ItemModel":"",
+    "ItemSerial":"",
+    "ItemManufactureCountry":"",
+    "ItemManufactureYear":"",
+    "ItemLength":"",
+    "ItemWidth":"",
+    "ItemHeight":"",
+    "ItemWeight":"",
+    "CreateBy":"",
+    "CreateDate":"",
+    "ModifyBy":"",
+    "ModifyDate":"",
+    "Status":""
   },
   "messg":{
     "add.success":"Add Success",
@@ -153,10 +179,5 @@
     "delete.success":"Delete Success",
     "delete.error":"Erron on Deleteing "
   }
-  
 }
   
-
-
-
-
