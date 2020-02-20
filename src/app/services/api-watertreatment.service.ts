@@ -64,11 +64,8 @@ export class WaterTreatmentService {
     return this.http.delete(`${ApiUrl}/File/DeleteFiles`, { params: { fileName: fileName } });
   }
   downloadFile(fileName) {
-    return this.http.get(`${ApiUrl}/File/DownloadFile`,{
-      params: { fileName: fileName },
-      responseType: 'blob'
-
-    });
+    let url: string = '/api/v1/File/DownloadFile?fileName='+fileName;
+    window.open(url);
   }
 
 }

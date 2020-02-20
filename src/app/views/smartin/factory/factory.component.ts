@@ -196,24 +196,7 @@ export class FactoryComponent implements OnInit {
     // this.removeFile(event);
   }
   downloadFile(filename){
-    this.api.downloadFile(this.pathFile+'/'+filename).subscribe(response=>{
-      if (response==null){
-        this.toastr.warning('File not exits'); return;
-      }
-      let downloadLink = document.createElement('a');
-      let respontype = filename.indexOf('pdf')>0 ? 'application/pdf' : response.type
-      downloadLink.href = window.URL.createObjectURL(new Blob([response], {type: respontype}));
-      if (filename) downloadLink.setAttribute('download', filename);
-      document.body.appendChild(downloadLink);
-      // downloadLink.click();
-      let pwa = window.open(downloadLink.href,"_blank");
-      if (!pwa || pwa.closed || typeof pwa.closed == 'undefined') {
-          alert( 'Please disable your Pop-up blocker and try again.');
-      }
-
-
-    })
-    
+    this.api.downloadFile(this.pathFile+'/'+filename);
   }
   uploadFile(files: File[])
   {
