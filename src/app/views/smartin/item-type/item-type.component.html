@@ -1,0 +1,145 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-sm-4">
+    <h2>{{ 'ItemType.Breadcrumb' | translate }}</h2>
+    <ol class="breadcrumb">
+      <li>
+        <a href="index.html">{{ 'TopNav.Category' | translate }}</a>
+      </li>
+      <li class="active">
+        <strong>{{ 'ItemType.Breadcrumb' | translate }}</strong>
+      </li>
+    </ol>
+  </div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="ibox float-e-margins">
+        <div class="ibox-content" [ngClass]=" {'sk-loading': iboxloading}">
+          <div class="sk-spinner sk-spinner-wave">
+            <div class="sk-rect1"></div>
+            <div class="sk-rect2"></div>
+            <div class="sk-rect3"></div>
+            <div class="sk-rect4"></div>
+            <div class="sk-rect5"></div>
+          </div>
+          <div class="row">
+            <div class="col-sm-4">
+              <button (click)="fnAdd()" type="button" class="btn btn-primary dim" data-toggle="modal"
+                data-target="#myModal4">
+                <i class="fa fa-plus"></i> Add </button>
+            </div>
+          </div>
+          <div class="row">
+            <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger"
+              class="table table-bordered table-hover table-striped" id="myTable" style="width:100%">
+              <thead>
+                <tr>
+                  <th>Id</th>
+                  <th>ItemTypeName</th>
+                  <th>CreateBy</th>
+                  <th>CreateDate</th>
+                  <th>ModifyBy</th>
+                  <th>ModifyDate</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody *ngIf="itemTypes?.length != 0">
+                <tr *ngFor="let item of itemTypes">
+                  <td style="text-align: left"> {{item.ItemTypeId}}</td>
+                  <td style="text-align: left">{{item.ItemTypeName}}</td>
+                  <td style="text-align: left"> {{item.CreateBy}}</td>
+                  <td style="text-align: left">{{item.CreateDate}}</td>
+                  <td style="text-align: left"> {{item.ModifyBy}}</td>
+                  <td style="text-align: left">{{item.ModifyDate}}</td>
+                  <td style="text-align: left">{{item.Status}}</td>
+                  <td>
+                    <button type="button" class="btn btn-outline btn-danger" (click)="fnDelete(item.ItemTypeId)"><i
+                        class="fa fa-trash"></i></button>
+                    <button type="button" class="btn btn-outline btn-success" (click)="fnUpdate(item)"
+                      data-toggle="modal" data-target="#myModal4"><i class="fa fa-pencil"></i></button>
+                  </td>
+                </tr>
+              </tbody>
+
+              <tbody *ngIf="itemTypes?.length == 0">
+                <tr>
+                  <td colspan="3" class="no-data-available">No data!</td>
+                </tr>
+              <tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Modal -->
+<div class="modal inmodal" id="myModal4" data-backdrop="static" data-keyboard="true" tabindex="-1" role="dialog"
+  aria-hidden="true">
+  <div class="modal-dialog modal-lg ">
+    <div class="modal-content animated fadeIn">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
+            class="sr-only">Close</span></button>
+        <h4 class="modal-title"> {{'ItemType.Information' | translate }}</h4>
+      </div>
+      <div class="modal-body">
+        <form role="form">
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="form-group">
+                <label> {{ 'ItemType.ItemTypeName' | translate }} : </label>
+                <input type="text" name="ItemTypeName" id="ItemTypeName" class="form-control"
+                  placeholder="Enter your ItemTypeName" [(ngModel)]="entity.ItemTypeName">
+              </div>
+            </div>
+          </div>
+          <!-- SubTable -->
+          <div class="row">
+            <div class="col-lg-6">
+              <div class="form-group">
+                <label>{{ 'ItemTypeProperty.ItemTypePropertyName' | translate }}: </label>
+                <input type="text" name="ItemTypePropertyName" id="ItemTypePropertyName" class="form-control"
+                  placeholder="Enter your ItemTypePropertyName" [(ngModel)]="itemTypeProperty.ItemTypePropertyName">
+              </div>
+            </div>
+            <div class="col-lg-2">
+              <br>
+              <button type="button" class="btn btn-success" (click)="fnAddItem()">Add</button>
+            </div>
+          </div>
+          <div class="row">
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>{{ 'ItemTypeProperty.ItemTypePropertyName' | translate }}</th>
+                  <th>{{ 'Button.Action' | translate }}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="animated fadeInRight" *ngFor="let item of entity.ItemTypeProperty; let i = index"
+                  [@simpleFadeAnimation]="'in'">
+                  <td> {{i+1}} </td>
+                  <td>{{item.ItemTypePropertyName}} </td>
+                  <td><button class="btn btn-danger" (click)="fnDeleteItem(i)"><i class="fa fa-trash"></i></button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
+        <button type="button" *ngIf="ACTION_STATUS=='update'" class="btn btn-danger"
+          (click)="fnDelete(entity.ItemTypeId)"><i class="fa fa-trash"></i> Delete</button>
+        <button type="button" class="btn btn-primary" (click)="fnSave();" [ladda]="laddaSubmitLoading">Save
+          changes</button>
+      </div>
+    </div>
+  </div>
+</div>
