@@ -36,10 +36,10 @@ export class FactoryComponent implements OnInit {
   laddaSubmitLoading = false;
   iboxloading = false;
   files: File[] = [];
-  searchValue : string = '';
+  keyword : string = '';
   private pathFile = "uploadFilesFactory"
   private ACTION_STATUS: string;
-  
+  factory_showed = 0;
   
   ngOnInit() {
     this.resetEntity();
@@ -47,14 +47,22 @@ export class FactoryComponent implements OnInit {
   }
   private loadInit() {
     this.factory = [];
-    this.api.getFactoryPagination(this.searchValue).subscribe(res => {
+    this.api.getFactoryPagination(this.keyword).subscribe(res => {
       
       var data = res as any;
       this.factory = data.result;
-      debugger;
+      this.factory_showed = data.totalCount;
+      
     }, err => {
       this.toastr.error(err.statusText, "Load init failed!");
     })
+  }
+  searchValueOnChange(){
+    let wordSearch = this.keyword;
+    setTimeout(() => {
+        if (wordSearch == this.keyword) this.loadInit();
+    }, 2000);
+
   }
   private resetEntity() {
     this.entity = new Factory();
@@ -66,7 +74,7 @@ export class FactoryComponent implements OnInit {
     this.resetEntity();
   }
   fnEditSignal(id) {
-    debugger;
+    
     this.resetEntity();
     this.ACTION_STATUS = 'update';
     this.iboxloading = true;
@@ -182,7 +190,6 @@ export class FactoryComponent implements OnInit {
   onRemove(event) {
     console.log(event);
     let index = this.files.indexOf(event);
-    debugger;
     this.files.splice(index, 1); //UI del
     this.entity.FactoryFile.splice(index,1);
     

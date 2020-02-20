@@ -31,13 +31,13 @@
 
             </div>
             <div class="col-sm-4 text-center">
-              <h2> {{'Factory.TotalFactory' | translate}} {{factory.length}} {{'Factory.' | translate}} </h2>
-              <small>Hiển thị x nhà máy </small>
+              <h2> {{'Factory.TotalFactory' | translate}} {{factory_showed}} {{'Factory.' | translate}} </h2>
+              <small>Hiển thị  {{factory.length}} nhà máy </small>
             </div>
 
             <div class="col-sm-4">
               <div class="pull-right">
-                <input placeholder="Tìm kiếm" type="text" class="form-control" [(ngModel)]="searchValue">
+                <input placeholder="Tìm kiếm" type="text" class="form-control" (keyup)="searchValueOnChange()" [(ngModel)]="keyword" >
               </div>
 
             </div>
@@ -48,7 +48,7 @@
             <div class="col-lg-3" *ngFor="let item of factory">
               <div class="panel panel-info">
                 <div class="panel-heading text-center">
-                  <a (click)="fnEditSignal(item.FactoryId)">
+                  <a (click)="fnEditSignal(item.FactoryID)">
                     <i class="fa fa-info-circle"></i> {{item.FactoryName}}
                   </a>
                 </div>
