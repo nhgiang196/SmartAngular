@@ -155,7 +155,7 @@
                 <label>{{ 'Factory.data.Status' | translate }} :</label>
                 <div class="switch">
                   <div class="onoffswitch">
-                    <input type="checkbox" class="onoffswitch-checkbox" name="status" id="status" (click)="onSwitchStatus()" [attr.checked]="entity.Status==1 ? true : null" >
+                    <input type="checkbox" class="onoffswitch-checkbox" name="status" id="status"  (click)="onSwitchStatus()" [checked]="entity.Status==1 ? true : null" >
                     <label class="onoffswitch-label" for="status">
                       <span class="onoffswitch-inner"></span>
                       <span class="onoffswitch-switch"></span>
