@@ -39,6 +39,8 @@ import { UserNavigationComponent } from './components/common/navigation/user-nav
 import { UserResetPasswordComponent } from './components/common/user/user-reset-password/user-reset-password.component';
 import { ForgotPasswordComponent } from './components/common/user/forgot-password/forgot-password.component';
 import { ChangePasswordComponent } from './components/common/user/change-password/change-password.component';
+import { ItemTypeComponent } from './views/smartin/item-type/item-type.component';
+import { CategoryNavigationComponent } from './components/common/navigation/category-navigation/category-navigation.component';
 
 
 
@@ -88,11 +90,19 @@ export const ROUTES: Routes = [
           { path: '', component: AdminNavigationComponent, outlet: 'sidemenu' },
         ]
       },
+      //user config
       {
         path: 'user', canActivate: [AuthGuard], children: [
           { path: 'profile', component: ProfileComponent },
           { path: 'changePass', component: ChangePasswordComponent },
           { path: '', component: AdminNavigationComponent, outlet: 'sidemenu' },
+        ]
+      },
+      //category
+      {
+        path: 'category', canActivate: [AuthGuard], children: [
+          { path: 'itemType', component: ItemTypeComponent },
+          { path: '', component: CategoryNavigationComponent, outlet: 'sidemenu' },
         ]
       },
     ]
