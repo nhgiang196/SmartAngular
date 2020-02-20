@@ -59,11 +59,11 @@ export class FactoryComponent implements OnInit {
     })
   }
   searchValueOnChange(){
-    let wordSearch = this.keyword;
-    setTimeout(() => {
-        if (wordSearch == this.keyword) this.loadInit();
-    }, 2000);
-
+    this.loadInit();
+    // let wordSearch = this.keyword;
+    // setTimeout(() => {
+    //     if (wordSearch == this.keyword) this.loadInit();
+    // }, 2000);
   }
   private resetEntity() {
     this.entity = new Factory();
@@ -206,6 +206,7 @@ export class FactoryComponent implements OnInit {
       this.laddaSubmitLoading = false;
       return false;
     }
+    if (this.ACTION_STATUS=='add')
     this.api.validateFactory(e).subscribe(res=>{
       var result = res as any;
       debugger;
@@ -216,7 +217,7 @@ export class FactoryComponent implements OnInit {
       }
       else this.fnSave();
     },err=>this.toastr.warning(err.statusText,"Erron on sending vaidate Factory"))
-    
+    else this.fnSave();
   }
 
   private fnSave() {
