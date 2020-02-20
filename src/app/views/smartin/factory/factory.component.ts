@@ -139,10 +139,6 @@ export class FactoryComponent implements OnInit {
       this.toastr.warning("Validate", this.trans.instant('Factory.data.TechnologyFromDate') + this.trans.instant('messg.isnull'))
       return;
     }
-    if (itemAdd.TechnologyToDate == null) {
-      this.toastr.warning("Validate", this.trans.instant('Factory.data.TechnologyToDate') + this.trans.instant('messg.isnull'))
-      return;
-    }
     itemAdd.FactoryId = this.entity.FactoryId;
     this.tech_entity = new FactoryTechnology();
     this.entity.FactoryTechnology.push(itemAdd);
@@ -150,32 +146,7 @@ export class FactoryComponent implements OnInit {
   fnDeleteItem(index) {
     this.entity.FactoryTechnology.splice(index, 1);
   }
-  fnSave() {
-    this.laddaSubmitLoading = true;
-    var e = this.entity;
-    if (this.fnValidate(e)) {
-      console.log('send entity: ', e);
-      if (this.ACTION_STATUS == 'add') {
-        this.api.addFactory(e).subscribe(res => {
-          var operationResult: any = res
-          if (operationResult.Success)
-            this.toastr.success(this.trans.instant("messg.add.success"));
-          else this.toastr.warning(operationResult.Message);
-          this.laddaSubmitLoading = false;
-          $("#myModal4").modal('hide');
-        }, err => { this.toastr.error(err.statusText); this.laddaSubmitLoading = false; })
-      }
-      if (this.ACTION_STATUS == 'update') {
-        this.api.updateFactory(e).subscribe(res => {
-          var operationResult: any = res
-          if (operationResult.Success)
-            this.toastr.success(this.trans.instant("messg.update.success"));
-          else this.toastr.warning(operationResult.Message);
-          this.laddaSubmitLoading = false;
-        }, err => { this.toastr.error(err.statusText); this.laddaSubmitLoading = false; })
-      }
-    }
-  }
+  
   onSelect(event) {
     console.log(event);
     this.files.push(...event.addedFiles);
@@ -213,6 +184,14 @@ export class FactoryComponent implements OnInit {
     this.entity.Status = this.entity.Status==0? 1: 0;
     if (this.entity.Status==0) this.entity.FactoryEndDate = new Date();
   }
+
+
+  fnSubmit(){
+    this.laddaSubmitLoading = true;
+    this.fnValidate(this.entity);
+  }
+
+
   // removeFile = (file) => this.api.deleteFile(`${this.pathFile}\\${file.name}`).subscribe(res=>console.log(res));
   private fnValidate(e: Factory) {
     if (e.FactoryName == null || e.FactoryName =='')
@@ -229,14 +208,44 @@ export class FactoryComponent implements OnInit {
     }
     this.api.validateFactory(e).subscribe(res=>{
       var result = res as any;
-      if (!result.success) {
+      debugger;
+      if (!result.Success) {
         this.toastr.warning(this.trans.instant("Factory."+result.message));
         this.laddaSubmitLoading = false;
         return false;
       }
-    })
-    return true;
+      else this.fnSave();
+    },err=>this.toastr.warning(err.statusText,"Erron on sending vaidate Factory"))
+    
   }
+
+  private fnSave() {
+    var e = this.entity;
+    console.log('send entity: ', e);
+    if (this.ACTION_STATUS == 'add') {
+      this.api.addFactory(e).subscribe(res => {
+        var operationResult: any = res
+        if (operationResult.Success){
+          this.toastr.success(this.trans.instant("messg.add.success"));
+          $("#myModal4").modal('hide');
+        }
+        else this.toastr.warning(operationResult.Message);
+        this.laddaSubmitLoading = false;
+        
+      }, err => { this.toastr.error(err.statusText); this.laddaSubmitLoading = false; })
+    }
+    if (this.ACTION_STATUS == 'update') {
+      this.api.updateFactory(e).subscribe(res => {
+        var operationResult: any = res
+        if (operationResult.Success)
+          this.toastr.success(this.trans.instant("messg.update.success"));
+        else this.toastr.warning(operationResult.Message);
+        this.laddaSubmitLoading = false;
+      }, err => { this.toastr.error(err.statusText); this.laddaSubmitLoading = false; })
+    }
+  }
+
+  
   ngAfterViewInit() { //CSS
   }
 }

@@ -126,6 +126,22 @@
           <div class="row">
             <div class="col-lg-6">
               <div class="form-group">
+                <label>{{ 'Factory.data.FactoryContact' | translate }} :</label>
+                <input type="text" name="FactoryContact" id="FactoryContact" class="form-control" placeholder="Enter contacter"
+                  [(ngModel)]="entity.FactoryContact">
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="form-group">
+                <label>{{ 'Factory.data.ContactPhone' | translate }} :</label>
+                <input type="text" name="ContactPhone" id="ContactPhone" class="form-control" placeholder="Enter factory Contact Phone"
+                  [(ngModel)]="entity.ContactPhone">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-6">
+              <div class="form-group">
                 <label>{{ 'Factory.data.FactoryType' | translate }}:</label>
                 <select class="select2_demo_3 form-control" [(ngModel)]="entity.FactoryType" name="FactoryType"  placeholder="Select Factory Type">
                   <option selected value=1> {{ 'Factory.data.FactoryType1' | translate }} </option>
@@ -237,7 +253,7 @@
         <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
         <button type="button" *ngIf="ACTION_STATUS=='update'" class="btn btn-danger"
           (click)="fnDelete(entity.FactoryId)"><i class="fa fa-trash"></i> Delete</button>
-        <button type="button" class="btn btn-primary" (click)="fnSave();" [ladda]="laddaSubmitLoading">Save
+        <button type="button" class="btn btn-primary" (click)="fnSubmit();" [ladda]="laddaSubmitLoading">Save
           changes</button>
       </div>
     </div>
