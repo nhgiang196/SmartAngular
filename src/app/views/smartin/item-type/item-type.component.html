@@ -35,14 +35,14 @@
               class="table table-bordered table-hover table-striped" id="myTable" style="width:100%">
               <thead>
                 <tr>
-                  <th>Id</th>
-                  <th>ItemTypeName</th>
-                  <th>CreateBy</th>
-                  <th>CreateDate</th>
-                  <th>ModifyBy</th>
-                  <th>ModifyDate</th>
-                  <th>Status</th>
-                  <th>Action</th>
+                  <th>{{'ItemType.ItemTypeId' | translate}}</th>
+                  <th>{{'ItemType.ItemTypeName' | translate}}</th>
+                  <th>{{'ItemType.CreateBy' | translate}}</th>
+                  <th>{{'ItemType.CreateDate' | translate}}</th>
+                  <th>{{'ItemType.ModifyBy' | translate}}</th>
+                  <th>{{'ItemType.ModifyDate' | translate}}</th>
+                  <th>{{'ItemType.Status' | translate}}</th>
+                  <th>{{'ItemType.Action' | translate}}</th>
                 </tr>
               </thead>
               <tbody *ngIf="itemTypes?.length != 0">
@@ -104,7 +104,7 @@
               <div class="form-group">
                 <label>{{ 'ItemTypeProperty.ItemTypePropertyName' | translate }}: </label>
                 <input type="text" name="ItemTypePropertyName" id="ItemTypePropertyName" class="form-control"
-                  placeholder="Enter your ItemTypePropertyName" [(ngModel)]="itemTypeProperty.ItemTypePropertyName">
+                  placeholder="{{'ItemType.InputPropertyName'}}" [(ngModel)]="itemTypeProperty.ItemTypePropertyName">
               </div>
             </div>
             <div class="col-lg-2">
