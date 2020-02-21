@@ -51,9 +51,9 @@
                   <td style="text-align: left"> {{item.ItemTypeId}}</td>
                   <td style="text-align: left">{{item.ItemTypeName}}</td>
                   <td style="text-align: left"> {{item.CreateBy}}</td>
-                  <td style="text-align: left">{{item.CreateDate}}</td>
+                  <td style="text-align: left">{{item.CreateDate | amDateFormat: 'YYYY-MM-DD HH:mm'}}</td>
                   <td style="text-align: left"> {{item.ModifyBy}}</td>
-                  <td style="text-align: left">{{item.ModifyDate}}</td>
+                  <td style="text-align: left">{{item.ModifyDate | amDateFormat: 'YYYY-MM-DD HH:mm'}}</td>
                   <td style="text-align: left">{{item.Status}}</td>
                   <td>
                     <button type="button" class="btn btn-outline btn-danger" (click)="fnDelete(item.ItemTypeId)"><i
