@@ -153,15 +153,27 @@ export class FactoryComponent implements OnInit {
   
   onSelect(event) {
     console.log(event);
-    this.files.push(...event.addedFiles);
+    // this.files.push(...event.addedFiles); //refresh showing in Directive
+
+    
+    for (var index in event.addedFiles) {
+      debugger;
+      let item = event.addedFiles[index];
+      let currentFile = this.files;
+      var _existIndex = currentFile.filter(x=>x.name == item.name).length;
+      if (_existIndex>0) this.files.splice(_existIndex-1,1);
+      else{
+        
+        let _factoryFile = new FactoryFile();
+        _factoryFile.File.FileOriginalName= item.name;
+        _factoryFile.File.FileName = this.helper.getFileNameWithExtension(item);
+        _factoryFile.File.Path = this.pathFile + '/' + item.name;
+        this.entity.FactoryFile.push(_factoryFile);
+      }
+    }
+    this.files.push(...event.addedFiles); //refresh showing in Directive
     this.uploadFile(event.addedFiles);
-    event.addedFiles.forEach(item =>{
-      let _factoryFile = new FactoryFile();
-      _factoryFile.File.FileOriginalName= item.name;
-      _factoryFile.File.FileName = this.helper.getFileNameWithExtension(item) ;
-      _factoryFile.File.Path = this.pathFile + '/' + item.name
-      this.entity.FactoryFile.push(_factoryFile);
-    });
+    
   }
    
   onRemove(event) {
@@ -179,7 +191,7 @@ export class FactoryComponent implements OnInit {
   {
       let formData = new FormData();
       files.forEach(file => {
-          formData.append("files",file)
+          formData.append("files",file);
       });
       this.api.uploadFile(formData, this.pathFile).subscribe(res=> console.log(res));
   }
