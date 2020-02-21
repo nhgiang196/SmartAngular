@@ -28,8 +28,9 @@ export class ItemTypeComponent implements OnDestroy, OnInit {
   itemTypeProperty: ItemTypeProperty
   dtOptions: DataTables.Settings = {};
   dtTrigger: Subject<any> = new Subject();
-  private ACTION_STATUS: string;
+  ACTION_STATUS: string;
   laddaSubmitLoading = false;
+  iboxloading = false;
   constructor(
     private api: WaterTreatmentService,
     private toastr: ToastrService,

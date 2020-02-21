@@ -7,6 +7,7 @@ import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 import swal from 'sweetalert2';
 import { trigger, transition, style, animate } from '@angular/animations';
+import { AuthService } from 'src/app/services/auth.service';
 declare let $: any;
 @Component({
   selector: 'app-factory',
@@ -27,7 +28,8 @@ export class FactoryComponent implements OnInit {
     private api: WaterTreatmentService,
     private toastr: ToastrService,
     public trans: TranslateService,
-    public helper: MyHelperService
+    public helper: MyHelperService,
+    private auth: AuthService
   ) { }
   /** INIT */
   factory: Factory[]; //init data
@@ -40,7 +42,6 @@ export class FactoryComponent implements OnInit {
   private pathFile = "uploadFilesFactory"
   ACTION_STATUS: string;
   factory_showed = 0;
-  statusInline ='';
   
   ngOnInit() {
     this.resetEntity();
@@ -77,6 +78,7 @@ export class FactoryComponent implements OnInit {
   fnAdd() {
     this.ACTION_STATUS = 'add';
     this.resetEntity();
+    this.entity.CreateBy = this.auth.currentUser.Username;
   }
   fnEditSignal(id) {
     if (id==null)  { this.toastr.warning('Factory ID is Null, cant show modal'); return; }
@@ -84,18 +86,16 @@ export class FactoryComponent implements OnInit {
     this.ACTION_STATUS = 'update';
     this.iboxloading = true;
     this.api.getFactoryById(id).subscribe(res => {
-      console.log(res);
-      
       this.entity = res;
-      
+      $("#myModal4").modal('show');
+      this.iboxloading = false;
+      /**CONTROL FILES */
       this.entity.FactoryFile.forEach(item =>{
         let _tempFile = new File([],item.File.FileOriginalName);
         this.files.push(_tempFile);
       })
-      
-      this.files.push()
-      $("#myModal4").modal('show');
-      this.iboxloading = false;
+      this.entity.ModifyBy = this.auth.currentUser.Username;
+      this.files.push();
       
     }, error => {
       this.iboxloading = false;
@@ -153,15 +153,27 @@ export class FactoryComponent implements OnInit {
   
   onSelect(event) {
     console.log(event);
-    this.files.push(...event.addedFiles);
+    // this.files.push(...event.addedFiles); //refresh showing in Directive
+
+    
+    for (var index in event.addedFiles) {
+      debugger;
+      let item = event.addedFiles[index];
+      let currentFile = this.files;
+      var _existIndex = currentFile.filter(x=>x.name == item.name).length;
+      if (_existIndex>0) this.files.splice(_existIndex-1,1);
+      else{
+        
+        let _factoryFile = new FactoryFile();
+        _factoryFile.File.FileOriginalName= item.name;
+        _factoryFile.File.FileName = this.helper.getFileNameWithExtension(item);
+        _factoryFile.File.Path = this.pathFile + '/' + item.name;
+        this.entity.FactoryFile.push(_factoryFile);
+      }
+    }
+    this.files.push(...event.addedFiles); //refresh showing in Directive
     this.uploadFile(event.addedFiles);
-    event.addedFiles.forEach(item =>{
-      let _factoryFile = new FactoryFile();
-      _factoryFile.File.FileOriginalName= item.name;
-      _factoryFile.File.FileName = this.helper.getFileNameWithExtension(item) ;
-      _factoryFile.File.Path = this.pathFile + '/' + item.name
-      this.entity.FactoryFile.push(_factoryFile);
-    });
+    
   }
    
   onRemove(event) {
@@ -179,7 +191,7 @@ export class FactoryComponent implements OnInit {
   {
       let formData = new FormData();
       files.forEach(file => {
-          formData.append("files",file)
+          formData.append("files",file);
       });
       this.api.uploadFile(formData, this.pathFile).subscribe(res=> console.log(res));
   }
@@ -213,7 +225,6 @@ export class FactoryComponent implements OnInit {
     if (this.ACTION_STATUS=='add')
     this.api.validateFactory(e).subscribe(res=>{
       var result = res as any;
-      
       if (!result.Success) {
         this.toastr.warning(this.trans.instant("Factory."+result.message));
         this.laddaSubmitLoading = false;
@@ -225,29 +236,17 @@ export class FactoryComponent implements OnInit {
   }
 
   private fnSave() {
-    var e = this.entity;
-    console.log('send entity: ', e);
-    if (this.ACTION_STATUS == 'add') {
-      this.api.addFactory(e).subscribe(res => {
-        var operationResult: any = res
-        if (operationResult.Success){
-          this.toastr.success(this.trans.instant("messg.add.success"));
-          $("#myModal4").modal('hide');
-        }
-        else this.toastr.warning(operationResult.Message);
-        this.laddaSubmitLoading = false;
-        
-      }, err => { this.toastr.error(err.statusText); this.laddaSubmitLoading = false; })
-    }
-    if (this.ACTION_STATUS == 'update') {
-      this.api.updateFactory(e).subscribe(res => {
-        var operationResult: any = res
-        if (operationResult.Success)
-          this.toastr.success(this.trans.instant("messg.update.success"));
-        else this.toastr.warning(operationResult.Message);
-        this.laddaSubmitLoading = false;
-      }, err => { this.toastr.error(err.statusText); this.laddaSubmitLoading = false; })
-    }
+    console.log('send entity: ', this.entity);
+    if (this.ACTION_STATUS == 'add') this.api.addFactory(this.entity).subscribe(res => this.showSaveMessage(res,"messg.add.success"), err => { this.toastr.error(err.statusText); this.laddaSubmitLoading = false; })
+    if (this.ACTION_STATUS == 'update') this.api.updateFactory(this.entity).subscribe(res => this.showSaveMessage(res,"messg.update.success") , err => { this.toastr.error(err.statusText); this.laddaSubmitLoading = false; })
+  }
+
+  private showSaveMessage(res,messg){
+    var operationResult: any = res
+    if (operationResult.Success)
+      this.toastr.success(this.trans.instant(messg));
+    else this.toastr.warning(operationResult.Message);
+    this.laddaSubmitLoading = false;
   }
 
   

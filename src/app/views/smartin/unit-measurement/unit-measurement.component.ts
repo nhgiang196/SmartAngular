@@ -19,9 +19,10 @@ export class UnitMeasurementComponent implements OnInit {
   entity: Unit;  
   dtOptions: DataTables.Settings = {};
   dtTrigger: Subject<any> = new Subject();
-  private ACTION_STATUS: string;
+  ACTION_STATUS: string;
   laddaSubmitLoading = false;
   existName = false;
+  iboxloading = false;
   constructor(
     private api: WaterTreatmentService,
     private toastr: ToastrService,
@@ -158,11 +159,17 @@ export class UnitMeasurementComponent implements OnInit {
     }
   }
   private async fnValidate(e) {
-    let result =  !await this.api.checkUnitNameExist(this.entity.UnitName).toPromise().then();
-    if (!result){
-      this.laddaSubmitLoading = false;
-      this.existName = true;
+    if (this.ACTION_STATUS =='add'){
+      let result =  !await this.api.checkUnitNameExist(this.entity.UnitName).toPromise().then();
+      if (!result){
+        this.laddaSubmitLoading = false;
+        this.existName = true;
+      }
+      return result
+
     }
-    return result
+    else return true;
+    
+    
   }
 }
