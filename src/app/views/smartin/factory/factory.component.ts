@@ -47,18 +47,22 @@ export class FactoryComponent implements OnInit {
     this.loadInit();
   }authService
   private loadInit() {
+    this.iboxloading = true;
     this.factory = [];
     this.api.getFactoryPagination(this.keyword).subscribe(res => {
       
       var data = res as any;
       this.factory = data.result;
       this.factory_showed = data.totalCount;
+      this.iboxloading = false;
       
     }, err => {
       this.toastr.error(err.statusText, "Load init failed!");
+      this.iboxloading = false;
     })
   }
   searchValueOnChange(){
+    
     this.loadInit();
     // let wordSearch = this.keyword;
     // setTimeout(() => {

@@ -51,9 +51,9 @@
                   <td style="text-align: left"> {{item.ItemTypeId}}</td>
                   <td style="text-align: left">{{item.ItemTypeName}}</td>
                   <td style="text-align: left"> {{item.CreateBy}}</td>
-                  <td style="text-align: left">{{item.CreateDate}}</td>
+                  <td style="text-align: left">{{item.CreateDate | amDateFormat: 'YYYY-MM-DD HH:mm'}}</td>
                   <td style="text-align: left"> {{item.ModifyBy}}</td>
-                  <td style="text-align: left">{{item.ModifyDate}}</td>
+                  <td style="text-align: left">{{item.ModifyDate | amDateFormat: 'YYYY-MM-DD HH:mm'}}</td>
                   <td style="text-align: left">{{item.Status}}</td>
                   <td>
                     <button type="button" class="btn btn-outline btn-danger" (click)="fnDelete(item.ItemTypeId)"><i
@@ -89,7 +89,7 @@
         <h4 class="modal-title"> {{'ItemType.Information' | translate }}</h4>
       </div>
       <div class="modal-body">
-        <form role="form">
+        <form role="form" #modalform="ngForm">
           <div class="row">
             <div class="col-lg-12">
               <div class="form-group">
@@ -138,8 +138,7 @@
         <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
         <button type="button" *ngIf="ACTION_STATUS=='update'" class="btn btn-danger"
           (click)="fnDelete(entity.ItemTypeId)"><i class="fa fa-trash"></i> Delete</button>
-        <button type="button" class="btn btn-primary" (click)="fnSave();" [ladda]="laddaSubmitLoading">Save
-          changes</button>
+        <button type="button" class="btn btn-primary" (click)="fnSave();" [ladda]="laddaSubmitLoading" [disabled]="modalform.invalid">Save changes</button>
       </div>
     </div>
   </div>
