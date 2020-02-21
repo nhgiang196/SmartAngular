@@ -6,8 +6,8 @@ export class Factory {
   FactoryAddress?: string = null
   FactoryContact?: string = null
   ContactPhone?:   string = null  
-  FactoryBuiltDate?:  Date = new Date()
-  FactoryStartDate?:  Date = new Date()
+  FactoryBuiltDate?:  Date = new Date(new Date().getFullYear(),new Date().getMonth() , new Date().getDate())
+  FactoryStartDate?:  Date = new Date(new Date().getFullYear(),new Date().getMonth() , new Date().getDate())
   FactoryEndDate?: Date    
   CreateDate?: Date = null
   ModifyDate?: Date = null
