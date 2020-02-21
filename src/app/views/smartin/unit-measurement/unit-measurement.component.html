@@ -88,12 +88,12 @@
         <h4 class="modal-title"> {{'Unit.Information' | translate }}</h4>
       </div>
       <div class="modal-body">
-        <form role="form">
+        <form role="form" #modalform="ngForm">
           <div class="row">
             <div class="col-lg-12">
               <div class="form-group">
                 <label> {{ 'Unit.UnitName' | translate }} : </label>
-                <input type="text" name="UnitName" id="UnitName" class="form-control" placeholder="{{'Unit.InputUnitName' | translate}}"
+                <input type="text" name="UnitName" id="UnitName" class="form-control" placeholder="{{'Unit.InputUnitName' | translate}}" required
                   [(ngModel)]="entity.UnitName">
               </div>
             </div>
@@ -122,7 +122,7 @@
         <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
         <button type="button" *ngIf="ACTION_STATUS=='update'" class="btn btn-danger"
           (click)="fnDelete(entity.UnitId)"><i class="fa fa-trash"></i> Delete</button>
-        <button type="button" class="btn btn-primary" (click)="fnSave()" [ladda]="laddaSubmitLoading">Save
+        <button type="button" class="btn btn-primary" (click)="fnSave()" [ladda]="laddaSubmitLoading" [disabled]="modalform.invalid">Save
           changes</button>
       </div>
     </div>
