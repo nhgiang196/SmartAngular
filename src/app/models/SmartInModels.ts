@@ -158,6 +158,6 @@ export class Unit
   CreateBy: string
   CreateDate: Date = new Date()
   ModifyBy: string
-  ModifyDate: Date = new Date()
+  ModifyDate: Date 
   Status: number = 1
 }

@@ -205,6 +205,7 @@
     "ModifyDate": "Ngày cập nhật",
     "Status": "Trạng thái",
     "Action": "Tác Vụ",
-    "InputUnitName": "Nhập tên đơn vị tính"
+    "InputUnitName": "Nhập tên đơn vị tính",
+    "ErrorExistUnitName" : "Tên đơn vị tính bị trùng!"
   }
 }
