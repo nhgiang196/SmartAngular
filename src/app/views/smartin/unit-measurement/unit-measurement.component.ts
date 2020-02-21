@@ -6,6 +6,7 @@ import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 import { AuthService } from 'src/app/services/auth.service';
 import swal from 'sweetalert2';
+import { async } from '@angular/core/testing';
 declare let $: any;
 @Component({
   selector: 'app-unit-measurement',
@@ -20,6 +21,7 @@ export class UnitMeasurementComponent implements OnInit {
   dtTrigger: Subject<any> = new Subject();
   private ACTION_STATUS: string;
   laddaSubmitLoading = false;
+  existName = false;
   constructor(
     private api: WaterTreatmentService,
     private toastr: ToastrService,
@@ -65,16 +67,18 @@ export class UnitMeasurementComponent implements OnInit {
         }
       }
     };
-    this.loadUnit();
+     this.loadUnit();
   }
 
-  loadUnit = () => {
+   loadUnit = async () => {
     $('#myTable').DataTable().clear().destroy();
-    this.api.getUnit().subscribe(res => {
-      console.log(res);
-      this.Units = res as any
-      this.dtTrigger.next();
-    });
+    // this.api.getUnit().subscribe(res => {
+    //   console.log(res);
+    //   this.Units = res as any
+    //   this.dtTrigger.next();
+    // });
+
+    this.Units = await  this.api.getUnit().toPromise().then() as any;
   }
   ngOnDestroy(): void {
     // Do not forget to unsubscribe the event
@@ -84,7 +88,6 @@ export class UnitMeasurementComponent implements OnInit {
   {
     this.ACTION_STATUS = 'update'
     this.entity = current;
-    //this.api.findUnitPropertyById(this.entity.UnitId).subscribe(res=> this.entity = current);
   }
   fnDelete(id) {
     swal.fire({
@@ -110,7 +113,8 @@ export class UnitMeasurementComponent implements OnInit {
       })
   }
   fnAdd() {
-    this.ACTION_STATUS = 'add';
+    this.ACTION_STATUS = 'add';    
+    this.existName = false;
     this.resetEntity();
   }
   onSwitchStatus (){
@@ -155,7 +159,10 @@ export class UnitMeasurementComponent implements OnInit {
   }
   private async fnValidate(e) {
     let result =  !await this.api.checkUnitNameExist(this.entity.UnitName).toPromise().then();
-    if (!result) this.laddaSubmitLoading = false;
+    if (!result){
+      this.laddaSubmitLoading = false;
+      this.existName = true;
+    }
     return result
   }
 }
