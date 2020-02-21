@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { Factory, FactoryFile, FactoryTechnology, ServerSideParram } from '../models/SmartInModels';
+import { DataTablePaginationParram } from '../models/SmartInModels';
 
 const ApiUrl = "api/v1";
 
@@ -34,7 +34,7 @@ export class WaterTreatmentService {
   // }
 
   getFactoryPagination(keyvalue) {
-    let pr = new ServerSideParram(); 
+    let pr = new DataTablePaginationParram(); 
     pr.key = keyvalue; 
     pr.pageSize = 9999;
     return this.http.post(`${ApiUrl}/Factory/GetFactoryPagination`, pr);

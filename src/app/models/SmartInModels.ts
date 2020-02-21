@@ -6,8 +6,8 @@ export class Factory {
   FactoryAddress?: string = null
   FactoryContact?: string = null
   ContactPhone?:   string = null  
-  FactoryBuiltDate?:  Date
-  FactoryStartDate?:  Date
+  FactoryBuiltDate?:  Date = new Date()
+  FactoryStartDate?:  Date = new Date()
   FactoryEndDate?: Date    
   CreateDate?: Date = null
   ModifyDate?: Date = null
@@ -59,21 +59,12 @@ export class File {
 }
 
 export class DataTablePaginationParram {
-  key: string
-  keyFields: string
-  page: number = 0
-  pageSize: number = 0
-  orderBy: string
-  orderDir: string
-}
-
-export class ServerSideParram {
   key: string = null
-  keyFields: string = null
+  keyFields: string = null 
   page: number = 1
-  pageSize: number  = 50
+  pageSize: number = 50
   orderBy: string = null
-  orderDir: string = 'asc'
+  orderDir: string  = 'asc'
 }
 export class Item {
   ItemId?: number = 0
@@ -147,7 +138,7 @@ export class ServerSide {
 export class DataTablesResponse {
   data: any[];
   draw: number = 0;
-  recordsFiltered: number = 0;
+  recordsFiltered: number = 0; 
   recordsTotal: number = 0;
 }
 
