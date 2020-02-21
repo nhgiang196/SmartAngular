@@ -5104,13 +5104,13 @@ a.close-canvas-menu:hover {
   float: left;
 }
 
-/* .modal-backdrop {
+.modal-backdrop {
   z-index: 2040 !important;
 }
 
 .modal {
   z-index: 2050 !important;
-} */
+}
 
 .spiner-example {
   height: 200px;
@@ -10607,7 +10607,7 @@ ol {
   
 }
 
-bs-datepicker-container, bs-daterangepicker-container { z-index: 9999 !important; }
+bs-datepicker-container, bs-daterangepicker-container { z-index: 3501 !important; }
 
 .ladda-button {
   border: 0;
