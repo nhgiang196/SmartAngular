@@ -19,9 +19,10 @@ export class UnitMeasurementComponent implements OnInit {
   entity: Unit;  
   dtOptions: DataTables.Settings = {};
   dtTrigger: Subject<any> = new Subject();
-  private ACTION_STATUS: string;
+  ACTION_STATUS: string;
   laddaSubmitLoading = false;
   existName = false;
+  iboxloading = false;
   constructor(
     private api: WaterTreatmentService,
     private toastr: ToastrService,
