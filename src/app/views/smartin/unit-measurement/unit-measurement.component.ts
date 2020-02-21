@@ -158,11 +158,17 @@ export class UnitMeasurementComponent implements OnInit {
     }
   }
   private async fnValidate(e) {
-    let result =  !await this.api.checkUnitNameExist(this.entity.UnitName).toPromise().then();
-    if (!result){
-      this.laddaSubmitLoading = false;
-      this.existName = true;
+    if (this.ACTION_STATUS =='add'){
+      let result =  !await this.api.checkUnitNameExist(this.entity.UnitName).toPromise().then();
+      if (!result){
+        this.laddaSubmitLoading = false;
+        this.existName = true;
+      }
+      return result
+
     }
-    return result
+    else return true;
+    
+    
   }
 }
