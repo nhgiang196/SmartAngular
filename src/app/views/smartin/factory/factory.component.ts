@@ -209,7 +209,7 @@ export class FactoryComponent implements OnInit {
     if (this.ACTION_STATUS=='add')
     this.api.validateFactory(e).subscribe(res=>{
       var result = res as any;
-      debugger;
+      
       if (!result.Success) {
         this.toastr.warning(this.trans.instant("Factory."+result.message));
         this.laddaSubmitLoading = false;
