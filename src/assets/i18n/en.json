@@ -178,6 +178,23 @@
     "update.warning3":" ",
     "delete.success":"Delete Success",
     "delete.error":"Erron on Deleteing "
+  },
+
+  "ItemType":{
+    "Information": "Item Information",
+    "ItemTypeId": "ItemType ID",
+    "CreateBy": "CreateBy",
+    "ItemTypeName": "ItemType Name",
+    "CreateDate": "Create Date",
+    "ModifyBy": "Modify By",
+    "ModifyDate": "Modify Date",
+    "Status": "Status",
+    "Action": "Action",
+    "InputPropertyName": "Nhập tên vật tư"
+  },
+  "ItemTypeProperty":{
+    "ItemTypePropertyName": "ItemType PropertyName"
   }
+
 }
   

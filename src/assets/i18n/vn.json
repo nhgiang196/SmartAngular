@@ -177,5 +177,20 @@
     "update.warning3": " ",
     "delete.success": "Xóa thành công ",
     "delete.error": "Lỗi khi xóa "
+  },
+  "ItemType":{
+    "Information": "Thông tin vật tư",
+    "ItemTypeId": "Mã vật tư",
+    "CreateBy": "Người tạo",
+    "ItemTypeName": "Tên vật tư",
+    "CreateDate": "Ngày tạo",
+    "ModifyBy": "Người cập nhật",
+    "ModifyDate": "Ngày cập nhật",
+    "Status": "Trạng thái",
+    "Action": "Tác Vụ",
+    "InputPropertyName": "Nhập tên vật tư"
+  },
+  "ItemTypeProperty":{
+    "ItemTypePropertyName": "Tên thuộc tính"
   }
 }
