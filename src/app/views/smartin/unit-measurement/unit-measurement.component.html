@@ -1,12 +1,12 @@
 <div class="row wrapper border-bottom white-bg page-heading">
   <div class="col-sm-4">
-    <h2>{{ 'ItemType.Breadcrumb' | translate }}</h2>
+    <h2>{{ 'Unit.Breadcrumb' | translate }}</h2>
     <ol class="breadcrumb">
       <li>
         <a href="index.html">{{ 'TopNav.Category' | translate }}</a>
       </li>
       <li class="active">
-        <strong>{{ 'ItemType.Breadcrumb' | translate }}</strong>
+        <strong>{{ 'Unit.Breadcrumb' | translate }}</strong>
       </li>
     </ol>
   </div>
@@ -27,7 +27,7 @@
             <div class="col-sm-4">
               <!-- hidden this button -->
               <button (click)="fnAdd()" type="button" class="btn btn-primary dim" data-toggle="modal"
-                data-target="#myModal4" style="display: none;">
+                data-target="#myModal4">
                 <i class="fa fa-plus"></i> Add </button>
             </div>
           </div>
@@ -36,35 +36,34 @@
               class="table table-bordered table-hover table-striped" id="myTable" style="width:100%">
               <thead>
                 <tr>
-                  <th>{{'ItemType.ItemTypeId' | translate}}</th>
-                  <th>{{'ItemType.ItemTypeName' | translate}}</th>
-                  <th>{{'ItemType.CreateBy' | translate}}</th>
-                  <th>{{'ItemType.CreateDate' | translate}}</th>
-                  <th>{{'ItemType.ModifyBy' | translate}}</th>
-                  <th>{{'ItemType.ModifyDate' | translate}}</th>
-                  <th>{{'ItemType.Status' | translate}}</th>
-                  <th>{{'ItemType.Action' | translate}}</th>
+                  <th>{{'Unit.UnitId' | translate}}</th>
+                  <th>{{'Unit.UnitName' | translate}}</th>
+                  <th>{{'Unit.CreateBy' | translate}}</th>
+                  <th>{{'Unit.CreateDate' | translate}}</th>
+                  <th>{{'Unit.ModifyBy' | translate}}</th>
+                  <th>{{'Unit.ModifyDate' | translate}}</th>
+                  <th>{{'Unit.Status' | translate}}</th>
+                  <th>{{'Unit.Action' | translate}}</th>
                 </tr>
               </thead>
-              <tbody *ngIf="itemTypes?.length != 0">
-                <tr *ngFor="let item of itemTypes">
-                  <td style="text-align: left"> {{item.ItemTypeId}}</td>
-                  <td style="text-align: left">{{item.ItemTypeName}}</td>
+              <tbody *ngIf="Units?.length != 0">
+                <tr *ngFor="let item of Units">
+                  <td style="text-align: left"> {{item.UnitId}}</td>
+                  <td style="text-align: left">{{item.UnitName}}</td>
                   <td style="text-align: left"> {{item.CreateBy}}</td>
                   <td style="text-align: left">{{item.CreateDate}}</td>
                   <td style="text-align: left"> {{item.ModifyBy}}</td>
                   <td style="text-align: left">{{item.ModifyDate}}</td>
                   <td style="text-align: left">{{item.Status}}</td>
                   <td>
-                    <button type="button" class="btn btn-outline btn-danger" (click)="fnDelete(item.ItemTypeId)"><i
+                    <button type="button" class="btn btn-outline btn-danger" (click)="fnDelete(item.UnitId)"><i
                         class="fa fa-trash"></i></button>
                     <button type="button" class="btn btn-outline btn-success" (click)="fnUpdate(item)"
                       data-toggle="modal" data-target="#myModal4"><i class="fa fa-pencil"></i></button>
                   </td>
                 </tr>
               </tbody>
-
-              <tbody *ngIf="itemTypes?.length == 0">
+              <tbody *ngIf="Units?.length == 0">
                 <tr>
                   <td colspan="3" class="no-data-available">No data!</td>
                 </tr>
@@ -86,59 +85,44 @@
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
             class="sr-only">Close</span></button>
-        <h4 class="modal-title"> {{'ItemType.Information' | translate }}</h4>
+        <h4 class="modal-title"> {{'Unit.Information' | translate }}</h4>
       </div>
       <div class="modal-body">
         <form role="form">
           <div class="row">
             <div class="col-lg-12">
               <div class="form-group">
-                <label> {{ 'ItemType.ItemTypeName' | translate }} : </label>
-                <input type="text" name="ItemTypeName" id="ItemTypeName" class="form-control"
-                  placeholder="{{'ItemType.InputItemTypeName' | translate}}" [(ngModel)]="entity.ItemTypeName">
+                <label> {{ 'Unit.UnitName' | translate }} : </label>
+                <input type="text" name="UnitName" id="UnitName" class="form-control" placeholder="{{'Unit.InputUnitName' | translate}}"
+                  [(ngModel)]="entity.UnitName">
               </div>
             </div>
           </div>
           <!-- SubTable -->
           <div class="row">
-            <div class="col-lg-6">
+            <div class="col-lg-12">
               <div class="form-group">
-                <label>{{ 'ItemTypeProperty.ItemTypePropertyName' | translate }}: </label>
-                <input type="text" name="ItemTypePropertyName" id="ItemTypePropertyName" class="form-control"
-                  placeholder="{{'ItemType.InputPropertyName' | translate}}" [(ngModel)]="itemTypeProperty.ItemTypePropertyName">
+                <label>{{ 'Unit.Status' | translate }} :</label>
+                <div class="switch">
+                  <div class="onoffswitch">
+                    <input type="checkbox" class="onoffswitch-checkbox" name="status" id="status"
+                      (click)="onSwitchStatus()" [checked]="entity.Status==1 ? true : null">
+                    <label class="onoffswitch-label" for="status">
+                      <span class="onoffswitch-inner"></span>
+                      <span class="onoffswitch-switch"></span>
+                    </label>
+                  </div>
+                </div>
               </div>
             </div>
-            <div class="col-lg-2">
-              <br>
-              <button type="button" class="btn btn-success" (click)="fnAddItem()">Add</button>
-            </div>
-          </div>
-          <div class="row">
-            <table class="table table-bordered">
-              <thead>
-                <tr>
-                  <th>#</th>
-                  <th>{{ 'ItemTypeProperty.ItemTypePropertyName' | translate }}</th>
-                  <th>{{ 'Button.Action' | translate }}</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr class="animated fadeInRight" *ngFor="let item of entity.ItemTypeProperty; let i = index"
-                  [@simpleFadeAnimation]="'in'">
-                  <td> {{i+1}} </td>
-                  <td>{{item.ItemTypePropertyName}} </td>
-                  <td><button class="btn btn-danger" (click)="fnDeleteItem(i)"><i class="fa fa-trash"></i></button></td>
-                </tr>
-              </tbody>
-            </table>
           </div>
         </form>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
         <button type="button" *ngIf="ACTION_STATUS=='update'" class="btn btn-danger"
-          (click)="fnDelete(entity.ItemTypeId)"><i class="fa fa-trash"></i> Delete</button>
-        <button type="button" class="btn btn-primary" (click)="fnSave();" [ladda]="laddaSubmitLoading">Save
+          (click)="fnDelete(entity.UnitId)"><i class="fa fa-trash"></i> Delete</button>
+        <button type="button" class="btn btn-primary" (click)="fnSave()" [ladda]="laddaSubmitLoading">Save
           changes</button>
       </div>
     </div>

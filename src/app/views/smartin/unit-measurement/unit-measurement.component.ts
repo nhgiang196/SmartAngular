@@ -1,31 +1,21 @@
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
-import { ItemType, ItemProperty, ItemTypeProperty } from 'src/app/models/SmartInModels';
+import { Component, OnInit } from '@angular/core';
+import { Unit } from 'src/app/models/SmartInModels';
+import { Subject } from 'rxjs';
 import { WaterTreatmentService } from 'src/app/services/api-watertreatment.service';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
-import { Subject } from 'rxjs';
-import { DataTableDirective } from 'angular-datatables';
-import { trigger, transition, animate, style } from '@angular/animations';
-import { getDate } from 'ngx-bootstrap/chronos/utils/date-getters';
 import { AuthService } from 'src/app/services/auth.service';
 import swal from 'sweetalert2';
 declare let $: any;
 @Component({
-  selector: 'app-item-type',
-  templateUrl: './item-type.component.html',
-  styleUrls: ['./item-type.component.css'],
-  animations: [
-    // the fade-in/fade-out animation.
-    trigger('simpleFadeAnimation', [
-      transition(':leave',
-        animate(300, style({ opacity: 0 })))
-    ])
-  ]
+  selector: 'app-unit-measurement',
+  templateUrl: './unit-measurement.component.html',
+  styleUrls: ['./unit-measurement.component.css']
 })
-export class ItemTypeComponent implements OnDestroy, OnInit {
-  itemTypes: ItemType[]
-  entity: ItemType;
-  itemTypeProperty: ItemTypeProperty
+export class UnitMeasurementComponent implements OnInit {
+
+  Units: Unit[]
+  entity: Unit;  
   dtOptions: DataTables.Settings = {};
   dtTrigger: Subject<any> = new Subject();
   private ACTION_STATUS: string;
@@ -43,8 +33,7 @@ export class ItemTypeComponent implements OnDestroy, OnInit {
     //  this.serverSide();
   }
   private resetEntity() {
-    this.entity = new ItemType();
-    this.itemTypeProperty = new ItemTypeProperty();
+    this.entity = new Unit();
   }
 
   loadInit = () => {
@@ -76,14 +65,14 @@ export class ItemTypeComponent implements OnDestroy, OnInit {
         }
       }
     };
-    this.loadItemType();
+    this.loadUnit();
   }
 
-  loadItemType = () => {
+  loadUnit = () => {
     $('#myTable').DataTable().clear().destroy();
-    this.api.getItemType().subscribe(res => {
+    this.api.getUnit().subscribe(res => {
       console.log(res);
-      this.itemTypes = res as any
+      this.Units = res as any
       this.dtTrigger.next();
     });
   }
@@ -95,7 +84,7 @@ export class ItemTypeComponent implements OnDestroy, OnInit {
   {
     this.ACTION_STATUS = 'update'
     this.entity = current;
-    //this.api.findItemTypePropertyById(this.entity.ItemTypeId).subscribe(res=> this.entity = current);
+    //this.api.findUnitPropertyById(this.entity.UnitId).subscribe(res=> this.entity = current);
   }
   fnDelete(id) {
     swal.fire({
@@ -106,7 +95,7 @@ export class ItemTypeComponent implements OnDestroy, OnInit {
       reverseButtons: true
     }).then((result) => {
         if (result.value) {
-          this.api.deleteItemType(id).subscribe(res => {
+          this.api.deleteUnit(id).subscribe(res => {
             var operationResult: any = res
             if (operationResult.Success) {
               swal.fire(
@@ -124,20 +113,9 @@ export class ItemTypeComponent implements OnDestroy, OnInit {
     this.ACTION_STATUS = 'add';
     this.resetEntity();
   }
-  fnAddItem() {
-    if (this.itemTypeProperty.ItemTypePropertyName == null) {
-      this.toastr.warning("Validate", this.trans.instant('Factory.data.TechnologyName') + this.trans.instant('messg.isnull'))
-      return;
-    }
-    this.entity.ItemTypeProperty.push(this.itemTypeProperty);
-    this.itemTypeProperty = new ItemTypeProperty();
+  onSwitchStatus (){
+    this.entity.Status = this.entity.Status==0? 1: 0;
   }
-  fnDeleteItem(index) {
-    this.entity.ItemTypeProperty.splice(index, 1);
-  }
-
-
-
   fnSave() {
     this.laddaSubmitLoading = true;
     var e = this.entity;
@@ -153,7 +131,7 @@ export class ItemTypeComponent implements OnDestroy, OnInit {
     if (this.fnValidate(e)) {
       console.log('send entity: ', e);
       if (this.ACTION_STATUS == 'add') {
-        this.api.addItemType(e).subscribe(res => {
+        this.api.addUnit(e).subscribe(res => {
           var operationResult: any = res
           if (operationResult.Success)
             this.toastr.success(this.trans.instant("messg.add.success"));
@@ -162,7 +140,7 @@ export class ItemTypeComponent implements OnDestroy, OnInit {
         }, err => { this.toastr.error(err.statusText); this.laddaSubmitLoading = false; })
       }
       if (this.ACTION_STATUS == 'update') {   
-        this.api.updateItemType(e).subscribe(res => {
+        this.api.updateUnit(e).subscribe(res => {
           var operationResult: any = res
           if (operationResult.Success)
             this.toastr.success(this.trans.instant("messg.update.success"));
@@ -173,9 +151,9 @@ export class ItemTypeComponent implements OnDestroy, OnInit {
       this.loadInit();
     }
   }
-  private fnValidate(e) {
-    return true;
+  private async fnValidate(e) {
+    let result =  !await this.api.checkUnitNameExist(this.entity.UnitName).toPromise().then();
+    debugger;
+    return result
   }
-
 }
-

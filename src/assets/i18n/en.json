@@ -196,6 +196,18 @@
   },
   "ItemTypeProperty":{
     "ItemTypePropertyName": "ItemType PropertyName"
+  },
+  "Unit":{
+    "Information": "Unit Information",
+    "UnitId": "UnitId",
+    "CreateBy": "CreateBy",
+    "ItemTypeName": "ItemType Name",
+    "CreateDate": "Create Date",
+    "ModifyBy": "Modify By",
+    "ModifyDate": "Modify Date",
+    "Status": "Status",
+    "Action": "Action",
+    "InputUnitName": "Input Unit Name"
   }
 
 }

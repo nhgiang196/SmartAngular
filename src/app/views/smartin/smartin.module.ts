@@ -4,9 +4,10 @@ import { FactoryComponent } from './factory/factory.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { RouterModule } from '@angular/router';
 import { ItemTypeComponent } from './item-type/item-type.component';
+import { UnitMeasurementComponent } from './unit-measurement/unit-measurement.component';
 
 @NgModule({
-  declarations: [FactoryComponent, ItemTypeComponent],
+  declarations: [FactoryComponent, ItemTypeComponent, UnitMeasurementComponent],
   imports: [
     CommonModule,
     SharedModule,

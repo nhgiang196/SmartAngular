@@ -96,6 +96,15 @@ export class WaterTreatmentService {
   getItemTypeProperty =() => this.http.get(`${ApiUrl}/ItemTypeProperty/GetItemType` );
   findItemTypePropertyById =(id) => this.http.get<any>(`${ApiUrl}/ItemTypeProperty/FindItemTypePropertyById?id=${id}` );
 
+  //Unit Services
+  addUnit =(entity) => this.http.post(`${ApiUrl}/Unit/AddUnit`,entity);
+  updateUnit =(entity) => this.http.put(`${ApiUrl}/Unit/UpdateUnit`,entity);
+  deleteUnit =(id) => this.http.delete(`${ApiUrl}/Unit/DeleteUnit`,{ params: { id: id } });
+  getUnitPagination =(entity) => this.http.post<any>(`${ApiUrl}/Unit/GetUnitPagination`,entity,{} );
+  getUnit =() => this.http.get(`${ApiUrl}/Unit/GetUnit` );
+  findUnitById =(id) => this.http.get<any>(`${ApiUrl}/Unit/FindUnitById?id=${id}` );
+  checkUnitNameExist =(unitName) => this.http.get<any>(`${ApiUrl}/Unit/CheckUnitNameExist?UnitName=${unitName}` );
+
 
 
 }
