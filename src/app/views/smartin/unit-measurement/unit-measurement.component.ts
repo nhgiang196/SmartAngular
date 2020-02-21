@@ -116,7 +116,7 @@ export class UnitMeasurementComponent implements OnInit {
   onSwitchStatus (){
     this.entity.Status = this.entity.Status==0? 1: 0;
   }
-  fnSave() {
+  async fnSave() {
     this.laddaSubmitLoading = true;
     var e = this.entity;
     if (this.ACTION_STATUS == 'add') {
@@ -128,13 +128,15 @@ export class UnitMeasurementComponent implements OnInit {
       e.ModifyBy = this.auth.currentUser.Username
     }
 
-    if (this.fnValidate(e)) {
+    if (await this.fnValidate(e)) {
       console.log('send entity: ', e);
       if (this.ACTION_STATUS == 'add') {
         this.api.addUnit(e).subscribe(res => {
           var operationResult: any = res
-          if (operationResult.Success)
+          if (operationResult.Success){
+            $("#myModal4").modal('hide');
             this.toastr.success(this.trans.instant("messg.add.success"));
+          }
           else this.toastr.warning(operationResult.Message);
           this.laddaSubmitLoading = false;
         }, err => { this.toastr.error(err.statusText); this.laddaSubmitLoading = false; })
@@ -153,7 +155,7 @@ export class UnitMeasurementComponent implements OnInit {
   }
   private async fnValidate(e) {
     let result =  !await this.api.checkUnitNameExist(this.entity.UnitName).toPromise().then();
-    debugger;
+    if (!result) this.laddaSubmitLoading = false;
     return result
   }
 }
