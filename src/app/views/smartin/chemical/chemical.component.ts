@@ -1,27 +1,26 @@
 import { Component, OnInit } from '@angular/core';
-import { Unit } from 'src/app/models/SmartInModels';
+import { Item, ItemProperty } from 'src/app/models/SmartInModels';
 import { Subject } from 'rxjs';
 import { WaterTreatmentService } from 'src/app/services/api-watertreatment.service';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 import { AuthService } from 'src/app/services/auth.service';
 import swal from 'sweetalert2';
-import { async } from '@angular/core/testing';
 declare let $: any;
 @Component({
-  selector: 'app-unit-measurement',
-  templateUrl: './unit-measurement.component.html',
-  styleUrls: ['./unit-measurement.component.css']
+  selector: 'app-chemical',
+  templateUrl: './chemical.component.html',
+  styleUrls: ['./chemical.component.css']
 })
-export class UnitMeasurementComponent implements OnInit {
+export class ChemicalComponent implements OnInit {
 
-  Units: Unit[]
-  entity: Unit;  
+  Items: Item[]
+  entity: Item;
+  ItemProperty: ItemProperty
   dtOptions: DataTables.Settings = {};
   dtTrigger: Subject<any> = new Subject();
   private ACTION_STATUS: string;
   laddaSubmitLoading = false;
-  existName = false;
   constructor(
     private api: WaterTreatmentService,
     private toastr: ToastrService,
@@ -35,7 +34,8 @@ export class UnitMeasurementComponent implements OnInit {
     //  this.serverSide();
   }
   private resetEntity() {
-    this.entity = new Unit();
+    this.entity = new Item();
+    this.ItemProperty = new ItemProperty();
   }
 
   loadInit = () => {
@@ -67,18 +67,16 @@ export class UnitMeasurementComponent implements OnInit {
         }
       }
     };
-     this.loadUnit();
+    this.loadItem();
   }
 
-   loadUnit = async () => {
+  loadItem = () => {
     $('#myTable').DataTable().clear().destroy();
-    this.api.getUnit().subscribe(res => {
+    this.api.getItem().subscribe(res => {
       console.log(res);
-      this.Units = res as any
+      this.Items = res as any
       this.dtTrigger.next();
     });
-
-   // this.Units = await  this.api.getUnit().toPromise().then() as any;
   }
   ngOnDestroy(): void {
     // Do not forget to unsubscribe the event
@@ -88,6 +86,7 @@ export class UnitMeasurementComponent implements OnInit {
   {
     this.ACTION_STATUS = 'update'
     this.entity = current;
+    //this.api.findItemPropertyById(this.entity.ItemId).subscribe(res=> this.entity = current);
   }
   fnDelete(id) {
     swal.fire({
@@ -98,7 +97,7 @@ export class UnitMeasurementComponent implements OnInit {
       reverseButtons: true
     }).then((result) => {
         if (result.value) {
-          this.api.deleteUnit(id).subscribe(res => {
+          this.api.deleteItem(id).subscribe(res => {
             var operationResult: any = res
             if (operationResult.Success) {
               swal.fire(
@@ -113,14 +112,24 @@ export class UnitMeasurementComponent implements OnInit {
       })
   }
   fnAdd() {
-    this.ACTION_STATUS = 'add';    
-    this.existName = false;
+    this.ACTION_STATUS = 'add';
     this.resetEntity();
   }
-  onSwitchStatus (){
-    this.entity.Status = this.entity.Status==0? 1: 0;
-  }
-  async fnSave() {
+  // fnAddItem() {
+  //   if (this.ItemProperty.ItemPropertyName == null) {
+  //     this.toastr.warning("Validate", this.trans.instant('Factory.data.TechnologyName') + this.trans.instant('messg.isnull'))
+  //     return;
+  //   }
+  //   this.entity.ItemProperty.push(this.ItemProperty);
+  //   this.ItemProperty = new ItemProperty();
+  // }
+  // fnDeleteItem(index) {
+  //   this.entity.ItemProperty.splice(index, 1);
+  // }
+
+
+
+  fnSave() {
     this.laddaSubmitLoading = true;
     var e = this.entity;
     if (this.ACTION_STATUS == 'add') {
@@ -132,21 +141,19 @@ export class UnitMeasurementComponent implements OnInit {
       e.ModifyBy = this.auth.currentUser.Username
     }
 
-    if (await this.fnValidate(e)) {
+    if (this.fnValidate(e)) {
       console.log('send entity: ', e);
       if (this.ACTION_STATUS == 'add') {
-        this.api.addUnit(e).subscribe(res => {
+        this.api.addItem(e).subscribe(res => {
           var operationResult: any = res
-          if (operationResult.Success){
-            $("#myModal4").modal('hide');
+          if (operationResult.Success)
             this.toastr.success(this.trans.instant("messg.add.success"));
-          }
           else this.toastr.warning(operationResult.Message);
           this.laddaSubmitLoading = false;
         }, err => { this.toastr.error(err.statusText); this.laddaSubmitLoading = false; })
       }
       if (this.ACTION_STATUS == 'update') {   
-        this.api.updateUnit(e).subscribe(res => {
+        this.api.updateItem(e).subscribe(res => {
           var operationResult: any = res
           if (operationResult.Success)
             this.toastr.success(this.trans.instant("messg.update.success"));
@@ -157,12 +164,9 @@ export class UnitMeasurementComponent implements OnInit {
       this.loadInit();
     }
   }
-  private async fnValidate(e) {
-    let result =  !await this.api.checkUnitNameExist(this.entity.UnitName).toPromise().then();
-    if (!result){
-      this.laddaSubmitLoading = false;
-      this.existName = true;
-    }
-    return result
+  private fnValidate(e) {
+    return true;
   }
+
 }
+

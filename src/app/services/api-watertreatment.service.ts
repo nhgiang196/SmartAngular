@@ -106,5 +106,15 @@ export class WaterTreatmentService {
   checkUnitNameExist =(unitName) => this.http.get<any>(`${ApiUrl}/Unit/CheckUnitNameExist?UnitName=${unitName}` );
 
 
+    //Item Services
+    addItem =(entity) => this.http.post(`${ApiUrl}/Item/AddItem`,entity);
+    updateItem =(entity) => this.http.put(`${ApiUrl}/Item/UpdateItem`,entity);
+    deleteItem =(id) => this.http.delete(`${ApiUrl}/Item/DeleteItem`,{ params: { id: id } });
+    getItemPagination =(entity) => this.http.post<any>(`${ApiUrl}/Item/GetItemPagination`,entity,{} );
+    getItem =() => this.http.get(`${ApiUrl}/Item/GetItem` );
+    findItemById =(id) => this.http.get<any>(`${ApiUrl}/Item/FindItemById?id=${id}` );
+    checkItemNameExist =(itemName) => this.http.get<any>(`${ApiUrl}/Item/CheckItemNameExist?ItemName=${itemName}` );
+
+
 
 }
