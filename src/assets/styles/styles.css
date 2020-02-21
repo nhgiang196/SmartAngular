@@ -5104,13 +5104,13 @@ a.close-canvas-menu:hover {
   float: left;
 }
 
-.modal-backdrop {
-  z-index: 2040 !important;
+/*.modal-backdrop {
+  z-index: 2040 ;
 }
 
 .modal {
-  z-index: 2050 !important;
-}
+  z-index: 2050 ;
+}*/
 
 .spiner-example {
   height: 200px;
@@ -10243,7 +10243,7 @@ body.md-skin {
   }
 
   .navbar-static-side {
-    z-index: 2001;
+    z-index: 500;
     position: absolute;
     width: 220px;
   }
