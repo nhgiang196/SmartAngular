@@ -140,6 +140,8 @@
     "Valid_FactoryNameNull":"Factory name is null",
     "Valid_FactoryName":"Factory name was registered!",
     "Valid_FactoryDate":"Please choose Factory Date ",
+    "SearchTitle":"Search factory",
+    "SearchText":"Type then enter",
     "CommandButton1":"Test"
   },
   "Item": {

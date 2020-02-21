@@ -37,7 +37,8 @@
 
             <div class="col-sm-4">
               <div class="pull-right">
-                <input placeholder="Tìm kiếm" type="text" class="form-control" (keyup)="$event.keyCode === 13 && searchValueOnChange()" [(ngModel)]="keyword" >
+               <label for="">{{ 'Factory.SearchTitle' | translate}}</label> 
+               <input placeholder="{{ 'Factory.SearchText' | translate}}" type="text" class="form-control" (keyup)="$event.keyCode === 13 && searchValueOnChange()" [(ngModel)]="keyword" >
               </div>
 
             </div>

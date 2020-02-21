@@ -139,6 +139,8 @@
     "Valid_FactoryNameNull":"Tên nhà máy bị rỗng",
     "Valid_FactoryName":"Tên nhà máy bị trùng",
     "Valid_FactoryDate":"Bạn chưa chọn ngày xây dựng",
+    "SearchTitle":"Tìm kiếm thông tin",
+    "SearchText":"Gõ và nhấn enter",
     "CommandButton1": "Test"
     
   },
