@@ -208,8 +208,6 @@
     "Status": "Trạng thái",
     "Action": "Tác Vụ",
     "InputUnitName": "Nhập tên đơn vị tính",
-    
-    "ErrorExistUnitName" : "Tên đơn vị tính bị trùng!",
-    
+    "ErrorExistUnitName" : "Tên đơn vị tính bị trùng!"
   }
 }
