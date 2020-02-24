@@ -154,10 +154,8 @@ export class FactoryComponent implements OnInit {
   onSelect(event) {
     console.log(event);
     // this.files.push(...event.addedFiles); //refresh showing in Directive
-
-    
+    if (event.rejectedFiles.length>0) this.toastr.warning('messg.maximumFileSize2000');
     for (var index in event.addedFiles) {
-      debugger;
       let item = event.addedFiles[index];
       let currentFile = this.files;
       var _existIndex = currentFile.filter(x=>x.name == item.name).length;
