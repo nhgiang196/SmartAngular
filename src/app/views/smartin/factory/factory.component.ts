@@ -196,7 +196,7 @@ export class FactoryComponent implements OnInit {
 
   onSwitchStatus (){
     this.entity.Status = this.entity.Status==0? 1: 0;
-    if (this.entity.Status==0) this.entity.FactoryEndDate = new Date();
+    if (this.entity.Status==1) this.entity.FactoryEndDate = null;
   }
 
 
@@ -224,7 +224,7 @@ export class FactoryComponent implements OnInit {
     this.api.validateFactory(e).subscribe(res=>{
       var result = res as any;
       if (!result.Success) {
-        this.toastr.warning(this.trans.instant("Factory."+result.message));
+        this.toastr.warning(this.trans.instant("Factory."+result.Message));
         this.laddaSubmitLoading = false;
         return false;
       }
@@ -234,17 +234,30 @@ export class FactoryComponent implements OnInit {
   }
 
   private fnSave() {
-    console.log('send entity: ', this.entity);
-    if (this.ACTION_STATUS == 'add') this.api.addFactory(this.entity).subscribe(res => this.showSaveMessage(res,"messg.add.success"), err => { this.toastr.error(err.statusText); this.laddaSubmitLoading = false; })
-    if (this.ACTION_STATUS == 'update') this.api.updateFactory(this.entity).subscribe(res => this.showSaveMessage(res,"messg.update.success") , err => { this.toastr.error(err.statusText); this.laddaSubmitLoading = false; })
-  }
-
-  private showSaveMessage(res,messg){
-    var operationResult: any = res
-    if (operationResult.Success)
-      this.toastr.success(this.trans.instant(messg));
-    else this.toastr.warning(operationResult.Message);
-    this.laddaSubmitLoading = false;
+    var e = this.entity;
+    console.log('send entity: ', e);
+    if (this.ACTION_STATUS == 'add') {
+      this.api.addFactory(e).subscribe(res => {
+        var operationResult: any = res
+        if (operationResult.Success){
+          this.toastr.success(this.trans.instant("messg.add.success"));
+          $("#myModal4").modal('hide');
+          this.fnEditSignal(operationResult.Data);
+        }
+        else this.toastr.warning(operationResult.Message);
+        this.laddaSubmitLoading = false;
+        
+      }, err => { this.toastr.error(err.statusText); this.laddaSubmitLoading = false; })
+    }
+    if (this.ACTION_STATUS == 'update') {
+      this.api.updateFactory(e).subscribe(res => {
+        var operationResult: any = res
+        if (operationResult.Success)
+          this.toastr.success(this.trans.instant("messg.update.success"));
+        else this.toastr.warning(operationResult.Message);
+        this.laddaSubmitLoading = false;
+      }, err => { this.toastr.error(err.statusText); this.laddaSubmitLoading = false; })
+    }
   }
 
   
