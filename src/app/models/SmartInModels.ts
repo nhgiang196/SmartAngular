@@ -86,6 +86,11 @@ export class Item {
   ModifyBy?: string
   ModifyDate?: Date
   Status?: number = 0
+
+  ItemUnit?: Unit
+  ItemPackage?: ItemPackage[] = []
+  ItemProperty?: ItemProperty[] = []
+  ItemFactory? : ItemFactory[] = []
 }
 
 export class ItemType {
@@ -98,7 +103,12 @@ export class ItemType {
   Status?: number = 1
   ItemTypeProperty: ItemTypeProperty[] = []
 }
-
+export class ItemFactory{
+  ItemFactoryId: number = 0
+  ItemId: number = 0
+  FactoryId: number = 0
+  IntergrationCode: string
+}
 export class ItemPackage {
 
   ItemPackageId: number = 0
