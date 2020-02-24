@@ -1,18 +1,18 @@
 
 export class Factory {
   FactoryId?: number = 0 
-  FactoryCode?: string
-  FactoryName?: string
-  FactoryAddress?: string = null
-  FactoryContact?: string = null
-  ContactPhone?:   string = null  
-  FactoryBuiltDate?:  Date = new Date(new Date().getFullYear(),new Date().getMonth() , new Date().getDate())
-  FactoryStartDate?:  Date = new Date(new Date().getFullYear(),new Date().getMonth() , new Date().getDate())
+  FactoryCode?: string = ''
+  FactoryName?: string = ''
+  FactoryAddress?: string = ''
+  FactoryContact?: string = ''
+  ContactPhone?:   string = ''  
+  FactoryBuiltDate?:  Date = new Date((new Date()).setHours(0,0,0,0))
+  FactoryStartDate?:  Date = new Date((new Date()).setHours(0,0,0,0))
   FactoryEndDate?: Date    
   CreateDate?: Date = null
   ModifyDate?: Date = null
-  CreateBy?: string = null
-  ModifyBy?: string = null
+  CreateBy?: string = ''
+  ModifyBy?: string = ''
   FactoryType: number  = 1 //type1
   Status: number  = 1 //working
   FactoryFile?: FactoryFile[] = []
@@ -59,11 +59,11 @@ export class File {
 }
 
 export class DataTablePaginationParram {
-  key: string = null
-  keyFields: string = null 
+  key: string = ''
+  keyFields: string = '' 
   page: number = 1
   pageSize: number = 50
-  orderBy: string = null
+  orderBy: string = ''
   orderDir: string  = 'asc'
 }
 export class Item {

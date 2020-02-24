@@ -8,7 +8,9 @@ import { TranslateService } from '@ngx-translate/core';
 import swal from 'sweetalert2';
 import { trigger, transition, style, animate } from '@angular/animations';
 import { AuthService } from 'src/app/services/auth.service';
+import { MomentModule } from 'ngx-moment';
 declare let $: any;
+
 @Component({
   selector: 'app-factory',
   templateUrl: './factory.component.html',
@@ -42,7 +44,7 @@ export class FactoryComponent implements OnInit {
   private pathFile = "uploadFilesFactory"
   ACTION_STATUS: string;
   factory_showed = 0;
-  
+  invalid : any = {FactoryCodeNull: false, FactoryCodeExist: false, FactoryNameNull: false, FactoryNameExist: false};
   ngOnInit() {
     this.resetEntity();
     this.loadInit();
@@ -208,9 +210,16 @@ export class FactoryComponent implements OnInit {
 
   // removeFile = (file) => this.api.deleteFile(`${this.pathFile}\\${file.name}`).subscribe(res=>console.log(res));
   private fnValidate(e: Factory) {
-    if (e.FactoryName == null || e.FactoryName =='')
+    this.invalid = {};
+    if (e.FactoryCode =='')
     {
-      this.toastr.warning(this.trans.instant("Factory.Valid_FactoryNameNull"));
+      this.invalid.FactoryCodeNull =true;
+      this.laddaSubmitLoading = false;
+      return false;
+    }
+    if (e.FactoryName =='')
+    {
+      this.invalid.FactoryNameNull=true;
       this.laddaSubmitLoading = false;
       return false;
     }
@@ -224,7 +233,7 @@ export class FactoryComponent implements OnInit {
     this.api.validateFactory(e).subscribe(res=>{
       var result = res as any;
       if (!result.Success) {
-        this.toastr.warning(this.trans.instant("Factory."+result.Message));
+        this.invalid[result.Message] = true;
         this.laddaSubmitLoading = false;
         return false;
       }
@@ -234,6 +243,7 @@ export class FactoryComponent implements OnInit {
   }
 
   private fnSave() {
+    
     var e = this.entity;
     console.log('send entity: ', e);
     if (this.ACTION_STATUS == 'add') {

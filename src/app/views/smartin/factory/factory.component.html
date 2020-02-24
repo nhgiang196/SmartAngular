@@ -87,6 +87,8 @@
                 <label> {{ 'Factory.data.FactoryCode' | translate }} : </label>
                 <input type="text" name="Numcode" id="Numcode" class="form-control" placeholder="Enter your Numcode" 
                   [(ngModel)]="entity.FactoryCode">
+                  <div *ngIf="invalid.FactoryCodeNull" style="color: red;">{{ 'Factory.Valid_FactoryCodeNull' | translate }}</div>
+                  <div *ngIf="invalid.FactoryCodeExist" style="color: red;">{{ 'Factory.Valid_FactoryCodeExist' | translate }}</div>
               </div>
             </div>
             <div class="col-lg-6">
@@ -101,12 +103,14 @@
                 <label>{{ 'Factory.data.FactoryName' | translate }} :</label>
                 <input type="text" name="Name" id="Name" class="form-control" placeholder="Enter your Name"
                   [(ngModel)]="entity.FactoryName">
+                  <div *ngIf="invalid.FactoryNameNull" style="color: red;">{{ 'Factory.Valid_FactoryNameNull' | translate }}</div>
+                  <div *ngIf="invalid.FactoryNameExist" style="color: red;">{{ 'Factory.Valid_FactoryNameExist' | translate }}</div>
               </div>
             </div>
             <div class="col-lg-6">
               <label>{{ 'Factory.data.FactoryStartDate' | translate }} :</label>
               <input type="text" name="DateStart" id="DateStart" class="form-control" bsDatepicker  placeholder="Enter Your Factory Start Date"
-                [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY' }" [(ngModel)]="entity.FactoryStartDate" >
+                [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY' }" [(ngModel)]="entity.FactoryStartDate">
 
             </div>
           </div>
