@@ -187,6 +187,7 @@
     "ItemTypeId": "Mã vật tư",
     "CreateBy": "Người tạo",
     "ItemTypeName": "Tên vật tư",
+    "ItemTypeCode": "Mã vật tư",
     "CreateDate": "Ngày tạo",
     "ModifyBy": "Người cập nhật",
     "ModifyDate": "Ngày cập nhật",

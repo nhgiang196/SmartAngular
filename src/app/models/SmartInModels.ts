@@ -96,6 +96,7 @@ export class Item {
 export class ItemType {
   ItemTypeId?: number = 0
   ItemTypeName?: string
+  ItemTypeCode?: string
   CreateBy?: string
   CreateDate?: Date
   ModifyBy?: string
