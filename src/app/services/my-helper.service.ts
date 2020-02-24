@@ -57,6 +57,12 @@ export class MyHelperService {
     var FileName = file.name.substring(file.name.lastIndexOf("."), 0);
     return FileName + '-' + this.getDate() + '.' + Extension;
   }
+
+  getFileExtension(file: File){
+    var Extension = file.name.slice(file.name.lastIndexOf(".") + 1);
+    return  Extension;
+
+  }
   /**
    * Get File
    * @param files file Input
