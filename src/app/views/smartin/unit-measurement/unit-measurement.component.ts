@@ -87,6 +87,7 @@ export class UnitMeasurementComponent implements OnInit {
   }
   fnUpdate(current)
   {
+    this.existName = false;
     this.ACTION_STATUS = 'update'
     this.entity = current;
   }
@@ -122,6 +123,7 @@ export class UnitMeasurementComponent implements OnInit {
     this.entity.Status = this.entity.Status==0? 1: 0;
   }
   async fnSave() {
+    debugger;
     this.laddaSubmitLoading = true;
     var e = this.entity;
     if (this.ACTION_STATUS == 'add') {
@@ -159,7 +161,8 @@ export class UnitMeasurementComponent implements OnInit {
     }
   }
   private async fnValidate(e) {
-    if (this.ACTION_STATUS =='add'){
+    //edit by Quyen
+    //if (this.ACTION_STATUS =='add'){
       let result =  !await this.api.checkUnitNameExist(this.entity.UnitName).toPromise().then();
       if (!result){
         this.laddaSubmitLoading = false;
@@ -167,9 +170,7 @@ export class UnitMeasurementComponent implements OnInit {
       }
       return result
 
-    }
-    else return true;
-    
-    
+    // }
+    // else return true;
   }
 }
