@@ -1,27 +1,27 @@
 
 export class Factory {
-  FactoryId?: number = 0 
+  FactoryId?: number = 0
   FactoryCode?: string = ''
   FactoryName?: string = ''
   FactoryAddress?: string = ''
   FactoryContact?: string = ''
-  ContactPhone?:   string = ''  
-  FactoryBuiltDate?:  Date = new Date((new Date()).setHours(0,0,0,0))
-  FactoryStartDate?:  Date = new Date((new Date()).setHours(0,0,0,0))
-  FactoryEndDate?: Date    
+  ContactPhone?: string = ''
+  FactoryBuiltDate?: Date = new Date((new Date()).setHours(0,0,0,0))
+  FactoryStartDate?: Date = new Date((new Date()).setHours(0,0,0,0))
+  FactoryEndDate?: Date
   CreateDate?: Date = null
   ModifyDate?: Date = null
   CreateBy?: string = ''
   ModifyBy?: string = ''
-  FactoryType: number  = 1 //type1
-  Status: number  = 1 //working
+  FactoryType: number = 1 //type1
+  Status: number = 1 //working
   FactoryFile?: FactoryFile[] = []
   FactoryTechnology?: FactoryTechnology[] = []
 }
 
 export class FactoryTechnology {
   FactoryTechnologyId?: number = 0
-  FactoryId?: number = 0 
+  FactoryId?: number = 0
   TechnologyFromDate: Date
   TechnologyToDate: Date
   TechnologyDescription: string
@@ -32,7 +32,7 @@ export class FactoryTechnology {
 export class FactoryFile {
   FactoryFileId: number = 0
   FactoryId: number = 0
-  FileId: number = 0 
+  FileId: number = 0
   File: Files = new Files()
 }
 
@@ -49,7 +49,7 @@ export class Files {
 }
 
 export class File {
-  FileId: number  = 0
+  FileId: number = 0
   FileOriginalName: string
   FileName: string
   Path: string
@@ -60,11 +60,11 @@ export class File {
 
 export class DataTablePaginationParram {
   key: string = ''
-  keyFields: string = '' 
+  keyFields: string = ''
   page: number = 1
   pageSize: number = 50
   orderBy: string = ''
-  orderDir: string  = 'asc'
+  orderDir: string = 'asc'
 }
 export class Item {
   ItemId?: number = 0
@@ -90,7 +90,7 @@ export class Item {
   ItemUnit?: Unit
   ItemPackage?: ItemPackage[] = []
   ItemProperty?: ItemProperty[] = []
-  ItemFactory? : ItemFactory[] = []
+  ItemFactory?: ItemFactory[] = []
 }
 
 export class ItemType {
@@ -104,7 +104,7 @@ export class ItemType {
   Status?: number = 1
   ItemTypeProperty: ItemTypeProperty[] = []
 }
-export class ItemFactory{
+export class ItemFactory {
   ItemFactoryId: number = 0
   ItemId: number = 0
   FactoryId: number = 0
@@ -119,7 +119,7 @@ export class ItemPackage {
   ItemPackageLength?: number = 0
   ItemPackageWidth?: number = 0
   ItemPackageHeight?: number = 0
-  ItemPackageWeight?: 0
+  ItemPackageWeight?:number
 }
 
 export class ItemProperty {
@@ -149,17 +149,56 @@ export class ServerSide {
 export class DataTablesResponse {
   data: any[];
   draw: number = 0;
-  recordsFiltered: number = 0; 
+  recordsFiltered: number = 0;
   recordsTotal: number = 0;
 }
 
-export class Unit
-{
+export class Unit {
   UnitId: number = 0
   UnitName: string
   CreateBy: string
   CreateDate: Date = new Date()
   ModifyBy: string
-  ModifyDate: Date 
+  ModifyDate: Date
   Status: number = 1
 }
+
+
+export class Warehouse {
+  WarehouseId:number
+  WarehouseCode: string
+  WarehouseName: string
+  FactoryId:number
+  WarehouseType:number
+  WarehouseAddress: string
+  WarehouseUserName: string
+  WarehouseLength:number
+  WarehouseWidth:number
+  WarehouseHeight:number
+  CreateBy: string
+  CreateDate: Date = new Date()
+  ModifyBy: string
+  ModifyDate: Date = new Date()
+  Status:number
+  WarehouseFile: WarehouseFile[]
+  WarehouseLocation: WarehouseLocation[]
+}
+
+export class WarehouseFile{
+  WarehouseFileId:number
+  WarehouseId:number
+  FileId:number
+  File: File
+}
+
+export class WarehouseLocation{
+  WarehouseLocationId:number
+  WarehouseId:number
+  WarehouseLocationCode: string =null
+  WarehouseLocationName: string =null
+  WarehouseLocationLength:number
+  WarehouseLocationWidth:number
+  WarehouseLocationHeight:number
+  Status:number
+}
+
