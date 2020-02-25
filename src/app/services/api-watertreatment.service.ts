@@ -35,6 +35,7 @@ export class WaterTreatmentService {
 
   getFactoryPagination(keyvalue) {
     let pr = new DataTablePaginationParram(); 
+    pr.keyFields="FactoryName,FactoryAddress,FactoryContact,ContactPhone"
     pr.key = keyvalue; 
     pr.pageSize = 9999;
     return this.http.post(`${ApiUrl}/Factory/GetFactoryPagination`, pr);

@@ -38,7 +38,14 @@
             <div class="col-sm-4">
               <div class="pull-right">
                <label for="">{{ 'Factory.SearchTitle' | translate}}</label> 
-               <input placeholder="{{ 'Factory.SearchText' | translate}}" type="text" class="form-control" (keyup)="$event.keyCode === 13 && loadInit()" [(ngModel)]="keyword" >
+                <div class="input-group">
+                    <input type="text"  class="form-control input-lg" placeholder="{{ 'Factory.SearchText' | translate}}" name="search"  [(ngModel)]="keyword"  (keyup)="$event.keyCode === 13 && loadInit()" >
+                    <div class="input-group-btn">
+                        <button class="btn btn-lg btn-primary" type="submit" (click)="loadInit()">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+                </div>
               </div>
 
             </div>
