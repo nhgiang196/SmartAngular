@@ -100,8 +100,8 @@ export class FactoryComponent implements OnInit {
   }
   fnDelete(id) {
     swal.fire({
-      title: this.trans.instant('Factory.DeleteAsk_Title'),
-      titleText: this.trans.instant('Factory.DeleteAsk_Text'),
+      title: this.trans.instant('Factory.mssg.DeleteAsk_Title'),
+      titleText: this.trans.instant('Factory.mssg.DeleteAsk_Text'),
       type: 'warning',
       showCancelButton: true,
       reverseButtons: true
