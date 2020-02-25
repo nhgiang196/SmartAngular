@@ -69,6 +69,7 @@ export class FactoryComponent implements OnInit {
     this.entity = new Factory();
     this.tech_entity = new FactoryTechnology();
     this.files = [];
+    this.invalid = {};
   }
   fnAdd() {
     this.ACTION_STATUS = 'add';
