@@ -265,11 +265,8 @@
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
-        <button type="button" *ngIf="ACTION_STATUS=='update'" class="btn btn-danger"
-          (click)="fnDelete(entity.FactoryId)"><i class="fa fa-trash"></i> Delete</button>
-        <button type="button" class="btn btn-primary" (click)="fnSave();" [ladda]="laddaSubmitLoading" [disabled]="myForm.invalid">Save
-          changes</button>
+        <button type="button" class="btn btn-white" data-dismiss="modal">{{'Button.Close' | translate}}  </button>
+        <button type="button" class="btn btn-primary" (click)="fnSave();" [ladda]="laddaSubmitLoading" [disabled]="myForm.invalid"><i class="fa fa-paper-plane-o"></i> {{'Button.Save' | translate}} </button>
       </div>
     </div>
   </div>

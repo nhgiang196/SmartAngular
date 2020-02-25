@@ -48,7 +48,7 @@ export class FactoryComponent implements OnInit {
   ngOnInit() {
     this.resetEntity();
     this.loadInit();
-  }authService
+  }
   
   loadInit() {
     this.iboxloading = true;
