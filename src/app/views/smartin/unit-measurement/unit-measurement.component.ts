@@ -121,7 +121,7 @@ export class UnitMeasurementComponent implements OnInit {
   }
   onSwitchStatus (){
     this.entity.Status = this.entity.Status==0? 1: 0;
-  }
+  }  
   async fnSave() {
     debugger;
     this.laddaSubmitLoading = true;

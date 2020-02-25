@@ -120,7 +120,7 @@
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-white" data-dismiss="modal" (click)="loadInit()">Close</button>
         <button type="button" *ngIf="ACTION_STATUS=='update'" class="btn btn-danger hide"
           (click)="fnDelete(entity.UnitId)"><i class="fa fa-trash"></i> Delete</button>
         <button type="button" class="btn btn-primary" (click)="fnSave()" [ladda]="laddaSubmitLoading" [disabled]="myForm.invalid">Save
