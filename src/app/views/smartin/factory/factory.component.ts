@@ -253,10 +253,6 @@ export class FactoryComponent implements OnInit {
     }
     return true;
   }
-
-
-
-  
   ngAfterViewInit() { //CSS
   }
 }
