@@ -7,7 +7,6 @@ import { TranslateService } from '@ngx-translate/core';
 import swal from 'sweetalert2';
 import { AuthService } from 'src/app/services/auth.service';
 declare let $: any;
-
 @Component({
   selector: 'app-warehouse',
   templateUrl: './warehouse.component.html',
@@ -37,13 +36,11 @@ export class WarehouseComponent implements OnInit {
   invalid : any = {Existed_WarehouseCode: false, Existed_WarehouseName: false};
   
   /**INIT FUNCTIONS */
-  ngOnInit() {
+  ngOnInit() { //init functions
     this.resetEntity();
     this.loadInit();
   }
-  
-  
-  loadInit() {
+  loadInit() { //init loading
     this.iboxloading = true;
     this.warehouse = [];
     this.api.getFactoryPagination(this.keyword).subscribe(res => {
@@ -56,10 +53,13 @@ export class WarehouseComponent implements OnInit {
       this.iboxloading = false;
     })
   }
-
-
- 
-  fnEditSignal(id) {
+  /** BUTTON ACTIONS */
+  fnAdd() { //press new button
+    this.ACTION_STATUS = 'add';
+    this.resetEntity();
+    this.entity.CreateBy = this.auth.currentUser.Username;
+  }
+  fnEditSignal(id) { //press a link of ENTITY
     if (id==null)  { this.toastr.warning('Factory ID is Null, cant show modal'); return; }
     this.resetEntity();
     this.ACTION_STATUS = 'update';
@@ -81,7 +81,7 @@ export class WarehouseComponent implements OnInit {
       this.toastr.error(error.statusText, "Load factory information error");
     })
   }
-  fnDelete(id) {
+  fnDelete(id) { //press Delete Entity
     swal.fire({
       title: this.trans.instant('Factory.DeleteAsk_Title'),
       titleText: this.trans.instant('Factory.DeleteAsk_Text'),
@@ -105,25 +105,68 @@ export class WarehouseComponent implements OnInit {
         }
       })
   }
-  fnCheckBeforeEdit(id) {
-    this.toastr.warning("User not dont have permission");
-  }
-  fnAddItem() {
+  fnAddItem() { //press add item
     var itemAdd = this.sub_entity;
     // itemAdd.FactoryId = this.entity.FactoryId;
     // this.sub_entity = new WarehouseLocation();
     // this.entity.WarehouseLocation.push(itemAdd);
   }
-
-  fnEditItem(index){
+  fnEditItem(index){ //press a link of Item
     this.sub_entity = this.entity.WarehouseLocation[index];
     this.entity.WarehouseLocation.splice(index, 1);
   }
-  fnDeleteItem(index) {
+  fnDeleteItem(index) { //PRESS delete button item
     this.entity.WarehouseLocation.splice(index, 1);
   }
+  async fnSave() { // press save butotn
+    this.laddaSubmitLoading = true;
+    var e = this.entity;
+    console.log('send entity: ', e);
+    debugger;
+    if (await this.fnValidate(e))
+    {
+      
+      if (this.ACTION_STATUS == 'add') {
+        this.api.addFactory(e).subscribe(res => {
+          var operationResult: any = res
+          if (operationResult.Success){
+            this.toastr.success(this.trans.instant("messg.add.success"));
+            $("#myModal4").modal('hide');
+            this.loadInit();
+            this.fnEditSignal(operationResult.Data);
+          }
+          else this.toastr.warning(operationResult.Message);
+          this.laddaSubmitLoading = false;
+          
+        }, err => { this.toastr.error(err.statusText); this.laddaSubmitLoading = false; })
+      }
+      if (this.ACTION_STATUS == 'update') {
+        this.api.updateFactory(e).subscribe(res => {
+          var operationResult: any = res
+          if (operationResult.Success){
+            this.loadInit();
+            this.toastr.success(this.trans.instant("messg.update.success"));
+          }
+          else this.toastr.warning(operationResult.Message);
+          this.laddaSubmitLoading = false;
+        }, err => { this.toastr.error(err.statusText); this.laddaSubmitLoading = false; })
+      }
+    }
+  }
+  fnDownloadFile(filename){ //press FILES preview
+    this.api.downloadFile(this.pathFile+'/'+filename);
+  }
+  fnRemoveFile(event) { //PRESS X TO REMOVE FILES
+    console.log(event);
+    let index = this.files.indexOf(event);
+    this.files.splice(index, 1); //UI del
+    this.entity.WarehouseFile.splice(index,1);
+    // this.removeFile(event);
+  }
   
-  onSelect(event) {
+  /** EVENT TRIGGERS */
+  
+  onSelect(event) { // on upload files
     console.log(event);
     // this.files.push(...event.addedFiles); //refresh showing in Directive
     if (event.rejectedFiles.length>0) this.toastr.warning(this.trans.instant('messg.maximumFileSize2000'));
@@ -146,67 +189,8 @@ export class WarehouseComponent implements OnInit {
     
   }
    
-  onRemove(event) {
-    console.log(event);
-    let index = this.files.indexOf(event);
-    this.files.splice(index, 1); //UI del
-    this.entity.WarehouseFile.splice(index,1);
-    // this.removeFile(event);
-  }
-  downloadFile(filename){
-    this.api.downloadFile(this.pathFile+'/'+filename);
-  }
-  uploadFile(files: File[])
-  {
-      let formData = new FormData();
-      files.forEach(file => {
-          formData.append("files",file);
-      });
-      this.api.uploadFile(formData, this.pathFile).subscribe(res=> console.log(res));
-  }
-
-  async fnSave() {
-    this.laddaSubmitLoading = true;
-    var e = this.entity;
-    console.log('send entity: ', e);
-    debugger;
-    if (await this.fnValidate(e))
-    {
-      
-      if (this.ACTION_STATUS == 'add') {
-        this.api.addFactory(e).subscribe(res => {
-          var operationResult: any = res
-          if (operationResult.Success){
-            this.toastr.success(this.trans.instant("messg.add.success"));
-            $("#myModal4").modal('hide');
-            this.loadInit();
-            this.fnEditSignal(operationResult.Data);
-          }
-          else this.toastr.warning(operationResult.Message);
-          this.laddaSubmitLoading = false;
-          
-        }, err => { this.toastr.error(err.statusText); this.laddaSubmitLoading = false; })
-      }
-
-      if (this.ACTION_STATUS == 'update') {
-        this.api.updateFactory(e).subscribe(res => {
-          var operationResult: any = res
-          if (operationResult.Success){
-            this.loadInit();
-            this.toastr.success(this.trans.instant("messg.update.success"));
-          }
-          else this.toastr.warning(operationResult.Message);
-          this.laddaSubmitLoading = false;
-        }, err => { this.toastr.error(err.statusText); this.laddaSubmitLoading = false; })
-      }
-
-    }
-
-  }
-
-
-  /**private functions */
-  private async fnValidate(e: Warehouse) {
+  /** PRIVATES FUNCTIONS */
+  private async fnValidate(e: Warehouse) { // validate entity value
     this.invalid = {};
     
     let result = await this.api.validateFactory(e).toPromise().then() as any;
@@ -218,18 +202,22 @@ export class WarehouseComponent implements OnInit {
     }
     return true;
   }
-
-  private resetEntity() {
+  private resetEntity() { //reset entity values
     this.entity = new Warehouse();
     this.sub_entity = new WarehouseLocation();
     this.files = [];
     this.invalid = {};
   }
-  fnAdd() {
-    this.ACTION_STATUS = 'add';
-    this.resetEntity();
-    this.entity.CreateBy = this.auth.currentUser.Username;
+  private CheckBeforeEdit(id) { //check auth before edit 
+    this.toastr.warning("User not dont have permission");
   }
-
-
+  private uploadFile(files: File[])  //upload file to server
+  {
+      let formData = new FormData();
+      files.forEach(file => {
+          formData.append("files",file);
+      });
+      this.api.uploadFile(formData, this.pathFile).subscribe(res=> console.log(res));
+  }
+  
 }

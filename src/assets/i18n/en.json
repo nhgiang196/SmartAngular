@@ -60,6 +60,7 @@
     "Dashboard": "Dashboard",
     "ShowAllTask": "Show ALl My Task",
     "Profile":"Profile",
+    "Category":"DANH MỤC",
     "Administration":"Administration"
 
   },
@@ -161,12 +162,12 @@
     "data.WarehouseWidth":"Rộng",
     "invalid.Existed_WarehouseCode":"Mã kho đã tồn tại",
     "invalid.Existed_WarehouseName":"Tên kho đã tồn tại",
-    "lable.Breadcrumb": "QUẢN TRỊ KHO",
+    "label.Breadcrumb": "QUẢN TRỊ KHO",
     "lable.Size": "Kích cỡ",
-    "lable.Information": "Thông tin kho",
-    "lable.SearchText":"Gõ và nhấn enter",
-    "lable.SearchTitle":"Tìm kiếm thông tin",
-    "lable.TotalWareHouse": "Tổng cộng",
+    "label.Information": "Thông tin kho",
+    "label.SearchText":"Gõ và nhấn enter",
+    "label.SearchTitle":"Tìm kiếm thông tin",
+    "label.TotalWareHouse": "Tổng cộng",
     "lable.Upload": "Tệp đính kèm",
     "mssg.DeleteAsk_Text": "Bạn có chắc muốn xóa thông tin về KHO này chứ (bao gồm các dữ liệu liên quan)",
     "mssg.DeleteAsk_Title": "Xóa thông tin kho này?"
