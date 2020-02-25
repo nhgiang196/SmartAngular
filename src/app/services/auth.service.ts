@@ -42,6 +42,7 @@ export class AuthService {
     return this.currentUser.Department == this.labID ? true: false;
   }
   logout(): void {
+    localStorage.setItem('rememberLastUrl',this.router.url);
     localStorage.removeItem('currentUser');
     this.router.navigateByUrl('login');
   }

@@ -38,7 +38,10 @@ export class LoginComponent implements OnInit {
         localStorage.setItem('currentUser', JSON.stringify(this.authService.currentUser));
         localStorage.setItem('userToken', JSON.stringify(res["Token"]));
         this.authService.currentUser = JSON.parse(localStorage.getItem('currentUser'));
-        this.router.navigateByUrl('mainView');
+        this.router.navigateByUrl(localStorage.getItem('rememberLastUrl') ||  'mainView');
+        localStorage.removeItem('rememberLastUrl');
+        
+
       }
       else {
         this.toastr.warning('Incorrect password or username', 'Login failed!');
