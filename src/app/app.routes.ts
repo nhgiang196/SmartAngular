@@ -43,6 +43,7 @@ import { ItemTypeComponent } from './views/smartin/item-type/item-type.component
 import { CategoryNavigationComponent } from './components/common/navigation/category-navigation/category-navigation.component';
 import { UnitMeasurementComponent } from './views/smartin/unit-measurement/unit-measurement.component';
 import { ChemicalComponent } from './views/smartin/chemical/chemical.component';
+import { WarehouseComponent } from './views/smartin/warehouse/warehouse.component';
 
 
 
@@ -106,6 +107,7 @@ export const ROUTES: Routes = [
           { path: 'itemType', component: ItemTypeComponent },
           { path: 'unit', component: UnitMeasurementComponent },
           { path: 'chemical', component: ChemicalComponent },
+          { path: 'warehouse', component: WarehouseComponent },
           { path: '', component: CategoryNavigationComponent, outlet: 'sidemenu' },
         ]
       },
