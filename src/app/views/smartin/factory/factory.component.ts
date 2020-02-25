@@ -247,7 +247,6 @@ export class FactoryComponent implements OnInit {
     let result = await this.api.validateFactory(e).toPromise().then() as any;
     if (!result.Success)
     {
-      if (result.Message=='FactoryCodeExist' && this.ACTION_STATUS=='update') return true;
       this.laddaSubmitLoading = false;
       this.invalid[result.Message] = true;
       return false;
