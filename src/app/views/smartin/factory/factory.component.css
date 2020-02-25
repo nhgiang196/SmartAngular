@@ -1,4 +1,7 @@
-.style16
-{
-    border-top: 1px dashed #8c8b8b;
+.css_btnDel {
+    padding: 1px 6px;
+    padding-top: 1px;
+    padding-right: 6px;
+    padding-bottom: 1px;
+    padding-left: 6px;
 }

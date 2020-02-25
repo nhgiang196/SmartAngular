@@ -130,6 +130,12 @@
     "data.IsCurrent":"IsCurrent",
     "data.FileOriginalName":"FileOriginalName",
     "data.FileName":"FileName",
+    
+    "invalid.FactoryCodeNull":"Mã nhà máy không được rỗng",
+    "invalid.FactoryCodeExist":"Tên nhà máy không được rỗng",
+    "invalid.FactoryNameNull":"Tên nhà máy bị rỗng",
+    "invalid.FactoryNameExist":"Tên nhà máy tồn tại",
+    
     "UploadFile":"Upload File",
     "AddFactory":"Add Factory",
     "Information":"Factory's Information",
@@ -137,9 +143,6 @@
     "Breadcrumb":"Factory managment",
     "DeleteAsk_Title":"Delete this Factory?",
     "DeleteAsk_Text":"Delete this factory? Including related data",
-    "Valid_FactoryNameNull":"Factory name is null",
-    "Valid_FactoryName":"Factory name was registered!",
-    "Valid_FactoryDate":"Please choose Factory Date ",
     "SearchTitle":"Search factory",
     "SearchText":"Type then enter",
     "CommandButton1":"Test"

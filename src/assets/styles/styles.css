@@ -10622,3 +10622,19 @@ bs-datepicker-container, bs-daterangepicker-container { z-index: 3501 !important
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0)
 }
 
+.is-invalid{
+  border-color: red;
+}
+
+.form-control[readonly]{
+
+  background-color: #ffffff;
+  opacity: 1;
+
+}
+.form-control[disabled], fieldset[disabled] .form-control {
+  background-color: #eee;
+  opacity: 1;
+}
+
+

@@ -49,7 +49,8 @@ export class FactoryComponent implements OnInit {
     this.resetEntity();
     this.loadInit();
   }authService
-  private loadInit() {
+  
+  loadInit() {
     this.iboxloading = true;
     this.factory = [];
     this.api.getFactoryPagination(this.keyword).subscribe(res => {
@@ -63,14 +64,6 @@ export class FactoryComponent implements OnInit {
       this.toastr.error(err.statusText, "Load init failed!");
       this.iboxloading = false;
     })
-  }
-  searchValueOnChange(){
-    
-    this.loadInit();
-    // let wordSearch = this.keyword;
-    // setTimeout(() => {
-    //     if (wordSearch == this.keyword) this.loadInit();
-    // }, 2000);
   }
   private resetEntity() {
     this.entity = new Factory();
@@ -149,6 +142,11 @@ export class FactoryComponent implements OnInit {
     this.tech_entity = new FactoryTechnology();
     this.entity.FactoryTechnology.push(itemAdd);
   }
+
+  fnEditItem(index){
+    this.tech_entity = this.entity.FactoryTechnology[index];
+    this.entity.FactoryTechnology.splice(index, 1);
+  }
   fnDeleteItem(index) {
     this.entity.FactoryTechnology.splice(index, 1);
   }
@@ -181,7 +179,6 @@ export class FactoryComponent implements OnInit {
     let index = this.files.indexOf(event);
     this.files.splice(index, 1); //UI del
     this.entity.FactoryFile.splice(index,1);
-    
     // this.removeFile(event);
   }
   downloadFile(filename){
@@ -202,73 +199,63 @@ export class FactoryComponent implements OnInit {
   }
 
 
-  fnSubmit(){
-    this.laddaSubmitLoading = true;
-    this.fnValidate(this.entity);
-  }
-
-
   // removeFile = (file) => this.api.deleteFile(`${this.pathFile}\\${file.name}`).subscribe(res=>console.log(res));
-  private fnValidate(e: Factory) {
-    this.invalid = {};
-    if (e.FactoryCode =='')
-    {
-      this.invalid.FactoryCodeNull =true;
-      this.laddaSubmitLoading = false;
-      return false;
-    }
-    if (e.FactoryName =='')
-    {
-      this.invalid.FactoryNameNull=true;
-      this.laddaSubmitLoading = false;
-      return false;
-    }
-    if (e.FactoryStartDate ==null || e.FactoryBuiltDate == null) 
-    {
-      this.toastr.warning(this.trans.instant("Factory.Valid_FactoryDate"));
-      this.laddaSubmitLoading = false;
-      return false;
-    }
-    if (this.ACTION_STATUS=='add')
-    this.api.validateFactory(e).subscribe(res=>{
-      var result = res as any;
-      if (!result.Success) {
-        this.invalid[result.Message] = true;
-        this.laddaSubmitLoading = false;
-        return false;
-      }
-      else this.fnSave();
-    },err=>this.toastr.warning(err.statusText,"Erron on sending vaidate Factory"))
-    else this.fnSave();
-  }
+  
 
-  private fnSave() {
-    
+  async fnSave() {
+    this.laddaSubmitLoading = true;
     var e = this.entity;
     console.log('send entity: ', e);
-    if (this.ACTION_STATUS == 'add') {
-      this.api.addFactory(e).subscribe(res => {
-        var operationResult: any = res
-        if (operationResult.Success){
-          this.toastr.success(this.trans.instant("messg.add.success"));
-          $("#myModal4").modal('hide');
-          this.fnEditSignal(operationResult.Data);
-        }
-        else this.toastr.warning(operationResult.Message);
-        this.laddaSubmitLoading = false;
-        
-      }, err => { this.toastr.error(err.statusText); this.laddaSubmitLoading = false; })
+    debugger;
+    if (await this.fnValidate(e))
+    {
+      
+      if (this.ACTION_STATUS == 'add') {
+        this.api.addFactory(e).subscribe(res => {
+          var operationResult: any = res
+          if (operationResult.Success){
+            this.toastr.success(this.trans.instant("messg.add.success"));
+            $("#myModal4").modal('hide');
+            this.loadInit();
+            this.fnEditSignal(operationResult.Data);
+          }
+          else this.toastr.warning(operationResult.Message);
+          this.laddaSubmitLoading = false;
+          
+        }, err => { this.toastr.error(err.statusText); this.laddaSubmitLoading = false; })
+      }
+
+      if (this.ACTION_STATUS == 'update') {
+        this.api.updateFactory(e).subscribe(res => {
+          var operationResult: any = res
+          if (operationResult.Success){
+            this.loadInit();
+            this.toastr.success(this.trans.instant("messg.update.success"));
+          }
+          else this.toastr.warning(operationResult.Message);
+          this.laddaSubmitLoading = false;
+        }, err => { this.toastr.error(err.statusText); this.laddaSubmitLoading = false; })
+      }
+
     }
-    if (this.ACTION_STATUS == 'update') {
-      this.api.updateFactory(e).subscribe(res => {
-        var operationResult: any = res
-        if (operationResult.Success)
-          this.toastr.success(this.trans.instant("messg.update.success"));
-        else this.toastr.warning(operationResult.Message);
-        this.laddaSubmitLoading = false;
-      }, err => { this.toastr.error(err.statusText); this.laddaSubmitLoading = false; })
-    }
+
   }
+
+  private async fnValidate(e: Factory) {
+    this.invalid = {};
+    
+    let result = await this.api.validateFactory(e).toPromise().then() as any;
+    if (!result.Success)
+    {
+      if (result.Message=='FactoryCodeExist' && this.ACTION_STATUS=='update') return true;
+      this.laddaSubmitLoading = false;
+      this.invalid[result.Message] = true;
+      return false;
+    }
+    return true;
+  }
+
+
 
   
   ngAfterViewInit() { //CSS
