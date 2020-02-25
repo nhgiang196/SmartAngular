@@ -51,7 +51,7 @@
                 <div class="panel-heading text-center">
                   <a (click)="fnEditSignal(item.FactoryID)"><i class="fa fa-info-circle"></i> {{item.FactoryName}}
                   </a>
-                  <button class="btn btn-sm btn-danger pull-right css_btnDel" (click)="fnDelete(item.FactoryID)" ><i class="fa fa-times-circle"></i> </button>
+                  <button class="btn btn-sm btn-outline pull-right css_btnDel" (click)="fnDelete(item.FactoryID)" ><i class="fa fa-times-circle"></i> </button>
                 </div>
                 <div class="panel-body">
                   <p> <strong>{{ 'Factory.data.FactoryAddress' | translate}}:</strong>  {{item.FactoryAddress}}</p>
