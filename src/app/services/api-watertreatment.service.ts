@@ -91,6 +91,9 @@ export class WaterTreatmentService {
     let url: string = '/api/v1/File/DownloadFile?fileName='+fileName;
     window.open(url);
   }
+  openFile(fileName){
+    window.open(`http://localhost:3333/${fileName}`);
+  }
   // ItemType Services
   addItemType =(entity) => this.http.post(`${ApiUrl}/ItemType/AddItemType`,entity);
   updateItemType =(entity) => this.http.put(`${ApiUrl}/ItemType/UpdateItemType`,entity);
