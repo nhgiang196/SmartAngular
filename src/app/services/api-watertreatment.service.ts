@@ -40,6 +40,11 @@ export class WaterTreatmentService {
     return this.http.post(`${ApiUrl}/Factory/GetFactoryPagination`, pr);
   }
 
+  
+  getAllFactoryPagination(model) {
+    return this.http.post(`${ApiUrl}/Factory/GetFactoryPagination`, model);
+  }
+
   getFactoryById(id) {
     return this.http.get<any>(`${ApiUrl}/Factory/FindFactoryById`, { params: { id: id } });
   }
@@ -86,13 +91,14 @@ export class WaterTreatmentService {
   getItemTypePagination =(entity) => this.http.post<any>(`${ApiUrl}/ItemType/GetItemTypePagination`,entity,{} );
   getItemType =() => this.http.get(`${ApiUrl}/ItemType/GetItemType` );
   findItemTypeById =(id) => this.http.get(`${ApiUrl}/ItemType/FindItemTypeById?id=${id}` );
-
+  getItemTypePaginationByCode =(entity,code) => this.http.post<any>(`${ApiUrl}/ItemType/GetItemTypePaginationByCode/${code}`,entity,{} );
   //ItemTypeProperty
-
+  
   addItemTypeProperty =(entity) => this.http.post(`${ApiUrl}/ItemTypeProperty/AddItemTypeProperty`,entity);
   updateItemTypeProperty =(entity) => this.http.put(`${ApiUrl}/ItemTypeProperty/UpdateItemTypeProperty`,entity);
   deleteItemTypeProperty =(id) => this.http.delete(`${ApiUrl}/ItemTypeProperty/DeleteItemTypeProperty`,{ params: { id: id } });
   getItemTypePropertyPagination =(entity) => this.http.post<any>(`${ApiUrl}/ItemTypeProperty/GetItemTypePropertyPagination`,entity,{} );
+  
   getItemTypeProperty =() => this.http.get(`${ApiUrl}/ItemTypeProperty/GetItemType` );
   findItemTypePropertyById =(id) => this.http.get<any>(`${ApiUrl}/ItemTypeProperty/FindItemTypePropertyById?id=${id}` );
 

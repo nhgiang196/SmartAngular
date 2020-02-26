@@ -65,6 +65,8 @@ export class DataTablePaginationParram {
   pageSize: number = 50
   orderBy: string = null
   orderDir: string  = 'asc'
+  entity:string =null
+  selectFields:string =null
 }
 export class Item {
   ItemId?: number = 0
@@ -105,16 +107,18 @@ export class ItemType {
   ItemTypeProperty: ItemTypeProperty[] = []
 }
 export class ItemFactory{
-  ItemFactoryId: number = 0
-  ItemId: number = 0
-  FactoryId: number = 0
-  IntergrationCode: string
+  ItemFactoryId: number = 0;
+  ItemId: number = 0;
+  FactoryId: number = 0;
+  FactoryName?: string="";
+  IntergrationCode: string="";
 }
 export class ItemPackage {
 
   ItemPackageId: number = 0
   ItemId: number = 0
   ItemPackageUnitId?: number = 0
+  ItemPackageUnitName: string
   ItemPackageCoefficient?: number = 0
   ItemPackageLength?: number = 0
   ItemPackageWidth?: number = 0
@@ -126,6 +130,7 @@ export class ItemProperty {
   ItemPropertyId?: number = 0
   ItemId?: number = 0
   ItemTypePropertyId?: number = 0
+  ItemPropertyName?: string
   ItemTypePropertyValue?: string
 }
 

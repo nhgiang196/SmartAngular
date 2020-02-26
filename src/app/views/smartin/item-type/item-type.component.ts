@@ -156,8 +156,9 @@ export class ItemTypeComponent implements OnDestroy, OnInit {
       if (this.ACTION_STATUS == 'add') {
         this.api.addItemType(e).subscribe(res => {
           var operationResult: any = res
-          if (operationResult.Success)
+          if (operationResult.Success) {
             this.toastr.success(this.trans.instant("messg.add.success"));
+          }
           else this.toastr.warning(operationResult.Message);
           this.laddaSubmitLoading = false;
         }, err => { this.toastr.error(err.statusText); this.laddaSubmitLoading = false; })
@@ -165,8 +166,9 @@ export class ItemTypeComponent implements OnDestroy, OnInit {
       if (this.ACTION_STATUS == 'update') {   
         this.api.updateItemType(e).subscribe(res => {
           var operationResult: any = res
-          if (operationResult.Success)
+          if (operationResult.Success) {
             this.toastr.success(this.trans.instant("messg.update.success"));
+          }
           else this.toastr.warning(operationResult.Message);
           this.laddaSubmitLoading = false;
         }, err => { this.toastr.error(err.statusText); this.laddaSubmitLoading = false; })

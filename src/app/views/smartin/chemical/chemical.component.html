@@ -82,7 +82,7 @@
                   <td>
                     <button type="button" class="btn btn-outline btn-danger" (click)="fnDelete(item.ItemId)"><i
                         class="fa fa-trash"></i></button>
-                    <button type="button" class="btn btn-outline btn-success" (click)="fnUpdate(item)"
+                    <button type="button" class="btn btn-outline btn-success" (click)="fnUpdate(item.ItemId)"
                       data-toggle="modal" data-target="#myModal4"><i class="fa fa-pencil"></i></button>
                   </td>
                 </tr>
@@ -141,8 +141,9 @@
             <div class="col-lg-6">
               <div class="form-group">
                 <label> {{ 'Item.ItemUnitId' | translate }} : </label>
-                <input type="text" name="ItemUnitId" id="ItemUnitId" class="form-control"
-                  placeholder="{{'Item.ItemUnitId' | translate}}" [(ngModel)]="entity.ItemUnitId" required>
+                  <ng-select class="custom" [items]="listUnit" bindLabel="text" bindValue="id" placeholder="Please select unit"
+                           [(ngModel)]="entity.ItemUnitId" name="text" >
+                  </ng-select>
               </div>
             </div>
           </div>
@@ -165,8 +166,40 @@
           <div class="row">
             <div class="col-lg-6">
               <div class="form-group">
+                <label> Length : </label>
+                <input type="number" name="ItemModel" class="form-control"
+                  placeholder="{{'Item.ItemModel' | translate}}" [(ngModel)]="entity.ItemLength" required>
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="form-group">
+                <label> Width : </label>
+                <input type="number" name="ItemSerial" class="form-control"
+                  placeholder="{{'Item.ItemSerial' | translate}}" [(ngModel)]="entity.ItemWidth" required>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-6">
+              <div class="form-group">
+                <label> Height : </label>
+                <input type="number" name="ItemModel"  class="form-control"
+                  placeholder="{{'Item.ItemModel' | translate}}" [(ngModel)]="entity.ItemHeight" required>
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="form-group">
+                <label> Weigth : </label>
+                <input type="number" name="ItemSerial"  class="form-control"
+                  placeholder="{{'Item.ItemSerial' | translate}}" [(ngModel)]="entity.ItemWeight" required>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-6">
+              <div class="form-group">
                 <label> {{ 'Item.ItemManufactureCountry' | translate }} : </label>
-                <input type="text" name="ItemManufactureCountry" id="ItemManufactureCountry" class="form-control"
+                <input type="text" name="ItemManufactureCountry" class="form-control"
                   placeholder="{{'Item.ItemManufactureCountry' | translate}}"
                   [(ngModel)]="entity.ItemManufactureCountry" required>
               </div>
@@ -198,25 +231,25 @@
                     <div class="row">
                       <div class="col-lg-6">
                         <div class="form-group">
-                          <label> {{ 'Item.FactoryName' | translate }} : </label>
-                          <select class="select2_demo_3 form-control" [(ngModel)]="entity.FactoryType" name="FactoryType"  placeholder="Select Factory Type">
-                            <option selected value=1> {{ 'Factory.data.FactoryType1' | translate }} </option>
-                            <option value=2> {{ 'Factory.data.FactoryType2' | translate }} </option>
-                            <option value=3> {{ 'Factory.data.FactoryType3' | translate }} </option>
-                          </select>
+                          <label> {{ 'Item.FactoryName' | translate }} : </label><br/>
+
+                          <ng-select class="custom" [items]="listFactory" bindLabel="text" bindValue="id" placeholder="Please select factory"
+                            [(ngModel)]="itemFactory.FactoryId" name="text" (change)="factoryChange($event)" >
+                          </ng-select>
                         </div>
                       </div>
                       <div class="col-lg-6">
                         <div class="form-group">
                           <label> {{ 'Item.IntergrationCode' | translate }} : </label>
-                          <input type="text" name="ItemNo" id="ItemNo" class="form-control"
-                            placeholder="{{'Item.ItemNo' | translate}}" [(ngModel)]="entity.ItemNo" required>
+                          <input type="text" name="ItemNo" class="form-control"
+                            placeholder="{{'Item.ItemNo' | translate}}" [(ngModel)]="itemFactory.IntergrationCode" >
                         </div>
                       </div>
                     </div>
                     <div class="row">
                       <button type="button" class="btn btn-success pull-right" (click)="fnAddFactory()">Add</button>
-                      <table class="table table-bordered">
+                      <div class="clearfix"></div>
+                      <table class="table table-bordered mt-2">
                         <thead>
                           <tr>
                             <th>#</th>
@@ -227,11 +260,10 @@
                         </thead>
                         <tbody>
 
-                          <tr class="animated fadeInRight" *ngFor="let item of entity.FactoryTechnology; let i = index"
-                            [@simpleFadeAnimation]="'in'">
+                          <tr class="animated fadeInRight" *ngFor="let item of entity.ItemFactory; let i = index">
                             <td> {{i+1}} </td>
-                            <td>abc </td>
-                            <td>def</td>
+                            <td>{{item.FactoryName}} </td>
+                            <td>{{item.IntergrationCode}}</td>
                             <td><button class="btn btn-danger" (click)="fnDeleteFactory(i)"><i
                                   class="fa fa-trash"></i></button></td>
                           </tr>
@@ -247,24 +279,24 @@
                       <div class="col-lg-6">
                         <div class="form-group">
                           <label> {{ 'Item.Property' | translate }}: </label>
-                          <select class="select2_demo_3 form-control" [(ngModel)]="entity.FactoryType" name="FactoryType"  placeholder="Select Factory Type">
-                            <option selected value=1> {{ 'Factory.data.FactoryType1' | translate }} </option>
-                            <option value=2> {{ 'Factory.data.FactoryType2' | translate }} </option>
-                            <option value=3> {{ 'Factory.data.FactoryType3' | translate }} </option>
-                          </select>
+
+                          <ng-select class="custom" [items]="listProperty" bindLabel="text" bindValue="id" placeholder="Please select property"
+                          [(ngModel)]="itemProperty.ItemTypePropertyId" name="text" (change)="itemPropertyChange($event)">
+                          </ng-select>
                         </div>
                       </div>
                       <div class="col-lg-6">
                         <div class="form-group">
                           <label> {{ 'Item.Value' | translate }} : </label>
-                          <input type="text" name="ItemNo" id="ItemNo" class="form-control"
-                            placeholder="{{'Item.ItemNo' | translate}}" [(ngModel)]="entity.ItemNo" required>
+                          <input type="text" name="ItemNo" class="form-control"
+                            placeholder="{{'Item.ItemNo' | translate}}" [(ngModel)]="itemProperty.ItemTypePropertyValue" >
                         </div>
                       </div>
                     </div>
                     <div class="row">
-                      <button type="button" class="btn btn-success pull-right">Add</button>
-                      <table class="table table-bordered">
+                      <button type="button" class="btn btn-success pull-right" (click)="fnAddProperty()">Add</button>
+                      <div class="clearfix"></div>
+                      <table class="table table-bordered mt-2">
                         <thead>
                           <tr>
                             <th>#</th>
@@ -274,12 +306,11 @@
                           </tr>
                         </thead>
                         <tbody>
-                          <tr class="animated fadeInRight" *ngFor="let item of entity.FactoryTechnology; let i = index"
-                            [@simpleFadeAnimation]="'in'">
+                          <tr class="animated fadeInRight" *ngFor="let item of entity.ItemProperty; let i = index">
                             <td> {{i+1}} </td>
-                            <td>abc </td>
-                            <td>def</td>
-                            <td><button class="btn btn-danger" (click)="fnDeleteItem(i)"><i
+                            <td> {{item.ItemPropertyName}} </td>
+                            <td> {{item.ItemTypePropertyValue}}</td>
+                            <td><button class="btn btn-danger" (click)="fnDeleteItemProperty(i)"><i
                                   class="fa fa-trash"></i></button></td>
                           </tr>
                         </tbody>
@@ -293,18 +324,17 @@
                       <div class="col-lg-6">
                         <div class="form-group">
                           <label>{{ 'ItemUnit' | translate }}:</label>
-                          <select class="select2_demo_3 form-control" [(ngModel)]="entity.FactoryType" name="FactoryType"  placeholder="Select Factory Type">
-                            <option selected value=1> {{ 'Factory.data.FactoryType1' | translate }} </option>
-                            <option value=2> {{ 'Factory.data.FactoryType2' | translate }} </option>
-                            <option value=3> {{ 'Factory.data.FactoryType3' | translate }} </option>
-                          </select>
+                         
+                          <ng-select class="custom" [items]="listUnit" bindLabel="text" bindValue="id" placeholder="Please select unit"
+                           [(ngModel)]="itemPackage.ItemPackageUnitId" name="text" (change)="itemUnitChange($event)" >
+                          </ng-select>
                         </div>
                       </div>
                       <div class="col-lg-6">
                         <div class="form-group">
                           <label> {{ 'Item.ItemPackageCoefficient' | translate }} : </label>
-                          <input type="number" name="ItemWidth" id="ItemWidth" class="form-control"
-                            placeholder="{{'Item.ItemWidth' | translate}}" [(ngModel)]="entity.ItemWidth" required>
+                          <input type="number" name="ItemWidth" class="form-control" 
+                            placeholder="Item Package Coefficient" [(ngModel)]="itemPackage.ItemPackageCoefficient" >
                         </div>
                       </div>
                     </div>
@@ -312,15 +342,15 @@
                       <div class="col-lg-6">
                         <div class="form-group">
                           <label> {{ 'Item.ItemLength' | translate }} : </label>
-                          <input type="number" name="ItemLength" id="ItemManufactureCountry" class="form-control"
-                            placeholder="{{'Item.ItemLength' | translate}}" [(ngModel)]="entity.ItemLength" required>
+                          <input type="number" name="ItemLength" class="form-control"
+                            placeholder="{{'Item.ItemLength' | translate}}" [(ngModel)]="itemPackage.ItemPackageLength" >
                         </div>
                       </div>
                       <div class="col-lg-6">
                         <div class="form-group">
                           <label> {{ 'Item.ItemWidth' | translate }} : </label>
-                          <input type="number" name="ItemWidth" id="ItemWidth" class="form-control"
-                            placeholder="{{'Item.ItemWidth' | translate}}" [(ngModel)]="entity.ItemWidth" required>
+                          <input type="number" name="ItemWidth" class="form-control"
+                            placeholder="{{'Item.ItemWidth' | translate}}" [(ngModel)]="itemPackage.ItemPackageWidth" >
                         </div>
                       </div>
                     </div>
@@ -328,17 +358,51 @@
                       <div class="col-lg-6">
                         <div class="form-group">
                           <label> {{ 'Item.ItemHeight' | translate }} : </label>
-                          <input type="number" name="ItemHeight" id="ItemManufactureCountry" class="form-control"
-                            placeholder="{{'Item.ItemHeight' | translate}}" [(ngModel)]="entity.ItemHeight" required>
+                          <input type="number" name="ItemHeight" class="form-control"
+                            placeholder="{{'Item.ItemHeight' | translate}}" [(ngModel)]="itemPackage.ItemPackageHeight" >
                         </div>
                       </div>
                       <div class="col-lg-6">
                         <div class="form-group">
                           <label> {{ 'Item.ItemWeight' | translate }} : </label>
                           <input type="number" name="ItemWeight" id="ItemWeight" class="form-control"
-                            placeholder="{{'Item.ItemWeight' | translate}}" [(ngModel)]="entity.ItemWeight" required>
+                            placeholder="{{'Item.ItemWeight' | translate}}" [(ngModel)]="itemPackage.ItemPackageWeight" >
                         </div>
                       </div>
+                    </div>
+                    <div class="row">
+                      <button type="button" class="btn btn-success pull-right" (click)="fnAddPackage()">Add</button>
+                      <div class="clearfix"></div>
+                      <table class="table table-bordered mt-2">
+                        <thead>
+                          <tr>
+                            <th>#</th>
+                            <th>Item unit</th>
+                            <th>Package Coefficient</th>
+                            <th>Dài</th>
+                            <th>Rộng</th>
+                            <th>Cao</th>
+                            <th>Nặng</th>
+                            <th>Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+
+                          <tr class="animated fadeInRight" *ngFor="let item of entity.ItemPackage; let i = index">
+                            <td> {{i+1}} </td>
+                            <td>{{item.ItemPackageUnitName}}</td>
+                            <td>{{item.ItemPackageCoefficient}} </td>
+                            <td>{{item.ItemPackageLength}} </td>
+                            <td>{{item.ItemPackageWidth}} </td>
+                            <td>{{item.ItemPackageHeight}} </td>
+                            <td>{{item.ItemPackageWeight}} </td>
+                           
+                            <td><button class="btn btn-danger" (click)="fnDeleteItemPackage(i)"><i
+                                  class="fa fa-trash"></i></button></td>
+                          </tr>
+
+                        </tbody>
+                      </table>
                     </div>
                   </div>
                 </div>
@@ -351,7 +415,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
-        <button type="button" *ngIf="ACTION_STATUS=='update'" class="btn btn-danger"
+        <button type="button" *ngIf="ACTION_STATUS=='update'" class="btn btn-danger hide"
           (click)="fnDelete(entity.ItemTypeId)"><i class="fa fa-trash"></i> Delete</button>
         <button type="button" class="btn btn-primary" (click)="fnSave();" [ladda]="laddaSubmitLoading"
           [disabled]="myForm.invalid">Save

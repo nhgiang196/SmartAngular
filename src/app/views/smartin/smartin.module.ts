@@ -6,13 +6,15 @@ import { RouterModule } from '@angular/router';
 import { ItemTypeComponent } from './item-type/item-type.component';
 import { UnitMeasurementComponent } from './unit-measurement/unit-measurement.component';
 import { ChemicalComponent } from './chemical/chemical.component';
+import { AutocompleteModule } from 'ng2-input-autocomplete';
 
 @NgModule({
   declarations: [FactoryComponent, ItemTypeComponent, UnitMeasurementComponent, ChemicalComponent],
   imports: [
     CommonModule,
     SharedModule,
-    RouterModule
+    RouterModule,
+    AutocompleteModule.forRoot()
   ],
   exports:[FactoryComponent]
 })

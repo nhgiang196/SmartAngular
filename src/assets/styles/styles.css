@@ -3789,6 +3789,17 @@ a.forum-item-title:hover {
 }
 
 /* Select2 custom styles */
+
+.select2-container {
+  width: 100% !important;
+}
+
+.select2-container--default .select2-selection--single{
+  height: 34px;
+  border-radius: 0;
+  border: 1px solid #eee;
+}
+
 .select2-container--default .select2-selection--single,
 .select2-container--default .select2-selection--multiple {
   border-color: #e7eaec;
