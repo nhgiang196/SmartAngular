@@ -208,7 +208,8 @@
     "update.warning3": " ",
     "delete.success": "Xóa thành công ",
     "delete.error": "Lỗi khi xóa ",
-    "maximumFileSize2000":"Giới hạn file tối đa 2MB, một số file sẽ không được upload lên"
+    "maximumFileSize2000":"Giới hạn file tối đa 2MB, một số file sẽ không được upload lên",
+    "maximumFileSize5000":"Giới hạn file tối đa 5MB, một số file sẽ không được upload lên"
   },
   "ItemType":{
     "Information": "Thông tin vật tư",
