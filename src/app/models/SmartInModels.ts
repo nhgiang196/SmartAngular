@@ -6,9 +6,9 @@ export class Factory {
   FactoryAddress?: string = ''
   FactoryContact?: string = ''
   ContactPhone?: string = ''
-  FactoryBuiltDate?: Date = new Date((new Date()).setHours(0,0,0,0))
-  FactoryStartDate?: Date = new Date((new Date()).setHours(0,0,0,0))
-  FactoryEndDate?: Date
+  FactoryBuiltDate?: string = null
+  FactoryStartDate?: string = null
+  FactoryEndDate?:   string = null
   CreateDate?: Date = null
   ModifyDate?: Date = null
   CreateBy?: string = ''
@@ -179,11 +179,11 @@ export class Unit {
 
 
 export class Warehouse {
-  WarehouseId:number
+  WarehouseId:number = null
   WarehouseCode: string
   WarehouseName: string
   FactoryId:number
-  WarehouseType:number
+  WarehouseType:number = 1
   WarehouseAddress: string
   WarehouseUserName: string
   WarehouseLength:number
@@ -193,9 +193,9 @@ export class Warehouse {
   CreateDate: Date = new Date()
   ModifyBy: string
   ModifyDate: Date = new Date()
-  Status:number
-  WarehouseFile: WarehouseFile[]
-  WarehouseLocation: WarehouseLocation[]
+  Status:number = 1
+  WarehouseFile: WarehouseFile[]= []
+  WarehouseLocation: WarehouseLocation[] = []
 }
 
 export class WarehouseFile{
