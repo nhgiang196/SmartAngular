@@ -6,14 +6,22 @@ import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 import swal from 'sweetalert2';
 import { AuthService } from 'src/app/services/auth.service';
+import { trigger, transition, animate, style } from '@angular/animations';
 declare let $: any;
 @Component({
   selector: 'app-warehouse',
   templateUrl: './warehouse.component.html',
-  styleUrls: ['./warehouse.component.css']
+  styleUrls: ['./warehouse.component.css'],
+  animations: [
+    // the fade-in/fade-out animation.
+    trigger('simpleFadeAnimation', [
+      transition(':leave',
+        animate(300, style({ opacity: 0 })))
+    ])
+  ]
 })
 export class WarehouseComponent implements OnInit {
-  @ViewChild('myInputFile')// set for emtpy file after Close or Reload
+  @ViewChild('myInputFile')// Dropzone:  set for emtpy file after Close or Reload
   InputManual: ElementRef;
   constructor(
     private api: WaterTreatmentService,
@@ -34,12 +42,29 @@ export class WarehouseComponent implements OnInit {
   ACTION_STATUS: string;
   Warehouse_showed = 0;
   invalid : any = {Existed_WarehouseCode: false, Existed_WarehouseName: false};
-  
+  initCombobox = { Factories: [], Users: []};
   /**INIT FUNCTIONS */
   ngOnInit() { //init functions
     this.resetEntity();
     this.loadInit();
+    this.loadFactoryList();
+    this.loadUsers();
   }
+  private loadFactoryList(){
+    this.api.getFactory().subscribe(res=>{
+      this.initCombobox.Factories  = res;
+      console.log(this.initCombobox);
+    }, err => this.toastr.warning('Get factories Failed, check network'))
+  }
+  private loadUsers(){
+    this.initCombobox.Users = [
+      {userid : 'giang.nh', username: 'giang.nh'},
+      {userid : 'tester1', username: 'tester1'},
+      {userid : 'tester2', username: 'tester2'},
+    ]
+
+  }
+  
   loadInit() { //init loading
     this.iboxloading = true;
 
@@ -123,10 +148,9 @@ export class WarehouseComponent implements OnInit {
     this.laddaSubmitLoading = true;
     var e = this.entity;
     console.log('send entity: ', e);
-    debugger;
+    
     if (await this.fnValidate(e))
     {
-      
       if (this.ACTION_STATUS == 'add') {
         this.api.addWarehouse(e).subscribe(res => {
           var operationResult: any = res

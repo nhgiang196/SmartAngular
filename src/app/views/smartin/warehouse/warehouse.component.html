@@ -52,7 +52,7 @@
             </div>
           </div>
           <hr>
-          <!-- Detail Factories  -->
+          
           <div class="row">
             <div class="col-lg-3" *ngFor="let item of Warehouse">
               <div class="panel panel-info">
@@ -63,7 +63,6 @@
                 </div>
                 <div class="panel-body">
                   <p> <strong>{{ 'Warehouse.data.WarehouseCode' | translate}}:</strong>  {{item.WarehouseCode}}</p>
-                  <p> <strong>{{ 'Warehouse.data.WarehouseName' | translate}}:</strong> {{item.WarehouseName}}</p>
                   <p> <strong>{{ 'Warehouse.data.WarehouseUserName' | translate}}:</strong> {{item.WarehouseUserName | translate}}</p>
                   <p> <strong>{{ 'Warehouse.data.WarehouseType' | translate }}:</strong> {{'Warehouse.data.WarehouseType'+item.WarehouseType | translate}}</p>
                   <p> <strong>{{ 'Warehouse.data.WarehouseAddress' | translate}}:</strong> {{item.WarehouseAddress}}</p>
@@ -78,5 +77,157 @@
     </div>
   </div>
 
+</div>
+
+
+
+
+
+<div class="modal inmodal" id="myModal4" data-backdrop="static" data-keyboard="true" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-lg " >
+    <div class="modal-content animated fadeIn">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
+            class="sr-only">Close</span></button>
+        <h4 class="modal-title"> {{'Warehouse.label.Information' | translate }}</h4>
+      </div>
+      <div class="modal-body">
+        <form role="form" #myForm="ngForm">
+          <div class="row">
+            <div class="col-lg-6">
+              <div class="form-group">
+                <label> {{ 'Warehouse.data.WarehouseCode' | translate }} *: </label>
+                <input type="text" name="WarehouseCode" id="WarehouseCode" class="form-control" placeholder="Enter your __________" 
+                 [ngClass]="{ 'is-invalid':  invalid.Existed_WarehouseCode }" required>
+                  <div *ngIf="invalid.Existed_WarehouseCode" style="color: red;">{{ 'Warehouse.invalid.Existed_WarehouseCode' | translate }}</div>
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <label>{{ 'Warehouse.data.FactoryID' | translate }} :</label>
+              <ng-select  [items]="initCombobox.Factories" placeholder="Enter your __________"   bindLabel="FactoryName" bindValue="FactoryID" required> </ng-select>
+              
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-6">
+              <div class="form-group">
+                <label> {{ 'Warehouse.data.WarehouseName' | translate }} *: </label>
+                <input type="text" name="WarehouseName" id="WarehouseName" class="form-control" placeholder="Enter your __________" 
+                 [ngClass]="{ 'is-invalid':  invalid.Existed_WarehouseName }" required>
+                  <div *ngIf="invalid.Existed_WarehouseName" style="color: red;">{{ 'Warehouse.invalid.Existed_WarehouseName' | translate }}</div>
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <label>{{ 'Warehouse.data.WarehouseType' | translate }} *:</label>
+              <select class="select2_demo_3 form-control" [(ngModel)]="entity.WarehouseType" name="WarehouseType"  placeholder="Select _________ " required>
+                <option value=1> {{ 'Warehouse.data.WarehouseType1' | translate }} </option>
+                <option value=2> {{ 'Warehouse.data.WarehouseType2' | translate }} </option>
+              </select>
+              
+            </div>
+          </div>
+
+
+          <div class="row">
+            <div class="col-lg-6">
+              <label>{{ 'Warehouse.data.WarehouseAddress' | translate }} :</label>
+              <input type="text" name="WarehouseAddress" id="WarehouseAddress" class="form-control" placeholder="Enter your __________" >
+            </div>
+            <div class="col-lg-6">
+              <div class="form-group">
+                <label> {{ 'Warehouse.data.WarehouseUserName' | translate }} *: </label>
+                <ng-select  [items]="initCombobox.Users" placeholder="Enter your __________"   bindLabel="username" bindValue="userid" required> </ng-select>
+              </div>
+            </div>
+          </div>
+          <hr>
+          <h3>{{'Warehouse.label.Size' | translate}} </h3>
+          <div class="row">
+            <div class="col-lg-4">
+              <div class="form-group">
+                <label> {{ 'Warehouse.data.WarehouseHeight' | translate }} *: </label>
+                <input type="number" name="WarehouseHeight" id="WarehouseHeight" class="form-control" placeholder="Enter your __________" required>
+              </div>
+            </div>
+            <div class="col-lg-4">
+              <div class="form-group">
+                <label> {{ 'Warehouse.data.WarehouseWidth' | translate }} *: </label>
+                <input type="number" name="WarehouseWidth" id="WarehouseWidth" class="form-control" placeholder="Enter your __________"  required>
+              </div>
+            </div>
+            <div class="col-lg-4">
+              <div class="form-group">
+                <label> {{ 'Warehouse.data.WarehouseLength' | translate }} *: </label>
+                <input type="number" name="WarehouseLength" id="WarehouseLength" class="form-control" placeholder="Enter your __________"  required>
+              </div>
+            </div>
+          </div>
+
+
+          <hr>
+          <h3>{{'Warehouse.label.Location' | translate}} </h3>
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>{{ 'Warehouse.data.WarehouseLocationCode' | translate }}</th>
+                  <th>{{ 'Warehouse.data.WarehouseLocationName' | translate }}</th>
+                  <th>{{ 'Warehouse.data.WarehouseLocationLength' | translate }}</th>
+                  <th>{{ 'Warehouse.data.WarehouseLocationWidth' | translate }}</th>
+                  <th>{{ 'Warehouse.data.WarehouseLocationHeight' | translate }}</th>
+                  <th>{{ 'Warehouse.data.WarehouseLocationStatus' | translate }}</th>
+                  <th>{{ 'Button.Action' | translate }}</th>
+                </tr>
+              </thead>
+              <tbody>
+
+                <tr class="animated fadeInRight" *ngFor="let item of entity.WarehouseLocation; let i = index"
+                  [@simpleFadeAnimation]="'in'">
+                  <td> {{i+1}} </td>
+                  <td>{{item.WarehouseLocationCode}} </td>
+                  <td>{{item.WarehouseLocationName}} </td>
+                  <td>{{item.WarehouseLocationLength}} </td>
+                  <td>{{item.WarehouseLocationWidth}} </td>
+                  <td>{{item.WarehouseLocationHeight}} </td>
+                  <td>{{'Warehouse.data.WarehouseLocationStatus'+item.WarehouseLocationStatus}} </td>
+                  <td>
+                    <button class="btn btn-outline btn-success" (click)="fnEditItem(i)" ><i class="fa fa-pencil"></i></button>
+                    <button class="btn btn-outline btn-danger" (click)="fnDeleteItem(i)"><i class="fa fa-trash"></i></button>
+                  
+                  </td>
+                </tr>
+                <tr >
+                  <td> {{entity.WarehouseLocation.length+1}} </td>
+                  <td> <input type="text" class="form-control"> </td>
+                  <td> <input type="text" class="form-control"> </td>
+                  <td> <input type="number" class="form-control"> </td>
+                  <td> <input type="number" class="form-control"> </td>
+                  <td> <input type="number" class="form-control"> </td>
+                  <td>
+                    <div class="switch">
+                      <div class="onoffswitch">
+                        <input type="checkbox" class="onoffswitch-checkbox" name="sub_status" id="sub_status"   >
+                        <label class="onoffswitch-label" for="sub_status">
+                          <span class="onoffswitch-inner"></span>
+                          <span class="onoffswitch-switch"></span>
+                        </label>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <button type="button" class="btn btn-success pull-right" (click)="fnAddItem()">Add</button>
+                  </td>
+                </tr>
+
+              </tbody>
+            </table>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-white" data-dismiss="modal">{{'Button.Close' | translate}}  </button>
+        <button type="button" class="btn btn-primary" (click)="fnSave();" [ladda]="laddaSubmitLoading" [disabled]="myForm.invalid"><i class="fa fa-paper-plane-o"></i> {{'Button.Save' | translate}} </button>
+      </div>
+    </div>
+  </div>
 </div>
 
