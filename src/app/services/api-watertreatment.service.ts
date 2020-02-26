@@ -25,16 +25,14 @@ export class WaterTreatmentService {
     return this.http.put(`${ApiUrl}/User/UpdateUser`, entity);
   }
 
-  /** FACTORY */
+  /** FACTORY */ 
   getFactory() {
     return this.http.get<any>(`${ApiUrl}/Factory/GetFactory`);
   }
-  // getFactoryPagination(entity) {
-  //   return this.http.post<any>(`${ApiUrl}/Factory/GetFactoryPagination`, entity)
-  // }
 
   getFactoryPagination(keyvalue) {
     let pr = new DataTablePaginationParram(); 
+    pr.keyFields="FactoryName,FactoryAddress,FactoryContact,ContactPhone"
     pr.key = keyvalue; 
     pr.pageSize = 9999;
     return this.http.post(`${ApiUrl}/Factory/GetFactoryPagination`, pr);
@@ -62,8 +60,17 @@ export class WaterTreatmentService {
     return this.http.post(`${ApiUrl}/Factory/ValidateFactory`,e);
   }
 
-
-
+  /** WAREHOUSE */
+  getWarehousePagination =(keyvalue) => {
+    let pr = new DataTablePaginationParram(); pr.keyFields="WarehouseCode,WarehouseName,WarehouseAddress,WarehouseType,WarehouseUserName,Status" ;pr.key = keyvalue; pr.pageSize = 9999;
+    return this.http.post<any>(`${ApiUrl}/Warehouse/GetWarehousePagination`,pr);
+  };
+  getWarehouse =() => this.http.get(`${ApiUrl}/Warehouse/GetWarehouse` );
+  findWarehouseById =(id) => this.http.get<any>(`${ApiUrl}/Warehouse/FindWarehouseById?id=${id}` );
+  addWarehouse =(entity) => this.http.post(`${ApiUrl}/Warehouse/AddWarehouse`,entity);
+  updateWarehouse =(entity) => this.http.put(`${ApiUrl}/Warehouse/UpdateWarehouse`,entity);
+  deleteWarehouse =(id) => this.http.delete(`${ApiUrl}/Warehouse/DeleteWarehouseid=${id}`);
+  validateWarehouse =(entity) => this.http.post(`${ApiUrl}/Warehouse/ValidateWarehouse?`,entity);
 
   /** FACTORYFILE */
 
@@ -112,14 +119,15 @@ export class WaterTreatmentService {
   checkUnitNameExist =(unitName) => this.http.get<any>(`${ApiUrl}/Unit/CheckUnitNameExist?UnitName=${unitName}` );
 
 
-    //Item Services
-    addItem =(entity) => this.http.post(`${ApiUrl}/Item/AddItem`,entity);
-    updateItem =(entity) => this.http.put(`${ApiUrl}/Item/UpdateItem`,entity);
-    deleteItem =(id) => this.http.delete(`${ApiUrl}/Item/DeleteItem`,{ params: { id: id } });
-    getItemPagination =(entity) => this.http.post<any>(`${ApiUrl}/Item/GetItemPagination`,entity,{} );
-    getItem =() => this.http.get(`${ApiUrl}/Item/GetItem` );
-    findItemById =(id) => this.http.get<any>(`${ApiUrl}/Item/FindItemById?id=${id}` );
-    checkItemNameExist =(itemName) => this.http.get<any>(`${ApiUrl}/Item/CheckItemNameExist?ItemName=${itemName}` );
+  //Item Services
+  addItem =(entity) => this.http.post(`${ApiUrl}/Item/AddItem`,entity);
+  updateItem =(entity) => this.http.put(`${ApiUrl}/Item/UpdateItem`,entity);
+  deleteItem =(id) => this.http.delete(`${ApiUrl}/Item/DeleteItem`,{ params: { id: id } });
+  getItemPagination =(entity) => this.http.post<any>(`${ApiUrl}/Item/GetItemPagination`,entity,{} );
+  getItem =() => this.http.get(`${ApiUrl}/Item/GetItem` );
+  findItemById =(id) => this.http.get<any>(`${ApiUrl}/Item/FindItemById?id=${id}` );
+  checkItemNameExist =(itemName) => this.http.get<any>(`${ApiUrl}/Item/CheckItemNameExist?ItemName=${itemName}` );
+  
 
 
 

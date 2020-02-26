@@ -7,6 +7,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { AuthService } from 'src/app/services/auth.service';
 import swal from 'sweetalert2';
 import { async } from '@angular/core/testing';
+import { MyHelperService } from 'src/app/services/my-helper.service';
 declare let $: any;
 @Component({
   selector: 'app-unit-measurement',
@@ -27,7 +28,8 @@ export class UnitMeasurementComponent implements OnInit {
     private api: WaterTreatmentService,
     private toastr: ToastrService,
     private trans: TranslateService,
-    private auth: AuthService
+    private auth: AuthService,
+    private helper: MyHelperService
   ) { }
 
   ngOnInit(): void {
@@ -39,7 +41,8 @@ export class UnitMeasurementComponent implements OnInit {
     this.entity = new Unit();
   }
 
-  loadInit = () => {
+ loadInit = async () => {
+   await this.loadUnit();
     this.dtOptions = {
       autoWidth: true,
       responsive: true,
@@ -68,7 +71,7 @@ export class UnitMeasurementComponent implements OnInit {
         }
       }
     };
-     this.loadUnit();
+    
   }
 
    loadUnit = async () => {
@@ -121,19 +124,15 @@ export class UnitMeasurementComponent implements OnInit {
   }
   onSwitchStatus (){
     this.entity.Status = this.entity.Status==0? 1: 0;
-  }
+  }  
+
   async fnSave() {
-    debugger;
     this.laddaSubmitLoading = true;
     var e = this.entity;
-    if (this.ACTION_STATUS == 'add') {
-      e.CreateDate = new Date();
-      e.CreateBy = this.auth.currentUser.Username
-    }
-    else {
-      e.ModifyDate = new Date();
+    if (this.ACTION_STATUS == 'add') 
+        e.CreateBy = this.auth.currentUser.Username;
+    else 
       e.ModifyBy = this.auth.currentUser.Username
-    }
 
     if (await this.fnValidate(e)) {
       console.log('send entity: ', e);
@@ -157,7 +156,7 @@ export class UnitMeasurementComponent implements OnInit {
           this.laddaSubmitLoading = false;
         }, err => { this.toastr.error(err.statusText); this.laddaSubmitLoading = false; })
       }
-      this.loadInit();
+     await this.loadInit();
     }
   }
   private async fnValidate(e) {

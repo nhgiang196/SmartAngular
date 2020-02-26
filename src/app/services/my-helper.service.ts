@@ -95,6 +95,18 @@ export class MyHelperService {
     var ss = today.getSeconds();
     return yyyy + '-' + mm + '-' + dd + ' ' + HH + ':' + MM + ':' + ss;
   }
-
+///
+/// Set new Time with GMT + 7
+///
+  dateTimeConvert(str) {
+    var date = new Date(str)
+    var dd = String(date.getDate()).padStart(2, '0');
+    var mm = String(date.getMonth() + 1).padStart(2, '0'); //January is 0!
+    var yyyy = date.getFullYear();
+    var HH = date.getHours() + 7; // set for GTM +7
+    var MM = date.getMinutes();
+    var ss = date.getSeconds();
+    return new Date(yyyy + '-' + mm + '-' + dd + ' ' + HH  + ':' + MM + ':' + ss);
+  }
 
 }
