@@ -33,7 +33,7 @@ export class FactoryComponent implements OnInit {
     public helper: MyHelperService,
     private auth: AuthService
   ) { }
-  /** INIT */
+  /** DECLARATION */
   factory: Factory[]; //init data
   entity: Factory;
   tech_entity: FactoryTechnology;
@@ -49,7 +49,7 @@ export class FactoryComponent implements OnInit {
     this.resetEntity();
     this.loadInit();
   }
-  
+  /**INIT FUNCTIONS */
   loadInit() {
     this.iboxloading = true;
     this.factory = [];
@@ -71,12 +71,15 @@ export class FactoryComponent implements OnInit {
     this.files = [];
     this.invalid = {};
   }
-  fnAdd() {
+
+  /** BUTTON ACTIONS */
+  
+  fnAdd() { //press add buton
     this.ACTION_STATUS = 'add';
     this.resetEntity();
     this.entity.CreateBy = this.auth.currentUser.Username;
   }
-  fnEditSignal(id) {
+  fnEditSignal(id) { //press a link name of entity
     if (id==null)  { this.toastr.warning('Factory ID is Null, cant show modal'); return; }
     this.resetEntity();
     this.ACTION_STATUS = 'update';
@@ -98,7 +101,7 @@ export class FactoryComponent implements OnInit {
       this.toastr.error(error.statusText, "Load factory information error");
     })
   }
-  fnDelete(id) {
+  fnDelete(id) { //press X to delete entity
     swal.fire({
       title: this.trans.instant('Factory.mssg.DeleteAsk_Title'),
       titleText: this.trans.instant('Factory.mssg.DeleteAsk_Text'),
@@ -122,10 +125,8 @@ export class FactoryComponent implements OnInit {
         }
       })
   }
-  fnCheckBeforeEdit(id) {
-    this.toastr.warning("User not dont have permission");
-  }
-  fnAddItem() {
+  
+  fnAddItem() { //press add item (in modal)
     var itemAdd = this.tech_entity;
     if (itemAdd.TechnologyName == null) {
       this.toastr.warning("Validate", this.trans.instant('Factory.data.TechnologyName') + this.trans.instant('messg.isnull'))
@@ -144,66 +145,15 @@ export class FactoryComponent implements OnInit {
     this.entity.FactoryTechnology.push(itemAdd);
   }
 
-  fnEditItem(index){
+  fnEditItem(index){ //press edit item (in modal)
     this.tech_entity = this.entity.FactoryTechnology[index];
     this.entity.FactoryTechnology.splice(index, 1);
   }
-  fnDeleteItem(index) {
+  fnDeleteItem(index) { //press delete item (in modal)
     this.entity.FactoryTechnology.splice(index, 1);
   }
-  
-  onSelect(event) {
-    console.log(event);
-    // this.files.push(...event.addedFiles); //refresh showing in Directive
-    if (event.rejectedFiles.length>0) this.toastr.warning(this.trans.instant('messg.maximumFileSize5000'));
-    for (var index in event.addedFiles) {
-      let item = event.addedFiles[index];
-      let currentFile = this.files;
-      var _existIndex = currentFile.filter(x=>x.name == item.name).length;
-      if (_existIndex>0) this.files.splice(_existIndex-1,1);
-      else{
-        
-        let _factoryFile = new FactoryFile();
-        _factoryFile.File.FileOriginalName= item.name;
-        _factoryFile.File.FileName = this.helper.getFileNameWithExtension(item);
-        _factoryFile.File.Path = this.pathFile + '/' + item.name;
-        this.entity.FactoryFile.push(_factoryFile);
-      }
-    }
-    this.files.push(...event.addedFiles); //refresh showing in Directive
-    this.uploadFile(event.addedFiles);
-    
-  }
-   
-  onRemove(event) {
-    console.log(event);
-    let index = this.files.indexOf(event);
-    this.files.splice(index, 1); //UI del
-    this.entity.FactoryFile.splice(index,1);
-    // this.removeFile(event);
-  }
-  downloadFile(filename){
-    this.api.downloadFile(this.pathFile+'/'+filename);
-  }
-  uploadFile(files: File[])
-  {
-      let formData = new FormData();
-      files.forEach(file => {
-          formData.append("files",file);
-      });
-      this.api.uploadFile(formData, this.pathFile).subscribe(res=> console.log(res));
-  }
 
-  onSwitchStatus (){
-    this.entity.Status = this.entity.Status==0? 1: 0;
-    if (this.entity.Status==1) this.entity.FactoryEndDate = null;
-  }
-
-
-  // removeFile = (file) => this.api.deleteFile(`${this.pathFile}\\${file.name}`).subscribe(res=>console.log(res));
-  
-
-  async fnSave() {
+  async fnSave() { //press save/SUBMIT button 
     this.laddaSubmitLoading = true;
     var e = this.entity;
     console.log('send entity: ', e);
@@ -242,7 +192,49 @@ export class FactoryComponent implements OnInit {
 
   }
 
-  private async fnValidate(e: Factory) {
+
+  onRemove(event) { //press x to delte file (in modal)
+    console.log(event);
+    let index = this.files.indexOf(event);
+    this.files.splice(index, 1); //UI del
+    this.entity.FactoryFile.splice(index,1);
+    // this.removeFile(event);
+  }
+  downloadFile(filename){ //press File to download (in modal)
+    this.api.downloadFile(this.pathFile+'/'+filename);
+  }
+
+  /** EVENT TRIGGERS */
+  onSelect(event) { //drag file(s) or choose file(s) in ngFileZone
+    console.log(event);
+    // this.files.push(...event.addedFiles); //refresh showing in Directive
+    if (event.rejectedFiles.length>0) this.toastr.warning(this.trans.instant('messg.maximumFileSize5000'));
+    for (var index in event.addedFiles) {
+      let item = event.addedFiles[index];
+      let currentFile = this.files;
+      var _existIndex = currentFile.filter(x=>x.name == item.name).length;
+      if (_existIndex>0) this.files.splice(_existIndex-1,1);
+      else{
+        
+        let _factoryFile = new FactoryFile();
+        _factoryFile.File.FileOriginalName= item.name;
+        _factoryFile.File.FileName = this.helper.getFileNameWithExtension(item);
+        _factoryFile.File.Path = this.pathFile + '/' + item.name;
+        this.entity.FactoryFile.push(_factoryFile);
+      }
+    }
+    this.files.push(...event.addedFiles); //refresh showing in Directive
+    this.uploadFile(event.addedFiles);
+    
+  }
+  onSwitchStatus (){ //modal switch on change
+    this.entity.Status = this.entity.Status==0? 1: 0;
+    if (this.entity.Status==1) this.entity.FactoryEndDate = null;
+  }
+  /** PRIVATES FUNCTIONS */
+ 
+
+  private async fnValidate(e: Factory) { //validate entity
     this.invalid = {};
     
     let result = await this.api.validateFactory(e).toPromise().then() as any;
@@ -254,6 +246,19 @@ export class FactoryComponent implements OnInit {
     }
     return true;
   }
+
+  private uploadFile(files: File[]){ //upload file to server
+    let formData = new FormData();
+    files.forEach(file => {
+        formData.append("files",file);
+    });
+    this.api.uploadFile(formData, this.pathFile).subscribe(res=> console.log(res));
+  }
+
+  private fnCheckBeforeEdit(id) { //un done
+    this.toastr.warning("User not dont have permission");
+  }
+  // private removeFile = (file) => this.api.deleteFile(`${this.pathFile}\\${file.name}`).subscribe(res=>console.log(res));
   ngAfterViewInit() { //CSS
   }
 }
