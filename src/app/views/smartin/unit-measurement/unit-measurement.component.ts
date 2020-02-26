@@ -160,7 +160,7 @@ export class UnitMeasurementComponent implements OnInit {
     }
   }
   private async fnValidate(e) {
-    //edit by Quyen
+    
     //if (this.ACTION_STATUS =='add'){
       let result =  !await this.api.checkUnitNameExist(this.entity.UnitName).toPromise().then();
       if (!result){
