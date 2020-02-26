@@ -93,6 +93,14 @@ export class Item {
   ItemPackage?: ItemPackage[] = []
   ItemProperty?: ItemProperty[] = []
   ItemFactory?: ItemFactory[] = []
+  ItemFile?:ItemFile[] = []
+}
+
+export class ItemFile{
+  ItemFileId: number = 0
+  ItemId: number = 0
+  FileId: number = 0
+  File: Files = new Files()
 }
 
 export class ItemType {
