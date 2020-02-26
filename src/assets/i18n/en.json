@@ -91,12 +91,12 @@
     "Name":"User name",
     "Role":"Role"
   },
-  "DefaultTable":{
+  "DefaultTable": {
     "emptyTable": "",
-    "info": "Show _START_ đến _END_ thuộc _TOTAL_",
+    "info": "Hiển thị từ _START_ đến _END_ trong _TOTAL_ dòng",
     "infoEmpty": "Bảng không có dữ liệu",
-    "infoFiltered": "(lọc từ _MAX_ tổng số dòng)",
-    "infoPostFix": " số dòng",
+    "infoFiltered": "(lọc từ tổng _MAX_ dòng)",
+    "infoPostFix": "",
     "thousands": ",",
     "lengthMenu": "Hiển thị _MENU_ dòng mỗi trang",
     "loadingRecords": "Đang lấy dữ liệu",
@@ -156,6 +156,7 @@
     "data.WarehouseCode":"Warehouse Code",
     "data.WarehouseHeight":"Warehouse Height",
     "data.WarehouseId":"Warehouse Id",
+    "data.FactoryID":"Factory",
     "data.WarehouseLength":"Warehouse Length",
     "data.WarehouseName":"Warehouse Name",
     "data.WarehouseType":"Warehouse Type",
