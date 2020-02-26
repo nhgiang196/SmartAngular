@@ -56,7 +56,10 @@ export class WaterTreatmentService {
   }
 
   /** WAREHOUSE */
-  getWarehousePagination =(entity) => this.http.post<any>(`${ApiUrl}/Warehouse/GetWarehousePagination`,entity);
+  getWarehousePagination =(keyvalue) => {
+    let pr = new DataTablePaginationParram(); pr.keyFields="WarehouseCode,WarehouseName,WarehouseAddress,WarehouseType,WarehouseUserName,Status" ;pr.key = keyvalue; pr.pageSize = 9999;
+    return this.http.post<any>(`${ApiUrl}/Warehouse/GetWarehousePagination`,pr);
+  };
   getWarehouse =() => this.http.get(`${ApiUrl}/Warehouse/GetWarehouse` );
   findWarehouseById =(id) => this.http.get<any>(`${ApiUrl}/Warehouse/FindWarehouseById?id=${id}` );
   addWarehouse =(entity) => this.http.post(`${ApiUrl}/Warehouse/AddWarehouse`,entity);

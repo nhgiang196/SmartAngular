@@ -148,8 +148,9 @@
   "Warehouse":{
     "":"Kho",
     "btn.Add": "TẠO MỚI KHO",
-    "data.FactoryId":"Nhà máy",
     "data.Status":"Trạng thái KHO",
+    "data.Status0":"Không sử dụng",
+    "data.Status1":"Đang sử dụng",
     "data.WarehouseAddress":"Địa chỉ",
     "data.WarehouseCode":"Mã kho",
     "data.WarehouseHeight":"Cao",
@@ -157,6 +158,8 @@
     "data.WarehouseLength":"Dài",
     "data.WarehouseName":"Tên kho",
     "data.WarehouseType":"Loại kho",
+    "data.WarehouseType1":"Nội bộ",
+    "data.WarehouseType2":"Nhận gia công",
     "data.WarehouseUserName":"Thủ kho",
     "data.WarehouseWidth":"Rộng",
     "invalid.Existed_WarehouseCode":"Mã kho đã tồn tại",
@@ -166,11 +169,11 @@
     "label.Information": "Thông tin kho",
     "label.SearchText":"Gõ và nhấn enter",
     "label.SearchTitle":"Tìm kiếm thông tin",
-    "label.TotalWareHouse": "Tổng cộng",
-    "lable.Upload": "Tệp đính kèm",
+    "label.TotalWarehouse": "Tổng cộng",
+    "label.Upload": "Tệp đính kèm",
+    "label.Showed": "Kho hiển thị",
     "mssg.DeleteAsk_Text": "Bạn có chắc muốn xóa thông tin về KHO này chứ (bao gồm các dữ liệu liên quan)",
     "mssg.DeleteAsk_Title": "Xóa thông tin kho này?"
-    
   },
   "Item": {
     "ItemId":"Mã HC",

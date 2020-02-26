@@ -23,7 +23,7 @@ export class WarehouseComponent implements OnInit {
     private auth: AuthService
   ) { }
   /** INIT / DECLARATION */
-  warehouse: Warehouse[]; //init data
+  Warehouse: Warehouse[] = []; //init data
   entity: Warehouse;
   sub_entity: WarehouseLocation;
   laddaSubmitLoading = false;
@@ -32,7 +32,7 @@ export class WarehouseComponent implements OnInit {
   keyword : string = '';
   private pathFile = "uploadFileWarehouse"
   ACTION_STATUS: string;
-  factory_showed = 0;
+  Warehouse_showed = 0;
   invalid : any = {Existed_WarehouseCode: false, Existed_WarehouseName: false};
   
   /**INIT FUNCTIONS */
@@ -42,16 +42,16 @@ export class WarehouseComponent implements OnInit {
   }
   loadInit() { //init loading
     this.iboxloading = true;
-    this.warehouse = [];
-    this.api.getFactoryPagination(this.keyword).subscribe(res => {
+
+    this.api.getWarehousePagination(this.keyword).subscribe(res => {
       var data = res as any;
-      this.warehouse = data.result;
+      this.Warehouse = data.result;
+      this.Warehouse_showed = data.totalCount;
       this.iboxloading = false;
-      
     }, err => {
       this.toastr.error(err.statusText, "Load init failed!");
       this.iboxloading = false;
-    })
+    });
   }
   /** BUTTON ACTIONS */
   fnAdd() { //press new button
@@ -60,11 +60,12 @@ export class WarehouseComponent implements OnInit {
     this.entity.CreateBy = this.auth.currentUser.Username;
   }
   fnEditSignal(id) { //press a link of ENTITY
-    if (id==null)  { this.toastr.warning('Factory ID is Null, cant show modal'); return; }
+    if (id==null)  { this.toastr.warning('ID is Null, cant show modal'); return; }
     this.resetEntity();
     this.ACTION_STATUS = 'update';
     this.iboxloading = true;
-    this.api.getFactoryById(id).subscribe(res => {
+    this.api.findWarehouseById(id).subscribe(res => {
+      debugger;
       this.entity = res;
       $("#myModal4").modal('show');
       this.iboxloading = false;
@@ -83,15 +84,15 @@ export class WarehouseComponent implements OnInit {
   }
   fnDelete(id) { //press Delete Entity
     swal.fire({
-      title: this.trans.instant('Factory.DeleteAsk_Title'),
-      titleText: this.trans.instant('Factory.DeleteAsk_Text'),
+      title: this.trans.instant('Warehouse.mssg.DeleteAsk_Title'),
+      titleText: this.trans.instant('Warehouse.mssg.DeleteAsk_Text'),
       type: 'warning',
       showCancelButton: true,
       reverseButtons: true
     })
       .then((result) => {
         if (result.value) {
-          this.api.deleteFactory(id).subscribe(res => {
+          this.api.deleteWarehouse(id).subscribe(res => {
             var operationResult: any = res
             if (operationResult.Success) {
               swal.fire(
@@ -127,7 +128,7 @@ export class WarehouseComponent implements OnInit {
     {
       
       if (this.ACTION_STATUS == 'add') {
-        this.api.addFactory(e).subscribe(res => {
+        this.api.addWarehouse(e).subscribe(res => {
           var operationResult: any = res
           if (operationResult.Success){
             this.toastr.success(this.trans.instant("messg.add.success"));
@@ -141,7 +142,7 @@ export class WarehouseComponent implements OnInit {
         }, err => { this.toastr.error(err.statusText); this.laddaSubmitLoading = false; })
       }
       if (this.ACTION_STATUS == 'update') {
-        this.api.updateFactory(e).subscribe(res => {
+        this.api.updateWarehouse(e).subscribe(res => {
           var operationResult: any = res
           if (operationResult.Success){
             this.loadInit();
@@ -193,7 +194,7 @@ export class WarehouseComponent implements OnInit {
   private async fnValidate(e: Warehouse) { // validate entity value
     this.invalid = {};
     
-    let result = await this.api.validateFactory(e).toPromise().then() as any;
+    let result = await this.api.validateWarehouse(e).toPromise().then() as any;
     if (!result.Success)
     {
       this.laddaSubmitLoading = false;
