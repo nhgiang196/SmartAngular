@@ -100,7 +100,7 @@
             <div class="col-lg-6">
               <label>{{ 'Factory.data.FactoryBuiltDate' | translate }} :</label>
               <input type="text" name="DateBuild" id="DateBuild" class="form-control" placeholder="Enter your DateBuild" 
-                bsDatepicker readonly [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY' }" [(ngModel)]="entity.FactoryBuiltDate">
+                bsDatepicker readonly [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY' }" [(ngModel)]="FactoryBuiltDate">
             </div>
           </div>
           <div class="row">
@@ -115,7 +115,7 @@
             <div class="col-lg-6">
               <label>{{ 'Factory.data.FactoryStartDate' | translate }} :</label>
               <input readonly type="text" name="DateStart" id="DateStart" class="form-control" bsDatepicker readonly  placeholder="Enter Your Factory Start Date"
-                [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY' }" [(ngModel)]="entity.FactoryStartDate">
+                [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY' }" [(ngModel)]="FactoryStartDate">
 
             </div>
           </div>
@@ -130,7 +130,7 @@
             <div class="col-lg-6">
               <label>{{ 'Factory.data.FactoryEndDate' | translate }} :</label>
               <input  type="text" name="DateEnd" id="DateEnd" class="form-control"  [ngClass]="entity.Status==0? 'animated pulse' : '' " bsDatepicker  readonly
-                [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY' }" [disabled]="entity.Status==1"   [(ngModel)]="entity.FactoryEndDate"  placeholder="Enter Your Factory End Date"> 
+                [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY' }" [disabled]="entity.Status==1"   [(ngModel)]="FactoryEndDate"  placeholder="Enter Your Factory End Date"> 
             </div>
           </div>
           <div class="row">

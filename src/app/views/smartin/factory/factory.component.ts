@@ -45,6 +45,11 @@ export class FactoryComponent implements OnInit {
   ACTION_STATUS: string;
   factory_showed = 0;
   invalid : any = {FactoryCodeNull: false, FactoryCodeExist: false, FactoryNameNull: false, FactoryNameExist: false};
+
+  FactoryBuiltDate: Date = new Date();
+  FactoryStartDate: Date = new Date();
+  FactoryEndDate: Date = new Date();
+  
   ngOnInit() {
     this.resetEntity();
     this.loadInit();
@@ -95,6 +100,12 @@ export class FactoryComponent implements OnInit {
       })
       this.entity.ModifyBy = this.auth.currentUser.Username;
       this.files.push();
+
+      
+      /** ALL DATE */
+      this.FactoryBuiltDate = this.entity.FactoryBuiltDate? new Date(this.entity.FactoryBuiltDate): null;
+      this.FactoryStartDate = this.entity.FactoryStartDate? new Date(this.entity.FactoryStartDate): null;
+      this.FactoryEndDate= this.entity.FactoryEndDate? new Date(this.entity.FactoryEndDate): null;
       
     }, error => {
       this.iboxloading = false;
@@ -156,8 +167,12 @@ export class FactoryComponent implements OnInit {
   async fnSave() { //press save/SUBMIT button 
     this.laddaSubmitLoading = true;
     var e = this.entity;
+    e.FactoryStartDate = this.FactoryStartDate? this.FactoryStartDate.toISOString(): null;
+    e.FactoryBuiltDate = this.FactoryBuiltDate? this.FactoryBuiltDate.toISOString(): null;
+    e.FactoryEndDate = this.FactoryEndDate? this.FactoryEndDate.toISOString() : null;
     console.log('send entity: ', e);
-    debugger;
+    
+    
     if (await this.fnValidate(e))
     {
       
@@ -205,15 +220,35 @@ export class FactoryComponent implements OnInit {
   }
 
   /** EVENT TRIGGERS */
-  onSelect(event) { //drag file(s) or choose file(s) in ngFileZone
-    console.log(event);
-    // this.files.push(...event.addedFiles); //refresh showing in Directive
+  async onSelect(event) { //drag file(s) or choose file(s) in ngFileZone
+    var askBeforeUpload = false;
     if (event.rejectedFiles.length>0) this.toastr.warning(this.trans.instant('messg.maximumFileSize5000'));
     for (var index in event.addedFiles) {
       let item = event.addedFiles[index];
       let currentFile = this.files;
-      var _existIndex = currentFile.filter(x=>x.name == item.name).length;
-      if (_existIndex>0) this.files.splice(_existIndex-1,1);
+      let  findElement =  currentFile.filter(x=>x.name == item.name)[0];
+      //ASK THEN GET RESULT
+      if (findElement!=null) {
+        if (!askBeforeUpload) {
+          askBeforeUpload = true;
+          var allowUpload =true;
+          await swal.fire({
+            title: 'File trùng',
+            titleText: 'Một số file bị trùng, bạn có muốn đè các file này lên bản gốc?',
+            type: 'warning',
+            showCancelButton: true,
+            reverseButtons: true
+            }).then((result) => {
+               if (result.dismiss === swal.DismissReason.cancel) allowUpload = false;
+            })
+        }
+        if (!allowUpload)  return;
+        
+        this.files.splice( this.files.indexOf(findElement,0),1 );
+        
+      
+      }
+
       else{
         
         let _factoryFile = new FactoryFile();
@@ -229,7 +264,12 @@ export class FactoryComponent implements OnInit {
   }
   onSwitchStatus (){ //modal switch on change
     this.entity.Status = this.entity.Status==0? 1: 0;
-    if (this.entity.Status==1) this.entity.FactoryEndDate = null;
+    if (this.entity.Status==1) {
+      this.entity.FactoryEndDate = null;
+      this.FactoryEndDate = null;
+    
+    }
+
   }
   /** PRIVATES FUNCTIONS */
  
