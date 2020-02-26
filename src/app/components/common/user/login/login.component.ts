@@ -7,6 +7,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { User, Login } from 'src/app/models/user';
 import { EngineService } from 'src/app/services/engine.service';
 import { LanguageService } from 'src/app/services/language.services';
+declare let $: any;
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -29,6 +30,7 @@ export class LoginComponent implements OnInit {
   resetForm(form?: NgForm) {
     if (form != null)
       form.resetForm();
+    $('.modal').modal('hide');
   }
   loginUser() {
     this.laddaSubmitLoading = true;
@@ -55,4 +57,6 @@ export class LoginComponent implements OnInit {
     });
     ;
   }
+
+
 }
