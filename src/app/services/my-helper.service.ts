@@ -88,6 +88,7 @@ export class MyHelperService {
     var MM = today.getMinutes();
     var ss = today.getSeconds();
     var iii = today.getMilliseconds();
+    return yyyy + mm + dd + HH + MM + ss + iii;
     
   }
 
