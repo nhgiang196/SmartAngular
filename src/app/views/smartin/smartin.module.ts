@@ -29,6 +29,6 @@ const COMPONENTS = [
     SharedModule,
     RouterModule
   ],
-  exports:[FactoryComponent]
+  exports:[COMPONENTS]
 })
 export class SmartinModule { }

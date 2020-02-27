@@ -36,7 +36,8 @@ export class ItemListComponent implements OnInit {
   ItemProperty: ItemProperty;
   dtOptions: DataTables.Settings = {};
   dtTrigger: Subject<any> = new Subject();
-  private ACTION_STATUS: string;
+  public ACTION_STATUS: string;
+  iboxloading = false;
   laddaSubmitLoading = false;
   files: File[] = [];
   private pathFile = "uploadFilesItem";

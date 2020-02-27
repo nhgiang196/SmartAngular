@@ -85,7 +85,7 @@ export const ROUTES: Routes = [
 
 
       {
-        path: 'admin', canActivate: [AuthGuard], children: [
+        path: 'admin', children: [
           { path: 'usersManagment', component: UserMangamentComponent },
           { path: 'role', component: RolesComponent },
           { path: 'resetPass', component: ResetpasswordComponent},
@@ -95,7 +95,7 @@ export const ROUTES: Routes = [
       },
       //user config
       {
-        path: 'user', canActivate: [AuthGuard], children: [
+        path: 'user', children: [
           { path: 'profile', component: ProfileComponent },
           { path: 'changePass', component: ChangePasswordComponent },
           { path: '', component: AdminNavigationComponent, outlet: 'sidemenu' },

@@ -41,7 +41,8 @@ export class FactoryFile {
 export class Files {
   FileId: number = 0
   FileOriginalName: string
-  FileName: string
+  FileLocalName: string
+  FileType: string
   Path: string
   CreateBy: string = ''
   CreateDate: Date = new Date()
