@@ -20,6 +20,7 @@ import { AdminModule } from './components/common/admin/admin.module';
 import { UserModule } from './components/common/user/user.module';
 import { AuthInterceptor } from './helpers/AuthInterceptor';
 import { SmartinModule } from './views/smartin/smartin.module';
+import { ItemResolver } from './resolvers/item.resolver';
 
 @NgModule({
   declarations: [
@@ -53,7 +54,8 @@ import { SmartinModule } from './views/smartin/smartin.module';
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
       multi: true,
-    }
+    },
+    ItemResolver
   ],
   bootstrap: [AppComponent]
 })
