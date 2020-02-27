@@ -8,6 +8,7 @@ import { UnitMeasurementComponent } from './unit-measurement/unit-measurement.co
 import { WarehouseComponent } from './warehouse/warehouse.component';
 import { ChemicalListComponent } from './chemical/chemical-list/chemical-list.component';
 import { ChemicalActionComponent } from './chemical/chemical-action/chemical-action.component';
+import { ItemGridComponent } from './item/item-grid/item-grid.component';
 
 
 const COMPONENTS = [
@@ -16,7 +17,8 @@ const COMPONENTS = [
   UnitMeasurementComponent,
   ChemicalListComponent,
   WarehouseComponent,
-  ChemicalActionComponent
+  ChemicalActionComponent,
+  ItemGridComponent
 ];
 
 
@@ -27,6 +29,6 @@ const COMPONENTS = [
     SharedModule,
     RouterModule
   ],
-  exports:[FactoryComponent]
+  exports:[COMPONENTS]
 })
 export class SmartinModule { }
