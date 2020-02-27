@@ -44,6 +44,7 @@ import { CategoryNavigationComponent } from './components/common/navigation/cate
 import { UnitMeasurementComponent } from './views/smartin/unit-measurement/unit-measurement.component';
 import { WarehouseComponent } from './views/smartin/warehouse/warehouse.component';
 import { ChemicalListComponent } from './views/smartin/chemical/chemical-list/chemical-list.component';
+import { ChemicalActionComponent } from './views/smartin/chemical/chemical-action/chemical-action.component';
 
 
 /**XLNT */
@@ -103,7 +104,13 @@ export const ROUTES: Routes = [
         path: 'category', canActivate: [AuthGuard], children: [
           { path: 'itemType', component: ItemTypeComponent },
           { path: 'unit', component: UnitMeasurementComponent },
-          { path: 'chemical', component: ChemicalListComponent },
+          { path: 'chemical',
+            children:[
+              {path:'', component: ChemicalListComponent},
+              {path:'list', component: ChemicalListComponent},
+              {path:'action',component: ChemicalActionComponent}
+            ]
+           },
           { path: 'warehouse', component: WarehouseComponent },
           { path: '', component: CategoryNavigationComponent, outlet: 'sidemenu' },
         ]
