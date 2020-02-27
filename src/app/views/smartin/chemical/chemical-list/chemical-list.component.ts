@@ -16,14 +16,14 @@ import { ToastrService } from "ngx-toastr";
 import { TranslateService } from "@ngx-translate/core";
 import { AuthService } from "src/app/services/auth.service";
 import swal from "sweetalert2";
-import { MyHelperService } from 'src/app/services/my-helper.service';
+import { MyHelperService } from "src/app/services/my-helper.service";
 declare let $: any;
 @Component({
-  selector: "app-chemical",
-  templateUrl: "./chemical.component.html",
-  styleUrls: ["./chemical.component.css"]
+  selector: "app-chemical-list",
+  templateUrl: "./chemical-list.component.html",
+  styleUrls: ["./chemical-list.component.css"]
 })
-export class ChemicalComponent implements OnInit {
+export class ChemicalListComponent implements OnInit {
   code: string = "HC";
   Items: Item[];
   entity: Item;
@@ -38,7 +38,54 @@ export class ChemicalComponent implements OnInit {
   private ACTION_STATUS: string;
   laddaSubmitLoading = false;
   files: File[] = [];
-  private pathFile = "uploadFilesItem"
+  private pathFile = "uploadFilesItem";
+
+  //get token use select 2
+
+  // option: Select2Options = {
+  //   ajax: {
+  //     url: "/api/v1/Unit/GetUnitPagination",
+  //     headers: {
+  //       Accept: "application/json",
+  //       "Content-Type": "application/json"
+  //       // "Authorization": `Bearer ${localStorage.getItem("userToken")}`
+  //     },
+  //     beforeSend: function(xhr) {
+  //       debugger;
+  //       xhr.setRequestHeader(
+  //         "Authorization",
+  //         "Bearer " + localStorage.getItem("userToken")
+  //       );
+  //     },
+  //     type: "POST",
+  //     dataType: "json",
+  //     data: function(params) {
+  //       const model = new DataTablePaginationParram();
+  //       model.key = "";
+  //       model.entity = "Unit";
+  //       model.keyFields = "";
+  //       model.selectFields = "UnitID,UnitName";
+  //       model.page = 1;
+  //       model.pageSize = 9999;
+  //       model.orderDir = "Asc";
+  //       model.orderBy = "UnitName";
+
+  //       return model;
+  //     },
+  //     processResults: function(data, params) {
+  //       return {
+  //         results: $.map(data, function(item) {
+  //           return {
+  //             text: item.content,
+  //             id: item.id,
+  //             data: item
+  //           };
+  //         })
+  //       };
+  //     }
+  //   }
+    
+  // };
 
   listFactory: any = [];
   listProperty: any = [];
@@ -49,7 +96,7 @@ export class ChemicalComponent implements OnInit {
     private toastr: ToastrService,
     private trans: TranslateService,
     private auth: AuthService,
-    public helper: MyHelperService,
+    public helper: MyHelperService
   ) {}
 
   ngOnInit(): void {
@@ -60,6 +107,7 @@ export class ChemicalComponent implements OnInit {
     this.loadProperty();
     this.loadUnit();
   }
+
   private resetEntity() {
     this.entity = new Item();
     this.ItemProperty = new ItemProperty();
@@ -119,7 +167,7 @@ export class ChemicalComponent implements OnInit {
     this.ACTION_STATUS = "update";
     this.files = [];
     this.api.findItemById(itemId).subscribe(res => {
-      this.entity = res[0];
+      this.entity = res;
 
       //Custom factory
       this.entity.ItemFactory.map(itemFactory => {
@@ -127,7 +175,7 @@ export class ChemicalComponent implements OnInit {
           item => item.id == itemFactory.FactoryId
         );
         if (findNameFactory != null) {
-          itemFactory.FactoryName =findNameFactory.text;
+          itemFactory.FactoryName = findNameFactory.text;
           return itemFactory;
         }
       });
@@ -137,35 +185,34 @@ export class ChemicalComponent implements OnInit {
           item => item.id == itemProperty.ItemTypePropertyId
         );
         if (findNameProperty != null) {
-          itemProperty.ItemPropertyName =findNameProperty.text;
+          itemProperty.ItemPropertyName = findNameProperty.text;
           return itemProperty;
         }
       });
 
-       //Custom Package
+      //Custom Package
       this.entity.ItemPackage.map(itemPackage => {
         let findNamePackage = this.listUnit.find(
           item => item.id == itemPackage.ItemPackageUnitId
         );
         if (findNamePackage != null) {
-          itemPackage.ItemPackageUnitName =findNamePackage.text;
+          itemPackage.ItemPackageUnitName = findNamePackage.text;
           return itemPackage;
         }
       });
-
 
       this.itemProperty = new ItemProperty();
       this.itemFactory = new ItemFactory();
       this.itemPackage = new ItemPackage();
 
-      //Xu ly file 
-      this.entity.ItemFile.forEach(res=>{
+      //Xu ly file
+      this.entity.ItemFile.forEach(res => {
         let data = new Blob();
         let arrayOfBlob = new Array<Blob>();
         arrayOfBlob.push(data);
         var cstFile = new File(arrayOfBlob, res.File.FileOriginalName);
         this.files.push(cstFile);
-      })
+      });
     });
   }
   fnDelete(id) {
@@ -241,8 +288,7 @@ export class ChemicalComponent implements OnInit {
   }
 
   factoryChange(item) {
-    if(item!=null)
-    this.itemFactory.FactoryName = item.text;
+    if (item != null) this.itemFactory.FactoryName = item.text;
   }
 
   fnAddFactory() {
@@ -308,8 +354,7 @@ export class ChemicalComponent implements OnInit {
   }
 
   itemPropertyChange(item) {
-    if(item!=null)
-    this.itemProperty.ItemPropertyName = item.text;
+    if (item != null) this.itemProperty.ItemPropertyName = item.text;
   }
 
   fnAddProperty() {
@@ -366,6 +411,7 @@ export class ChemicalComponent implements OnInit {
     model.orderBy = "UnitName";
 
     this.api.getUnitPagination(model).subscribe(res => {
+      debugger
       const result = res as any;
       this.listUnit = result.result.map(item => {
         return { id: item.UnitID, text: item.UnitName };
@@ -374,8 +420,7 @@ export class ChemicalComponent implements OnInit {
   }
 
   itemUnitChange(item) {
-    if(item!=null)
-      this.itemPackage.ItemPackageUnitName = item.text;
+    if (item != null) this.itemPackage.ItemPackageUnitName = item.text;
   }
 
   fnAddPackage() {
@@ -445,10 +490,9 @@ export class ChemicalComponent implements OnInit {
       e.ModifyBy = this.auth.currentUser.Username;
     }
 
-   
-      console.log("send entity: ", e);
+    console.log("send entity: ", e);
     if (this.ACTION_STATUS == "add") {
-        if (await this.fnValidate(e)) {
+      if (await this.fnValidate(e)) {
         this.api.addItem(e).subscribe(
           res => {
             let operationResult: any = res;
@@ -471,28 +515,27 @@ export class ChemicalComponent implements OnInit {
       } else {
         this.toastr.warning("Validate", "Tên hóa chất đã tồn tại");
       }
-      }
-      if (this.ACTION_STATUS == "update") {
-        this.api.updateItem(e).subscribe(
-          res => {
-            let operationResult: any = res;
-            if (operationResult.Success) {
-              this.toastr.success(this.trans.instant("messg.update.success"));
-            } else {
-              this.toastr.warning(operationResult.Message);
-            }
-            this.laddaSubmitLoading = false;
-            this.loadInit();
-            this.resetEntity();
-            $("#myModal4").modal("hide");
-          },
-          err => {
-            this.toastr.error(err.statusText);
-            this.laddaSubmitLoading = false;
+    }
+    if (this.ACTION_STATUS == "update") {
+      this.api.updateItem(e).subscribe(
+        res => {
+          let operationResult: any = res;
+          if (operationResult.Success) {
+            this.toastr.success(this.trans.instant("messg.update.success"));
+          } else {
+            this.toastr.warning(operationResult.Message);
           }
-        );
-      }
-    
+          this.laddaSubmitLoading = false;
+          this.loadInit();
+          this.resetEntity();
+          $("#myModal4").modal("hide");
+        },
+        err => {
+          this.toastr.error(err.statusText);
+          this.laddaSubmitLoading = false;
+        }
+      );
+    }
   }
   private async fnValidate(e) {
     let result = !(await this.api
@@ -507,46 +550,52 @@ export class ChemicalComponent implements OnInit {
 
   //=============>Area File<===========
   /** EVENT TRIGGERS */
-  onSelect(event) { //drag file(s) or choose file(s) in ngFileZone
+  onSelect(event) {
+    //drag file(s) or choose file(s) in ngFileZone
     console.log(event);
     // this.files.push(...event.addedFiles); //refresh showing in Directive
-    if (event.rejectedFiles.length>0) { this.toastr.warning(this.trans.instant('messg.maximumFileSize5000')); }
+    if (event.rejectedFiles.length > 0) {
+      this.toastr.warning(this.trans.instant("messg.maximumFileSize5000"));
+    }
     for (var index in event.addedFiles) {
       let item = event.addedFiles[index];
       let currentFile = this.files;
-      var _existIndex = currentFile.filter(x=>x.name == item.name).length;
-      if (_existIndex>0) this.files.splice(_existIndex-1,1);
-      else{
-        
+      var _existIndex = currentFile.filter(x => x.name == item.name).length;
+      if (_existIndex > 0) this.files.splice(_existIndex - 1, 1);
+      else {
         let _itemFile = new ItemFile();
-        _itemFile.File.FileOriginalName= item.name;
+        _itemFile.File.FileOriginalName = item.name;
         _itemFile.File.FileName = this.helper.getFileNameWithExtension(item);
-        _itemFile.File.Path = this.pathFile + '/' + item.name;
+        _itemFile.File.Path = this.pathFile + "/" + item.name;
         this.entity.ItemFile.push(_itemFile);
       }
     }
     this.files.push(...event.addedFiles); //refresh showing in Directive
     this.uploadFile(event.addedFiles);
-    
-  } 
+  }
 
-  onRemove(event) { //press x to delte file (in modal)
+  onRemove(event) {
+    //press x to delte file (in modal)
     console.log(event);
     let index = this.files.indexOf(event);
     this.files.splice(index, 1); //UI del
-    this.entity.ItemFile.splice(index,1);
+    this.entity.ItemFile.splice(index, 1);
     // this.removeFile(event);
   }
 
-  private uploadFile(files: File[]){ //upload file to server
+  private uploadFile(files: File[]) {
+    //upload file to server
     let formData = new FormData();
     files.forEach(file => {
-        formData.append("files",file);
+      formData.append("files", file);
     });
-    this.api.uploadFile(formData, this.pathFile).subscribe(res=> console.log(res));
+    this.api
+      .uploadFile(formData, this.pathFile)
+      .subscribe(res => console.log(res));
   }
 
-  downloadFile(filename){ //press File to download (in modal)
-    this.api.downloadFile(this.pathFile+'/'+filename);
+  downloadFile(filename) {
+    //press File to download (in modal)
+    this.api.downloadFile(this.pathFile + "/" + filename);
   }
 }
