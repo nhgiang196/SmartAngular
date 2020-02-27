@@ -411,9 +411,9 @@ export class ChemicalListComponent implements OnInit {
     model.orderBy = "UnitName";
 
     this.api.getUnitPagination(model).subscribe(res => {
-      debugger
+      debugger;
       const result = res as any;
-      this.listUnit = result.result.map(item => {
+      this.listUnit = result.data.map(item => {
         return { id: item.UnitID, text: item.UnitName };
       });
     });

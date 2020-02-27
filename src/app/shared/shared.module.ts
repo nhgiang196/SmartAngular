@@ -18,6 +18,8 @@ import { NgwWowModule } from 'ngx-wow';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MomentModule } from 'ngx-moment';
 import { NgxDropzoneModule } from 'ngx-dropzone';
+import {AutocompleteLibModule} from 'angular-ng-autocomplete';
+import { Select2Module } from 'ng2-select2';
 
 
 // AoT requires an exported function for factories
@@ -88,7 +90,9 @@ export function HttpLoaderFactory(http: HttpClient) {
     ToastrModule,
     LaddaModule,
     MomentModule,
-    NgxDropzoneModule
+    NgxDropzoneModule,
+    AutocompleteLibModule,
+    Select2Module
   ]
 
 })
