@@ -253,7 +253,7 @@ export class ItemListComponent implements OnInit {
   fnAdd() {
     // this.ACTION_STATUS = "add";
     // this.resetEntity();
-    this.router.navigate(['category/chemical/action']);
+    this.router.navigate(['category/item/action']);
 
   }
   // fnAddItem() {

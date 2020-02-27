@@ -104,7 +104,7 @@ export const ROUTES: Routes = [
         path: 'category', canActivate: [AuthGuard], children: [
           { path: 'itemType', component: ItemTypeComponent },
           { path: 'unit', component: UnitMeasurementComponent },
-          { path: 'chemical',
+          { path: 'item',
             children:[
               {path:'', component: ItemListComponent},
               {path:'list', component: ItemListComponent},

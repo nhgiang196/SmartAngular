@@ -6,17 +6,17 @@ import { RouterModule } from '@angular/router';
 import { ItemTypeComponent } from './item-type/item-type.component';
 import { UnitMeasurementComponent } from './unit-measurement/unit-measurement.component';
 import { WarehouseComponent } from './warehouse/warehouse.component';
-import { ChemicalListComponent } from './chemical/chemical-list/chemical-list.component';
-import { ChemicalActionComponent } from './chemical/chemical-action/chemical-action.component';
+import { ItemListComponent } from './item/item-list/item-list.component';
+import { ItemActionComponent } from './item/item-action/item-action.component';
 
 
 const COMPONENTS = [
   FactoryComponent,
   ItemTypeComponent,
   UnitMeasurementComponent,
-  ChemicalListComponent,
   WarehouseComponent,
-  ChemicalActionComponent
+  ItemListComponent,
+  ItemActionComponent
 ];
 
 
