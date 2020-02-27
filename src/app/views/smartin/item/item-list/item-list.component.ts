@@ -569,7 +569,7 @@ export class ItemListComponent implements OnInit {
       else {
         let _itemFile = new ItemFile();
         _itemFile.File.FileOriginalName = item.name;
-        _itemFile.File.FileName = this.helper.getFileNameWithExtension(item);
+        _itemFile.File.FileLocalName = this.helper.getFileNameWithExtension(item);
         _itemFile.File.Path = this.pathFile + "/" + item.name;
         this.entity.ItemFile.push(_itemFile);
       }
