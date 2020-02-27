@@ -31,6 +31,7 @@ export class ItemTypeComponent implements OnDestroy, OnInit {
   ACTION_STATUS: string;
   laddaSubmitLoading = false;
   iboxloading = false;
+  existName = false;
   constructor(
     private api: WaterTreatmentService,
     private toastr: ToastrService,
@@ -96,7 +97,7 @@ export class ItemTypeComponent implements OnDestroy, OnInit {
   {
     this.ACTION_STATUS = 'update'
     this.entity = current;
-    //this.api.findItemTypePropertyById(this.entity.ItemTypeId).subscribe(res=> this.entity = current);
+    this.existName = false;
   }
   fnDelete(id) {
     swal.fire({
@@ -123,6 +124,7 @@ export class ItemTypeComponent implements OnDestroy, OnInit {
   }
   fnAdd() {
     this.ACTION_STATUS = 'add';
+    this.existName = false;
     this.resetEntity();
   }
   fnAddItem() {
@@ -139,7 +141,7 @@ export class ItemTypeComponent implements OnDestroy, OnInit {
 
 
 
-  fnSave() {
+ async fnSave() {
     this.laddaSubmitLoading = true;
     var e = this.entity;
     if (this.ACTION_STATUS == 'add') {
@@ -151,7 +153,7 @@ export class ItemTypeComponent implements OnDestroy, OnInit {
       e.ModifyBy = this.auth.currentUser.Username
     }
 
-    if (this.fnValidate(e)) {
+    if ( await this.fnValidate(e)) {
       console.log('send entity: ', e);
       if (this.ACTION_STATUS == 'add') {
         this.api.addItemType(e).subscribe(res => {
@@ -176,9 +178,15 @@ export class ItemTypeComponent implements OnDestroy, OnInit {
       this.loadInit();
     }
   }
-  private fnValidate(e) {
-    return true;
-  }
+  private async fnValidate(e) {
+    let result =  await this.api.validateItemType(this.entity).toPromise().then() as any;
+    if (result.Success) return true;
+    else {
+      this.laddaSubmitLoading = false;
+      this.existName = true;
+      return false;
+    }
+}
 
 }
 
