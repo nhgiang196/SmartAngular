@@ -187,9 +187,11 @@
                 <label>{{ 'Factory.label.UploadFile' | translate }} </label>             
                 <ngx-dropzone (change)="onSelect($event)" [expandable]="true" [maxFileSize]="5000*1024">
                   <ngx-dropzone-label>Kéo thả file ở đây!</ngx-dropzone-label>
-                  <ngx-dropzone-preview class="animated fadeInUp"  ngProjectAs="ngx-dropzone-preview" *ngFor="let f of files" [file]="f"   [removable]="true" (removed)="onRemove(f)" (click)=downloadFile(f.name) >
-                    <ngx-dropzone-label style="font-size:11px;" >{{f.name.substring(0,30)}} {{ f.name.length>=30? '...' : '' }}
+                  <ngx-dropzone-preview class="animated fadeInUp"  ngProjectAs="ngx-dropzone-preview" *ngFor="let f of files ;let i = index" [file]="f"   [removable]="true" (removed)="onRemove(f)" (click)=downloadFile(f.name) >
+                    <ngx-dropzone-label style="font-size:11px;" > {{entity.FactoryFile[i].File.FileOriginalName}}
                     </ngx-dropzone-label>
+                    
+
                   </ngx-dropzone-preview>
                 </ngx-dropzone>
 
