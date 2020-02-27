@@ -8,6 +8,7 @@ import { UnitMeasurementComponent } from './unit-measurement/unit-measurement.co
 import { WarehouseComponent } from './warehouse/warehouse.component';
 import { ItemListComponent } from './item/item-list/item-list.component';
 import { ItemActionComponent } from './item/item-action/item-action.component';
+import { ItemGridComponent } from './item/item-grid/item-grid.component';
 
 
 const COMPONENTS = [
@@ -16,6 +17,7 @@ const COMPONENTS = [
   UnitMeasurementComponent,
   WarehouseComponent,
   ItemListComponent,
+  ItemGridComponent,
   ItemActionComponent
 ];
 
