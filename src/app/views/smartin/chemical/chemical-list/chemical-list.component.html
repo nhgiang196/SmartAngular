@@ -25,6 +25,7 @@
           </div>
           <div class="row">
             <div class="col-sm-4">
+              
               <!-- hidden this button -->
               <button (click)="fnAdd()" type="button" class="btn btn-primary dim" data-toggle="modal"
                 data-target="#myModal4">
@@ -141,6 +142,7 @@
             <div class="col-lg-6">
               <div class="form-group">
                 <label> {{ 'Item.ItemUnitId' | translate }} : </label>
+                <!-- <select2  [options]="option"></select2> -->
                   <ng-select class="custom" [items]="listUnit" bindLabel="text" bindValue="id" placeholder="Please select unit"
                            [(ngModel)]="entity.ItemUnitId" name="text" >
                   </ng-select>

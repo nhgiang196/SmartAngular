@@ -5,17 +5,19 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { RouterModule } from '@angular/router';
 import { ItemTypeComponent } from './item-type/item-type.component';
 import { UnitMeasurementComponent } from './unit-measurement/unit-measurement.component';
-import { ChemicalComponent } from './chemical/chemical.component';
-import { AutocompleteModule } from 'ng2-input-autocomplete';
 import { WarehouseComponent } from './warehouse/warehouse.component';
+import {AutocompleteLibModule} from 'angular-ng-autocomplete';
+import { Select2Module } from 'ng2-select2';
+import { ChemicalListComponent } from './chemical/chemical-list/chemical-list.component';
 
 @NgModule({
-  declarations: [FactoryComponent, ItemTypeComponent, UnitMeasurementComponent, ChemicalComponent, WarehouseComponent],
+  declarations: [FactoryComponent, ItemTypeComponent, UnitMeasurementComponent, ChemicalListComponent, WarehouseComponent],
   imports: [
     CommonModule,
     SharedModule,
     RouterModule,
-    AutocompleteModule.forRoot()
+    AutocompleteLibModule,
+    Select2Module
   ],
   exports:[FactoryComponent]
 })
