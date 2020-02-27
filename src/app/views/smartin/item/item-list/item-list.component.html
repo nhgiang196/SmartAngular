@@ -376,7 +376,7 @@
                     <div class="row">
                       <button type="button" class="btn btn-success pull-right" (click)="fnAddPackage()">Add</button>
                       <div class="clearfix"></div>
-                      <table class="table table-bordered mt-2">
+                      <table class="table table-bordered mt-2 ">
                         <thead>
                           <tr>
                             <th>#</th>
@@ -400,8 +400,11 @@
                             <td>{{item.ItemPackageHeight}} </td>
                             <td>{{item.ItemPackageWeight}} </td>
                            
-                            <td><button class="btn btn-danger" (click)="fnDeleteItemPackage(i)"><i
-                                  class="fa fa-trash"></i></button></td>
+                            <td>
+                              <button class="btn btn-danger" (click)="fnDeleteItemPackage(i)">
+                                <i class="fa fa-trash"></i>
+                              </button>
+                            </td>
                           </tr>
 
                         </tbody>
