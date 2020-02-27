@@ -101,6 +101,7 @@ export class ItemFile{
   ItemFileId: number = 0
   ItemId: number = 0
   FileId: number = 0
+  IsImage: boolean = false
   File: Files = new Files()
 }
 

@@ -19,6 +19,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MomentModule } from 'ngx-moment';
 import { NgxDropzoneModule } from 'ngx-dropzone';
 import {AutocompleteLibModule} from 'angular-ng-autocomplete';
+import { SlickCarouselModule } from 'ngx-slick-carousel';
 import { Select2Module } from 'ng2-select2';
 
 
@@ -56,6 +57,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     NgxDropzoneModule,
     DataTablesModule,
     NgSelectModule,
+    SlickCarouselModule,
     LaddaModule.forRoot({
     }),
     SweetAlert2Module.forRoot(

@@ -9,6 +9,7 @@ import { WarehouseComponent } from './warehouse/warehouse.component';
 import { ItemListComponent } from './item/item-list/item-list.component';
 import { ItemActionComponent } from './item/item-action/item-action.component';
 import { ItemGridComponent } from './item/item-grid/item-grid.component';
+import { ItemDetailComponent } from './item/item-detail/item-detail.component';
 
 
 const COMPONENTS = [
@@ -23,7 +24,7 @@ const COMPONENTS = [
 
 
 @NgModule({
-  declarations: [...COMPONENTS],
+  declarations: [...COMPONENTS, ItemDetailComponent],
   imports: [
     CommonModule,
     SharedModule,
