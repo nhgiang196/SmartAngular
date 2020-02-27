@@ -34,12 +34,13 @@ export class FactoryComponent implements OnInit {
     private auth: AuthService
   ) { }
   /** DECLARATION */
-  factory: Factory[]; //init data
+  factory: Factory[]= []; //init data
   entity: Factory;
   tech_entity: FactoryTechnology;
   laddaSubmitLoading = false;
   iboxloading = false;
   files: File[] = [];
+  addFiles : {FileList : File[], FileLocalNameList: string[]};
   keyword : string = '';
   private pathFile = "uploadFilesFactory"
   ACTION_STATUS: string;
@@ -57,7 +58,7 @@ export class FactoryComponent implements OnInit {
   /**INIT FUNCTIONS */
   loadInit() {
     this.iboxloading = true;
-    this.factory = [];
+    
     this.api.getFactoryPagination(this.keyword).subscribe(res => {
       
       var data = res as any;
@@ -74,6 +75,7 @@ export class FactoryComponent implements OnInit {
     this.entity = new Factory();
     this.tech_entity = new FactoryTechnology();
     this.files = [];
+    this.addFiles = { FileList: [], FileLocalNameList : []}
     this.invalid = {};
   }
 
@@ -95,18 +97,15 @@ export class FactoryComponent implements OnInit {
       this.iboxloading = false;
       /**CONTROL FILES */
       this.entity.FactoryFile.forEach(item =>{
-        let _tempFile = new File([],item.File.FileOriginalName);
+        let _tempFile = new File([],item.File.FileLocalName);
         this.files.push(_tempFile);
       })
       this.entity.ModifyBy = this.auth.currentUser.Username;
       this.files.push();
-
-      
       /** ALL DATE */
       this.FactoryBuiltDate = this.entity.FactoryBuiltDate? new Date(this.entity.FactoryBuiltDate): null;
       this.FactoryStartDate = this.entity.FactoryStartDate? new Date(this.entity.FactoryStartDate): null;
       this.FactoryEndDate= this.entity.FactoryEndDate? new Date(this.entity.FactoryEndDate): null;
-      
     }, error => {
       this.iboxloading = false;
       this.toastr.error(error.statusText, "Load factory information error");
@@ -182,6 +181,7 @@ export class FactoryComponent implements OnInit {
           if (operationResult.Success){
             this.toastr.success(this.trans.instant("messg.add.success"));
             $("#myModal4").modal('hide');
+            this.uploadFile(this.addFiles.FileList);
             this.loadInit();
             this.fnEditSignal(operationResult.Data);
           }
@@ -195,14 +195,17 @@ export class FactoryComponent implements OnInit {
         this.api.updateFactory(e).subscribe(res => {
           var operationResult: any = res
           if (operationResult.Success){
+            this.uploadFile(this.addFiles.FileList);
             this.loadInit();
+            this.fnEditSignal(this.entity.FactoryId);
             this.toastr.success(this.trans.instant("messg.update.success"));
+            
           }
           else this.toastr.warning(operationResult.Message);
           this.laddaSubmitLoading = false;
         }, err => { this.toastr.error(err.statusText); this.laddaSubmitLoading = false; })
       }
-
+      
     }
 
   }
@@ -223,8 +226,10 @@ export class FactoryComponent implements OnInit {
   async onSelect(event) { //drag file(s) or choose file(s) in ngFileZone
     var askBeforeUpload = false;
     if (event.rejectedFiles.length>0) this.toastr.warning(this.trans.instant('messg.maximumFileSize5000'));
-    for (var index in event.addedFiles) {
+    var _addFiles = event.addedFiles;
+    for (var index in _addFiles) {
       let item = event.addedFiles[index];
+      let convertName = this.helper.getFileNameWithExtension(item);
       let currentFile = this.files;
       let  findElement =  currentFile.filter(x=>x.name == item.name)[0];
       //ASK THEN GET RESULT
@@ -243,23 +248,24 @@ export class FactoryComponent implements OnInit {
             })
         }
         if (!allowUpload)  return;
-        
         this.files.splice( this.files.indexOf(findElement,0),1 );
+        this.addFiles.FileList.splice(this.addFiles.FileList.indexOf(findElement,0),1 );
         
-      
       }
-
       else{
-        
         let _factoryFile = new FactoryFile();
         _factoryFile.File.FileOriginalName= item.name;
-        _factoryFile.File.FileName = this.helper.getFileNameWithExtension(item);
-        _factoryFile.File.Path = this.pathFile + '/' + item.name;
+        _factoryFile.File.FileLocalName = convertName;  
+        _factoryFile.File.Path = this.pathFile + '/' + convertName;
+        _factoryFile.File.FileType = item.type;
         this.entity.FactoryFile.push(_factoryFile);
+        this.addFiles.FileLocalNameList.push(convertName);
       }
+      
     }
     this.files.push(...event.addedFiles); //refresh showing in Directive
-    this.uploadFile(event.addedFiles);
+    this.addFiles.FileList.push(...event.addedFiles);
+    // this.uploadFile(event.addedFiles);
     
   }
   onSwitchStatus (){ //modal switch on change
@@ -286,19 +292,18 @@ export class FactoryComponent implements OnInit {
     }
     return true;
   }
-
   private uploadFile(files: File[]){ //upload file to server
     let formData = new FormData();
-    files.forEach(file => {
-        formData.append("files",file);
-    });
-    this.api.uploadFile(formData, this.pathFile).subscribe(res=> console.log(res));
+    for (let index = 0; index < files.length; index++) {
+      let _file = files[index];
+      formData.append("files", _file, this.addFiles.FileLocalNameList[index]);
+    }
+    this.api.uploadFile(formData, this.pathFile).subscribe(res=> console.log(res),err=>this.toastr.warning(err.statusText,'Upload file bị lỗi'));
   }
 
   private fnCheckBeforeEdit(id) { //un done
     this.toastr.warning("User not dont have permission");
   }
-  // private removeFile = (file) => this.api.deleteFile(`${this.pathFile}\\${file.name}`).subscribe(res=>console.log(res));
   ngAfterViewInit() { //CSS
   }
 }

@@ -47,6 +47,7 @@ import { ItemListComponent } from './views/smartin/item/item-list/item-list.comp
 import { ItemActionComponent } from './views/smartin/item/item-action/item-action.component';
 import { ItemGridComponent } from './views/smartin/item/item-grid/item-grid.component';
 import { ItemDetailComponent } from './views/smartin/item/item-detail/item-detail.component';
+import { ItemResolver } from './resolvers/item.resolver';
 
 
 /**XLNT */
@@ -85,7 +86,7 @@ export const ROUTES: Routes = [
 
 
       {
-        path: 'admin', canActivate: [AuthGuard], children: [
+        path: 'admin', children: [
           { path: 'usersManagment', component: UserMangamentComponent },
           { path: 'role', component: RolesComponent },
           { path: 'resetPass', component: ResetpasswordComponent},
@@ -95,7 +96,7 @@ export const ROUTES: Routes = [
       },
       //user config
       {
-        path: 'user', canActivate: [AuthGuard], children: [
+        path: 'user', children: [
           { path: 'profile', component: ProfileComponent },
           { path: 'changePass', component: ChangePasswordComponent },
           { path: '', component: AdminNavigationComponent, outlet: 'sidemenu' },
@@ -103,7 +104,7 @@ export const ROUTES: Routes = [
       },
       //category
       {
-        path: 'category', canActivate: [AuthGuard], children: [
+        path: 'category', children: [
           { path: 'itemType', component: ItemTypeComponent },
           { path: 'unit', component: UnitMeasurementComponent },
           { path: 'item',
@@ -111,8 +112,13 @@ export const ROUTES: Routes = [
               {path:'', component: ItemListComponent},
               {path:'list', component: ItemListComponent},
               {path:'grid',component: ItemGridComponent},
-              {path:'detail/:itemId',component: ItemDetailComponent},
-              {path:'action/:itemId',component: ItemActionComponent}
+              {path:'detail/:id',component: ItemDetailComponent},
+              {path:'action',component: ItemActionComponent},
+              {path:'action/:id',component: ItemActionComponent,
+              resolve: {
+                item: ItemResolver
+              }
+            }
             ]
            },
           { path: 'warehouse', component: WarehouseComponent },

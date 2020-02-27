@@ -6,13 +6,10 @@
               <a href="index.html">Home</a>
           </li>
           <li>
-              <a>Category</a>
-          </li>
-          <li>
-              <a>Item</a>
+              <a  routerLink="/category/item">Items</a>
           </li>
           <li class="active">
-              <strong>Item edit</strong>
+              <strong>Item action</strong>
           </li>
       </ol>
   </div>
@@ -51,9 +48,9 @@
                                   </div>
                                   <label class="col-sm-2 control-label">Unit code:</label>
                                   <div class="col-sm-4">
-                                      <select class="form-control"  [(ngModel)]="entity.ItemUnitId">
-                                          <option>A</option>
-                                      </select>
+                                    <ng-select class="custom" [items]="listUnit" bindLabel="text" bindValue="id" placeholder="Please select unit"
+                                      [(ngModel)]="entity.ItemUnitId" name="text" >
+                                    </ng-select>
                                   </div>
                               </div>
 
@@ -102,7 +99,7 @@
                               <div class="form-group">
                                 <label class="col-sm-2 control-label">Description :</label>
                                 <div class="col-sm-4">
-                                    <input type="text" [(ngModel)]="entity.ItemDescription" class="form-control" placeholder="Quốc gia ">
+                                    <input type="text" [(ngModel)]="entity.ItemDescription" class="form-control" placeholder="Mô tả">
                                 </div>
                             </div>
                           </fieldset>
@@ -117,10 +114,9 @@
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">Factory name:</label>
                                         <div class="col-sm-9">
-                                            <select class="form-control"  [(ngModel)]="itemFactory.FactoryId" (change)="factoryChange($event)">
-                                                <option>option 1</option>
-                                                <option>option 2</option>
-                                            </select>
+                                          <ng-select class="custom" [items]="listFactory" bindLabel="text" bindValue="id" placeholder="Please select factory"
+                                            [(ngModel)]="itemFactory.FactoryId" name="text" (change)="factoryChange($event)" >
+                                          </ng-select>
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -188,10 +184,9 @@
                                       <div class="form-group">
                                           <label class="col-sm-3 control-label">Property:</label>
                                           <div class="col-sm-9">
-                                              <select class="form-control"  [(ngModel)]="itemProperty.ItemTypePropertyId"  (change)="itemPropertyChange($event)">
-                                                  <option>option 1</option>
-                                                  <option>option 2</option>
-                                              </select>
+                                            <ng-select class="custom" [items]="listProperty" bindLabel="text" bindValue="id" placeholder="Please select property"
+                                            [(ngModel)]="itemProperty.ItemTypePropertyId" name="text" (change)="itemPropertyChange($event)">
+                                            </ng-select>
                                           </div>
                                       </div>
                                       <div class="form-group">
@@ -255,10 +250,9 @@
                               <div class="form-group">
                                   <label class="col-sm-2 control-label">Unit code:</label>
                                   <div class="col-sm-4">
-                                      <select  [(ngModel)]="itemPackage.ItemPackageUnitId"  class="form-control">
-                                          <option>option 1</option>
-                                          <option>option 2</option>
-                                      </select>
+                                    <ng-select class="custom" [items]="listUnit" bindLabel="text" bindValue="id" placeholder="Please select unit"
+                                    [(ngModel)]="itemPackage.ItemPackageUnitId" name="text" (change)="itemUnitChange($event)" >
+                                   </ng-select>
                                   </div>
                                   <label class="col-sm-2 control-label">Package Coefficient:</label>
                                   <div class="col-sm-4">
@@ -355,104 +349,7 @@
                                       </tr>
                                   </thead>
                                   <tbody>
-                                      <tr>
-                                          <td>
-                                              <img src="img/gallery/2s.jpg">
-                                          </td>
-                                          <td>
-                                              <input type="text" class="form-control" disabled="" value="http://mydomain.com/images/image1.png">
-                                          </td>
-                                          <td>
-                                              <input type="text" class="form-control" value="1">
-                                          </td>
-                                          <td>
-                                              <button class="btn btn-white"><i class="fa fa-trash"></i> </button>
-                                          </td>
-                                      </tr>
-                                      <tr>
-                                          <td>
-                                              <img src="img/gallery/1s.jpg">
-                                          </td>
-                                          <td>
-                                              <input type="text" class="form-control" disabled="" value="http://mydomain.com/images/image2.png">
-                                          </td>
-                                          <td>
-                                              <input type="text" class="form-control" value="2">
-                                          </td>
-                                          <td>
-                                              <button class="btn btn-white"><i class="fa fa-trash"></i> </button>
-                                          </td>
-                                      </tr>
-                                      <tr>
-                                          <td>
-                                              <img src="img/gallery/3s.jpg">
-                                          </td>
-                                          <td>
-                                              <input type="text" class="form-control" disabled="" value="http://mydomain.com/images/image3.png">
-                                          </td>
-                                          <td>
-                                              <input type="text" class="form-control" value="3">
-                                          </td>
-                                          <td>
-                                              <button class="btn btn-white"><i class="fa fa-trash"></i> </button>
-                                          </td>
-                                      </tr>
-                                      <tr>
-                                          <td>
-                                              <img src="img/gallery/4s.jpg">
-                                          </td>
-                                          <td>
-                                              <input type="text" class="form-control" disabled="" value="http://mydomain.com/images/image4.png">
-                                          </td>
-                                          <td>
-                                              <input type="text" class="form-control" value="4">
-                                          </td>
-                                          <td>
-                                              <button class="btn btn-white"><i class="fa fa-trash"></i> </button>
-                                          </td>
-                                      </tr>
-                                      <tr>
-                                          <td>
-                                              <img src="img/gallery/5s.jpg">
-                                          </td>
-                                          <td>
-                                              <input type="text" class="form-control" disabled="" value="http://mydomain.com/images/image5.png">
-                                          </td>
-                                          <td>
-                                              <input type="text" class="form-control" value="5">
-                                          </td>
-                                          <td>
-                                              <button class="btn btn-white"><i class="fa fa-trash"></i> </button>
-                                          </td>
-                                      </tr>
-                                      <tr>
-                                          <td>
-                                              <img src="img/gallery/6s.jpg">
-                                          </td>
-                                          <td>
-                                              <input type="text" class="form-control" disabled="" value="http://mydomain.com/images/image6.png">
-                                          </td>
-                                          <td>
-                                              <input type="text" class="form-control" value="6">
-                                          </td>
-                                          <td>
-                                              <button class="btn btn-white"><i class="fa fa-trash"></i> </button>
-                                          </td>
-                                      </tr>
-                                      <tr>
-                                          <td>
-                                              <img src="img/gallery/7s.jpg">
-                                          </td>
-                                          <td>
-                                              <input type="text" class="form-control" disabled="" value="http://mydomain.com/images/image7.png">
-                                          </td>
-                                          <td>
-                                              <input type="text" class="form-control" value="7">
-                                          </td>
-                                          <td>
-                                              <button class="btn btn-white"><i class="fa fa-trash"></i> </button>
-                                          </td>
-                                      </tr>
+                                     
                                   </tbody>
                               </table>
                           </div>
@@ -466,9 +363,9 @@
         <div class="ibox-content m-b-sm border-bottom">
           <div class="row">
               <div class="col-sm-12">
-                <button class="btn btn-primary pull-right" (click)="fnAdd()">
+                <button class="btn btn-primary pull-right" (click)="fnSave()">
                   <i class="fa fa-plus"></i>
-                  Add Item
+                  Save Item
                 </button>
               </div>
               
