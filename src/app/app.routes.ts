@@ -43,8 +43,8 @@ import { ItemTypeComponent } from './views/smartin/item-type/item-type.component
 import { CategoryNavigationComponent } from './components/common/navigation/category-navigation/category-navigation.component';
 import { UnitMeasurementComponent } from './views/smartin/unit-measurement/unit-measurement.component';
 import { WarehouseComponent } from './views/smartin/warehouse/warehouse.component';
-import { ChemicalListComponent } from './views/smartin/chemical/chemical-list/chemical-list.component';
-import { ChemicalActionComponent } from './views/smartin/chemical/chemical-action/chemical-action.component';
+import { ItemListComponent } from './views/smartin/item/item-list/item-list.component';
+import { ItemActionComponent } from './views/smartin/item/item-action/item-action.component';
 
 
 /**XLNT */
@@ -104,11 +104,11 @@ export const ROUTES: Routes = [
         path: 'category', canActivate: [AuthGuard], children: [
           { path: 'itemType', component: ItemTypeComponent },
           { path: 'unit', component: UnitMeasurementComponent },
-          { path: 'chemical',
+          { path: 'item',
             children:[
-              {path:'', component: ChemicalListComponent},
-              {path:'list', component: ChemicalListComponent},
-              {path:'action',component: ChemicalActionComponent}
+              {path:'', component: ItemListComponent},
+              {path:'list', component: ItemListComponent},
+              {path:'action',component: ItemActionComponent}
             ]
            },
           { path: 'warehouse', component: WarehouseComponent },
