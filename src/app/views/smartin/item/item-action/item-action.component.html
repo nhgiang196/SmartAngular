@@ -25,8 +25,9 @@
               <ul class="nav nav-tabs">
                   <li class="active"><a data-toggle="tab" href="#tab-1"><i class="fa fa-info-circle"></i> Info</a></li>
                   <li class=""><a data-toggle="tab" href="#tab-2"><i class="fa fa-industry"></i> Factory</a></li>
-                  <li class=""><a data-toggle="tab" href="#tab-3"><i class="fa fa-cube"></i> Package</a></li>
-                  <li class=""><a data-toggle="tab" href="#tab-4"><i class="fa fa-file"></i> File</a></li>
+                  <li class=""><a data-toggle="tab" href="#tab-3"><i class="fa fa-list-ul"></i> Property</a></li>
+                  <li class=""><a data-toggle="tab" href="#tab-4"><i class="fa fa-cube"></i> Package</a></li>
+                  <li class=""><a data-toggle="tab" href="#tab-5"><i class="fa fa-file"></i> File</a></li>
               </ul>
               <div class="tab-content">
                   <div id="tab-1" class="tab-pane active">
@@ -35,96 +36,173 @@
                               <div class="form-group">
                                   <label class="col-sm-2 control-label">Chemical name:</label>
                                   <div class="col-sm-4">
-                                      <input type="text" class="form-control" placeholder="Tên hóa chất">
+                                      <input type="text" [(ngModel)]="entity.ItemName" class="form-control" placeholder="Tên hóa chất">
                                   </div>
                                   <label class="col-sm-2 control-label">Number code:</label>
                                   <div class="col-sm-4">
-                                      <input type="text" class="form-control" placeholder="Mã số">
+                                      <input type="text" [(ngModel)]="entity.ItemNo" class="form-control" placeholder="Mã số">
                                   </div>
                               </div>
                               <div class="form-group">
 
                                   <label class="col-sm-2 control-label">Print name:</label>
                                   <div class="col-sm-4">
-                                      <input type="text" class="form-control" placeholder="Tên In">
+                                      <input type="text"  [(ngModel)]="entity.ItemPrintName" class="form-control" placeholder="Tên In">
                                   </div>
                                   <label class="col-sm-2 control-label">Unit code:</label>
                                   <div class="col-sm-4">
-                                      <select class="form-control">
+                                      <select class="form-control"  [(ngModel)]="entity.ItemUnitId">
                                           <option>A</option>
                                       </select>
                                   </div>
                               </div>
 
                               <div class="form-group">
-
+                                <label class="col-sm-2 control-label">Model:</label>
+                                <div class="col-sm-4">
+                                    <input type="text" [(ngModel)]="entity.ItemModel" class="form-control" placeholder="Model">
+                                </div>
                                   <label class="col-sm-2 control-label">Serial number:</label>
                                   <div class="col-sm-4">
-                                      <input type="text" class="form-control" placeholder="Số serial">
+                                      <input type="text"  [(ngModel)]="entity.ItemSerial" class="form-control" placeholder="Số serial">
                                   </div>
-                                  <label class="col-sm-2 control-label">Length:</label>
-                                  <div class="col-sm-4">
-                                      <input type="text" class="form-control" placeholder="Length">
-                                  </div>
+                                 
                               </div>
 
                               <div class="form-group">
-                                  <label class="col-sm-2 control-label">Model:</label>
-                                  <div class="col-sm-4">
-                                      <input type="text" class="form-control" placeholder="Model">
-                                  </div>
+                                <label class="col-sm-2 control-label">Length:</label>
+                                <div class="col-sm-4">
+                                    <input type="number" [(ngModel)]="entity.ItemLength" class="form-control" placeholder="Length">
+                                </div>
                                   <label class="col-sm-2 control-label">Width:</label>
                                   <div class="col-sm-4">
-                                      <input type="text" class="form-control" placeholder="Width">
+                                      <input type="number" [(ngModel)]="entity.ItemWidth" class="form-control" placeholder="Width">
                                   </div>
                               </div>
                               <div class="form-group">
                                   <label class="col-sm-2 control-label">Height :</label>
                                   <div class="col-sm-4">
-                                      <input type="text" class="form-control" placeholder="Height ">
+                                      <input type="number" [(ngModel)]="entity.ItemHeight" class="form-control" placeholder="Height ">
                                   </div>
                                   <label class="col-sm-2 control-label">Weigth :</label>
                                   <div class="col-sm-4">
-                                      <input type="text" class="form-control" placeholder="Weigth ">
+                                      <input type="number" [(ngModel)]="entity.ItemWeight" class="form-control" placeholder="Weigth ">
                                   </div>
                               </div>
                               <div class="form-group">
                                   <label class="col-sm-2 control-label">Nation :</label>
                                   <div class="col-sm-4">
-                                      <input type="text" class="form-control" placeholder="Quốc gia ">
+                                      <input type="text" [(ngModel)]="entity.ItemManufactureCountry" class="form-control" placeholder="Quốc gia ">
                                   </div>
                                   <label class="col-sm-2 control-label">Year of :</label>
                                   <div class="col-sm-4">
-                                      <input type="text" class="form-control" placeholder="Năm sản xuất ">
+                                      <input type="text" [(ngModel)]="entity.ItemManufactureYear" class="form-control" placeholder="Năm sản xuất ">
                                   </div>
                               </div>
+                              <div class="form-group">
+                                <label class="col-sm-2 control-label">Description :</label>
+                                <div class="col-sm-4">
+                                    <input type="text" [(ngModel)]="entity.ItemDescription" class="form-control" placeholder="Quốc gia ">
+                                </div>
+                            </div>
                           </fieldset>
 
                       </div>
                   </div>
                   <div id="tab-2" class="tab-pane">
+                    <div class="panel-body">
+                        <fieldset class="form-horizontal">
+                            <div class="form-group">
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">Factory name:</label>
+                                        <div class="col-sm-9">
+                                            <select class="form-control"  [(ngModel)]="itemFactory.FactoryId" (change)="factoryChange($event)">
+                                                <option>option 1</option>
+                                                <option>option 2</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">Intergration Code:</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" [(ngModel)]="itemFactory.IntergrationCode" class="form-control" placeholder="Intergration Code">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-12">
+                                            <button class="btn btn-primary pull-right"  (click)="fnAddFactory()">
+                                                <i class="fa fa-plus"></i> Add
+                                            </button>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="col-sm-8">
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <div class="col-sm-12">
+                                             
+                                                    <table class="table table-stripped table-bordered">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>#</th>
+                                                                <th>Factory name</th>
+                                                                <th>Intergration code</th>
+                                                                <th>Action</th>
+
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr class="animated fadeInRight"  *ngFor="let item of entity.ItemFactory; let i = index">
+                                                                <td> {{i+1}}</td>
+                                                                <td> {{item.FactoryName}}</td>
+                                                                <td> {{item.IntergrationCode}} </td>
+                                                                <td>
+                                                                    <button class="btn btn-danger" (click)="fnDeleteFactory(i)">
+                                                                      <i class="fa fa-trash"></i>
+                                                                    </button>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+
+                                                    </table>
+                                               
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </fieldset>
+
+                    </div>
+                </div>
+                  <div id="tab-3" class="tab-pane">
                       <div class="panel-body">
                           <fieldset class="form-horizontal">
                               <div class="form-group">
                                   <div class="col-sm-4">
                                       <div class="form-group">
-                                          <label class="col-sm-2 control-label">Property:</label>
-                                          <div class="col-sm-10">
-                                              <select class="form-control">
+                                          <label class="col-sm-3 control-label">Property:</label>
+                                          <div class="col-sm-9">
+                                              <select class="form-control"  [(ngModel)]="itemProperty.ItemTypePropertyId"  (change)="itemPropertyChange($event)">
                                                   <option>option 1</option>
                                                   <option>option 2</option>
                                               </select>
                                           </div>
                                       </div>
                                       <div class="form-group">
-                                          <label class="col-sm-2 control-label">Value:</label>
-                                          <div class="col-sm-10">
-                                              <input type="text" class="form-control" placeholder="Value">
+                                          <label class="col-sm-3 control-label">Value:</label>
+                                          <div class="col-sm-9">
+                                              <input type="text" [(ngModel)]="itemProperty.ItemTypePropertyValue" class="form-control" placeholder="Value">
                                           </div>
                                       </div>
                                       <div class="form-group">
                                           <div class="col-sm-12">
-                                              <button class="btn btn-primary pull-right">
+                                              <button class="btn btn-primary pull-right"  (click)="fnAddProperty()">
                                                   <i class="fa fa-plus"></i> Add
                                               </button>
                                           </div>
@@ -135,44 +213,30 @@
                                       <div class="row">
                                           <div class="form-group">
                                               <div class="col-sm-12">
-                                                  <div class="table-responsive">
                                                       <table class="table table-stripped table-bordered">
                                                           <thead>
                                                               <tr>
-                                                                  <th>
-                                                                      #
-                                                                  </th>
-                                                                  <th>
-                                                                      Factory name
-                                                                  </th>
-                                                                  <th>
-                                                                      Intergration code
-                                                                  </th>
-                                                                  <th>
-                                                                      Action
-                                                                  </th>
+                                                                  <th>#</th>
+                                                                  <th>Property name</th>
+                                                                  <th>Value</th>
+                                                                  <th>Action</th>
 
                                                               </tr>
                                                           </thead>
                                                           <tbody>
-                                                              <tr>
+                                                              <tr class="animated fadeInRight"  *ngFor="let item of entity.ItemProperty; let i = index">
+                                                                  <td> {{i+1}}</td>
+                                                                  <td> {{item.ItemPropertyName}}</td>
+                                                                  <td> {{item.ItemTypePropertyValue}} </td>
                                                                   <td>
-                                                                      a
-                                                                  </td>
-                                                                  <td>
-                                                                      b
-                                                                  </td>
-                                                                  <td>
-                                                                      c
-                                                                  </td>
-                                                                  <td>
-                                                                      <button class="btn btn-danger"><i class="fa fa-trash"></i></button>
+                                                                      <button class="btn btn-danger" (click)="fnDeleteItemProperty(i)">
+                                                                        <i class="fa fa-trash"></i>
+                                                                      </button>
                                                                   </td>
                                                               </tr>
                                                           </tbody>
 
                                                       </table>
-                                                  </div>
                                               </div>
 
                                           </div>
@@ -185,89 +249,83 @@
 
                       </div>
                   </div>
-                  <div id="tab-3" class="tab-pane">
+                  <div id="tab-4" class="tab-pane">
                       <div class="panel-body">
                           <fieldset class="form-horizontal">
                               <div class="form-group">
                                   <label class="col-sm-2 control-label">Unit code:</label>
                                   <div class="col-sm-4">
-                                      <select class="form-control">
+                                      <select  [(ngModel)]="itemPackage.ItemPackageUnitId"  class="form-control">
                                           <option>option 1</option>
                                           <option>option 2</option>
                                       </select>
                                   </div>
                                   <label class="col-sm-2 control-label">Package Coefficient:</label>
                                   <div class="col-sm-4">
-                                      <input type="text" class="form-control" placeholder="Value">
+                                      <input type="text" [(ngModel)]="itemPackage.ItemPackageCoefficient" class="form-control" placeholder="Value">
                                   </div>
                               </div>
                               <div class="form-group">
                                   <label class="col-sm-2 control-label">Length:</label>
                                   <div class="col-sm-4">
-                                      <input type="text" class="form-control" placeholder="Length">
+                                      <input type="number" [(ngModel)]="itemPackage.ItemPackageLength" class="form-control" placeholder="Length">
                                   </div>
                                   <label class="col-sm-2 control-label">Width:</label>
                                   <div class="col-sm-4">
-                                      <input type="text" class="form-control" placeholder="Width">
+                                      <input type="number" [(ngModel)]="itemPackage.ItemPackageWidth" class="form-control" placeholder="Width">
                                   </div>
                               </div>
                               <div class="form-group">
                                   <label class="col-sm-2 control-label">Height:</label>
                                   <div class="col-sm-4">
-                                      <input type="text" class="form-control" placeholder="Height">
+                                      <input type="number" [(ngModel)]="itemPackage.ItemPackageHeight" class="form-control" placeholder="Height">
                                   </div>
                                   <label class="col-sm-2 control-label">Weight:</label>
                                   <div class="col-sm-4">
-                                      <input type="text" class="form-control" placeholder="Weight">
+                                      <input type="number" [(ngModel)]="itemPackage.ItemPackageWeight" class="form-control" placeholder="Weight">
                                   </div>
                               </div>
                               <div class="form-group">
                                   <div class="col-sm-12">
-                                      <button class="btn btn-primary pull-right">
+                                      <button class="btn btn-primary pull-right"  (click)="fnAddPackage()">
                                           <i class="fa fa-plus"></i> Add
                                       </button>
                                   </div>
                               </div>
                               <div class="form-group mt-5">
                                   <div class="col-sm-12">
-                                      <div class="table-responsive">
                                           <table class="table table-stripped table-bordered">
                                               <thead>
                                                   <tr>
-                                                      <th>
-                                                          #
-                                                      </th>
-                                                      <th>
-                                                          Factory name
-                                                      </th>
-                                                      <th>
-                                                          Intergration code
-                                                      </th>
-                                                      <th>
-                                                          Action
-                                                      </th>
-
+                                                      <th>#</th>
+                                                      <th>Item unit	</th>
+                                                      <th>Package Coefficient</th>
+                                                      <th>Length</th>
+                                                      <th>Width</th>
+                                                      <th>Height</th>
+                                                      <th>Weight</th>
+                                                      <th>Action</th>
                                                   </tr>
                                               </thead>
                                               <tbody>
-                                                  <tr>
-                                                      <td>
-                                                          a
-                                                      </td>
-                                                      <td>
-                                                          b
-                                                      </td>
-                                                      <td>
-                                                          c
-                                                      </td>
-                                                      <td>
-                                                          <button class="btn btn-danger"><i class="fa fa-trash"></i></button>
-                                                      </td>
+                                                  <tr  class="animated fadeInRight" *ngFor="let item of entity.ItemPackage; let i = index">
+                                                    <td> {{i+1}} </td>
+                                                    <td>{{item.ItemPackageUnitName}}</td>
+                                                    <td>{{item.ItemPackageCoefficient}} </td>
+                                                    <td>{{item.ItemPackageLength}} </td>
+                                                    <td>{{item.ItemPackageWidth}} </td>
+                                                    <td>{{item.ItemPackageHeight}} </td>
+                                                    <td>{{item.ItemPackageWeight}} </td>
+                                                   
+                                                    <td>
+                                                      <button class="btn btn-danger" (click)="fnDeleteItemPackage(i)">
+                                                        <i class="fa fa-trash"></i>
+                                                      </button>
+                                                    </td>
                                                   </tr>
                                               </tbody>
 
                                           </table>
-                                      </div>
                                   </div>
                               </div>
 
@@ -275,7 +333,7 @@
 
                       </div>
                   </div>
-                  <div id="tab-4" class="tab-pane">
+                  <div id="tab-5" class="tab-pane">
                       <div class="panel-body">
 
                           <div class="table-responsive">
@@ -403,6 +461,20 @@
                   </div>
               </div>
           </div>
+      </div>
+      <div class="col-sm-12">
+        <div class="ibox-content m-b-sm border-bottom">
+          <div class="row">
+              <div class="col-sm-12">
+                <button class="btn btn-primary pull-right" (click)="fnAdd()">
+                  <i class="fa fa-plus"></i>
+                  Add Item
+                </button>
+              </div>
+              
+          </div>
+
+      </div>
       </div>
   </div>
 

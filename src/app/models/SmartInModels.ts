@@ -74,6 +74,7 @@ export class Item {
   ItemNo?: string
   ItemName?: string
   ItemPrintName?: string
+  ItemDescription?: string
   ItemUnitId?: number = 0
   ItemModel?: string
   ItemSerial?: string
