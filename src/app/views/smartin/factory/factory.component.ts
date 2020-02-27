@@ -34,7 +34,7 @@ export class FactoryComponent implements OnInit {
     private auth: AuthService
   ) { }
   /** DECLARATION */
-  factory: Factory[]; //init data
+  factory: Factory[]= []; //init data
   entity: Factory;
   tech_entity: FactoryTechnology;
   laddaSubmitLoading = false;
@@ -57,7 +57,7 @@ export class FactoryComponent implements OnInit {
   /**INIT FUNCTIONS */
   loadInit() {
     this.iboxloading = true;
-    this.factory = [];
+    
     this.api.getFactoryPagination(this.keyword).subscribe(res => {
       
       var data = res as any;
