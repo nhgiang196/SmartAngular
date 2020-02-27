@@ -236,7 +236,8 @@
     "ModifyDate": "Ngày cập nhật",
     "Status": "Trạng thái",
     "Action": "Tác Vụ",
-    "InputTypeName": "Nhập tên vật tư"
+    "InputTypeName": "Nhập tên vật tư",
+    "ErrorExistItemTypeName" : "Tên loại vật tư bị trùng "
   },
   "ItemTypeProperty":{
     "ItemTypePropertyName": "Tên thuộc tính"

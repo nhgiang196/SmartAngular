@@ -102,6 +102,7 @@ export class WaterTreatmentService {
   getItemType =() => this.http.get(`${ApiUrl}/ItemType/GetItemType` );
   findItemTypeById =(id) => this.http.get(`${ApiUrl}/ItemType/FindItemTypeById?id=${id}` );
   getItemTypePaginationByCode =(entity,code) => this.http.post<any>(`${ApiUrl}/ItemType/GetItemTypePaginationByCode/${code}`,entity,{} );
+  validateItemType=(entity) => this.http.post(`${ApiUrl}/ItemType/ValidateItemType`,entity);
   //ItemTypeProperty
   
   addItemTypeProperty =(entity) => this.http.post(`${ApiUrl}/ItemTypeProperty/AddItemTypeProperty`,entity);

@@ -86,7 +86,7 @@
   <div class="modal-dialog modal-lg ">
     <div class="modal-content animated fadeIn">
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
+        <button type="button" class="close" data-dismiss="modal" (click)="loadInit()"><span aria-hidden="true">&times;</span><span
             class="sr-only">Close</span></button>
         <h4 class="modal-title"> {{'ItemType.Information' | translate }}</h4>
       </div>
@@ -98,6 +98,7 @@
                 <label> {{ 'ItemType.ItemTypeName' | translate }} : </label>
                 <input type="text" name="ItemTypeName" id="ItemTypeName" class="form-control"
                   placeholder="{{'ItemType.InputItemTypeName' | translate}}" [(ngModel)]="entity.ItemTypeName" required>
+                <div *ngIf="existName" style="color: red;">{{ 'ItemType.ErrorExistItemTypeName' | translate }}</div>
               </div>
             </div>
             <div class="col-lg-6">
@@ -144,9 +145,7 @@
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
-        <button type="button" *ngIf="ACTION_STATUS=='update'" class="btn btn-danger"
-          (click)="fnDelete(entity.ItemTypeId)"><i class="fa fa-trash"></i> Delete</button>
+        <button type="button" class="btn btn-white" data-dismiss="modal" (click)="loadInit()">Close</button>     
         <button type="button" class="btn btn-primary" (click)="fnSave();" [ladda]="laddaSubmitLoading" [disabled]="myForm.invalid">Save
           changes</button>
       </div>

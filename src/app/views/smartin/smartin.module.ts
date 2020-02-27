@@ -17,8 +17,8 @@ const COMPONENTS = [
   UnitMeasurementComponent,
   WarehouseComponent,
   ItemListComponent,
-  ItemActionComponent,
   ItemGridComponent,
+  ItemActionComponent
 ];
 
 

@@ -45,6 +45,7 @@ import { UnitMeasurementComponent } from './views/smartin/unit-measurement/unit-
 import { WarehouseComponent } from './views/smartin/warehouse/warehouse.component';
 import { ItemListComponent } from './views/smartin/item/item-list/item-list.component';
 import { ItemActionComponent } from './views/smartin/item/item-action/item-action.component';
+import { ItemGridComponent } from './views/smartin/item/item-grid/item-grid.component';
 
 
 /**XLNT */
@@ -108,6 +109,7 @@ export const ROUTES: Routes = [
             children:[
               {path:'', component: ItemListComponent},
               {path:'list', component: ItemListComponent},
+              {path:'grid',component: ItemGridComponent},
               {path:'action',component: ItemActionComponent}
             ]
            },
