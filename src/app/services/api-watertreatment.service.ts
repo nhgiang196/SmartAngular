@@ -91,6 +91,9 @@ export class WaterTreatmentService {
     let url: string = '/api/v1/File/DownloadFile?fileName='+fileName;
     window.open(url);
   }
+  openFile(fileName){
+    window.open(`http://localhost:3333/${fileName}`);
+  }
   // ItemType Services
   addItemType =(entity) => this.http.post(`${ApiUrl}/ItemType/AddItemType`,entity);
   updateItemType =(entity) => this.http.put(`${ApiUrl}/ItemType/UpdateItemType`,entity);
@@ -116,7 +119,9 @@ export class WaterTreatmentService {
   getUnitPagination =(entity) => this.http.post<any>(`${ApiUrl}/Unit/GetUnitPagination`,entity,{} );
   getUnit =() => this.http.get(`${ApiUrl}/Unit/GetUnit` );
   findUnitById =(id) => this.http.get<any>(`${ApiUrl}/Unit/FindUnitById?id=${id}` );
-  checkUnitNameExist =(unitName) => this.http.get<any>(`${ApiUrl}/Unit/CheckUnitNameExist?UnitName=${unitName}` );
+  validateUnit =(entity) =>{
+    return this.http.post(`${ApiUrl}/Unit/ValidateUnit`,entity);
+  } 
 
 
   //Item Services
