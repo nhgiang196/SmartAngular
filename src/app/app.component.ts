@@ -13,10 +13,7 @@ export class AppComponent implements OnInit {
     private auth: AuthService,
     public translate: TranslateService) {
     translate.addLangs(['en', 'vn', 'zh']);
-    translate.setDefaultLang('en');
-    translate.reloadLang('en');
-    translate.reloadLang('vn');
-    translate.use(localStorage.getItem('locallanguage') || 'en');
+    translate.setDefaultLang(localStorage.getItem('locallanguage') || 'en');
     
 
   }
