@@ -10,36 +10,37 @@ declare let $: any;
   styleUrls: ['./item-detail.component.css']
 })
 export class ItemDetailComponent implements OnInit {
-  Items : Item
-  Files? : Files[] = []
-  constructor(private api: WaterTreatmentService ,private router: ActivatedRoute) { }
+  item?: Item 
+  Files?: Files[] = []
+  url : string ='http://localhost:3333/'
+  constructor(private api: WaterTreatmentService, private router: ActivatedRoute) { }
 
   ngOnInit() {
 
     $('.product-images').slick({
       dots: true
     });
+    this.item = new Item;
     this.loadItemDetail()
   }
-  async loadItemDetail()
-  {
-    let id 
+  async loadItemDetail() {
+    let id
     this.router.params.subscribe(params => {
-     id = params.itemId;
+      id = params.id;
     });
-    this.Items = await this.api.findItemById(id).toPromise().then() as any;
-   this.Files = this.getAllImageFiles();
-
+    this.item = await this.api.findItemById(id).toPromise().then() as any;
+    this.Files = this.getAllImageFiles();
+    console.log(this.item);
   }
   //get All File with Image is true
-  getAllImageFiles()
-  {
-      let itemFiles = this.Items.ItemFile.filter(x=>x.IsImage ==true);
-      let listFiles: Files[] = []
-      itemFiles.forEach(file => {
-        listFiles.push(file.File)
-      })
-      return listFiles;
+  getAllImageFiles() {
+    let itemFiles = this.item.ItemFile.filter(x => x.IsImage == true);
+    let listFiles: Files[] = []
+    itemFiles.forEach(file => {
+      file.File.Path = this.url + file.File.Path;
+      listFiles.push(file.File)
+    })
+    return listFiles;
   }
 
 }
