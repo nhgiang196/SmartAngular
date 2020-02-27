@@ -196,49 +196,15 @@
             </div>
           </div>
           <hr>
-          <div class="row">
-            <div class="col-lg-6">
-              <div class="form-group">
-                <label>{{ 'Factory.data.FactoryTechnologyID' | translate }}: </label>
-                <input type="text" class="form-control" name="Technology" id="Technology"
-                  [(ngModel)]="tech_entity.TechnologyName">
-              </div>
-            </div>
-            <div class="col-lg-6">
-              <div class="form-group">
-                <label>{{ 'Factory.data.TechnologyDescription' | translate }}: </label>
-                <input type="text" class="form-control" name="Description" id="Description"
-                  [(ngModel)]="tech_entity.TechnologyDescription">
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-lg-6">
-              <div class="form-group">
-                <label>{{ 'Factory.data.TechnologyFromDate' | translate }}: </label>
-                <input bsDatepicker [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY' , adaptivePosition: true }" type="text" class="form-control"  readonly
-                  name="BeginDate" id="BeginDate" [(ngModel)]="tech_entity.TechnologyFromDate">
-              </div>
-            </div>
-            <div class="col-lg-6">
-              <div class="form-group">
-                <label>{{ 'Factory.data.TechnologyToDate' | translate }}: </label>
-                <input bsDatepicker [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY' , adaptivePosition: true }" type="text" class="form-control" readonly
-                  name="EndDate" id="EndDate" [(ngModel)]="tech_entity.TechnologyToDate">
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <button type="button" class="btn btn-success pull-right" (click)="fnAddItem()">Add</button>
             <table class="table table-bordered">
               <thead>
                 <tr>
-                  <th>#</th>
-                  <th>{{ 'Factory.data.FactoryTechnologyID' | translate }}</th>
-                  <th>{{ 'Factory.data.TechnologyDescription' | translate }}</th>
-                  <th>{{ 'Factory.data.TechnologyFromDate' | translate }}</th>
-                  <th>{{ 'Factory.data.TechnologyToDate' | translate }}</th>
-                  <th>{{ 'Button.Action' | translate }}</th>
+                  <th  width="5%"  >#</th>
+                  <th  width="20%" >{{ 'Factory.data.FactoryTechnologyID' | translate }}</th>
+                  <th  width="35%" >{{ 'Factory.data.TechnologyDescription' | translate }}</th>
+                  <th  width="15%" >{{ 'Factory.data.TechnologyFromDate' | translate }}</th>
+                  <th  width="15%" >{{ 'Factory.data.TechnologyToDate' | translate }}</th>
+                  <th  width="10%" >{{ 'Button.Action' | translate }}</th>
                 </tr>
               </thead>
               <tbody>
@@ -246,20 +212,31 @@
                 <tr class="animated fadeInRight" *ngFor="let item of entity.FactoryTechnology; let i = index"
                   [@simpleFadeAnimation]="'in'">
                   <td> {{i+1}} </td>
-                  <td>{{item.TechnologyName}} </td>
-                  <td>{{item.TechnologyDescription}} </td>
-                  <td>{{item.TechnologyFromDate | amDateFormat: 'DD-MM-YYYY' }} </td>
-                  <td>{{item.TechnologyToDate | amDateFormat: 'DD-MM-YYYY'}} </td>
-                  <td>
-                    <button class="btn btn-outline btn-success" (click)="fnEditItem(i)" ><i class="fa fa-pencil"></i></button>
-                    <button class="btn btn-outline btn-danger" (click)="fnDeleteItem(i)"><i class="fa fa-trash"></i></button>
+                  <td >{{item.TechnologyName}} </td>
+                  <td >{{item.TechnologyDescription}} </td>
+                  <td >{{item.TechnologyFromDate | amDateFormat: 'DD-MM-YYYY' }} </td>
+                  <td >{{item.TechnologyToDate | amDateFormat: 'DD-MM-YYYY'}} </td>
+                  <td >
+                  <div class="btn-group">
+                    <button type="button" class="btn btn-sm btn-outline btn-success" (click)="fnEditItem(i)" ><i class="fa fa-pencil"></i></button><button type="button" class="btn btn-sm btn-outline btn-danger" (click)="fnDeleteItem(i)"><i class="fa fa-trash"></i></button>
+                  </div>
+                    
                   
+                  </td>
+                </tr>
+                <tr >
+                  <td> {{entity.FactoryTechnology.length+1}} </td>
+                  <td><input type="text" class="form-control" name="Technology" id="Technology" [(ngModel)]="tech_entity.TechnologyName"></td>
+                  <td><input type="text" class="form-control" name="Description" id="Description" [(ngModel)]="tech_entity.TechnologyDescription"></td>
+                  <td> <input bsDatepicker [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY' , adaptivePosition: true }" type="text" class="form-control"  readonly name="BeginDate" id="BeginDate" [(ngModel)]="tech_entity.TechnologyFromDate"></td>
+                  <td><input bsDatepicker [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY' , adaptivePosition: true }" type="text" class="form-control" readonly name="EndDate" id="EndDate" [(ngModel)]="tech_entity.TechnologyToDate"></td>
+                  <td>
+                    <button type="button" class="btn btn-outline btn-info pull-right" (click)="fnAddItem()"><i class="fa fa-plus"></i> </button>
                   </td>
                 </tr>
 
               </tbody>
             </table>
-          </div>
         </form>
       </div>
       <div class="modal-footer">
