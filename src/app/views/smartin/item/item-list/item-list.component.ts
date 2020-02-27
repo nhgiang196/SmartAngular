@@ -17,13 +17,14 @@ import { TranslateService } from "@ngx-translate/core";
 import { AuthService } from "src/app/services/auth.service";
 import swal from "sweetalert2";
 import { MyHelperService } from "src/app/services/my-helper.service";
+import { Router } from '@angular/router';
 declare let $: any;
 @Component({
-  selector: "app-chemical-list",
-  templateUrl: "./chemical-list.component.html",
-  styleUrls: ["./chemical-list.component.css"]
+  selector: "app-item-list",
+  templateUrl: "./item-list.component.html",
+  styleUrls: ["./item-list.component.css"]
 })
-export class ChemicalListComponent implements OnInit {
+export class ItemListComponent implements OnInit {
   code: string = "HC";
   Items: Item[];
   entity: Item;
@@ -96,7 +97,8 @@ export class ChemicalListComponent implements OnInit {
     private toastr: ToastrService,
     private trans: TranslateService,
     private auth: AuthService,
-    public helper: MyHelperService
+    public helper: MyHelperService,
+    private router: Router,
   ) {}
 
   ngOnInit(): void {
@@ -249,8 +251,10 @@ export class ChemicalListComponent implements OnInit {
       });
   }
   fnAdd() {
-    this.ACTION_STATUS = "add";
-    this.resetEntity();
+    // this.ACTION_STATUS = "add";
+    // this.resetEntity();
+    this.router.navigate(['category/chemical/action']);
+
   }
   // fnAddItem() {
   //   if (this.ItemProperty.ItemPropertyName == null) {
@@ -411,7 +415,6 @@ export class ChemicalListComponent implements OnInit {
     model.orderBy = "UnitName";
 
     this.api.getUnitPagination(model).subscribe(res => {
-      debugger;
       const result = res as any;
       this.listUnit = result.data.map(item => {
         return { id: item.UnitID, text: item.UnitName };
