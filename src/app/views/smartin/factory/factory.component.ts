@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild, Output } from '@angular/core';
 import { collapseIboxHelper } from '../../../app.helpers';
 import { MyHelperService } from 'src/app/services/my-helper.service';
 import { WaterTreatmentService } from 'src/app/services/api-watertreatment.service';
@@ -9,6 +9,9 @@ import swal from 'sweetalert2';
 import { trigger, transition, style, animate } from '@angular/animations';
 import { AuthService } from 'src/app/services/auth.service';
 import { MomentModule } from 'ngx-moment';
+import { HttpEventType } from '@angular/common/http';
+import { EventEmitter } from 'protractor';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 declare let $: any;
 
 @Component({
@@ -26,6 +29,7 @@ declare let $: any;
 export class FactoryComponent implements OnInit {
   @ViewChild('myInputFile')// set for emtpy file after Close or Reload
   InputManual: ElementRef;
+  
   constructor(
     private api: WaterTreatmentService,
     private toastr: ToastrService,
@@ -40,16 +44,19 @@ export class FactoryComponent implements OnInit {
   laddaSubmitLoading = false;
   iboxloading = false;
   files: File[] = [];
+  newTechnology : FactoryTechnology;
   addFiles : {FileList : File[], FileLocalNameList: string[]};
   keyword : string = '';
   private pathFile = "uploadFilesFactory"
   ACTION_STATUS: string;
   factory_showed = 0;
   invalid : any = {FactoryCodeNull: false, FactoryCodeExist: false, FactoryNameNull: false, FactoryNameExist: false};
+  uploadReportProgress : any= { progress : 0, message: null , isError: null };
   
   FactoryBuiltDate: Date = new Date();
   FactoryStartDate: Date = new Date();
   FactoryEndDate: Date = null;
+  EditRowID: number =0;
   
   ngOnInit() {
     this.resetEntity();
@@ -74,12 +81,15 @@ export class FactoryComponent implements OnInit {
   private resetEntity() {
     this.entity = new Factory();
     this.tech_entity = new FactoryTechnology();
+    this.newTechnology = new FactoryTechnology();
     this.files = [];
     this.addFiles = { FileList: [], FileLocalNameList : []}
     this.invalid = {};
     this.FactoryBuiltDate = new Date();
     this.FactoryStartDate= new Date();
     this.FactoryEndDate= null;
+    this.uploadReportProgress =  { progress : 0, message: null , isError: null };
+    this.EditRowID=0;
   }
 
   /** BUTTON ACTIONS */
@@ -141,7 +151,7 @@ export class FactoryComponent implements OnInit {
   }
   
   fnAddItem() { //press add item (in modal)
-    var itemAdd = this.tech_entity;
+    var itemAdd = this.newTechnology;
     if (itemAdd.TechnologyName == null) {
       this.toastr.warning("Validate", this.trans.instant('Factory.data.TechnologyName') + this.trans.instant('messg.isnull'))
       return;
@@ -155,19 +165,24 @@ export class FactoryComponent implements OnInit {
       return;
     }
     itemAdd.FactoryId = this.entity.FactoryId;
-    this.tech_entity = new FactoryTechnology();
+    this.newTechnology = new FactoryTechnology();
     this.entity.FactoryTechnology.push(itemAdd);
   }
 
   fnEditItem(index){ //press edit item (in modal)
+    this.EditRowID = index +1;
     this.tech_entity = this.entity.FactoryTechnology[index];
-    this.entity.FactoryTechnology.splice(index, 1);
+  }
+  fnSaveItem(index){
+    this.EditRowID = 0;
   }
   fnDeleteItem(index) { //press delete item (in modal)
     this.entity.FactoryTechnology.splice(index, 1);
+    console.log(this.entity.FactoryTechnology);
   }
 
   async fnSave() { //press save/SUBMIT button 
+    this.uploadReportProgress =  { progress : 0, message: null, isError: null };
     this.laddaSubmitLoading = true;
     var e = this.entity;
     e.FactoryStartDate = this.helper.dateConvertToString(this.FactoryStartDate);
@@ -185,7 +200,7 @@ export class FactoryComponent implements OnInit {
           if (operationResult.Success){
             this.toastr.success(this.trans.instant("messg.add.success"));
             $("#myModal4").modal('hide');
-            this.uploadFile(this.addFiles.FileList);
+            if (this.addFiles.FileList.length>0) this.uploadFile(this.addFiles.FileList);
             this.loadInit();
             this.fnEditSignal(operationResult.Data);
           }
@@ -199,10 +214,10 @@ export class FactoryComponent implements OnInit {
         this.api.updateFactory(e).subscribe(res => {
           var operationResult: any = res
           if (operationResult.Success){
-            this.uploadFile(this.addFiles.FileList);
+            if (this.addFiles.FileList.length>0) this.uploadFile(this.addFiles.FileList);
             this.loadInit();
-            this.fnEditSignal(this.entity.FactoryId);
             this.toastr.success(this.trans.instant("messg.update.success"));
+            this.addFiles = { FileList: [], FileLocalNameList :[]};
             
           }
           else this.toastr.warning(operationResult.Message);
@@ -234,8 +249,8 @@ export class FactoryComponent implements OnInit {
     for (var index in _addFiles) {
       let item = event.addedFiles[index];
       let convertName = this.helper.getFileNameWithExtension(item);
-      let currentFile = this.files;
-      let  findElement =  currentFile.filter(x=>x.name == item.name)[0];
+      let currentFile = this.entity.FactoryFile;
+      let  findElement =  currentFile.filter(x=>x.File.FileOriginalName == item.name)[0];
       //ASK THEN GET RESULT
       if (findElement!=null) {
         if (!askBeforeUpload) {
@@ -252,9 +267,9 @@ export class FactoryComponent implements OnInit {
             })
         }
         if (!allowUpload)  return;
-        this.files.splice( this.files.indexOf(findElement,0),1 );
-        this.addFiles.FileList.splice(this.addFiles.FileList.indexOf(findElement,0),1 );
-        
+        let _indexElement = this.entity.FactoryFile.indexOf(findElement,0);
+        this.files.splice( _indexElement,1 );
+        this.addFiles.FileList.splice(_indexElement,1 );
       }
       else{
         let _factoryFile = new FactoryFile();
@@ -287,7 +302,10 @@ export class FactoryComponent implements OnInit {
   private async fnValidate(e: Factory) { //validate entity
     this.invalid = {};
     
-    let result = await this.api.validateFactory(e).toPromise().then() as any;
+    let result = await this.api.validateFactory(e).toPromise().then().catch(err => {
+      this.laddaSubmitLoading = false;
+      this.toastr.warning(err.statusText,'Validate Got Error');
+    }) as any;
     if (!result.Success)
     {
       this.laddaSubmitLoading = false;
@@ -302,7 +320,17 @@ export class FactoryComponent implements OnInit {
       let _file = files[index];
       formData.append("files", _file, this.addFiles.FileLocalNameList[index]);
     }
-    this.api.uploadFile(formData, this.pathFile).subscribe(res=> console.log(res),err=>this.toastr.warning(err.statusText,'Upload file bị lỗi'));
+    this.api.uploadFile(formData, this.pathFile).subscribe(event=> {
+      if (event.type === HttpEventType.UploadProgress)
+          this.uploadReportProgress.progress = Math.round(100 * event.loaded / event.total);
+      else if (event.type === HttpEventType.Response) {
+          this.uploadReportProgress.message = 'Upload success';
+          // this.onUploadFinished.emit(event.body);
+        }
+    },err=>{
+      this.toastr.warning(err.statusText,'Upload file bị lỗi');
+      this.uploadReportProgress =  { progress : 0, message: 'Error', isError: true};
+    });
   }
 
   private fnCheckBeforeEdit(id) { //un done

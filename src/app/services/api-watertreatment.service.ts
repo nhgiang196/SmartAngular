@@ -43,6 +43,8 @@ export class WaterTreatmentService {
     return this.http.post(`${ApiUrl}/Factory/GetFactoryPagination`, model);
   }
 
+  getFactoryToSelect2 =(keyword) => this.http.get<any>(`${ApiUrl}/Factory/GetFactoryPaginationToSelect2?keyword=`+keyword );
+
   getFactoryById(id) {
     return this.http.get<any>(`${ApiUrl}/Factory/FindFactoryById`, { params: { id: id } });
   }
@@ -82,7 +84,7 @@ export class WaterTreatmentService {
   }
   /**FILES */
   uploadFile(formData, pathFile) {
-    return this.http.post(`${ApiUrl}/File/UploadFiles/${pathFile}`, formData);
+    return this.http.post(`${ApiUrl}/File/UploadFiles/${pathFile}`, formData, {reportProgress: true, observe: 'events'});
   }
   deleteFile(fileName) {
     return this.http.delete(`${ApiUrl}/File/DeleteFiles`, { params: { fileName: fileName } });
@@ -99,6 +101,7 @@ export class WaterTreatmentService {
   updateItemType =(entity) => this.http.put(`${ApiUrl}/ItemType/UpdateItemType`,entity);
   deleteItemType =(id) => this.http.delete(`${ApiUrl}/ItemType/DeleteItemType`,{ params: { id: id } });
   getItemTypePagination =(entity) => this.http.post<any>(`${ApiUrl}/ItemType/GetItemTypePagination`,entity,{} );
+  getItemTypeToSelect2 =(keyword,code) => this.http.get<any>(`${ApiUrl}/ItemType/GetItemTypePaginationByCodeToSelect2/${code}?keyword=`+keyword);
   getItemType =() => this.http.get(`${ApiUrl}/ItemType/GetItemType` );
   findItemTypeById =(id) => this.http.get(`${ApiUrl}/ItemType/FindItemTypeById?id=${id}` );
   getItemTypePaginationByCode =(entity,code) => this.http.post<any>(`${ApiUrl}/ItemType/GetItemTypePaginationByCode/${code}`,entity,{} );
@@ -118,6 +121,7 @@ export class WaterTreatmentService {
   updateUnit =(entity) => this.http.put(`${ApiUrl}/Unit/UpdateUnit`,entity);
   deleteUnit =(id) => this.http.delete(`${ApiUrl}/Unit/DeleteUnit`,{ params: { id: id } });
   getUnitPagination =(entity) => this.http.post<any>(`${ApiUrl}/Unit/GetUnitPagination`,entity,{} );
+  getUnitSelect2 =(keyword) => this.http.get<any>(`${ApiUrl}/Unit/GetUnitPaginationToSelect2?keyword=`+keyword );
   getUnit =() => this.http.get(`${ApiUrl}/Unit/GetUnit` );
   findUnitById =(id) => this.http.get<any>(`${ApiUrl}/Unit/FindUnitById?id=${id}` );
   validateUnit =(entity) =>{

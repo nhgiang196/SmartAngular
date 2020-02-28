@@ -186,17 +186,31 @@
               <div class="form-group">
                 <label>{{ 'Factory.label.UploadFile' | translate }} </label>             
                 <ngx-dropzone style="min-height: auto;" (change)="onSelect($event)" [expandable]="true" [maxFileSize]="5000*1024">
-                  <ngx-dropzone-label>Kéo thả file ở đây!</ngx-dropzone-label>
-                  <ngx-dropzone-preview class="dropDownCustomClass animated fadeInUp"  ngProjectAs="ngx-dropzone-preview" *ngFor="let f of files ;let i = index" [file]="f"   [removable]="true" (removed)="onRemove(f)" (click)=downloadFile(f.name) >
-                    <ngx-dropzone-label style="font-size:11px;" > {{entity.FactoryFile[i].File.FileOriginalName}}
+                  <ngx-dropzone-label><i class="fa fa-upload"></i> Kéo thả file ở đây!</ngx-dropzone-label>
+                  <ngx-dropzone-preview class="dropDownCustomClass animated fadeInUp"  ngProjectAs="ngx-dropzone-preview" *ngFor="let f of files ;let i = index" [file]="f"   [removable]="true" (removed)="onRemove(f)" (click)=downloadFile(entity.FactoryFile[i].File.FileLocalName) >
+                    <ngx-dropzone-label style="font-size:11px;" ><i class="fa fa-download"></i> {{entity.FactoryFile[i].File.FileOriginalName}}
                     </ngx-dropzone-label>
                   </ngx-dropzone-preview>
                 </ngx-dropzone>
               </div>
             </div>
           </div>
-          <hr>
           <div class="row">
+            <div class="col-lg-12">
+              <span class="badge" [ngClass]="{'badge-primary': uploadReportProgress.progress==100, 'badge-danger':uploadReportProgress.isError}" >{{uploadReportProgress.message}}</span>
+              <div class="progress progress-striped active">
+                <div class="progress-bar progress-bar-success" role="progressbar"
+                  [style.width.%]="uploadReportProgress.progress">
+                  {{uploadReportProgress.progress}}%
+                </div>
+              </div>
+            </div>
+          </div>
+          
+
+
+          <hr>
+          <!-- <div class="row">
             <div class="col-lg-6">
               <div class="form-group">
                 <label>{{ 'Factory.data.TechnologyName' | translate }}: </label>
@@ -227,8 +241,8 @@
                   name="EndDate" id="EndDate" [(ngModel)]="tech_entity.TechnologyToDate">
               </div>
             </div>
-          </div>
-          <button type="button" class="btn btn-success pull-right" (click)="fnAddItem()">Add</button>
+          </div> -->
+          <!-- <button type="button" class="btn btn-success pull-right" (click)="fnAddItem()">Add</button> -->
 
             <table class="table table-bordered">
               <thead>
@@ -246,28 +260,32 @@
                 <tr class="animated fadeInRight" *ngFor="let item of entity.FactoryTechnology; let i = index"
                   [@simpleFadeAnimation]="'in'">
                   <td> {{i+1}} </td>
-                  <td >{{item.TechnologyName}} </td>
-                  <td >{{item.TechnologyDescription}} </td>
-                  <td >{{item.TechnologyFromDate | amDateFormat: 'DD-MM-YYYY' }} </td>
-                  <td >{{item.TechnologyToDate | amDateFormat: 'DD-MM-YYYY'}} </td>
+                  <td *ngIf="i+1 !== EditRowID">{{item.TechnologyName}} </td>
+                  <td *ngIf="i+1 === EditRowID" ><input type="text" class="form-control" name="Technology" id="Technology" [(ngModel)]="tech_entity.TechnologyName"></td>
+                  <td *ngIf="i+1 !== EditRowID">{{item.TechnologyDescription}} </td>
+                  <td *ngIf="i+1 === EditRowID"><input type="text" class="form-control" name="Description" id="Description" [(ngModel)]="tech_entity.TechnologyDescription"> </td>
+                  <td *ngIf="i+1 !== EditRowID">{{item.TechnologyFromDate | amDateFormat: 'DD-MM-YYYY' }} </td>
+                  <td *ngIf="i+1 === EditRowID"><input bsDatepicker [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY' , adaptivePosition: true }" type="text" class="form-control"  readonly name="BeginDate" id="BeginDate" [(ngModel)]="tech_entity.TechnologyFromDate"> </td>
+                  <td *ngIf="i+1 !== EditRowID">{{item.TechnologyToDate | amDateFormat: 'DD-MM-YYYY'}} </td>
+                  <td *ngIf="i+1 === EditRowID"><input bsDatepicker [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY' , adaptivePosition: true }" type="text" class="form-control" readonly name="EndDate" id="EndDate" [(ngModel)]="tech_entity.TechnologyToDate"> </td>
                   <td >
                   <div class="btn-group">
-                    <button type="button" class="btn btn-sm btn-outline btn-success" (click)="fnEditItem(i)" ><i class="fa fa-pencil"></i></button><button type="button" class="btn btn-sm btn-outline btn-danger" (click)="fnDeleteItem(i)"><i class="fa fa-trash"></i></button>
-                  </div>
-                    
-                  
+                    <button type="button" class="btn btn-sm btn-outline btn-primary" (click)="fnSaveItem(i)" *ngIf="i+1 === EditRowID" ><i class="fa fa-check"></i></button>
+                    <button type="button" class="btn btn-sm btn-outline btn-success" (click)="fnEditItem(i)"*ngIf="i+1 !== EditRowID"><i class="fa fa-pencil"></i></button>
+                    <button type="button" class="btn btn-sm btn-outline btn-danger" (click)="fnDeleteItem(i)" *ngIf="i+1 !== EditRowID"><i class="fa fa-trash"></i></button>
+                  </div>                      
                   </td>
                 </tr>
-                <!-- <tr >
-                  <td> {{entity.FactoryTechnology.length+1}} </td>
-                  <td><input type="text" class="form-control" name="Technology" id="Technology" [(ngModel)]="tech_entity.TechnologyName"></td>
-                  <td><input type="text" class="form-control" name="Description" id="Description" [(ngModel)]="tech_entity.TechnologyDescription"></td>
-                  <td> <input bsDatepicker [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY' , adaptivePosition: true }" type="text" class="form-control"  readonly name="BeginDate" id="BeginDate" [(ngModel)]="tech_entity.TechnologyFromDate"></td>
-                  <td><input bsDatepicker [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY' , adaptivePosition: true }" type="text" class="form-control" readonly name="EndDate" id="EndDate" [(ngModel)]="tech_entity.TechnologyToDate"></td>
+                <tr >
+                  <td> {{entity.FactoryTechnology.length +1}} </td>
+                  <td><input type="text" class="form-control" name="NewTechnology" id="NewTechnology" [(ngModel)]="newTechnology.TechnologyName"></td>
+                  <td><input type="text" class="form-control" name="NewDescription" id="NewDescription" [(ngModel)]="newTechnology.TechnologyDescription"></td>
+                  <td> <input bsDatepicker [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY' , adaptivePosition: true }" type="text" class="form-control"  readonly name="NewBeginDate" id="NewBeginDate" [(ngModel)]="newTechnology.TechnologyFromDate"></td>
+                  <td><input bsDatepicker [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY' , adaptivePosition: true }" type="text" class="form-control" readonly name="NewEndDate" id="NewEndDate" [(ngModel)]="newTechnology.TechnologyToDate"></td>
                   <td>
                     <button type="button" class="btn btn-outline btn-info pull-right" (click)="fnAddItem()"><i class="fa fa-plus"></i> </button>
                   </td>
-                </tr> -->
+                </tr>
 
               </tbody>
             </table>
@@ -275,7 +293,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-white" data-dismiss="modal">{{'Button.Close' | translate}}  </button>
-        <button type="button" class="btn btn-primary" (click)="fnSave();" [ladda]="laddaSubmitLoading" [disabled]="myForm.invalid"><i class="fa fa-paper-plane-o"></i> {{'Button.Save' | translate}} </button>
+        <button type="button" class="btn btn-primary" (click)="fnSave();" [ladda]="laddaSubmitLoading" [disabled]="myForm.invalid||EditRowID!=0"><i class="fa fa-paper-plane-o"></i> {{'Button.Save' | translate}} </button>
       </div>
     </div>
   </div>
