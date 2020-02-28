@@ -40,6 +40,7 @@ export class FactoryComponent implements OnInit {
   laddaSubmitLoading = false;
   iboxloading = false;
   files: File[] = [];
+  newTechnology : FactoryTechnology;
   addFiles : {FileList : File[], FileLocalNameList: string[]};
   keyword : string = '';
   private pathFile = "uploadFilesFactory"
@@ -50,6 +51,7 @@ export class FactoryComponent implements OnInit {
   FactoryBuiltDate: Date = new Date();
   FactoryStartDate: Date = new Date();
   FactoryEndDate: Date = null;
+  EditRowID: number =0;
   
   ngOnInit() {
     this.resetEntity();
@@ -74,6 +76,7 @@ export class FactoryComponent implements OnInit {
   private resetEntity() {
     this.entity = new Factory();
     this.tech_entity = new FactoryTechnology();
+    this.newTechnology = new FactoryTechnology();
     this.files = [];
     this.addFiles = { FileList: [], FileLocalNameList : []}
     this.invalid = {};
@@ -140,7 +143,7 @@ export class FactoryComponent implements OnInit {
   }
   
   fnAddItem() { //press add item (in modal)
-    var itemAdd = this.tech_entity;
+    var itemAdd = this.newTechnology;
     if (itemAdd.TechnologyName == null) {
       this.toastr.warning("Validate", this.trans.instant('Factory.data.TechnologyName') + this.trans.instant('messg.isnull'))
       return;
@@ -154,16 +157,20 @@ export class FactoryComponent implements OnInit {
       return;
     }
     itemAdd.FactoryId = this.entity.FactoryId;
-    this.tech_entity = new FactoryTechnology();
+    this.newTechnology = new FactoryTechnology();
     this.entity.FactoryTechnology.push(itemAdd);
   }
 
   fnEditItem(index){ //press edit item (in modal)
+    this.EditRowID = index +1;
     this.tech_entity = this.entity.FactoryTechnology[index];
-    this.entity.FactoryTechnology.splice(index, 1);
+  }
+  fnSaveItem(index){
+    this.EditRowID = 0;
   }
   fnDeleteItem(index) { //press delete item (in modal)
     this.entity.FactoryTechnology.splice(index, 1);
+    console.log(this.entity.FactoryTechnology);
   }
 
   async fnSave() { //press save/SUBMIT button 

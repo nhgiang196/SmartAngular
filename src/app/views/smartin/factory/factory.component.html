@@ -196,7 +196,7 @@
             </div>
           </div>
           <hr>
-          <div class="row">
+          <!-- <div class="row">
             <div class="col-lg-6">
               <div class="form-group">
                 <label>{{ 'Factory.data.TechnologyName' | translate }}: </label>
@@ -227,8 +227,8 @@
                   name="EndDate" id="EndDate" [(ngModel)]="tech_entity.TechnologyToDate">
               </div>
             </div>
-          </div>
-          <button type="button" class="btn btn-success pull-right" (click)="fnAddItem()">Add</button>
+          </div> -->
+          <!-- <button type="button" class="btn btn-success pull-right" (click)="fnAddItem()">Add</button> -->
 
             <table class="table table-bordered">
               <thead>
@@ -246,28 +246,32 @@
                 <tr class="animated fadeInRight" *ngFor="let item of entity.FactoryTechnology; let i = index"
                   [@simpleFadeAnimation]="'in'">
                   <td> {{i+1}} </td>
-                  <td >{{item.TechnologyName}} </td>
-                  <td >{{item.TechnologyDescription}} </td>
-                  <td >{{item.TechnologyFromDate | amDateFormat: 'DD-MM-YYYY' }} </td>
-                  <td >{{item.TechnologyToDate | amDateFormat: 'DD-MM-YYYY'}} </td>
+                  <td *ngIf="i+1 !== EditRowID">{{item.TechnologyName}} </td>
+                  <td *ngIf="i+1 === EditRowID" ><input type="text" class="form-control" name="Technology" id="Technology" [(ngModel)]="tech_entity.TechnologyName"></td>
+                  <td *ngIf="i+1 !== EditRowID">{{item.TechnologyDescription}} </td>
+                  <td *ngIf="i+1 === EditRowID"><input type="text" class="form-control" name="Description" id="Description" [(ngModel)]="tech_entity.TechnologyDescription"> </td>
+                  <td *ngIf="i+1 !== EditRowID">{{item.TechnologyFromDate | amDateFormat: 'DD-MM-YYYY' }} </td>
+                  <td *ngIf="i+1 === EditRowID"><input bsDatepicker [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY' , adaptivePosition: true }" type="text" class="form-control"  readonly name="BeginDate" id="BeginDate" [(ngModel)]="tech_entity.TechnologyFromDate"> </td>
+                  <td *ngIf="i+1 !== EditRowID">{{item.TechnologyToDate | amDateFormat: 'DD-MM-YYYY'}} </td>
+                  <td *ngIf="i+1 === EditRowID"><input bsDatepicker [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY' , adaptivePosition: true }" type="text" class="form-control" readonly name="EndDate" id="EndDate" [(ngModel)]="tech_entity.TechnologyToDate"> </td>
                   <td >
                   <div class="btn-group">
-                    <button type="button" class="btn btn-sm btn-outline btn-success" (click)="fnEditItem(i)" ><i class="fa fa-pencil"></i></button><button type="button" class="btn btn-sm btn-outline btn-danger" (click)="fnDeleteItem(i)"><i class="fa fa-trash"></i></button>
-                  </div>
-                    
-                  
+                    <button type="button" class="btn btn-sm btn-outline btn-primary" (click)="fnSaveItem(i)" *ngIf="i+1 === EditRowID" ><i class="fa fa-check"></i></button>
+                    <button type="button" class="btn btn-sm btn-outline btn-success" (click)="fnEditItem(i)"*ngIf="i+1 !== EditRowID"><i class="fa fa-pencil"></i></button>
+                    <button type="button" class="btn btn-sm btn-outline btn-danger" (click)="fnDeleteItem(i)" *ngIf="i+1 !== EditRowID"><i class="fa fa-trash"></i></button>
+                  </div>                      
                   </td>
                 </tr>
-                <!-- <tr >
-                  <td> {{entity.FactoryTechnology.length+1}} </td>
-                  <td><input type="text" class="form-control" name="Technology" id="Technology" [(ngModel)]="tech_entity.TechnologyName"></td>
-                  <td><input type="text" class="form-control" name="Description" id="Description" [(ngModel)]="tech_entity.TechnologyDescription"></td>
-                  <td> <input bsDatepicker [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY' , adaptivePosition: true }" type="text" class="form-control"  readonly name="BeginDate" id="BeginDate" [(ngModel)]="tech_entity.TechnologyFromDate"></td>
-                  <td><input bsDatepicker [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY' , adaptivePosition: true }" type="text" class="form-control" readonly name="EndDate" id="EndDate" [(ngModel)]="tech_entity.TechnologyToDate"></td>
+                <tr >
+                  <td> {{entity.FactoryTechnology.length +1}} </td>
+                  <td><input type="text" class="form-control" name="NewTechnology" id="NewTechnology" [(ngModel)]="newTechnology.TechnologyName"></td>
+                  <td><input type="text" class="form-control" name="NewDescription" id="NewDescription" [(ngModel)]="newTechnology.TechnologyDescription"></td>
+                  <td> <input bsDatepicker [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY' , adaptivePosition: true }" type="text" class="form-control"  readonly name="NewBeginDate" id="NewBeginDate" [(ngModel)]="newTechnology.TechnologyFromDate"></td>
+                  <td><input bsDatepicker [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY' , adaptivePosition: true }" type="text" class="form-control" readonly name="NewEndDate" id="NewEndDate" [(ngModel)]="newTechnology.TechnologyToDate"></td>
                   <td>
                     <button type="button" class="btn btn-outline btn-info pull-right" (click)="fnAddItem()"><i class="fa fa-plus"></i> </button>
                   </td>
-                </tr> -->
+                </tr>
 
               </tbody>
             </table>
