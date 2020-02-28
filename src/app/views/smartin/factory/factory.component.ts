@@ -153,15 +153,7 @@ export class FactoryComponent implements OnInit {
   fnAddItem() { //press add item (in modal)
     var itemAdd = this.newTechnology;
     if (itemAdd.TechnologyName == null) {
-      this.toastr.warning("Validate", this.trans.instant('Factory.data.TechnologyName') + this.trans.instant('messg.isnull'))
-      return;
-    }
-    if (itemAdd.TechnologyDescription == null) {
-      this.toastr.warning("Validate", this.trans.instant('Factory.data.TechnologyDescription') + this.trans.instant('messg.isnull'))
-      return;
-    }
-    if (itemAdd.TechnologyFromDate == null) {
-      this.toastr.warning("Validate", this.trans.instant('Factory.data.TechnologyFromDate') + this.trans.instant('messg.isnull'))
+      swal.fire("Validate", this.trans.instant('Factory.data.TechnologyName') + this.trans.instant('messg.isnull'), 'warning');
       return;
     }
     itemAdd.FactoryId = this.entity.FactoryId;
