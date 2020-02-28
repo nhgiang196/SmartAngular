@@ -100,6 +100,7 @@
     "loadingRecords": "Loading",
     "processing": "Processing",
     "search": "Search",
+    "searchPlaceholder": "Input search key",
     "zeroRecords": "No Record",
     "url": "URL"
   },
@@ -230,24 +231,29 @@
     "Action": "Action",
     "InputItemTypeName": "Input Item Type Name",
     "InputPropertyName": "Input Property Name",
-    "AddButton": "Add",
+    "AddItemButton": "Add",
     "SaveButton": "Save",
     "CloseButton": "Close",
-    "ErrorExistItemTypeName" : "Item Type is exist"
+    "ErrorExistItemTypeName" : "Item Type already exists"
   },
   "ItemTypeProperty": {
     "ItemTypePropertyName": "Property Name"
   },
   "Unit": {
+    "Breadcrumb": "UNIT",
     "Information": "Unit Information",
     "UnitId": "Unit ID",
     "CreateBy": "Create By",
-    "ItemTypeName": "Item Type Name",
+    "UnitName": "Unit Name",
     "CreateDate": "Create Date",
     "ModifyBy": "Modify By",
     "ModifyDate": "Modify Date",
     "Status": "Status",
     "Action": "Action",
-    "InputUnitName": "Input Unit Name"
+    "InputUnitName": "Input Unit Name",
+    "ErrorExistUnitName" : "Unit already exists",
+    "AddButton": "Add",
+    "SaveButton": "Save",
+    "CloseButton": "Close"
   }
 }

@@ -101,6 +101,7 @@
     "loadingRecords": "Đang lấy dữ liệu",
     "processing": "Đang xử lý",
     "search": "Tìm kiếm",
+    "searchPlaceholder": "Nhập nội dung tìm kiếm",
     "zeroRecords": "Không có bản ghi",
     "url": "Đường dẫn"
   },
@@ -241,7 +242,7 @@
     "Action": "Tác Vụ",
     "InputItemTypeName": "Nhập tên loại vật tư",
     "InputPropertyName": "Nhập tên thuộc tính",
-    "AddButton": "Thêm",
+    "AddItemButton": "Thêm",
     "SaveButton": "Lưu",
     "CloseButton": "Đóng",
     "ErrorExistItemTypeName" : "Loại vật tư đã tồn tại"
@@ -250,16 +251,20 @@
     "ItemTypePropertyName": "Tên thuộc tính"
   },
   "Unit":{
+    "Breadcrumb": "ĐƠN VỊ TÍNH",
     "Information": "Thông tin đơn vị tính",
-    "UnitId": "Mã đơn vị",
+    "UnitId": "ID đơn vị tính",
     "CreateBy": "Người tạo",
-    "UnitName": "Tên đơn vị",
+    "UnitName": "Đơn vị tính",
     "CreateDate": "Ngày tạo",
     "ModifyBy": "Người cập nhật",
     "ModifyDate": "Ngày cập nhật",
     "Status": "Trạng thái",
     "Action": "Tác Vụ",
     "InputUnitName": "Nhập tên đơn vị tính",
-    "ErrorExistUnitName" : "Tên đơn vị tính bị trùng!"
+    "ErrorExistUnitName" : "Đơn vị tính đã tồn tại",
+    "AddButton": "Thêm",
+    "SaveButton": "Lưu",
+    "CloseButton": "Đóng"
   }
 }
