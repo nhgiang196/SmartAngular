@@ -129,6 +129,8 @@ export class FactoryComponent implements OnInit {
     swal.fire({
       title: this.trans.instant('Factory.mssg.DeleteAsk_Title'),
       titleText: this.trans.instant('Factory.mssg.DeleteAsk_Text'),
+      confirmButtonText: 'ok',
+      cancelButtonText: 'no ok',
       type: 'warning',
       showCancelButton: true,
       reverseButtons: true
@@ -139,7 +141,13 @@ export class FactoryComponent implements OnInit {
             var operationResult: any = res
             if (operationResult.Success) {
               swal.fire(
-                'Deleted!', this.trans.instant('messg.delete.success'), 'success'
+                // 'Deleted!', this.trans.instant('messg.delete.success'), 
+                {
+                  title: 'Deleted!',
+                  titleText: this.trans.instant('messg.delete.success'),
+                  confirmButtonText: 'ok',
+                  type: 'success',
+                }
               );
               this.loadInit();
               $("#myModal4").modal('hide');
