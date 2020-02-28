@@ -164,7 +164,7 @@
                                                               <tbody>
                                                                   <tr class="animated fadeInRight"  *ngFor="let item of entity.ItemFactory; let i = index">
                                                                       <td> {{i+1}}</td>
-                                                                      <td> {{item.FactoryName}}</td>
+                                                                      <td> {{item.Factory.FactoryName}}</td>
                                                                       <td> {{item.IntergrationCode}} </td>
                                                                       <td>
                                                                           <button class="btn btn-danger" (click)="fnDeleteFactory(i)">
@@ -205,7 +205,9 @@
                                                     [typeahead]="propertyInput$"
                                                     name="ItemTypePropertyId" 
                                                     required
-                                                    [(ngModel)]="itemPackage.ItemTypePropertyId" name="text" >
+                                                    [(ngModel)]="itemProperty.ItemTypePropertyId" name="text" 
+                                                    (change)="itemPropertyChange($event)"
+                                                    >
                                               </ng-select>
                                                   <!-- <select2 [options]="optionProperty"   (valueChanged)="itemPropertyChange($event)" name="ffactoryId" required></select2> -->
                                                   <!-- <ng-select class="custom" [items]="listProperty" bindLabel="text" bindValue="id" placeholder="Please select property" required
@@ -245,7 +247,7 @@
                                                                 <tbody>
                                                                     <tr class="animated fadeInRight"  *ngFor="let item of entity.ItemProperty; let i = index">
                                                                         <td> {{i+1}}</td>
-                                                                        <td> {{item.ItemPropertyName}}</td>
+                                                                        <td> {{item.ItemTypeProperty.ItemTypePropertyName}}</td>
                                                                         <td> {{item.ItemTypePropertyValue}} </td>
                                                                         <td>
                                                                             <button class="btn btn-danger" (click)="fnDeleteItemProperty(i)">
@@ -283,7 +285,9 @@
                                                 [typeahead]="unitInput$"
                                                 name="ItemPackageUnitId" 
                                                 required
-                                                [(ngModel)]="itemPackage.ItemPackageUnitId" name="text" >
+                                                [(ngModel)]="itemPackage.ItemPackageUnitId" name="text"
+                                                (change)="itemUnitChange($event)"
+                                                >
                                           </ng-select>
                                             <!-- <select2 [options]="optionUnit"   (valueChanged)="itemUnitChange($event)" name="ffactoryId" required></select2> -->
                                           <!-- <ng-select class="custom" [items]="listUnit" bindLabel="text" bindValue="id" placeholder="Please select unit"
@@ -340,7 +344,7 @@
                                                     <tbody>
                                                         <tr  class="animated fadeInRight" *ngFor="let item of entity.ItemPackage; let i = index">
                                                           <td> {{i+1}} </td>
-                                                          <td>{{item.ItemPackageUnitName}}</td>
+                                                          <td>{{item.ItemPackageUnit.UnitName}}</td>
                                                           <td>{{item.ItemPackageCoefficient}} </td>
                                                           <td>{{item.ItemPackageLength}} </td>
                                                           <td>{{item.ItemPackageWidth}} </td>

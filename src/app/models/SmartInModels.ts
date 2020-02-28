@@ -122,28 +122,40 @@ export class ItemFactory{
   ItemFactoryId: number = 0;
   ItemId: number = 0;
   FactoryId: number = 0;
-  FactoryName?: string="";
   IntergrationCode: string="";
+  Factory: Factory = new Factory();
 }
 export class ItemPackage {
 
   ItemPackageId: number = 0
   ItemId: number = 0
   ItemPackageUnitId?: number = 0
-  ItemPackageUnitName: string
   ItemPackageCoefficient?: number = 0
   ItemPackageLength?: number = 0
   ItemPackageWidth?: number = 0
   ItemPackageHeight?: number = 0
   ItemPackageWeight?:number
+  ItemPackageUnit: ItemPackageUnit
+}
+
+export class ItemPackageUnit {
+
+  UnitId?: number = 0
+  UnitName: string
+  CreateBy: string
+  CreateDate?: Date 
+  ItemPackageLength?: number = 0
+  ModifyBy: string
+  ModifyDate:Date
+  Status:boolean
 }
 
 export class ItemProperty {
   ItemPropertyId?: number = 0
   ItemId?: number = 0
   ItemTypePropertyId?: number = 0
-  ItemPropertyName?: string
   ItemTypePropertyValue?: string
+  ItemTypeProperty:ItemTypeProperty = new ItemTypeProperty()
 }
 
 export class ItemTypeProperty {
