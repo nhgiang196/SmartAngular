@@ -66,14 +66,14 @@ export class ItemActionComponent implements OnInit {
     this.propertyInput$.next('Th');
     this.loadFactory();
     this.loadProperty();
-    this.loadUnit();
+    // this.loadUnit();
     this.itemIdPram = this.route.snapshot.params.id;
 
     var listItem = this.route.snapshot.data["item"];
     if (listItem != null) {
       console.log(listItem)
-      this.listUnit = concat(of([{id:listItem.ItemUnit.UnitId, text:listItem.ItemUnit.UnitName }]));
-      this.entity = listItem;
+      this.listUnit = [{id:listItem.ItemUnit.UnitId, text:listItem.ItemUnit.UnitName }] as any;
+      // this.entity = listItem;
       //this.customData();
     }
   }
@@ -477,5 +477,13 @@ loadProperty(){
     this.addFiles.FileList.push(...event.addedFiles);
     // this.uploadFile(event.addedFiles);
     
+    
+    
   }
+
+  ngAfterViewInit(){
+    this.entity=this.route.snapshot.data["item"];
+  }
+
+
 }
