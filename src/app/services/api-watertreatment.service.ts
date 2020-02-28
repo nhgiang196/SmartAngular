@@ -84,7 +84,7 @@ export class WaterTreatmentService {
   }
   /**FILES */
   uploadFile(formData, pathFile) {
-    return this.http.post(`${ApiUrl}/File/UploadFiles/${pathFile}`, formData);
+    return this.http.post(`${ApiUrl}/File/UploadFiles/${pathFile}`, formData, {reportProgress: true, observe: 'events'});
   }
   deleteFile(fileName) {
     return this.http.delete(`${ApiUrl}/File/DeleteFiles`, { params: { fileName: fileName } });
