@@ -308,8 +308,7 @@ loadProperty(){
   private async loadUnit(listInit,callBack) {
    debugger;
     
-    this.listUnit = listInit;
-     concat(
+    this.listUnit =  concat(
         of(listInit), // default items
         this.unitInput$.pipe(
             switchMap(term =>
