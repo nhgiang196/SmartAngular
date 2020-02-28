@@ -28,7 +28,7 @@
               <!-- hidden this button -->
               <button (click)="fnAdd()" type="button" class="btn btn-primary dim" data-toggle="modal"
                 data-target="#myModal4">
-                <i class="fa fa-plus"></i> Add </button>
+                <i class="fa fa-plus"></i>{{'Unit.AddButton' | translate}}</button>
             </div>
           </div>
           <div class="row">
@@ -36,7 +36,7 @@
               class="table table-bordered table-hover table-striped" id="myTable" style="width:100%">
               <thead>
                 <tr>
-                  <th>{{'Unit.UnitId' | translate}}</th>
+                  <th hidden="true">{{'Unit.UnitId' | translate}}</th>
                   <th>{{'Unit.UnitName' | translate}}</th>
                   <th>{{'Unit.CreateBy' | translate}}</th>
                   <th>{{'Unit.CreateDate' | translate}}</th>
@@ -48,7 +48,7 @@
               </thead>
               <tbody *ngIf="Units?.length != 0">
                 <tr *ngFor="let item of Units">
-                  <td style="text-align: left"> {{item.UnitId}}</td>
+                  <td hidden="true" style="text-align: left"> {{item.UnitId}}</td>
                   <td style="text-align: left">{{item.UnitName}}</td>
                   <td style="text-align: left"> {{item.CreateBy}}</td>
                   <td style="text-align: left">{{item.CreateDate | amDateFormat: 'YYYY-MM-DD HH:mm'}}</td>
@@ -120,11 +120,10 @@
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-white" data-dismiss="modal" (click)="loadInit()">Close</button>
+        <button type="button" class="btn btn-white" data-dismiss="modal" (click)="loadInit()">{{'Unit.CloseButton' | translate}}</button>
         <button type="button" *ngIf="ACTION_STATUS=='update'" class="btn btn-danger hide"
           (click)="fnDelete(entity.UnitId)"><i class="fa fa-trash"></i> Delete</button>
-        <button type="button" class="btn btn-primary" (click)="fnSave()" [ladda]="laddaSubmitLoading" [disabled]="myForm.invalid">Save
-          changes</button>
+        <button type="button" class="btn btn-primary" (click)="fnSave()" [ladda]="laddaSubmitLoading" [disabled]="myForm.invalid">{{'Unit.SaveButton' | translate}}</button>
       </div>
     </div>
   </div>
