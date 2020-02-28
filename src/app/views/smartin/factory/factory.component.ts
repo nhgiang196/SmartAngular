@@ -49,7 +49,7 @@ export class FactoryComponent implements OnInit {
 
   FactoryBuiltDate: Date = new Date();
   FactoryStartDate: Date = new Date();
-  FactoryEndDate: Date = new Date();
+  FactoryEndDate: Date = null;
   
   ngOnInit() {
     this.resetEntity();
@@ -77,6 +77,9 @@ export class FactoryComponent implements OnInit {
     this.files = [];
     this.addFiles = { FileList: [], FileLocalNameList : []}
     this.invalid = {};
+    this.FactoryBuiltDate = new Date();
+    this.FactoryStartDate= new Date();
+    this.FactoryEndDate= null;
   }
 
   /** BUTTON ACTIONS */
