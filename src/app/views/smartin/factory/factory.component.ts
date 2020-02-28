@@ -46,10 +46,10 @@ export class FactoryComponent implements OnInit {
   ACTION_STATUS: string;
   factory_showed = 0;
   invalid : any = {FactoryCodeNull: false, FactoryCodeExist: false, FactoryNameNull: false, FactoryNameExist: false};
-
+  
   FactoryBuiltDate: Date = new Date();
   FactoryStartDate: Date = new Date();
-  FactoryEndDate: Date = new Date();
+  FactoryEndDate: Date = null;
   
   ngOnInit() {
     this.resetEntity();
@@ -77,6 +77,9 @@ export class FactoryComponent implements OnInit {
     this.files = [];
     this.addFiles = { FileList: [], FileLocalNameList : []}
     this.invalid = {};
+    this.FactoryBuiltDate = new Date();
+    this.FactoryStartDate= new Date();
+    this.FactoryEndDate= null;
   }
 
   /** BUTTON ACTIONS */
@@ -87,6 +90,7 @@ export class FactoryComponent implements OnInit {
     this.entity.CreateBy = this.auth.currentUser.Username;
   }
   fnEditSignal(id) { //press a link name of entity
+    $("#myModal4").modal('hide');
     if (id==null)  { this.toastr.warning('Factory ID is Null, cant show modal'); return; }
     this.resetEntity();
     this.ACTION_STATUS = 'update';
@@ -166,9 +170,9 @@ export class FactoryComponent implements OnInit {
   async fnSave() { //press save/SUBMIT button 
     this.laddaSubmitLoading = true;
     var e = this.entity;
-    e.FactoryStartDate = this.FactoryStartDate? this.FactoryStartDate.toISOString(): null;
-    e.FactoryBuiltDate = this.FactoryBuiltDate? this.FactoryBuiltDate.toISOString(): null;
-    e.FactoryEndDate = this.FactoryEndDate? this.FactoryEndDate.toISOString() : null;
+    e.FactoryStartDate = this.helper.dateConvertToString(this.FactoryStartDate);
+    e.FactoryBuiltDate = this.helper.dateConvertToString(this.FactoryBuiltDate);
+    e.FactoryEndDate = this.helper.dateConvertToString(this.FactoryEndDate); 
     console.log('send entity: ', e);
     
     
@@ -306,4 +310,10 @@ export class FactoryComponent implements OnInit {
   }
   ngAfterViewInit() { //CSS
   }
+
+  ngOnDestroy(){
+    $('.modal').modal('hide');
+  }
+
+
 }

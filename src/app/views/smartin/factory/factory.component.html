@@ -185,9 +185,9 @@
             <div class="col-lg-12">
               <div class="form-group">
                 <label>{{ 'Factory.label.UploadFile' | translate }} </label>             
-                <ngx-dropzone (change)="onSelect($event)" [expandable]="true" [maxFileSize]="5000*1024">
+                <ngx-dropzone style="min-height: auto;" (change)="onSelect($event)" [expandable]="true" [maxFileSize]="5000*1024">
                   <ngx-dropzone-label>Kéo thả file ở đây!</ngx-dropzone-label>
-                  <ngx-dropzone-preview class="animated fadeInUp"  ngProjectAs="ngx-dropzone-preview" *ngFor="let f of files ;let i = index" [file]="f"   [removable]="true" (removed)="onRemove(f)" (click)=downloadFile(f.name) >
+                  <ngx-dropzone-preview class="dropDownCustomClass animated fadeInUp"  ngProjectAs="ngx-dropzone-preview" *ngFor="let f of files ;let i = index" [file]="f"   [removable]="true" (removed)="onRemove(f)" (click)=downloadFile(f.name) >
                     <ngx-dropzone-label style="font-size:11px;" > {{entity.FactoryFile[i].File.FileOriginalName}}
                     </ngx-dropzone-label>
                   </ngx-dropzone-preview>
@@ -196,11 +196,45 @@
             </div>
           </div>
           <hr>
+          <div class="row">
+            <div class="col-lg-6">
+              <div class="form-group">
+                <label>{{ 'Factory.data.TechnologyName' | translate }}: </label>
+                <input type="text" class="form-control" name="Technology" id="Technology"
+                  [(ngModel)]="tech_entity.TechnologyName">
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="form-group">
+                <label>{{ 'Factory.data.TechnologyDescription' | translate }}: </label>
+                <input type="text" class="form-control" name="Description" id="Description"
+                  [(ngModel)]="tech_entity.TechnologyDescription">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-6">
+              <div class="form-group">
+                <label>{{ 'Factory.data.TechnologyFromDate' | translate }}: </label>
+                <input bsDatepicker [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY' , adaptivePosition: true }" type="text" class="form-control"  readonly
+                  name="BeginDate" id="BeginDate" [(ngModel)]="tech_entity.TechnologyFromDate">
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="form-group">
+                <label>{{ 'Factory.data.TechnologyToDate' | translate }}: </label>
+                <input bsDatepicker [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY' , adaptivePosition: true }" type="text" class="form-control" readonly
+                  name="EndDate" id="EndDate" [(ngModel)]="tech_entity.TechnologyToDate">
+              </div>
+            </div>
+          </div>
+          <button type="button" class="btn btn-success pull-right" (click)="fnAddItem()">Add</button>
+
             <table class="table table-bordered">
               <thead>
                 <tr>
                   <th  width="5%"  >#</th>
-                  <th  width="20%" >{{ 'Factory.data.FactoryTechnologyID' | translate }}</th>
+                  <th  width="20%" >{{ 'Factory.data.TechnologyName' | translate }}</th>
                   <th  width="35%" >{{ 'Factory.data.TechnologyDescription' | translate }}</th>
                   <th  width="15%" >{{ 'Factory.data.TechnologyFromDate' | translate }}</th>
                   <th  width="15%" >{{ 'Factory.data.TechnologyToDate' | translate }}</th>
@@ -224,7 +258,7 @@
                   
                   </td>
                 </tr>
-                <tr >
+                <!-- <tr >
                   <td> {{entity.FactoryTechnology.length+1}} </td>
                   <td><input type="text" class="form-control" name="Technology" id="Technology" [(ngModel)]="tech_entity.TechnologyName"></td>
                   <td><input type="text" class="form-control" name="Description" id="Description" [(ngModel)]="tech_entity.TechnologyDescription"></td>
@@ -233,7 +267,7 @@
                   <td>
                     <button type="button" class="btn btn-outline btn-info pull-right" (click)="fnAddItem()"><i class="fa fa-plus"></i> </button>
                   </td>
-                </tr>
+                </tr> -->
 
               </tbody>
             </table>

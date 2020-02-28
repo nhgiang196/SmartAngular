@@ -13,8 +13,9 @@ export class AppComponent implements OnInit {
     private auth: AuthService,
     public translate: TranslateService) {
     translate.addLangs(['en', 'vn', 'zh']);
-    translate.setDefaultLang(localStorage.getItem('locallanguage') || 'en');
-    
+    // translate.setDefaultLang(localStorage.getItem('locallanguage') || 'en');
+    translate.use(localStorage.getItem('locallanguage') || 'en');
+
 
   }
   ngOnInit() {
