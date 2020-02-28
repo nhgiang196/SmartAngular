@@ -215,7 +215,7 @@ export class ItemActionComponent implements OnInit {
 
   factoryChange(item) {
     this.itemFactory.FactoryId =item.value;
-    if (item.data.length > 0) this.itemFactory.FactoryName = item.data[0].text;
+    if (item.data.length > 0) this.itemFactory.Factory.FactoryName = item.data[0].text;
   }
 
   fnAddFactory() {
@@ -280,7 +280,7 @@ loadProperty(){
 
   itemPropertyChange(item) {
     this.itemProperty.ItemTypePropertyId =item.value;
-    if (item.data.length > 0) this.itemProperty.ItemPropertyName = item.data[0].text;
+    if (item.data.length > 0) this.itemProperty.ItemTypePropertyValue = item.data[0].text;
   }
 
   fnAddProperty() {
@@ -351,7 +351,7 @@ loadProperty(){
         this.entity.ItemUnitId =item.value;
       }
     this.itemPackage.ItemPackageUnitId =item.value;
-    if (item.data.length > 0) this.itemPackage.ItemPackageUnitName = item.data[0].text;
+    if (item.data.length > 0) this.itemPackage.ItemPackageUnit.UnitName = item.data[0].text;
   }
 
   fnAddPackage() {
