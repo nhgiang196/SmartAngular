@@ -89,6 +89,7 @@ export class FactoryComponent implements OnInit {
     this.FactoryStartDate= new Date();
     this.FactoryEndDate= null;
     this.uploadReportProgress =  { progress : 0, message: null , isError: null };
+    this.EditRowID=0;
   }
 
   /** BUTTON ACTIONS */
