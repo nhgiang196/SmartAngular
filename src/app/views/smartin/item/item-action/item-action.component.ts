@@ -76,10 +76,10 @@ export class ItemActionComponent implements OnInit {
       
      await this.loadUnit(listInit,()=>{
       this.entity = item;
-      this.entity.ItemUnitId=103;
+      
      });
+     this.entity.ItemUnitId=25;
    
-      debugger;
       this.customFile();
     }
     // this.loadUnit();
@@ -94,7 +94,7 @@ export class ItemActionComponent implements OnInit {
     // if (this.listProperty.length > 0) {
     //   this.entity.ItemTypeId = this.listProperty[1].itemId;
     // }
-
+    
     let e = this.entity;
     if (this.itemIdPram == null) {
       e.CreateDate = new Date();
@@ -240,9 +240,10 @@ export class ItemActionComponent implements OnInit {
 
   ////////// Area Item Property //////////////////
 
-loadProperty(){
+async loadProperty(){
+  let items = await this.api.getItemTypeToSelect2('','HC').toPromise().then()
   this.listProperty = concat(
-    of([]), // default items
+    of(items), // default items
     this.propertyInput$.pipe(
         distinctUntilChanged(),
         switchMap(term =>
@@ -255,7 +256,9 @@ loadProperty(){
         
         )
     )
+    
 );
+this.itemProperty.ItemTypePropertyId =2
 }
 
   itemPropertyChange(item) {
