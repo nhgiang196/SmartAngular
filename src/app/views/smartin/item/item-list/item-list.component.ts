@@ -25,71 +25,13 @@ declare let $: any;
   styleUrls: ["./item-list.component.css"]
 })
 export class ItemListComponent implements OnInit {
-  code: string = "HC";
   Items: Item[];
-  entity: Item;
-  factory: Factory;
-  itemFactory: ItemFactory = new ItemFactory();
-  itemProperty: ItemProperty = new ItemProperty();
-  itemPackage: ItemPackage = new ItemPackage();
-
-  ItemProperty: ItemProperty;
+  
   dtOptions: DataTables.Settings = {};
   dtTrigger: Subject<any> = new Subject();
   public ACTION_STATUS: string;
   iboxloading = false;
-  laddaSubmitLoading = false;
-  files: File[] = [];
-  private pathFile = "uploadFilesItem";
-
-  //get token use select 2
-
-  // option: Select2Options = {
-  //   ajax: {
-  //     url: "/api/v1/Unit/GetUnitPagination",
-  //     headers: {
-  //       Accept: "application/json",
-  //       "Content-Type": "application/json"
-  //       // "Authorization": `Bearer ${localStorage.getItem("userToken")}`
-  //     },
-  //     beforeSend: function(xhr) {
-  //       debugger;
-  //       xhr.setRequestHeader(
-  //         "Authorization",
-  //         "Bearer " + localStorage.getItem("userToken")
-  //       );
-  //     },
-  //     type: "POST",
-  //     dataType: "json",
-  //     data: function(params) {
-  //       const model = new DataTablePaginationParram();
-  //       model.key = "";
-  //       model.entity = "Unit";
-  //       model.keyFields = "";
-  //       model.selectFields = "UnitID,UnitName";
-  //       model.page = 1;
-  //       model.pageSize = 9999;
-  //       model.orderDir = "Asc";
-  //       model.orderBy = "UnitName";
-
-  //       return model;
-  //     },
-  //     processResults: function(data, params) {
-  //       return {
-  //         results: $.map(data, function(item) {
-  //           return {
-  //             text: item.content,
-  //             id: item.id,
-  //             data: item
-  //           };
-  //         })
-  //       };
-  //     }
-  //   }
-    
-  // };
-
-
+  
   constructor(
     private api: WaterTreatmentService,
     private toastr: ToastrService,

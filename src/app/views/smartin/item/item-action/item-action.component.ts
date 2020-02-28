@@ -13,8 +13,10 @@ import { TranslateService } from "@ngx-translate/core";
 import { AuthService } from "src/app/services/auth.service";
 import { MyHelperService } from "src/app/services/my-helper.service";
 import { Router, ActivatedRoute } from "@angular/router";
-import { map } from "rxjs/operators";
+import { map, distinctUntilChanged, tap, switchMap, catchError } from "rxjs/operators";
 import swal from 'sweetalert2';
+import { Select2OptionData } from 'ng2-select2';
+import { of, concat, Observable, Subject } from 'rxjs';
 
 @Component({
   selector: "app-item-action",
@@ -31,13 +33,22 @@ export class ItemActionComponent implements OnInit {
   itemProperty: ItemProperty = new ItemProperty();
   itemPackage: ItemPackage = new ItemPackage();
 
-  listFactory: any = [];
-  listProperty: any = [];
-  listUnit: any = [];
+  //listFactory: any = [];
+  // listProperty: any = [];
+  // listUnit: any = [];
 
   laddaSubmitLoading = false;
   files: File[] = [];
   addFiles : {FileList : File[], FileLocalNameList: string[]};
+
+    listFactory: Observable<any>;
+    listUnit: Observable<any>;
+    listProperty:Observable<any>;
+
+    factoryInput$ = new Subject<string>();
+    unitInput$ = new Subject<string>();
+    propertyInput$ = new Subject<string>();
+
 
   constructor(
     private api: WaterTreatmentService,
@@ -51,25 +62,28 @@ export class ItemActionComponent implements OnInit {
 
   async ngOnInit() {
     this.addFiles = { FileList: [], FileLocalNameList : []};
-
-    this.listFactory = await this.loadFactory();
-    this.listProperty = await this.loadProperty();
-    this.listUnit = await this.loadUnit();
+    // this.propertyInput$ =null;
+    this.propertyInput$.next('Th');
+    this.loadFactory();
+    this.loadProperty();
+    this.loadUnit();
     this.itemIdPram = this.route.snapshot.params.id;
 
     var listItem = this.route.snapshot.data["item"];
     if (listItem != null) {
       console.log(listItem)
+      this.listUnit = concat(of([{id:listItem.ItemUnit.UnitId, text:listItem.ItemUnit.UnitName }]));
       this.entity = listItem;
-      this.customData();
+      //this.customData();
     }
   }
 
+
   async fnSave() {
     this.laddaSubmitLoading = true;
-    if (this.listProperty.length > 0) {
-      this.entity.ItemTypeId = this.listProperty[1].itemId;
-    }
+    // if (this.listProperty.length > 0) {
+    //   this.entity.ItemTypeId = this.listProperty[1].itemId;
+    // }
 
     let e = this.entity;
     if (this.itemIdPram == null) {
@@ -136,36 +150,36 @@ export class ItemActionComponent implements OnInit {
 
   customData() {
     //Custom factory
-    this.entity.ItemFactory.map(itemFactory => {
-      let findNameFactory = this.listFactory.find(
-        item => item.id == itemFactory.FactoryId
-      );
-      if (findNameFactory != null) {
-        itemFactory.FactoryName = findNameFactory.text;
-        return itemFactory;
-      }
-    });
-    //Custom property
-    this.entity.ItemProperty.map(itemProperty => {
-      let findNameProperty = this.listProperty.find(
-        item => item.id == itemProperty.ItemTypePropertyId
-      );
-      if (findNameProperty != null) {
-        itemProperty.ItemPropertyName = findNameProperty.text;
-        return itemProperty;
-      }
-    });
+    // this.entity.ItemFactory.map(itemFactory => {
+    //   let findNameFactory = this.listFactory.find(
+    //     item => item.id == itemFactory.FactoryId
+    //   );
+    //   if (findNameFactory != null) {
+    //     itemFactory.FactoryName = findNameFactory.text;
+    //     return itemFactory;
+    //   }
+    // });
+    // //Custom property
+    // this.entity.ItemProperty.map(itemProperty => {
+    //   let findNameProperty = this.listProperty.find(
+    //     item => item.id == itemProperty.ItemTypePropertyId
+    //   );
+    //   if (findNameProperty != null) {
+    //     itemProperty.ItemPropertyName = findNameProperty.text;
+    //     return itemProperty;
+    //   }
+    // });
 
-    //Custom Package
-    this.entity.ItemPackage.map(itemPackage => {
-      let findNamePackage = this.listUnit.find(
-        item => item.id == itemPackage.ItemPackageUnitId
-      );
-      if (findNamePackage != null) {
-        itemPackage.ItemPackageUnitName = findNamePackage.text;
-        return itemPackage;
-      }
-    });
+    // //Custom Package
+    // this.entity.ItemPackage.map(itemPackage => {
+    //   let findNamePackage = this.listUnit.find(
+    //     item => item.id == itemPackage.ItemPackageUnitId
+    //   );
+    //   if (findNamePackage != null) {
+    //     itemPackage.ItemPackageUnitName = findNamePackage.text;
+    //     return itemPackage;
+    //   }
+    // });
 
     /**CONTROL FILES */
     this.entity.ItemFile.forEach(item =>{
@@ -178,36 +192,33 @@ export class ItemActionComponent implements OnInit {
 
   ////////////// Area Func Factory///////////////
 
-  async loadFactory() {
-    const model = new DataTablePaginationParram();
-    model.key = "";
-    model.entity = "Factory";
-    model.keyFields = "";
-    model.selectFields = "FactoryID,FactoryName";
-    model.page = 1;
-    model.pageSize = 9999;
-    model.orderDir = "Asc";
-    model.orderBy = "FactoryName";
-
-    return await this.api
-      .getAllFactoryPagination(model)
-      .pipe(
-        map((res: any) => {
-          let result = res.result.map(item => {
-            return { id: item.FactoryID, text: item.FactoryName };
-          });
-          return result;
-        })
-      )
-      .toPromise();
+  
+  private loadFactory() {
+    this.listFactory = concat(
+        of([]), // default items
+        this.factoryInput$.pipe(
+            distinctUntilChanged(),
+            switchMap(term =>
+               this.api.getFactoryToSelect2(term).pipe(
+                map(res=>{
+                  return res.result.map(item=>{
+                    return {id: item.FactoryID,text:item.FactoryName}
+                  })
+                }),
+                catchError(() => of([]))
+                )
+            
+            )
+        )
+    );
   }
 
   factoryChange(item) {
-    if (item != null) this.itemFactory.FactoryName = item.text;
+    this.itemFactory.FactoryId =item.value;
+    if (item.data.length > 0) this.itemFactory.FactoryName = item.data[0].text;
   }
 
   fnAddFactory() {
-    debugger;
     this.itemFactory.IntergrationCode = this.itemFactory.IntergrationCode;
 
     let isValidate = this.validateFactory(
@@ -248,38 +259,28 @@ export class ItemActionComponent implements OnInit {
   }
 
   ////////// Area Item Property //////////////////
- async loadProperty() {
-    const modelItemType = new DataTablePaginationParram();
-    modelItemType.key = "";
-    modelItemType.entity = "";
-    modelItemType.keyFields = "";
-    modelItemType.selectFields = "";
-    modelItemType.page = 1;
-    modelItemType.pageSize = 9999;
-    modelItemType.orderDir = "Asc";
-    modelItemType.orderBy = "";
 
-    // this.api
-    //   .getItemTypePaginationByCode(modelItemType, this.code)
-    //   .subscribe(res => {
-    //     let result = res as any;
-    //     this.listProperty = result.result;
-
-    //     this.listProperty.unshift({ id: 0, text: "Please select property" });
-    //   });
-
-    return await this.api
-      .getItemTypePaginationByCode(modelItemType, this.code)
-      .pipe(
-        map((res: any) => {
-          return res.result;
-        })
-      )
-      .toPromise();
-  }
+loadProperty(){
+  this.listProperty = concat(
+    of([]), // default items
+    this.propertyInput$.pipe(
+        distinctUntilChanged(),
+        switchMap(term =>
+           this.api.getItemTypeToSelect2(term,this.code).pipe(
+            map(res=>{
+              return res.result;
+            }),
+            catchError(() => of([]))
+            )
+        
+        )
+    )
+);
+}
 
   itemPropertyChange(item) {
-    if (item != null) this.itemProperty.ItemPropertyName = item.text;
+    this.itemProperty.ItemTypePropertyId =item.value;
+    if (item.data.length > 0) this.itemProperty.ItemPropertyName = item.data[0].text;
   }
 
   fnAddProperty() {
@@ -322,39 +323,35 @@ export class ItemActionComponent implements OnInit {
 
   ////////// Area Item Unit //////////////////
 
- async loadUnit() {
-    const model = new DataTablePaginationParram();
-    model.key = "";
-    model.entity = "Unit";
-    model.keyFields = "";
-    model.selectFields = "UnitID,UnitName";
-    model.page = 1;
-    model.pageSize = 9999;
-    model.orderDir = "Asc";
-    model.orderBy = "UnitName";
+  private async loadUnit() {
+  //  this.listUnit =await concat(of([{id:1,text:"ac"}]));
+  //   this.entity.ItemUnitId =1;
 
-    // this.api.getUnitPagination(model).subscribe(res => {
-    //   const result = res as any;
-    //   this.listUnit = result.result.map(item => {
-    //     return { id: item.UnitID, text: item.UnitName };
-    //   });
-    // });
-
-    return await this.api
-    .getUnitPagination(model)
-    .pipe(
-      map((res: any) => {
-        let result =res.result.map(item => {
-          return { id: item.UnitID, text: item.UnitName };
-        });
-        return result;
-      })
-    )
-    .toPromise();
+    this.listUnit = concat(
+        of([]), // default items
+        this.unitInput$.pipe(
+            distinctUntilChanged(),
+            switchMap(term =>
+               this.api.getUnitSelect2(term).pipe(
+                map(res=>{
+                  return res.result.map(item=>{
+                    return {id: item.UnitID,text:item.UnitName}
+                  })
+                }),
+                catchError(() => of([]))
+                )
+            )
+        )
+    );
   }
 
-  itemUnitChange(item) {
-    if (item != null) this.itemPackage.ItemPackageUnitName = item.text;
+  itemUnitChange(item,isSetId=false) {
+    if(isSetId)
+      {
+        this.entity.ItemUnitId =item.value;
+      }
+    this.itemPackage.ItemPackageUnitId =item.value;
+    if (item.data.length > 0) this.itemPackage.ItemPackageUnitName = item.data[0].text;
   }
 
   fnAddPackage() {
