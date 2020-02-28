@@ -32,7 +32,7 @@
             </div>
             <div class="col-sm-4 text-center">
               <h2> {{'Factory.label.TotalFactory' | translate}} {{factory_showed}} {{'Factory.' | translate}} </h2>
-              <small>Hiển thị  {{factory.length}} nhà máy </small>
+              <small>{{'Factory.label.TotalFactory1' | translate}} {{factory.length}} {{'Factory.label.TotalFactory2' | translate}}</small>
             </div>
 
             <div class="col-sm-4">
@@ -92,14 +92,14 @@
             <div class="col-lg-6">
               <div class="form-group">
                 <label> {{ 'Factory.data.FactoryCode' | translate }} *: </label>
-                <input type="text" name="Numcode" id="Numcode" class="form-control" placeholder="Enter your Numcode" 
+                <input type="text" name="Numcode" id="Numcode" class="form-control" placeholder="{{ 'Factory.placeholder.FactoryCode' | translate }}" 
                   [(ngModel)]="entity.FactoryCode" [ngClass]="{ 'is-invalid':  invalid.FactoryCodeExist }" required>
                   <div *ngIf="invalid.FactoryCodeExist" style="color: red;">{{ 'Factory.invalid.FactoryCodeExist' | translate }}</div>
               </div>
             </div>
             <div class="col-lg-6">
               <label>{{ 'Factory.data.FactoryBuiltDate' | translate }} :</label>
-              <input type="text" name="DateBuild" id="DateBuild" class="form-control" placeholder="Enter your DateBuild" 
+              <input type="text" name="DateBuild" id="DateBuild" class="form-control" placeholder="{{ 'Factory.placeholder.FactoryBuiltDate' | translate }}"  
                 bsDatepicker readonly [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY' , adaptivePosition: true }" [(ngModel)]="FactoryBuiltDate">
             </div>
           </div>
@@ -107,14 +107,14 @@
             <div class="col-lg-6">
               <div class="form-group">
                 <label>{{ 'Factory.data.FactoryName' | translate }} *:</label>
-                <input type="text" name="Name" id="Name" class="form-control" placeholder="Enter your Name"
+                <input type="text" name="Name" id="Name" class="form-control" placeholder="{{ 'Factory.placeholder.FactoryName' | translate }}"
                   [(ngModel)]="entity.FactoryName" [ngClass]="{ 'is-invalid': invalid.FactoryNameExist }" required>
                   <div *ngIf="invalid.FactoryNameExist" style="color: red;">{{ 'Factory.invalid.FactoryNameExist' | translate }}</div>
               </div>
             </div>
             <div class="col-lg-6">
               <label>{{ 'Factory.data.FactoryStartDate' | translate }} :</label>
-              <input readonly type="text" name="DateStart" id="DateStart" class="form-control" bsDatepicker readonly  placeholder="Enter Your Factory Start Date"
+              <input readonly type="text" name="DateStart" id="DateStart" class="form-control" bsDatepicker readonly  placeholder="{{ 'Factory.placeholder.FactoryStartDate' | translate }}"
                 [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY' , adaptivePosition: true }" [(ngModel)]="FactoryStartDate">
 
             </div>
@@ -123,28 +123,28 @@
             <div class="col-lg-6">
               <div class="form-group">
                 <label>{{ 'Factory.data.FactoryAddress' | translate }} :</label>
-                <input type="text" name="Address" id="Address" class="form-control" placeholder="Enter your Address"
+                <input type="text" name="Address" id="Address" class="form-control" placeholder="{{ 'Factory.placeholder.FactoryAddress' | translate }}"
                   [(ngModel)]="entity.FactoryAddress">
               </div>
             </div>
             <div class="col-lg-6">
               <label>{{ 'Factory.data.FactoryEndDate' | translate }} :</label>
               <input  type="text" name="DateEnd" id="DateEnd" class="form-control"  [ngClass]="entity.Status==0? 'animated pulse' : '' " bsDatepicker  readonly
-                [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY' , adaptivePosition: true }" [disabled]="entity.Status==1"   [(ngModel)]="FactoryEndDate"  placeholder="Enter Your Factory End Date"> 
+                [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY' , adaptivePosition: true }" [disabled]="entity.Status==1"   [(ngModel)]="FactoryEndDate"  placeholder="{{ 'Factory.placeholder.FactoryEndDate' | translate }}"> 
             </div>
           </div>
           <div class="row">
             <div class="col-lg-6">
               <div class="form-group">
                 <label>{{ 'Factory.data.FactoryContact' | translate }} :</label>
-                <input type="text" name="FactoryContact" id="FactoryContact" class="form-control" placeholder="Enter contacter"
+                <input type="text" name="FactoryContact" id="FactoryContact" class="form-control" placeholder="{{ 'Factory.placeholder.FactoryContact' | translate }}"
                   [(ngModel)]="entity.FactoryContact">
               </div>
             </div>
             <div class="col-lg-6">
               <div class="form-group">
                 <label>{{ 'Factory.data.ContactPhone' | translate }} :</label>
-                <input type="text" name="ContactPhone" id="ContactPhone" class="form-control" placeholder="Enter factory Contact Phone"
+                <input type="text" name="ContactPhone" id="ContactPhone" class="form-control" placeholder="{{ 'Factory.placeholder.ContactPhone' | translate }}"
                   [(ngModel)]="entity.ContactPhone">
               </div>
             </div>
@@ -153,7 +153,7 @@
             <div class="col-lg-6">
               <div class="form-group">
                 <label>{{ 'Factory.data.FactoryType' | translate }}:</label>
-                <select class="select2_demo_3 form-control" [(ngModel)]="entity.FactoryType" name="FactoryType"  placeholder="Select Factory Type">
+                <select class="select2_demo_3 form-control" [(ngModel)]="entity.FactoryType" name="FactoryType" >
                   <option selected value=1> {{ 'Factory.data.FactoryType1' | translate }} </option>
                   <option value=2> {{ 'Factory.data.FactoryType2' | translate }} </option>
                   <option value=3> {{ 'Factory.data.FactoryType3' | translate }} </option>
@@ -186,7 +186,7 @@
               <div class="form-group">
                 <label>{{ 'Factory.label.UploadFile' | translate }} </label>             
                 <ngx-dropzone style="min-height: auto;" (change)="onSelect($event)" [expandable]="true" [maxFileSize]="5000*1024">
-                  <ngx-dropzone-label><i class="fa fa-upload"></i> Kéo thả file ở đây!</ngx-dropzone-label>
+                  <ngx-dropzone-label><i class="fa fa-upload"></i> {{ 'Factory.label.UploadFileCaption' | translate }} </ngx-dropzone-label>
                   <ngx-dropzone-preview class="dropDownCustomClass animated fadeInUp"  ngProjectAs="ngx-dropzone-preview" *ngFor="let f of files ;let i = index" [file]="f"   [removable]="true" (removed)="onRemove(f)" (click)=downloadFile(entity.FactoryFile[i].File.FileLocalName) >
                     <ngx-dropzone-label style="font-size:11px;" ><i class="fa fa-download"></i> {{entity.FactoryFile[i].File.FileOriginalName}}
                     </ngx-dropzone-label>
@@ -198,8 +198,8 @@
           <div class="row">
             <div class="col-lg-12">
               <span class="badge" [ngClass]="{'badge-primary': uploadReportProgress.progress==100, 'badge-danger':uploadReportProgress.isError}" >{{uploadReportProgress.message}}</span>
-              <div class="progress progress-striped active">
-                <div class="progress-bar progress-bar-success" role="progressbar"
+              <div *ngIf="uploadReportProgress.progress!=100" class="progress progress-striped active">
+                <div  class="progress-bar progress-bar-success" role="progressbar"
                   [style.width.%]="uploadReportProgress.progress">
                   {{uploadReportProgress.progress}}%
                 </div>
@@ -293,7 +293,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-white" data-dismiss="modal">{{'Button.Close' | translate}}  </button>
-        <button type="button" class="btn btn-primary" (click)="fnSave();" [ladda]="laddaSubmitLoading" [disabled]="myForm.invalid"><i class="fa fa-paper-plane-o"></i> {{'Button.Save' | translate}} </button>
+        <button type="button" class="btn btn-primary" (click)="fnSave();" [ladda]="laddaSubmitLoading" [disabled]="myForm.invalid||EditRowID!=0"><i class="fa fa-paper-plane-o"></i> {{'Button.Save' | translate}} </button>
       </div>
     </div>
   </div>

@@ -50,7 +50,7 @@ export class UnitMeasurementComponent implements OnInit {
       pageLength: 10,
       language:
       {
-        searchPlaceholder: 'Nhập nội dung tìm kiếm',
+        searchPlaceholder: this.trans.instant('DefaultTable.searchPlaceholder'),
         emptyTable: this.trans.instant('DefaultTable.emptyTable'),
         info: this.trans.instant('DefaultTable.info'),
         infoEmpty: this.trans.instant('DefaultTable.infoEmpty'),
@@ -70,8 +70,7 @@ export class UnitMeasurementComponent implements OnInit {
           previous: "<"
         }
       }
-    };
-    
+    };    
   }
 
    loadUnit = async () => {

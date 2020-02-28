@@ -89,6 +89,7 @@ export class FactoryComponent implements OnInit {
     this.FactoryStartDate= new Date();
     this.FactoryEndDate= null;
     this.uploadReportProgress =  { progress : 0, message: null , isError: null };
+    this.EditRowID=0;
   }
 
   /** BUTTON ACTIONS */
@@ -128,6 +129,8 @@ export class FactoryComponent implements OnInit {
     swal.fire({
       title: this.trans.instant('Factory.mssg.DeleteAsk_Title'),
       titleText: this.trans.instant('Factory.mssg.DeleteAsk_Text'),
+      confirmButtonText: 'ok',
+      cancelButtonText: 'no ok',
       type: 'warning',
       showCancelButton: true,
       reverseButtons: true
@@ -138,7 +141,13 @@ export class FactoryComponent implements OnInit {
             var operationResult: any = res
             if (operationResult.Success) {
               swal.fire(
-                'Deleted!', this.trans.instant('messg.delete.success'), 'success'
+                // 'Deleted!', this.trans.instant('messg.delete.success'), 
+                {
+                  title: 'Deleted!',
+                  titleText: this.trans.instant('messg.delete.success'),
+                  confirmButtonText: 'ok',
+                  type: 'success',
+                }
               );
               this.loadInit();
               $("#myModal4").modal('hide');
@@ -152,15 +161,7 @@ export class FactoryComponent implements OnInit {
   fnAddItem() { //press add item (in modal)
     var itemAdd = this.newTechnology;
     if (itemAdd.TechnologyName == null) {
-      this.toastr.warning("Validate", this.trans.instant('Factory.data.TechnologyName') + this.trans.instant('messg.isnull'))
-      return;
-    }
-    if (itemAdd.TechnologyDescription == null) {
-      this.toastr.warning("Validate", this.trans.instant('Factory.data.TechnologyDescription') + this.trans.instant('messg.isnull'))
-      return;
-    }
-    if (itemAdd.TechnologyFromDate == null) {
-      this.toastr.warning("Validate", this.trans.instant('Factory.data.TechnologyFromDate') + this.trans.instant('messg.isnull'))
+      swal.fire("Validate", this.trans.instant('Factory.data.TechnologyName') + this.trans.instant('messg.isnull'), 'warning');
       return;
     }
     itemAdd.FactoryId = this.entity.FactoryId;
