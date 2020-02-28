@@ -36,7 +36,7 @@
               class="table table-bordered table-hover table-striped" id="myTable" style="width:100%">
               <thead>
                 <tr>
-                  <th>{{'ItemType.ItemTypeId' | translate}}</th>
+                  <th hidden = "true">{{'ItemType.ItemTypeId' | translate}}</th>
                   <th>{{'ItemType.ItemTypeName' | translate}}</th>
                   <th>{{'ItemType.ItemTypeCode' | translate}}</th>
                   <th>{{'ItemType.CreateBy' | translate}}</th>
@@ -49,7 +49,7 @@
               </thead>
               <tbody *ngIf="itemTypes?.length != 0">
                 <tr *ngFor="let item of itemTypes">
-                  <td style="text-align: left"> {{item.ItemTypeId}}</td>
+                  <td hidden = "true" style="text-align: left"> {{item.ItemTypeId}}</td>
                   <td style="text-align: left">{{item.ItemTypeName}}</td>
                   <td style="text-align: left">{{item.ItemTypeCode}}</td>
                   <td style="text-align: left"> {{item.CreateBy}}</td>
@@ -120,7 +120,7 @@
             </div>
             <div class="col-lg-2">
               <br>
-              <button type="button" class="btn btn-success" (click)="fnAddItem()">Add</button>
+              <button type="button" class="btn btn-success" (click)="fnAddItem()">{{'ItemType.AddButton' | translate}}</button>
             </div>
           </div>
           <div class="row">
@@ -145,9 +145,8 @@
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-white" data-dismiss="modal" (click)="loadInit()">Close</button>     
-        <button type="button" class="btn btn-primary" (click)="fnSave();" [ladda]="laddaSubmitLoading" [disabled]="myForm.invalid">Save
-          changes</button>
+        <button type="button" class="btn btn-white" data-dismiss="modal" (click)="loadInit()">{{'ItemType.CloseButton' | translate}}</button>     
+        <button type="button" class="btn btn-primary" (click)="fnSave();" [ladda]="laddaSubmitLoading" [disabled]="myForm.invalid">{{'ItemType.SaveButton' | translate}}</button>
       </div>
     </div>
   </div>
