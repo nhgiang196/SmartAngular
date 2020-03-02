@@ -83,15 +83,13 @@ export class ItemActionComponent implements OnInit {
     }
 
     let e = this.entity;
-    if (this.itemIdPram == null) {
-      e.CreateDate = new Date();
+    if (this.itemIdPram == null) 
       e.CreateBy = this.auth.currentUser.Username;
-    } else {
-      e.ModifyDate = new Date();
-      e.ModifyBy = this.auth.currentUser.Username;
-    }
+    else
+     e.ModifyBy = this.auth.currentUser.Username;
 
     console.log("send entity: ", e);
+    debugger
     e.ItemProperty =[];
     e.ItemPackage = [];
     if (this.itemIdPram == null) {
@@ -275,7 +273,7 @@ export class ItemActionComponent implements OnInit {
     //this.entity.ItemFactory =  //mảng mới []
 
      this.entity.ItemFactory = this.listItemFactories;
-     this.entity.ItemFactory
+     //this.entity.ItemFactory
   }
 
   validateFactory(factoryId, code) {

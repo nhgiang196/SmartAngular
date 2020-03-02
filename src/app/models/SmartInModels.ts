@@ -194,20 +194,20 @@ export class Unit {
 
 
 export class Warehouse {
-  WarehouseId:number = null
+  WarehouseId:number = 0
   WarehouseCode: string
   WarehouseName: string
-  FactoryId:number
+  FactoryId:number = 0
   WarehouseType:number = 1
   WarehouseAddress: string
   WarehouseUserName: string
-  WarehouseLength:number
-  WarehouseWidth:number
-  WarehouseHeight:number
+  WarehouseLength:number =0
+  WarehouseWidth:number = 0
+  WarehouseHeight:number = 0
   CreateBy: string
-  CreateDate: Date = new Date()
+  CreateDate: Date  = null
   ModifyBy: string
-  ModifyDate: Date = new Date()
+  ModifyDate: Date  = null
   Status:number = 1
   WarehouseFile: WarehouseFile[]= []
   WarehouseLocation: WarehouseLocation[] = []
