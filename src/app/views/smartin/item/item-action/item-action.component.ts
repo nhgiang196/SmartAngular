@@ -18,6 +18,7 @@ import { map, distinctUntilChanged, tap, switchMap, catchError } from "rxjs/oper
 import swal from 'sweetalert2';
 import { Select2OptionData } from 'ng2-select2';
 import { of, concat, Observable, Subject } from 'rxjs';
+import { HttpEventType } from '@angular/common/http';
 
 @Component({
   selector: "app-item-action",
@@ -35,6 +36,7 @@ export class ItemActionComponent implements OnInit {
   itemProperty: ItemProperty = new ItemProperty();
   itemPackage: ItemPackage = new ItemPackage();
 
+  uploadReportProgress : any= { progress : 0, message: null , isError: null };
   laddaSubmitLoading = false;
   files: File[] = [];
   addFiles : {FileList : File[], FileLocalNameList: string[]};
@@ -76,6 +78,7 @@ export class ItemActionComponent implements OnInit {
 
 
   async fnSave() {
+    this.uploadReportProgress =  { progress : 0, message: null, isError: null };
     this.laddaSubmitLoading = true;
     if (this.listProperty.length > 0) {
       this.entity.ItemTypeId = this.listProperty[0].itemId;
@@ -476,7 +479,19 @@ async loadProperty(){
       let _file = files[index];
       formData.append("files", _file, this.addFiles.FileLocalNameList[index]);
     }
-    this.api.uploadFile(formData, this.pathFile).subscribe(res=> console.log(res),err=>this.toastr.warning(err.statusText,'Upload file bị lỗi'));
+    this.api.uploadFile(formData, this.pathFile).subscribe(event=> {
+      if (event.type === HttpEventType.UploadProgress)
+       {   this.uploadReportProgress.progress = Math.round(100 * event.loaded / event.total);
+          console.log(this.uploadReportProgress.progress);
+        }
+      else if (event.type === HttpEventType.Response) {
+          this.uploadReportProgress.message = 'Upload success';
+          // this.onUploadFinished.emit(event.body);
+        }
+    },err=>{
+      this.toastr.warning(err.statusText,'Upload file bị lỗi');
+      this.uploadReportProgress =  { progress : 0, message: 'Error', isError: true};
+    });
   }
 
 
