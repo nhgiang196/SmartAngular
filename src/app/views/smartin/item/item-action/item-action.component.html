@@ -163,7 +163,7 @@
                                                               <tbody>
                                                                   <tr class="animated fadeInRight"  *ngFor="let item of entity.ItemFactory; let i = index">
                                                                       <td> {{i+1}}</td>
-                                                                      <td> {{item.Factory.FactoryName}}</td>
+                                                                      <td> {{item.FactoryName}}</td>
                                                                       <td> {{item.IntergrationCode}} </td>
                                                                       <td>
                                                                           <button class="btn btn-danger" (click)="fnDeleteFactory(i)">
@@ -245,7 +245,7 @@
                                                                 <tbody>
                                                                     <tr class="animated fadeInRight"  *ngFor="let item of entity.ItemProperty; let i = index">
                                                                         <td> {{i+1}}</td>
-                                                                        <td> {{item.ItemTypeProperty.ItemTypePropertyName}}</td>
+                                                                        <td> {{item.ItemTypePropertyName}}</td>
                                                                         <td> {{item.ItemTypePropertyValue}} </td>
                                                                         <td>
                                                                             <button class="btn btn-danger" (click)="fnDeleteItemProperty(i)">
@@ -340,7 +340,7 @@
                                                     <tbody>
                                                         <tr  class="animated fadeInRight" *ngFor="let item of entity.ItemPackage; let i = index">
                                                           <td> {{i+1}} </td>
-                                                          <td>{{item.ItemPackageUnit.UnitName}}</td>
+                                                          <td>{{item.UnitName}}</td>
                                                           <td>{{item.ItemPackageCoefficient}} </td>
                                                           <td>{{item.ItemPackageLength}} </td>
                                                           <td>{{item.ItemPackageWidth}} </td>

@@ -35,10 +35,6 @@ export class ItemActionComponent implements OnInit {
   itemProperty: ItemProperty = new ItemProperty();
   itemPackage: ItemPackage = new ItemPackage();
 
-  //listFactory: any = [];
-  // listProperty: any = [];
-  // listUnit: any = [];
-
   laddaSubmitLoading = false;
   files: File[] = [];
   addFiles : {FileList : File[], FileLocalNameList: string[]};
@@ -67,11 +63,14 @@ export class ItemActionComponent implements OnInit {
     await this.loadFactory();
     await this.loadProperty();
     await this.loadUnit();
+
     this.itemIdPram = this.route.snapshot.params.id;
     var item = this.route.snapshot.data["item"];
     if (item != null) {
       console.log(item)
       this.entity = item;
+      this.itemPackage.ItemPackageUnitId= 0;
+      this.customFile();
     }
   }
 
@@ -91,9 +90,7 @@ export class ItemActionComponent implements OnInit {
       e.ModifyBy = this.auth.currentUser.Username;
     }
 
-    console.log("send entity: ", e);
-    e.ItemProperty =[];
-    e.ItemPackage = [];
+    
     if (this.itemIdPram == null) {
       if (await this.fnValidate(e)) {
         this.api.addItem(e).subscribe(
@@ -150,38 +147,7 @@ export class ItemActionComponent implements OnInit {
     return result;
   }
 
-  customData() {
-    //Custom factory
-    // this.entity.ItemFactory.map(itemFactory => {
-    //   let findNameFactory = this.listFactory.find(
-    //     item => item.id == itemFactory.FactoryId
-    //   );
-    //   if (findNameFactory != null) {
-    //     itemFactory.FactoryName = findNameFactory.text;
-    //     return itemFactory;
-    //   }
-    // });
-    // //Custom property
-    // this.entity.ItemProperty.map(itemProperty => {
-    //   let findNameProperty = this.listProperty.find(
-    //     item => item.id == itemProperty.ItemTypePropertyId
-    //   );
-    //   if (findNameProperty != null) {
-    //     itemProperty.ItemPropertyName = findNameProperty.text;
-    //     return itemProperty;
-    //   }
-    // });
-
-    // //Custom Package
-    // this.entity.ItemPackage.map(itemPackage => {
-    //   let findNamePackage = this.listUnit.find(
-    //     item => item.id == itemPackage.ItemPackageUnitId
-    //   );
-    //   if (findNamePackage != null) {
-    //     itemPackage.ItemPackageUnitName = findNamePackage.text;
-    //     return itemPackage;
-    //   }
-    // });
+  customFile() {
 
     /**CONTROL FILES */
     this.entity.ItemFile.forEach(item =>{
@@ -237,45 +203,35 @@ export class ItemActionComponent implements OnInit {
 
   factoryChange(item) {
     this.itemFactory.FactoryId =item.id;
-    this.itemFactory.Factory.FactoryName = item.text;
+    this.itemFactory.FactoryName = item.text;
   }
 
   fnAddFactory() {
-    //lít factoryies
-    // tạo 1 đối tượng factory
-    this.listItemFactories.push(this.itemFactory);
-    // console.log(this.listItemFactories);
-    this.itemFactory = new ItemFactory;
-    // debugger;
-    // let isValidate = this.validateFactory(
-    //   this.itemFactory.FactoryId,
-    //   this.itemFactory.IntergrationCode
-    // );
+    let isValidate = this.validateFactory(
+      this.itemFactory.FactoryId,
+      this.itemFactory.IntergrationCode
+    );
 
-    // //  kiểm tra nhập form
-    // if (!isValidate) {
-    //   this.toastr.error("Validate", "Vui lòng nhập đầy đủ thông tin");
-    //   return;
-    // }
-    //  kiểm tra xem phần tử đã tồn tại trong mảng hay chưa
-    // let ifExits = this.entity.ItemFactory.find(
-    //   x =>
-    //     x.FactoryId == this.itemFactory.FactoryId &&
-    //     x.IntergrationCode == this.itemFactory.IntergrationCode
-    // );
+    //  kiểm tra nhập form
+    if (!isValidate) {
+      this.toastr.error("Validate", "Vui lòng nhập đầy đủ thông tin");
+      return;
+    }
+    // kiểm tra xem phần tử đã tồn tại trong mảng hay chưa
+    let ifExits = this.entity.ItemFactory.find(
+      x =>
+        x.FactoryId == this.itemFactory.FactoryId &&
+        x.IntergrationCode == this.itemFactory.IntergrationCode
+    );
 
-    // if (ifExits == null) {
-    //   // this.entity.ItemFactory.push(
-    //   //   JSON.parse(JSON.stringify(this.itemFactory))
-    //   // );
-    //   this.entity.ItemFactory = this.listItemFactories;
-    // } else {
-    //   this.toastr.warning("Validate", "Factory đã tồn tại");
-    // }
-    //this.entity.ItemFactory =  //mảng mới []
-
-     this.entity.ItemFactory = this.listItemFactories;
-     this.entity.ItemFactory
+    if (ifExits == null) {
+      this.entity.ItemFactory.push(
+        JSON.parse(JSON.stringify(this.itemFactory))
+      );
+      this.entity.ItemFactory = this.listItemFactories;
+    } else {
+      this.toastr.warning("Validate", "Factory đã tồn tại");
+    }
   }
 
   validateFactory(factoryId, code) {
@@ -331,7 +287,7 @@ async loadProperty(){
 
   itemPropertyChange(item) {
     this.itemProperty.ItemTypePropertyId =item.id;
-    this.itemProperty.ItemTypeProperty.ItemTypePropertyName = item.text;
+    this.itemProperty.ItemTypePropertyName = item.text;
   }
 
   fnAddProperty() {
@@ -445,7 +401,7 @@ async loadProperty(){
         this.entity.ItemUnitId =item.id;
       }
     this.itemPackage.ItemPackageUnitId =item.id;
-    this.itemPackage.ItemPackageUnit.UnitName = item.text;
+    this.itemPackage.UnitName = item.text;
   }
 
   fnAddPackage() {
