@@ -213,11 +213,12 @@ export class Warehouse {
   WarehouseLocation: WarehouseLocation[] = []
 }
 
+
 export class WarehouseFile{
-  WarehouseFileId:number
-  WarehouseId:number
-  FileId:number
-  File: File
+  WarehouseFileId:number =0
+  WarehouseId:number = 0
+  FileId:number =0
+  File: Files = new Files()
 }
 
 export class WarehouseLocation{

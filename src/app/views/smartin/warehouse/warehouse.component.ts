@@ -7,6 +7,7 @@ import { TranslateService } from '@ngx-translate/core';
 import swal from 'sweetalert2';
 import { AuthService } from 'src/app/services/auth.service';
 import { trigger, transition, animate, style } from '@angular/animations';
+import { HttpEventType } from '@angular/common/http';
 declare let $: any;
 @Component({
   selector: 'app-warehouse',
@@ -36,13 +37,15 @@ export class WarehouseComponent implements OnInit {
   sub_entity: WarehouseLocation;
   laddaSubmitLoading = false;
   iboxloading = false;
-  files: File[] = [];
+  files: File[] = [];  
+  addFiles : {FileList : File[], FileLocalNameList: string[]};
   keyword : string = '';
   private pathFile = "uploadFileWarehouse"
   ACTION_STATUS: string;
   Warehouse_showed = 0;
   invalid : any = {Existed_WarehouseCode: false, Existed_WarehouseName: false};
   initCombobox = { Factories: [], Users: []};
+  uploadReportProgress : any= { progress : 0, message: null , isError: null };
   /**INIT FUNCTIONS */
   ngOnInit() { //init functions
     this.resetEntity();
@@ -107,6 +110,52 @@ export class WarehouseComponent implements OnInit {
       this.toastr.error(error.statusText, "Load factory information error");
     })
   }
+    /** EVENT TRIGGERS */
+    async onSelect(event) { //drag file(s) or choose file(s) in ngFileZone
+      var askBeforeUpload = false;
+      if (event.rejectedFiles.length>0) this.toastr.warning(this.trans.instant('messg.maximumFileSize5000'));
+      var _addFiles = event.addedFiles;
+      for (var index in _addFiles) {
+        let item = event.addedFiles[index];
+        let convertName = this.helper.getFileNameWithExtension(item);
+        let currentFile = this.entity.WarehouseFile;
+        let  findElement =  currentFile.filter(x=>x.File.FileOriginalName == item.name)[0];
+        //ASK THEN GET RESULT
+        if (findElement!=null) {
+          if (!askBeforeUpload) {
+            askBeforeUpload = true;
+            var allowUpload =true;
+            await swal.fire({
+              title: 'File trùng',
+              titleText: 'Một số file bị trùng, bạn có muốn đè các file này lên bản gốc?',
+              type: 'warning',
+              showCancelButton: true,
+              reverseButtons: true
+              }).then((result) => {
+                 if (result.dismiss === swal.DismissReason.cancel) allowUpload = false;
+              })
+          }
+          if (!allowUpload)  return;
+          let _indexElement = this.entity.WarehouseFile.indexOf(findElement,0);
+          this.files.splice( _indexElement,1 );
+          this.addFiles.FileList.splice(_indexElement,1 );
+        }
+        else{
+          let _warehousefile = new WarehouseFile();
+          _warehousefile.File.FileOriginalName= item.name;
+          _warehousefile.File.FileLocalName = convertName;  
+          _warehousefile.File.Path = this.pathFile + '/' + convertName;
+          _warehousefile.File.FileType = item.type;
+          this.entity.WarehouseFile.push(_warehousefile);
+          this.addFiles.FileLocalNameList.push(convertName);
+        }
+        
+      }
+      this.files.push(...event.addedFiles); //refresh showing in Directive
+      this.addFiles.FileList.push(...event.addedFiles);
+      // this.uploadFile(event.addedFiles);
+      
+    }
   fnDelete(id) { //press Delete Entity
     swal.fire({
       title: this.trans.instant('Warehouse.mssg.DeleteAsk_Title'),
@@ -157,6 +206,7 @@ export class WarehouseComponent implements OnInit {
           if (operationResult.Success){
             this.toastr.success(this.trans.instant("messg.add.success"));
             $("#myModal4").modal('hide');
+            if (this.addFiles.FileList.length>0) this.uploadFile(this.addFiles.FileList);
             this.loadInit();
             this.fnEditSignal(operationResult.Data);
           }
@@ -169,6 +219,7 @@ export class WarehouseComponent implements OnInit {
         this.api.updateWarehouse(e).subscribe(res => {
           var operationResult: any = res
           if (operationResult.Success){
+            if (this.addFiles.FileList.length>0) this.uploadFile(this.addFiles.FileList);
             this.loadInit();
             this.toastr.success(this.trans.instant("messg.update.success"));
           }
@@ -188,61 +239,46 @@ export class WarehouseComponent implements OnInit {
     this.entity.WarehouseFile.splice(index,1);
     // this.removeFile(event);
   }
-  
-  /** EVENT TRIGGERS */
-  
-  onSelect(event) { // on upload files
-    console.log(event);
-    // this.files.push(...event.addedFiles); //refresh showing in Directive
-    if (event.rejectedFiles.length>0) this.toastr.warning(this.trans.instant('messg.maximumFileSize2000'));
-    for (var index in event.addedFiles) {
-      let item = event.addedFiles[index];
-      let currentFile = this.files;
-      var _existIndex = currentFile.filter(x=>x.name == item.name).length;
-      if (_existIndex>0) this.files.splice(_existIndex-1,1);
-      else{
-        
-        let _WarehouseFile = new WarehouseFile();
-        _WarehouseFile.File.FileOriginalName= item.name;
-        _WarehouseFile.File.FileName = this.helper.getFileNameWithExtension(item);
-        _WarehouseFile.File.Path = this.pathFile + '/' + item.name;
-        this.entity.WarehouseFile.push(_WarehouseFile);
-      }
-    }
-    // this.files.push(...event.addedFiles); //refresh showing in Directive
-    this.uploadFile(event.addedFiles);
-    
-  }
    
   /** PRIVATES FUNCTIONS */
   private async fnValidate(e: Warehouse) { // validate entity value
     this.invalid = {};
     
-    let result = await this.api.validateWarehouse(e).toPromise().then() as any;
-    if (!result.Success)
-    {
-      this.laddaSubmitLoading = false;
-      this.invalid[result.Message] = true;
-      return false;
-    }
+    // let result = await this.api.validateWarehouse(e).toPromise().then() as any;
+    // if (!result.Success)
+    // {
+    //   this.laddaSubmitLoading = false;
+    //   this.invalid[result.Message] = true;
+    //   return false;
+    // }
     return true;
   }
   private resetEntity() { //reset entity values
     this.entity = new Warehouse();
     this.sub_entity = new WarehouseLocation();
     this.files = [];
+    this.addFiles = { FileList: [], FileLocalNameList : []}
     this.invalid = {};
   }
   private CheckBeforeEdit(id) { //check auth before edit 
     this.toastr.warning("User not dont have permission");
   }
-  private uploadFile(files: File[])  //upload file to server
-  {
-      let formData = new FormData();
-      files.forEach(file => {
-          formData.append("files",file);
-      });
-      this.api.uploadFile(formData, this.pathFile).subscribe(res=> console.log(res));
+  private uploadFile(files: File[]){ //upload file to server
+    let formData = new FormData();
+    for (let index = 0; index < files.length; index++) {
+      let _file = files[index];
+      formData.append("files", _file, this.addFiles.FileLocalNameList[index]);
+    }
+    this.api.uploadFile(formData, this.pathFile).subscribe(event=> {
+      if (event.type === HttpEventType.UploadProgress)
+          this.uploadReportProgress.progress = Math.round(100 * event.loaded / event.total);
+      else if (event.type === HttpEventType.Response) {
+          this.uploadReportProgress.message = 'Upload success';
+          // this.onUploadFinished.emit(event.body);
+        }
+    },err=>{
+      this.toastr.warning(err.statusText,'Upload file bị lỗi');
+      this.uploadReportProgress =  { progress : 0, message: 'Error', isError: true};
+    });
   }
-  
 }
