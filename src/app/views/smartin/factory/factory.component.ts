@@ -322,7 +322,9 @@ export class FactoryComponent implements OnInit {
     }
     this.api.uploadFile(formData, this.pathFile).subscribe(event=> {
       if (event.type === HttpEventType.UploadProgress)
-          this.uploadReportProgress.progress = Math.round(100 * event.loaded / event.total);
+       {   this.uploadReportProgress.progress = Math.round(100 * event.loaded / event.total);
+          console.log(this.uploadReportProgress.progress);
+        }
       else if (event.type === HttpEventType.Response) {
           this.uploadReportProgress.message = 'Upload success';
           // this.onUploadFinished.emit(event.body);
