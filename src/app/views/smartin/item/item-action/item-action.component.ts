@@ -5,10 +5,7 @@ import {
   ItemProperty,
   ItemPackage,
   DataTablePaginationParram,
-  ItemFile,
-  ItemPackageUnit,
-  Factory,
-  ItemTypeProperty
+  ItemFile
 } from "src/app/models/SmartInModels";
 import { WaterTreatmentService } from "src/app/services/api-watertreatment.service";
 import { ToastrService } from "ngx-toastr";
@@ -35,9 +32,10 @@ export class ItemActionComponent implements OnInit {
   itemFactory: ItemFactory = new ItemFactory();
   itemProperty: ItemProperty = new ItemProperty();
   itemPackage: ItemPackage = new ItemPackage();
-  itemPackageUnit:ItemPackageUnit = new ItemPackageUnit();
-  factory: Factory= new Factory();
-  itemTypeProperty:ItemTypeProperty= new ItemTypeProperty();
+
+  //listFactory: any = [];
+  // listProperty: any = [];
+  // listUnit: any = [];
 
   laddaSubmitLoading = false;
   files: File[] = [];
@@ -62,42 +60,31 @@ export class ItemActionComponent implements OnInit {
     private route: ActivatedRoute
   ) {}
 
- async ngOnInit() {
+  async ngOnInit() {
     this.addFiles = { FileList: [], FileLocalNameList : []};
+    // this.propertyInput$ =null;
+    this.propertyInput$.next('Th');
     this.loadFactory();
     this.loadProperty();
-  
+    // this.loadUnit();
     this.itemIdPram = this.route.snapshot.params.id;
 
-    var item = this.route.snapshot.data["item"];
-    // if (item != null) {
-    //   console.log(item)
-    //   var listInit = [{id:item.ItemUnit.UnitId, text:item.ItemUnit.UnitName }];
-      
-    //  await this.loadUnit(listInit,()=>{
-    //   this.entity = item;
-      
-    //  });
-    //  this.entity.ItemUnitId = 25;
-   
-    //   this.customFile();
-    // }
-    // this.loadUnit();
-    // else{
-    //   this.loadUnit([]);
-    // }
+    var listItem = this.route.snapshot.data["item"];
+    if (listItem != null) {
+      console.log(listItem)
+      this.listUnit = [{id:listItem.ItemUnit.UnitId, text:listItem.ItemUnit.UnitName }] as any;
+      // this.entity = listItem;
+      //this.customData();
+    }
   }
 
-  ngAfterViewInit(){
-    this.entity=this.route.snapshot.data["item"];
-  }
 
   async fnSave() {
     this.laddaSubmitLoading = true;
     // if (this.listProperty.length > 0) {
     //   this.entity.ItemTypeId = this.listProperty[1].itemId;
     // }
-    
+
     let e = this.entity;
     if (this.itemIdPram == null) {
       e.CreateDate = new Date();
@@ -161,7 +148,39 @@ export class ItemActionComponent implements OnInit {
     return result;
   }
 
-  customFile() {
+  customData() {
+    //Custom factory
+    // this.entity.ItemFactory.map(itemFactory => {
+    //   let findNameFactory = this.listFactory.find(
+    //     item => item.id == itemFactory.FactoryId
+    //   );
+    //   if (findNameFactory != null) {
+    //     itemFactory.FactoryName = findNameFactory.text;
+    //     return itemFactory;
+    //   }
+    // });
+    // //Custom property
+    // this.entity.ItemProperty.map(itemProperty => {
+    //   let findNameProperty = this.listProperty.find(
+    //     item => item.id == itemProperty.ItemTypePropertyId
+    //   );
+    //   if (findNameProperty != null) {
+    //     itemProperty.ItemPropertyName = findNameProperty.text;
+    //     return itemProperty;
+    //   }
+    // });
+
+    // //Custom Package
+    // this.entity.ItemPackage.map(itemPackage => {
+    //   let findNamePackage = this.listUnit.find(
+    //     item => item.id == itemPackage.ItemPackageUnitId
+    //   );
+    //   if (findNamePackage != null) {
+    //     itemPackage.ItemPackageUnitName = findNamePackage.text;
+    //     return itemPackage;
+    //   }
+    // });
+
     /**CONTROL FILES */
     this.entity.ItemFile.forEach(item =>{
       let _tempFile = new File([],item.File.FileLocalName);
@@ -195,9 +214,8 @@ export class ItemActionComponent implements OnInit {
   }
 
   factoryChange(item) {
-   if (item!=null){
-     this.factory.FactoryName = item.text;
-   } 
+    this.itemFactory.FactoryId =item.value;
+    if (item.data.length > 0) this.itemFactory.Factory.FactoryName = item.data[0].text;
   }
 
   fnAddFactory() {
@@ -221,7 +239,6 @@ export class ItemActionComponent implements OnInit {
     );
 
     if (ifExits == null) {
-      this.itemFactory.Factory = this.factory;
       this.entity.ItemFactory.push(
         JSON.parse(JSON.stringify(this.itemFactory))
       );
@@ -243,10 +260,9 @@ export class ItemActionComponent implements OnInit {
 
   ////////// Area Item Property //////////////////
 
-async loadProperty(){
-  let items = await this.api.getItemTypeToSelect2('','HC').toPromise().then()
+loadProperty(){
   this.listProperty = concat(
-    of(items.result), // default items
+    of([]), // default items
     this.propertyInput$.pipe(
         distinctUntilChanged(),
         switchMap(term =>
@@ -259,15 +275,12 @@ async loadProperty(){
         
         )
     )
-    
 );
-this.itemProperty.ItemTypePropertyId = 2
 }
 
   itemPropertyChange(item) {
-    if(item!=null){
-      this.itemTypeProperty.ItemTypePropertyName = item.text;
-    }
+    this.itemProperty.ItemTypePropertyId =item.value;
+    if (item.data.length > 0) this.itemProperty.ItemTypePropertyValue = item.data[0].text;
   }
 
   fnAddProperty() {
@@ -289,7 +302,6 @@ this.itemProperty.ItemTypePropertyId = 2
     );
 
     if (ifExist == null) {
-      this.itemProperty.ItemTypeProperty = this.itemTypeProperty;
       this.entity.ItemProperty.push(
         JSON.parse(JSON.stringify(this.itemProperty))
       );
@@ -311,16 +323,14 @@ this.itemProperty.ItemTypePropertyId = 2
 
   ////////// Area Item Unit //////////////////
 
-  private async loadUnit(listInit,callBack) {
-    let item = this.api.getUnitSelect2('').pipe(
-      map(res=>{
-        return res.result.map(item=>{
-          return {id: item.UnitID,text:item.UnitName}
-        })
-      }))
-    this.listUnit =  concat(
-        of(item), // default items
+  private async loadUnit() {
+  //  this.listUnit =await concat(of([{id:1,text:"ac"}]));
+  //   this.entity.ItemUnitId =1;
+
+    this.listUnit = concat(
+        of([]), // default items
         this.unitInput$.pipe(
+            distinctUntilChanged(),
             switchMap(term =>
                this.api.getUnitSelect2(term).pipe(
                 map(res=>{
@@ -333,18 +343,19 @@ this.itemProperty.ItemTypePropertyId = 2
             )
         )
     );
-    callBack();
-   
   }
 
-  itemUnitChange(item) {
-    if(item!=null)
-      this.itemPackageUnit.UnitName = item.text;
+  itemUnitChange(item,isSetId=false) {
+    if(isSetId)
+      {
+        this.entity.ItemUnitId =item.value;
+      }
+    this.itemPackage.ItemPackageUnitId =item.value;
+    if (item.data.length > 0) this.itemPackage.ItemPackageUnit.UnitName = item.data[0].text;
   }
 
   fnAddPackage() {
     if (this.validatePackage()) {
-      this.itemPackage.ItemPackageUnit = this.itemPackageUnit;
       this.entity.ItemPackage.push(
         JSON.parse(JSON.stringify(this.itemPackage))
       );
@@ -466,5 +477,13 @@ this.itemProperty.ItemTypePropertyId = 2
     this.addFiles.FileList.push(...event.addedFiles);
     // this.uploadFile(event.addedFiles);
     
+    
+    
   }
+
+  ngAfterViewInit(){
+    this.entity=this.route.snapshot.data["item"];
+  }
+
+
 }
