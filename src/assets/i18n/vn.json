@@ -257,7 +257,8 @@
     "AddItemButton": "Thêm",
     "SaveButton": "Lưu",
     "CloseButton": "Đóng",
-    "ErrorExistItemTypeName" : "Loại vật tư đã tồn tại"
+    "ErrorExistItemTypeName" : "Loại vật tư đã tồn tại",
+    "PropertyNameTable": "Danh sách thuộc tính"
   },
   "ItemTypeProperty":{
     "ItemTypePropertyName": "Tên thuộc tính"

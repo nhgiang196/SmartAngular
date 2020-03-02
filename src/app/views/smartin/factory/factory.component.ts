@@ -64,7 +64,8 @@ export class FactoryComponent implements OnInit {
   }
   /**INIT FUNCTIONS */
   loadInit() {
-    this.iboxloading = true;
+    this.iboxloading = true;    
+    this.EditRowID =0;
     
     this.api.getFactoryPagination(this.keyword).subscribe(res => {
       

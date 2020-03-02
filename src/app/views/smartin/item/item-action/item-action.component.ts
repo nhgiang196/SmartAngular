@@ -70,24 +70,27 @@ export class ItemActionComponent implements OnInit {
     this.itemIdPram = this.route.snapshot.params.id;
 
     var item = this.route.snapshot.data["item"];
-    if (item != null) {
-      console.log(item)
-      var listInit = [{id:item.ItemUnit.UnitId, text:item.ItemUnit.UnitName }];
+    // if (item != null) {
+    //   console.log(item)
+    //   var listInit = [{id:item.ItemUnit.UnitId, text:item.ItemUnit.UnitName }];
       
-     await this.loadUnit(listInit,()=>{
-      this.entity = item;
+    //  await this.loadUnit(listInit,()=>{
+    //   this.entity = item;
       
-     });
-     this.entity.ItemUnitId=25;
+    //  });
+    //  this.entity.ItemUnitId = 25;
    
-      this.customFile();
-    }
+    //   this.customFile();
+    // }
     // this.loadUnit();
     // else{
     //   this.loadUnit([]);
     // }
   }
 
+  ngAfterViewInit(){
+    this.entity=this.route.snapshot.data["item"];
+  }
 
   async fnSave() {
     this.laddaSubmitLoading = true;
@@ -243,7 +246,7 @@ export class ItemActionComponent implements OnInit {
 async loadProperty(){
   let items = await this.api.getItemTypeToSelect2('','HC').toPromise().then()
   this.listProperty = concat(
-    of(items), // default items
+    of(items.result), // default items
     this.propertyInput$.pipe(
         distinctUntilChanged(),
         switchMap(term =>
@@ -258,7 +261,7 @@ async loadProperty(){
     )
     
 );
-this.itemProperty.ItemTypePropertyId =2
+this.itemProperty.ItemTypePropertyId = 2
 }
 
   itemPropertyChange(item) {
@@ -309,10 +312,14 @@ this.itemProperty.ItemTypePropertyId =2
   ////////// Area Item Unit //////////////////
 
   private async loadUnit(listInit,callBack) {
-   debugger;
-    
+    let item = this.api.getUnitSelect2('').pipe(
+      map(res=>{
+        return res.result.map(item=>{
+          return {id: item.UnitID,text:item.UnitName}
+        })
+      }))
     this.listUnit =  concat(
-        of(listInit), // default items
+        of(item), // default items
         this.unitInput$.pipe(
             switchMap(term =>
                this.api.getUnitSelect2(term).pipe(

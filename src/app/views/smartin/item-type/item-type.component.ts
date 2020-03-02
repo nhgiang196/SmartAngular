@@ -26,12 +26,14 @@ export class ItemTypeComponent implements OnDestroy, OnInit {
   itemTypes: ItemType[]
   entity: ItemType;
   itemTypeProperty: ItemTypeProperty
+  newItemTypeProperty: ItemTypeProperty;
   dtOptions: DataTables.Settings = {};
   dtTrigger: Subject<any> = new Subject();
   ACTION_STATUS: string;
   laddaSubmitLoading = false;
   iboxloading = false;
   existName = false;
+  EditRowID: number =0;
   constructor(
     private api: WaterTreatmentService,
     private toastr: ToastrService,
@@ -47,6 +49,7 @@ export class ItemTypeComponent implements OnDestroy, OnInit {
   private resetEntity() {
     this.entity = new ItemType();
     this.itemTypeProperty = new ItemTypeProperty();
+    this.newItemTypeProperty =  new ItemTypeProperty();
   }
 
   loadInit = () => {
@@ -78,7 +81,8 @@ export class ItemTypeComponent implements OnDestroy, OnInit {
         }
       }
     };
-    this.loadItemType();
+    this.loadItemType();    
+    this.EditRowID =0;
   }
 
   loadItemType = () => {
@@ -127,18 +131,26 @@ export class ItemTypeComponent implements OnDestroy, OnInit {
     this.existName = false;
     this.resetEntity();
   }
+  
+  fnEditItem(index){ //press edit item (in modal)
+    this.EditRowID = index +1;
+    this.itemTypeProperty = this.entity.ItemTypeProperty[index];
+  }
+  fnSaveItem(){
+    this.EditRowID = 0;
+  }
+
   fnAddItem() {
-    if (this.itemTypeProperty.ItemTypePropertyName == null) {
+    if (this.newItemTypeProperty.ItemTypePropertyName == null) {
       this.toastr.warning("Validate", this.trans.instant('Factory.data.TechnologyName') + this.trans.instant('messg.isnull'))
       return;
     }
-    this.entity.ItemTypeProperty.push(this.itemTypeProperty);
-    this.itemTypeProperty = new ItemTypeProperty();
+    this.entity.ItemTypeProperty.push(this.newItemTypeProperty);
+    this.newItemTypeProperty = new ItemTypeProperty();
   }
   fnDeleteItem(index) {
     this.entity.ItemTypeProperty.splice(index, 1);
   }
-
 
 
  async fnSave() {
