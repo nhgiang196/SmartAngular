@@ -35,11 +35,11 @@
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label">Chemical name:</label>
                                         <div class="col-sm-4">
-                                            <input type="text" [(ngModel)]="entity.ItemName" class="form-control" placeholder="Tên hóa chất" name="name" required>
+                                            <input type="text" [(ngModel)]="entity.ItemName" class="form-control" placeholder="Tên hóa chất" name="ItemName" >
                                         </div>
                                         <label class="col-sm-2 control-label">Number code:</label>
                                         <div class="col-sm-4">
-                                            <input type="text" [(ngModel)]="entity.ItemNo" class="form-control" placeholder="Mã số" name="no" required>
+                                            <input type="text" [(ngModel)]="entity.ItemNo" class="form-control" placeholder="Mã số" name="ItemNo" required>
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -53,11 +53,10 @@
                                             <!-- <select2   [data]="test" [value]="'2'" (valueChanged)="itemUnitChange($event,true)" name="ffactoryId" required></select2> -->
                                           <ng-select 
                                           class="custom" 
-                                          [items]="listUnit " 
+                                          [items]="listUnit" 
                                           bindLabel="text" 
                                           bindValue="id" 
-                                          placeholder="Please select unit" 
-                                          [typeahead]="unitInput$"
+                                          placeholder="Please select unit"
                                           name="unitId" 
                                           required
                                           [(ngModel)]="entity.ItemUnitId" name="text" >
@@ -110,7 +109,7 @@
                                     <div class="form-group">
                                       <label class="col-sm-2 control-label">Description :</label>
                                       <div class="col-sm-4">
-                                          <input type="text" [(ngModel)]="entity.ItemDescription" class="form-control" placeholder="Mô tả" name="ItemDescription" >
+                                          <input type="text" [(ngModel)]="entity.ItemDescription" class="form-control" placeholder="Mô tả" name="ItemDescription" required >
                                       </div>
                                   </div>
                                 </fieldset>
@@ -126,8 +125,8 @@
                                               <label class="col-sm-3 control-label">Factory name:</label>
                                               <div class="col-sm-9">
                                                 <!-- <select2 [options]="optionFactory"   (valueChanged)="factoryChange($event)" name="ffactoryId" required></select2> -->
-                                                <ng-select class="custom" [items]="listFactory | async" bindLabel="text" bindValue="id" placeholder="Please select factory" name="FactoryId" required
-                                                  [(ngModel)]="itemFactory.FactoryId"  (change)="factoryChange($event)"   [typeahead]="factoryInput$" >
+                                                <ng-select class="custom" [items]="listFactory" bindLabel="text" bindValue="id" placeholder="Please select factory" name="FactoryId" required
+                                                  [(ngModel)]="itemFactory.FactoryId"  (change)="factoryChange($event)" >
                                                 </ng-select>
                                               </div>
                                           </div>
@@ -198,14 +197,13 @@
                                                 <div class="col-sm-9">
                                                     <ng-select 
                                                     class="custom" 
-                                                    [items]="listProperty | async" 
+                                                    [items]="listProperty" 
                                                     bindLabel="text" 
                                                     bindValue="id" 
-                                                    placeholder="Please select property" 
-                                                    [typeahead]="propertyInput$"
+                                                    placeholder="Select item"
                                                     name="ItemTypePropertyId" 
                                                     required
-                                                    [(ngModel)]="itemProperty.ItemTypePropertyId" name="text" 
+                                                    [(ngModel)]="itemProperty.ItemTypePropertyId" name="ItemTypePropertyId" 
                                                     (change)="itemPropertyChange($event)"
                                                     >
                                               </ng-select>
@@ -282,10 +280,10 @@
                                                 bindLabel="text" 
                                                 bindValue="id" 
                                                 placeholder="Please select unit" 
-                                                [typeahead]="unitInput$"
                                                 name="ItemPackageUnitId" 
                                                 required
-                                                [(ngModel)]="itemPackage.ItemPackageUnitId" name="text" >
+                                                [(ngModel)]="itemPackage.ItemPackageUnitId" name="text" 
+                                                 (change)="itemUnitChange($event)">
                                           </ng-select>
                                             <!-- <select2 [options]="optionUnit"   (valueChanged)="itemUnitChange($event)" name="ffactoryId" required></select2> -->
                                           <!-- <ng-select class="custom" [items]="listUnit" bindLabel="text" bindValue="id" placeholder="Please select unit"

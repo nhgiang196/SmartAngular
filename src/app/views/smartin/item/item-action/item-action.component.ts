@@ -5,7 +5,8 @@ import {
   ItemProperty,
   ItemPackage,
   DataTablePaginationParram,
-  ItemFile
+  ItemFile,
+  Unit
 } from "src/app/models/SmartInModels";
 import { WaterTreatmentService } from "src/app/services/api-watertreatment.service";
 import { ToastrService } from "ngx-toastr";
@@ -30,6 +31,7 @@ export class ItemActionComponent implements OnInit {
   itemIdPram: any = null;
   entity: Item = new Item();
   itemFactory: ItemFactory = new ItemFactory();
+  listItemFactories : ItemFactory[] = []
   itemProperty: ItemProperty = new ItemProperty();
   itemPackage: ItemPackage = new ItemPackage();
 
@@ -41,9 +43,9 @@ export class ItemActionComponent implements OnInit {
   files: File[] = [];
   addFiles : {FileList : File[], FileLocalNameList: string[]};
 
-    listFactory: Observable<any>;
-    listUnit: Observable<any>;
-    listProperty:Observable<any>;
+    listFactory: any;
+    listUnit: any;
+    listProperty:any;
 
     factoryInput$ = new Subject<string>();
     unitInput$ = new Subject<string>();
@@ -62,28 +64,23 @@ export class ItemActionComponent implements OnInit {
 
   async ngOnInit() {
     this.addFiles = { FileList: [], FileLocalNameList : []};
-    // this.propertyInput$ =null;
-    this.propertyInput$.next('Th');
-    this.loadFactory();
-    this.loadProperty();
-    // this.loadUnit();
+    await this.loadFactory();
+    await this.loadProperty();
+    await this.loadUnit();
     this.itemIdPram = this.route.snapshot.params.id;
-
-    var listItem = this.route.snapshot.data["item"];
-    if (listItem != null) {
-      console.log(listItem)
-      this.listUnit = [{id:listItem.ItemUnit.UnitId, text:listItem.ItemUnit.UnitName }] as any;
-      // this.entity = listItem;
-      //this.customData();
+    var item = this.route.snapshot.data["item"];
+    if (item != null) {
+      console.log(item)
+      this.entity = item;
     }
   }
 
 
   async fnSave() {
     this.laddaSubmitLoading = true;
-    // if (this.listProperty.length > 0) {
-    //   this.entity.ItemTypeId = this.listProperty[1].itemId;
-    // }
+    if (this.listProperty.length > 0) {
+      this.entity.ItemTypeId = this.listProperty[0].itemId;
+    }
 
     let e = this.entity;
     if (this.itemIdPram == null) {
@@ -95,6 +92,8 @@ export class ItemActionComponent implements OnInit {
     }
 
     console.log("send entity: ", e);
+    e.ItemProperty =[];
+    e.ItemPackage = [];
     if (this.itemIdPram == null) {
       if (await this.fnValidate(e)) {
         this.api.addItem(e).subscribe(
@@ -104,6 +103,7 @@ export class ItemActionComponent implements OnInit {
               this.toastr.success(this.trans.instant("messg.add.success"));
             } else {
               this.toastr.warning(operationResult.Message);
+              return;
             }
             this.laddaSubmitLoading = false;
             this.uploadFile(this.addFiles.FileList);
@@ -111,7 +111,7 @@ export class ItemActionComponent implements OnInit {
           },
           err => {
             this.toastr.error(err.statusText);
-            this.laddaSubmitLoading = false;
+            console.log(err.statusText);
           }
         );
       } else {
@@ -125,6 +125,8 @@ export class ItemActionComponent implements OnInit {
             this.toastr.success(this.trans.instant("messg.update.success"));
           } else {
             this.toastr.warning(operationResult.Message);
+            console.log(operationResult.statusText);
+            return;
           }
           this.laddaSubmitLoading = false;
           this.uploadFile(this.addFiles.FileList);
@@ -193,58 +195,87 @@ export class ItemActionComponent implements OnInit {
   ////////////// Area Func Factory///////////////
 
   
-  private loadFactory() {
-    this.listFactory = concat(
-        of([]), // default items
-        this.factoryInput$.pipe(
-            distinctUntilChanged(),
-            switchMap(term =>
-               this.api.getFactoryToSelect2(term).pipe(
-                map(res=>{
-                  return res.result.map(item=>{
-                    return {id: item.FactoryID,text:item.FactoryName}
-                  })
-                }),
-                catchError(() => of([]))
-                )
+  // private loadFactory() {
+  //   this.listFactory = concat(
+  //       of([]), // default items
+  //       this.factoryInput$.pipe(
+  //           distinctUntilChanged(),
+  //           switchMap(term =>
+  //              this.api.getFactoryToSelect2(term).pipe(
+  //               map(res=>{
+  //                 return res.result.map(item=>{
+  //                   return {id: item.FactoryID,text:item.FactoryName}
+  //                 })
+  //               }),
+  //               catchError(() => of([]))
+  //               )
             
-            )
-        )
-    );
+  //           )
+  //       )
+  //   );
+  // }
+
+  private async loadFactory() {
+    const model:DataTablePaginationParram = {
+      key: "",
+      entity: "Factory",
+      keyFields: "",
+      selectFields: "FactoryName,FactoryId",
+      page: 1,
+      pageSize: 9999,
+      orderDir: "asc",
+      orderBy: "FactoryName"
+    }
+      this.listFactory  = await this.api.getAllFactoryPagination(model).pipe(
+        map(res=>{
+          var  ress= res as any;
+          return ress.result.map(item=>{
+            return {id:item.FactoryId,text:item.FactoryName};
+          })
+        })).toPromise().then();
   }
 
   factoryChange(item) {
-    this.itemFactory.FactoryId =item.value;
-    if (item.data.length > 0) this.itemFactory.Factory.FactoryName = item.data[0].text;
+    this.itemFactory.FactoryId =item.id;
+    this.itemFactory.Factory.FactoryName = item.text;
   }
 
   fnAddFactory() {
-    this.itemFactory.IntergrationCode = this.itemFactory.IntergrationCode;
+    //lít factoryies
+    // tạo 1 đối tượng factory
+    this.listItemFactories.push(this.itemFactory);
+    // console.log(this.listItemFactories);
+    this.itemFactory = new ItemFactory;
+    // debugger;
+    // let isValidate = this.validateFactory(
+    //   this.itemFactory.FactoryId,
+    //   this.itemFactory.IntergrationCode
+    // );
 
-    let isValidate = this.validateFactory(
-      this.itemFactory.FactoryId,
-      this.itemFactory.IntergrationCode
-    );
-
-    //  kiểm tra nhập form
-    if (!isValidate) {
-      this.toastr.error("Validate", "Vui lòng nhập đầy đủ thông tin");
-      return;
-    }
+    // //  kiểm tra nhập form
+    // if (!isValidate) {
+    //   this.toastr.error("Validate", "Vui lòng nhập đầy đủ thông tin");
+    //   return;
+    // }
     //  kiểm tra xem phần tử đã tồn tại trong mảng hay chưa
-    let ifExits = this.entity.ItemFactory.find(
-      x =>
-        x.FactoryId == this.itemFactory.FactoryId &&
-        x.IntergrationCode == this.itemFactory.IntergrationCode
-    );
+    // let ifExits = this.entity.ItemFactory.find(
+    //   x =>
+    //     x.FactoryId == this.itemFactory.FactoryId &&
+    //     x.IntergrationCode == this.itemFactory.IntergrationCode
+    // );
 
-    if (ifExits == null) {
-      this.entity.ItemFactory.push(
-        JSON.parse(JSON.stringify(this.itemFactory))
-      );
-    } else {
-      this.toastr.warning("Validate", "Factory đã tồn tại");
-    }
+    // if (ifExits == null) {
+    //   // this.entity.ItemFactory.push(
+    //   //   JSON.parse(JSON.stringify(this.itemFactory))
+    //   // );
+    //   this.entity.ItemFactory = this.listItemFactories;
+    // } else {
+    //   this.toastr.warning("Validate", "Factory đã tồn tại");
+    // }
+    //this.entity.ItemFactory =  //mảng mới []
+
+     this.entity.ItemFactory = this.listItemFactories;
+     this.entity.ItemFactory
   }
 
   validateFactory(factoryId, code) {
@@ -260,27 +291,47 @@ export class ItemActionComponent implements OnInit {
 
   ////////// Area Item Property //////////////////
 
-loadProperty(){
-  this.listProperty = concat(
-    of([]), // default items
-    this.propertyInput$.pipe(
-        distinctUntilChanged(),
-        switchMap(term =>
-           this.api.getItemTypeToSelect2(term,this.code).pipe(
-            map(res=>{
-              return res.result;
-            }),
-            catchError(() => of([]))
-            )
+// loadProperty(){
+//   this.listProperty = concat(
+//     of([]), // default items
+//     this.propertyInput$.pipe(
+//         distinctUntilChanged(),
+//         switchMap(term =>
+//            this.api.getItemTypeToSelect2(term,this.code).pipe(
+//             map(res=>{
+//               return res.result;
+//             }),
+//             catchError(() => of([]))
+//             )
         
-        )
-    )
-);
+//         )
+//     )
+// );
+// }
+
+async loadProperty(){
+  const model:DataTablePaginationParram = {
+    key: "",
+    entity: "ItemType",
+    keyFields: "",
+    selectFields: "ItemTypeName,ItemTypeId",
+    page: 1,
+    pageSize: 9999,
+    orderDir: "asc",
+    orderBy: "ItemTypeName"
+  }
+  this.listProperty = await this.api.getItemTypePaginationByCode(model,this.code).pipe(
+    map(res=>{
+      var  ress= res as any;
+      return ress.result;
+    })
+  ).toPromise().then();
 }
 
+
   itemPropertyChange(item) {
-    this.itemProperty.ItemTypePropertyId =item.value;
-    if (item.data.length > 0) this.itemProperty.ItemTypePropertyValue = item.data[0].text;
+    this.itemProperty.ItemTypePropertyId =item.id;
+    this.itemProperty.ItemTypeProperty.ItemTypePropertyName = item.text;
   }
 
   fnAddProperty() {
@@ -323,35 +374,78 @@ loadProperty(){
 
   ////////// Area Item Unit //////////////////
 
-  private async loadUnit() {
-  //  this.listUnit =await concat(of([{id:1,text:"ac"}]));
-  //   this.entity.ItemUnitId =1;
+  // private async loadUnit() {
+  // //  this.listUnit =await concat(of([{id:1,text:"ac"}]));
+  // //   this.entity.ItemUnitId =1;
 
-    this.listUnit = concat(
-        of([]), // default items
-        this.unitInput$.pipe(
-            distinctUntilChanged(),
-            switchMap(term =>
-               this.api.getUnitSelect2(term).pipe(
-                map(res=>{
-                  return res.result.map(item=>{
-                    return {id: item.UnitID,text:item.UnitName}
-                  })
-                }),
-                catchError(() => of([]))
-                )
-            )
-        )
-    );
-  }
+  //   this.listUnit = concat(
+  //       of([{id:99,text:"aaa"}]), // default items
+  //       this.unitInput$.pipe(
+  //           distinctUntilChanged(),
+  //           switchMap(term =>
+  //              this.api.getUnitSelect2(term).pipe(
+  //               map(res=>{
+  //                 if(res!=null)
+  //                 return res.result.map(item=>{
+  //                   return {id: item.UnitID,text:item.UnitName}
+  //                 })
+  //               }),
+  //               catchError(() => of([]))
+  //               )
+  //           )
+  //       )
+  //   );
+  //   this.entity.ItemUnitId =99; 
+  // }
+
+  private async loadUnit() {
+    const model:DataTablePaginationParram = {
+      key: "",
+      entity: "Unit",
+      keyFields: "",
+      selectFields: "UnitName,UnitId",
+      page: 1,
+      pageSize: 9999,
+      orderDir: "asc",
+      orderBy: "UnitName"
+    }
+
+      this.listUnit  = await this.api.getUnitPagination(model).pipe(
+        map(res=>{
+          return res.result.map(item=>{
+            return {id:item.UnitId,text:item.UnitName};
+          })
+        })).toPromise().then();
+
+      // this.listUnit = concat(
+      //     of([{id:99,text:"aaa"}]), // default items
+      //     this.unitInput$.pipe(
+      //         distinctUntilChanged(),
+      //         switchMap(term =>
+      //            this.api.getUnitSelect2(term).pipe(
+      //             map(res=>{
+      //               if(res!=null)
+      //               return res.result.map(item=>{
+      //                 return {id: item.UnitID,text:item.UnitName}
+      //               })
+      //             }),
+      //             catchError(() => of([]))
+      //             )
+      //         )
+      //     )
+      // );
+      // this.entity.ItemUnitId =99; 
+    }
+  
 
   itemUnitChange(item,isSetId=false) {
+    debugger
     if(isSetId)
       {
-        this.entity.ItemUnitId =item.value;
+        this.entity.ItemUnitId =item.id;
       }
-    this.itemPackage.ItemPackageUnitId =item.value;
-    if (item.data.length > 0) this.itemPackage.ItemPackageUnit.UnitName = item.data[0].text;
+    this.itemPackage.ItemPackageUnitId =item.id;
+    this.itemPackage.ItemPackageUnit.UnitName = item.text;
   }
 
   fnAddPackage() {
@@ -482,7 +576,8 @@ loadProperty(){
   }
 
   ngAfterViewInit(){
-    this.entity=this.route.snapshot.data["item"];
+   //this.entity=this.route.snapshot.data["item"];
+    //this.loadUnit();
   }
 
 
