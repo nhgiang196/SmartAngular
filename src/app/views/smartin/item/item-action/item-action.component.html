@@ -281,10 +281,10 @@
                             <div class="panel-body">
                               <div class="form-group">
                                   <label>{{ 'Factory.label.UploadFile' | translate }} </label>             
-                                  <ngx-dropzone (change)="onSelect($event,false)" [expandable]="true" [maxFileSize]="5000*1024">
+                                  <ngx-dropzone (change)="onSelect($event,false)" [expandable]="true" [maxFileSize]="5000*1024" [id]="'files'">
                                     <ngx-dropzone-label>Kéo thả file ở đây!</ngx-dropzone-label>
                                     <ngx-dropzone-preview class="animated fadeInUp"  ngProjectAs="ngx-dropzone-preview" *ngFor="let f of files ;let i = index" [file]="f"   [removable]="true" (removed)="onRemove(f,false)" (click)=downloadFile(f.name) >
-                                      <ngx-dropzone-label style="font-size:11px;" > {{entity.ItemFile[i].File.FileOriginalName}}
+                                      <ngx-dropzone-label style="font-size:11px;" > {{f.name}}
                                       </ngx-dropzone-label>
                                     </ngx-dropzone-preview>
                                   </ngx-dropzone>
@@ -307,10 +307,10 @@
                             <div class="panel-body">
                               <div class="form-group">
                                   <label>{{ 'Factory.label.UploadFile' | translate }} </label>             
-                                  <ngx-dropzone (change)="onSelect($event,true)" [expandable]="true" [maxFileSize]="5000*1024"  [accept]="'image/*'">
+                                  <ngx-dropzone (change)="onSelect($event,true)" [expandable]="true" [maxFileSize]="5000*1024"  [accept]="'image/*'"  [id]="'images'">
                                     <ngx-dropzone-label>Kéo thả hình ảnh ở đây!</ngx-dropzone-label>
                                     <ngx-dropzone-preview class="animated fadeInUp"  ngProjectAs="ngx-dropzone-preview" *ngFor="let f of fileImages ;let i = index" [file]="f"   [removable]="true" (removed)="onRemove(f,true)" (click)=downloadFile(f.name) >
-                                      <ngx-dropzone-label style="font-size:11px;" > {{entity.ItemFile[i].File.FileOriginalName}}
+                                      <ngx-dropzone-label style="font-size:11px;" > {{f.name}}
                                       </ngx-dropzone-label>
                                     </ngx-dropzone-preview>
                                   </ngx-dropzone>
@@ -338,7 +338,7 @@
         <div class="ibox-content m-b-sm border-bottom">
           <div class="row">
               <div class="col-sm-12">
-                <button class="btn btn-primary pull-right" [ladda]="laddaSubmitLoading" [disabled]="!myForm.invalid" (click)="fnSave()">
+                <button class="btn btn-primary pull-right" [ladda]="laddaSubmitLoading" [disabled]="myForm.invalid" (click)="fnSave()">
                   <i class="fa fa-plus"></i>
                   Save Item
                 </button>
