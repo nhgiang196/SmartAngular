@@ -190,15 +190,25 @@ export class WarehouseComponent implements OnInit {
       }
     })
   }
-  fnAddItem() { //press add item
+  async fnAddItem() { //press add item
     var itemAdd = this.newLocationEntity;
-    if (itemAdd.WarehouseLocationName == null) {
-      swal.fire("Validate", this.trans.instant('Factory.data.TechnologyName') + this.trans.instant('messg.isnull'), 'warning');
+    if (itemAdd.WarehouseLocationCode == null) {
+      swal.fire("Validate", this.trans.instant('Warehouse.data.WarehouseLocationCode') + this.trans.instant('messg.isnull'), 'warning');
       return;
+    }
+    if (itemAdd.WarehouseLocationName == null) {
+      swal.fire("Validate", this.trans.instant('Warehouse.data.WarehouseLocationName') + this.trans.instant('messg.isnull'), 'warning');
+      return;
+    }
+    let validateResult = await this.api.validateWarehouseLocation(itemAdd).toPromise().then() as any;
+    if (!validateResult.Success){
+      swal.fire("Validate",this.trans.instant('Warehouse.invalid.'+ validateResult.Message),'warning'); return;
     }
     itemAdd.WarehouseId = this.entity.WarehouseId;
     this.entity.WarehouseLocation.push(itemAdd);
     this.newLocationEntity = new WarehouseLocation();
+
+
   }
   fnEditItem(index) { //press a link of Item
     this.EditRowID = index + 1;
@@ -258,14 +268,13 @@ export class WarehouseComponent implements OnInit {
   /** PRIVATES FUNCTIONS */
   private async fnValidate(e: Warehouse) { // validate entity value
     this.invalid = {};
-
-    // let result = await this.api.validateWarehouse(e).toPromise().then() as any;
-    // if (!result.Success)
-    // {
-    //   this.laddaSubmitLoading = false;
-    //   this.invalid[result.Message] = true;
-    //   return false;
-    // }
+    let result = await this.api.validateWarehouse(e).toPromise().then() as any;
+    if (!result.Success)
+    {
+      this.laddaSubmitLoading = false;
+      this.invalid[result.Message] = true;
+      return false;
+    }
     return true;
   }
   private resetEntity() { //reset entity values

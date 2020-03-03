@@ -179,6 +179,7 @@
     "data.WarehouseWidth": "Warehouse Width",
     "invalid.Existed_WarehouseCode": "Warehouse Code Is Exist",
     "invalid.Existed_WarehouseName": "Warehouse Name Is Exist",
+    "invalid.Existed_WarehouseLocationCode":"Warehouse Location Code is existed!",
     "label.Breadcrumb": "Breadcrumb",
     "label.Size": "Size",
     "label.Information": "Information",

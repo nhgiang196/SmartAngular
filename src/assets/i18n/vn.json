@@ -189,6 +189,7 @@
     "data.WarehouseLocationStatus2":"Không",
     "invalid.Existed_WarehouseCode":"Mã kho đã tồn tại",
     "invalid.Existed_WarehouseName":"Tên kho đã tồn tại",
+    "invalid.Existed_WarehouseLocationCode":"Mã vị trí tồn tại",
     "label.Breadcrumb": "QUẢN TRỊ KHO",
     "label.Size": "Kích cỡ",
     "label.Location": "Vị trí",
