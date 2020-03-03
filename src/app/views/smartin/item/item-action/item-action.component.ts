@@ -333,6 +333,7 @@ export class ItemActionComponent implements OnInit {
     // ).toPromise().then();
     let data  = await this.api.getItemTypePaginationByCode(model, this.code).toPromise().then();
     this.listProperty = data.result;
+    console.log(this.listProperty);
   }
   itemPropertyChange(item) {
     this.itemProperty.ItemTypePropertyId = item.id;
@@ -445,7 +446,6 @@ export class ItemActionComponent implements OnInit {
       formData.append("files", _file, this.addFiles.FileLocalNameList[index]);
     }
     this.api.uploadFile(formData, this.pathFile).subscribe(event=> {
-      debugger;
       if (event.type === HttpEventType.UploadProgress)
        {   this.uploadReportProgress.progress = Math.round(100 * event.loaded / event.total);
           console.log(this.uploadReportProgress.progress);
@@ -471,7 +471,12 @@ async onSelect(event,isImage) { //drag file(s) or choose file(s) in ngFileZone
     let item = event.addedFiles[index];
     let convertName = this.helper.getFileNameWithExtension(item);
     let currentFile = this.entity.ItemFile;
-    let  findElement =  currentFile.filter(x=>x.File.FileOriginalName == item.name)[0];
+    let  findElement =null;
+    if(isImage)
+      findElement =  this.fileImages.find(x=>x.name== item.name);
+    else{
+      findElement =  this.files.find(x=>x.name== item.name);
+    }
     //ASK THEN GET RESULT
     if (findElement!=null) {
       if (!askBeforeUpload) {
@@ -514,6 +519,8 @@ async onSelect(event,isImage) { //drag file(s) or choose file(s) in ngFileZone
   this.files.push(...event.addedFiles);
   this.addFiles.FileList.push(...event.addedFiles);
   // this.uploadFile(event.addedFiles);
+  console.log(this.fileImages);
+  console.log(this.files);
   
 }
 

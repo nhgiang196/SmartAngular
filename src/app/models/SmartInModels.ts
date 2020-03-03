@@ -229,9 +229,9 @@ export class WarehouseLocation{
   WarehouseId:number = 0
   WarehouseLocationCode: string =null
   WarehouseLocationName: string =null
-  WarehouseLocationLength:number
-  WarehouseLocationWidth:number
-  WarehouseLocationHeight:number
+  WarehouseLocationLength:number = 0
+  WarehouseLocationWidth:number = 0
+  WarehouseLocationHeight:number= 0
   Status:number = 1
 }
 

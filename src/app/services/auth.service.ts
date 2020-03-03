@@ -55,4 +55,7 @@ export class AuthService {
   refreshToken = (entity)=> this.http.post(`${url}/forgotPassword`, entity);
   profile =() => this.http.post(`${url}/getInfoSharePoint`, this.currentUser);
 
+
+  getUsers = ()=> this.http.get<any>(`auth/v1/admin/getUsers`);
+
 }

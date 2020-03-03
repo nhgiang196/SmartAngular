@@ -54,6 +54,8 @@ export class WarehouseComponent implements OnInit {
     this.loadInit();
     this.loadFactoryList();
     this.loadUsers();
+
+    
   }
   private loadFactoryList() {
     this.api.getFactory().subscribe(res => {
@@ -62,12 +64,9 @@ export class WarehouseComponent implements OnInit {
     }, err => this.toastr.warning('Get factories Failed, check network'))
   }
   private loadUsers() {
-    this.initCombobox.Users = [
-      { userid: 'giang.nh', username: 'giang.nh' },
-      { userid: 'tester1', username: 'tester1' },
-      { userid: 'tester2', username: 'tester2' },
-    ]
-
+    this.auth.getUsers().subscribe(res=>{
+      this.initCombobox.Users= res;
+    })
   }
 
   loadInit() { //init loading
