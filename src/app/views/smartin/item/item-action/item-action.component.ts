@@ -39,6 +39,7 @@ export class ItemActionComponent implements OnInit {
   uploadReportProgress : any= { progress : 0, message: null , isError: null };
   laddaSubmitLoading = false;
   files: File[] = [];
+  fileImages: File[] = [];
   addFiles : {FileList : File[], FileLocalNameList: string[]};
 
     listFactory: any;
@@ -154,11 +155,17 @@ export class ItemActionComponent implements OnInit {
 
     /**CONTROL FILES */
     this.entity.ItemFile.forEach(item =>{
+      debugger;
       let _tempFile = new File([],item.File.FileLocalName);
-      this.files.push(_tempFile);
+      if(item.IsImage){
+        this.fileImages.push(_tempFile)
+      }
+      else{
+        this.files.push(_tempFile);
+      }
+      
     })
     this.entity.ModifyBy = this.auth.currentUser.Username;
-    this.files.push();
   }
 
   ////////////// Area Func Factory///////////////
@@ -462,11 +469,20 @@ async loadProperty(){
 
 
   ////////////////File ////////////
-  onRemove(event) { //press x to delte file (in modal)
+  onRemove(event,isImage) { //press x to delte file (in modal)
     console.log(event);
-    let index = this.files.indexOf(event);
-    this.files.splice(index, 1); //UI del
-    this.entity.ItemFile.splice(index,1);
+    if (isImage){
+      let index = this.fileImages.indexOf(event);
+      this.fileImages.splice(index, 1); //UI del
+      this.entity.ItemFile.splice(index,1);
+    }
+    else{
+      let index = this.files.indexOf(event);
+      this.files.splice(index, 1); //UI del
+      this.entity.ItemFile.splice(index,1);
+    }
+  
+   
     // this.removeFile(event);
   }
   downloadFile(filename){ 
@@ -480,6 +496,7 @@ async loadProperty(){
       formData.append("files", _file, this.addFiles.FileLocalNameList[index]);
     }
     this.api.uploadFile(formData, this.pathFile).subscribe(event=> {
+      debugger;
       if (event.type === HttpEventType.UploadProgress)
        {   this.uploadReportProgress.progress = Math.round(100 * event.loaded / event.total);
           console.log(this.uploadReportProgress.progress);
@@ -494,17 +511,32 @@ async loadProperty(){
     });
   }
 
-
+  isFileImage(file) {
+    return file && file['type'].split('/')[0] === 'image';
+}
   /** EVENT TRIGGERS */
-  async onSelect(event) { //drag file(s) or choose file(s) in ngFileZone
+  async onSelect(event,isImage) { //drag file(s) or choose file(s) in ngFileZone
+    console.log(isImage);
     var askBeforeUpload = false;
     if (event.rejectedFiles.length>0) this.toastr.warning(this.trans.instant('messg.maximumFileSize5000'));
     var _addFiles = event.addedFiles;
     for (var index in _addFiles) {
+      debugger
       let item = event.addedFiles[index];
       let convertName = this.helper.getFileNameWithExtension(item);
-      let currentFile = this.files;
+      let currentFile = null;
+      if(isImage){
+        currentFile =this.fileImages;
+      }
+      else{
+        currentFile =this.files;
+      }
       let  findElement =  currentFile.filter(x=>x.name == item.name)[0];
+      const checkImage=  this.isFileImage(item);  
+      if(isImage && !checkImage){
+        this.toastr.error("Validate", "File tải lên không phải định dạng hình ảnh.");
+        return;
+      }
       //ASK THEN GET RESULT
       if (findElement!=null) {
         if (!askBeforeUpload) {
@@ -521,24 +553,38 @@ async loadProperty(){
             })
         }
         if (!allowUpload)  return;
-        this.files.splice( this.files.indexOf(findElement,0),1 );
+        if(isImage)
+        {this.fileImages.splice( this.fileImages.indexOf(findElement,0),1 );}
+        else{
+          this.files.splice( this.files.indexOf(findElement,0),1 );
+        }
+        
         this.addFiles.FileList.splice(this.addFiles.FileList.indexOf(findElement,0),1 );
         
       }
       else{
-        
-      debugger;
+        debugger;
         let _ItemFile = new ItemFile();
         _ItemFile.File.FileOriginalName= item.name;
         _ItemFile.File.FileLocalName = convertName;  
         _ItemFile.File.Path = this.pathFile + '/' + convertName;
         _ItemFile.File.FileType = item.type;
+        if(isImage)
+          _ItemFile.IsImage = true;
         this.entity.ItemFile.push(_ItemFile);
         this.addFiles.FileLocalNameList.push(convertName);
       }
       
     }
-    this.files.push(...event.addedFiles); //refresh showing in Directive
+
+    if(isImage)
+    {
+      this.fileImages.push(...event.addedFiles); //refresh showing in Directive
+    }
+    else{
+      this.files.push(...event.addedFiles); //refresh showing in Directive
+    }
+   
     this.addFiles.FileList.push(...event.addedFiles);
     // this.uploadFile(event.addedFiles);
     
