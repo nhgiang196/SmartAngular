@@ -10662,3 +10662,10 @@ bs-datepicker-container, bs-daterangepicker-container { z-index: 3501 !important
   border-radius: 5px !important;
   position: relative !important;
 }
+
+.dropDownCustomClass>ngx-dropzone-label {
+  font-size:11px; 
+  white-space: nowrap; 
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
