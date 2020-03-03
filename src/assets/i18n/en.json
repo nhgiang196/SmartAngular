@@ -180,6 +180,7 @@
     "invalid.Existed_WarehouseCode": "Warehouse Code Is Exist",
     "invalid.Existed_WarehouseName": "Warehouse Name Is Exist",
     "invalid.Existed_WarehouseLocationCode":"Warehouse Location Code is existed!",
+    "invalid.Existed_WarehouseLocationName":"Warehouse Location Name is existed!",
     "label.Breadcrumb": "Breadcrumb",
     "label.Size": "Size",
     "label.Information": "Information",
@@ -214,6 +215,8 @@
     "Status": "Status"
   },
   "messg": {
+    "isnull": " is null",
+    "isexisted": " is existed!",
     "add.success": "Add Success",
     "add.error": "Error on adding",
     "add.warning1": "",

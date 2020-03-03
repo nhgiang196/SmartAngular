@@ -71,7 +71,6 @@ export class WarehouseComponent implements OnInit {
 
   loadInit() { //init loading
     this.iboxloading = true;
-
     this.api.getWarehousePagination(this.keyword).subscribe(res => {
       var data = res as any;
       this.Warehouse = data.result;
@@ -91,6 +90,7 @@ export class WarehouseComponent implements OnInit {
     this.ACTION_STATUS = 'add';
     this.resetEntity();
     this.entity.CreateBy = this.auth.currentUser.Username;
+    this.loadFactoryList();
   }
   fnEditSignal(id) { //press a link of ENTITY
     if (id == null) { this.toastr.warning('ID is Null, cant show modal'); return; }
@@ -204,10 +204,20 @@ export class WarehouseComponent implements OnInit {
       swal.fire("Validate", this.trans.instant('Warehouse.data.WarehouseLocationName') + this.trans.instant('messg.isnull'), 'warning');
       return;
     }
-    let validateResult = await this.api.validateWarehouseLocation(itemAdd).toPromise().then() as any;
-    if (!validateResult.Success){
-      swal.fire("Validate",this.trans.instant('Warehouse.invalid.'+ validateResult.Message),'warning'); return;
+    if (this.entity.WarehouseLocation.filter(t =>t.WarehouseLocationCode.toLowerCase() == itemAdd.WarehouseLocationCode.toLowerCase()).length>0)
+    {
+      swal.fire("Validate", this.trans.instant('Warehouse.data.WarehouseLocationCode') + this.trans.instant('messg.isexisted'), 'warning');
+      return;
     }
+    if (this.entity.WarehouseLocation.filter(t =>t.WarehouseLocationName.toLowerCase() == itemAdd.WarehouseLocationName.toLowerCase()).length>0)
+    {
+      swal.fire("Validate", this.trans.instant('Warehouse.data.WarehouseLocationName') + this.trans.instant('messg.isexisted'), 'warning');
+      return;
+    }
+    // let validateResult = await this.api.validateWarehouseLocation(itemAdd).toPromise().then() as any;
+    // if (!validateResult.Success){
+    //   swal.fire("Validate",this.trans.instant('Warehouse.invalid.'+ validateResult.Message),'warning'); return;
+    // }
     itemAdd.WarehouseId = this.entity.WarehouseId;
     this.entity.WarehouseLocation.push(itemAdd);
     this.newLocationEntity = new WarehouseLocation();
