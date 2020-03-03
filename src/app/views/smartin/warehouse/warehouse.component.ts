@@ -90,6 +90,7 @@ export class WarehouseComponent implements OnInit {
     this.ACTION_STATUS = 'add';
     this.resetEntity();
     this.entity.CreateBy = this.auth.currentUser.Username;
+    this.loadFactoryList();
   }
   fnEditSignal(id) { //press a link of ENTITY
     if (id == null) { this.toastr.warning('ID is Null, cant show modal'); return; }
