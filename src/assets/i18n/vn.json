@@ -190,6 +190,7 @@
     "invalid.Existed_WarehouseCode":"Mã kho đã tồn tại",
     "invalid.Existed_WarehouseName":"Tên kho đã tồn tại",
     "invalid.Existed_WarehouseLocationCode":"Mã vị trí tồn tại",
+    "invalid.Existed_WarehouseLocationName":"Tên vị trí tồn tại",
     "label.Breadcrumb": "QUẢN TRỊ KHO",
     "label.Size": "Kích cỡ",
     "label.Location": "Vị trí",
@@ -225,6 +226,7 @@
   },
   "messg": {
     "isnull": " bị rỗng",
+    "isexisted": " bị trùng!",
     "add.success": "Thêm thành công ",
     "add.error": "Lỗi khi thêm ",
     "add.warning1": "",

@@ -63,14 +63,14 @@ export const ROUTES: Routes = [
   { //BasicComponent
     path: '', component: BasicComponent,
     children: [
-      { path: 'mainView', component: MainViewComponent}, //custom
+      { path: 'mainView', component: MainViewComponent, canActivate: [AuthGuard]}, //custom
 
-      { path: 'workFlowView', component: WorkFlowComponent},
-      { path: 'taskManageView', component: TaskManageComponent},
-      { path: 'taskCompleteView', component: TaskCompleteComponent },
-      { path: 'showDiagram/:id', component: DiagramComponent },//Show Diagram
-      { path: 'taskFormView/:formKey/:id/:businessKey', component: TaskFormComponent },//Open detail form Approve by Key
-      { path: 'timelineLog/:businessKey', component: TimelineLogComponent },//Open detail form TimeLine Log by Key
+      { path: 'workFlowView', component: WorkFlowComponent , canActivate: [AuthGuard]},
+      { path: 'taskManageView', component: TaskManageComponent, canActivate: [AuthGuard]},
+      { path: 'taskCompleteView', component: TaskCompleteComponent , canActivate: [AuthGuard]},
+      { path: 'showDiagram/:id', component: DiagramComponent , canActivate: [AuthGuard]},//Show Diagram
+      { path: 'taskFormView/:formKey/:id/:businessKey', component: TaskFormComponent , canActivate: [AuthGuard]},//Open detail form Approve by Key
+      { path: 'timelineLog/:businessKey', component: TimelineLogComponent , canActivate: [AuthGuard]},//Open detail form TimeLine Log by Key
       /**
        * EMCS ComponentRoutes
        */
@@ -86,7 +86,7 @@ export const ROUTES: Routes = [
 
 
       {
-        path: 'admin', children: [
+        path: 'admin' , canActivate: [AuthGuard], children: [
           { path: 'usersManagment', component: UserMangamentComponent },
           { path: 'role', component: RolesComponent },
           { path: 'resetPass', component: ResetpasswordComponent},
@@ -96,7 +96,7 @@ export const ROUTES: Routes = [
       },
       //user config
       {
-        path: 'user', children: [
+        path: 'user', canActivate: [AuthGuard], children: [
           { path: 'profile', component: ProfileComponent },
           { path: 'changePass', component: ChangePasswordComponent },
           { path: '', component: AdminNavigationComponent, outlet: 'sidemenu' },
@@ -104,7 +104,7 @@ export const ROUTES: Routes = [
       },
       //category
       {
-        path: 'category', children: [
+        path: 'category', canActivate: [AuthGuard], children: [
           { path: 'itemType', component: ItemTypeComponent },
           { path: 'unit', component: UnitMeasurementComponent },
           { path: 'item',
@@ -114,11 +114,7 @@ export const ROUTES: Routes = [
               {path:'grid',component: ItemGridComponent},
               {path:'detail/:id',component: ItemDetailComponent},
               {path:'action',component: ItemActionComponent},
-              {path:'action/:id',component: ItemActionComponent,
-              resolve: {
-                item: ItemResolver
-              }
-            }
+              {path:'action/:id',component: ItemActionComponent, resolve: { item: ItemResolver}}
             ]
            },
           { path: 'warehouse', component: WarehouseComponent },
@@ -132,7 +128,7 @@ export const ROUTES: Routes = [
     children: [
       // { path: 'landingView', component: LandingViewComponent },
       { path: 'login', component: LoginComponent },
-      { path: 'register', component: RegisterComponent },
+      { path: 'register',  component: RegisterComponent },
       { path: 'forgotPassword', component: ForgotPasswordComponent },      
       { path: 'resetPassword', component: UserResetPasswordComponent },
 

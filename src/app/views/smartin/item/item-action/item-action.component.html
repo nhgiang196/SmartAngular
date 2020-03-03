@@ -247,14 +247,49 @@
                                                                 <tbody>
                                                                     <tr class="animated fadeInRight"  *ngFor="let item of entity.ItemProperty; let i = index">
                                                                         <td> {{i+1}}</td>
-                                                                        <td> {{item.ItemTypePropertyName}}</td>
-                                                                        <td> {{item.ItemTypePropertyValue}} </td>
+                                                                    <td *ngIf="i+1 !== editRowId"> {{item.FactoryName}}</td>
+                                                                    <td *ngIf="i+1 === editRowId">
+                                                                        <ng-select  dropdownPosition="top"  [items]="listFactory"  id="FactoryId" name="FactoryId"  
+                                                                        [(ngModel)]="itemFactory.FactoryId"  
+                                                                        bindLabel="FactoryName" 
+                                                                        bindValue="FactoryId" required> </ng-select>
+                                                                    </td>
+                                                                    <td *ngIf="i+1 !== editRowId"> {{item.IntergrationCode}} </td>
+                                                                    <td *ngIf="i+1 === editRowId">
+                                                                        <input type="text" [(ngModel)]="itemFactory.IntergrationCode"
+                                                                            class="form-control" name="IntergrationCode"
+                                                                            placeholder="Intergration Code">
+                                                                    </td>
                                                                         <td>
                                                                             <button class="btn btn-danger" (click)="fnDeleteItemProperty(i)">
                                                                               <i class="fa fa-trash"></i>
                                                                             </button>
                                                                         </td>
                                                                     </tr>
+                                                                <!-- newRow -->
+                                                                <tr>
+                                                                    <td>{{entity.ItemFactory.length +1}}</td>
+                                                                    <td>
+                                                                        <ng-select   dropdownPosition="bottom" [items]="listFactory"  
+                                                                        id="newFactoryId" name="newFactoryId"  
+                                                                        [(ngModel)]="newItemFactory.FactoryId"                                                                          
+                                                                        (change)="newItemFactory.FactoryName = $event.FactoryName "
+                                                                        bindLabel="FactoryName" 
+                                                                        bindValue="FactoryId" required> </ng-select>
+                                                                    </td>
+                                                                    <td>
+                                                                        <input type="text" [(ngModel)]="newItemFactory.IntergrationCode"
+                                                                            class="form-control" name="newIntergrationCode"
+                                                                            placeholder="Intergration Code">
+                                                                    </td>
+                                                                    <td>
+                                                                        <div class="btn-group">
+                                                                            <button type="button"
+                                                                                class="btn  btn-sm btn-outline btn-info pull-right"
+                                                                                (click)="fnAddFactory()"><i class="fa fa-plus"></i> </button>
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
                                                                 </tbody>
       
                                                             </table>
