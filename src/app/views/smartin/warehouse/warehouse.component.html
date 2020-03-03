@@ -246,13 +246,14 @@
                   </td>
                   <td>
                     <div class="btn-group">
-                      <button type="button" class="btn btn-sm btn-outline btn-primary" (click)="EditRowID = 0;" *ngIf="i+1 === EditRowID" ><i class="fa fa-check"></i></button>
+                      <button type="button" class="btn btn-sm btn-outline btn-primary" [disabled]="!locationEntity.WarehouseLocationCode || !locationEntity.WarehouseLocationName" (click)="EditRowID = 0;" *ngIf="i+1 === EditRowID" ><i class="fa fa-check"></i></button>
                       <button type="button" class="btn btn-sm btn-outline btn-success" (click)="fnEditItem(i)"*ngIf="i+1 !== EditRowID"><i class="fa fa-pencil"></i></button>
                       <button type="button" class="btn btn-sm btn-outline btn-danger" (click)="fnDeleteItem(i)" *ngIf="i+1 !== EditRowID"><i class="fa fa-trash"></i></button>
                     </div>                        
                   </td>
                 </tr>
-                <tr >
+                <tr>
+                  
                   <td> {{entity.WarehouseLocation.length+1}} </td>
                   <td> <input type="text" class="form-control" name="newWarehouseLocationCode" id="newWarehouseLocationCode" [(ngModel)]="newLocationEntity.WarehouseLocationCode"> </td>
                   <td> <input type="text" class="form-control" name="newWarehouseLocationName" id="newWarehouseLocationName" [(ngModel)]="newLocationEntity.WarehouseLocationName"> </td>
@@ -271,7 +272,7 @@
                     </div>
                   </td>
                   <td>
-                    <button type="button" class="btn  btn-sm btn-outline btn-info pull-right" (click)="fnAddItem()"><i class="fa fa-plus"></i> </button>
+                    <button type="button" class="btn  btn-sm btn-outline btn-info pull-right" (click)="fnAddItem()" [disabled]="!newLocationEntity.WarehouseLocationCode || !newLocationEntity.WarehouseLocationName"><i class="fa fa-plus"></i> </button>
                   </td>
                 </tr>
 
