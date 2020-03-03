@@ -1,0 +1,353 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-lg-10">
+      <h2>Item Action</h2>
+      <ol class="breadcrumb">
+          <li>
+              <a href="index.html">Home</a>
+          </li>
+          <li>
+              <a  routerLink="/category/item">Items</a>
+          </li>
+          <li class="active">
+              <strong>Item action</strong>
+          </li>
+      </ol>
+  </div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight ecommerce">
+
+  <div class="row">
+      <div class="col-lg-12">
+          <div class="tabs-container">
+              <ul class="nav nav-tabs">
+                  <li class="active"><a data-toggle="tab" href="#tab-1"><i class="fa fa-info-circle"></i> Info</a></li>
+                  <li class=""><a data-toggle="tab" href="#tab-2"><i class="fa fa-industry"></i> Factory</a></li>
+                  <li class=""><a data-toggle="tab" href="#tab-3"><i class="fa fa-list-ul"></i> Property</a></li>
+                  <li class=""><a data-toggle="tab" href="#tab-4"><i class="fa fa-cube"></i> Package</a></li>
+                  <li class=""><a data-toggle="tab" href="#tab-5"><i class="fa fa-file"></i> File</a></li>
+                  <li class=""><a data-toggle="tab" href="#tab-6"><i class="fa fa-file"></i> Upload image</a></li>
+              </ul>
+            
+                <form role="form" #myForm="ngForm">
+                    <div class="tab-content">
+                        <div id="tab-1" class="tab-pane active">
+                            <div class="panel-body">
+                                <fieldset class="form-horizontal">
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">Chemical name:</label>
+                                        <div class="col-sm-4">
+                                            <input type="text" [(ngModel)]="entity.ItemName" class="form-control" placeholder="Tên hóa chất" name="ItemName" required>
+                                        </div>
+                                        <label class="col-sm-2 control-label">Number code:</label>
+                                        <div class="col-sm-4">
+                                            <input type="text" [(ngModel)]="entity.ItemNo" class="form-control" placeholder="Mã số" name="ItemNo" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">      
+                                        <label class="col-sm-2 control-label">Print name:</label>
+                                        <div class="col-sm-4">
+                                            <input type="text"  [(ngModel)]="entity.ItemPrintName" class="form-control" placeholder="Tên In" name="printName" required>
+                                        </div>
+                                        <label class="col-sm-2 control-label">Unit code:</label>
+                                        <div class="col-sm-4">
+                                            <!-- <select2   [data]="test" [value]="'2'" (valueChanged)="itemUnitChange($event,true)" name="ffactoryId" required></select2> -->
+                                          <ng-select 
+                                          class="custom" 
+                                          [items]="listUnit" 
+                                          bindLabel="text" 
+                                          bindValue="id" 
+                                          placeholder="Please select unit"
+                                          name="unitId"                                          
+                                          [(ngModel)]="entity.ItemUnitId" name="text" 
+                                          required>
+                                          </ng-select>
+                                        </div>
+                                    </div>
+      
+                                    <div class="form-group">
+                                      <label class="col-sm-2 control-label">Model:</label>
+                                      <div class="col-sm-4">
+                                          <input type="text" [(ngModel)]="entity.ItemModel" class="form-control" placeholder="Model" name="model" >
+                                      </div>
+                                        <label class="col-sm-2 control-label">Serial number:</label>
+                                        <div class="col-sm-4">
+                                            <input type="text"  [(ngModel)]="entity.ItemSerial" class="form-control" placeholder="Số serial" name="serial" >
+                                        </div>
+                                       
+                                    </div>
+      
+                                    <div class="form-group">
+                                      <label class="col-sm-2 control-label">Length:</label>
+                                      <div class="col-sm-4">
+                                          <input type="number" [(ngModel)]="entity.ItemLength" class="form-control" placeholder="Length" name="length" >
+                                      </div>
+                                        <label class="col-sm-2 control-label">Width:</label>
+                                        <div class="col-sm-4">
+                                            <input type="number" [(ngModel)]="entity.ItemWidth" class="form-control" placeholder="Width" name="width" >
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">Height :</label>
+                                        <div class="col-sm-4">
+                                            <input type="number" [(ngModel)]="entity.ItemHeight" class="form-control" placeholder="Height " name="height" >
+                                        </div>
+                                        <label class="col-sm-2 control-label">Weigth :</label>
+                                        <div class="col-sm-4">
+                                            <input type="number" [(ngModel)]="entity.ItemWeight" class="form-control" placeholder="Weigth " name="weight" >
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">Nation :</label>
+                                        <div class="col-sm-4">
+                                            <input type="text" [(ngModel)]="entity.ItemManufactureCountry" class="form-control" placeholder="Quốc gia " name="manufactureCountry" >
+                                        </div>
+                                        <label class="col-sm-2 control-label">Year of :</label>
+                                        <div class="col-sm-4">
+                                            <input type="text" [(ngModel)]="entity.ItemManufactureYear" class="form-control" placeholder="Năm sản xuất " name="manufactureYear" >
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                      <label class="col-sm-2 control-label">Description :</label>
+                                      <div class="col-sm-4">
+                                          <input type="text" [(ngModel)]="entity.ItemDescription" class="form-control" placeholder="Mô tả" name="ItemDescription"  >
+                                      </div>
+                                  </div>
+                                </fieldset>
+      
+                            </div>
+                        </div>
+                        <div id="tab-2" class="tab-pane">
+<<<<<<< HEAD
+=======
+                          <div class="panel-body">
+                              <fieldset class="form-horizontal">
+                                  <div class="form-group">
+                                      <div class="col-sm-4">
+                                          <div class="form-group">
+                                              <label class="col-sm-3 control-label">Factory name:</label>
+                                              <div class="col-sm-9">
+                                                
+                                                <!-- <select2 [options]="optionFactory"   (valueChanged)="factoryChange($event)" name="ffactoryId" required></select2> -->
+                                                <ng-select [items]="listFactory" class="custom" bindLabel="text" bindValue="id" placeholder="Please select factory" name="FactoryId" required
+                                                  [(ngModel)]="itemFactory.FactoryId"  (change)="factoryChange($event)" >
+                                                </ng-select>
+                                              </div>
+                                          </div>
+                                          <div class="form-group">
+                                              <label class="col-sm-3 control-label">Intergration Code:</label>
+                                              <div class="col-sm-9">
+                                                  <input type="text" [(ngModel)]="itemFactory.IntergrationCode" class="form-control" name="IntergrationCode" placeholder="Intergration Code">
+                                              </div>
+                                          </div>
+                                          <div class="form-group">
+                                              <div class="col-sm-12">
+                                                  <button class="btn btn-primary pull-right"  (click)="fnAddFactory()">
+                                                      <i class="fa fa-plus"></i> Add
+                                                  </button>
+                                              </div>
+      
+                                          </div>
+                                      </div>
+                                      <div class="col-sm-8">
+                                          <div class="row">
+                                              <div class="form-group">
+                                                  <div class="col-sm-12">
+                                                   
+                                                          <table class="table table-stripped table-bordered">
+                                                              <thead>
+                                                                  <tr>
+                                                                      <th>#</th>
+                                                                      <th>Factory name</th>
+                                                                      <th>Intergration code</th>
+                                                                      <th>Action</th>
+      
+                                                                  </tr>
+                                                              </thead>
+                                                              <tbody>
+                                                                  <tr class="animated fadeInRight"  *ngFor="let item of entity.ItemFactory; let i = index">
+                                                                      <td> {{i+1}}</td>
+                                                                      <td> {{item.FactoryName}}</td>
+                                                                      <td> {{item.IntergrationCode}} </td>
+                                                                      <td>
+                                                                          <button class="btn btn-danger" (click)="fnDeleteFactory(i)">
+                                                                            <i class="fa fa-trash"></i>
+                                                                          </button>
+                                                                      </td>
+                                                                  </tr>
+                                                              </tbody>
+      
+                                                          </table>
+                                                     
+                                                  </div>
+      
+                                              </div>
+                                          </div>
+      
+                                      </div>
+                                  </div>
+      
+                              </fieldset>
+      
+                          </div>
+                      </div>
+                        <div id="tab-3" class="tab-pane">
+>>>>>>> 466aabeba9aacff1eb81fc6c675a9467079ecb6d
+                            <div class="panel-body">
+                                <fieldset class="form-horizontal">
+                                    <div class="form-group">                                   
+                                        <div class="col-sm-8">
+                                            <div class="row">
+                                                <div class="form-group">
+                                                    <div class="col-sm-12">                        
+                                                        <table class="table table-stripped table-bordered">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>#</th>
+                                                                    <th>Factory name</th>
+                                                                    <th>Intergration code</th>
+                                                                    <th>Action</th>
+                        
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr class="animated fadeInRight"
+                                                                    *ngFor="let item of entity.ItemFactory; let i = index">
+                                                                    <td> {{i+1}}</td>
+                                                                    <td *ngIf="i+1 !== editRowId"> {{item.FactoryName}}</td>
+                                                                    <td *ngIf="i+1 === editRowId">
+                                                                        <ng-select  [items]="listFactory"  id="FactoryId" name="FactoryId"  
+                                                                        [(ngModel)]="itemFactory.FactoryId"  
+                                                                        bindLabel="FactoryName" 
+                                                                        bindValue="FactoryId" required> </ng-select>
+                                                                    </td>
+                                                                    <td *ngIf="i+1 !== editRowId"> {{item.IntergrationCode}} </td>
+                                                                    <td *ngIf="i+1 === editRowId">
+                                                                        <input type="text" [(ngModel)]="itemFactory.IntergrationCode"
+                                                                            class="form-control" name="IntergrationCode"
+                                                                            placeholder="Intergration Code">
+                                                                    </td>
+                                                                    <td>
+                                                                        <div class="btn-group">
+                                                                            <button type="button" class="btn btn-sm btn-outline btn-primary"
+                                                                                (click)="fnSaveFactory()" *ngIf="i+1 === editRowId"><i
+                                                                                    class="fa fa-check"></i></button>
+                                                                            <button type="button" class="btn btn-sm btn-outline btn-success"
+                                                                                (click)="fnEditFactory(i)" *ngIf="i+1 !== editRowId"><i
+                                                                                    class="fa fa-pencil"></i></button>
+                                                                            <button type="button" class="btn btn-sm btn-outline btn-danger"
+                                                                                (click)="fnDeleteFactory(i)" *ngIf="i+1 !== editRowId"><i
+                                                                                    class="fa fa-trash"></i></button>
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                                <!-- newRow -->
+                                                                <tr>
+                                                                    <td>{{entity.ItemFactory.length +1}}</td>
+                                                                    <td>
+                                                                        <ng-select  [items]="listFactory"  
+                                                                        id="newFactoryId" name="newFactoryId"  
+                                                                        [(ngModel)]="newItemFactory.FactoryId"                                                                          
+                                                                        (change)="newItemFactory.FactoryName = $event.FactoryName "
+                                                                        bindLabel="FactoryName" 
+                                                                        bindValue="FactoryId" required> </ng-select>
+                                                                    </td>
+                                                                    <td>
+                                                                        <input type="text" [(ngModel)]="newItemFactory.IntergrationCode"
+                                                                            class="form-control" name="newIntergrationCode"
+                                                                            placeholder="Intergration Code">
+                                                                    </td>
+                                                                    <td>
+                                                                        <div class="btn-group">
+                                                                            <button type="button"
+                                                                                class="btn  btn-sm btn-outline btn-info pull-right"
+                                                                                (click)="fnAddFactory()"><i class="fa fa-plus"></i> </button>
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>                        
+                                                        </table>                        
+                                                    </div>                        
+                                                </div>
+                                            </div>
+                        
+                                        </div>
+                                    </div>
+                        
+                                </fieldset>
+      
+                            </div>
+                        </div>
+                        <div id="tab-5" class="tab-pane">
+                            <div class="panel-body">
+                              <div class="form-group">
+                                  <label>{{ 'Factory.label.UploadFile' | translate }} </label>             
+                                  <ngx-dropzone (change)="onSelect($event,false)" [expandable]="true" [maxFileSize]="5000*1024">
+                                    <ngx-dropzone-label>Kéo thả file ở đây!</ngx-dropzone-label>
+                                    <ngx-dropzone-preview class="animated fadeInUp"  ngProjectAs="ngx-dropzone-preview" *ngFor="let f of files ;let i = index" [file]="f"   [removable]="true" (removed)="onRemove(f,false)" (click)=downloadFile(f.name) >
+                                      <ngx-dropzone-label style="font-size:11px;" > {{entity.ItemFile[i].File.FileOriginalName}}
+                                      </ngx-dropzone-label>
+                                    </ngx-dropzone-preview>
+                                  </ngx-dropzone>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                      <span class="badge" [ngClass]="{'badge-primary': uploadReportProgress.progress==100, 'badge-danger':uploadReportProgress.isError}" >{{uploadReportProgress.message}}</span>
+                                      <div *ngIf="uploadReportProgress.progress!=100" class="progress progress-striped active">
+                                        <div  class="progress-bar progress-bar-success" role="progressbar"
+                                          [style.width.%]="uploadReportProgress.progress">
+                                          {{uploadReportProgress.progress}}%
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  
+                            </div>
+                        </div>
+                        <div id="tab-6" class="tab-pane">
+                            <div class="panel-body">
+                              <div class="form-group">
+                                  <label>{{ 'Factory.label.UploadFile' | translate }} </label>             
+                                  <ngx-dropzone (change)="onSelect($event,true)" [expandable]="true" [maxFileSize]="5000*1024"  [accept]="'image/*'">
+                                    <ngx-dropzone-label>Kéo thả hình ảnh ở đây!</ngx-dropzone-label>
+                                    <ngx-dropzone-preview class="animated fadeInUp"  ngProjectAs="ngx-dropzone-preview" *ngFor="let f of fileImages ;let i = index" [file]="f"   [removable]="true" (removed)="onRemove(f,true)" (click)=downloadFile(f.name) >
+                                      <ngx-dropzone-label style="font-size:11px;" > {{entity.ItemFile[i].File.FileOriginalName}}
+                                      </ngx-dropzone-label>
+                                    </ngx-dropzone-preview>
+                                  </ngx-dropzone>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                      <span class="badge" [ngClass]="{'badge-primary': uploadReportProgress.progress==100, 'badge-danger':uploadReportProgress.isError}" >{{uploadReportProgress.message}}</span>
+                                      <div *ngIf="uploadReportProgress.progress!=100" class="progress progress-striped active">
+                                        <div  class="progress-bar progress-bar-success" role="progressbar"
+                                          [style.width.%]="uploadReportProgress.progress">
+                                          {{uploadReportProgress.progress}}%
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  
+                            </div>
+                        </div>
+                    </div>
+                </form>
+              
+          </div>
+      </div>
+      <div class="col-sm-12">
+        <div class="ibox-content m-b-sm border-bottom">
+          <div class="row">
+              <div class="col-sm-12">
+                <button class="btn btn-primary pull-right" [ladda]="laddaSubmitLoading" [disabled]="!myForm.invalid" (click)="fnSave()">
+                  <i class="fa fa-plus"></i>
+                  Save Item
+                </button>
+              </div>
+              
+          </div>
+
+      </div>
+      </div>
+  </div>
+
+</div>

@@ -304,7 +304,7 @@ export class ItemActionComponent implements OnInit {
 
   //packages
   fnAddPackage() {
-    if (!this.isExistPackage())
+    //if (!this.isExistPackage())
       this.entity.ItemPackage.push(this.newItemPackage);
     this.newItemPackage = new ItemPackage();
   }
@@ -334,17 +334,16 @@ export class ItemActionComponent implements OnInit {
       pageSize: 9999,
       orderDir: "asc",
       orderBy: "ItemTypeName"
-    };
-    this.listProperty = await this.api
-      .getItemTypePaginationByCode(model, this.code)
-      .pipe(
-        map(res => {
-          var ress = res as any;
-          return ress.result;
-        })
-      )
-      .toPromise()
-      .then();
+    }
+    // this.listProperty = await this.api.getItemTypePaginationByCode(model, this.code).pipe(
+    //   map(res => {
+    //     var ress = res as any;
+    //     return ress.result;
+    //   })
+    // ).toPromise().then();
+    let data  = await this.api.getItemTypePaginationByCode(model, this.code).toPromise().then();
+    this.listProperty = data.result;
+    console.log(this.listProperty);
   }
   itemPropertyChange(item) {
     this.itemProperty.ItemTypePropertyId = item.id;
@@ -387,19 +386,14 @@ export class ItemActionComponent implements OnInit {
       pageSize: 9999,
       orderDir: "asc",
       orderBy: "UnitName"
-    };
+    }
 
-    this.listUnit = await this.api
-      .getUnitPagination(model)
-      .pipe(
-        map(res => {
-          return res.result.map(item => {
-            return { id: item.UnitId, text: item.UnitName };
-          });
-        })
-      )
-      .toPromise()
-      .then();
+    // this.listUnit = await this.api.getUnitPagination(model).pipe(
+    //   map(res => {
+    //     return res.result.map(item => {
+    //       return { id: item.UnitId, text: item.UnitName };
+    //     })
+    //   })).toPromise().then();
 
     // this.listUnit = concat(
     //     of([{id:99,text:"aaa"}]), // default items
@@ -418,7 +412,10 @@ export class ItemActionComponent implements OnInit {
     //         )
     //     )
     // );
-    // this.entity.ItemUnitId =99;
+    // this.entity.ItemUnitId =99; 
+
+    let data: any =  await this.api.getUnitPagination(model).toPromise().then();
+    this.listUnit = data.result;
   }
 
   itemUnitChange(item, isSetId = false) {

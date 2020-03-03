@@ -283,7 +283,7 @@
                   <td> <input bsDatepicker [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' , adaptivePosition: true }" type="text" class="form-control"  readonly name="NewBeginDate" id="NewBeginDate" [(ngModel)]="newTechnology.TechnologyFromDate"></td>
                   <td><input bsDatepicker [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' , adaptivePosition: true }" type="text" class="form-control" readonly name="NewEndDate" id="NewEndDate" [(ngModel)]="newTechnology.TechnologyToDate"></td>
                   <td>
-                    <button type="button" class="btn  btn-sm btn-outline btn-info pull-right" (click)="fnAddItem()"><i class="fa fa-plus"></i> </button>
+                    <button type="button" class="btn  btn-sm btn-outline btn-info pull-right" [disabled]="!newTechnology.TechnologyName " (click)="fnAddItem()"><i class="fa fa-plus"></i> </button>
                   </td>
                 </tr>
 

@@ -22,11 +22,11 @@
                 <ul class="nav nav-tabs">
                     <li class="active"><a data-toggle="tab" href="#tab-1"><i class="fa fa-info-circle"></i> Info</a>
                     </li>
-                    <li class=""><a data-toggle="tab" href="#tab-2" (click)="fnSaveFactory()"><i class="fa fa-industry"></i> Factory</a></li>
-                    <li class=""><a data-toggle="tab" href="#tab-3" (click)="fnSaveFactory()"><i class="fa fa-list-ul"></i> Property</a></li>
-                    <li class=""><a data-toggle="tab" href="#tab-4" (click)="fnSaveFactory()"><i class="fa fa-cube"></i> Package</a></li>
-                    <li class=""><a data-toggle="tab" href="#tab-5" (click)="fnSaveFactory()"><i class="fa fa-file"></i> File</a></li>
-                    <li class=""><a data-toggle="tab" href="#tab-6" (click)="fnSaveFactory()"><i class="fa fa-file"></i> Upload image</a></li>
+                    <li class=""><a data-toggle="tab" href="#tab-2"><i class="fa fa-industry"></i> Factory</a></li>
+                    <li class=""><a data-toggle="tab" href="#tab-3"><i class="fa fa-list-ul"></i> Property</a></li>
+                    <li class=""><a data-toggle="tab" href="#tab-4"><i class="fa fa-cube"></i> Package</a></li>
+                    <li class=""><a data-toggle="tab" href="#tab-5"><i class="fa fa-file"></i> File</a></li>
+                    <li class=""><a data-toggle="tab" href="#tab-6"><i class="fa fa-file"></i> Upload image</a></li>
                 </ul>
 
                 <form role="form" #myForm="ngForm">
@@ -54,10 +54,10 @@
                                         </div>
                                         <label class="col-sm-2 control-label">Unit code:</label>
                                         <div class="col-sm-4">
-                                            <ng-select class="custom" [items]="listUnit" bindLabel="UnitName" bindValue="UnitId"
-                                                (change)="entity.itemPackage.UnitName = $event.UnitName "
-                                                placeholder="Please select unit"
-                                                [(ngModel)]="entity.ItemUnitId" name="UnitId" required>
+                                            <!-- <select2   [data]="test" [value]="'2'" (valueChanged)="itemUnitChange($event,true)" name="ffactoryId" required></select2> -->
+                                            <ng-select class="custom" [items]="listUnit" bindLabel="text" bindValue="id"
+                                                placeholder="Please select unit" name="unitId"
+                                                [(ngModel)]="entity.ItemUnitId" name="text" required>
                                             </ng-select>
                                         </div>
                                     </div>
@@ -151,8 +151,7 @@
                                                                         <ng-select [items]="listFactory" id="FactoryId"
                                                                             name="FactoryId"
                                                                             [(ngModel)]="itemFactory.FactoryId"
-                                                                            dropdownPosition="top"
-                                                                            (change)="itemFactory.FactoryName = $event.FactoryName "
+                                                                            (change)="newItemFactory.FactoryName = $event.FactoryName "
                                                                             bindLabel="FactoryName"
                                                                             bindValue="FactoryId" required> </ng-select>
                                                                     </td>
@@ -186,7 +185,6 @@
                                                                 </tr>
                                                                 <!-- newRow -->
                                                                 <tr>
-                                                                 
                                                                     <td>{{entity.ItemFactory.length +1}}</td>
                                                                     <td>
                                                                         <ng-select [items]="listFactory"
@@ -207,7 +205,6 @@
                                                                         <div class="btn-group">
                                                                             <button type="button"
                                                                                 class="btn  btn-sm btn-outline btn-info pull-right"
-                                                                                [disabled]="!newItemFactory.FactoryId || !newItemFactory.IntergrationCode"
                                                                                 (click)="fnAddFactory()"><i
                                                                                     class="fa fa-plus"></i> </button>
                                                                         </div>
@@ -226,95 +223,57 @@
 
                             </div>
                         </div>
-                        <div id="tab-3" class="tab-pane">
-                            <div class="panel-body">
-                                <div class="row">
-                                    <table class="table table-stripped table-bordered">
-                                        <thead>
-                                            <tr>
-                                                <th>#</th>
-                                                <th>Property name</th>
-                                                <th>Value</th>
-                                                <th>Action</th>
-
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr class="animated fadeInRight"  *ngFor="let item of entity.ItemProperty; let i = index">
-                                                <td> {{i+1}}</td>
-                                                <td *ngIf="i+1 !== editRowId"> {{item.ItemTypePropertyName}}</td>
-                                                <td *ngIf="i+1 === editRowId">
-                                                    <ng-select 
-                                                    class="custom" 
-                                                    [items]="listProperty" 
-                                                    bindLabel="text" 
-                                                    bindValue="id" 
-                                                    placeholder="Select item"
-                                                    name="ItemTypePropertyId" 
-                                                    dropdownPosition="top"
-                                                    required
-                                                    [(ngModel)]="itemProperty.ItemTypePropertyId" 
-                                                    (change)="itemProperty.ItemTypePropertyName = $event.text "></ng-select>
-                                                </td>
-                                                <td *ngIf="i+1 !== editRowId"> {{item.ItemTypePropertyValue}} </td>
-                                                <td *ngIf="i+1 === editRowId">
-                                                    <input type="text" [(ngModel)]="itemProperty.ItemTypePropertyValue" class="form-control" placeholder="Value" name="ItemTypePropertyValue">
-                                                </td>
-                                                <td >   
-                                                    <div class="btn-group">
-                                                        <button type="button"
-                                                            class="btn btn-sm btn-outline btn-primary"
-                                                            (click)="fnSaveProperty()"
-                                                            *ngIf="i+1 === editRowId"><i
-                                                                class="fa fa-check"></i></button>
-                                                        <button type="button"
-                                                            class="btn btn-sm btn-outline btn-success"
-                                                            (click)="fnEditProperty(i)"
-                                                            *ngIf="i+1 !== editRowId"><i
-                                                                class="fa fa-pencil"></i></button>
-                                                        <button type="button"
-                                                            class="btn btn-sm btn-outline btn-danger"
-                                                            (click)="fnDeleteProperty(i)"
-                                                            *ngIf="i+1 !== editRowId"><i
-                                                                class="fa fa-trash"></i></button>
-                                                    </div>                                               
-                                                </td>
-                                            </tr>
-                                            <!-- new row -->
-                                            <tr>
-                                                <td>{{entity.ItemProperty.length+1}}</td>
-                                                <td>
-                                                    <ng-select 
-                                                    class="custom" 
-                                                    [items]="listProperty" 
-                                                    bindLabel="text" 
-                                                    bindValue="id" 
-                                                    placeholder="Select item"
-                                                    name="ItemTypePropertyId" 
-                                                    (change)="newItemProperty.ItemTypePropertyName = $event.text "
-                                                    required
-                                                    [(ngModel)]="newItemProperty.ItemTypePropertyId" name="newItemTypePropertyId"></ng-select>
-                                                </td>
-                                                <td>
-                                                    <input type="text" [(ngModel)]="newItemProperty.ItemTypePropertyValue" class="form-control" placeholder="Value" name="newItemTypePropertyValue">
-                                                </td>
-                                                <td>
-                                                    <div class="btn-group">
-                                                        <button type="button"
-                                                            class="btn  btn-sm btn-outline btn-info pull-right"                                                            
-                                                            [disabled]="!newItemProperty.ItemTypePropertyId || !newItemProperty.ItemTypePropertyValue"
-                                                            (click)="fnAddProperty()"><i
-                                                                class="fa fa-plus"></i> </button>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
                         <div id="tab-4" class="tab-pane">
-                            <div class="panel-body">                             
+                            <div class="panel-body">
+                                <!-- <fieldset class="form-horizontal">
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">Unit code:</label>
+                                        <div class="col-sm-4">
+                                            <ng-select class="custom" [items]="listUnit" bindLabel="text" bindValue="id"
+                                                placeholder="Please select unit" name="ItemPackageUnitId" required
+                                                [(ngModel)]="itemPackage.ItemPackageUnitId" name="text" (change)="itemUnitChange($event)">
+                                            </ng-select>
+                                        </div>
+                                        <label class="col-sm-2 control-label">Package Coefficient:</label>
+                                        <div class="col-sm-4">
+                                            <input type="text" [(ngModel)]="itemPackage.ItemPackageCoefficient" class="form-control"
+                                                placeholder="Value" name="ItemPackageCoefficient">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">Length:</label>
+                                        <div class="col-sm-4">
+                                            <input type="number" [(ngModel)]="itemPackage.ItemPackageLength" class="form-control"
+                                                placeholder="Length" name="ItemPackageLength">
+                                        </div>
+                                        <label class="col-sm-2 control-label">Width:</label>
+                                        <div class="col-sm-4">
+                                            <input type="number" [(ngModel)]="itemPackage.ItemPackageWidth" class="form-control"
+                                                placeholder="Width" name="ItemPackageWidth">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">Height:</label>
+                                        <div class="col-sm-4">
+                                            <input type="number" [(ngModel)]="itemPackage.ItemPackageHeight" class="form-control"
+                                                placeholder="Height" name="ItemPackageHeight">
+                                        </div>
+                                        <label class="col-sm-2 control-label">Weight:</label>
+                                        <div class="col-sm-4">
+                                            <input type="number" [(ngModel)]="itemPackage.ItemPackageWeight" class="form-control"
+                                                placeholder="Weight" name="ItemPackageWeight">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-12">
+                                            <button class="btn btn-primary pull-right" (click)="fnAddPackage()">
+                                                <i class="fa fa-plus"></i> Add
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="form-group mt-5">
+                                    </div>
+                                </fieldset> -->
                                 <div class="row">
                                     <div class="col-sm-12">
                                         <table class="table table-stripped table-bordered">
@@ -339,14 +298,13 @@
                                                         <ng-select class="custom" [items]="listUnit"
                                                             bindLabel="UnitName" bindValue="UnitId"
                                                             placeholder="Please select unit" name="temPackageUnitId"
-                                                            dropdownPosition="top"
                                                             required [(ngModel)]="itemPackage.ItemPackageUnitId"
                                                             (change)="itemPackage.UnitName = $event.UnitName ">
                                                         </ng-select>
                                                     </td>
                                                     <td *ngIf="i+1 !== editRowId">{{item.ItemPackageCoefficient}} </td>
                                                     <td *ngIf="i+1 === editRowId">
-                                                        <input type="number"
+                                                        <input type="text"
                                                             [(ngModel)]="itemPackage.ItemPackageCoefficient"
                                                             class="form-control" placeholder="Value"
                                                             name="temPackageCoefficient">
@@ -359,19 +317,22 @@
                                                     </td>
                                                     <td *ngIf="i+1 !== editRowId">{{item.ItemPackageWidth}} </td>
                                                     <td *ngIf="i+1 === editRowId">
-                                                        <input type="number" [(ngModel)]="itemPackage.ItemPackageWidth"
+                                                        <input type="number"
+                                                            [(ngModel)]="itemPackage.ItemPackageWidth"
                                                             class="form-control" placeholder="Width"
                                                             name="itemPackageWidth">
                                                     </td>
                                                     <td *ngIf="i+1 !== editRowId">{{item.ItemPackageHeight}} </td>
                                                     <td *ngIf="i+1 === editRowId">
-                                                        <input type="number" [(ngModel)]="itemPackage.ItemPackageHeight"
+                                                        <input type="number"
+                                                            [(ngModel)]="itemPackage.ItemPackageHeight"
                                                             class="form-control" placeholder="Height"
                                                             name="itemPackageHeight">
                                                     </td>
                                                     <td *ngIf="i+1 !== editRowId">{{item.ItemPackageWeight}} </td>
                                                     <td *ngIf="i+1 === editRowId">
-                                                        <input type="number" [(ngModel)]="itemPackage.ItemPackageWeight"
+                                                        <input type="number"
+                                                            [(ngModel)]="itemPackage.ItemPackageWeight"
                                                             class="form-control" placeholder="Weight"
                                                             name="itemPackageWeight">
                                                     </td>
@@ -404,14 +365,13 @@
                                                         </ng-select>
                                                     </td>
                                                     <td>
-                                                        <input type="number"
+                                                        <input type="text"
                                                             [(ngModel)]="newItemPackage.ItemPackageCoefficient"
                                                             class="form-control" placeholder="Value"
                                                             name="newItemPackageCoefficient">
                                                     </td>
                                                     <td>
-                                                        <input type="number"
-                                                            [(ngModel)]="newItemPackage.ItemPackageLength"
+                                                        <input type="number" [(ngModel)]="newItemPackage.ItemPackageLength"
                                                             class="form-control" placeholder="Length"
                                                             name="newItemPackageLength">
                                                     </td>
@@ -437,7 +397,6 @@
                                                         <div class="btn-group">
                                                             <button type="button"
                                                                 class="btn  btn-sm btn-outline btn-info pull-right"
-                                                                [disabled]="!newItemPackage.ItemPackageUnitId || !newItemPackage.ItemPackageCoefficient"
                                                                 (click)="fnAddPackage()"><i class="fa fa-plus"></i>
                                                             </button>
                                                         </div>
@@ -453,16 +412,20 @@
                         </div>
                         <div id="tab-5" class="tab-pane">
                             <div class="panel-body">
-                              <div class="form-group">
-                                  <label>{{ 'Factory.label.UploadFile' | translate }} </label>             
-                                  <ngx-dropzone (change)="onSelect($event,false)" [expandable]="true" [maxFileSize]="5000*1024" [id]="'files'">
-                                    <ngx-dropzone-label>Kéo thả file ở đây!</ngx-dropzone-label>
-                                    <ngx-dropzone-preview class="animated fadeInUp"  ngProjectAs="ngx-dropzone-preview" *ngFor="let f of listFiles ;let i = index"
-                                      [removable]="true" (removed)="onRemove(f,false)" (click)="downloadFile(f.File.FileLocalName)">
-                                      <ngx-dropzone-label style="font-size:11px;" > {{f.File.FileOriginalName}}
-                                      </ngx-dropzone-label>
-                                    </ngx-dropzone-preview>
-                                  </ngx-dropzone>
+                                <div class="form-group">
+                                    <label>{{ 'Factory.label.UploadFile' | translate }} </label>
+                                    <ngx-dropzone (change)="onSelect($event,false)" [expandable]="true"
+                                        [maxFileSize]="5000*1024">
+                                        <ngx-dropzone-label>Kéo thả file ở đây!</ngx-dropzone-label>
+                                        <ngx-dropzone-preview class="animated fadeInUp"
+                                            ngProjectAs="ngx-dropzone-preview" *ngFor="let f of files ;let i = index"
+                                            [file]="f" [removable]="true" (removed)="onRemove(f,false)"
+                                            (click)=downloadFile(f.name)>
+                                            <ngx-dropzone-label style="font-size:11px;">
+                                                {{entity.ItemFile[i].File.FileOriginalName}}
+                                            </ngx-dropzone-label>
+                                        </ngx-dropzone-preview>
+                                    </ngx-dropzone>
                                 </div>
                                 <div class="row">
                                     <div class="col-lg-12">
@@ -482,15 +445,20 @@
                         </div>
                         <div id="tab-6" class="tab-pane">
                             <div class="panel-body">
-                              <div class="form-group">
-                                  <label>{{ 'Factory.label.UploadFile' | translate }} </label>             
-                                  <ngx-dropzone (change)="onSelect($event,true)" [expandable]="true" [maxFileSize]="5000*1024"  [accept]="'image/*'"  [id]="'images'">
-                                    <ngx-dropzone-label>Kéo thả hình ảnh ở đây!</ngx-dropzone-label>
-                                    <ngx-dropzone-preview class="animated fadeInUp"  ngProjectAs="ngx-dropzone-preview" *ngFor="let f of listImages ;let i = index" [file]="f"   [removable]="true" (removed)="onRemove(f,true)" (click)=downloadFile(f.name) >
-                                      <ngx-dropzone-label style="font-size:11px;" > {{f.File.FileOriginalName}}
-                                      </ngx-dropzone-label>
-                                    </ngx-dropzone-preview>
-                                  </ngx-dropzone>
+                                <div class="form-group">
+                                    <label>{{ 'Factory.label.UploadFile' | translate }} </label>
+                                    <ngx-dropzone (change)="onSelect($event,true)" [expandable]="true"
+                                        [maxFileSize]="5000*1024" [accept]="'image/*'">
+                                        <ngx-dropzone-label>Kéo thả hình ảnh ở đây!</ngx-dropzone-label>
+                                        <ngx-dropzone-preview class="animated fadeInUp"
+                                            ngProjectAs="ngx-dropzone-preview"
+                                            *ngFor="let f of fileImages ;let i = index" [file]="f" [removable]="true"
+                                            (removed)="onRemove(f,true)" (click)=downloadFile(f.name)>
+                                            <ngx-dropzone-label style="font-size:11px;">
+                                                {{entity.ItemFile[i].File.FileOriginalName}}
+                                            </ngx-dropzone-label>
+                                        </ngx-dropzone-preview>
+                                    </ngx-dropzone>
                                 </div>
                                 <div class="row">
                                     <div class="col-lg-12">
@@ -518,7 +486,7 @@
                 <div class="row">
                     <div class="col-sm-12">
                         <button class="btn btn-primary pull-right" [ladda]="laddaSubmitLoading"
-                            [disabled]="myForm.invalid" (click)="fnSave()">
+                            [disabled]="!myForm.invalid" (click)="fnSave()">
                             <i class="fa fa-plus"></i>
                             Save Item
                         </button>
