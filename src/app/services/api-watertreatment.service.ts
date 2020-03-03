@@ -73,6 +73,7 @@ export class WaterTreatmentService {
   updateWarehouse =(entity) => this.http.put(`${ApiUrl}/Warehouse/UpdateWarehouse`,entity);
   deleteWarehouse =(id) => this.http.delete(`${ApiUrl}/Warehouse/DeleteWarehouse?id=${id}`);
   validateWarehouse =(entity) => this.http.post(`${ApiUrl}/Warehouse/ValidateWarehouse?`,entity);
+  validateWarehouseLocation =(entity) => this.http.post(`${ApiUrl}/Warehouse/ValidateWarehouseLocation?`,entity);
 
   /** FACTORYFILE */
 

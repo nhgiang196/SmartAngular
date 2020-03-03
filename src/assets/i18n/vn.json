@@ -64,6 +64,8 @@
     "Administration": "Quản trị"
   },
   "Upload": {
+    "":"Tệp đính kèm",
+    "UploadFileCaption":"Kéo thả file ở đây!",
     "FileName": "Tên File",
     "Name": "Tên File",
     "UploadFile": "Tải Lên Tệp",
@@ -153,8 +155,6 @@
     "label.TotalFactory": "Tổng cộng",
     "label.TotalFactory1": "Hiển thị",
     "label.TotalFactory2": "nhà máy",
-    "label.UploadFile": "Tệp đính kèm",
-    "label.UploadFileCaption": "Kéo thả file ở đây!",
     "mssg.DeleteAsk_Text": "Bạn có chắc muốn xóa nhà máy này?",
     "mssg.DeleteAsk_Title": "Xóa nhà máy?"
   },
@@ -189,6 +189,7 @@
     "data.WarehouseLocationStatus2":"Không",
     "invalid.Existed_WarehouseCode":"Mã kho đã tồn tại",
     "invalid.Existed_WarehouseName":"Tên kho đã tồn tại",
+    "invalid.Existed_WarehouseLocationCode":"Mã vị trí tồn tại",
     "label.Breadcrumb": "QUẢN TRỊ KHO",
     "label.Size": "Kích cỡ",
     "label.Location": "Vị trí",
@@ -196,7 +197,6 @@
     "label.SearchText":"Gõ và nhấn enter",
     "label.SearchTitle":"Tìm kiếm thông tin",
     "label.TotalWarehouse": "Tổng cộng",
-    "label.Upload": "Tệp đính kèm",
     "label.Showed": "Kho hiển thị",
     "mssg.DeleteAsk_Text": "Bạn có chắc muốn xóa kho này?",
     "mssg.DeleteAsk_Title": "Xóa kho?"

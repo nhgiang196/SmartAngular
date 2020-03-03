@@ -6,7 +6,8 @@ import {
   ItemPackage,
   DataTablePaginationParram,
   ItemFile,
-  Unit
+  Unit,
+  Factory
 } from "src/app/models/SmartInModels";
 import { WaterTreatmentService } from "src/app/services/api-watertreatment.service";
 import { ToastrService } from "ngx-toastr";
@@ -19,6 +20,7 @@ import swal from 'sweetalert2';
 import { Select2OptionData } from 'ng2-select2';
 import { of, concat, Observable, Subject } from 'rxjs';
 import { HttpEventType } from '@angular/common/http';
+import { Identifiers, identifierModuleUrl, ThrowStmt } from '@angular/compiler';
 
 @Component({
   selector: "app-item-action",
@@ -32,23 +34,31 @@ export class ItemActionComponent implements OnInit {
   itemIdPram: any = null;
   entity: Item = new Item();
   itemFactory: ItemFactory = new ItemFactory();
-  listItemFactories : ItemFactory[] = []
+  listItemFactories: ItemFactory[] = []
   itemProperty: ItemProperty = new ItemProperty();
   itemPackage: ItemPackage = new ItemPackage();
 
-  uploadReportProgress : any= { progress : 0, message: null , isError: null };
+  //For add new records
+  newItemFactory: ItemFactory = new ItemFactory();
+  newItemPackage: ItemPackage = new ItemPackage;
+  newItemProperty: ItemProperty = new ItemProperty();
+
+  //set rowEdit
+  editRowId: number = 0;
+
+  uploadReportProgress: any = { progress: 0, message: null, isError: null };
   laddaSubmitLoading = false;
   files: File[] = [];
   fileImages: File[] = [];
   addFiles : {FileList : File[], FileLocalNameList: string[]};
 
-    listFactory: any;
-    listUnit: any;
-    listProperty:any;
+  listFactory: any;
+  listUnit: any;
+  listProperty: any;
 
-    factoryInput$ = new Subject<string>();
-    unitInput$ = new Subject<string>();
-    propertyInput$ = new Subject<string>();
+  factoryInput$ = new Subject<string>();
+  unitInput$ = new Subject<string>();
+  propertyInput$ = new Subject<string>();
 
 
   constructor(
@@ -59,10 +69,10 @@ export class ItemActionComponent implements OnInit {
     public helper: MyHelperService,
     private router: Router,
     private route: ActivatedRoute
-  ) {}
+  ) { }
 
   async ngOnInit() {
-    this.addFiles = { FileList: [], FileLocalNameList : []};
+    this.addFiles = { FileList: [], FileLocalNameList: [] };
     await this.loadFactory();
     await this.loadProperty();
     await this.loadUnit();
@@ -72,26 +82,26 @@ export class ItemActionComponent implements OnInit {
     if (item != null) {
       console.log(item)
       this.entity = item;
-      this.itemPackage.ItemPackageUnitId= 0;
+      this.itemPackage.ItemPackageUnitId = 0;
       this.customFile();
     }
   }
 
 
   async fnSave() {
-    this.uploadReportProgress =  { progress : 0, message: null, isError: null };
+    this.uploadReportProgress = { progress: 0, message: null, isError: null };
     this.laddaSubmitLoading = true;
     if (this.listProperty.length > 0) {
       this.entity.ItemTypeId = this.listProperty[0].itemId;
     }
 
     let e = this.entity;
-    if (this.itemIdPram == null) 
+    if (this.itemIdPram == null)
       e.CreateBy = this.auth.currentUser.Username;
     else
-     e.ModifyBy = this.auth.currentUser.Username;
+      e.ModifyBy = this.auth.currentUser.Username;
 
-    
+
     if (this.itemIdPram == null) {
       if (await this.fnValidate(e)) {
         this.api.addItem(e).subscribe(
@@ -166,7 +176,7 @@ export class ItemActionComponent implements OnInit {
 
   ////////////// Area Func Factory///////////////
 
-  
+
   // private loadFactory() {
   //   this.listFactory = concat(
   //       of([]), // default items
@@ -181,14 +191,14 @@ export class ItemActionComponent implements OnInit {
   //               }),
   //               catchError(() => of([]))
   //               )
-            
+
   //           )
   //       )
   //   );
   // }
 
   private async loadFactory() {
-    const model:DataTablePaginationParram = {
+    const model: DataTablePaginationParram = {
       key: "",
       entity: "Factory",
       keyFields: "",
@@ -198,140 +208,133 @@ export class ItemActionComponent implements OnInit {
       orderDir: "asc",
       orderBy: "FactoryName"
     }
-      this.listFactory  = await this.api.getAllFactoryPagination(model).pipe(
-        map(res=>{
-          var  ress= res as any;
-          return ress.result.map(item=>{
-            return {id:item.FactoryId,text:item.FactoryName};
-          })
-        })).toPromise().then();
+    // this.listFactory = await this.api.getAllFactoryPagination(model).pipe(
+    //   map(res => {
+    //     var ress = res as any;
+    //     return ress.result.map(item => {
+    //       return { id: item.FactoryId, text: item.FactoryName };
+    //     })       
+    //   })).toPromise().then();
+
+      let data:any = await  this.api.getAllFactoryPagination(model).toPromise().then();
+      this.listFactory = data.result
+      console.log(this.listFactory);
   }
 
   factoryChange(item) {
-    this.itemFactory.FactoryId =item.id;
+    this.itemFactory.FactoryId = item.id;
     this.itemFactory.FactoryName = item.text;
+
   }
 
-  fnAddFactory() {
-    let isValidate = this.validateFactory(
-      this.itemFactory.FactoryId,
-      this.itemFactory.IntergrationCode
-    );
-
-    //  kiểm tra nhập form
-    if (!isValidate) {
-      this.toastr.error("Validate", "Vui lòng nhập đầy đủ thông tin");
-      return;
-    }
-    // kiểm tra xem phần tử đã tồn tại trong mảng hay chưa
-    let ifExits = this.entity.ItemFactory.find(
-      x =>
-        x.FactoryId == this.itemFactory.FactoryId &&
-        x.IntergrationCode == this.itemFactory.IntergrationCode
-    );
-
-    if (ifExits == null) {
-      this.entity.ItemFactory.push(
-        JSON.parse(JSON.stringify(this.itemFactory))
-      );
-      this.entity.ItemFactory = this.listItemFactories;
-    } else {
-      this.toastr.warning("Validate", "Factory đã tồn tại");
-    }
-  }
-
-  validateFactory(factoryId, code) {
-    if (factoryId == null || code == null || factoryId == "" || code == "") {
-      return false;
-    }
-    return true;
-  }
-
-  fnDeleteFactory(index) {
-    this.entity.ItemFactory.splice(index, 1);
-  }
 
   ////////// Area Item Property //////////////////
 
-// loadProperty(){
-//   this.listProperty = concat(
-//     of([]), // default items
-//     this.propertyInput$.pipe(
-//         distinctUntilChanged(),
-//         switchMap(term =>
-//            this.api.getItemTypeToSelect2(term,this.code).pipe(
-//             map(res=>{
-//               return res.result;
-//             }),
-//             catchError(() => of([]))
-//             )
-        
-//         )
-//     )
-// );
-// }
+  // loadProperty(){
+  //   this.listProperty = concat(
+  //     of([]), // default items
+  //     this.propertyInput$.pipe(
+  //         distinctUntilChanged(),
+  //         switchMap(term =>
+  //            this.api.getItemTypeToSelect2(term,this.code).pipe(
+  //             map(res=>{
+  //               return res.result;
+  //             }),
+  //             catchError(() => of([]))
+  //             )
 
-async loadProperty(){
-  const model:DataTablePaginationParram = {
-    key: "",
-    entity: "ItemType",
-    keyFields: "",
-    selectFields: "ItemTypeName,ItemTypeId",
-    page: 1,
-    pageSize: 9999,
-    orderDir: "asc",
-    orderBy: "ItemTypeName"
+  //         )
+  //     )
+  // );
+  // }
+
+
+  //add list
+  //factories
+  fnAddFactory() {
+    if (!this.isExistFactory())
+      this.entity.ItemFactory.push(this.newItemFactory);
+    this.newItemFactory = new ItemFactory();
   }
-  this.listProperty = await this.api.getItemTypePaginationByCode(model,this.code).pipe(
-    map(res=>{
-      var  ress= res as any;
-      return ress.result;
-    })
-  ).toPromise().then();
-}
-
-
-  itemPropertyChange(item) {
-    this.itemProperty.ItemTypePropertyId =item.id;
-    this.itemProperty.ItemTypePropertyName = item.text;
+  fnSaveFactory() {
+    this.editRowId = 0;
+  }
+  fnEditFactory(index) {
+    this.editRowId = index + 1;
+    this.itemFactory = this.entity.ItemFactory[index];
+  }
+  fnDeleteFactory(index) {
+    this.entity.ItemFactory.splice(index, 1)
+  }
+  isExistFactory(){
+    return this.entity.ItemFactory.find(x => x.FactoryId == this.newItemFactory.FactoryId && x.IntergrationCode == this.newItemFactory.IntergrationCode);
   }
 
+
+  //properties
   fnAddProperty() {
-    let isValidate = this.validateProperty(
-      this.itemProperty.ItemTypePropertyId,
-      this.itemProperty.ItemTypePropertyValue
-    );
+    if (!this.isExistProperty())
+      this.entity.ItemProperty.push(this.newItemProperty);
+    this.newItemProperty = new ItemProperty();
 
-    //  kiểm tra nhập form
-    if (!isValidate) {
-      this.toastr.error("Validate", "Vui lòng nhập đầy đủ thông tin");
-      return;
-    }
-    //  kiểm tra xem phần tử đã tồn tại trong mảng hay chưa
-    let ifExist = this.entity.ItemProperty.find(
-      x =>
-        x.ItemTypePropertyId == this.itemProperty.ItemTypePropertyId &&
-        x.ItemTypePropertyValue == this.itemProperty.ItemTypePropertyValue
-    );
-
-    if (ifExist == null) {
-      this.entity.ItemProperty.push(
-        JSON.parse(JSON.stringify(this.itemProperty))
-      );
-    } else {
-      this.toastr.warning("Validate", "Property đã tồn tại");
-    }
+  }
+  fnEditProperty(index) {
+    this.editRowId = index + 1;
+    this.itemProperty = this.entity.ItemProperty[index];
+  }
+  fnSaveProperty() {
+    this.editRowId = 0;
+  }
+  fnDeleteProperty(index) {
+    this.entity.ItemProperty.splice(index, 1)
   }
 
-  validateProperty(propertyId, val) {
-    if (propertyId == null || val == null || propertyId == "" || val == "") {
-      return false;
-    }
-    return true;
+  isExistProperty(){
+    return this.entity.ItemProperty.find(x => x.ItemPropertyId == this.newItemProperty.ItemPropertyId
+                                              && x.ItemTypePropertyName == this.newItemProperty.ItemTypePropertyName);
   }
 
-  fnDeleteItemProperty(index) {
-    this.entity.ItemProperty.splice(index, 1);
+  //packages
+  fnAddPackage() {
+    if (!this.isExistPackage())
+      this.entity.ItemPackage.push(this.newItemPackage);
+    this.newItemPackage = new ItemPackage();
+  }
+  fnEditPackage(index) {
+    this.editRowId = index + 1;
+    this.itemPackage = this.entity.ItemPackage[index];
+  }
+  fnSavePackage() {
+    this.editRowId = 0;
+  }
+  fnDeletePackage(index) {
+    this.entity.ItemPackage.splice(index, 1)
+  }
+  isExistPackage(){
+    return this.entity.ItemPackage.find(x => x.ItemPackageId == this.newItemPackage.ItemPackageId);
+  }
+
+  async loadProperty() {
+    const model: DataTablePaginationParram = {
+      key: "",
+      entity: "ItemType",
+      keyFields: "",
+      selectFields: "ItemTypeName,ItemTypeId",
+      page: 1,
+      pageSize: 9999,
+      orderDir: "asc",
+      orderBy: "ItemTypeName"
+    }
+    this.listProperty = await this.api.getItemTypePaginationByCode(model, this.code).pipe(
+      map(res => {
+        var ress = res as any;
+        return ress.result;
+      })
+    ).toPromise().then();
+  }
+  itemPropertyChange(item) {
+    this.itemProperty.ItemTypePropertyId = item.id;
+    this.itemProperty.ItemTypePropertyName = item.text;
   }
 
   ////////// Area Item Unit //////////////////
@@ -361,7 +364,7 @@ async loadProperty(){
   // }
 
   private async loadUnit() {
-    const model:DataTablePaginationParram = {
+    const model: DataTablePaginationParram = {
       key: "",
       entity: "Unit",
       keyFields: "",
@@ -372,97 +375,42 @@ async loadProperty(){
       orderBy: "UnitName"
     }
 
-      this.listUnit  = await this.api.getUnitPagination(model).pipe(
-        map(res=>{
-          return res.result.map(item=>{
-            return {id:item.UnitId,text:item.UnitName};
-          })
-        })).toPromise().then();
+    this.listUnit = await this.api.getUnitPagination(model).pipe(
+      map(res => {
+        return res.result.map(item => {
+          return { id: item.UnitId, text: item.UnitName };
+        })
+      })).toPromise().then();
 
-      // this.listUnit = concat(
-      //     of([{id:99,text:"aaa"}]), // default items
-      //     this.unitInput$.pipe(
-      //         distinctUntilChanged(),
-      //         switchMap(term =>
-      //            this.api.getUnitSelect2(term).pipe(
-      //             map(res=>{
-      //               if(res!=null)
-      //               return res.result.map(item=>{
-      //                 return {id: item.UnitID,text:item.UnitName}
-      //               })
-      //             }),
-      //             catchError(() => of([]))
-      //             )
-      //         )
-      //     )
-      // );
-      // this.entity.ItemUnitId =99; 
-    }
-  
+    // this.listUnit = concat(
+    //     of([{id:99,text:"aaa"}]), // default items
+    //     this.unitInput$.pipe(
+    //         distinctUntilChanged(),
+    //         switchMap(term =>
+    //            this.api.getUnitSelect2(term).pipe(
+    //             map(res=>{
+    //               if(res!=null)
+    //               return res.result.map(item=>{
+    //                 return {id: item.UnitID,text:item.UnitName}
+    //               })
+    //             }),
+    //             catchError(() => of([]))
+    //             )
+    //         )
+    //     )
+    // );
+    // this.entity.ItemUnitId =99; 
+  }
 
-  itemUnitChange(item,isSetId=false) {
+
+  itemUnitChange(item, isSetId = false) {
     debugger
-    if(isSetId)
-      {
-        this.entity.ItemUnitId =item.id;
-      }
-    this.itemPackage.ItemPackageUnitId =item.id;
+    if (isSetId) {
+      this.entity.ItemUnitId = item.id;
+    }
+    this.itemPackage.ItemPackageUnitId = item.id;
     this.itemPackage.UnitName = item.text;
   }
-
-  fnAddPackage() {
-    if (this.validatePackage()) {
-      this.entity.ItemPackage.push(
-        JSON.parse(JSON.stringify(this.itemPackage))
-      );
-
-      //this.itemPackage = new ItemPackage();
-    } else {
-      this.toastr.error("Validate", "Vui lòng nhập đầy đủ thông tin");
-    }
-  }
-
-  validatePackage() {
-    if (this.itemPackage.ItemPackageUnitId == 0) {
-      return false;
-    }
-    if (
-      this.itemPackage.ItemPackageCoefficient == null ||
-      this.itemPackage.ItemPackageCoefficient <= 0
-    ) {
-      return false;
-    }
-    if (
-      this.itemPackage.ItemPackageLength == null ||
-      this.itemPackage.ItemPackageLength <= 0
-    ) {
-      return false;
-    }
-    if (
-      this.itemPackage.ItemPackageWidth == null ||
-      this.itemPackage.ItemPackageWidth <= 0
-    ) {
-      return false;
-    }
-    if (
-      this.itemPackage.ItemPackageHeight == null ||
-      this.itemPackage.ItemPackageHeight <= 0
-    ) {
-      return false;
-    }
-    if (
-      this.itemPackage.ItemPackageWeight == null ||
-      this.itemPackage.ItemPackageWeight <= 0
-    ) {
-      return false;
-    }
-    return true;
-  }
-
-  fnDeleteItemPackage(index) {
-    this.entity.ItemPackage.splice(index, 1);
-  }
-
 
   ////////////////File ////////////
   onRemove(event,isImage) { //press x to delte file (in modal)
@@ -481,11 +429,11 @@ async loadProperty(){
    
     // this.removeFile(event);
   }
-  downloadFile(filename){ 
-    this.api.downloadFile(this.pathFile+'/'+filename);
+  downloadFile(filename) {
+    this.api.downloadFile(this.pathFile + '/' + filename);
   }
 
-  private uploadFile(files: File[]){ //upload file to server
+  private uploadFile(files: File[]) { //upload file to server
     let formData = new FormData();
     for (let index = 0; index < files.length; index++) {
       let _file = files[index];
@@ -497,12 +445,12 @@ async loadProperty(){
           console.log(this.uploadReportProgress.progress);
         }
       else if (event.type === HttpEventType.Response) {
-          this.uploadReportProgress.message = 'Upload success';
-          // this.onUploadFinished.emit(event.body);
-        }
-    },err=>{
-      this.toastr.warning(err.statusText,'Upload file bị lỗi');
-      this.uploadReportProgress =  { progress : 0, message: 'Error', isError: true};
+        this.uploadReportProgress.message = 'Upload success';
+        // this.onUploadFinished.emit(event.body);
+      }
+    }, err => {
+      this.toastr.warning(err.statusText, 'Upload file bị lỗi');
+      this.uploadReportProgress = { progress: 0, message: 'Error', isError: true };
     });
   }
 
@@ -570,8 +518,8 @@ async onSelect(event,isImage) { //drag file(s) or choose file(s) in ngFileZone
   
 }
 
-  ngAfterViewInit(){
-   //this.entity=this.route.snapshot.data["item"];
+  ngAfterViewInit() {
+    //this.entity=this.route.snapshot.data["item"];
     //this.loadUnit();
   }
 
