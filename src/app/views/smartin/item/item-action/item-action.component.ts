@@ -15,12 +15,18 @@ import { TranslateService } from "@ngx-translate/core";
 import { AuthService } from "src/app/services/auth.service";
 import { MyHelperService } from "src/app/services/my-helper.service";
 import { Router, ActivatedRoute } from "@angular/router";
-import { map, distinctUntilChanged, tap, switchMap, catchError } from "rxjs/operators";
-import swal from 'sweetalert2';
-import { Select2OptionData } from 'ng2-select2';
-import { of, concat, Observable, Subject } from 'rxjs';
-import { HttpEventType } from '@angular/common/http';
-import { Identifiers, identifierModuleUrl, ThrowStmt } from '@angular/compiler';
+import {
+  map,
+  distinctUntilChanged,
+  tap,
+  switchMap,
+  catchError
+} from "rxjs/operators";
+import swal from "sweetalert2";
+import { Select2OptionData } from "ng2-select2";
+import { of, concat, Observable, Subject } from "rxjs";
+import { HttpEventType } from "@angular/common/http";
+import { Identifiers, identifierModuleUrl, ThrowStmt } from "@angular/compiler";
 
 @Component({
   selector: "app-item-action",
@@ -29,18 +35,18 @@ import { Identifiers, identifierModuleUrl, ThrowStmt } from '@angular/compiler';
 })
 export class ItemActionComponent implements OnInit {
   code: string = "HC";
-  private pathFile = "uploadFilesItem"
+  private pathFile = "uploadFilesItem";
 
   itemIdPram: any = null;
   entity: Item = new Item();
   itemFactory: ItemFactory = new ItemFactory();
-  listItemFactories: ItemFactory[] = []
+  listItemFactories: ItemFactory[] = [];
   itemProperty: ItemProperty = new ItemProperty();
   itemPackage: ItemPackage = new ItemPackage();
 
   //For add new records
   newItemFactory: ItemFactory = new ItemFactory();
-  newItemPackage: ItemPackage = new ItemPackage;
+  newItemPackage: ItemPackage = new ItemPackage();
   newItemProperty: ItemProperty = new ItemProperty();
 
   //set rowEdit
@@ -50,7 +56,11 @@ export class ItemActionComponent implements OnInit {
   laddaSubmitLoading = false;
   files: File[] = [];
   fileImages: File[] = [];
-  addFiles : {FileList : File[], FileLocalNameList: string[]};
+
+  listImages: Array<ItemFile> = new Array<ItemFile>();
+  listFiles: Array<ItemFile> = new Array<ItemFile>();
+
+  addFiles: { FileList: File[]; FileLocalNameList: string[] };
 
   listFactory: any;
   listUnit: any;
@@ -60,7 +70,6 @@ export class ItemActionComponent implements OnInit {
   unitInput$ = new Subject<string>();
   propertyInput$ = new Subject<string>();
 
-
   constructor(
     private api: WaterTreatmentService,
     private toastr: ToastrService,
@@ -69,7 +78,7 @@ export class ItemActionComponent implements OnInit {
     public helper: MyHelperService,
     private router: Router,
     private route: ActivatedRoute
-  ) { }
+  ) {}
 
   async ngOnInit() {
     this.addFiles = { FileList: [], FileLocalNameList: [] };
@@ -80,13 +89,12 @@ export class ItemActionComponent implements OnInit {
     this.itemIdPram = this.route.snapshot.params.id;
     var item = this.route.snapshot.data["item"];
     if (item != null) {
-      console.log(item)
+      console.log(item);
       this.entity = item;
       this.itemPackage.ItemPackageUnitId = 0;
       this.customFile();
     }
   }
-
 
   async fnSave() {
     this.uploadReportProgress = { progress: 0, message: null, isError: null };
@@ -96,11 +104,8 @@ export class ItemActionComponent implements OnInit {
     }
 
     let e = this.entity;
-    if (this.itemIdPram == null)
-      e.CreateBy = this.auth.currentUser.Username;
-    else
-      e.ModifyBy = this.auth.currentUser.Username;
-
+    if (this.itemIdPram == null) e.CreateBy = this.auth.currentUser.Username;
+    else e.ModifyBy = this.auth.currentUser.Username;
 
     if (this.itemIdPram == null) {
       if (await this.fnValidate(e)) {
@@ -115,7 +120,7 @@ export class ItemActionComponent implements OnInit {
             }
             this.laddaSubmitLoading = false;
             this.uploadFile(this.addFiles.FileList);
-            this.router.navigate(['/category/item']);
+            this.router.navigate(["/category/item"]);
           },
           err => {
             this.toastr.error(err.statusText);
@@ -138,7 +143,7 @@ export class ItemActionComponent implements OnInit {
           }
           this.laddaSubmitLoading = false;
           this.uploadFile(this.addFiles.FileList);
-          this.router.navigate(['/category/item']);
+          this.router.navigate(["/category/item"]);
         },
         err => {
           this.toastr.error(err.statusText);
@@ -159,23 +164,21 @@ export class ItemActionComponent implements OnInit {
   }
 
   customFile() {
-
     /**CONTROL FILES */
-    this.entity.ItemFile.forEach(item =>{
-      let _tempFile = new File([],item.File.FileLocalName);
-      if(item.IsImage){
-        this.fileImages.push(_tempFile)
+    this.entity.ItemFile.forEach(item => {
+      let _tempFile = new File([], item.File.FileLocalName);
+      if (item.IsImage) {
+        this.listImages = this.entity.ItemFile.filter(x => x.IsImage == true);
+      } else {
+        this.listFiles = this.entity.ItemFile.filter(x => x.IsImage == false);
       }
-      else{
-        this.files.push(_tempFile);
-      }
-      
-    })
+    });
+    console.log(this.listImages);
+    console.log(this.listFiles);
     this.entity.ModifyBy = this.auth.currentUser.Username;
   }
 
   ////////////// Area Func Factory///////////////
-
 
   // private loadFactory() {
   //   this.listFactory = concat(
@@ -207,26 +210,27 @@ export class ItemActionComponent implements OnInit {
       pageSize: 9999,
       orderDir: "asc",
       orderBy: "FactoryName"
-    }
+    };
     // this.listFactory = await this.api.getAllFactoryPagination(model).pipe(
     //   map(res => {
     //     var ress = res as any;
     //     return ress.result.map(item => {
     //       return { id: item.FactoryId, text: item.FactoryName };
-    //     })       
+    //     })
     //   })).toPromise().then();
 
-      let data:any = await  this.api.getAllFactoryPagination(model).toPromise().then();
-      this.listFactory = data.result
-      console.log(this.listFactory);
+    let data: any = await this.api
+      .getAllFactoryPagination(model)
+      .toPromise()
+      .then();
+    this.listFactory = data.result;
+    console.log(this.listFactory);
   }
 
   factoryChange(item) {
     this.itemFactory.FactoryId = item.id;
     this.itemFactory.FactoryName = item.text;
-
   }
-
 
   ////////// Area Item Property //////////////////
 
@@ -248,7 +252,6 @@ export class ItemActionComponent implements OnInit {
   // );
   // }
 
-
   //add list
   //factories
   fnAddFactory() {
@@ -264,19 +267,21 @@ export class ItemActionComponent implements OnInit {
     this.itemFactory = this.entity.ItemFactory[index];
   }
   fnDeleteFactory(index) {
-    this.entity.ItemFactory.splice(index, 1)
+    this.entity.ItemFactory.splice(index, 1);
   }
-  isExistFactory(){
-    return this.entity.ItemFactory.find(x => x.FactoryId == this.newItemFactory.FactoryId && x.IntergrationCode == this.newItemFactory.IntergrationCode);
+  isExistFactory() {
+    return this.entity.ItemFactory.find(
+      x =>
+        x.FactoryId == this.newItemFactory.FactoryId &&
+        x.IntergrationCode == this.newItemFactory.IntergrationCode
+    );
   }
-
 
   //properties
   fnAddProperty() {
     if (!this.isExistProperty())
       this.entity.ItemProperty.push(this.newItemProperty);
     this.newItemProperty = new ItemProperty();
-
   }
   fnEditProperty(index) {
     this.editRowId = index + 1;
@@ -286,12 +291,15 @@ export class ItemActionComponent implements OnInit {
     this.editRowId = 0;
   }
   fnDeleteProperty(index) {
-    this.entity.ItemProperty.splice(index, 1)
+    this.entity.ItemProperty.splice(index, 1);
   }
 
-  isExistProperty(){
-    return this.entity.ItemProperty.find(x => x.ItemPropertyId == this.newItemProperty.ItemPropertyId
-                                              && x.ItemTypePropertyName == this.newItemProperty.ItemTypePropertyName);
+  isExistProperty() {
+    return this.entity.ItemProperty.find(
+      x =>
+        x.ItemPropertyId == this.newItemProperty.ItemPropertyId &&
+        x.ItemTypePropertyName == this.newItemProperty.ItemTypePropertyName
+    );
   }
 
   //packages
@@ -308,10 +316,12 @@ export class ItemActionComponent implements OnInit {
     this.editRowId = 0;
   }
   fnDeletePackage(index) {
-    this.entity.ItemPackage.splice(index, 1)
+    this.entity.ItemPackage.splice(index, 1);
   }
-  isExistPackage(){
-    return this.entity.ItemPackage.find(x => x.ItemPackageId == this.newItemPackage.ItemPackageId);
+  isExistPackage() {
+    return this.entity.ItemPackage.find(
+      x => x.ItemPackageId == this.newItemPackage.ItemPackageId
+    );
   }
 
   async loadProperty() {
@@ -324,13 +334,17 @@ export class ItemActionComponent implements OnInit {
       pageSize: 9999,
       orderDir: "asc",
       orderBy: "ItemTypeName"
-    }
-    this.listProperty = await this.api.getItemTypePaginationByCode(model, this.code).pipe(
-      map(res => {
-        var ress = res as any;
-        return ress.result;
-      })
-    ).toPromise().then();
+    };
+    this.listProperty = await this.api
+      .getItemTypePaginationByCode(model, this.code)
+      .pipe(
+        map(res => {
+          var ress = res as any;
+          return ress.result;
+        })
+      )
+      .toPromise()
+      .then();
   }
   itemPropertyChange(item) {
     this.itemProperty.ItemTypePropertyId = item.id;
@@ -360,7 +374,7 @@ export class ItemActionComponent implements OnInit {
   //           )
   //       )
   //   );
-  //   this.entity.ItemUnitId =99; 
+  //   this.entity.ItemUnitId =99;
   // }
 
   private async loadUnit() {
@@ -373,14 +387,19 @@ export class ItemActionComponent implements OnInit {
       pageSize: 9999,
       orderDir: "asc",
       orderBy: "UnitName"
-    }
+    };
 
-    this.listUnit = await this.api.getUnitPagination(model).pipe(
-      map(res => {
-        return res.result.map(item => {
-          return { id: item.UnitId, text: item.UnitName };
+    this.listUnit = await this.api
+      .getUnitPagination(model)
+      .pipe(
+        map(res => {
+          return res.result.map(item => {
+            return { id: item.UnitId, text: item.UnitName };
+          });
         })
-      })).toPromise().then();
+      )
+      .toPromise()
+      .then();
 
     // this.listUnit = concat(
     //     of([{id:99,text:"aaa"}]), // default items
@@ -399,12 +418,11 @@ export class ItemActionComponent implements OnInit {
     //         )
     //     )
     // );
-    // this.entity.ItemUnitId =99; 
+    // this.entity.ItemUnitId =99;
   }
 
-
   itemUnitChange(item, isSetId = false) {
-    debugger
+    debugger;
     if (isSetId) {
       this.entity.ItemUnitId = item.id;
     }
@@ -413,115 +431,149 @@ export class ItemActionComponent implements OnInit {
   }
 
   ////////////////File ////////////
-  onRemove(event,isImage) { //press x to delte file (in modal)
+  onRemove(event, isImage) {
+    debugger;
+   const file = event as ItemFile;
+    //press x to delte file (in modal)
     console.log(event);
-    if (isImage){
-      let index = this.fileImages.indexOf(event);
-      this.fileImages.splice(index, 1); //UI del
-      this.entity.ItemFile.splice(index,1);
+    if (isImage) {
+      let indexListImage = this.listImages.findIndex(x=>x.File.FileOriginalName == file.File.FileOriginalName);
+      let indexListEntity = this.entity.ItemFile.findIndex(x=>x.IsImage==true && x.File.FileOriginalName == file.File.FileOriginalName);
+      this.listImages.splice(indexListImage, 1); //UI del
+      this.entity.ItemFile.splice(indexListEntity, 1);
+    } else {
+      let indexListImage = this.listFiles.findIndex(x=>x.File.FileOriginalName == file.File.FileOriginalName);
+      let indexListEntity = this.entity.ItemFile.findIndex(x=>x.IsImage==false && x.File.FileOriginalName == file.File.FileOriginalName);
+      this.listFiles.splice(indexListImage, 1); //UI del
+      this.entity.ItemFile.splice(indexListEntity, 1);
     }
-    else{
-      let index = this.files.indexOf(event);
-      this.files.splice(index, 1); //UI del
-      this.entity.ItemFile.splice(index,1);
-    }
-  
-   
+
     // this.removeFile(event);
   }
   downloadFile(filename) {
-    this.api.downloadFile(this.pathFile + '/' + filename);
+    this.api.downloadFile(this.pathFile + "/" + filename);
   }
 
-  private uploadFile(files: File[]) { //upload file to server
+  private uploadFile(files: File[]) {
+    //upload file to server
     let formData = new FormData();
     for (let index = 0; index < files.length; index++) {
       let _file = files[index];
       formData.append("files", _file, this.addFiles.FileLocalNameList[index]);
     }
-    this.api.uploadFile(formData, this.pathFile).subscribe(event=> {
-      if (event.type === HttpEventType.UploadProgress)
-       {   this.uploadReportProgress.progress = Math.round(100 * event.loaded / event.total);
-          console.log(this.uploadReportProgress.progress);
+    this.api.uploadFile(formData, this.pathFile).subscribe(
+      event => {
+        if (event.type === HttpEventType.UploadProgress) {
+          this.uploadReportProgress.progress = Math.round(
+            (100 * event.loaded) / event.total
+          );
+        } else if (event.type === HttpEventType.Response) {
+          this.uploadReportProgress.message = "Upload success";
+          // this.onUploadFinished.emit(event.body);
         }
-      else if (event.type === HttpEventType.Response) {
-        this.uploadReportProgress.message = 'Upload success';
-        // this.onUploadFinished.emit(event.body);
+      },
+      err => {
+        this.toastr.warning(err.statusText, "Upload file bị lỗi");
+        this.uploadReportProgress = {
+          progress: 0,
+          message: "Error",
+          isError: true
+        };
       }
-    }, err => {
-      this.toastr.warning(err.statusText, 'Upload file bị lỗi');
-      this.uploadReportProgress = { progress: 0, message: 'Error', isError: true };
-    });
+    );
   }
 
   isFileImage(file) {
-    return file && file['type'].split('/')[0] === 'image';
-}
-async onSelect(event,isImage) { //drag file(s) or choose file(s) in ngFileZone
-  var askBeforeUpload = false;
-  if (event.rejectedFiles.length>0) this.toastr.warning(this.trans.instant('messg.maximumFileSize5000'));
-  var _addFiles = event.addedFiles;
-  for (var index in _addFiles) {
-    let item = event.addedFiles[index];
-    let convertName = this.helper.getFileNameWithExtension(item);
-    let currentFile = this.entity.ItemFile;
-    let  findElement =null;
-    if(isImage)
-      findElement =  this.fileImages.find(x=>x.name== item.name);
-    else{
-      findElement =  this.files.find(x=>x.name== item.name);
-    }
-    //ASK THEN GET RESULT
-    if (findElement!=null) {
-      if (!askBeforeUpload) {
-        askBeforeUpload = true;
-        var allowUpload =true;
-        await swal.fire({
-          title: 'File trùng',
-          titleText: 'Một số file bị trùng, bạn có muốn đè các file này lên bản gốc?',
-          type: 'warning',
-          showCancelButton: true,
-          reverseButtons: true
-          }).then((result) => {
-             if (result.dismiss === swal.DismissReason.cancel) allowUpload = false;
-          })
-      }
-      if (!allowUpload)  return;
-      let _indexElement = this.entity.ItemFile.indexOf(findElement,0);
-      if(isImage)
-      this.fileImages.splice( _indexElement,1 );
-      else
-        this.files.splice( _indexElement,1 );
-      this.addFiles.FileList.splice(_indexElement,1 );
-    }
-    else{
-      let _itemFile = new ItemFile();
-      _itemFile.File.FileOriginalName= item.name;
-      _itemFile.File.FileLocalName = convertName;  
-      _itemFile.File.Path = this.pathFile + '/' + convertName;
-      _itemFile.File.FileType = item.type;
-      if(isImage)
-        _itemFile.IsImage =true;
-      this.entity.ItemFile.push(_itemFile);
-      this.addFiles.FileLocalNameList.push(convertName);
-    }
-    
+    return file && file["type"].split("/")[0] === "image";
   }
-  if(isImage)
-  this.fileImages.push(...event.addedFiles); //refresh showing in Directive
-  else
-  this.files.push(...event.addedFiles);
-  this.addFiles.FileList.push(...event.addedFiles);
-  // this.uploadFile(event.addedFiles);
-  console.log(this.fileImages);
-  console.log(this.files);
-  
-}
+  async onSelect(event, isImage) {
+    //drag file(s) or choose file(s) in ngFileZone
+    var askBeforeUpload = false;
+    if (event.rejectedFiles.length > 0)
+      this.toastr.warning(this.trans.instant("messg.maximumFileSize5000"));
+    var _addFiles = event.addedFiles;
+    for (var index in _addFiles) {
+      let item = event.addedFiles[index];
+      let convertName = this.helper.getFileNameWithExtension(item);
+      let currentFile = this.entity.ItemFile;
+      console.log(this.listImages);
+      let findElement:ItemFile= null;
+      if (isImage)
+        findElement = this.listImages.find(
+          x => x.File.FileOriginalName == item.name
+        );
+      else {
+        findElement = this.listFiles.find(
+          x => x.File.FileOriginalName == item.name
+        );
+      }
+      //ASK THEN GET RESULT
+      if (findElement != null) {
+        if (!askBeforeUpload) {
+          askBeforeUpload = true;
+          var allowUpload = true;
+          await swal
+            .fire({
+              title: "File trùng",
+              titleText:
+                "Một số file bị trùng, bạn có muốn đè các file này lên bản gốc?",
+              type: "warning",
+              showCancelButton: true,
+              reverseButtons: true
+            })
+            .then(result => {
+              if (result.dismiss === swal.DismissReason.cancel)
+                allowUpload = false;
+            });
+        }
+        if (!allowUpload) return;
+
+        console.log(findElement);
+        //ghi đè file
+        if(isImage){
+          let _indextFileEntity = this.entity.ItemFile.findIndex(x=>x.IsImage==true && x.File.FileOriginalName ==findElement.File.FileOriginalName);
+          let _indextFileList = this.entity.ItemFile.filter(x=>x.IsImage==true).findIndex(x=> x.File.FileOriginalName ==findElement.File.FileOriginalName);
+           //change file in entity
+           this.listImages.splice(_indextFileList, 1);
+          //  this.listImages =this.listImages.splice(1,1);
+           this.addFiles.FileList.splice(_indextFileEntity, 1);
+        }
+        else{
+          let _indextFileEntity = this.entity.ItemFile.findIndex(x=>x.IsImage==false && x.File.FileOriginalName ==findElement.File.FileOriginalName);
+          let _indextFileList = this.entity.ItemFile.filter(x=>x.IsImage==false).findIndex(x=> x.File.FileOriginalName ==findElement.File.FileOriginalName);
+           //change file in entity
+           this.listImages.splice(_indextFileList, 1);
+          //  this.listImages =this.listImages.splice(1,1);
+           this.addFiles.FileList.splice(_indextFileEntity, 1);
+        }
+        // let _indexElement = this.entity.ItemFile.indexOf(findElement, 0);
+        // if (isImage) this.fileImages.splice(_indexElement, 1);
+        // else this.files.splice(_indexElement, 1);
+        // this.addFiles.FileList.splice(_indexElement, 1);
+      } else {
+        let _itemFile = new ItemFile();
+        _itemFile.File.FileOriginalName = item.name;
+        _itemFile.File.FileLocalName = convertName;
+        _itemFile.File.Path = this.pathFile + "/" + convertName;
+        _itemFile.File.FileType = item.type;
+        if (isImage) _itemFile.IsImage = true;
+        this.entity.ItemFile.push(_itemFile);
+        this.addFiles.FileLocalNameList.push(convertName);
+      }
+    }
+    // if (isImage) this.fileImages.push(...event.addedFiles);
+    // //refresh showing in Directive
+    // else this.files.push(...event.addedFiles);
+    if (isImage) {
+      this.listImages = this.entity.ItemFile.filter(x => x.IsImage == true);
+    } else {
+      this.listFiles = this.entity.ItemFile.filter(x => x.IsImage == false);
+    }
+    this.addFiles.FileList.push(...event.addedFiles);
+  }
 
   ngAfterViewInit() {
     //this.entity=this.route.snapshot.data["item"];
     //this.loadUnit();
   }
-
-
 }
