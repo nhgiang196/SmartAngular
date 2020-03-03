@@ -133,7 +133,7 @@
             <div class="col-lg-6">
               <label>{{ 'Warehouse.data.WarehouseAddress' | translate }} :</label>
               <input type="text" name="WarehouseAddress" id="WarehouseAddress" [(ngModel)]="entity.WarehouseAddress" class="form-control" placeholder="Enter your __________" >
-            </div>
+            </div>  
             <div class="col-lg-6">
               <div class="form-group">
                 <label> {{ 'Warehouse.data.WarehouseUserName' | translate }} *: </label>
@@ -142,7 +142,7 @@
             </div>
           </div>
           <hr>
-          <h3>{{'Warehouse.label.Size' | translate}} </h3>
+          <h3>{{'Warehouse.label.Size' | translate}} </h3> 
           <div class="row">
             <div class="col-lg-4">
               <div class="form-group">
@@ -202,7 +202,7 @@
                   <th>{{ 'Warehouse.data.WarehouseLocationLength' | translate }}</th>
                   <th>{{ 'Warehouse.data.WarehouseLocationWidth' | translate }}</th>
                   <th>{{ 'Warehouse.data.WarehouseLocationHeight' | translate }}</th>
-                  <th>{{ 'Warehouse.data.WarehouseLocationStatus' | translate }}</th>
+                  <th width="10%">{{ 'Warehouse.data.WarehouseLocationStatus' | translate }}</th>
                   <th>{{ 'Button.Action' | translate }}</th>
                 </tr>
               </thead>
@@ -212,21 +212,32 @@
                   [@simpleFadeAnimation]="'in'">
                   <td> {{i+1}} </td>
                   <td  *ngIf="i+1 !== EditRowID">{{item.WarehouseLocationCode}} </td>
-                  <td  *ngIf="i+1 === EditRowID"><input type="text" class="form-control" name="WarehouseLocationCode" id="WarehouseLocationCode" [(ngModel)]="locationEntity.WarehouseLocationCode"></td>
                   <td  *ngIf="i+1 !== EditRowID">{{item.WarehouseLocationName}} </td>
-                  <td  *ngIf="i+1 === EditRowID"><input type="text" class="form-control" name="WarehouseLocationName" id="WarehouseLocationName" [(ngModel)]="locationEntity.WarehouseLocationName"></td>
                   <td  *ngIf="i+1 !== EditRowID">{{item.WarehouseLocationLength}} </td>
-                  <td  *ngIf="i+1 === EditRowID"><input type="number" class="form-control" name="WarehouseLocationLength" id="WarehouseLocationLength" [(ngModel)]="locationEntity.WarehouseLocationLength"></td>
                   <td  *ngIf="i+1 !== EditRowID">{{item.WarehouseLocationWidth}} </td>
-                  <td  *ngIf="i+1 === EditRowID"><input type="number" class="form-control" name="WarehouseLocationWidth" id="WarehouseLocationWidth" [(ngModel)]="locationEntity.WarehouseLocationWidth"></td>
                   <td  *ngIf="i+1 !== EditRowID">{{item.WarehouseLocationHeight}} </td>
+
+                  <td  *ngIf="i+1 === EditRowID"><input type="text" class="form-control" name="WarehouseLocationCode" id="WarehouseLocationCode" [(ngModel)]="locationEntity.WarehouseLocationCode"></td>
+                  <td  *ngIf="i+1 === EditRowID"><input type="text" class="form-control" name="WarehouseLocationName" id="WarehouseLocationName" [(ngModel)]="locationEntity.WarehouseLocationName"></td>
+                  <td  *ngIf="i+1 === EditRowID"><input type="number" class="form-control" name="WarehouseLocationLength" id="WarehouseLocationLength" [(ngModel)]="locationEntity.WarehouseLocationLength"></td>
+                  <td  *ngIf="i+1 === EditRowID"><input type="number" class="form-control" name="WarehouseLocationWidth" id="WarehouseLocationWidth" [(ngModel)]="locationEntity.WarehouseLocationWidth"></td>
                   <td  *ngIf="i+1 === EditRowID"><input type="number" class="form-control" name="WarehouseLocationHeight" id="WarehouseLocationHeight" [(ngModel)]="locationEntity.WarehouseLocationHeight"></td>
-                  <td  *ngIf="i+1 !== EditRowID">{{'Warehouse.data.WarehouseLocationStatus'+item.Status | translate}} </td>
+                  <td  *ngIf="i+1 !== EditRowID"> 
+                    <div class="switch">
+                      <div class="onoffswitch">
+                        <input type="checkbox" class="onoffswitch-checkbox" [name]="'showed_status' +(i+1)" [id]="'showed_status'+(i+1)" disabled [checked]="item.Status ==1 ? true : null" >
+                        <label class="onoffswitch-label" [for]="'showed_status' +(i+1)">
+                          <span class="onoffswitch-inner"></span>
+                          <span class="onoffswitch-switch"></span>
+                        </label>
+                      </div>
+                    </div>
+                  </td>
                   <td  *ngIf="i+1 === EditRowID">                    
                     <div class="switch">
                       <div class="onoffswitch">
-                        <input type="checkbox" class="onoffswitch-checkbox" name="status +(i+1)" id="status +(i+1)" [(ngModel)]="locationEntity.Status"  (click)="onSwitchStatus()" [checked]="locationEntity.Status==1 ? true : false" >
-                        <label class="onoffswitch-label" for="status">
+                        <input type="checkbox" class="onoffswitch-checkbox" [name]="'status' +(i+1)" [id]="'status'+(i+1)" (click)="onSwitchStatus('locationEntity')" [checked]="locationEntity.Status==1 ? true : null" >
+                        <label class="onoffswitch-label" [for]="'status' +(i+1)">
                           <span class="onoffswitch-inner"></span>
                           <span class="onoffswitch-switch"></span>
                         </label>
@@ -235,7 +246,7 @@
                   </td>
                   <td>
                     <div class="btn-group">
-                      <button type="button" class="btn btn-sm btn-outline btn-primary" (click)="fnSaveItem(i)" *ngIf="i+1 === EditRowID" ><i class="fa fa-check"></i></button>
+                      <button type="button" class="btn btn-sm btn-outline btn-primary" (click)="EditRowID = 0;" *ngIf="i+1 === EditRowID" ><i class="fa fa-check"></i></button>
                       <button type="button" class="btn btn-sm btn-outline btn-success" (click)="fnEditItem(i)"*ngIf="i+1 !== EditRowID"><i class="fa fa-pencil"></i></button>
                       <button type="button" class="btn btn-sm btn-outline btn-danger" (click)="fnDeleteItem(i)" *ngIf="i+1 !== EditRowID"><i class="fa fa-trash"></i></button>
                     </div>                        
@@ -249,18 +260,9 @@
                   <td> <input type="number" class="form-control" name="newWarehouseLocationWidth" id="newWarehouseLocationWidth" [(ngModel)]="newLocationEntity.WarehouseLocationWidth"> </td>
                   <td> <input type="number" class="form-control" name="newWarehouseLocationHeight" id="newWarehouseLocationHeight" [(ngModel)]="newLocationEntity.WarehouseLocationHeight"> </td>
                   <td>
-                    <!-- <div class="switch">
-                      <div class="onoffswitch">
-                        <input type="checkbox" class="onoffswitch-checkbox"  name="newStatus" id="newStatus" [(ngModel)]="newLocationEntity.Status"    >
-                        <label class="onoffswitch-label" for="sub_status">
-                          <span class="onoffswitch-inner"></span>
-                          <span class="onoffswitch-switch"></span>
-                        </label>
-                      </div>
-                    </div> -->
                     <div class="switch">
                       <div class="onoffswitch">
-                        <input type="checkbox" class="onoffswitch-checkbox" name="newstatus +(i+1)" id="newstatus +(i+1)" [(ngModel)]="newLocationEntity.Status"  (click)="onSwitchStatus()" [checked]="newLocationEntity.Status==1 ? true : null" >
+                        <input type="checkbox" class="onoffswitch-checkbox" name="newstatus +(i+1)" id="newstatus +(i+1)"   (click)="onSwitchStatus('newLocationEntity')" [checked]="newLocationEntity.Status==1 ? true : null" >
                         <label class="onoffswitch-label" for="newstatus +(i+1)">
                           <span class="onoffswitch-inner"></span>
                           <span class="onoffswitch-switch"></span>
@@ -279,7 +281,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-white" data-dismiss="modal">{{'Button.Close' | translate}}  </button>
-        <button type="button" class="btn btn-primary" (click)="fnSave();" [ladda]="laddaSubmitLoading" ><i class="fa fa-paper-plane-o"></i> {{'Button.Save' | translate}} </button>
+        <button type="button" class="btn btn-primary" (click)="fnSave();" [disabled]="myForm.invalid||EditRowID!=0" [ladda]="laddaSubmitLoading" ><i class="fa fa-paper-plane-o"></i> {{'Button.Save' | translate}} </button>
       </div>
     </div>
   </div>

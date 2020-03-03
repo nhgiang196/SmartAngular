@@ -41,7 +41,7 @@ export class WarehouseComponent implements OnInit {
   files: File[] = [];
   addFiles: { FileList: File[], FileLocalNameList: string[] };
   keyword: string = '';
-  private pathFile = "uploadFileWarehouse"
+  private pathFile = "uploadFileWarehouse";
   ACTION_STATUS: string;
   Warehouse_showed = 0;
   invalid: any = { Existed_WarehouseCode: false, Existed_WarehouseName: false };
@@ -83,9 +83,9 @@ export class WarehouseComponent implements OnInit {
       this.iboxloading = false;
     });
   }
-  onSwitchStatus (){ //modal switch on change
-   // this.newLocationEntity.Status = this.newLocationEntity.Status==0? 1: 0;
-   !this.newLocationEntity.Status;
+  onSwitchStatus (_TYPE){ //modal switch on change
+    if (_TYPE == 'newLocationEntity') this.newLocationEntity.Status=  this.newLocationEntity.Status==0 ? 1: 0;
+    if (_TYPE == 'locationEntity') this.locationEntity.Status =  this.locationEntity.Status==0 ? 1: 0;
   }
   /** BUTTON ACTIONS */
   fnAdd() { //press new button
@@ -100,7 +100,7 @@ export class WarehouseComponent implements OnInit {
     this.iboxloading = true;
     this.api.findWarehouseById(id).subscribe(res => {
       this.entity = res;
-      console.log(res)
+      console.log(res);
       $("#myModal4").modal('show');
       this.iboxloading = false;
       /**CONTROL FILES */
@@ -191,21 +191,14 @@ export class WarehouseComponent implements OnInit {
     })
   }
   fnAddItem() { //press add item
-    // if (this.newLocationEntity.WarehouseLocationName == null) {
-    //   swal.fire("Validate", this.trans.instant('Factory.data.TechnologyName') + this.trans.instant('messg.isnull'), 'warning');
-    //   return;
-    // }
-    // this.entity.WarehouseLocation.push(this.newLocationEntity);
-    // this.newLocationEntity = new WarehouseLocation();
-
     var itemAdd = this.newLocationEntity;
     if (itemAdd.WarehouseLocationName == null) {
       swal.fire("Validate", this.trans.instant('Factory.data.TechnologyName') + this.trans.instant('messg.isnull'), 'warning');
       return;
     }
     itemAdd.WarehouseId = this.entity.WarehouseId;
-    this.newLocationEntity = new WarehouseLocation();
     this.entity.WarehouseLocation.push(itemAdd);
+    this.newLocationEntity = new WarehouseLocation();
   }
   fnEditItem(index) { //press a link of Item
     this.EditRowID = index + 1;
@@ -214,9 +207,6 @@ export class WarehouseComponent implements OnInit {
   fnDeleteItem(index) { //PRESS delete button item
     this.entity.WarehouseLocation.splice(index, 1);
   }
-  fnSaveItem(index) {
-    this.EditRowID = 0;
-  }
   async fnSave() { // press save butotn
     this.laddaSubmitLoading = true;
     var e = this.entity;
@@ -224,6 +214,7 @@ export class WarehouseComponent implements OnInit {
 
     if (await this.fnValidate(e)) {
       if (this.ACTION_STATUS == 'add') {
+        e.CreateBy = this.auth.currentUser.Username;
         this.api.addWarehouse(e).subscribe(res => {
           var operationResult: any = res
           if (operationResult.Success) {
@@ -239,6 +230,7 @@ export class WarehouseComponent implements OnInit {
         }, err => { this.toastr.error(err.statusText); this.laddaSubmitLoading = false; })
       }
       if (this.ACTION_STATUS == 'update') {
+        e.ModifyBy = this.auth.currentUser.Username;
         this.api.updateWarehouse(e).subscribe(res => {
           var operationResult: any = res
           if (operationResult.Success) {
@@ -260,7 +252,6 @@ export class WarehouseComponent implements OnInit {
     let index = this.files.indexOf(event);
     this.files.splice(index, 1); //UI del
     this.entity.WarehouseFile.splice(index, 1);
-    // this.removeFile(event);
   }
 
   /** PRIVATES FUNCTIONS */
