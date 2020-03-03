@@ -135,7 +135,7 @@ export class ItemPackage {
   ItemPackageLength?: number = 0
   ItemPackageWidth?: number = 0
   ItemPackageHeight?: number = 0
-  ItemPackageWeight?:number
+  ItemPackageWeight?:number = 0
   UnitName?:string
   //ItemPackageUnit: ItemPackageUnit = new ItemPackageUnit()
 }
