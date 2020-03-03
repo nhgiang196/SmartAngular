@@ -137,7 +137,7 @@
             <div class="col-lg-6">
               <div class="form-group">
                 <label> {{ 'Warehouse.data.WarehouseUserName' | translate }} *: </label>
-                <ng-select  [items]="initCombobox.Users" placeholder="Enter your __________"  id="WarehouseUserName" name="WarehouseUserName"  [(ngModel)]="entity.WarehouseUserName"  bindLabel="UserName" bindValue="Id" required> </ng-select>
+                <ng-select  [items]="initCombobox.Users" placeholder="Enter your __________"  id="WarehouseUserName" name="WarehouseUserName"  [(ngModel)]="entity.WarehouseUserName"  bindLabel="NormalizedUserName" bindValue="UserName" required> </ng-select>
               </div>
             </div>
           </div>
@@ -146,8 +146,8 @@
           <div class="row">
             <div class="col-lg-4">
               <div class="form-group">
-                <label> {{ 'Warehouse.data.WarehouseHeight' | translate }} *: </label>
-                <input type="number" name="WarehouseHeight" id="WarehouseHeight" [(ngModel)]="entity.WarehouseHeight" class="form-control" placeholder="Enter your __________" required>
+                <label> {{ 'Warehouse.data.WarehouseLength' | translate }} *: </label>
+                <input type="number" name="WarehouseLength" id="WarehouseLength" [(ngModel)]="entity.WarehouseLength" class="form-control" placeholder="Enter your __________"  required>
               </div>
             </div>
             <div class="col-lg-4">
@@ -158,8 +158,8 @@
             </div>
             <div class="col-lg-4">
               <div class="form-group">
-                <label> {{ 'Warehouse.data.WarehouseLength' | translate }} *: </label>
-                <input type="number" name="WarehouseLength" id="WarehouseLength" [(ngModel)]="entity.WarehouseLength" class="form-control" placeholder="Enter your __________"  required>
+                <label> {{ 'Warehouse.data.WarehouseHeight' | translate }} *: </label>
+                <input type="number" name="WarehouseHeight" id="WarehouseHeight" [(ngModel)]="entity.WarehouseHeight" class="form-control" placeholder="Enter your __________" required>
               </div>
             </div>
           </div>
