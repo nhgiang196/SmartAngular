@@ -133,7 +133,7 @@
             <div class="col-lg-6">
               <label>{{ 'Warehouse.data.WarehouseAddress' | translate }} :</label>
               <input type="text" name="WarehouseAddress" id="WarehouseAddress" [(ngModel)]="entity.WarehouseAddress" class="form-control" placeholder="Enter your __________" >
-            </div>
+            </div>  
             <div class="col-lg-6">
               <div class="form-group">
                 <label> {{ 'Warehouse.data.WarehouseUserName' | translate }} *: </label>
@@ -142,7 +142,7 @@
             </div>
           </div>
           <hr>
-          <h3>{{'Warehouse.label.Size' | translate}} </h3>
+          <h3>{{'Warehouse.label.Size' | translate}} </h3> (cm)
           <div class="row">
             <div class="col-lg-4">
               <div class="form-group">
@@ -168,10 +168,10 @@
           <div class="row">
             <div class="col-lg-12">
               <div class="form-group">
-                <label>{{ 'Factory.label.UploadFile' | translate }} </label>             
+                <label>{{ 'Upload.' | translate }} </label>             
                 <ngx-dropzone style="min-height: auto;" (change)="onSelect($event)" [expandable]="true" [maxFileSize]="5000*1024">
-                  <ngx-dropzone-label><i class="fa fa-upload"></i> {{ 'Factory.label.UploadFileCaption' | translate }} </ngx-dropzone-label>
-                  <ngx-dropzone-preview class="dropDownCustomClass animated fadeInUp"  ngProjectAs="ngx-dropzone-preview" *ngFor="let f of files ;let i = index" [file]="f"   [removable]="true" (removed)="onRemove(f)" (click)=downloadFile(entity.WarehouseFile[i].File.FileLocalName) >
+                  <ngx-dropzone-label><i class="fa fa-upload"></i> {{ 'Upload.UploadFileCaption' | translate }} </ngx-dropzone-label>
+                  <ngx-dropzone-preview class="dropDownCustomClass animated fadeInUp"  ngProjectAs="ngx-dropzone-preview" *ngFor="let f of files ;let i = index" [file]="f"   [removable]="true" (removed)="fnRemoveFile(f)" (click)=fnDownloadFile(entity.WarehouseFile[i].File.FileLocalName) >
                     <ngx-dropzone-label style="font-size:11px;" ><i class="fa fa-download"></i> {{entity.WarehouseFile[i].File.FileOriginalName}}
                     </ngx-dropzone-label>
                   </ngx-dropzone-preview>
@@ -196,14 +196,14 @@
             <table class="table table-bordered">
               <thead>
                 <tr>
-                  <th>#</th>
-                  <th>{{ 'Warehouse.data.WarehouseLocationCode' | translate }}</th>
-                  <th>{{ 'Warehouse.data.WarehouseLocationName' | translate }}</th>
-                  <th>{{ 'Warehouse.data.WarehouseLocationLength' | translate }}</th>
-                  <th>{{ 'Warehouse.data.WarehouseLocationWidth' | translate }}</th>
-                  <th>{{ 'Warehouse.data.WarehouseLocationHeight' | translate }}</th>
-                  <th>{{ 'Warehouse.data.WarehouseLocationStatus' | translate }}</th>
-                  <th>{{ 'Button.Action' | translate }}</th>
+                  <th width="3%">#</th>
+                  <th width="20%">{{ 'Warehouse.data.WarehouseLocationCode' | translate }}</th>
+                  <th width="27%">{{ 'Warehouse.data.WarehouseLocationName' | translate }}</th>
+                  <th width="10%">{{ 'Warehouse.data.WarehouseLocationLength' | translate }}</th>
+                  <th width="10%">{{ 'Warehouse.data.WarehouseLocationWidth' | translate }}</th>
+                  <th width="10%">{{ 'Warehouse.data.WarehouseLocationHeight' | translate }}</th>
+                  <th  width="10%">{{ 'Warehouse.data.WarehouseLocationStatus' | translate }}</th>
+                  <th  width="10%">{{ 'Button.Action' | translate }}</th>
                 </tr>
               </thead>
               <tbody>
@@ -212,21 +212,32 @@
                   [@simpleFadeAnimation]="'in'">
                   <td> {{i+1}} </td>
                   <td  *ngIf="i+1 !== EditRowID">{{item.WarehouseLocationCode}} </td>
-                  <td  *ngIf="i+1 === EditRowID"><input type="text" class="form-control" name="WarehouseLocationCode" id="WarehouseLocationCode" [(ngModel)]="locationEntity.WarehouseLocationCode"></td>
                   <td  *ngIf="i+1 !== EditRowID">{{item.WarehouseLocationName}} </td>
-                  <td  *ngIf="i+1 === EditRowID"><input type="text" class="form-control" name="WarehouseLocationName" id="WarehouseLocationName" [(ngModel)]="locationEntity.WarehouseLocationName"></td>
                   <td  *ngIf="i+1 !== EditRowID">{{item.WarehouseLocationLength}} </td>
-                  <td  *ngIf="i+1 === EditRowID"><input type="number" class="form-control" name="WarehouseLocationLength" id="WarehouseLocationLength" [(ngModel)]="locationEntity.WarehouseLocationLength"></td>
                   <td  *ngIf="i+1 !== EditRowID">{{item.WarehouseLocationWidth}} </td>
-                  <td  *ngIf="i+1 === EditRowID"><input type="number" class="form-control" name="WarehouseLocationWidth" id="WarehouseLocationWidth" [(ngModel)]="locationEntity.WarehouseLocationWidth"></td>
                   <td  *ngIf="i+1 !== EditRowID">{{item.WarehouseLocationHeight}} </td>
+
+                  <td  *ngIf="i+1 === EditRowID"><input type="text" class="form-control" name="WarehouseLocationCode" id="WarehouseLocationCode" [(ngModel)]="locationEntity.WarehouseLocationCode"></td>
+                  <td  *ngIf="i+1 === EditRowID"><input type="text" class="form-control" name="WarehouseLocationName" id="WarehouseLocationName" [(ngModel)]="locationEntity.WarehouseLocationName"></td>
+                  <td  *ngIf="i+1 === EditRowID"><input type="number" class="form-control" name="WarehouseLocationLength" id="WarehouseLocationLength" [(ngModel)]="locationEntity.WarehouseLocationLength"></td>
+                  <td  *ngIf="i+1 === EditRowID"><input type="number" class="form-control" name="WarehouseLocationWidth" id="WarehouseLocationWidth" [(ngModel)]="locationEntity.WarehouseLocationWidth"></td>
                   <td  *ngIf="i+1 === EditRowID"><input type="number" class="form-control" name="WarehouseLocationHeight" id="WarehouseLocationHeight" [(ngModel)]="locationEntity.WarehouseLocationHeight"></td>
-                  <td  *ngIf="i+1 !== EditRowID">{{'Warehouse.data.WarehouseLocationStatus'+item.Status | translate}} </td>
+                  <td  *ngIf="i+1 !== EditRowID"> 
+                    <div class="switch">
+                      <div class="onoffswitch">
+                        <input type="checkbox" class="onoffswitch-checkbox" [name]="'showed_status' +(i+1)" [id]="'showed_status'+(i+1)" disabled [checked]="item.Status ==1 ? true : null" >
+                        <label class="onoffswitch-label" [for]="'showed_status' +(i+1)">
+                          <span class="onoffswitch-inner"></span>
+                          <span class="onoffswitch-switch"></span>
+                        </label>
+                      </div>
+                    </div>
+                  </td>
                   <td  *ngIf="i+1 === EditRowID">                    
                     <div class="switch">
                       <div class="onoffswitch">
-                        <input type="checkbox" class="onoffswitch-checkbox" name="status +(i+1)" id="status +(i+1)" [(ngModel)]="locationEntity.Status"  (click)="onSwitchStatus()" [checked]="locationEntity.Status==1 ? true : false" >
-                        <label class="onoffswitch-label" for="status">
+                        <input type="checkbox" class="onoffswitch-checkbox" [name]="'status' +(i+1)" [id]="'status'+(i+1)" (click)="onSwitchStatus('locationEntity')" [checked]="locationEntity.Status==1 ? true : null" >
+                        <label class="onoffswitch-label" [for]="'status' +(i+1)">
                           <span class="onoffswitch-inner"></span>
                           <span class="onoffswitch-switch"></span>
                         </label>
@@ -235,13 +246,14 @@
                   </td>
                   <td>
                     <div class="btn-group">
-                      <button type="button" class="btn btn-sm btn-outline btn-primary" (click)="fnSaveItem(i)" *ngIf="i+1 === EditRowID" ><i class="fa fa-check"></i></button>
+                      <button type="button" class="btn btn-sm btn-outline btn-primary" [disabled]="!locationEntity.WarehouseLocationCode || !locationEntity.WarehouseLocationName" (click)="EditRowID = 0;" *ngIf="i+1 === EditRowID" ><i class="fa fa-check"></i></button>
                       <button type="button" class="btn btn-sm btn-outline btn-success" (click)="fnEditItem(i)"*ngIf="i+1 !== EditRowID"><i class="fa fa-pencil"></i></button>
                       <button type="button" class="btn btn-sm btn-outline btn-danger" (click)="fnDeleteItem(i)" *ngIf="i+1 !== EditRowID"><i class="fa fa-trash"></i></button>
                     </div>                        
                   </td>
                 </tr>
-                <tr >
+                <tr>
+                  
                   <td> {{entity.WarehouseLocation.length+1}} </td>
                   <td> <input type="text" class="form-control" name="newWarehouseLocationCode" id="newWarehouseLocationCode" [(ngModel)]="newLocationEntity.WarehouseLocationCode"> </td>
                   <td> <input type="text" class="form-control" name="newWarehouseLocationName" id="newWarehouseLocationName" [(ngModel)]="newLocationEntity.WarehouseLocationName"> </td>
@@ -249,18 +261,9 @@
                   <td> <input type="number" class="form-control" name="newWarehouseLocationWidth" id="newWarehouseLocationWidth" [(ngModel)]="newLocationEntity.WarehouseLocationWidth"> </td>
                   <td> <input type="number" class="form-control" name="newWarehouseLocationHeight" id="newWarehouseLocationHeight" [(ngModel)]="newLocationEntity.WarehouseLocationHeight"> </td>
                   <td>
-                    <!-- <div class="switch">
-                      <div class="onoffswitch">
-                        <input type="checkbox" class="onoffswitch-checkbox"  name="newStatus" id="newStatus" [(ngModel)]="newLocationEntity.Status"    >
-                        <label class="onoffswitch-label" for="sub_status">
-                          <span class="onoffswitch-inner"></span>
-                          <span class="onoffswitch-switch"></span>
-                        </label>
-                      </div>
-                    </div> -->
                     <div class="switch">
                       <div class="onoffswitch">
-                        <input type="checkbox" class="onoffswitch-checkbox" name="newstatus +(i+1)" id="newstatus +(i+1)" [(ngModel)]="newLocationEntity.Status"  (click)="onSwitchStatus()" [checked]="newLocationEntity.Status==1 ? true : null" >
+                        <input type="checkbox" class="onoffswitch-checkbox" name="newstatus +(i+1)" id="newstatus +(i+1)"   (click)="onSwitchStatus('newLocationEntity')" [checked]="newLocationEntity.Status==1 ? true : null" >
                         <label class="onoffswitch-label" for="newstatus +(i+1)">
                           <span class="onoffswitch-inner"></span>
                           <span class="onoffswitch-switch"></span>
@@ -269,7 +272,7 @@
                     </div>
                   </td>
                   <td>
-                    <button type="button" class="btn  btn-sm btn-outline btn-info pull-right" (click)="fnAddItem()"><i class="fa fa-plus"></i> </button>
+                    <button type="button" class="btn  btn-sm btn-outline btn-info pull-right" (click)="fnAddItem()" [disabled]="!newLocationEntity.WarehouseLocationCode || !newLocationEntity.WarehouseLocationName"><i class="fa fa-plus"></i> </button>
                   </td>
                 </tr>
 
@@ -279,7 +282,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-white" data-dismiss="modal">{{'Button.Close' | translate}}  </button>
-        <button type="button" class="btn btn-primary" (click)="fnSave();" [ladda]="laddaSubmitLoading" ><i class="fa fa-paper-plane-o"></i> {{'Button.Save' | translate}} </button>
+        <button type="button" class="btn btn-primary" (click)="fnSave();" [disabled]="myForm.invalid||EditRowID!=0" [ladda]="laddaSubmitLoading" ><i class="fa fa-paper-plane-o"></i> {{'Button.Save' | translate}} </button>
       </div>
     </div>
   </div>

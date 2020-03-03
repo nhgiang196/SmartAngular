@@ -225,13 +225,13 @@ export class WarehouseFile{
 }
 
 export class WarehouseLocation{
-  WarehouseLocationId:number
-  WarehouseId:number
+  WarehouseLocationId:number = 0
+  WarehouseId:number = 0
   WarehouseLocationCode: string =null
   WarehouseLocationName: string =null
   WarehouseLocationLength:number
   WarehouseLocationWidth:number
   WarehouseLocationHeight:number
-  Status:number
+  Status:number = 1
 }
 

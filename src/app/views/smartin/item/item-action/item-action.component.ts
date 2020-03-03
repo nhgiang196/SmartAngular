@@ -49,7 +49,8 @@ export class ItemActionComponent implements OnInit {
   uploadReportProgress: any = { progress: 0, message: null, isError: null };
   laddaSubmitLoading = false;
   files: File[] = [];
-  addFiles: { FileList: File[], FileLocalNameList: string[] };
+  fileImages: File[] = [];
+  addFiles : {FileList : File[], FileLocalNameList: string[]};
 
   listFactory: any;
   listUnit: any;
@@ -160,12 +161,17 @@ export class ItemActionComponent implements OnInit {
   customFile() {
 
     /**CONTROL FILES */
-    this.entity.ItemFile.forEach(item => {
-      let _tempFile = new File([], item.File.FileLocalName);
-      this.files.push(_tempFile);
+    this.entity.ItemFile.forEach(item =>{
+      let _tempFile = new File([],item.File.FileLocalName);
+      if(item.IsImage){
+        this.fileImages.push(_tempFile)
+      }
+      else{
+        this.files.push(_tempFile);
+      }
+      
     })
     this.entity.ModifyBy = this.auth.currentUser.Username;
-    this.files.push();
   }
 
   ////////////// Area Func Factory///////////////
@@ -407,11 +413,20 @@ export class ItemActionComponent implements OnInit {
   }
 
   ////////////////File ////////////
-  onRemove(event) { //press x to delte file (in modal)
+  onRemove(event,isImage) { //press x to delte file (in modal)
     console.log(event);
-    let index = this.files.indexOf(event);
-    this.files.splice(index, 1); //UI del
-    this.entity.ItemFile.splice(index, 1);
+    if (isImage){
+      let index = this.fileImages.indexOf(event);
+      this.fileImages.splice(index, 1); //UI del
+      this.entity.ItemFile.splice(index,1);
+    }
+    else{
+      let index = this.files.indexOf(event);
+      this.files.splice(index, 1); //UI del
+      this.entity.ItemFile.splice(index,1);
+    }
+  
+   
     // this.removeFile(event);
   }
   downloadFile(filename) {
@@ -424,11 +439,12 @@ export class ItemActionComponent implements OnInit {
       let _file = files[index];
       formData.append("files", _file, this.addFiles.FileLocalNameList[index]);
     }
-    this.api.uploadFile(formData, this.pathFile).subscribe(event => {
-      if (event.type === HttpEventType.UploadProgress) {
-        this.uploadReportProgress.progress = Math.round(100 * event.loaded / event.total);
-        console.log(this.uploadReportProgress.progress);
-      }
+    this.api.uploadFile(formData, this.pathFile).subscribe(event=> {
+      debugger;
+      if (event.type === HttpEventType.UploadProgress)
+       {   this.uploadReportProgress.progress = Math.round(100 * event.loaded / event.total);
+          console.log(this.uploadReportProgress.progress);
+        }
       else if (event.type === HttpEventType.Response) {
         this.uploadReportProgress.message = 'Upload success';
         // this.onUploadFinished.emit(event.body);
@@ -439,57 +455,62 @@ export class ItemActionComponent implements OnInit {
     });
   }
 
-
-  /** EVENT TRIGGERS */
-  async onSelect(event) { //drag file(s) or choose file(s) in ngFileZone
-    var askBeforeUpload = false;
-    if (event.rejectedFiles.length > 0) this.toastr.warning(this.trans.instant('messg.maximumFileSize5000'));
-    var _addFiles = event.addedFiles;
-    for (var index in _addFiles) {
-      let item = event.addedFiles[index];
-      let convertName = this.helper.getFileNameWithExtension(item);
-      let currentFile = this.files;
-      let findElement = currentFile.filter(x => x.name == item.name)[0];
-      //ASK THEN GET RESULT
-      if (findElement != null) {
-        if (!askBeforeUpload) {
-          askBeforeUpload = true;
-          var allowUpload = true;
-          await swal.fire({
-            title: 'File trùng',
-            titleText: 'Một số file bị trùng, bạn có muốn đè các file này lên bản gốc?',
-            type: 'warning',
-            showCancelButton: true,
-            reverseButtons: true
+  isFileImage(file) {
+    return file && file['type'].split('/')[0] === 'image';
+}
+async onSelect(event,isImage) { //drag file(s) or choose file(s) in ngFileZone
+  var askBeforeUpload = false;
+  if (event.rejectedFiles.length>0) this.toastr.warning(this.trans.instant('messg.maximumFileSize5000'));
+  var _addFiles = event.addedFiles;
+  for (var index in _addFiles) {
+    let item = event.addedFiles[index];
+    let convertName = this.helper.getFileNameWithExtension(item);
+    let currentFile = this.entity.ItemFile;
+    let  findElement =  currentFile.filter(x=>x.File.FileOriginalName == item.name)[0];
+    //ASK THEN GET RESULT
+    if (findElement!=null) {
+      if (!askBeforeUpload) {
+        askBeforeUpload = true;
+        var allowUpload =true;
+        await swal.fire({
+          title: 'File trùng',
+          titleText: 'Một số file bị trùng, bạn có muốn đè các file này lên bản gốc?',
+          type: 'warning',
+          showCancelButton: true,
+          reverseButtons: true
           }).then((result) => {
-            if (result.dismiss === swal.DismissReason.cancel) allowUpload = false;
+             if (result.dismiss === swal.DismissReason.cancel) allowUpload = false;
           })
-        }
-        if (!allowUpload) return;
-        this.files.splice(this.files.indexOf(findElement, 0), 1);
-        this.addFiles.FileList.splice(this.addFiles.FileList.indexOf(findElement, 0), 1);
-
       }
-      else {
-
-        debugger;
-        let _ItemFile = new ItemFile();
-        _ItemFile.File.FileOriginalName = item.name;
-        _ItemFile.File.FileLocalName = convertName;
-        _ItemFile.File.Path = this.pathFile + '/' + convertName;
-        _ItemFile.File.FileType = item.type;
-        this.entity.ItemFile.push(_ItemFile);
-        this.addFiles.FileLocalNameList.push(convertName);
-      }
-
+      if (!allowUpload)  return;
+      let _indexElement = this.entity.ItemFile.indexOf(findElement,0);
+      if(isImage)
+      this.fileImages.splice( _indexElement,1 );
+      else
+        this.files.splice( _indexElement,1 );
+      this.addFiles.FileList.splice(_indexElement,1 );
     }
-    this.files.push(...event.addedFiles); //refresh showing in Directive
-    this.addFiles.FileList.push(...event.addedFiles);
-    // this.uploadFile(event.addedFiles);
-
-
-
+    else{
+      let _itemFile = new ItemFile();
+      _itemFile.File.FileOriginalName= item.name;
+      _itemFile.File.FileLocalName = convertName;  
+      _itemFile.File.Path = this.pathFile + '/' + convertName;
+      _itemFile.File.FileType = item.type;
+      if(isImage)
+        _itemFile.IsImage =true;
+      this.entity.ItemFile.push(_itemFile);
+      this.addFiles.FileLocalNameList.push(convertName);
+    }
+    
   }
+  if(isImage)
+  this.fileImages.push(...event.addedFiles); //refresh showing in Directive
+  else
+  this.files.push(...event.addedFiles);
+  this.addFiles.FileList.push(...event.addedFiles);
+  // this.uploadFile(event.addedFiles);
+  
+}
 
   ngAfterViewInit() {
     //this.entity=this.route.snapshot.data["item"];
