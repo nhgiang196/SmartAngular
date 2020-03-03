@@ -117,8 +117,6 @@
                             </div>
                         </div>
                         <div id="tab-2" class="tab-pane">
-<<<<<<< HEAD
-=======
                           <div class="panel-body">
                               <fieldset class="form-horizontal">
                                   <div class="form-group">
@@ -191,7 +189,6 @@
                           </div>
                       </div>
                         <div id="tab-3" class="tab-pane">
->>>>>>> 466aabeba9aacff1eb81fc6c675a9467079ecb6d
                             <div class="panel-body">
                                 <fieldset class="form-horizontal">
                                     <div class="form-group">                                   
@@ -215,7 +212,7 @@
                                                                     <td> {{i+1}}</td>
                                                                     <td *ngIf="i+1 !== editRowId"> {{item.FactoryName}}</td>
                                                                     <td *ngIf="i+1 === editRowId">
-                                                                        <ng-select  [items]="listFactory"  id="FactoryId" name="FactoryId"  
+                                                                        <ng-select  dropdownPosition="top"  [items]="listFactory"  id="FactoryId" name="FactoryId"  
                                                                         [(ngModel)]="itemFactory.FactoryId"  
                                                                         bindLabel="FactoryName" 
                                                                         bindValue="FactoryId" required> </ng-select>
@@ -244,7 +241,7 @@
                                                                 <tr>
                                                                     <td>{{entity.ItemFactory.length +1}}</td>
                                                                     <td>
-                                                                        <ng-select  [items]="listFactory"  
+                                                                        <ng-select   dropdownPosition="bottom" [items]="listFactory"  
                                                                         id="newFactoryId" name="newFactoryId"  
                                                                         [(ngModel)]="newItemFactory.FactoryId"                                                                          
                                                                         (change)="newItemFactory.FactoryName = $event.FactoryName "
