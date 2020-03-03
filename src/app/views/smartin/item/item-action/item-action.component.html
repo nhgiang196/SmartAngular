@@ -127,7 +127,7 @@
                                               <div class="col-sm-9">
                                                 
                                                 <!-- <select2 [options]="optionFactory"   (valueChanged)="factoryChange($event)" name="ffactoryId" required></select2> -->
-                                                <ng-select class="custom" bindLabel="text" bindValue="id" placeholder="Please select factory" name="FactoryId" required
+                                                <ng-select [items]="listFactory" class="custom" bindLabel="text" bindValue="id" placeholder="Please select factory" name="FactoryId" required
                                                   [(ngModel)]="itemFactory.FactoryId"  (change)="factoryChange($event)" >
                                                 </ng-select>
                                               </div>
