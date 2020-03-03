@@ -204,10 +204,20 @@ export class WarehouseComponent implements OnInit {
       swal.fire("Validate", this.trans.instant('Warehouse.data.WarehouseLocationName') + this.trans.instant('messg.isnull'), 'warning');
       return;
     }
-    let validateResult = await this.api.validateWarehouseLocation(itemAdd).toPromise().then() as any;
-    if (!validateResult.Success){
-      swal.fire("Validate",this.trans.instant('Warehouse.invalid.'+ validateResult.Message),'warning'); return;
+    if (this.entity.WarehouseLocation.filter(t =>t.WarehouseLocationCode.toLowerCase() == itemAdd.WarehouseLocationCode.toLowerCase())!=null)
+    {
+      swal.fire("Validate", this.trans.instant('Warehouse.data.WarehouseLocationCode') + this.trans.instant('messg.isexisted'), 'warning');
+      return;
     }
+    if (this.entity.WarehouseLocation.filter(t =>t.WarehouseLocationName.toLowerCase() == itemAdd.WarehouseLocationName.toLowerCase())!=null)
+    {
+      swal.fire("Validate", this.trans.instant('Warehouse.data.WarehouseLocationName') + this.trans.instant('messg.isexisted'), 'warning');
+      return;
+    }
+    // let validateResult = await this.api.validateWarehouseLocation(itemAdd).toPromise().then() as any;
+    // if (!validateResult.Success){
+    //   swal.fire("Validate",this.trans.instant('Warehouse.invalid.'+ validateResult.Message),'warning'); return;
+    // }
     itemAdd.WarehouseId = this.entity.WarehouseId;
     this.entity.WarehouseLocation.push(itemAdd);
     this.newLocationEntity = new WarehouseLocation();

@@ -215,6 +215,8 @@
     "Status": "Status"
   },
   "messg": {
+    "isnull": " is null",
+    "isexisted": " is existed!",
     "add.success": "Add Success",
     "add.error": "Error on adding",
     "add.warning1": "",

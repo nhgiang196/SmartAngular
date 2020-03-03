@@ -226,6 +226,7 @@
   },
   "messg": {
     "isnull": " bị rỗng",
+    "isexisted": " bị trùng!",
     "add.success": "Thêm thành công ",
     "add.error": "Lỗi khi thêm ",
     "add.warning1": "",
