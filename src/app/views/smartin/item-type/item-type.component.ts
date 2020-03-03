@@ -156,15 +156,15 @@ export class ItemTypeComponent implements OnDestroy, OnInit {
  async fnSave() {
     this.laddaSubmitLoading = true;
     var e = this.entity;
-    e.ModifyBy
-    if (this.ACTION_STATUS == 'add') {
-      e.CreateDate = new Date();
-      e.CreateBy = this.auth.currentUser.Username
-    }
-    else {
-      e.ModifyDate = new Date();
-      e.ModifyBy = this.auth.currentUser.Username
-    }
+    // e.ModifyBy
+    // if (this.ACTION_STATUS == 'add') {
+    //   e.CreateDate = new Date();
+    //   e.CreateBy = this.auth.currentUser.Username
+    // }
+    // else {
+    //   e.ModifyDate = new Date();
+    //   e.ModifyBy = this.auth.currentUser.Username
+    // }
 
     if ( await this.fnValidate(e)) {
       console.log('send entity: ', e);
