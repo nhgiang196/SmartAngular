@@ -86,13 +86,10 @@ export class ItemActionComponent implements OnInit {
     }
 
     let e = this.entity;
-    if (this.itemIdPram == null) {
-      e.CreateDate = new Date();
+    if (this.itemIdPram == null) 
       e.CreateBy = this.auth.currentUser.Username;
-    } else {
-      e.ModifyDate = new Date();
-      e.ModifyBy = this.auth.currentUser.Username;
-    }
+    else
+     e.ModifyBy = this.auth.currentUser.Username;
 
     
     if (this.itemIdPram == null) {

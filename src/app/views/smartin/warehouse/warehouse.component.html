@@ -51,6 +51,7 @@
 
             </div>
           </div>
+          
           <hr>
           
           <div class="row">
@@ -97,46 +98,46 @@
             <div class="col-lg-6">
               <div class="form-group">
                 <label> {{ 'Warehouse.data.WarehouseCode' | translate }} *: </label>
-                <input type="text" name="WarehouseCode" id="WarehouseCode" class="form-control" placeholder="Enter your __________" 
+                <input type="text" name="WarehouseCode" id="WarehouseCode" [(ngModel)]="entity.WarehouseCode" class="form-control" placeholder="Enter your __________" 
                  [ngClass]="{ 'is-invalid':  invalid.Existed_WarehouseCode }" required>
                   <div *ngIf="invalid.Existed_WarehouseCode" style="color: red;">{{ 'Warehouse.invalid.Existed_WarehouseCode' | translate }}</div>
               </div>
             </div>
             <div class="col-lg-6">
               <label>{{ 'Warehouse.data.FactoryID' | translate }} :</label>
-              <ng-select  [items]="initCombobox.Factories" placeholder="Enter your __________"   bindLabel="FactoryName" bindValue="FactoryID" required> </ng-select>
+              <ng-select  [items]="initCombobox.Factories" placeholder="Enter your __________" id="FactoryId" name="FactoryId"  [(ngModel)]="entity.FactoryId"  bindLabel="FactoryName" bindValue="FactoryId" required> </ng-select>
               
             </div>
-          </div>
+          </div>         
           <div class="row">
             <div class="col-lg-6">
               <div class="form-group">
                 <label> {{ 'Warehouse.data.WarehouseName' | translate }} *: </label>
-                <input type="text" name="WarehouseName" id="WarehouseName" class="form-control" placeholder="Enter your __________" 
+                <input type="text" name="WarehouseName" id="WarehouseName" [(ngModel)]="entity.WarehouseName" class="form-control" placeholder="Enter your __________" 
                  [ngClass]="{ 'is-invalid':  invalid.Existed_WarehouseName }" required>
                   <div *ngIf="invalid.Existed_WarehouseName" style="color: red;">{{ 'Warehouse.invalid.Existed_WarehouseName' | translate }}</div>
               </div>
             </div>
             <div class="col-lg-6">
               <label>{{ 'Warehouse.data.WarehouseType' | translate }} *:</label>
-              <select class="select2_demo_3 form-control" [(ngModel)]="entity.WarehouseType" name="WarehouseType"  placeholder="Select _________ " required>
+              <select class="select2_demo_3 form-control" [(ngModel)]="entity.WarehouseType" name="WarehouseType" id="WarehouseType"  placeholder="Select _________ " required>
                 <option value=1> {{ 'Warehouse.data.WarehouseType1' | translate }} </option>
                 <option value=2> {{ 'Warehouse.data.WarehouseType2' | translate }} </option>
+                <option value=3> {{ 'Warehouse.data.WarehouseType3' | translate }} </option>
+                <option value=4> {{ 'Warehouse.data.WarehouseType4' | translate }} </option>
               </select>
               
             </div>
           </div>
-
-
           <div class="row">
             <div class="col-lg-6">
               <label>{{ 'Warehouse.data.WarehouseAddress' | translate }} :</label>
-              <input type="text" name="WarehouseAddress" id="WarehouseAddress" class="form-control" placeholder="Enter your __________" >
+              <input type="text" name="WarehouseAddress" id="WarehouseAddress" [(ngModel)]="entity.WarehouseAddress" class="form-control" placeholder="Enter your __________" >
             </div>
             <div class="col-lg-6">
               <div class="form-group">
                 <label> {{ 'Warehouse.data.WarehouseUserName' | translate }} *: </label>
-                <ng-select  [items]="initCombobox.Users" placeholder="Enter your __________"   bindLabel="username" bindValue="userid" required> </ng-select>
+                <ng-select  [items]="initCombobox.Users" placeholder="Enter your __________"  id="WarehouseUserName" name="WarehouseUserName"  [(ngModel)]="entity.WarehouseUserName"  bindLabel="username" bindValue="userid" required> </ng-select>
               </div>
             </div>
           </div>
@@ -146,23 +147,49 @@
             <div class="col-lg-4">
               <div class="form-group">
                 <label> {{ 'Warehouse.data.WarehouseHeight' | translate }} *: </label>
-                <input type="number" name="WarehouseHeight" id="WarehouseHeight" class="form-control" placeholder="Enter your __________" required>
+                <input type="number" name="WarehouseHeight" id="WarehouseHeight" [(ngModel)]="entity.WarehouseHeight" class="form-control" placeholder="Enter your __________" required>
               </div>
             </div>
             <div class="col-lg-4">
               <div class="form-group">
                 <label> {{ 'Warehouse.data.WarehouseWidth' | translate }} *: </label>
-                <input type="number" name="WarehouseWidth" id="WarehouseWidth" class="form-control" placeholder="Enter your __________"  required>
+                <input type="number" name="WarehouseWidth" id="WarehouseWidth" [(ngModel)]="entity.WarehouseWidth" class="form-control" placeholder="Enter your __________"  required>
               </div>
             </div>
             <div class="col-lg-4">
               <div class="form-group">
                 <label> {{ 'Warehouse.data.WarehouseLength' | translate }} *: </label>
-                <input type="number" name="WarehouseLength" id="WarehouseLength" class="form-control" placeholder="Enter your __________"  required>
+                <input type="number" name="WarehouseLength" id="WarehouseLength" [(ngModel)]="entity.WarehouseLength" class="form-control" placeholder="Enter your __________"  required>
               </div>
             </div>
           </div>
-
+          <hr>
+          <!-- upload File -->
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="form-group">
+                <label>{{ 'Factory.label.UploadFile' | translate }} </label>             
+                <ngx-dropzone style="min-height: auto;" (change)="onSelect($event)" [expandable]="true" [maxFileSize]="5000*1024">
+                  <ngx-dropzone-label><i class="fa fa-upload"></i> {{ 'Factory.label.UploadFileCaption' | translate }} </ngx-dropzone-label>
+                  <ngx-dropzone-preview class="dropDownCustomClass animated fadeInUp"  ngProjectAs="ngx-dropzone-preview" *ngFor="let f of files ;let i = index" [file]="f"   [removable]="true" (removed)="onRemove(f)" (click)=downloadFile(entity.WarehouseFile[i].File.FileLocalName) >
+                    <ngx-dropzone-label style="font-size:11px;" ><i class="fa fa-download"></i> {{entity.WarehouseFile[i].File.FileOriginalName}}
+                    </ngx-dropzone-label>
+                  </ngx-dropzone-preview>
+                </ngx-dropzone>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-12">
+              <span class="badge" [ngClass]="{'badge-primary': uploadReportProgress.progress==100, 'badge-danger':uploadReportProgress.isError}" >{{uploadReportProgress.message}}</span>
+              <div *ngIf="uploadReportProgress.progress!=100" class="progress progress-striped active">
+                <div  class="progress-bar progress-bar-success" role="progressbar"
+                  [style.width.%]="uploadReportProgress.progress">
+                  {{uploadReportProgress.progress}}%
+                </div>
+              </div>
+            </div>
+          </div>
 
           <hr>
           <h3>{{'Warehouse.label.Location' | translate}} </h3>
@@ -184,30 +211,22 @@
                 <tr class="animated fadeInRight" *ngFor="let item of entity.WarehouseLocation; let i = index"
                   [@simpleFadeAnimation]="'in'">
                   <td> {{i+1}} </td>
-                  <td>{{item.WarehouseLocationCode}} </td>
-                  <td>{{item.WarehouseLocationName}} </td>
-                  <td>{{item.WarehouseLocationLength}} </td>
-                  <td>{{item.WarehouseLocationWidth}} </td>
-                  <td>{{item.WarehouseLocationHeight}} </td>
-                  <td>{{'Warehouse.data.WarehouseLocationStatus'+item.WarehouseLocationStatus}} </td>
-                  <td>
-                    <button class="btn btn-outline btn-success" (click)="fnEditItem(i)" ><i class="fa fa-pencil"></i></button>
-                    <button class="btn btn-outline btn-danger" (click)="fnDeleteItem(i)"><i class="fa fa-trash"></i></button>
-                  
-                  </td>
-                </tr>
-                <tr >
-                  <td> {{entity.WarehouseLocation.length+1}} </td>
-                  <td> <input type="text" class="form-control"> </td>
-                  <td> <input type="text" class="form-control"> </td>
-                  <td> <input type="number" class="form-control"> </td>
-                  <td> <input type="number" class="form-control"> </td>
-                  <td> <input type="number" class="form-control"> </td>
-                  <td>
+                  <td  *ngIf="i+1 !== EditRowID">{{item.WarehouseLocationCode}} </td>
+                  <td  *ngIf="i+1 === EditRowID"><input type="text" class="form-control" name="WarehouseLocationCode" id="WarehouseLocationCode" [(ngModel)]="locationEntity.WarehouseLocationCode"></td>
+                  <td  *ngIf="i+1 !== EditRowID">{{item.WarehouseLocationName}} </td>
+                  <td  *ngIf="i+1 === EditRowID"><input type="text" class="form-control" name="WarehouseLocationName" id="WarehouseLocationName" [(ngModel)]="locationEntity.WarehouseLocationName"></td>
+                  <td  *ngIf="i+1 !== EditRowID">{{item.WarehouseLocationLength}} </td>
+                  <td  *ngIf="i+1 === EditRowID"><input type="number" class="form-control" name="WarehouseLocationLength" id="WarehouseLocationLength" [(ngModel)]="locationEntity.WarehouseLocationLength"></td>
+                  <td  *ngIf="i+1 !== EditRowID">{{item.WarehouseLocationWidth}} </td>
+                  <td  *ngIf="i+1 === EditRowID"><input type="number" class="form-control" name="WarehouseLocationWidth" id="WarehouseLocationWidth" [(ngModel)]="locationEntity.WarehouseLocationWidth"></td>
+                  <td  *ngIf="i+1 !== EditRowID">{{item.WarehouseLocationHeight}} </td>
+                  <td  *ngIf="i+1 === EditRowID"><input type="number" class="form-control" name="WarehouseLocationHeight" id="WarehouseLocationHeight" [(ngModel)]="locationEntity.WarehouseLocationHeight"></td>
+                  <td  *ngIf="i+1 !== EditRowID">{{'Warehouse.data.WarehouseLocationStatus'+item.Status | translate}} </td>
+                  <td  *ngIf="i+1 === EditRowID">                    
                     <div class="switch">
                       <div class="onoffswitch">
-                        <input type="checkbox" class="onoffswitch-checkbox" name="sub_status" id="sub_status"   >
-                        <label class="onoffswitch-label" for="sub_status">
+                        <input type="checkbox" class="onoffswitch-checkbox" name="status +(i+1)" id="status +(i+1)" [(ngModel)]="locationEntity.Status"  (click)="onSwitchStatus()" [checked]="locationEntity.Status==1 ? true : false" >
+                        <label class="onoffswitch-label" for="status">
                           <span class="onoffswitch-inner"></span>
                           <span class="onoffswitch-switch"></span>
                         </label>
@@ -215,7 +234,42 @@
                     </div>
                   </td>
                   <td>
-                    <button type="button" class="btn btn-success pull-right" (click)="fnAddItem()">Add</button>
+                    <div class="btn-group">
+                      <button type="button" class="btn btn-sm btn-outline btn-primary" (click)="fnSaveItem(i)" *ngIf="i+1 === EditRowID" ><i class="fa fa-check"></i></button>
+                      <button type="button" class="btn btn-sm btn-outline btn-success" (click)="fnEditItem(i)"*ngIf="i+1 !== EditRowID"><i class="fa fa-pencil"></i></button>
+                      <button type="button" class="btn btn-sm btn-outline btn-danger" (click)="fnDeleteItem(i)" *ngIf="i+1 !== EditRowID"><i class="fa fa-trash"></i></button>
+                    </div>                        
+                  </td>
+                </tr>
+                <tr >
+                  <td> {{entity.WarehouseLocation.length+1}} </td>
+                  <td> <input type="text" class="form-control" name="newWarehouseLocationCode" id="newWarehouseLocationCode" [(ngModel)]="newLocationEntity.WarehouseLocationCode"> </td>
+                  <td> <input type="text" class="form-control" name="newWarehouseLocationName" id="newWarehouseLocationName" [(ngModel)]="newLocationEntity.WarehouseLocationName"> </td>
+                  <td> <input type="number" class="form-control" name="newWarehouseLocationLength" id="newWarehouseLocationLength" [(ngModel)]="newLocationEntity.WarehouseLocationLength"> </td>
+                  <td> <input type="number" class="form-control" name="newWarehouseLocationWidth" id="newWarehouseLocationWidth" [(ngModel)]="newLocationEntity.WarehouseLocationWidth"> </td>
+                  <td> <input type="number" class="form-control" name="newWarehouseLocationHeight" id="newWarehouseLocationHeight" [(ngModel)]="newLocationEntity.WarehouseLocationHeight"> </td>
+                  <td>
+                    <!-- <div class="switch">
+                      <div class="onoffswitch">
+                        <input type="checkbox" class="onoffswitch-checkbox"  name="newStatus" id="newStatus" [(ngModel)]="newLocationEntity.Status"    >
+                        <label class="onoffswitch-label" for="sub_status">
+                          <span class="onoffswitch-inner"></span>
+                          <span class="onoffswitch-switch"></span>
+                        </label>
+                      </div>
+                    </div> -->
+                    <div class="switch">
+                      <div class="onoffswitch">
+                        <input type="checkbox" class="onoffswitch-checkbox" name="newstatus +(i+1)" id="newstatus +(i+1)" [(ngModel)]="newLocationEntity.Status"  (click)="onSwitchStatus()" [checked]="newLocationEntity.Status==1 ? true : null" >
+                        <label class="onoffswitch-label" for="newstatus +(i+1)">
+                          <span class="onoffswitch-inner"></span>
+                          <span class="onoffswitch-switch"></span>
+                        </label>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <button type="button" class="btn  btn-sm btn-outline btn-info pull-right" (click)="fnAddItem()"><i class="fa fa-plus"></i> </button>
                   </td>
                 </tr>
 
@@ -225,7 +279,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-white" data-dismiss="modal">{{'Button.Close' | translate}}  </button>
-        <button type="button" class="btn btn-primary" (click)="fnSave();" [ladda]="laddaSubmitLoading" [disabled]="myForm.invalid"><i class="fa fa-paper-plane-o"></i> {{'Button.Save' | translate}} </button>
+        <button type="button" class="btn btn-primary" (click)="fnSave();" [ladda]="laddaSubmitLoading" ><i class="fa fa-paper-plane-o"></i> {{'Button.Save' | translate}} </button>
       </div>
     </div>
   </div>

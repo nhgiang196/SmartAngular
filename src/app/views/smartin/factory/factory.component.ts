@@ -64,11 +64,10 @@ export class FactoryComponent implements OnInit {
   }
   /**INIT FUNCTIONS */
   loadInit() {
-    this.iboxloading = true;    
+    this.iboxloading = false;    
     this.EditRowID =0;
     
     this.api.getFactoryPagination(this.keyword).subscribe(res => {
-      
       var data = res as any;
       this.factory = data.result;
       this.factory_showed = data.totalCount;

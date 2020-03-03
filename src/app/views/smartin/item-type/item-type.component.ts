@@ -156,18 +156,20 @@ export class ItemTypeComponent implements OnDestroy, OnInit {
  async fnSave() {
     this.laddaSubmitLoading = true;
     var e = this.entity;
-    if (this.ACTION_STATUS == 'add') {
-      e.CreateDate = new Date();
-      e.CreateBy = this.auth.currentUser.Username
-    }
-    else {
-      e.ModifyDate = new Date();
-      e.ModifyBy = this.auth.currentUser.Username
-    }
+    // e.ModifyBy
+    // if (this.ACTION_STATUS == 'add') {
+    //   e.CreateDate = new Date();
+    //   e.CreateBy = this.auth.currentUser.Username
+    // }
+    // else {
+    //   e.ModifyDate = new Date();
+    //   e.ModifyBy = this.auth.currentUser.Username
+    // }
 
     if ( await this.fnValidate(e)) {
       console.log('send entity: ', e);
       if (this.ACTION_STATUS == 'add') {
+        e.CreateBy = this.auth.currentUser.Username;
         this.api.addItemType(e).subscribe(res => {
           var operationResult: any = res
           if (operationResult.Success) {
@@ -178,6 +180,7 @@ export class ItemTypeComponent implements OnDestroy, OnInit {
         }, err => { this.toastr.error(err.statusText); this.laddaSubmitLoading = false; })
       }
       if (this.ACTION_STATUS == 'update') {   
+        e.ModifyBy = this.auth.currentUser.Username;
         this.api.updateItemType(e).subscribe(res => {
           var operationResult: any = res
           if (operationResult.Success) {
