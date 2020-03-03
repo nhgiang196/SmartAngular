@@ -245,6 +245,7 @@ export class WarehouseComponent implements OnInit {
     }
   }
   fnDownloadFile(filename) { //press FILES preview
+    debugger;
     this.api.downloadFile(this.pathFile + '/' + filename);
   }
   fnRemoveFile(event) { //PRESS X TO REMOVE FILES
@@ -274,6 +275,8 @@ export class WarehouseComponent implements OnInit {
     this.files = [];
     this.addFiles = { FileList: [], FileLocalNameList: [] }
     this.invalid = {};
+    this.uploadReportProgress =  { progress : 0, message: null , isError: null };
+    this.EditRowID=0;
   }
   private CheckBeforeEdit(id) { //check auth before edit 
     this.toastr.warning("User not dont have permission");
