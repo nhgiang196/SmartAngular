@@ -71,7 +71,6 @@ export class WarehouseComponent implements OnInit {
 
   loadInit() { //init loading
     this.iboxloading = true;
-
     this.api.getWarehousePagination(this.keyword).subscribe(res => {
       var data = res as any;
       this.Warehouse = data.result;
@@ -204,12 +203,12 @@ export class WarehouseComponent implements OnInit {
       swal.fire("Validate", this.trans.instant('Warehouse.data.WarehouseLocationName') + this.trans.instant('messg.isnull'), 'warning');
       return;
     }
-    if (this.entity.WarehouseLocation.filter(t =>t.WarehouseLocationCode.toLowerCase() == itemAdd.WarehouseLocationCode.toLowerCase())!=null)
+    if (this.entity.WarehouseLocation.filter(t =>t.WarehouseLocationCode.toLowerCase() == itemAdd.WarehouseLocationCode.toLowerCase()).length>0)
     {
       swal.fire("Validate", this.trans.instant('Warehouse.data.WarehouseLocationCode') + this.trans.instant('messg.isexisted'), 'warning');
       return;
     }
-    if (this.entity.WarehouseLocation.filter(t =>t.WarehouseLocationName.toLowerCase() == itemAdd.WarehouseLocationName.toLowerCase())!=null)
+    if (this.entity.WarehouseLocation.filter(t =>t.WarehouseLocationName.toLowerCase() == itemAdd.WarehouseLocationName.toLowerCase()).length>0)
     {
       swal.fire("Validate", this.trans.instant('Warehouse.data.WarehouseLocationName') + this.trans.instant('messg.isexisted'), 'warning');
       return;
