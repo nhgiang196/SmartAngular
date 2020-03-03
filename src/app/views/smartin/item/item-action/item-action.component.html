@@ -207,6 +207,7 @@
                                                                         <div class="btn-group">
                                                                             <button type="button"
                                                                                 class="btn  btn-sm btn-outline btn-info pull-right"
+                                                                                [disabled]="!newItemFactory.FactoryId || !newItemFactory.IntergrationCode"
                                                                                 (click)="fnAddFactory()"><i
                                                                                     class="fa fa-plus"></i> </button>
                                                                         </div>
@@ -300,7 +301,8 @@
                                                 <td>
                                                     <div class="btn-group">
                                                         <button type="button"
-                                                            class="btn  btn-sm btn-outline btn-info pull-right"
+                                                            class="btn  btn-sm btn-outline btn-info pull-right"                                                            
+                                                            [disabled]="!newItemProperty.ItemTypePropertyId || !newItemProperty.ItemTypePropertyValue"
                                                             (click)="fnAddProperty()"><i
                                                                 class="fa fa-plus"></i> </button>
                                                     </div>
@@ -435,6 +437,7 @@
                                                         <div class="btn-group">
                                                             <button type="button"
                                                                 class="btn  btn-sm btn-outline btn-info pull-right"
+                                                                [disabled]="!newItemPackage.ItemPackageUnitId || !newItemPackage.ItemPackageCoefficient"
                                                                 (click)="fnAddPackage()"><i class="fa fa-plus"></i>
                                                             </button>
                                                         </div>
