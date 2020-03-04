@@ -8,7 +8,7 @@ export class Factory {
   ContactPhone?: string = ''
   FactoryBuiltDate?: string = null
   FactoryStartDate?: string = null
-  FactoryEndDate?:   string = null
+  FactoryEndDate?: string = null
   CreateDate?: Date = null
   ModifyDate?: Date = null
   CreateBy?: string = ''
@@ -65,9 +65,9 @@ export class DataTablePaginationParram {
   page: number = 1
   pageSize: number = 50
   orderBy: string = null
-  orderDir: string  = 'asc'
-  entity:string =null
-  selectFields:string =null
+  orderDir: string = 'asc'
+  entity: string = null
+  selectFields: string = null
 }
 export class Item {
   ItemId?: number = 0
@@ -76,11 +76,11 @@ export class Item {
   ItemName?: string
   ItemPrintName?: string
   ItemDescription?: string
-  ItemUnitId?: number = 0
+  ItemUnitId?: number = null
   ItemModel?: string
   ItemSerial?: string
   ItemManufactureCountry?: string
-  ItemManufactureYear?: number = 0
+  ItemManufactureYear?: number = null
   ItemLength?: number = 0
   ItemWidth?: number = 0
   ItemHeight?: number = 0
@@ -95,10 +95,10 @@ export class Item {
   ItemPackage?: ItemPackage[] = []
   ItemProperty?: ItemProperty[] = []
   ItemFactory?: ItemFactory[] = []
-  ItemFile?:ItemFile[] = []
+  ItemFile?: ItemFile[] = []
 }
 
-export class ItemFile{
+export class ItemFile {
   ItemFileId: number = 0
   ItemId: number = 0
   FileId: number = 0
@@ -118,25 +118,25 @@ export class ItemType {
   ItemTypeProperty: ItemTypeProperty[] = []
 }
 
-export class ItemFactory{
+export class ItemFactory {
   ItemFactoryId: number = 0;
   ItemId: number = 0;
-  FactoryId: number = 0;
+  FactoryId: number = null;
   FactoryName: string;
-  IntergrationCode: string="";
+  IntergrationCode: string = "";
   //Factory: Factory = new Factory();
 }
 export class ItemPackage {
 
   ItemPackageId: number = 0
   ItemId: number = 0
-  ItemPackageUnitId?: number = 0
+  ItemPackageUnitId?: number = null
   ItemPackageCoefficient?: number = 0
   ItemPackageLength?: number = 0
   ItemPackageWidth?: number = 0
   ItemPackageHeight?: number = 0
-  ItemPackageWeight?:number = 0
-  UnitName?:string
+  ItemPackageWeight?: number = 0
+  UnitName?: string
   //ItemPackageUnit: ItemPackageUnit = new ItemPackageUnit()
 }
 
@@ -145,19 +145,19 @@ export class ItemPackageUnit {
   UnitId?: number = 0
   UnitName: string
   CreateBy: string
-  CreateDate?: Date 
+  CreateDate?: Date
   ItemPackageLength?: number = 0
   ModifyBy: string
-  ModifyDate:Date
-  Status:boolean
+  ModifyDate: Date
+  Status: boolean
 }
 
 export class ItemProperty {
   ItemPropertyId?: number = 0
   ItemId?: number = 0
-  ItemTypePropertyId?: number = 0
+  ItemTypePropertyId?: number = null
   ItemTypePropertyValue?: string
-  ItemTypePropertyName?:string
+  ItemTypePropertyName?: string
   //ItemTypeProperty:ItemTypeProperty = new ItemTypeProperty()
 }
 
@@ -197,41 +197,41 @@ export class Unit {
 
 
 export class Warehouse {
-  WarehouseId:number = 0
+  WarehouseId: number = 0
   WarehouseCode: string
   WarehouseName: string
-  FactoryId:number =null
-  WarehouseType:number = 1
+  FactoryId: number = null
+  WarehouseType: number = 1
   WarehouseAddress: string
   WarehouseUserName: string
-  WarehouseLength:number =0
-  WarehouseWidth:number = 0
-  WarehouseHeight:number = 0
+  WarehouseLength: number = 0
+  WarehouseWidth: number = 0
+  WarehouseHeight: number = 0
   CreateBy: string
-  CreateDate: Date  = null
+  CreateDate: Date = null
   ModifyBy: string
-  ModifyDate: Date  = null
-  Status:number = 1
-  WarehouseFile: WarehouseFile[]= []
+  ModifyDate: Date = null
+  Status: number = 1
+  WarehouseFile: WarehouseFile[] = []
   WarehouseLocation: WarehouseLocation[] = []
 }
 
 
-export class WarehouseFile{
-  WarehouseFileId:number =0
-  WarehouseId:number = 0
-  FileId:number =0
+export class WarehouseFile {
+  WarehouseFileId: number = 0
+  WarehouseId: number = 0
+  FileId: number = 0
   File: Files = new Files()
 }
 
-export class WarehouseLocation{
-  WarehouseLocationId:number = 0
-  WarehouseId:number = 0
-  WarehouseLocationCode: string =null
-  WarehouseLocationName: string =null
-  WarehouseLocationLength:number = 0
-  WarehouseLocationWidth:number = 0
-  WarehouseLocationHeight:number= 0
-  Status:number = 1
+export class WarehouseLocation {
+  WarehouseLocationId: number = 0
+  WarehouseId: number = 0
+  WarehouseLocationCode: string = null
+  WarehouseLocationName: string = null
+  WarehouseLocationLength: number = 0
+  WarehouseLocationWidth: number = 0
+  WarehouseLocationHeight: number = 0
+  Status: number = 1
 }
 
