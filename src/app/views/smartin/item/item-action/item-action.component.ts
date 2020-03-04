@@ -328,7 +328,7 @@ export class ItemActionComponent implements OnInit {
   fnSavePackage() {
     this.editRowId = 0;
   }
-  fnDeletePackage(index) {
+  fnDeletePackge(index) {
     this.entity.ItemPackage.splice(index, 1);
   }
   isExistPackage() {
