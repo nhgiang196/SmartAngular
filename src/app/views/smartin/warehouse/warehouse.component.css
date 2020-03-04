@@ -5,3 +5,11 @@
     padding-bottom: 1px;
     padding-left: 6px;
 }
+
+
+.panel-body p {
+    white-space: nowrap; 
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
