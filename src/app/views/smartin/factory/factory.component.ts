@@ -159,14 +159,12 @@ export class FactoryComponent implements OnInit {
   }
   
   fnAddItem() { //press add item (in modal)
-    var itemAdd = this.newTechnology;
-    if (itemAdd.TechnologyName == null) {
+    if (this.newTechnology.TechnologyName == null) {
       swal.fire("Validate", this.trans.instant('Factory.data.TechnologyName') + this.trans.instant('messg.isnull'), 'warning');
       return;
     }
-    itemAdd.FactoryId = this.entity.FactoryId;
+    this.entity.FactoryTechnology.push(this.newTechnology);
     this.newTechnology = new FactoryTechnology();
-    this.entity.FactoryTechnology.push(itemAdd);
   }
 
   fnEditItem(index){ //press edit item (in modal)
