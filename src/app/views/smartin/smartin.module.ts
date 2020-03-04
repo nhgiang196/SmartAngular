@@ -10,6 +10,7 @@ import { ItemListComponent } from './item/item-list/item-list.component';
 import { ItemActionComponent } from './item/item-action/item-action.component';
 import { ItemGridComponent } from './item/item-grid/item-grid.component';
 import { ItemDetailComponent } from './item/item-detail/item-detail.component';
+import { SlickCarouselModule } from 'ngx-slick-carousel';
 
 
 const COMPONENTS = [

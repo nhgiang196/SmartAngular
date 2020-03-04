@@ -20,6 +20,7 @@ import { MomentModule } from 'ngx-moment';
 import { NgxDropzoneModule } from 'ngx-dropzone';
 import {AutocompleteLibModule} from 'angular-ng-autocomplete';
 import { SlickCarouselModule } from 'ngx-slick-carousel';
+
 import { Select2Module } from 'ng2-select2';
 
 
@@ -57,7 +58,6 @@ export function HttpLoaderFactory(http: HttpClient) {
     NgxDropzoneModule,
     DataTablesModule,
     NgSelectModule,
-    SlickCarouselModule,
     LaddaModule.forRoot({
     }),
     SweetAlert2Module.forRoot(
@@ -72,6 +72,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     PopoverModule.forRoot(),
     TimepickerModule.forRoot(),
     MomentModule.forRoot(),
+    SlickCarouselModule
     
   ],
   exports: [
@@ -94,7 +95,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     MomentModule,
     NgxDropzoneModule,
     AutocompleteLibModule,
-    Select2Module
+    Select2Module,
+    SlickCarouselModule
   ]
 
 })

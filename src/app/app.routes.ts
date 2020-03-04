@@ -112,7 +112,7 @@ export const ROUTES: Routes = [
               {path:'', component: ItemListComponent},
               {path:'list', component: ItemListComponent},
               {path:'grid',component: ItemGridComponent},
-              {path:'detail/:id',component: ItemDetailComponent},
+              {path:'detail/:id',component: ItemDetailComponent ,resolve: { item: ItemResolver}},
               {path:'action',component: ItemActionComponent},
               {path:'action/:id',component: ItemActionComponent, resolve: { item: ItemResolver}}
             ]

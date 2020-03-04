@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { WaterTreatmentService } from 'src/app/services/api-watertreatment.service';
 import { Item, Files } from 'src/app/models/SmartInModels';
+import { environment } from 'src/environments/environment';
 declare let $: any;
 
 @Component({
@@ -10,37 +11,26 @@ declare let $: any;
   styleUrls: ['./item-detail.component.css']
 })
 export class ItemDetailComponent implements OnInit {
-  item?: Item 
+  item?: Item = new Item;
   Files?: Files[] = []
-  url : string ='http://localhost:3333/'
-  constructor(private api: WaterTreatmentService, private router: ActivatedRoute) { }
+  baseUrl:string = environment.apiUrl;
+  listImgs: string[]= [];
+  slideConfig = {"slidesToShow": 1, "slidesToScroll": 1};
+  
+  
+  constructor(private api: WaterTreatmentService, private router: ActivatedRoute,private route: ActivatedRoute) { }
 
   ngOnInit() {
-
-    $('.product-images').slick({
-      dots: true
-    });
-    this.item = new Item;
-    this.loadItemDetail()
-  }
-  async loadItemDetail() {
-    let id
-    this.router.params.subscribe(params => {
-      id = params.id;
-    });
-    this.item = await this.api.findItemById(id).toPromise().then() as any;
-    this.Files = this.getAllImageFiles();
-    console.log(this.item);
+    
+    this.item = this.route.snapshot.data["item"];
+    this.getAllImageFiles();
   }
   //get All File with Image is true
   getAllImageFiles() {
     let itemFiles = this.item.ItemFile.filter(x => x.IsImage == true);
-    let listFiles: Files[] = []
-    itemFiles.forEach(file => {
-      file.File.Path = this.url + file.File.Path;
-      listFiles.push(file.File)
-    })
-    return listFiles;
+    this.listImgs =itemFiles.map(file =>{
+      return this.baseUrl + file.File.Path;
+    });
   }
 
 }
