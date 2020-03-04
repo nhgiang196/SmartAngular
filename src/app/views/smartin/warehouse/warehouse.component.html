@@ -98,14 +98,14 @@
             <div class="col-lg-6">
               <div class="form-group">
                 <label> {{ 'Warehouse.data.WarehouseCode' | translate }} *: </label>
-                <input autocomplete="off" type="text" name="WarehouseCode" id="WarehouseCode" [(ngModel)]="entity.WarehouseCode" class="form-control" placeholder="Enter your __________" 
+                <input autocomplete="off" type="text" name="WarehouseCode" id="WarehouseCode" [(ngModel)]="entity.WarehouseCode" class="form-control" placeholder="{{ 'Warehouse.placeholder.WarehouseCode' | translate }}" 
                  [ngClass]="{ 'is-invalid':  invalid.Existed_WarehouseCode }" required>
                   <div *ngIf="invalid.Existed_WarehouseCode" style="color: red;">{{ 'Warehouse.invalid.Existed_WarehouseCode' | translate }}</div>
               </div>
             </div>
             <div class="col-lg-6">
-              <label>{{ 'Warehouse.data.FactoryID' | translate }} :</label>
-              <ng-select autocomplete="off"  [items]="initCombobox.Factories" placeholder="Enter your __________" id="FactoryId" name="FactoryId"  [(ngModel)]="entity.FactoryId"  bindLabel="FactoryName" bindValue="FactoryId" required> </ng-select>
+              <label>{{ 'Warehouse.data.FactoryID' | translate }} *:</label>
+              <ng-select autocomplete="off"  [items]="initCombobox.Factories" placeholder="{{ 'Warehouse.placeholder.FactoryID' | translate }}" id="FactoryId" name="FactoryId"  [(ngModel)]="entity.FactoryId"  bindLabel="FactoryName" bindValue="FactoryId" required> </ng-select>
               
             </div>
           </div>         
@@ -113,14 +113,14 @@
             <div class="col-lg-6">
               <div class="form-group">
                 <label> {{ 'Warehouse.data.WarehouseName' | translate }} *: </label>
-                <input autocomplete="off" type="text" name="WarehouseName" id="WarehouseName" [(ngModel)]="entity.WarehouseName" class="form-control" placeholder="Enter your __________" 
+                <input autocomplete="off" type="text" name="WarehouseName" id="WarehouseName" [(ngModel)]="entity.WarehouseName" class="form-control" placeholder="{{ 'Warehouse.placeholder.WarehouseName' | translate }}" 
                  [ngClass]="{ 'is-invalid':  invalid.Existed_WarehouseName }" required>
                   <div *ngIf="invalid.Existed_WarehouseName" style="color: red;">{{ 'Warehouse.invalid.Existed_WarehouseName' | translate }}</div>
               </div>
             </div>
             <div class="col-lg-6">
               <label>{{ 'Warehouse.data.WarehouseType' | translate }} *:</label>
-              <select autocomplete="off" class="select2_demo_3 form-control" [(ngModel)]="entity.WarehouseType" name="WarehouseType" id="WarehouseType"  placeholder="Select _________ " required>
+              <select autocomplete="off" class="select2_demo_3 form-control" [(ngModel)]="entity.WarehouseType" name="WarehouseType" id="WarehouseType"  placeholder="Select" required>
                 <option value=1> {{ 'Warehouse.data.WarehouseType1' | translate }} </option>
                 <option value=2> {{ 'Warehouse.data.WarehouseType2' | translate }} </option>
                 <option value=3> {{ 'Warehouse.data.WarehouseType3' | translate }} </option>
@@ -131,13 +131,13 @@
           </div>
           <div class="row">
             <div class="col-lg-6">
-              <label>{{ 'Warehouse.data.WarehouseAddress' | translate }} :</label>
-              <input autocomplete="off" type="text" name="WarehouseAddress" id="WarehouseAddress" [(ngModel)]="entity.WarehouseAddress" class="form-control" placeholder="Enter your __________" >
+              <label>{{ 'Warehouse.data.WarehouseAddress' | translate }}:</label>
+              <input autocomplete="off" type="text" name="WarehouseAddress" id="WarehouseAddress" [(ngModel)]="entity.WarehouseAddress" class="form-control" placeholder="{{ 'Warehouse.placeholder.WarehouseAddress' | translate }}" >
             </div>  
             <div class="col-lg-6">
               <div class="form-group">
                 <label> {{ 'Warehouse.data.WarehouseUserName' | translate }} *: </label>
-                <ng-select autocomplete="off" [items]="initCombobox.Users" placeholder="Enter your __________"  id="WarehouseUserName" name="WarehouseUserName"  [(ngModel)]="entity.WarehouseUserName"  bindLabel="NormalizedUserName" bindValue="UserName" required> </ng-select>
+                <ng-select autocomplete="off" [items]="initCombobox.Users" placeholder="{{ 'Warehouse.placeholder.WarehouseUserName' | translate }}"  id="WarehouseUserName" name="WarehouseUserName"  [(ngModel)]="entity.WarehouseUserName"  bindLabel="NormalizedUserName" bindValue="UserName" required> </ng-select>
               </div>
             </div>
           </div>
@@ -146,19 +146,19 @@
           <div class="row">
             <div class="col-lg-4">
               <div class="form-group">
-                <label> {{ 'Warehouse.data.WarehouseLength' | translate }} *: </label>
+                <label> {{ 'Warehouse.data.WarehouseLength' | translate }}: </label>
                 <input autocomplete="off" type="number" name="WarehouseLength" id="WarehouseLength" [(ngModel)]="entity.WarehouseLength" class="form-control" placeholder="Enter your __________"  required>
               </div>
             </div>
             <div class="col-lg-4">
               <div class="form-group">
-                <label> {{ 'Warehouse.data.WarehouseWidth' | translate }} *: </label>
+                <label> {{ 'Warehouse.data.WarehouseWidth' | translate }}: </label>
                 <input autocomplete="off" type="number" name="WarehouseWidth" id="WarehouseWidth" [(ngModel)]="entity.WarehouseWidth" class="form-control" placeholder="Enter your __________"  required>
               </div>
             </div>
             <div class="col-lg-4">
               <div class="form-group">
-                <label> {{ 'Warehouse.data.WarehouseHeight' | translate }} *: </label>
+                <label> {{ 'Warehouse.data.WarehouseHeight' | translate }}: </label>
                 <input autocomplete="off" type="number" name="WarehouseHeight" id="WarehouseHeight" [(ngModel)]="entity.WarehouseHeight" class="form-control" placeholder="Enter your __________" required>
               </div>
             </div>
@@ -197,8 +197,8 @@
               <thead>
                 <tr>
                   <th width="3%">#</th>
-                  <th width="20%">{{ 'Warehouse.data.WarehouseLocationCode' | translate }}</th>
-                  <th width="27%">{{ 'Warehouse.data.WarehouseLocationName' | translate }}</th>
+                  <th width="20%">{{ 'Warehouse.data.WarehouseLocationCode' | translate }} *</th>
+                  <th width="27%">{{ 'Warehouse.data.WarehouseLocationName' | translate }} *</th>
                   <th width="10%">{{ 'Warehouse.data.WarehouseLocationLength' | translate }}</th>
                   <th width="10%">{{ 'Warehouse.data.WarehouseLocationWidth' | translate }}</th>
                   <th width="10%">{{ 'Warehouse.data.WarehouseLocationHeight' | translate }}</th>
