@@ -104,7 +104,8 @@
                                         </div>
                                         <label class="col-sm-2 control-label">Year of :</label>
                                         <div class="col-sm-4">
-                                            <input type="text" [(ngModel)]="entity.ItemManufactureYear"
+                                            <input type="text" [(ngModel)]="entity.ItemManufactureYear" bsDatepicker  readonly
+                                            [bsConfig]="bsConfig"
                                                 class="form-control" placeholder="Năm sản xuất " name="manufactureYear">
                                         </div>
                                     </div>
