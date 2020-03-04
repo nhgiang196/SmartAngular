@@ -11,24 +11,14 @@
 
 
                           <div class="product-images">
-
-                              <div>
-                                  <div class="image-imitation">
-                                      [IMAGE 1]
-                                  </div>
-                              </div>
-                              <div>
-                                  <div class="image-imitation">
-                                      [IMAGE 2]
-                                  </div>
-                              </div>
-                              <div>
-                                  <div class="image-imitation">
-                                      [IMAGE 3]
-                                  </div>
-                              </div>
-
-
+                            <ngx-slick-carousel class="carousel" 
+                            #slickModal="slick-carousel" 
+                            [config]="slideConfig" >
+                                <div ngxSlickItem *ngFor="let slide of listImgs" class="slide">
+                                    <img src="{{ slide }}" alt="" width="100%">
+                                </div>
+                            </ngx-slick-carousel>
+                            
                           </div>
 
                       </div>
@@ -37,17 +27,11 @@
                           <h2 class="font-bold m-b-xs">
                               {{item.ItemName}}
                           </h2>
-                          <small>Many desktop publishing packages and web page editors now.</small>
+                          <small> {{item.ItemDescription}}</small>
                           <div class="m-t-md">
-                              <h2 class="product-main-price"> {{item.ItemNo}} <small class="text-muted">Exclude Tax</small> </h2>
+                             Item No:   <h2 class="product-main-price"> {{item.ItemNo}} </h2>
                           </div>
                           <hr>
-
-                          <h4>Item description</h4>
-
-                          <div class="small text-muted">
-                            {{item.ItemDescription}}
-                          </div>
                           <dl class="small m-t-md">
                               <dt>Model</dt>
                               <dd>{{item.ItemModel}}</dd>
@@ -59,27 +43,12 @@
                               <dd>{{item.ItemManufactureYear}}</dd>
                           </dl>
                           <hr>
-
-                          <div>
-                              <div class="btn-group">
-                                  <button class="btn btn-primary btn-sm"><i class="fa fa-cart-plus"></i> Add to cart</button>
-                                  <button class="btn btn-white btn-sm"><i class="fa fa-star"></i> Add to wishlist </button>
-                                  <button class="btn btn-white btn-sm"><i class="fa fa-envelope"></i> Contact with author </button>
-                              </div>
-                          </div>
-
-
-
+                          
                       </div>
                   </div>
 
               </div>
-              <div class="ibox-footer">
-                  <span class="pull-right">
-                      Full stock - <i class="fa fa-clock-o"></i> 14.04.2016 10:04 pm
-                  </span>
-                  The generated Lorem Ipsum is therefore always free
-              </div>
+            
           </div>
 
       </div>
