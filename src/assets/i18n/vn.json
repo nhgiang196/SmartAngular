@@ -248,6 +248,8 @@
     "update.warning3": " ",
     "delete.success": "Xóa thành công ",
     "delete.error": "Lỗi khi xóa ",
+    "login.failed": "Tên hoặc mật khẩu không đúng",
+    "login.caption": "Lỗi đăng nhập",
     "maximumFileSize2000":"Giới hạn file tối đa 2MB, một số file sẽ không được upload lên",
     "maximumFileSize5000":"Giới hạn file tối đa 5MB, một số file sẽ không được upload lên"
   },
