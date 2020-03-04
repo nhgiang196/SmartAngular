@@ -264,10 +264,6 @@ export class ItemActionComponent implements OnInit {
       }
     this.newItemFactory = new ItemFactory();
   }
-  fnSaveFactory(index) {
-    console.log(this.entity.ItemFactory[index]);
-    this.editRowId = 0;
-  }
   fnEditFactory(index) {
     this.editRowId = index + 1;
     this.itemFactory = this.entity.ItemFactory[index];

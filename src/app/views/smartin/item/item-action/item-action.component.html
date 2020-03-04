@@ -19,11 +19,11 @@
                 <ul class="nav nav-tabs">
                     <li class="active"><a data-toggle="tab" href="#tab-1"><i class="fa fa-info-circle"></i> {{'Item.label.Information' | translate }}</a>
                     </li>
-                    <li class=""><a data-toggle="tab" href="#tab-2" (click)="fnSaveFactory()"><i class="fa fa-industry"></i> {{'Item.label.Factory' | translate }}</a></li>
-                    <li class=""><a data-toggle="tab" href="#tab-3" (click)="fnSaveFactory()"><i class="fa fa-list-ul"></i> {{'Item.label.Property' | translate }}</a></li>
-                    <li class=""><a data-toggle="tab" href="#tab-4" (click)="fnSaveFactory()"><i class="fa fa-cube"></i> {{'Item.label.Package' | translate }}</a></li>
-                    <li class=""><a data-toggle="tab" href="#tab-5" (click)="fnSaveFactory()"><i class="fa fa-file"></i> {{ 'Upload.' | translate }}</a></li>
-                    <li class=""><a data-toggle="tab" href="#tab-6" (click)="fnSaveFactory()"><i class="fa fa-file"></i> {{ 'Upload.Image' | translate }}</a></li>
+                    <li class=""><a data-toggle="tab" href="#tab-2" (click)="editRowId = 0;"><i class="fa fa-industry"></i> {{'Item.label.Factory' | translate }}</a></li>
+                    <li class=""><a data-toggle="tab" href="#tab-3" (click)="editRowId = 0;"><i class="fa fa-list-ul"></i> {{'Item.label.Property' | translate }}</a></li>
+                    <li class=""><a data-toggle="tab" href="#tab-4" (click)="editRowId = 0;"><i class="fa fa-cube"></i>{{'Item.label.Package' | translate }}</a></li>
+                    <li class=""><a data-toggle="tab" href="#tab-5" (click)="editRowId = 0;"><i class="fa fa-file"></i> {{ 'Upload.' | translate }}</a></li>
+                    <li class=""><a data-toggle="tab" href="#tab-6" (click)="editRowId = 0;"><i class="fa fa-file"></i> {{ 'Upload.Image' | translate }}</a></li>
                 </ul>
 
                 <form role="form" #myForm="ngForm">

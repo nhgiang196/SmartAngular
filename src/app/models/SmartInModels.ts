@@ -200,7 +200,7 @@ export class Warehouse {
   WarehouseId:number = 0
   WarehouseCode: string
   WarehouseName: string
-  FactoryId:number = 0
+  FactoryId:number =null
   WarehouseType:number = 1
   WarehouseAddress: string
   WarehouseUserName: string
