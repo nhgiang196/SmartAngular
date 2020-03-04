@@ -238,6 +238,7 @@ export class WarehouseComponent implements OnInit {
     if (event.rejectedFiles.length > 0) this.toastr.warning(this.trans.instant('messg.maximumFileSize5000'));
     var _addFiles = event.addedFiles;
     for (var index in _addFiles) {
+      debugger;
       let item = event.addedFiles[index];
       let convertName = this.helper.getFileNameWithExtension(item);
       let currentFile = this.entity.WarehouseFile;
@@ -258,9 +259,10 @@ export class WarehouseComponent implements OnInit {
           })
         }
         if (!allowUpload) return;
-        let _indexElement = this.entity.WarehouseFile.indexOf(findElement, 0);
-        this.files.splice(_indexElement, 1);
-        this.addFiles.FileList.splice(_indexElement, 1);
+        let _FileElement = this.files.filter(x=>x.name == findElement.File.FileOriginalName)[0];
+        let _indexFileElement = this.files.indexOf(_FileElement,0);
+        this.files.splice(_indexFileElement, 1);
+        this.addFiles.FileList.splice(_indexFileElement, 1);
       }
       else {
         let _warehouseFile = new WarehouseFile();
