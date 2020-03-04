@@ -43,7 +43,9 @@
     "Action": "Tác Vụ",
     "Submit": "Submit",
     "Undo": "Hoàn tác",
-    "Login": "Đăng nhập"
+    "Login": "Đăng nhập",
+    "OK": "OK",
+    "Cancel": "Hủy"
   },
   "CommandTree": {
     "Dashboard": "Trang đầu",

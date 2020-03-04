@@ -116,6 +116,8 @@ export class WarehouseComponent implements OnInit {
     swal.fire({
       title: this.trans.instant('Warehouse.mssg.DeleteAsk_Title'),
       titleText: this.trans.instant('Warehouse.mssg.DeleteAsk_Text'),
+      confirmButtonText: this.trans.instant('Button.OK'),
+      cancelButtonText: this.trans.instant('Button.Cancel'),
       type: 'warning',
       showCancelButton: true,
       reverseButtons: true
@@ -129,7 +131,7 @@ export class WarehouseComponent implements OnInit {
               {
                 title: 'Deleted!',
                 titleText: this.trans.instant('messg.delete.success'),
-                confirmButtonText: 'ok',
+                confirmButtonText: this.trans.instant('Button.OK'),
                 type: 'success',
               }
             );
