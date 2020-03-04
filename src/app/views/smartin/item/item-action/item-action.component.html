@@ -55,7 +55,6 @@
                                         <label class="col-sm-2 control-label">Unit code:</label>
                                         <div class="col-sm-4">
                                             <ng-select class="custom" [items]="listUnit" bindLabel="UnitName" bindValue="UnitId"
-                                                (change)="entity.itemPackage.UnitName = $event.UnitName "
                                                 placeholder="Please select unit"
                                                 [(ngModel)]="entity.ItemUnitId" name="UnitId" required>
                                             </ng-select>

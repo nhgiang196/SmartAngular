@@ -64,7 +64,7 @@ export class FactoryComponent implements OnInit {
   }
   /**INIT FUNCTIONS */
   loadInit() {
-    this.iboxloading = false;    
+    this.iboxloading = true;    
     this.EditRowID =0;
     
     this.api.getFactoryPagination(this.keyword).subscribe(res => {
@@ -159,14 +159,12 @@ export class FactoryComponent implements OnInit {
   }
   
   fnAddItem() { //press add item (in modal)
-    var itemAdd = this.newTechnology;
-    if (itemAdd.TechnologyName == null) {
+    if (this.newTechnology.TechnologyName == null) {
       swal.fire("Validate", this.trans.instant('Factory.data.TechnologyName') + this.trans.instant('messg.isnull'), 'warning');
       return;
     }
-    itemAdd.FactoryId = this.entity.FactoryId;
+    this.entity.FactoryTechnology.push(this.newTechnology);
     this.newTechnology = new FactoryTechnology();
-    this.entity.FactoryTechnology.push(itemAdd);
   }
 
   fnEditItem(index){ //press edit item (in modal)
@@ -326,12 +324,12 @@ export class FactoryComponent implements OnInit {
           console.log(this.uploadReportProgress.progress);
         }
       else if (event.type === HttpEventType.Response) {
-          this.uploadReportProgress.message = 'Upload success';
+        this.uploadReportProgress.message = this.trans.instant('Upload.UploadFileSuccess');
           // this.onUploadFinished.emit(event.body);
         }
     },err=>{
-      this.toastr.warning(err.statusText,'Upload file bị lỗi');
-      this.uploadReportProgress =  { progress : 0, message: 'Error', isError: true};
+      this.toastr.warning(err.statusText, this.trans.instant('Upload.UploadFileError'));
+      this.uploadReportProgress = { progress: 0, message: 'Error: '+ err.statusText, isError: true };
     });
   }
 

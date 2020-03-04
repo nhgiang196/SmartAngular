@@ -7,10 +7,10 @@
   <h2><strong>ĐĂNG NHẬP</strong></h2> 
   <form class="m-t" role="form" #userForm="ngForm" (submit)="loginUser()"  >
         <div class="form-group">
-            <input type="text" class="form-control" [(ngModel)]="authService.currentUser.Username" #Username="ngModel" name="Username" placeholder="{{'Users.Username' | translate}}" required>
+            <input  autocomplete="off" type="text" class="form-control" [(ngModel)]="authService.currentUser.Username" #Username="ngModel" name="Username" placeholder="{{'Users.Username' | translate}}" required>
         </div>        
         <div class="form-group">
-            <input type="password" class="form-control" [(ngModel)]="authService.currentUser.Password" #Password="ngModel" name="Password" placeholder="{{'Users.Password' | translate}}" required>
+            <input  autocomplete="off" type="password" class="form-control" [(ngModel)]="authService.currentUser.Password" #Password="ngModel" name="Password" placeholder="{{'Users.Password' | translate}}" required>
         </div>        
         <button [ladda]="laddaSubmitLoading" type="submit" [disabled]="userForm.invalid" class="btn btn-primary block full-width m-b">{{'Button.Login' | translate}} </button>        
         <a [routerLink]="['/forgotPassword']" routerLinkActive="router-link-active"><small>Forgot password?</small></a>
