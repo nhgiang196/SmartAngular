@@ -54,8 +54,6 @@ export class WarehouseComponent implements OnInit {
     this.loadInit();
     this.loadFactoryList();
     this.loadUsers();
-
-    
   }
   private loadFactoryList() {
     this.api.getFactory().subscribe(res => {
@@ -66,7 +64,7 @@ export class WarehouseComponent implements OnInit {
   private loadUsers() {
     this.auth.getUsers().subscribe(res=>{
       this.initCombobox.Users= res;
-    })
+    }, err => this.toastr.warning('Get users Failed, check network'))
   }
 
   loadInit() { //init loading
@@ -90,7 +88,6 @@ export class WarehouseComponent implements OnInit {
     this.ACTION_STATUS = 'add';
     this.resetEntity();
     this.entity.CreateBy = this.auth.currentUser.Username;
-    this.loadFactoryList();
   }
   fnEditSignal(id) { //press a link of ENTITY
     if (id == null) { this.toastr.warning('ID is Null, cant show modal'); return; }
@@ -292,6 +289,8 @@ export class WarehouseComponent implements OnInit {
     return true;
   }
   private resetEntity() { //reset entity values
+    this.loadFactoryList();
+    this.loadUsers();
     this.entity = new Warehouse();
     this.locationEntity = new WarehouseLocation();
     this.newLocationEntity = new WarehouseLocation();
