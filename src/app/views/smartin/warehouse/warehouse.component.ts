@@ -54,8 +54,6 @@ export class WarehouseComponent implements OnInit {
     this.loadInit();
     this.loadFactoryList();
     this.loadUsers();
-
-    
   }
   private loadFactoryList() {
     this.api.getFactory().subscribe(res => {
@@ -66,7 +64,7 @@ export class WarehouseComponent implements OnInit {
   private loadUsers() {
     this.auth.getUsers().subscribe(res=>{
       this.initCombobox.Users= res;
-    })
+    }, err => this.toastr.warning('Get users Failed, check network'))
   }
 
   loadInit() { //init loading
@@ -90,7 +88,6 @@ export class WarehouseComponent implements OnInit {
     this.ACTION_STATUS = 'add';
     this.resetEntity();
     this.entity.CreateBy = this.auth.currentUser.Username;
-    this.loadFactoryList();
   }
   fnEditSignal(id) { //press a link of ENTITY
     if (id == null) { this.toastr.warning('ID is Null, cant show modal'); return; }
@@ -175,6 +172,7 @@ export class WarehouseComponent implements OnInit {
             if (this.addFiles.FileList.length > 0) this.uploadFile(this.addFiles.FileList);
             this.loadInit();
             this.toastr.success(this.trans.instant("messg.update.success"));
+            this.addFiles = { FileList: [], FileLocalNameList :[]};
             
           }
           else this.toastr.warning(operationResult.Message);
@@ -291,6 +289,8 @@ export class WarehouseComponent implements OnInit {
     return true;
   }
   private resetEntity() { //reset entity values
+    this.loadFactoryList();
+    this.loadUsers();
     this.entity = new Warehouse();
     this.locationEntity = new WarehouseLocation();
     this.newLocationEntity = new WarehouseLocation();
@@ -313,12 +313,12 @@ export class WarehouseComponent implements OnInit {
       if (event.type === HttpEventType.UploadProgress)
         this.uploadReportProgress.progress = Math.round(100 * event.loaded / event.total);
       else if (event.type === HttpEventType.Response) {
-        this.uploadReportProgress.message = 'Upload success';
+        this.uploadReportProgress.message = this.trans.instant('Upload.UploadFileSuccess');
         // this.onUploadFinished.emit(event.body);
       }
     }, err => {
-      this.toastr.warning(err.statusText, 'Upload file bị lỗi');
-      this.uploadReportProgress = { progress: 0, message: 'Error', isError: true };
+      this.toastr.warning(err.statusText, this.trans.instant('Upload.UploadFileError'));
+      this.uploadReportProgress = { progress: 0, message: 'Error: '+ err.statusText, isError: true };
     });
   }
 

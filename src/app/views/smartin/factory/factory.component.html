@@ -198,7 +198,7 @@
           <div class="row">
             <div class="col-lg-12">
               <span class="badge" [ngClass]="{'badge-primary': uploadReportProgress.progress==100, 'badge-danger':uploadReportProgress.isError}" >{{uploadReportProgress.message}}</span>
-              <div *ngIf="uploadReportProgress.progress!=100" class="progress progress-striped active">
+              <div *ngIf="uploadReportProgress.progress>0 && uploadReportProgress.progress<100 " class="progress progress-striped active">
                 <div  class="progress-bar progress-bar-success" role="progressbar"
                   [style.width.%]="uploadReportProgress.progress">
                   {{uploadReportProgress.progress}}%
