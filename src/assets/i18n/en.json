@@ -43,7 +43,9 @@
     "Action": "Action",
     "Submit": "Submit",
     "Undo": "Undo",
-    "Login": "Login"
+    "Login": "Login",
+    "OK": "OK",
+    "Cancel": "Cancel"
   },
   "CommandTree": {
     "Dashboard": "Dashboard",

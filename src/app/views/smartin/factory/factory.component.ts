@@ -129,8 +129,8 @@ export class FactoryComponent implements OnInit {
     swal.fire({
       title: this.trans.instant('Factory.mssg.DeleteAsk_Title'),
       titleText: this.trans.instant('Factory.mssg.DeleteAsk_Text'),
-      confirmButtonText: 'ok',
-      cancelButtonText: 'no ok',
+      confirmButtonText: this.trans.instant('Button.OK'),
+      cancelButtonText: this.trans.instant('Button.Cancel'),
       type: 'warning',
       showCancelButton: true,
       reverseButtons: true
@@ -145,7 +145,7 @@ export class FactoryComponent implements OnInit {
                 {
                   title: 'Deleted!',
                   titleText: this.trans.instant('messg.delete.success'),
-                  confirmButtonText: 'ok',
+                  confirmButtonText: this.trans.instant('Button.OK'),
                   type: 'success',
                 }
               );
@@ -258,6 +258,8 @@ export class FactoryComponent implements OnInit {
             title: 'File trùng',
             titleText: 'Một số file bị trùng, bạn có muốn đè các file này lên bản gốc?',
             type: 'warning',
+            confirmButtonText: this.trans.instant('Button.OK'),
+            cancelButtonText: this.trans.instant('Button.Cancel'),
             showCancelButton: true,
             reverseButtons: true
             }).then((result) => {
