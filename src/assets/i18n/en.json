@@ -66,6 +66,8 @@
   "Upload": {
     "":"Upload File(s)",
     "UploadFileCaption":"Drag Files in here!",
+    "UploadFileError":"Error on uploading!",
+    "UploadFileSuccess":"Upload Successfully",
     "FileName": "FileName",
     "Name": "Name",
     "UploadFile": "Upload File",

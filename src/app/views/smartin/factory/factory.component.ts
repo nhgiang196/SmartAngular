@@ -326,12 +326,12 @@ export class FactoryComponent implements OnInit {
           console.log(this.uploadReportProgress.progress);
         }
       else if (event.type === HttpEventType.Response) {
-          this.uploadReportProgress.message = 'Upload success';
+        this.uploadReportProgress.message = this.trans.instant('Upload.UploadFileSuccess');
           // this.onUploadFinished.emit(event.body);
         }
     },err=>{
-      this.toastr.warning(err.statusText,'Upload file bị lỗi');
-      this.uploadReportProgress =  { progress : 0, message: 'Error', isError: true};
+      this.toastr.warning(err.statusText, this.trans.instant('Upload.UploadFileError'));
+      this.uploadReportProgress = { progress: 0, message: 'Error: '+ err.statusText, isError: true };
     });
   }
 

@@ -175,6 +175,7 @@ export class WarehouseComponent implements OnInit {
             if (this.addFiles.FileList.length > 0) this.uploadFile(this.addFiles.FileList);
             this.loadInit();
             this.toastr.success(this.trans.instant("messg.update.success"));
+            this.addFiles = { FileList: [], FileLocalNameList :[]};
             
           }
           else this.toastr.warning(operationResult.Message);
@@ -313,12 +314,12 @@ export class WarehouseComponent implements OnInit {
       if (event.type === HttpEventType.UploadProgress)
         this.uploadReportProgress.progress = Math.round(100 * event.loaded / event.total);
       else if (event.type === HttpEventType.Response) {
-        this.uploadReportProgress.message = 'Upload success';
+        this.uploadReportProgress.message = this.trans.instant('Upload.UploadFileSuccess');
         // this.onUploadFinished.emit(event.body);
       }
     }, err => {
-      this.toastr.warning(err.statusText, 'Upload file bị lỗi');
-      this.uploadReportProgress = { progress: 0, message: 'Error', isError: true };
+      this.toastr.warning(err.statusText, this.trans.instant('Upload.UploadFileError'));
+      this.uploadReportProgress = { progress: 0, message: 'Error: '+ err.statusText, isError: true };
     });
   }
 

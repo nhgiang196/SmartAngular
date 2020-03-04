@@ -66,6 +66,8 @@
   "Upload": {
     "":"Tệp đính kèm",
     "UploadFileCaption":"Kéo thả file ở đây!",
+    "UploadFileError":"Upload file bị lỗi!",
+    "UploadFileSuccess":"Upload thành công",
     "FileName": "Tên File",
     "Name": "Tên File",
     "UploadFile": "Tải Lên Tệp",
