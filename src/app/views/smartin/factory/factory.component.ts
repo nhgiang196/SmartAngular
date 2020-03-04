@@ -267,9 +267,10 @@ export class FactoryComponent implements OnInit {
             })
         }
         if (!allowUpload)  return;
-        let _indexElement = this.entity.FactoryFile.indexOf(findElement,0);
-        this.files.splice( _indexElement,1 );
-        this.addFiles.FileList.splice(_indexElement,1 );
+        let _FileElement = this.files.filter(x=>x.name == findElement.File.FileOriginalName)[0];
+        let _indexFileElement = this.files.indexOf(_FileElement,0);
+        this.files.splice(_indexFileElement, 1);
+        this.addFiles.FileList.splice(_indexFileElement, 1);
       }
       else{
         let _factoryFile = new FactoryFile();
