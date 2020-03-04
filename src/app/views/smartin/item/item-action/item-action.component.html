@@ -86,10 +86,9 @@
                                         <label
                                             class="col-sm-2 control-label">{{'Item.data.ItemManufactureYear' | translate }}:</label>
                                         <div class="col-sm-4">
-                                            <input autocomplete="off" type="text"
-                                                [(ngModel)]="entity.ItemManufactureYear" class="form-control"
-                                                placeholder="{{'Item.placeholder.ItemManufactureYear' | translate }}"
-                                                name="manufactureYear">
+                                            <input type="text" [(ngModel)]="entity.ItemManufactureYear" bsDatepicker  readonly
+                                            [bsConfig]="bsConfig"
+                                                class="form-control" placeholder="{{'Item.placeholder.ItemManufactureYear' | translate }}" name="manufactureYear">
                                         </div>
                                     </div>
                                     <div class="form-group">

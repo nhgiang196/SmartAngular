@@ -27,6 +27,8 @@ import { Select2OptionData } from "ng2-select2";
 import { of, concat, Observable, Subject } from "rxjs";
 import { HttpEventType } from "@angular/common/http";
 import { Identifiers, identifierModuleUrl, ThrowStmt } from "@angular/compiler";
+import { BsDatepickerViewMode } from 'ngx-bootstrap/datepicker/models';
+import { BsDatepickerConfig } from 'ngx-bootstrap';
 
 @Component({
   selector: "app-item-action",
@@ -36,6 +38,9 @@ import { Identifiers, identifierModuleUrl, ThrowStmt } from "@angular/compiler";
 export class ItemActionComponent implements OnInit {
   code: string = "HC";
   private pathFile = "uploadFilesItem";
+  test:number;
+  minMode: BsDatepickerViewMode = 'year'
+  bsConfig: Partial<BsDatepickerConfig>;
 
   itemIdPram: any = null;
   entity: Item = new Item();
@@ -81,6 +86,11 @@ export class ItemActionComponent implements OnInit {
   ) {}
 
   async ngOnInit() {
+    this.bsConfig = Object.assign({}, {
+      minMode : this.minMode,
+      dateInputFormat: 'YYYY' ,
+       adaptivePosition: true
+    });
     this.addFiles = { FileList: [], FileLocalNameList: [] };
     await this.loadFactory();
     await this.loadProperty();
@@ -104,6 +114,8 @@ export class ItemActionComponent implements OnInit {
     }
 
     let e = this.entity;
+    e.ItemManufactureYear =this.helper.yearConvertToString(new Date(e.ItemManufactureYear));
+
     if (this.itemIdPram == null) e.CreateBy = this.auth.currentUser.Username;
     else e.ModifyBy = this.auth.currentUser.Username;
 
