@@ -38,7 +38,6 @@ import { BsDatepickerConfig } from 'ngx-bootstrap';
 export class ItemActionComponent implements OnInit {
   code: string = "HC";
   private pathFile = "uploadFilesItem";
-  test:number;
   minMode: BsDatepickerViewMode = 'year'
   bsConfig: Partial<BsDatepickerConfig>;
 
@@ -103,6 +102,12 @@ export class ItemActionComponent implements OnInit {
       this.entity = item;
       this.itemPackage.ItemPackageUnitId = 0;
       this.customFile();
+    }
+  }
+
+  testCheck(target){
+    if(target ==""){
+      
     }
   }
 
