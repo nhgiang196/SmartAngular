@@ -46,9 +46,10 @@ export class LoginComponent implements OnInit {
 
       }
       else {
-        this.toastr.warning('Incorrect password or username', 'Login failed!');
-        console.log(res["Errors"]);
-        this.router.navigate(['/register']);
+        //this.toastr.warning('Incorrect password or username', 'Login failed!');
+        this.toastr.warning(this.translate.instant("messg.login.failed"),this.translate.instant("messg.login.caption"))
+        // console.log(res["Errors"]);
+        // this.router.navigate(['/register']);
       }
       this.laddaSubmitLoading = false;
     }).catch(err=>{
