@@ -108,6 +108,7 @@ export class ItemActionComponent implements OnInit {
     else e.ModifyBy = this.auth.currentUser.Username;
 
     if (this.itemIdPram == null) {
+     
       if (await this.fnValidate(e)) {
         this.api.addItem(e).subscribe(
           res => {
@@ -131,6 +132,7 @@ export class ItemActionComponent implements OnInit {
         this.toastr.warning("Validate", "Tên hóa chất đã tồn tại");
       }
     } else {
+      console.log(">>",this.entity)
       this.api.updateItem(e).subscribe(
         res => {
           let operationResult: any = res;
@@ -257,9 +259,13 @@ export class ItemActionComponent implements OnInit {
   fnAddFactory() {
     if (!this.isExistFactory())
       this.entity.ItemFactory.push(this.newItemFactory);
+      else{
+        this.toastr.warning("Dữ liệu đã tồn tại");
+      }
     this.newItemFactory = new ItemFactory();
   }
-  fnSaveFactory() {
+  fnSaveFactory(index) {
+    console.log(this.entity.ItemFactory[index]);
     this.editRowId = 0;
   }
   fnEditFactory(index) {
@@ -279,8 +285,11 @@ export class ItemActionComponent implements OnInit {
 
   //properties
   fnAddProperty() {
+    console.log(this.newItemProperty)
     if (!this.isExistProperty())
       this.entity.ItemProperty.push(this.newItemProperty);
+    else
+      this.toastr.warning("Dữ liệu đã tồn tại");
     this.newItemProperty = new ItemProperty();
   }
   fnEditProperty(index) {
@@ -295,17 +304,21 @@ export class ItemActionComponent implements OnInit {
   }
 
   isExistProperty() {
+    console.log(this.entity.ItemProperty);
     return this.entity.ItemProperty.find(
       x =>
-        x.ItemPropertyId == this.newItemProperty.ItemPropertyId &&
-        x.ItemTypePropertyName == this.newItemProperty.ItemTypePropertyName
+        x.ItemTypePropertyId == this.newItemProperty.ItemTypePropertyId &&
+        x.ItemTypePropertyValue == this.newItemProperty.ItemTypePropertyValue
     );
   }
 
   //packages
   fnAddPackage() {
-    //if (!this.isExistPackage())
+   if (!this.isExistPackage())
       this.entity.ItemPackage.push(this.newItemPackage);
+      else{
+        this.toastr.warning("Dữ liệu đã tồn tai");
+      }
     this.newItemPackage = new ItemPackage();
   }
   fnEditPackage(index) {
@@ -315,12 +328,12 @@ export class ItemActionComponent implements OnInit {
   fnSavePackage() {
     this.editRowId = 0;
   }
-  fnDeletePackage(index) {
+  fnDeletePackge(index) {
     this.entity.ItemPackage.splice(index, 1);
   }
   isExistPackage() {
     return this.entity.ItemPackage.find(
-      x => x.ItemPackageId == this.newItemPackage.ItemPackageId
+      x => x.ItemPackageUnitId == this.newItemPackage.ItemPackageUnitId
     );
   }
 
