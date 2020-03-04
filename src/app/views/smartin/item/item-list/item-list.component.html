@@ -36,49 +36,49 @@
               class="table table-bordered table-hover table-striped" id="myTable" style="width:100%">
               <thead>
                 <tr>
-                  <th>{{'Item.ItemId' | translate}}</th>
-                  <th>{{'Item.ItemTypeId' | translate}}</th>
+                  <th hidden="true">{{'Item.ItemId' | translate}}</th>
+                  <th hidden="true">{{'Item.ItemTypeId' | translate}}</th>
                   <th>{{'Item.ItemNo' | translate}}</th>
                   <th>{{'Item.ItemName' | translate}}</th>
                   <th>{{'Item.ItemPrintName' | translate}}</th>
-                  <th>{{'Item.ItemUnitId' | translate}}</th>
+                  <th hidden="true">{{'Item.ItemUnitId' | translate}}</th>
                   <th>{{'Item.ItemModel' | translate}}</th>
                   <th>{{'Item.ItemSerial' | translate}}</th>
                   <th>{{'Item.ItemManufactureCountry' | translate}}</th>
                   <th>{{'Item.ItemManufactureYear' | translate}}</th>
-                  <th>{{'Item.ItemLength' | translate}}</th>
-                  <th>{{'Item.ItemWidth' | translate}}</th>
-                  <th>{{'Item.ItemHeight' | translate}}</th>
-                  <th>{{'Item.Weight' | translate}}</th>
+                  <th hidden="true">{{'Item.ItemLength' | translate}}</th>
+                  <th hidden="true">{{'Item.ItemWidth' | translate}}</th>
+                  <th hidden="true">{{'Item.ItemHeight' | translate}}</th>
+                  <th hidden="true">{{'Item.Weight' | translate}}</th>
                   <th>{{'Item.CreateBy' | translate}}</th>
                   <th>{{'Item.CreateDate' | translate}}</th>
                   <th>{{'Item.ModifyBy' | translate}}</th>
                   <th>{{'Item.ModifyDate' | translate}}</th>
-                  <th>{{'Item.Status' | translate}}</th>
+                  <th hidden="true">{{'Item.Status' | translate}}</th>
                   <th>{{'Item.Action' | translate}}</th>
                 </tr>
               </thead>
               <tbody *ngIf="Items?.length != 0">
                 <tr *ngFor="let item of Items">
-                  <td style="text-align: left"> {{item.ItemId}}</td>
-                  <td style="text-align: left"> {{item.ItemTypeId}}</td>
+                  <td style="text-align: left" hidden="true"> {{item.ItemId}}</td>
+                  <td style="text-align: left" hidden="true"> {{item.ItemTypeId}}</td>
                   <td style="text-align: left"> {{item.ItemNo}}</td>
                   <td style="text-align: left"> {{item.ItemName}}</td>
                   <td style="text-align: left"> {{item.ItemPrintName}}</td>
-                  <td style="text-align: left"> {{item.ItemUnitId}}</td>
+                  <td style="text-align: left" hidden="true"> {{item.ItemUnitId}}</td>
                   <td style="text-align: left"> {{item.ItemModel}}</td>
                   <td style="text-align: left"> {{item.ItemSerial}}</td>
                   <td style="text-align: left">{{item.ItemManufactureCountry}}</td>
                   <td style="text-align: left"> {{item.ItemManufactureYear}}</td>
-                  <td style="text-align: left"> {{item.ItemLength}}</td>
-                  <td style="text-align: left">{{item.ItemWidth}}</td>
-                  <td style="text-align: left"> {{item.ItemHeight}}</td>
-                  <td style="text-align: left">{{item.ItemWeight}}</td>
+                  <td style="text-align: left" hidden="true"> {{item.ItemLength}}</td>
+                  <td style="text-align: left" hidden="true">{{item.ItemWidth}}</td>
+                  <td style="text-align: left" hidden="true"> {{item.ItemHeight}}</td>
+                  <td style="text-align: left" hidden="true">{{item.ItemWeight}}</td>
                   <td style="text-align: left"> {{item.CreateBy}}</td>
                   <td style="text-align: left">{{item.CreateDate | amDateFormat: 'YYYY-MM-DD HH:mm'}}</td>
                   <td style="text-align: left"> {{item.ModifyBy}}</td>
                   <td style="text-align: left">{{item.ModifyDate | amDateFormat: 'YYYY-MM-DD HH:mm'}}</td>
-                  <td style="text-align: left">{{item.Status}}</td>
+                  <td style="text-align: left" hidden="true">{{item.Status}}</td>
                   <td>
                     <button type="button" class="btn btn-outline btn-danger" (click)="fnDelete(item.ItemId)"><i
                         class="fa fa-trash"></i></button>

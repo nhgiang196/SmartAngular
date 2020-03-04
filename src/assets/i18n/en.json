@@ -66,7 +66,8 @@
     "Administration": "Administration"
   },
   "Upload": {
-    "":"Upload File(s)",
+    "":"Upload Files",
+    "Image":"Images",
     "UploadFileCaption":"Drag Files in here!",
     "UploadFileError":"Error on uploading!",
     "UploadFileSuccess":"Upload Successfully",
@@ -211,6 +212,7 @@
     "mssg.DeleteAsk_Title": "Delete warehouse?"
   },
   "Item": {
+    "Breadcrumb": "ITEM",
     "ItemID": "Item ID",
     "ItemTypeID": "Item Type",
     "ItemTypeID1": "",
@@ -227,6 +229,9 @@
     "ItemWidth": "Width",
     "ItemHeight": "Height",
     "ItemWeight": "Weight",
+    "label.Information": "Item's Information",
+    "label.Property": "Property",
+    "label.Package": "Package",
     "CreateBy": "Create By",
     "CreateDate": "Create Date",
     "ModifyBy": "Modify By",

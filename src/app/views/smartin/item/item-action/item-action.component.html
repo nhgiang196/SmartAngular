@@ -1,15 +1,12 @@
 <div class="row wrapper border-bottom white-bg page-heading">
     <div class="col-lg-10">
-        <h2>Item Action</h2>
+        <h2>{{ 'Item.Breadcrumb' | translate }}</h2>
         <ol class="breadcrumb">
             <li>
-                <a href="index.html">Home</a>
-            </li>
-            <li>
-                <a routerLink="/category/item">Items</a>
+                <a href="index.html">{{ 'TopNav.Category' | translate }}</a>
             </li>
             <li class="active">
-                <strong>Item action</strong>
+                <strong>{{ 'Item.Breadcrumb' | translate }}</strong>
             </li>
         </ol>
     </div>
@@ -20,13 +17,13 @@
         <div class="col-lg-12">
             <div class="tabs-container">
                 <ul class="nav nav-tabs">
-                    <li class="active"><a data-toggle="tab" href="#tab-1"><i class="fa fa-info-circle"></i> Info</a>
+                    <li class="active"><a data-toggle="tab" href="#tab-1"><i class="fa fa-info-circle"></i> {{'Item.label.Information' | translate }}</a>
                     </li>
-                    <li class=""><a data-toggle="tab" href="#tab-2" (click)="fnSaveFactory()"><i class="fa fa-industry"></i> Factory</a></li>
-                    <li class=""><a data-toggle="tab" href="#tab-3" (click)="fnSaveFactory()"><i class="fa fa-list-ul"></i> Property</a></li>
-                    <li class=""><a data-toggle="tab" href="#tab-4" (click)="fnSaveFactory()"><i class="fa fa-cube"></i> Package</a></li>
-                    <li class=""><a data-toggle="tab" href="#tab-5" (click)="fnSaveFactory()"><i class="fa fa-file"></i> File</a></li>
-                    <li class=""><a data-toggle="tab" href="#tab-6" (click)="fnSaveFactory()"><i class="fa fa-file"></i> Upload image</a></li>
+                    <li class=""><a data-toggle="tab" href="#tab-2" (click)="fnSaveFactory()"><i class="fa fa-industry"></i> {{'Item.label.Factory' | translate }}</a></li>
+                    <li class=""><a data-toggle="tab" href="#tab-3" (click)="fnSaveFactory()"><i class="fa fa-list-ul"></i> {{'Item.label.Property' | translate }}</a></li>
+                    <li class=""><a data-toggle="tab" href="#tab-4" (click)="fnSaveFactory()"><i class="fa fa-cube"></i> {{'Item.label.Package' | translate }}</a></li>
+                    <li class=""><a data-toggle="tab" href="#tab-5" (click)="fnSaveFactory()"><i class="fa fa-file"></i> {{ 'Upload.' | translate }}</a></li>
+                    <li class=""><a data-toggle="tab" href="#tab-6" (click)="fnSaveFactory()"><i class="fa fa-file"></i> {{ 'Upload.Image' | translate }}</a></li>
                 </ul>
 
                 <form role="form" #myForm="ngForm">

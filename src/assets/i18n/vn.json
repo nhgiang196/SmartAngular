@@ -67,6 +67,7 @@
   },
   "Upload": {
     "":"Tệp đính kèm",
+    "Image":"Hình",
     "UploadFileCaption":"Kéo thả file ở đây!",
     "UploadFileError":"Upload file bị lỗi!",
     "UploadFileSuccess":"Upload thành công",
@@ -212,6 +213,7 @@
     "mssg.DeleteAsk_Title": "Xóa kho?"
   },
   "Item": {
+    "Breadcrumb": "VẬT TƯ",
     "ItemId":"ID vật tư",
     "ItemTypeId":"Loại vật tư",
     "ItemNo":"Mã vật tư",
@@ -226,6 +228,9 @@
     "ItemWidth":"Rộng",
     "ItemHeight":"Cao",
     "ItemWeight":"Nặng",
+    "label.Information": "Thông tin vật tư",
+    "label.Property": "Thuộc tính",
+    "label.Package": "Đóng gói",
     "CreateBy":"Người tạo",
     "CreateDate":"Ngày tạo",
     "ModifyBy":"Người cập nhật",
