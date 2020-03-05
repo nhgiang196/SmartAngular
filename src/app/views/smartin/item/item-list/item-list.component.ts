@@ -18,7 +18,7 @@ import { TranslateService } from "@ngx-translate/core";
 import { AuthService } from "src/app/services/auth.service";
 import swal from "sweetalert2";
 import { MyHelperService } from "src/app/services/my-helper.service";
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { map } from 'rxjs/operators';
 declare let $: any;
 @Component({
@@ -33,6 +33,8 @@ export class ItemListComponent implements OnInit {
   dtTrigger: Subject<any> = new Subject();
   public ACTION_STATUS: string;
   iboxloading = false;
+  itemTypeIdPram: any;
+  itemTypeId:0;
   
   constructor(
     private api: WaterTreatmentService,
@@ -41,10 +43,15 @@ export class ItemListComponent implements OnInit {
     private auth: AuthService,
     public helper: MyHelperService,
     private router: Router,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
+
+   
     this.loadInit();
+    
+    this.getAllItemType();
   }
 
   loadInit = () => {
@@ -75,8 +82,11 @@ export class ItemListComponent implements OnInit {
         }
       }
     };
-    this.loadItem();
-    this.getAllItemType();
+    this.itemTypeIdPram = this.route.snapshot.params.id;
+    if(this.itemTypeIdPram ==null)
+      this.itemTypeIdPram =0;
+    this.itemTypeId = this.itemTypeIdPram;
+    this.loadItem(this.itemTypeIdPram);
   };
 
   loadItem = (itemTypeId=0) => {

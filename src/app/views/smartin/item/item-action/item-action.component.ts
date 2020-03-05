@@ -109,6 +109,7 @@ export class ItemActionComponent implements OnInit {
       this.customFile();
     }
     else{
+      this.entity.Status =1;
       this.loadProperty(this.code);
     }
   }
@@ -137,7 +138,7 @@ export class ItemActionComponent implements OnInit {
             }
             this.laddaSubmitLoading = false;
             this.uploadFile(this.addFiles.FileList);
-            this.router.navigate(["/category/item"]);
+            this.router.navigate(["/category/item/"+this.entity.ItemTypeId]);
           },
           err => {
             this.toastr.error(err.statusText);
@@ -161,7 +162,7 @@ export class ItemActionComponent implements OnInit {
           }
           this.laddaSubmitLoading = false;
           this.uploadFile(this.addFiles.FileList);
-          this.router.navigate(["/category/item"]);
+          this.router.navigate(["/category/item/"+this.entity.ItemTypeId]);
         },
         err => {
           this.toastr.error(err.statusText);

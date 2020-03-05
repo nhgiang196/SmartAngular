@@ -119,6 +119,7 @@ export const ROUTES: Routes = [
               {path:'action/:id',component: ItemActionComponent, resolve: { item: ItemResolver}}
             ]
            },
+           { path: 'item/:id', component: ItemListComponent },
           { path: 'warehouse', component: WarehouseComponent },
           { path: '', component: CategoryNavigationComponent, outlet: 'sidemenu' },
         ]
