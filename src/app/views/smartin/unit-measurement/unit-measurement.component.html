@@ -32,7 +32,7 @@
             </div>
           </div>
           <div class="row">
-            <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger"
+            <table datatable [dtOptions]="dtOptions" 
               class="table table-bordered table-hover table-striped" id="myTable" style="width:100%">
               <thead>
                 <tr>
@@ -46,7 +46,7 @@
                   <th>{{'Button.Action' | translate}}</th>
                 </tr>
               </thead>
-              <tbody *ngIf="Units?.length != 0">
+              <tbody *ngIf="Units?.length !== 0">
                 <tr *ngFor="let item of Units">
                   <td hidden="true" style="text-align: left"> {{item.UnitId}}</td>
                   <td style="text-align: left">{{item.UnitName}}</td>
@@ -63,9 +63,9 @@
                   </td>
                 </tr>
               </tbody>
-              <tbody *ngIf="Units?.length == 0">
+              <tbody *ngIf="Units?.length === 0">
                 <tr>
-                  <td colspan="3" class="no-data-available">No data!</td>
+                  <td colspan="8" class="no-data-available">{{'messg.datatable.zeroRecords'  | translate}}</td>
                 </tr>
               <tbody>
             </table>

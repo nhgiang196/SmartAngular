@@ -1,7 +1,7 @@
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { MyHelperService } from 'src/app/services/my-helper.service';
 import { WaterTreatmentService } from 'src/app/services/api-watertreatment.service';
-import { Warehouse, Files, WarehouseLocation, WarehouseFile } from 'src/app/models/SmartInModels';
+import { Warehouse, Files, WarehouseLocation, WarehouseFile, Factory } from 'src/app/models/SmartInModels';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 import swal from 'sweetalert2';
@@ -45,20 +45,19 @@ export class WarehouseComponent implements OnInit {
   ACTION_STATUS: string;
   Warehouse_showed = 0;
   invalid: any = { Existed_WarehouseCode: false, Existed_WarehouseName: false };
-  initCombobox = { Factories: [], Users: [] };
+  initCombobox = { Factories: [], FullFactories: [], Users: [] };
   uploadReportProgress: any = { progress: 0, message: null, isError: null };
   EditRowID: number = 0;
   /**INIT FUNCTIONS */
   ngOnInit() { //init functions
     this.resetEntity();
-    this.loadInit();
-    this.loadFactoryList();
     this.loadUsers();
+    this.loadInit();
   }
-  private loadFactoryList() {
-    this.api.getFactory().subscribe(res => {
-      this.initCombobox.Factories = res;
-      console.log(this.initCombobox);
+  private async loadFactoryList() {
+    await this.api.getBasicFactory().subscribe(res => {
+      this.initCombobox.Factories = ( res as any).result.filter(x=>x.Status ==1) as Factory[];
+      this.initCombobox.FullFactories = ( res as any).result as Factory[];
     }, err => this.toastr.warning('Get factories Failed, check network'))
   }
   private loadUsers() {
@@ -82,6 +81,7 @@ export class WarehouseComponent implements OnInit {
   onSwitchStatus (_TYPE){ //modal switch on change
     if (_TYPE == 'newLocationEntity') this.newLocationEntity.Status=  this.newLocationEntity.Status==0 ? 1: 0;
     if (_TYPE == 'locationEntity') this.locationEntity.Status =  this.locationEntity.Status==0 ? 1: 0;
+    if (_TYPE == 'entity') this.entity.Status = this.entity.Status==0? 1: 0;
   }
   /** BUTTON ACTIONS */
   fnAdd() { //press new button
@@ -89,14 +89,16 @@ export class WarehouseComponent implements OnInit {
     this.resetEntity();
     this.entity.CreateBy = this.auth.currentUser.Username;
   }
-  fnEditSignal(id) { //press a link of ENTITY
+  async fnEditSignal(id) { //press a link of ENTITY
     if (id == null) { this.toastr.warning('ID is Null, cant show modal'); return; }
-    this.resetEntity();
+    await this.resetEntity();
     this.ACTION_STATUS = 'update';
     this.iboxloading = true;
-    this.api.findWarehouseById(id).subscribe(res => {
+    await this.api.findWarehouseById(id).subscribe(res => {
+      
+      let _factoryAddTag = this.initCombobox.FullFactories.find(x=>x.FactoryID== res.FactoryId);
+      if (_factoryAddTag && !this.initCombobox.Factories.find(x=> x.FactoryID== res.FactoryId) )  this.initCombobox.Factories = [...this.initCombobox.Factories, _factoryAddTag];
       this.entity = res;
-      console.log(res);
       $("#myModal4").modal('show');
       this.iboxloading = false;
       /**CONTROL FILES */
@@ -147,8 +149,7 @@ export class WarehouseComponent implements OnInit {
   async fnSave() { // press save butotn
     this.laddaSubmitLoading = true;
     var e = this.entity;
-    console.log('send entity: ', e);
-
+    
     if (await this.fnValidate(e)) {
       if (this.ACTION_STATUS == 'add') {
         e.CreateBy = this.auth.currentUser.Username;
@@ -184,11 +185,10 @@ export class WarehouseComponent implements OnInit {
     }
   }
   fnDownloadFile(filename) { //press FILES preview
-    debugger;
+    
     this.api.downloadFile(this.pathFile + '/' + filename);
   }
   fnRemoveFile(event) { //PRESS X TO REMOVE FILES
-    console.log(event);
     let index = this.files.indexOf(event);
     this.files.splice(index, 1); //UI del
     this.entity.WarehouseFile.splice(index, 1);
@@ -238,7 +238,7 @@ export class WarehouseComponent implements OnInit {
     if (event.rejectedFiles.length > 0) this.toastr.warning(this.trans.instant('messg.maximumFileSize5000'));
     var _addFiles = event.addedFiles;
     for (var index in _addFiles) {
-      debugger;
+      
       let item = event.addedFiles[index];
       let convertName = this.helper.getFileNameWithExtension(item);
       let currentFile = this.entity.WarehouseFile;
@@ -292,9 +292,8 @@ export class WarehouseComponent implements OnInit {
     }
     return true;
   }
-  private resetEntity() { //reset entity values
-    this.loadFactoryList();
-    this.loadUsers();
+  private async resetEntity() { //reset entity values
+    
     this.entity = new Warehouse();
     this.locationEntity = new WarehouseLocation();
     this.newLocationEntity = new WarehouseLocation();
@@ -303,6 +302,8 @@ export class WarehouseComponent implements OnInit {
     this.invalid = {};
     this.uploadReportProgress =  { progress : 0, message: null , isError: null };
     this.EditRowID=0;
+    await this.loadFactoryList();
+    
   }
   private CheckBeforeEdit(id) { //check auth before edit 
     this.toastr.warning("User not dont have permission");

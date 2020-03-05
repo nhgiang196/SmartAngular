@@ -10668,3 +10668,17 @@ bs-datepicker-container, bs-daterangepicker-container { z-index: 3501 !important
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+/*
+   server-side-angular-way.component.css
+*/
+.no-data-available {
+  text-align: center;
+}
+
+/*
+   src/styles.css (i.e. your global style)
+*/
+.dataTables_empty {
+  display: none;
+}

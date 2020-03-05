@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { DataTablePaginationParram } from '../models/SmartInModels';
+import { DataTablePaginationParram, DataTablesResponse } from '../models/SmartInModels';
 
 const ApiUrl = "api/v1";
 
@@ -28,6 +28,12 @@ export class WaterTreatmentService {
   /** FACTORY */ 
   getFactory() {
     return this.http.get<any>(`${ApiUrl}/Factory/GetFactory`);
+  }
+  getBasicFactory(){
+    let pr = new DataTablePaginationParram(); 
+    pr.selectFields = "FactoryID, FactoryName, Status "
+    pr.pageSize = 9999;
+    return this.http.post(`${ApiUrl}/Factory/GetFactoryPagination`, pr);
   }
 
   getFactoryPagination(keyvalue) {
@@ -66,8 +72,9 @@ export class WaterTreatmentService {
   getWarehousePagination =(keyvalue) => {
     let pr = new DataTablePaginationParram(); 
     pr.keyFields="WarehouseCode,WarehouseName,WarehouseAddress,WarehouseType,WarehouseUserName,Status";
-    pr.selectFields = "WarehouseID, WarehouseCode, WarehouseName, FactoryID, WarehouseType, WarehouseAddress, WarehouseUserName, u.NormalizedUserName , w.Status ";
-    pr.entity = " Warehouse w LEFT JOIN [BCM_Auth].dbo.AspNetUsers u ON u.UserName= w.WarehouseUserName";
+    pr.selectFields = " WarehouseID, WarehouseCode, WarehouseName, f.FactoryName, WarehouseType, WarehouseAddress, WarehouseUserName, u.NormalizedUserName , w.Status ";
+    pr.entity = `Warehouse w LEFT JOIN [BCM_Auth].dbo.AspNetUsers u ON u.UserName= w.WarehouseUserName
+                      LEFT JOIN Factory f ON f.FactoryID = w.FactoryID`;
     pr.key = keyvalue; pr.pageSize = 9999;
     return this.http.post<any>(`${ApiUrl}/Warehouse/GetWarehousePagination`,pr);
   };
@@ -126,6 +133,7 @@ export class WaterTreatmentService {
   updateUnit =(entity) => this.http.put(`${ApiUrl}/Unit/UpdateUnit`,entity);
   deleteUnit =(id) => this.http.delete(`${ApiUrl}/Unit/DeleteUnit`,{ params: { id: id } });
   getUnitPagination =(entity) => this.http.post<any>(`${ApiUrl}/Unit/GetUnitPagination`,entity,{} );
+  getUnitServerside =(entity) => this.http.post<DataTablesResponse>(`${ApiUrl}/Unit/DemoGetUnitPagination`,entity);
   getUnitSelect2 =(keyword) => this.http.get<any>(`${ApiUrl}/Unit/GetUnitPaginationToSelect2?keyword=`+keyword );
   getUnit =() => this.http.get(`${ApiUrl}/Unit/GetUnit` );
   findUnitById =(id) => this.http.get<any>(`${ApiUrl}/Unit/FindUnitById?id=${id}` );
