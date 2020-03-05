@@ -195,6 +195,25 @@ export class Unit {
   Status: number = 1
 }
 
+export class Stage {
+  StageId: number = 0
+  StageName: string
+  StageCode?: string
+  CreateBy?: string
+  CreateDate?: Date = new Date()
+  ModifyBy?: string
+  ModifyDate?: Date
+  Status: number = 1
+  StageFile?: StageFile[] = []
+}
+export class StageFile {
+  StageFileId: number = 0
+  StageId: number = 0
+  FileId: number = 0
+  File: Files = new Files()
+}
+
+
 
 export class Warehouse {
   WarehouseId: number = 0

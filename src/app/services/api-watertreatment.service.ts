@@ -133,6 +133,15 @@ export class WaterTreatmentService {
     return this.http.post(`${ApiUrl}/Unit/ValidateUnit`,entity);
   } 
 
+   //Stage Services
+   addStage =(entity) => this.http.post(`${ApiUrl}/Stage/AddStage`,entity);
+   updateStage =(entity) => this.http.put(`${ApiUrl}/Stage/UpdateStage`,entity);
+   deleteStage =(id) => this.http.delete(`${ApiUrl}/Stage/DeleteStage`,{ params: { id: id } });
+   getStagePagination =(entity) => this.http.post<any>(`${ApiUrl}/Stage/GetStagePagination`,entity,{} );
+   getStage =() => this.http.get(`${ApiUrl}/Stage/GetStage` );
+   findStageById =(id) => this.http.get<any>(`${ApiUrl}/Stage/FindStageById?id=${id}` );
+   validateStage =(entity) =>this.http.post(`${ApiUrl}/Stage/ValidateStage`,entity);
+
 
   //Item Services
   addItem =(entity) => this.http.post(`${ApiUrl}/Item/AddItem`,entity);
