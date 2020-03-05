@@ -164,6 +164,26 @@
                                                 placeholder="{{'Item.placeholder.ItemDescription' | translate }}"
                                                 name="ItemDescription"></textarea>
                                         </div>
+                                        <label
+                                             class="col-sm-2 control-label">Item type:</label>
+                                            <div class="col-sm-4">
+                                                <select class="form-control" [(ngModel)]="entity.ItemTypeId" name="ItemTypeId" (change)="changeItemType($event.target.value)">
+                                                    <option *ngFor="let item of listItemType" [value]="item.ItemTypeId"  >{{item.ItemTypeName}}</option>
+                                                </select>
+                                            </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-8 control-label">{{ 'Factory.data.Status' | translate }} :</label>
+                                      
+                                        <div class="switch col-sm-4">
+                                        <div class="onoffswitch">
+                                            <input type="checkbox" class="onoffswitch-checkbox" name="status" id="status"  (click)="onSwitchStatus()" [checked]="entity.Status==1 ? true : null" >
+                                            <label class="onoffswitch-label" for="status">
+                                            <span class="onoffswitch-inner"></span>
+                                            <span class="onoffswitch-switch"></span>
+                                            </label>
+                                        </div>
+                                        </div>
                                     </div>
                                 </fieldset>
                             </div>
