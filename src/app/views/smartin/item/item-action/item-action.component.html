@@ -64,7 +64,9 @@
                                             <ng-select class="custom" [items]="listUnit" bindLabel="UnitName"
                                                 bindValue="UnitId"
                                                 placeholder="{{'Item.placeholder.ItemUnitId' | translate }}"
-                                                [(ngModel)]="entity.ItemUnitId" name="ItemUnitId" required>
+                                                [(ngModel)]="entity.ItemUnitId" name="ItemUnitId" required
+                                                (change)="checkUnitInPacket($event)"
+                                                >
                                             </ng-select>
                                         </div>
                                         <label class="col-sm-2 control-label">{{'Item.data.ItemPrintName' | translate }}
@@ -227,7 +229,7 @@
                                                                             name="FactoryId"
                                                                             [(ngModel)]="itemFactory.FactoryId"
                                                                             dropdownPosition="top"
-                                                                            (change)="fnChangeFactory($event)"
+                                                                            (change)="itemFactory.FactoryName = $event.FactoryName "
                                                                             bindLabel="FactoryName"
                                                                             bindValue="FactoryId" required> </ng-select>
                                                                     </td>

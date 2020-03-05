@@ -28,9 +28,9 @@ import { Select2OptionData } from "ng2-select2";
 import { of, concat, Observable, Subject } from "rxjs";
 import { HttpEventType } from "@angular/common/http";
 import { Identifiers, identifierModuleUrl, ThrowStmt } from "@angular/compiler";
-import { BsDatepickerViewMode } from 'ngx-bootstrap/datepicker/models';
-import { BsDatepickerConfig } from 'ngx-bootstrap';
-import { async } from '@angular/core/testing';
+import { BsDatepickerViewMode } from "ngx-bootstrap/datepicker/models";
+import { BsDatepickerConfig } from "ngx-bootstrap";
+import { async } from "@angular/core/testing";
 
 @Component({
   selector: "app-item-action",
@@ -40,7 +40,7 @@ import { async } from '@angular/core/testing';
 export class ItemActionComponent implements OnInit {
   code: string = "HC";
   private pathFile = "uploadFilesItem";
-  minMode: BsDatepickerViewMode = 'year'
+  minMode: BsDatepickerViewMode = "year";
   bsConfig: Partial<BsDatepickerConfig>;
 
   itemIdPram: any = null;
@@ -71,7 +71,7 @@ export class ItemActionComponent implements OnInit {
   listFactory: any;
   listUnit: any;
   listProperty: any;
-  listItemType: Array<ItemType>= new Array<ItemType>();
+  listItemType: Array<ItemType> = new Array<ItemType>();
 
   factoryInput$ = new Subject<string>();
   unitInput$ = new Subject<string>();
@@ -88,14 +88,17 @@ export class ItemActionComponent implements OnInit {
   ) {}
 
   async ngOnInit() {
-    this.bsConfig = Object.assign({}, {
-      minMode : this.minMode,
-      dateInputFormat: 'YYYY' ,
-       adaptivePosition: true
-    });
+    this.bsConfig = Object.assign(
+      {},
+      {
+        minMode: this.minMode,
+        dateInputFormat: "YYYY",
+        adaptivePosition: true
+      }
+    );
     this.addFiles = { FileList: [], FileLocalNameList: [] };
     await this.loadFactory();
-    
+
     await this.loadUnit();
     await this.getAllItemType();
 
@@ -107,19 +110,19 @@ export class ItemActionComponent implements OnInit {
       this.entity = item;
       this.itemPackage.ItemPackageUnitId = 0;
       this.customFile();
-    }
-    else{
-      this.entity.Status =1;
+    } else {
+      this.entity.Status = 1;
       this.loadProperty(this.code);
     }
   }
-
 
   async fnSave() {
     this.uploadReportProgress = { progress: 0, message: null, isError: null };
     this.laddaSubmitLoading = true;
     let e = this.entity;
-    e.ItemManufactureYear =this.helper.yearConvertToString(new Date(e.ItemManufactureYear));
+    e.ItemManufactureYear = this.helper.yearConvertToString(
+      new Date(e.ItemManufactureYear)
+    );
 
     if (this.itemIdPram == null) e.CreateBy = this.auth.currentUser.Username;
     else e.ModifyBy = this.auth.currentUser.Username;
@@ -127,7 +130,6 @@ export class ItemActionComponent implements OnInit {
     //Clear rác
     this.clearDataOption();
     if (this.itemIdPram == null) {
-     
       if (await this.fnValidate(e)) {
         this.api.addItem(e).subscribe(
           res => {
@@ -140,7 +142,7 @@ export class ItemActionComponent implements OnInit {
             }
             this.laddaSubmitLoading = false;
             this.uploadFile(this.addFiles.FileList);
-            this.router.navigate(["/category/item/"+this.entity.ItemTypeId]);
+            this.router.navigate(["/category/item/" + this.entity.ItemTypeId]);
           },
           err => {
             this.toastr.error(err.statusText);
@@ -151,7 +153,7 @@ export class ItemActionComponent implements OnInit {
         this.toastr.warning("Validate", "Tên hóa chất đã tồn tại");
       }
     } else {
-      console.log(">>",this.entity)
+      console.log(">>", this.entity);
       this.api.updateItem(e).subscribe(
         res => {
           let operationResult: any = res;
@@ -164,7 +166,7 @@ export class ItemActionComponent implements OnInit {
           }
           this.laddaSubmitLoading = false;
           this.uploadFile(this.addFiles.FileList);
-          this.router.navigate(["/category/item/"+this.entity.ItemTypeId]);
+          this.router.navigate(["/category/item/" + this.entity.ItemTypeId]);
         },
         err => {
           this.toastr.error(err.statusText);
@@ -174,17 +176,18 @@ export class ItemActionComponent implements OnInit {
     }
   }
 
-  clearDataOption(){
-     //clear
-     this.entity.ItemFactory.forEach((item,index)=>{
+  clearDataOption() {
+    //clear
+    this.entity.ItemFactory.forEach((item, index) => {
       this.entity.ItemFactory[index].Factory = null;
-    })
-    this.entity.ItemProperty.forEach((item,index)=>{
+    });
+    this.entity.ItemProperty.forEach((item, index) => {
       this.entity.ItemProperty[index].ItemTypeProperty = null;
-    })
-    this.entity.ItemPackage.forEach((item,index)=>{
+    });
+    this.entity.ItemPackage.forEach((item, index) => {
       this.entity.ItemPackage[index].ItemPackageUnit = null;
-    })
+    });
+    this.entity.ItemUnit = null;
   }
 
   private async fnValidate(e) {
@@ -213,21 +216,39 @@ export class ItemActionComponent implements OnInit {
     this.entity.ModifyBy = this.auth.currentUser.Username;
   }
 
-  async getAllItemType(){
-   this.listItemType =  await this.api.getItemType().pipe(map(res =>{
-      return res as Array<ItemType>;
-    })).toPromise().then();
+  async getAllItemType() {
+    this.listItemType = await this.api
+      .getItemType()
+      .pipe(
+        map(res => {
+          return res as Array<ItemType>;
+        })
+      )
+      .toPromise()
+      .then();
   }
 
-   async changeItemType(valIdCode){
-    var idCode = this.listItemType.find(x=>x.ItemTypeId ==valIdCode).ItemTypeCode;
+  async changeItemType(valIdCode) {
+    var idCode = this.listItemType.find(x => x.ItemTypeId == valIdCode)
+      .ItemTypeCode;
     await this.loadProperty(idCode);
   }
 
-  onSwitchStatus (){ //modal switch on change
-    this.entity.Status = this.entity.Status==0? 1: 0;
- }
+  onSwitchStatus() {
+    //modal switch on change
+    this.entity.Status = this.entity.Status == 0 ? 1 : 0;
+  }
 
+  checkUnitInPacket(e){
+    console.log(e);
+    console.log(this.entity.ItemPackage);
+    if(this.entity.ItemPackage.find(x=>x.ItemPackageUnitId == e.UnitId)){
+      swal.fire("Validate", "Dữ liệu trùng với dữ liệu trong tab Unit", "warning");
+      this.entity.ItemUnitId  = 0;
+      return;
+    }
+    
+  }
 
   ////////////// Area Func Factory///////////////
 
@@ -308,10 +329,10 @@ export class ItemActionComponent implements OnInit {
   fnAddFactory() {
     if (!this.isExistFactory())
       this.entity.ItemFactory.push(this.newItemFactory);
-      else{
-        this.toastr.warning("Dữ liệu đã tồn tại");
-      }
-    this.newItemFactory = new ItemFactory();
+    else {
+      swal.fire("Validate", "Dữ liệu đã bị trùng", "warning");
+      return;
+    }
   }
   fnEditFactory(index) {
     this.editRowId = index + 1;
@@ -320,46 +341,68 @@ export class ItemActionComponent implements OnInit {
   fnDeleteFactory(index) {
     this.entity.ItemFactory.splice(index, 1);
   }
-  isExistFactory(idFactory=0) {
-    if(idFactory!=0){
-      var t = this.entity.ItemFactory.find(
-        x =>
-          x.FactoryId == idFactory
-      );
-      return t;
-    }
-    else return this.entity.ItemFactory.find(
-      x =>
-        x.FactoryId == this.newItemFactory.FactoryId
+  isExistFactory() {
+    return this.entity.ItemFactory.find(
+      x => x.FactoryId == this.newItemFactory.FactoryId
     );
   }
-  fnSaveFactory(){
+  fnSaveFactory() {
+    console.log(this.entity.ItemFactory);
+    if (this.checkDuplicateFactory()) {
+      swal.fire("Validate", "Dữ liệu đã bị trùng", "warning");
+      return;
+    }
     this.editRowId = 0;
   }
 
-  fnChangeFactory(e){
-    if(this.isExistFactory(e.FactoryId)){
-      this.toastr.warning("Dữ liệu không được trùng");
-      return;
+  checkDuplicateFactory() {
+    let data = this.entity.ItemFactory;
+    if (data.length > 1) {
+      for (let i = 0; i < data.length; i++) {
+        for (let j = i + 1; j < data.length; j++) {
+          if (data[i].FactoryId == data[j].FactoryId) {
+            return true;
+          }
+        }
+      }
     }
-    this.itemFactory.FactoryName =e.FactoryName ;
   }
 
   //properties
   fnAddProperty() {
-    console.log(this.newItemProperty)
+    console.log(this.newItemProperty);
     if (!this.isExistProperty())
       this.entity.ItemProperty.push(this.newItemProperty);
-    else
-      this.toastr.warning("Dữ liệu đã tồn tại");
-    this.newItemProperty = new ItemProperty();
+    else{
+      swal.fire("Validate", "Dữ liệu đã bị trùng", "warning");
+      return;
+    }
   }
   fnEditProperty(index) {
     this.editRowId = index + 1;
     this.itemProperty = this.entity.ItemProperty[index];
   }
+
   fnSaveProperty() {
+    console.log(this.entity.ItemFactory);
+    if (this.checkDuplicateProperty()) {
+      swal.fire("Validate", "Dữ liệu đã bị trùng", "warning");
+      return;
+    }
     this.editRowId = 0;
+  }
+
+  checkDuplicateProperty() {
+    let data = this.entity.ItemProperty;
+    if (data.length > 1) {
+      for (let i = 0; i < data.length; i++) {
+        for (let j = i + 1; j < data.length; j++) {
+          if (data[i].ItemTypePropertyId == data[j].ItemTypePropertyId) {
+            return true;
+          }
+        }
+      }
+    }
   }
   fnDeleteProperty(index) {
     this.entity.ItemProperty.splice(index, 1);
@@ -368,25 +411,59 @@ export class ItemActionComponent implements OnInit {
   isExistProperty() {
     console.log(this.entity.ItemProperty);
     return this.entity.ItemProperty.find(
-      x =>x.ItemTypePropertyId == this.newItemProperty.ItemTypePropertyId
+      x => x.ItemTypePropertyId == this.newItemProperty.ItemTypePropertyId
     );
   }
 
   //packages
   fnAddPackage() {
-   if (!this.isExistPackage())
+    if (!this.isExistPackage())
       this.entity.ItemPackage.push(this.newItemPackage);
-      else{
-        this.toastr.warning("Dữ liệu đã tồn tai");
-      }
-    this.newItemPackage = new ItemPackage();
+    else {
+      swal.fire("Validate", "Dữ liệu đã bị trùng", "warning");
+      return;
+    }
   }
   fnEditPackage(index) {
     this.editRowId = index + 1;
     this.itemPackage = this.entity.ItemPackage[index];
   }
+
   fnSavePackage() {
-    this.editRowId = 0;
+    console.log(this.entity.ItemFactory);
+    let isOk = this.checkDuplicatePackage();
+    if (isOk == 1) {
+      swal.fire("Validate", "Dữ liệu đã bị trùng", "warning");
+      return;
+    } else if (isOk == -1) {
+      swal.fire(
+        "Validate",
+        "Dữ liệu đã bị trùng với unit đã chọn ngoài tab thông tin",
+        "warning"
+      );
+      return;
+    } else this.editRowId = 0;
+  }
+
+  checkDuplicatePackage() {
+    console.log(this.entity.ItemUnitId);
+    console.log(this.entity.ItemPackage);
+
+    //check coi có trùng với unit id ngoài info
+    
+    if (this.entity.ItemPackage.find(x => x.ItemPackageUnitId == this.entity.ItemUnitId)) {
+      return -1;
+    }
+    let data = this.entity.ItemPackage;
+    if (data.length > 1) {
+      for (let i = 0; i < data.length; i++) {
+        for (let j = i + 1; j < data.length; j++) {
+          if (data[i].ItemPackageUnitId == data[j].ItemPackageUnitId) {
+            return 1;
+          }
+        }
+      }
+    }
   }
   fnDeletePackge(index) {
     this.entity.ItemPackage.splice(index, 1);
@@ -407,14 +484,17 @@ export class ItemActionComponent implements OnInit {
       pageSize: 9999,
       orderDir: "asc",
       orderBy: "ItemTypeName"
-    }
+    };
     // this.listProperty = await this.api.getItemTypePaginationByCode(model, this.code).pipe(
     //   map(res => {
     //     var ress = res as any;
     //     return ress.result;
     //   })
     // ).toPromise().then();
-     let data  = await this.api.getItemTypePaginationByCode(model,code).toPromise().then();
+    let data = await this.api
+      .getItemTypePaginationByCode(model, code)
+      .toPromise()
+      .then();
     this.listProperty = data.result;
     console.log(this.listProperty);
   }
@@ -459,7 +539,7 @@ export class ItemActionComponent implements OnInit {
       pageSize: 9999,
       orderDir: "asc",
       orderBy: "UnitName"
-    }
+    };
 
     // this.listUnit = await this.api.getUnitPagination(model).pipe(
     //   map(res => {
@@ -485,9 +565,12 @@ export class ItemActionComponent implements OnInit {
     //         )
     //     )
     // );
-    // this.entity.ItemUnitId =99; 
+    // this.entity.ItemUnitId =99;
 
-    let data: any =  await this.api.getUnitPagination(model).toPromise().then();
+    let data: any = await this.api
+      .getUnitPagination(model)
+      .toPromise()
+      .then();
     this.listUnit = data.result;
   }
 
@@ -502,17 +585,30 @@ export class ItemActionComponent implements OnInit {
 
   ////////////////File ////////////
   onRemove(event, isImage) {
-   const file = event as ItemFile;
+    debugger;
+    const file = event as ItemFile;
     //press x to delte file (in modal)
     console.log(event);
     if (isImage) {
-      let indexListImage = this.listImages.findIndex(x=>x.File.FileOriginalName == file.File.FileOriginalName);
-      let indexListEntity = this.entity.ItemFile.findIndex(x=>x.IsImage==true && x.File.FileOriginalName == file.File.FileOriginalName);
+      let indexListImage = this.listImages.findIndex(
+        x => x.File.FileOriginalName == file.File.FileOriginalName
+      );
+      let indexListEntity = this.entity.ItemFile.findIndex(
+        x =>
+          x.IsImage == true &&
+          x.File.FileOriginalName == file.File.FileOriginalName
+      );
       this.listImages.splice(indexListImage, 1); //UI del
       this.entity.ItemFile.splice(indexListEntity, 1);
     } else {
-      let indexListImage = this.listFiles.findIndex(x=>x.File.FileOriginalName == file.File.FileOriginalName);
-      let indexListEntity = this.entity.ItemFile.findIndex(x=>x.IsImage==false && x.File.FileOriginalName == file.File.FileOriginalName);
+      let indexListImage = this.listFiles.findIndex(
+        x => x.File.FileOriginalName == file.File.FileOriginalName
+      );
+      let indexListEntity = this.entity.ItemFile.findIndex(
+        x =>
+          x.IsImage == false &&
+          x.File.FileOriginalName == file.File.FileOriginalName
+      );
       this.listFiles.splice(indexListImage, 1); //UI del
       this.entity.ItemFile.splice(indexListEntity, 1);
     }
@@ -566,7 +662,7 @@ export class ItemActionComponent implements OnInit {
       let convertName = this.helper.getFileNameWithExtension(item);
       let currentFile = this.entity.ItemFile;
       console.log(this.listImages);
-      let findElement:ItemFile= null;
+      let findElement: ItemFile = null;
       if (isImage)
         findElement = this.listImages.find(
           x => x.File.FileOriginalName == item.name
@@ -599,21 +695,36 @@ export class ItemActionComponent implements OnInit {
 
         console.log(findElement);
         //ghi đè file
-        if(isImage){
-          let _indextFileEntity = this.entity.ItemFile.findIndex(x=>x.IsImage==true && x.File.FileOriginalName ==findElement.File.FileOriginalName);
-          let _indextFileList = this.entity.ItemFile.filter(x=>x.IsImage==true).findIndex(x=> x.File.FileOriginalName ==findElement.File.FileOriginalName);
-           //change file in entity
-           this.listImages.splice(_indextFileList, 1);
+        if (isImage) {
+          let _indextFileEntity = this.entity.ItemFile.findIndex(
+            x =>
+              x.IsImage == true &&
+              x.File.FileOriginalName == findElement.File.FileOriginalName
+          );
+          let _indextFileList = this.entity.ItemFile.filter(
+            x => x.IsImage == true
+          ).findIndex(
+            x => x.File.FileOriginalName == findElement.File.FileOriginalName
+          );
+          //change file in entity
+          this.listImages.splice(_indextFileList, 1);
           //  this.listImages =this.listImages.splice(1,1);
-           this.addFiles.FileList.splice(_indextFileEntity, 1);
-        }
-        else{
-          let _indextFileEntity = this.entity.ItemFile.findIndex(x=>x.IsImage==false && x.File.FileOriginalName ==findElement.File.FileOriginalName);
-          let _indextFileList = this.entity.ItemFile.filter(x=>x.IsImage==false).findIndex(x=> x.File.FileOriginalName ==findElement.File.FileOriginalName);
-           //change file in entity
-           this.listImages.splice(_indextFileList, 1);
+          this.addFiles.FileList.splice(_indextFileEntity, 1);
+        } else {
+          let _indextFileEntity = this.entity.ItemFile.findIndex(
+            x =>
+              x.IsImage == false &&
+              x.File.FileOriginalName == findElement.File.FileOriginalName
+          );
+          let _indextFileList = this.entity.ItemFile.filter(
+            x => x.IsImage == false
+          ).findIndex(
+            x => x.File.FileOriginalName == findElement.File.FileOriginalName
+          );
+          //change file in entity
+          this.listImages.splice(_indextFileList, 1);
           //  this.listImages =this.listImages.splice(1,1);
-           this.addFiles.FileList.splice(_indextFileEntity, 1);
+          this.addFiles.FileList.splice(_indextFileEntity, 1);
         }
         // let _indexElement = this.entity.ItemFile.indexOf(findElement, 0);
         // if (isImage) this.fileImages.splice(_indexElement, 1);
