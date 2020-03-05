@@ -53,7 +53,7 @@ export class UnitMeasurementComponent implements OnInit {
       processing : true,
       pageLength: 10,
       ajax: (dataTablesParameters: any, callback) => {
-        this.api.getUnitServerside(dataTablesParameters).subscribe(res=>{
+        this.api.getDataTableUnitPagination(dataTablesParameters).subscribe(res=>{
          this.Units = res.data;
           callback({
             recordsTotal: res.recordsTotal,
