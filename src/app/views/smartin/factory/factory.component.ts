@@ -38,6 +38,7 @@ export class FactoryComponent implements OnInit {
     private auth: AuthService
   ) { }
   /** DECLARATION */
+  bsConfig = { dateInputFormat: 'YYYY-MM-DD' , adaptivePosition: true };
   factory: Factory[]= []; //init data
   entity: Factory;
   tech_entity: FactoryTechnology;
@@ -85,9 +86,6 @@ export class FactoryComponent implements OnInit {
     this.files = [];
     this.addFiles = { FileList: [], FileLocalNameList : []}
     this.invalid = {};
-    this.FactoryBuiltDate = new Date();
-    this.FactoryStartDate= new Date();
-    this.FactoryEndDate= null;
     this.uploadReportProgress =  { progress : 0, message: null , isError: null };
     this.EditRowID=0;
   }
@@ -106,6 +104,7 @@ export class FactoryComponent implements OnInit {
     this.ACTION_STATUS = 'update';
     this.iboxloading = true;
     this.api.getFactoryById(id).subscribe(res => {
+      console.log('get Object',res);
       this.entity = res;
       $("#myModal4").modal('show');
       this.iboxloading = false;
@@ -116,10 +115,6 @@ export class FactoryComponent implements OnInit {
       })
       this.entity.ModifyBy = this.auth.currentUser.Username;
       this.files.push();
-      /** ALL DATE */
-      this.FactoryBuiltDate = this.entity.FactoryBuiltDate? new Date(this.entity.FactoryBuiltDate): null;
-      this.FactoryStartDate = this.entity.FactoryStartDate? new Date(this.entity.FactoryStartDate): null;
-      this.FactoryEndDate= this.entity.FactoryEndDate? new Date(this.entity.FactoryEndDate): null;
     }, error => {
       this.iboxloading = false;
       this.toastr.error(error.statusText, "Load factory information error");
@@ -182,16 +177,10 @@ export class FactoryComponent implements OnInit {
   async fnSave() { //press save/SUBMIT button 
     this.uploadReportProgress =  { progress : 0, message: null, isError: null };
     this.laddaSubmitLoading = true;
-    var e = this.entity;
-    e.FactoryStartDate = this.helper.dateConvertToString(this.FactoryStartDate);
-    e.FactoryBuiltDate = this.helper.dateConvertToString(this.FactoryBuiltDate);
-    e.FactoryEndDate = this.helper.dateConvertToString(this.FactoryEndDate); 
+    var e = this.fnConvertFactoryDate(this.entity);
     console.log('send entity: ', e);
-    
-    
     if (await this.fnValidate(e))
     {
-      
       if (this.ACTION_STATUS == 'add') {
         this.api.addFactory(e).subscribe(res => {
           var operationResult: any = res
@@ -216,17 +205,13 @@ export class FactoryComponent implements OnInit {
             this.loadInit();
             this.toastr.success(this.trans.instant("messg.update.success"));
             this.addFiles = { FileList: [], FileLocalNameList :[]};
-            
           }
           else this.toastr.warning(operationResult.Message);
           this.laddaSubmitLoading = false;
         }, err => { this.toastr.error(err.statusText); this.laddaSubmitLoading = false; })
       }
-      
     }
-
   }
-
 
   onRemove(event) { //press x to delte file (in modal)
     console.log(event);
@@ -299,7 +284,16 @@ export class FactoryComponent implements OnInit {
   }
   /** PRIVATES FUNCTIONS */
  
-
+  private fnConvertFactoryDate(e: Factory){
+    e.FactoryBuiltDate = this.helper.dateConvertToString(e.FactoryBuiltDate) as any;
+    e.FactoryStartDate = this.helper.dateConvertToString(e.FactoryStartDate) as any;
+    e.FactoryEndDate = this.helper.dateConvertToString(e.FactoryEndDate) as any; 
+    for (var index in e.FactoryTechnology) {
+        e.FactoryTechnology[index].TechnologyFromDate = this.helper.dateConvertToString(e.FactoryTechnology[index].TechnologyFromDate) as any; 
+        e.FactoryTechnology[index].TechnologyToDate= this.helper.dateConvertToString(e.FactoryTechnology[index].TechnologyToDate) as any; 
+    }
+    return e;
+  }
   private async fnValidate(e: Factory) { //validate entity
     this.invalid = {};
     

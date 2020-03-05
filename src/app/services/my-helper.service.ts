@@ -115,12 +115,13 @@ export class MyHelperService {
     var ss = date.getSeconds();
     return new Date(yyyy + '-' + mm + '-' + dd + ' ' + HH  + ':' + MM + ':' + ss);
   }
-  dateConvertToString(date: Date){
+  dateConvertToString(date?: Date){
     if (date==null) return null;
+    date = new Date(date);
     var dd = String(date.getDate()).padStart(2, '0');
     var mm = String(date.getMonth() + 1).padStart(2, '0'); //January is 0!
     var yyyy = date.getFullYear();
-    return yyyy + '-' + mm + '-' + dd + 'T00:00:00Z';
+    return yyyy + '-' + mm + '-' + dd + 'T00:00:00';
     // 2012-02-20T17:00:00
 
   }
