@@ -29,6 +29,12 @@ export class WaterTreatmentService {
   getFactory() {
     return this.http.get<any>(`${ApiUrl}/Factory/GetFactory`);
   }
+  getBasicFactory(){
+    let pr = new DataTablePaginationParram(); 
+    pr.selectFields = "FactoryID, FactoryName, Status "
+    pr.pageSize = 9999;
+    return this.http.post(`${ApiUrl}/Factory/GetFactoryPagination`, pr);
+  }
 
   getFactoryPagination(keyvalue) {
     let pr = new DataTablePaginationParram(); 
@@ -66,8 +72,9 @@ export class WaterTreatmentService {
   getWarehousePagination =(keyvalue) => {
     let pr = new DataTablePaginationParram(); 
     pr.keyFields="WarehouseCode,WarehouseName,WarehouseAddress,WarehouseType,WarehouseUserName,Status";
-    pr.selectFields = "WarehouseID, WarehouseCode, WarehouseName, FactoryID, WarehouseType, WarehouseAddress, WarehouseUserName, u.NormalizedUserName , w.Status ";
-    pr.entity = " Warehouse w LEFT JOIN [BCM_Auth].dbo.AspNetUsers u ON u.UserName= w.WarehouseUserName";
+    pr.selectFields = " WarehouseID, WarehouseCode, WarehouseName, f.FactoryName, WarehouseType, WarehouseAddress, WarehouseUserName, u.NormalizedUserName , w.Status ";
+    pr.entity = `Warehouse w LEFT JOIN [BCM_Auth].dbo.AspNetUsers u ON u.UserName= w.WarehouseUserName
+                      LEFT JOIN Factory f ON f.FactoryID = w.FactoryID`;
     pr.key = keyvalue; pr.pageSize = 9999;
     return this.http.post<any>(`${ApiUrl}/Warehouse/GetWarehousePagination`,pr);
   };
