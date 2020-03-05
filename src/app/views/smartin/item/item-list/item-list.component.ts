@@ -8,7 +8,8 @@ import {
   Unit,
   ItemPackage,
   FactoryFile,
-  ItemFile
+  ItemFile,
+  ItemType
 } from "src/app/models/SmartInModels";
 import { Subject } from "rxjs";
 import { WaterTreatmentService } from "src/app/services/api-watertreatment.service";
@@ -18,6 +19,7 @@ import { AuthService } from "src/app/services/auth.service";
 import swal from "sweetalert2";
 import { MyHelperService } from "src/app/services/my-helper.service";
 import { Router } from '@angular/router';
+import { map } from 'rxjs/operators';
 declare let $: any;
 @Component({
   selector: "app-item-list",
@@ -26,7 +28,7 @@ declare let $: any;
 })
 export class ItemListComponent implements OnInit {
   Items: Item[];
-  
+  listItemType: Array<ItemType>= new Array<ItemType>();
   dtOptions: DataTables.Settings = {};
   dtTrigger: Subject<any> = new Subject();
   public ACTION_STATUS: string;
@@ -74,14 +76,16 @@ export class ItemListComponent implements OnInit {
       }
     };
     this.loadItem();
+    this.getAllItemType();
   };
 
-  loadItem = () => {
+  loadItem = (itemTypeId=0) => {
     $("#myTable")
       .DataTable()
       .clear()
       .destroy();
-    this.api.getItem().subscribe(res => {
+
+    this.api.getItemByItemType(itemTypeId).subscribe(res => {
       console.log(res);
       this.Items = res as any;
       this.dtTrigger.next();
@@ -132,4 +136,14 @@ export class ItemListComponent implements OnInit {
   fnUpdate(itemId) {
     this.router.navigate(['category/item/action/'+itemId]);
   }
+
+  async getAllItemType(){
+    this.listItemType =  await this.api.getItemType().pipe(map(res =>{
+       return res as Array<ItemType>;
+     })).toPromise().then();
+   }
+
+   searchItemByItemType(idItemType){
+    this.loadItem(idItemType);
+   }
 }

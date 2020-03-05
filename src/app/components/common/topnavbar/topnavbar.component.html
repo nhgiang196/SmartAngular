@@ -85,7 +85,9 @@
       </li> -->
       <li class="dropdown">
         <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
-          <i class="fa fa-language"></i>
+            <label>{{'TopNav.Language' | translate}}</label>
+          <img *ngIf="translate.currentLang=='en'" src="/assets/img/flags/32/United-States.png">
+          <img *ngIf="translate.currentLang=='vn'" src="/assets/img/flags/32/Vietnam.png">
         </a>
         <ul class="dropdown-menu">
           <li>

@@ -150,6 +150,7 @@ export class WaterTreatmentService {
   deleteItem =(id) => this.http.delete(`${ApiUrl}/Item/DeleteItem`,{ params: { id: id } });
   getItemPagination =(entity) => this.http.post<any>(`${ApiUrl}/Item/GetItemPagination`,entity,{} );
   getItem =() => this.http.get(`${ApiUrl}/Item/GetItem` );
+  getItemByItemType =(itemTypeId) => this.http.get(`${ApiUrl}/Item/GetItemByItemType`,{ params: { itemTypeId: itemTypeId } } );
   findItemById =(id) => this.http.get<any>(`${ApiUrl}/Item/FindItemById?id=${id}` );
   checkItemNameExist =(itemName) => this.http.get<any>(`${ApiUrl}/Item/CheckItemNameExist?ItemName=${itemName}` );
   

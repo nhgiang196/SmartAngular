@@ -63,7 +63,8 @@
     "ShowAllTask": "Show ALl My Task",
     "Profile": "Profile",
     "Category": "Category",
-    "Administration": "Administration"
+    "Administration": "Administration",
+    "Language":"Language"
   },
   "Upload": {
     "":"Upload Files",
