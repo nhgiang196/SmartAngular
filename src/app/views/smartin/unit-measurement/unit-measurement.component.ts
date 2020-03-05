@@ -53,7 +53,7 @@ export class UnitMeasurementComponent implements OnInit {
       processing : true,
       pageLength: 10,
       ajax: (dataTablesParameters: any, callback) => {
-        this.api.getUnitServerside(dataTablesParameters).subscribe(res=>{
+        this.api.getDataTableUnitPagination(dataTablesParameters).subscribe(res=>{
          this.Units = res.data;
           callback({
             recordsTotal: res.recordsTotal,
@@ -64,7 +64,7 @@ export class UnitMeasurementComponent implements OnInit {
       },
       columns: [{ data: 'UnitId' }, { data: 'UnitName' }, 
                 { data: 'CreateBy' },{ data: 'CreateDate' },
-                { data: 'ModifyBy' },{ data: 'ModifyDate' }],
+                { data: 'ModifyBy' },{ data: 'ModifyDate' }, { data: 'Status' }],
       language:
       {
         searchPlaceholder: this.trans.instant('DefaultTable.searchPlaceholder'),

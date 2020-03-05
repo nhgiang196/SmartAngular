@@ -55,10 +55,9 @@ export class WarehouseComponent implements OnInit {
     this.loadInit();
   }
   private async loadFactoryList() {
-    await this.api.getBasicFactory().subscribe(res => {
-      this.initCombobox.Factories = ( res as any).result.filter(x=>x.Status ==1) as Factory[];
-      this.initCombobox.FullFactories = ( res as any).result as Factory[];
-    }, err => this.toastr.warning('Get factories Failed, check network'))
+    let res = await this.api.getBasicFactory().toPromise().then().catch(err => this.toastr.warning('Get factories Failed, check network')) as any;
+    this.initCombobox.Factories = ( res as any).result.filter(x=>x.Status ==1) as Factory[];
+    this.initCombobox.FullFactories = ( res as any).result as Factory[];
   }
   private loadUsers() {
     this.auth.getUsers().subscribe(res=>{
@@ -95,9 +94,8 @@ export class WarehouseComponent implements OnInit {
     this.ACTION_STATUS = 'update';
     this.iboxloading = true;
     await this.api.findWarehouseById(id).subscribe(res => {
-      
-      let _factoryAddTag = this.initCombobox.FullFactories.find(x=>x.FactoryID== res.FactoryId);
-      if (_factoryAddTag && !this.initCombobox.Factories.find(x=> x.FactoryID== res.FactoryId) )  this.initCombobox.Factories = [...this.initCombobox.Factories, _factoryAddTag];
+      let _factoryAddTag = this.initCombobox.FullFactories.find(x=>x.FactoryID== res.FactoryId && x.Status==0  );
+      if (_factoryAddTag && !this.initCombobox.Factories.find(x=> x.FactoryID== res.FactoryId) )  this.initCombobox.Factories = this.initCombobox.Factories.concat([_factoryAddTag]);
       this.entity = res;
       $("#myModal4").modal('show');
       this.iboxloading = false;
@@ -196,24 +194,7 @@ export class WarehouseComponent implements OnInit {
   
   async fnAddItem() { //press add item
     var itemAdd = this.newLocationEntity;
-    if (itemAdd.WarehouseLocationCode == null) {
-      swal.fire("Validate", this.trans.instant('Warehouse.data.WarehouseLocationCode') + this.trans.instant('messg.isnull'), 'warning');
-      return;
-    }
-    if (itemAdd.WarehouseLocationName == null) {
-      swal.fire("Validate", this.trans.instant('Warehouse.data.WarehouseLocationName') + this.trans.instant('messg.isnull'), 'warning');
-      return;
-    }
-    if (this.entity.WarehouseLocation.filter(t =>t.WarehouseLocationCode.toLowerCase() == itemAdd.WarehouseLocationCode.toLowerCase()).length>0)
-    {
-      swal.fire("Validate", this.trans.instant('Warehouse.data.WarehouseLocationCode') + this.trans.instant('messg.isexisted'), 'warning');
-      return;
-    }
-    if (this.entity.WarehouseLocation.filter(t =>t.WarehouseLocationName.toLowerCase() == itemAdd.WarehouseLocationName.toLowerCase()).length>0)
-    {
-      swal.fire("Validate", this.trans.instant('Warehouse.data.WarehouseLocationName') + this.trans.instant('messg.isexisted'), 'warning');
-      return;
-    }
+     if (await !this.validateItem(itemAdd)) return;
     // let validateResult = await this.api.validateWarehouseLocation(itemAdd).toPromise().then() as any;
     // if (!validateResult.Success){
     //   swal.fire("Validate",this.trans.instant('Warehouse.invalid.'+ validateResult.Message),'warning'); return;
@@ -221,9 +202,30 @@ export class WarehouseComponent implements OnInit {
     itemAdd.WarehouseId = this.entity.WarehouseId;
     this.entity.WarehouseLocation.push(itemAdd);
     this.newLocationEntity = new WarehouseLocation();
-
-
   }
+  validateItem(itemAdd){
+    
+    if (itemAdd.WarehouseLocationCode == null) {
+      swal.fire("Validate", this.trans.instant('Warehouse.data.WarehouseLocationCode') + this.trans.instant('messg.isnull'), 'warning');
+      return false;
+    }
+    if (itemAdd.WarehouseLocationName == null) {
+      swal.fire("Validate", this.trans.instant('Warehouse.data.WarehouseLocationName') + this.trans.instant('messg.isnull'), 'warning');
+      return false;
+    }
+    if (this.entity.WarehouseLocation.filter(t =>t.WarehouseLocationCode.toLowerCase() == itemAdd.WarehouseLocationCode.toLowerCase() && t.WarehouseLocationId!=itemAdd.WarehouseLocationId).length>0)
+    {
+      swal.fire("Validate", this.trans.instant('Warehouse.data.WarehouseLocationCode') + this.trans.instant('messg.isexisted'), 'warning');
+      return false;
+    }
+    if (this.entity.WarehouseLocation.filter(t =>t.WarehouseLocationName.toLowerCase() == itemAdd.WarehouseLocationName.toLowerCase() && t.WarehouseLocationId!=itemAdd.WarehouseLocationId).length>0)
+    {
+      swal.fire("Validate", this.trans.instant('Warehouse.data.WarehouseLocationName') + this.trans.instant('messg.isexisted'), 'warning');
+      return false;
+    }
+    return true;
+  }
+
   fnEditItem(index) { //press a link of Item
     this.EditRowID = index + 1;
     this.locationEntity = this.entity.WarehouseLocation[index];
@@ -303,7 +305,6 @@ export class WarehouseComponent implements OnInit {
     this.uploadReportProgress =  { progress : 0, message: null , isError: null };
     this.EditRowID=0;
     await this.loadFactoryList();
-    
   }
   private CheckBeforeEdit(id) { //check auth before edit 
     this.toastr.warning("User not dont have permission");

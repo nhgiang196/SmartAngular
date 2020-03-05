@@ -32,12 +32,13 @@
             </div>
           </div>
           <div class="row">
-            <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger"
+            <table datatable [dtOptions]="dtOptions"
               class="table table-bordered table-hover table-striped" id="myTable" style="width:100%">
               <thead>
                 <tr>
                   <th hidden="true">{{'Stage.StageId' | translate}}</th>
                   <th>{{'Stage.StageName' | translate}}</th>
+                  <th>{{'Stage.StageCode' | translate}}</th>
                   <th>{{'Stage.CreateBy' | translate}}</th>
                   <th>{{'Stage.CreateDate' | translate}}</th>
                   <th>{{'Stage.ModifyBy' | translate}}</th>
@@ -50,6 +51,7 @@
                 <tr *ngFor="let item of Stages">
                   <td hidden="true" style="text-align: left"> {{item.StageId}}</td>
                   <td style="text-align: left">{{item.StageName}}</td>
+                  <td style="text-align: left">{{item.StageCode}}</td>
                   <td style="text-align: left"> {{item.CreateBy}}</td>
                   <td style="text-align: left">{{item.CreateDate | amDateFormat: 'YYYY-MM-DD HH:mm'}}</td>
                   <td style="text-align: left"> {{item.ModifyBy}}</td>
@@ -65,7 +67,7 @@
               </tbody>
               <tbody *ngIf="Stages?.length == 0">
                 <tr>
-                  <td colspan="3" class="no-data-available">No data!</td>
+                  <td colspan="9" class="no-data-available">{{'messg.datatable.zeroRecords'  | translate}}</td>
                 </tr>
               <tbody>
             </table>

@@ -502,7 +502,6 @@ export class ItemActionComponent implements OnInit {
 
   ////////////////File ////////////
   onRemove(event, isImage) {
-    debugger;
    const file = event as ItemFile;
     //press x to delte file (in modal)
     console.log(event);

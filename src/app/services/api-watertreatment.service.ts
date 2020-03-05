@@ -118,13 +118,14 @@ export class WaterTreatmentService {
   findItemTypeById =(id) => this.http.get(`${ApiUrl}/ItemType/FindItemTypeById?id=${id}` );
   getItemTypePaginationByCode =(entity,code) => this.http.post<any>(`${ApiUrl}/ItemType/GetItemTypePaginationByCode/${code}`,entity,{} );
   validateItemType=(entity) => this.http.post(`${ApiUrl}/ItemType/ValidateItemType`,entity);
+  
   //ItemTypeProperty
   
   addItemTypeProperty =(entity) => this.http.post(`${ApiUrl}/ItemTypeProperty/AddItemTypeProperty`,entity);
   updateItemTypeProperty =(entity) => this.http.put(`${ApiUrl}/ItemTypeProperty/UpdateItemTypeProperty`,entity);
+  getDataTableItemTypePagination =(entity) => this.http.post<DataTablesResponse>(`${ApiUrl}/ItemType/DataTableItemTypePagination`,entity);
   deleteItemTypeProperty =(id) => this.http.delete(`${ApiUrl}/ItemTypeProperty/DeleteItemTypeProperty`,{ params: { id: id } });
-  getItemTypePropertyPagination =(entity) => this.http.post<any>(`${ApiUrl}/ItemTypeProperty/GetItemTypePropertyPagination`,entity,{} );
-  
+  getItemTypePropertyPagination =(entity) => this.http.post<any>(`${ApiUrl}/ItemTypeProperty/GetItemTypePropertyPagination`,entity,{} );  
   getItemTypeProperty =() => this.http.get(`${ApiUrl}/ItemTypeProperty/GetItemType` );
   findItemTypePropertyById =(id) => this.http.get<any>(`${ApiUrl}/ItemTypeProperty/FindItemTypePropertyById?id=${id}` );
 
@@ -133,7 +134,7 @@ export class WaterTreatmentService {
   updateUnit =(entity) => this.http.put(`${ApiUrl}/Unit/UpdateUnit`,entity);
   deleteUnit =(id) => this.http.delete(`${ApiUrl}/Unit/DeleteUnit`,{ params: { id: id } });
   getUnitPagination =(entity) => this.http.post<any>(`${ApiUrl}/Unit/GetUnitPagination`,entity,{} );
-  getUnitServerside =(entity) => this.http.post<DataTablesResponse>(`${ApiUrl}/Unit/DemoGetUnitPagination`,entity);
+  getDataTableUnitPagination =(entity) => this.http.post<DataTablesResponse>(`${ApiUrl}/Unit/DataTableUnitPagination`,entity);
   getUnitSelect2 =(keyword) => this.http.get<any>(`${ApiUrl}/Unit/GetUnitPaginationToSelect2?keyword=`+keyword );
   getUnit =() => this.http.get(`${ApiUrl}/Unit/GetUnit` );
   findUnitById =(id) => this.http.get<any>(`${ApiUrl}/Unit/FindUnitById?id=${id}` );
@@ -144,6 +145,7 @@ export class WaterTreatmentService {
    //Stage Services
    addStage =(entity) => this.http.post(`${ApiUrl}/Stage/AddStage`,entity);
    updateStage =(entity) => this.http.put(`${ApiUrl}/Stage/UpdateStage`,entity);
+   getDataTableStagePagination =(entity) => this.http.post<DataTablesResponse>(`${ApiUrl}/Stage/DataTableStagePagination`,entity);
    deleteStage =(id) => this.http.delete(`${ApiUrl}/Stage/DeleteStage`,{ params: { id: id } });
    getStagePagination =(entity) => this.http.post<any>(`${ApiUrl}/Stage/GetStagePagination`,entity,{} );
    getStage =() => this.http.get(`${ApiUrl}/Stage/GetStage` );
@@ -156,6 +158,7 @@ export class WaterTreatmentService {
   updateItem =(entity) => this.http.put(`${ApiUrl}/Item/UpdateItem`,entity);
   deleteItem =(id) => this.http.delete(`${ApiUrl}/Item/DeleteItem`,{ params: { id: id } });
   getItemPagination =(entity) => this.http.post<any>(`${ApiUrl}/Item/GetItemPagination`,entity,{} );
+  getDataTableItemPagination =(entity) => this.http.post<DataTablesResponse>(`${ApiUrl}/Item/DataTableItemPagination`,entity);
   getItem =() => this.http.get(`${ApiUrl}/Item/GetItem` );
   getItemByItemType =(itemTypeId) => this.http.get(`${ApiUrl}/Item/GetItemByItemType`,{ params: { itemTypeId: itemTypeId } } );
   findItemById =(id) => this.http.get<any>(`${ApiUrl}/Item/FindItemById?id=${id}` );
