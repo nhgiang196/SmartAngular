@@ -17,7 +17,7 @@ declare let $: any;
 export class StageComponent implements OnInit {
 
   Stages: Stage[]
-  entity: Stage;  
+  entity: Stage;
   dtOptions: DataTables.Settings = {};
   dtTrigger: Subject<any> = new Subject();
   ACTION_STATUS: string;
@@ -25,9 +25,9 @@ export class StageComponent implements OnInit {
   existName = false;
   iboxloading = false;
   files: File[] = [];
-  addFiles : {FileList : File[], FileLocalNameList: string[]};
+  addFiles: { FileList: File[], FileLocalNameList: string[] };
   private pathFile = "uploadFilesStage"
-  uploadReportProgress : any= { progress : 0, message: null , isError: null };
+  uploadReportProgress: any = { progress: 0, message: null, isError: null };
   constructor(
     private api: WaterTreatmentService,
     private toastr: ToastrService,
@@ -44,17 +44,35 @@ export class StageComponent implements OnInit {
   private resetEntity() {
     this.entity = new Stage();
     this.files = [];
-    this.addFiles = { FileList: [], FileLocalNameList : []}
-    this.uploadReportProgress =  { progress : 0, message: null , isError: null };
+    this.addFiles = { FileList: [], FileLocalNameList: [] }
+    this.uploadReportProgress = { progress: 0, message: null, isError: null };
   }
 
- loadInit = async () => {
-   await this.loadStage();
+  loadInit = async () => {
     this.dtOptions = {
       autoWidth: true,
       responsive: true,
+      serverSide: true,
+      paging: true,
+      stateSave: true,
       pagingType: 'full_numbers',
+      search: { regex: true },
+      processing: true,
       pageLength: 10,
+      ajax: (dataTablesParameters: any, callback) => {
+        this.api.getDataTableStagePagination(dataTablesParameters).subscribe(res => {
+          this.Stages = res.data;
+          callback({
+            recordsTotal: res.recordsTotal,
+            recordsFiltered: res.recordsFiltered,
+            data: []
+          });
+        })
+      },
+      columns: [{ data: 'StageId' }, { data: 'StageName' },
+      { data: 'StageCode' },{ data: 'CreateBy' }, 
+      { data: 'CreateDate' },{ data: 'ModifyBy' }, 
+      { data: 'ModifyDate' }, { data: 'Status' }],
       language:
       {
         searchPlaceholder: this.trans.instant('DefaultTable.searchPlaceholder'),
@@ -77,10 +95,10 @@ export class StageComponent implements OnInit {
           previous: "<"
         }
       }
-    };    
+    };
   }
-
-   loadStage = async () => {
+  // client side
+  loadStage = async () => {
     $('#myTable').DataTable().clear().destroy();
     this.api.getStage().subscribe(res => {
       this.Stages = res as any
@@ -92,11 +110,11 @@ export class StageComponent implements OnInit {
     // Do not forget to unsubscribe the event
     this.dtTrigger.unsubscribe();
   }
-  
+
   onRemove(event) { //press x to delte file (in modal)
     let index = this.files.indexOf(event);
     this.files.splice(index, 1); //UI del
-    this.entity.StageFile.splice(index,1);
+    this.entity.StageFile.splice(index, 1);
   }
   fnDelete(id) {
     swal.fire({
@@ -106,36 +124,36 @@ export class StageComponent implements OnInit {
       showCancelButton: true,
       reverseButtons: true
     }).then((result) => {
-        if (result.value) {
-          this.api.deleteStage(id).subscribe(res => {
-            var operationResult: any = res
-            if (operationResult.Success) {
-              swal.fire(
-                'Deleted!', this.trans.instant('messg.delete.success'), 'success'
-              );
-             this.loadInit();
-              $("#myModal4").modal('hide');
-            }
-            else this.toastr.warning(operationResult.Message);
-          }, err => { this.toastr.error(err.statusText) })
-        }
-      })
+      if (result.value) {
+        this.api.deleteStage(id).subscribe(res => {
+          var operationResult: any = res
+          if (operationResult.Success) {
+            swal.fire(
+              'Deleted!', this.trans.instant('messg.delete.success'), 'success'
+            );
+            this.loadInit();
+            $("#myModal4").modal('hide');
+          }
+          else this.toastr.warning(operationResult.Message);
+        }, err => { this.toastr.error(err.statusText) })
+      }
+    })
   }
   fnAdd() {
-    this.ACTION_STATUS = 'add';    
+    this.ACTION_STATUS = 'add';
     this.existName = false;
     this.resetEntity();
   }
-  onSwitchStatus (){
-    this.entity.Status = this.entity.Status==0? 1: 0;
-  }  
+  onSwitchStatus() {
+    this.entity.Status = this.entity.Status == 0 ? 1 : 0;
+  }
 
   async fnSave() {
     this.laddaSubmitLoading = true;
     var e = this.entity;
-    if (this.ACTION_STATUS == 'add') 
-        e.CreateBy = this.auth.currentUser.Username;
-    else 
+    if (this.ACTION_STATUS == 'add')
+      e.CreateBy = this.auth.currentUser.Username;
+    else
       e.ModifyBy = this.auth.currentUser.Username
 
     if (await this.fnValidate(e)) {
@@ -143,35 +161,34 @@ export class StageComponent implements OnInit {
       if (this.ACTION_STATUS == 'add') {
         this.api.addStage(e).subscribe(res => {
           var operationResult: any = res
-          if (operationResult.Success){
-            if (this.addFiles.FileList.length>0) this.uploadFile(this.addFiles.FileList);
+          if (operationResult.Success) {
+            if (this.addFiles.FileList.length > 0) this.uploadFile(this.addFiles.FileList);
             this.toastr.success(this.trans.instant("messg.add.success"));
           }
           else this.toastr.warning(operationResult.Message);
           this.laddaSubmitLoading = false;
         }, err => { this.toastr.error(err.statusText); this.laddaSubmitLoading = false; })
       }
-      if (this.ACTION_STATUS == 'update') {   
+      if (this.ACTION_STATUS == 'update') {
         this.api.updateStage(e).subscribe(res => {
           var operationResult: any = res
-          if (operationResult.Success)
-          {
-            if (this.addFiles.FileList.length>0) this.uploadFile(this.addFiles.FileList);
+          if (operationResult.Success) {
+            if (this.addFiles.FileList.length > 0) this.uploadFile(this.addFiles.FileList);
             this.toastr.success(this.trans.instant("messg.update.success"));
-            this.addFiles = { FileList: [], FileLocalNameList :[]};
-          }            
+            this.addFiles = { FileList: [], FileLocalNameList: [] };
+          }
           else this.toastr.warning(operationResult.Message);
           this.laddaSubmitLoading = false;
         }, err => { this.toastr.error(err.statusText); this.laddaSubmitLoading = false; })
       }
-     await this.loadInit();
+      await this.loadInit();
     }
   }
   fnUpdate(id) { //press a link name of entity
     this.existName = false;
     this.ACTION_STATUS = 'update'
     $("#myModal4").modal('hide');
-    if (id===null)  { this.toastr.warning('Stage ID is Null, cant show modal'); return; }
+    if (id === null) { this.toastr.warning('Stage ID is Null, cant show modal'); return; }
     this.resetEntity();
     this.ACTION_STATUS = 'update';
     this.iboxloading = true;
@@ -181,45 +198,45 @@ export class StageComponent implements OnInit {
       $("#myModal4").modal('show');
       this.iboxloading = false;
       /**CONTROL FILES */
-      this.entity.StageFile.forEach(item =>{
-        let _tempFile = new File([],item.File.FileLocalName);
+      this.entity.StageFile.forEach(item => {
+        let _tempFile = new File([], item.File.FileLocalName);
         this.files.push(_tempFile);
       })
       this.entity.ModifyBy = this.auth.currentUser.Username;
-      this.files.push();    
+      this.files.push();
     }, error => {
       this.iboxloading = false;
       this.toastr.error(error.statusText, "Load Stage information error");
     })
   }
   private async fnValidate(e) {
-      let result =  await this.api.validateStage(this.entity).toPromise().then() as any;
-      if (result.Success) return true;
-      else {
-        this.laddaSubmitLoading = false;
-        this.existName = true;
-        return false;
-      }
+    let result = await this.api.validateStage(this.entity).toPromise().then() as any;
+    if (result.Success) return true;
+    else {
+      this.laddaSubmitLoading = false;
+      this.existName = true;
+      return false;
+    }
   }
-  downloadFile(filename){ //press File to download (in modal)
-    this.api.downloadFile(this.pathFile+'/'+filename);
+  downloadFile(filename) { //press File to download (in modal)
+    this.api.downloadFile(this.pathFile + '/' + filename);
   }
 
   /** EVENT TRIGGERS */
   async onSelect(event) { //drag file(s) or choose file(s) in ngFileZone
     var askBeforeUpload = false;
-    if (event.rejectedFiles.length>0) this.toastr.warning(this.trans.instant('messg.maximumFileSize5000'));
+    if (event.rejectedFiles.length > 0) this.toastr.warning(this.trans.instant('messg.maximumFileSize5000'));
     var _addFiles = event.addedFiles;
     for (var index in _addFiles) {
       let item = event.addedFiles[index];
       let convertName = this.helper.getFileNameWithExtension(item);
       let currentFile = this.entity.StageFile;
-      let  findElement =  currentFile.filter(x=>x.File.FileOriginalName == item.name)[0];
+      let findElement = currentFile.filter(x => x.File.FileOriginalName == item.name)[0];
       //ASK THEN GET RESULT
-      if (findElement!=null) {
+      if (findElement != null) {
         if (!askBeforeUpload) {
           askBeforeUpload = true;
-          var allowUpload =true;
+          var allowUpload = true;
           await swal.fire({
             title: this.trans.instant('File.DuplicateCaption'),
             titleText: this.trans.instant('File.DuplicateMessage'),
@@ -228,48 +245,48 @@ export class StageComponent implements OnInit {
             cancelButtonText: this.trans.instant('Button.Cancel'),
             showCancelButton: true,
             reverseButtons: true
-            }).then((result) => {
-               if (result.dismiss === swal.DismissReason.cancel) allowUpload = false;
-            })
+          }).then((result) => {
+            if (result.dismiss === swal.DismissReason.cancel) allowUpload = false;
+          })
         }
-        if (!allowUpload)  return;
-        let _FileElement = this.files.filter(x=>x.name == findElement.File.FileOriginalName)[0];
-        let _indexFileElement = this.files.indexOf(_FileElement,0);
+        if (!allowUpload) return;
+        let _FileElement = this.files.filter(x => x.name == findElement.File.FileOriginalName)[0];
+        let _indexFileElement = this.files.indexOf(_FileElement, 0);
         this.files.splice(_indexFileElement, 1);
         this.addFiles.FileList.splice(_indexFileElement, 1);
       }
-      else{
+      else {
         let _stageFile = new StageFile();
-        _stageFile.File.FileOriginalName= item.name;
-        _stageFile.File.FileLocalName = convertName;  
+        _stageFile.File.FileOriginalName = item.name;
+        _stageFile.File.FileLocalName = convertName;
         _stageFile.File.Path = this.pathFile + '/' + convertName;
         _stageFile.File.FileType = item.type;
         this.entity.StageFile.push(_stageFile);
         this.addFiles.FileLocalNameList.push(convertName);
       }
-      
+
     }
     this.files.push(...event.addedFiles); //refresh showing in Directive
     this.addFiles.FileList.push(...event.addedFiles);
-    
+
   }
-  private uploadFile(files: File[]){ //upload file to server
+  private uploadFile(files: File[]) { //upload file to server
     let formData = new FormData();
     for (let index = 0; index < files.length; index++) {
       let _file = files[index];
       formData.append("files", _file, this.addFiles.FileLocalNameList[index]);
     }
-    this.api.uploadFile(formData, this.pathFile).subscribe(event=> {
-      if (event.type === HttpEventType.UploadProgress)
-       {   this.uploadReportProgress.progress = Math.round(100 * event.loaded / event.total);
-          console.log(this.uploadReportProgress.progress);
-        }
+    this.api.uploadFile(formData, this.pathFile).subscribe(event => {
+      if (event.type === HttpEventType.UploadProgress) {
+        this.uploadReportProgress.progress = Math.round(100 * event.loaded / event.total);
+        console.log(this.uploadReportProgress.progress);
+      }
       else if (event.type === HttpEventType.Response) {
         this.uploadReportProgress.message = this.trans.instant('Upload.UploadFileSuccess');
-        }
-    },err=>{
+      }
+    }, err => {
       this.toastr.warning(err.statusText, this.trans.instant('Upload.UploadFileError'));
-      this.uploadReportProgress = { progress: 0, message: 'Error: '+ err.statusText, isError: true };
+      this.uploadReportProgress = { progress: 0, message: 'Error: ' + err.statusText, isError: true };
     });
   }
 }
