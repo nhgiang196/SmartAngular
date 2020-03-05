@@ -64,6 +64,7 @@
                 </div>
                 <div class="panel-body">
                   <p> <strong>{{ 'Warehouse.data.WarehouseCode' | translate}}:</strong>  {{item.WarehouseCode}}</p>
+                  <p> <strong>{{ 'Factory.' | translate}}:</strong> {{item.FactoryName}}</p>
                   <p> <strong>{{ 'Warehouse.data.WarehouseUserName' | translate}}:</strong> {{item.NormalizedUserName | translate}}</p>
                   <p> <strong>{{ 'Warehouse.data.WarehouseType' | translate }}:</strong> {{'Warehouse.data.WarehouseType'+item.WarehouseType | translate}}</p>
                   <p> <strong>{{ 'Warehouse.data.WarehouseAddress' | translate}}:</strong> {{item.WarehouseAddress}}</p>
@@ -105,7 +106,7 @@
             </div>
             <div class="col-lg-6">
               <label>{{ 'Warehouse.data.FactoryID' | translate }} *:</label>
-              <ng-select autocomplete="off"  [items]="initCombobox.Factories" placeholder="{{ 'Warehouse.placeholder.FactoryID' | translate }}" id="FactoryId" name="FactoryId"  [(ngModel)]="entity.FactoryId"  bindLabel="FactoryName" bindValue="FactoryId" required> </ng-select>
+              <ng-select autocomplete="off"  [items]="initCombobox.Factories" placeholder="{{ 'Warehouse.placeholder.FactoryID' | translate }}" id="FactoryId" name="FactoryId"  [(ngModel)]="entity.FactoryId"  bindLabel="FactoryName" bindValue="FactoryID" required> </ng-select>
               
             </div>
           </div>         
@@ -138,6 +139,23 @@
               <div class="form-group">
                 <label> {{ 'Warehouse.data.WarehouseUserName' | translate }} *: </label>
                 <ng-select autocomplete="off" [items]="initCombobox.Users" placeholder="{{ 'Warehouse.placeholder.WarehouseUserName' | translate }}"  id="WarehouseUserName" name="WarehouseUserName"  [(ngModel)]="entity.WarehouseUserName"  bindLabel="NormalizedUserName" bindValue="UserName" required> </ng-select>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-6"></div>  
+            <div class="col-lg-6">
+              <div class="form-group">
+                <label>{{ 'Warehouse.data.Status' | translate }} :</label>
+                <div class="switch">
+                  <div class="onoffswitch">
+                    <input type="checkbox" class="onoffswitch-checkbox" name="status" id="status"  (click)="onSwitchStatus('entity')" [checked]="entity.Status==1 ? true : null" >
+                    <label class="onoffswitch-label" for="status">
+                      <span class="onoffswitch-inner"></span>
+                      <span class="onoffswitch-switch"></span>
+                    </label>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -246,7 +264,7 @@
                   </td>
                   <td>
                     <div class="btn-group">
-                      <button type="button" class="btn btn-sm btn-outline btn-primary" [disabled]="!locationEntity.WarehouseLocationCode || !locationEntity.WarehouseLocationName" (click)="EditRowID = 0;" *ngIf="i+1 === EditRowID" ><i class="fa fa-check"></i></button>
+                      <button type="button" class="btn btn-sm btn-outline btn-primary" [disabled]="!locationEntity.WarehouseLocationCode || !locationEntity.WarehouseLocationName" (click)="validateItem(locationEntity) && EditRowID = 0;" *ngIf="i+1 === EditRowID" ><i class="fa fa-check"></i></button>
                       <button type="button" class="btn btn-sm btn-outline btn-success" (click)="fnEditItem(i)"*ngIf="i+1 !== EditRowID"><i class="fa fa-pencil"></i></button>
                       <button type="button" class="btn btn-sm btn-outline btn-danger" (click)="fnDeleteItem(i)" *ngIf="i+1 !== EditRowID"><i class="fa fa-trash"></i></button>
                     </div>                        

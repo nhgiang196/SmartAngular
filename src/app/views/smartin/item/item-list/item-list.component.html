@@ -38,7 +38,7 @@
               <div class="row">
                 <label class="col-sm-3">Item Type</label>
                 <div class="col-sm-9">
-                  <select class="form-control" (change)="searchItemByItemType($event.target.value)">
+                  <select class="form-control" [(ngModel)]="itemTypeId" (change)="searchItemByItemType($event.target.value)">
                     <option value="0">All Item Type</option>
                     <option *ngFor="let item of listItemType" [value]="item.ItemTypeId">{{item.ItemTypeName}}</option>
                 </select>

@@ -13,7 +13,7 @@ declare let $: any;
 export class ItemDetailComponent implements OnInit {
   item?: Item = new Item;
   Files?: Files[] = []
-  baseUrl:string = environment.apiUrl;
+  baseUrl:string = environment['apiUrl'];
   listImgs: string[]= [];
   slideConfig = {"slidesToShow": 1, "slidesToScroll": 1};
   

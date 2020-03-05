@@ -9,7 +9,7 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./item-grid.component.css']
 })
 export class ItemGridComponent implements OnInit {
-  baseUrl:string = environment.apiUrl;
+  baseUrl:string = environment['apiUrl'];
   Items?: Item[] = [];
   constructor(private api: WaterTreatmentService) { }
 

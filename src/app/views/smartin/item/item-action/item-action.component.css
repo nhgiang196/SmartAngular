@@ -1,3 +1,7 @@
 .mt-5{
     margin-top: 50px;
 }
+
+.p-0{
+    padding: 0 !important;
+}
