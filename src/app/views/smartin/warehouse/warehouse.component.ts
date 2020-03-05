@@ -96,7 +96,7 @@ export class WarehouseComponent implements OnInit {
     this.iboxloading = true;
     await this.api.findWarehouseById(id).subscribe(res => {
       
-      let _factoryAddTag = this.initCombobox.FullFactories.find(x=>x.FactoryID== res.FactoryId);
+      let _factoryAddTag = this.initCombobox.FullFactories.find(x=>x.FactoryID== res.FactoryId && x.Status==0  );
       if (_factoryAddTag && !this.initCombobox.Factories.find(x=> x.FactoryID== res.FactoryId) )  this.initCombobox.Factories = [...this.initCombobox.Factories, _factoryAddTag];
       this.entity = res;
       $("#myModal4").modal('show');
