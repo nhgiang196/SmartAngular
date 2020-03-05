@@ -64,7 +64,11 @@ export class WaterTreatmentService {
 
   /** WAREHOUSE */
   getWarehousePagination =(keyvalue) => {
-    let pr = new DataTablePaginationParram(); pr.keyFields="WarehouseCode,WarehouseName,WarehouseAddress,WarehouseType,WarehouseUserName,Status" ;pr.key = keyvalue; pr.pageSize = 9999;
+    let pr = new DataTablePaginationParram(); 
+    pr.keyFields="WarehouseCode,WarehouseName,WarehouseAddress,WarehouseType,WarehouseUserName,Status";
+    pr.selectFields = "WarehouseID, WarehouseCode, WarehouseName, FactoryID, WarehouseType, WarehouseAddress, WarehouseUserName, u.NormalizedUserName , w.Status ";
+    pr.entity = " Warehouse w LEFT JOIN [BCM_Auth].dbo.AspNetUsers u ON u.UserName= w.WarehouseUserName";
+    pr.key = keyvalue; pr.pageSize = 9999;
     return this.http.post<any>(`${ApiUrl}/Warehouse/GetWarehousePagination`,pr);
   };
   getWarehouse =() => this.http.get(`${ApiUrl}/Warehouse/GetWarehouse` );
