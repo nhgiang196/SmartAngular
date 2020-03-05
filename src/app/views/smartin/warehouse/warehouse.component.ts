@@ -55,10 +55,9 @@ export class WarehouseComponent implements OnInit {
     this.loadInit();
   }
   private async loadFactoryList() {
-    await this.api.getBasicFactory().subscribe(res => {
-      this.initCombobox.Factories = ( res as any).result.filter(x=>x.Status ==1) as Factory[];
-      this.initCombobox.FullFactories = ( res as any).result as Factory[];
-    }, err => this.toastr.warning('Get factories Failed, check network'))
+    let res = await this.api.getBasicFactory().toPromise().then().catch(err => this.toastr.warning('Get factories Failed, check network')) as any;
+    this.initCombobox.Factories = ( res as any).result.filter(x=>x.Status ==1) as Factory[];
+    this.initCombobox.FullFactories = ( res as any).result as Factory[];
   }
   private loadUsers() {
     this.auth.getUsers().subscribe(res=>{
@@ -95,9 +94,8 @@ export class WarehouseComponent implements OnInit {
     this.ACTION_STATUS = 'update';
     this.iboxloading = true;
     await this.api.findWarehouseById(id).subscribe(res => {
-      
       let _factoryAddTag = this.initCombobox.FullFactories.find(x=>x.FactoryID== res.FactoryId && x.Status==0  );
-      if (_factoryAddTag && !this.initCombobox.Factories.find(x=> x.FactoryID== res.FactoryId) )  this.initCombobox.Factories = [...this.initCombobox.Factories, _factoryAddTag];
+      if (_factoryAddTag && !this.initCombobox.Factories.find(x=> x.FactoryID== res.FactoryId) )  this.initCombobox.Factories = this.initCombobox.Factories.concat([_factoryAddTag]);
       this.entity = res;
       $("#myModal4").modal('show');
       this.iboxloading = false;
@@ -206,7 +204,7 @@ export class WarehouseComponent implements OnInit {
     this.newLocationEntity = new WarehouseLocation();
   }
   validateItem(itemAdd){
-    debugger;
+    
     if (itemAdd.WarehouseLocationCode == null) {
       swal.fire("Validate", this.trans.instant('Warehouse.data.WarehouseLocationCode') + this.trans.instant('messg.isnull'), 'warning');
       return false;
@@ -307,7 +305,6 @@ export class WarehouseComponent implements OnInit {
     this.uploadReportProgress =  { progress : 0, message: null , isError: null };
     this.EditRowID=0;
     await this.loadFactoryList();
-    
   }
   private CheckBeforeEdit(id) { //check auth before edit 
     this.toastr.warning("User not dont have permission");
