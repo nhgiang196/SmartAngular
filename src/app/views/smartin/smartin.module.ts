@@ -11,6 +11,7 @@ import { ItemActionComponent } from './item/item-action/item-action.component';
 import { ItemGridComponent } from './item/item-grid/item-grid.component';
 import { ItemDetailComponent } from './item/item-detail/item-detail.component';
 import { SlickCarouselModule } from 'ngx-slick-carousel';
+import { StageComponent } from './stage/stage.component';
 
 
 const COMPONENTS = [
@@ -25,7 +26,7 @@ const COMPONENTS = [
 
 
 @NgModule({
-  declarations: [...COMPONENTS, ItemDetailComponent],
+  declarations: [...COMPONENTS, ItemDetailComponent, StageComponent],
   imports: [
     CommonModule,
     SharedModule,

@@ -48,6 +48,7 @@ import { ItemActionComponent } from './views/smartin/item/item-action/item-actio
 import { ItemGridComponent } from './views/smartin/item/item-grid/item-grid.component';
 import { ItemDetailComponent } from './views/smartin/item/item-detail/item-detail.component';
 import { ItemResolver } from './resolvers/item.resolver';
+import { StageComponent } from './views/smartin/stage/stage.component';
 
 
 /**XLNT */
@@ -107,6 +108,7 @@ export const ROUTES: Routes = [
         path: 'category', canActivate: [AuthGuard], children: [
           { path: 'itemType', component: ItemTypeComponent },
           { path: 'unit', component: UnitMeasurementComponent },
+          { path: 'stage', component: StageComponent },
           { path: 'item',
             children:[
               {path:'', component: ItemListComponent},
