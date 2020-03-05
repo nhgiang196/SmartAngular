@@ -160,7 +160,8 @@ export class WaterTreatmentService {
   getItemPagination =(entity) => this.http.post<any>(`${ApiUrl}/Item/GetItemPagination`,entity,{} );
   getDataTableItemPagination =(entity) => this.http.post<DataTablesResponse>(`${ApiUrl}/Item/DataTableItemPagination`,entity);
   getItem =() => this.http.get(`${ApiUrl}/Item/GetItem` );
-  getItemByItemType =(itemTypeId) => this.http.get(`${ApiUrl}/Item/GetItemByItemType`,{ params: { itemTypeId: itemTypeId } } );
+  getItemByItemType =(entity,itemTypeId) => this.http.post<DataTablesResponse>(`${ApiUrl}/Item/GetItemByItemType/${itemTypeId}`,entity)//{ params: { itemTypeId: itemTypeId } } );
+  // getItemByItemType =(itemTypeId) => this.http.get(`${ApiUrl}/Item/GetItemByItemType/`,{ params: { itemTypeId: itemTypeId } } );
   findItemById =(id) => this.http.get<any>(`${ApiUrl}/Item/FindItemById?id=${id}` );
   checkItemNameExist =(itemName) => this.http.get<any>(`${ApiUrl}/Item/CheckItemNameExist?ItemName=${itemName}` );
   
