@@ -124,7 +124,7 @@ export class ItemFactory {
   FactoryId: number = null;
   FactoryName: string;
   IntergrationCode: string = "";
-  //Factory: Factory = new Factory();
+  Factory: Factory = new Factory();
 }
 export class ItemPackage {
 
@@ -137,7 +137,7 @@ export class ItemPackage {
   ItemPackageHeight?: number = 0
   ItemPackageWeight?: number = 0
   UnitName?: string
-  //ItemPackageUnit: ItemPackageUnit = new ItemPackageUnit()
+  ItemPackageUnit: ItemPackageUnit = new ItemPackageUnit()
 }
 
 export class ItemPackageUnit {
@@ -158,7 +158,7 @@ export class ItemProperty {
   ItemTypePropertyId?: number = null
   ItemTypePropertyValue?: string
   ItemTypePropertyName?: string
-  //ItemTypeProperty:ItemTypeProperty = new ItemTypeProperty()
+  ItemTypeProperty:ItemTypeProperty = new ItemTypeProperty()
 }
 
 export class ItemTypeProperty {

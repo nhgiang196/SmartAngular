@@ -123,7 +123,9 @@ export class ItemActionComponent implements OnInit {
 
     if (this.itemIdPram == null) e.CreateBy = this.auth.currentUser.Username;
     else e.ModifyBy = this.auth.currentUser.Username;
-
+    console.log(e);
+    //Clear rác
+    this.clearDataOption();
     if (this.itemIdPram == null) {
      
       if (await this.fnValidate(e)) {
@@ -171,6 +173,20 @@ export class ItemActionComponent implements OnInit {
       );
     }
   }
+
+  clearDataOption(){
+     //clear
+     this.entity.ItemFactory.forEach((item,index)=>{
+      this.entity.ItemFactory[index].Factory = null;
+    })
+    this.entity.ItemProperty.forEach((item,index)=>{
+      this.entity.ItemProperty[index].ItemTypeProperty = null;
+    })
+    this.entity.ItemPackage.forEach((item,index)=>{
+      this.entity.ItemPackage[index].ItemPackageUnit = null;
+    })
+  }
+
   private async fnValidate(e) {
     let result = !(await this.api
       .checkItemNameExist(this.entity.ItemName)
@@ -304,12 +320,29 @@ export class ItemActionComponent implements OnInit {
   fnDeleteFactory(index) {
     this.entity.ItemFactory.splice(index, 1);
   }
-  isExistFactory() {
-    return this.entity.ItemFactory.find(
+  isExistFactory(idFactory=0) {
+    if(idFactory!=0){
+      var t = this.entity.ItemFactory.find(
+        x =>
+          x.FactoryId == idFactory
+      );
+      return t;
+    }
+    else return this.entity.ItemFactory.find(
       x =>
-        x.FactoryId == this.newItemFactory.FactoryId &&
-        x.IntergrationCode == this.newItemFactory.IntergrationCode
+        x.FactoryId == this.newItemFactory.FactoryId
     );
+  }
+  fnSaveFactory(){
+    this.editRowId = 0;
+  }
+
+  fnChangeFactory(e){
+    if(this.isExistFactory(e.FactoryId)){
+      this.toastr.warning("Dữ liệu không được trùng");
+      return;
+    }
+    this.itemFactory.FactoryName =e.FactoryName ;
   }
 
   //properties
@@ -335,9 +368,7 @@ export class ItemActionComponent implements OnInit {
   isExistProperty() {
     console.log(this.entity.ItemProperty);
     return this.entity.ItemProperty.find(
-      x =>
-        x.ItemTypePropertyId == this.newItemProperty.ItemTypePropertyId &&
-        x.ItemTypePropertyValue == this.newItemProperty.ItemTypePropertyValue
+      x =>x.ItemTypePropertyId == this.newItemProperty.ItemTypePropertyId
     );
   }
 
