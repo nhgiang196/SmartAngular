@@ -28,14 +28,14 @@ declare let $: any;
 })
 export class ItemListComponent implements OnInit {
   Items: Item[];
-  listItemType: Array<ItemType>= new Array<ItemType>();
+  listItemType: Array<ItemType> = new Array<ItemType>();
   dtOptions: DataTables.Settings = {};
   dtTrigger: Subject<any> = new Subject();
   public ACTION_STATUS: string;
   iboxloading = false;
   itemTypeIdPram: any;
-  itemTypeId:0;
-  
+  itemTypeId: 0;
+
   constructor(
     private api: WaterTreatmentService,
     private toastr: ToastrService,
@@ -44,11 +44,11 @@ export class ItemListComponent implements OnInit {
     public helper: MyHelperService,
     private router: Router,
     private route: ActivatedRoute
-  ) {}
+  ) { }
 
-  ngOnInit(): void {   
-    this.loadInit();    
-   this.getAllItemType();
+  ngOnInit(): void {
+    this.loadInit();
+    this.getAllItemType();
   }
 
   loadInit = () => {
@@ -61,18 +61,7 @@ export class ItemListComponent implements OnInit {
       pagingType: 'full_numbers',
       search: { regex: true },
       processing: true,
-      pageLength: 10,
-      ajax: (dataTablesParameters: any, callback) => {
-        this.api.getDataTableItemPagination(dataTablesParameters).subscribe(res => {
-          this.Items = res.data;
-          console.log(this.Items)
-          callback({
-            recordsTotal: res.recordsTotal,
-            recordsFiltered: res.recordsFiltered,
-            data: []
-          });
-        })
-      },
+      pageLength: 10,    
       columns: [{ data: 'ItemID' }, { data: 'ItemTypeID' },
       { data: 'ItemNo' }, { data: 'ItemName' },
       { data: 'ItemPrintName' }, { data: 'ItemUnitID' },
@@ -80,9 +69,20 @@ export class ItemListComponent implements OnInit {
       { data: 'ItemManufactureCountry' }, { data: 'ItemManufactureYear' },
       { data: 'ItemLength' }, { data: 'ItemWidth' },
       { data: 'ItemHeight' }, { data: 'ItemWeight' },
-      { data: 'CreateBy' }, 
-      { data: 'CreateDate' },{ data: 'ModifyBy' }, 
+      { data: 'CreateBy' },
+      { data: 'CreateDate' }, { data: 'ModifyBy' },
       { data: 'ModifyDate' }, { data: 'Status' }],
+      // ajax: (dataTablesParameters: any, callback) => {
+      //   this.api.getDataTableItemPagination(dataTablesParameters).subscribe(res => {
+      //     this.Items = res.data;
+      //     console.log(this.Items)
+      //     callback({
+      //       recordsTotal: res.recordsTotal,
+      //       recordsFiltered: res.recordsFiltered,
+      //       data: []
+      //     });
+      //   })
+      // },
       language:
       {
         searchPlaceholder: this.trans.instant('DefaultTable.searchPlaceholder'),
@@ -107,23 +107,34 @@ export class ItemListComponent implements OnInit {
       }
     };
     this.itemTypeIdPram = this.route.snapshot.params.id;
-    if(this.itemTypeIdPram ==null)
-      this.itemTypeIdPram =0;
+    if (this.itemTypeIdPram == null)
+      this.itemTypeIdPram = 0;
     this.itemTypeId = this.itemTypeIdPram;
-  //  this.loadItem(this.itemTypeIdPram);
+    this.loadItem(2);
   };
 
-  loadItem = (itemTypeId=0) => {
+  loadItem = (itemTypeId = 0) => {
     $("#myTable")
       .DataTable()
       .clear()
       .destroy();
-
-    this.api.getItemByItemType(itemTypeId).subscribe(res => {
-      console.log(res);
-      this.Items = res as any;
-      this.dtTrigger.next();
-    });
+  //  this.loadInit();
+    // this.api.getItemByItemType(itemTypeId).subscribe(res => {
+    //   console.log(res);
+    //   this.Items = res as any;
+    //   this.dtTrigger.next();
+    // }); 
+    this.dtOptions.ajax= (dataTablesParameters: any, callback) => {
+      this.api.getItemByItemType(dataTablesParameters, itemTypeId).subscribe(res => {
+        this.Items = res.data;
+        console.log(this.Items)
+        callback({
+          recordsTotal: res.recordsTotal,
+          recordsFiltered: res.recordsFiltered,
+          data: []
+        });
+      })
+    }
   };
 
   ngOnDestroy(): void {
@@ -168,17 +179,17 @@ export class ItemListComponent implements OnInit {
   }
 
   fnUpdate(itemId) {
-    debugger
-    this.router.navigate(['category/item/action/'+itemId]);
+    this.router.navigate(['category/item/action/' + itemId]);
   }
 
-  async getAllItemType(){
-    this.listItemType =  await this.api.getItemType().pipe(map(res =>{
-       return res as Array<ItemType>;
-     })).toPromise().then();
-   }
+  async getAllItemType() {
+    this.listItemType = await this.api.getItemType().pipe(map(res => {
+      return res as Array<ItemType>;
+    })).toPromise().then();
+  }
 
-   searchItemByItemType(idItemType){
+  searchItemByItemType(idItemType) {
     this.loadItem(idItemType);
-   }
+    //this.loadInit();
+  }
 }
