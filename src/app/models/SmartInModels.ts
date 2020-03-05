@@ -6,9 +6,9 @@ export class Factory {
   FactoryAddress?: string = ''
   FactoryContact?: string = ''
   ContactPhone?: string = ''
-  FactoryBuiltDate?: string = null
-  FactoryStartDate?: string = null
-  FactoryEndDate?: string = null
+  FactoryBuiltDate?: Date = new Date()
+  FactoryStartDate?: Date = new Date()
+  FactoryEndDate?:   Date = null
   CreateDate?: Date = null
   ModifyDate?: Date = null
   CreateBy?: string = ''
@@ -194,6 +194,25 @@ export class Unit {
   ModifyDate: Date
   Status: number = 1
 }
+
+export class Stage {
+  StageId: number = 0
+  StageName: string
+  StageCode?: string
+  CreateBy?: string
+  CreateDate?: Date = new Date()
+  ModifyBy?: string
+  ModifyDate?: Date
+  Status: number = 1
+  StageFile?: StageFile[] = []
+}
+export class StageFile {
+  StageFileId: number = 0
+  StageId: number = 0
+  FileId: number = 0
+  File: Files = new Files()
+}
+
 
 
 export class Warehouse {

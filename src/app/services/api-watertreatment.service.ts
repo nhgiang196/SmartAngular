@@ -64,7 +64,11 @@ export class WaterTreatmentService {
 
   /** WAREHOUSE */
   getWarehousePagination =(keyvalue) => {
-    let pr = new DataTablePaginationParram(); pr.keyFields="WarehouseCode,WarehouseName,WarehouseAddress,WarehouseType,WarehouseUserName,Status" ;pr.key = keyvalue; pr.pageSize = 9999;
+    let pr = new DataTablePaginationParram(); 
+    pr.keyFields="WarehouseCode,WarehouseName,WarehouseAddress,WarehouseType,WarehouseUserName,Status";
+    pr.selectFields = "WarehouseID, WarehouseCode, WarehouseName, FactoryID, WarehouseType, WarehouseAddress, WarehouseUserName, u.NormalizedUserName , w.Status ";
+    pr.entity = " Warehouse w LEFT JOIN [BCM_Auth].dbo.AspNetUsers u ON u.UserName= w.WarehouseUserName";
+    pr.key = keyvalue; pr.pageSize = 9999;
     return this.http.post<any>(`${ApiUrl}/Warehouse/GetWarehousePagination`,pr);
   };
   getWarehouse =() => this.http.get(`${ApiUrl}/Warehouse/GetWarehouse` );
@@ -128,6 +132,15 @@ export class WaterTreatmentService {
   validateUnit =(entity) =>{
     return this.http.post(`${ApiUrl}/Unit/ValidateUnit`,entity);
   } 
+
+   //Stage Services
+   addStage =(entity) => this.http.post(`${ApiUrl}/Stage/AddStage`,entity);
+   updateStage =(entity) => this.http.put(`${ApiUrl}/Stage/UpdateStage`,entity);
+   deleteStage =(id) => this.http.delete(`${ApiUrl}/Stage/DeleteStage`,{ params: { id: id } });
+   getStagePagination =(entity) => this.http.post<any>(`${ApiUrl}/Stage/GetStagePagination`,entity,{} );
+   getStage =() => this.http.get(`${ApiUrl}/Stage/GetStage` );
+   findStageById =(id) => this.http.get<any>(`${ApiUrl}/Stage/FindStageById?id=${id}` );
+   validateStage =(entity) =>this.http.post(`${ApiUrl}/Stage/ValidateStage`,entity);
 
 
   //Item Services
