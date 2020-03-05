@@ -29,6 +29,22 @@
               <!-- hidden this button -->
               <button (click)="fnAdd()" type="button" class="btn btn-primary dim" >
                 <i class="fa fa-plus"></i> Add </button>
+                
+            </div>
+            <div class="col-sm-4">
+            
+            </div>
+            <div class="col-sm-4">
+              <div class="row">
+                <label class="col-sm-3">Item Type</label>
+                <div class="col-sm-9">
+                  <select class="form-control" (change)="searchItemByItemType($event.target.value)">
+                    <option value="0">All Item Type</option>
+                    <option *ngFor="let item of listItemType" [value]="item.ItemTypeId">{{item.ItemTypeName}}</option>
+                </select>
+                </div>
+              </div>
+              
             </div>
           </div>
           <div class="row">
