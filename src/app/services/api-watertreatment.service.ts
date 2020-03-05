@@ -145,6 +145,7 @@ export class WaterTreatmentService {
    //Stage Services
    addStage =(entity) => this.http.post(`${ApiUrl}/Stage/AddStage`,entity);
    updateStage =(entity) => this.http.put(`${ApiUrl}/Stage/UpdateStage`,entity);
+   getDataTableStagePagination =(entity) => this.http.post<DataTablesResponse>(`${ApiUrl}/Stage/DataTableStagePagination`,entity);
    deleteStage =(id) => this.http.delete(`${ApiUrl}/Stage/DeleteStage`,{ params: { id: id } });
    getStagePagination =(entity) => this.http.post<any>(`${ApiUrl}/Stage/GetStagePagination`,entity,{} );
    getStage =() => this.http.get(`${ApiUrl}/Stage/GetStage` );

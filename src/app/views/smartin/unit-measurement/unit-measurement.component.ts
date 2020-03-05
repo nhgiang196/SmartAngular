@@ -64,7 +64,7 @@ export class UnitMeasurementComponent implements OnInit {
       },
       columns: [{ data: 'UnitId' }, { data: 'UnitName' }, 
                 { data: 'CreateBy' },{ data: 'CreateDate' },
-                { data: 'ModifyBy' },{ data: 'ModifyDate' }],
+                { data: 'ModifyBy' },{ data: 'ModifyDate' }, { data: 'Status' }],
       language:
       {
         searchPlaceholder: this.trans.instant('DefaultTable.searchPlaceholder'),
