@@ -7,7 +7,8 @@ import {
   DataTablePaginationParram,
   ItemFile,
   Unit,
-  Factory
+  Factory,
+  ItemType
 } from "src/app/models/SmartInModels";
 import { WaterTreatmentService } from "src/app/services/api-watertreatment.service";
 import { ToastrService } from "ngx-toastr";
@@ -27,6 +28,9 @@ import { Select2OptionData } from "ng2-select2";
 import { of, concat, Observable, Subject } from "rxjs";
 import { HttpEventType } from "@angular/common/http";
 import { Identifiers, identifierModuleUrl, ThrowStmt } from "@angular/compiler";
+import { BsDatepickerViewMode } from 'ngx-bootstrap/datepicker/models';
+import { BsDatepickerConfig } from 'ngx-bootstrap';
+import { async } from '@angular/core/testing';
 
 @Component({
   selector: "app-item-action",
@@ -36,6 +40,8 @@ import { Identifiers, identifierModuleUrl, ThrowStmt } from "@angular/compiler";
 export class ItemActionComponent implements OnInit {
   code: string = "HC";
   private pathFile = "uploadFilesItem";
+  minMode: BsDatepickerViewMode = 'year'
+  bsConfig: Partial<BsDatepickerConfig>;
 
   itemIdPram: any = null;
   entity: Item = new Item();
@@ -65,6 +71,7 @@ export class ItemActionComponent implements OnInit {
   listFactory: any;
   listUnit: any;
   listProperty: any;
+  listItemType: Array<ItemType>= new Array<ItemType>();
 
   factoryInput$ = new Subject<string>();
   unitInput$ = new Subject<string>();
@@ -81,29 +88,38 @@ export class ItemActionComponent implements OnInit {
   ) {}
 
   async ngOnInit() {
+    this.bsConfig = Object.assign({}, {
+      minMode : this.minMode,
+      dateInputFormat: 'YYYY' ,
+       adaptivePosition: true
+    });
     this.addFiles = { FileList: [], FileLocalNameList: [] };
     await this.loadFactory();
-    await this.loadProperty();
+    
     await this.loadUnit();
+    await this.getAllItemType();
 
     this.itemIdPram = this.route.snapshot.params.id;
-    var item = this.route.snapshot.data["item"];
+    var item = this.route.snapshot.data["item"] as Item;
     if (item != null) {
       console.log(item);
+      await this.changeItemType(item.ItemTypeId);
       this.entity = item;
       this.itemPackage.ItemPackageUnitId = 0;
       this.customFile();
     }
+    else{
+      this.loadProperty(this.code);
+    }
   }
+
 
   async fnSave() {
     this.uploadReportProgress = { progress: 0, message: null, isError: null };
     this.laddaSubmitLoading = true;
-    if (this.listProperty.length > 0) {
-      this.entity.ItemTypeId = this.listProperty[0].itemId;
-    }
-
     let e = this.entity;
+    e.ItemManufactureYear =this.helper.yearConvertToString(new Date(e.ItemManufactureYear));
+
     if (this.itemIdPram == null) e.CreateBy = this.auth.currentUser.Username;
     else e.ModifyBy = this.auth.currentUser.Username;
 
@@ -179,6 +195,22 @@ export class ItemActionComponent implements OnInit {
     console.log(this.listFiles);
     this.entity.ModifyBy = this.auth.currentUser.Username;
   }
+
+  async getAllItemType(){
+   this.listItemType =  await this.api.getItemType().pipe(map(res =>{
+      return res as Array<ItemType>;
+    })).toPromise().then();
+  }
+
+   async changeItemType(valIdCode){
+    var idCode = this.listItemType.find(x=>x.ItemTypeId ==valIdCode).ItemTypeCode;
+    await this.loadProperty(idCode);
+  }
+
+  onSwitchStatus (){ //modal switch on change
+    this.entity.Status = this.entity.Status==0? 1: 0;
+ }
+
 
   ////////////// Area Func Factory///////////////
 
@@ -333,7 +365,7 @@ export class ItemActionComponent implements OnInit {
     );
   }
 
-  async loadProperty() {
+  async loadProperty(code) {
     const model: DataTablePaginationParram = {
       key: "",
       entity: "ItemType",
@@ -350,7 +382,7 @@ export class ItemActionComponent implements OnInit {
     //     return ress.result;
     //   })
     // ).toPromise().then();
-    let data  = await this.api.getItemTypePaginationByCode(model, this.code).toPromise().then();
+     let data  = await this.api.getItemTypePaginationByCode(model,code).toPromise().then();
     this.listProperty = data.result;
     console.log(this.listProperty);
   }
