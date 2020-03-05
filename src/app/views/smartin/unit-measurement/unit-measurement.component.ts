@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Unit } from 'src/app/models/SmartInModels';
+import { Unit, DataTablesResponse } from 'src/app/models/SmartInModels';
 import { Subject } from 'rxjs';
 import { WaterTreatmentService } from 'src/app/services/api-watertreatment.service';
 import { ToastrService } from 'ngx-toastr';
@@ -17,7 +17,7 @@ declare let $: any;
 export class UnitMeasurementComponent implements OnInit {
 
   Units: Unit[]
-  entity: Unit;  
+  entity: Unit;
   dtOptions: DataTables.Settings = {};
   dtTrigger: Subject<any> = new Subject();
   ACTION_STATUS: string;
@@ -42,12 +42,29 @@ export class UnitMeasurementComponent implements OnInit {
   }
 
  loadInit = async () => {
-   await this.loadUnit();
     this.dtOptions = {
       autoWidth: true,
       responsive: true,
+      serverSide : true,
+      paging: true,
+      stateSave: true,
       pagingType: 'full_numbers',
+      search: { regex: true },
+      processing : true,
       pageLength: 10,
+      ajax: (dataTablesParameters: any, callback) => {
+        this.api.getUnitServerside(dataTablesParameters).subscribe(res=>{
+         this.Units = res.data;
+          callback({
+            recordsTotal: res.recordsTotal,
+            recordsFiltered: res.recordsFiltered,
+            data: []
+          });
+        })
+      },
+      columns: [{ data: 'UnitId' }, { data: 'UnitName' }, 
+                { data: 'CreateBy' },{ data: 'CreateDate' },
+                { data: 'ModifyBy' },{ data: 'ModifyDate' }],
       language:
       {
         searchPlaceholder: this.trans.instant('DefaultTable.searchPlaceholder'),
@@ -70,13 +87,12 @@ export class UnitMeasurementComponent implements OnInit {
           previous: "<"
         }
       }
-    };    
+    };
   }
 
    loadUnit = async () => {
     $('#myTable').DataTable().clear().destroy();
     this.api.getUnit().subscribe(res => {
-      console.log(res);
       this.Units = res as any
       this.dtTrigger.next();
     });
@@ -117,20 +133,20 @@ export class UnitMeasurementComponent implements OnInit {
       })
   }
   fnAdd() {
-    this.ACTION_STATUS = 'add';    
+    this.ACTION_STATUS = 'add';
     this.existName = false;
     this.resetEntity();
   }
   onSwitchStatus (){
     this.entity.Status = this.entity.Status==0? 1: 0;
-  }  
+  }
 
   async fnSave() {
     this.laddaSubmitLoading = true;
     var e = this.entity;
-    if (this.ACTION_STATUS == 'add') 
+    if (this.ACTION_STATUS == 'add')
         e.CreateBy = this.auth.currentUser.Username;
-    else 
+    else
       e.ModifyBy = this.auth.currentUser.Username
 
     if (await this.fnValidate(e)) {
@@ -146,7 +162,7 @@ export class UnitMeasurementComponent implements OnInit {
           this.laddaSubmitLoading = false;
         }, err => { this.toastr.error(err.statusText); this.laddaSubmitLoading = false; })
       }
-      if (this.ACTION_STATUS == 'update') {   
+      if (this.ACTION_STATUS == 'update') {
         this.api.updateUnit(e).subscribe(res => {
           var operationResult: any = res
           if (operationResult.Success)

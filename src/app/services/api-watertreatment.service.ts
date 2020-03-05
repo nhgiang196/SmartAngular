@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { DataTablePaginationParram } from '../models/SmartInModels';
+import { DataTablePaginationParram, DataTablesResponse } from '../models/SmartInModels';
 
 const ApiUrl = "api/v1";
 
@@ -126,6 +126,7 @@ export class WaterTreatmentService {
   updateUnit =(entity) => this.http.put(`${ApiUrl}/Unit/UpdateUnit`,entity);
   deleteUnit =(id) => this.http.delete(`${ApiUrl}/Unit/DeleteUnit`,{ params: { id: id } });
   getUnitPagination =(entity) => this.http.post<any>(`${ApiUrl}/Unit/GetUnitPagination`,entity,{} );
+  getUnitServerside =(entity) => this.http.post<DataTablesResponse>(`${ApiUrl}/Unit/DemoGetUnitPagination`,entity);
   getUnitSelect2 =(keyword) => this.http.get<any>(`${ApiUrl}/Unit/GetUnitPaginationToSelect2?keyword=`+keyword );
   getUnit =() => this.http.get(`${ApiUrl}/Unit/GetUnit` );
   findUnitById =(id) => this.http.get<any>(`${ApiUrl}/Unit/FindUnitById?id=${id}` );
