@@ -46,36 +46,60 @@ export class ItemListComponent implements OnInit {
     private route: ActivatedRoute
   ) {}
 
-  ngOnInit(): void {
-
-   
-    this.loadInit();
-    
-    this.getAllItemType();
+  ngOnInit(): void {   
+    this.loadInit();    
+   this.getAllItemType();
   }
 
   loadInit = () => {
     this.dtOptions = {
       autoWidth: true,
       responsive: true,
-      pagingType: "full_numbers",
+      serverSide: true,
+      paging: true,
+      stateSave: true,
+      pagingType: 'full_numbers',
+      search: { regex: true },
+      processing: true,
       pageLength: 10,
-      language: {
-        searchPlaceholder: "Nhập nội dung tìm kiếm",
-        emptyTable: this.trans.instant("DefaultTable.emptyTable"),
-        info: this.trans.instant("DefaultTable.info"),
-        infoEmpty: this.trans.instant("DefaultTable.infoEmpty"),
-        infoFiltered: this.trans.instant("DefaultTable.infoFiltered"),
-        infoPostFix: this.trans.instant("DefaultTable.infoPostFix"),
-        thousands: this.trans.instant("DefaultTable.thousands"),
-        lengthMenu: this.trans.instant("DefaultTable.lengthMenu"),
-        loadingRecords: this.trans.instant("DefaultTable.loadingRecords"),
-        processing: this.trans.instant("DefaultTable.processing"),
-        search: this.trans.instant("DefaultTable.search"),
-        zeroRecords: this.trans.instant("DefaultTable.zeroRecords"),
-        // url: this.trans.instant('DefaultTable.url'),
+      ajax: (dataTablesParameters: any, callback) => {
+        this.api.getDataTableItemPagination(dataTablesParameters).subscribe(res => {
+          this.Items = res.data;
+          console.log(this.Items)
+          callback({
+            recordsTotal: res.recordsTotal,
+            recordsFiltered: res.recordsFiltered,
+            data: []
+          });
+        })
+      },
+      columns: [{ data: 'ItemID' }, { data: 'ItemTypeID' },
+      { data: 'ItemNo' }, { data: 'ItemName' },
+      { data: 'ItemPrintName' }, { data: 'ItemUnitID' },
+      { data: 'ItemModel' }, { data: 'ItemSerial' },
+      { data: 'ItemManufactureCountry' }, { data: 'ItemManufactureYear' },
+      { data: 'ItemLength' }, { data: 'ItemWidth' },
+      { data: 'ItemHeight' }, { data: 'ItemWeight' },
+      { data: 'CreateBy' }, 
+      { data: 'CreateDate' },{ data: 'ModifyBy' }, 
+      { data: 'ModifyDate' }, { data: 'Status' }],
+      language:
+      {
+        searchPlaceholder: this.trans.instant('DefaultTable.searchPlaceholder'),
+        emptyTable: this.trans.instant('DefaultTable.emptyTable'),
+        info: this.trans.instant('DefaultTable.info'),
+        infoEmpty: this.trans.instant('DefaultTable.infoEmpty'),
+        infoFiltered: this.trans.instant('DefaultTable.infoFiltered'),
+        infoPostFix: this.trans.instant('DefaultTable.infoPostFix'),
+        thousands: this.trans.instant('DefaultTable.thousands'),
+        lengthMenu: this.trans.instant('DefaultTable.lengthMenu'),
+        loadingRecords: this.trans.instant('DefaultTable.loadingRecords'),
+        processing: this.trans.instant('DefaultTable.processing'),
+        search: this.trans.instant('DefaultTable.search'),
+        zeroRecords: this.trans.instant('DefaultTable.zeroRecords'),
+        //url: this.trans.instant('DefaultTable.url'),
         paginate: {
-          first: "<<",
+          first: '<<',
           last: ">>",
           next: ">",
           previous: "<"
@@ -86,7 +110,7 @@ export class ItemListComponent implements OnInit {
     if(this.itemTypeIdPram ==null)
       this.itemTypeIdPram =0;
     this.itemTypeId = this.itemTypeIdPram;
-    this.loadItem(this.itemTypeIdPram);
+  //  this.loadItem(this.itemTypeIdPram);
   };
 
   loadItem = (itemTypeId=0) => {
@@ -144,6 +168,7 @@ export class ItemListComponent implements OnInit {
   }
 
   fnUpdate(itemId) {
+    debugger
     this.router.navigate(['category/item/action/'+itemId]);
   }
 
