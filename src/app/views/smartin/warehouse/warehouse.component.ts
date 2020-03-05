@@ -90,11 +90,12 @@ export class WarehouseComponent implements OnInit {
   }
   async fnEditSignal(id) { //press a link of ENTITY
     if (id == null) { this.toastr.warning('ID is Null, cant show modal'); return; }
-    await this.resetEntity();
     this.ACTION_STATUS = 'update';
     this.iboxloading = true;
+    await this.resetEntity();
+    
     await this.api.findWarehouseById(id).subscribe(res => {
-      let _factoryAddTag = this.initCombobox.FullFactories.find(x=>x.FactoryID== res.FactoryId && x.Status==0  );
+      let _factoryAddTag = this.initCombobox.FullFactories.find(x=>x.FactoryID== res.FactoryId );
       if (_factoryAddTag && !this.initCombobox.Factories.find(x=> x.FactoryID== res.FactoryId) )  this.initCombobox.Factories = this.initCombobox.Factories.concat([_factoryAddTag]);
       this.entity = res;
       $("#myModal4").modal('show');
