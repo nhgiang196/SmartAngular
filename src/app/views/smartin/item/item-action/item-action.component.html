@@ -227,7 +227,7 @@
                                                                             name="FactoryId"
                                                                             [(ngModel)]="itemFactory.FactoryId"
                                                                             dropdownPosition="top"
-                                                                            (change)="itemFactory.FactoryName = $event.FactoryName "
+                                                                            (change)="fnChangeFactory($event)"
                                                                             bindLabel="FactoryName"
                                                                             bindValue="FactoryId" required> </ng-select>
                                                                     </td>
@@ -593,7 +593,7 @@
                     <div class="col-sm-12"> 
                         <button class="btn btn-primary pull-right" [ladda]="laddaSubmitLoading"
                       
-                            [disabled]="myForm.invalid" (click)="fnSave()">
+                            [disabled]="myForm.invalid ||editRowId!=0" (click)="fnSave()">
                             <i class="fa fa-plus"></i>
                             {{'Button.Save' | translate}}
                         </button>
