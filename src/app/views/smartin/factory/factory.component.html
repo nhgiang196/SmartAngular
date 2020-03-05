@@ -271,7 +271,7 @@
                   <td *ngIf="i+1 === EditRowID"><input bsDatepicker [bsConfig]="bsConfig" type="text" class="form-control" readonly name="EndDate" id="EndDate" [(ngModel)]="tech_entity.TechnologyToDate" > </td>
                   <td >
                   <div class="btn-group">
-                    <button type="button" class="btn btn-sm btn-outline btn-primary" (click)="fnSaveItem(i)" *ngIf="i+1 === EditRowID" ><i class="fa fa-check"></i></button>
+                    <button type="button" class="btn btn-sm btn-outline btn-primary" (click)="validateItem(tech_entity)" *ngIf="i+1 === EditRowID" ><i class="fa fa-check"></i></button>
                     <button type="button" class="btn btn-sm btn-outline btn-success" (click)="fnEditItem(i)"*ngIf="i+1 !== EditRowID"><i class="fa fa-pencil"></i></button>
                     <button type="button" class="btn btn-sm btn-outline btn-danger" (click)="fnDeleteItem(i)" *ngIf="i+1 !== EditRowID"><i class="fa fa-trash"></i></button>
                   </div>                      

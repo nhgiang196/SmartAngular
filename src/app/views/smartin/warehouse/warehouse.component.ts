@@ -195,7 +195,8 @@ export class WarehouseComponent implements OnInit {
   
   async fnAddItem() { //press add item
     var itemAdd = this.newLocationEntity;
-     if (await !this.validateItem(itemAdd)) return;
+    let _checkValidate = await this.validateItem(itemAdd);
+     if (!_checkValidate) return;
     // let validateResult = await this.api.validateWarehouseLocation(itemAdd).toPromise().then() as any;
     // if (!validateResult.Success){
     //   swal.fire("Validate",this.trans.instant('Warehouse.invalid.'+ validateResult.Message),'warning'); return;
@@ -204,7 +205,7 @@ export class WarehouseComponent implements OnInit {
     this.entity.WarehouseLocation.push(itemAdd);
     this.newLocationEntity = new WarehouseLocation();
   }
-  validateItem(itemAdd){
+  async validateItem(itemAdd){
     
     if (itemAdd.WarehouseLocationCode == null) {
       swal.fire("Validate", this.trans.instant('Warehouse.data.WarehouseLocationCode') + this.trans.instant('messg.isnull'), 'warning');
@@ -214,16 +215,17 @@ export class WarehouseComponent implements OnInit {
       swal.fire("Validate", this.trans.instant('Warehouse.data.WarehouseLocationName') + this.trans.instant('messg.isnull'), 'warning');
       return false;
     }
-    if (this.entity.WarehouseLocation.filter(t =>t.WarehouseLocationCode.toLowerCase() == itemAdd.WarehouseLocationCode.toLowerCase() && t.WarehouseLocationId!=itemAdd.WarehouseLocationId).length>0)
+    if (await this.entity.WarehouseLocation.filter(t =>t.WarehouseLocationCode.toLowerCase() == itemAdd.WarehouseLocationCode.toLowerCase() && t.WarehouseLocationId!=itemAdd.WarehouseLocationId).length>0)
     {
       swal.fire("Validate", this.trans.instant('Warehouse.data.WarehouseLocationCode') + this.trans.instant('messg.isexisted'), 'warning');
       return false;
-    }
-    if (this.entity.WarehouseLocation.filter(t =>t.WarehouseLocationName.toLowerCase() == itemAdd.WarehouseLocationName.toLowerCase() && t.WarehouseLocationId!=itemAdd.WarehouseLocationId).length>0)
+    } 
+    if (await this.entity.WarehouseLocation.filter(t =>t.WarehouseLocationName.toLowerCase() == itemAdd.WarehouseLocationName.toLowerCase() && t.WarehouseLocationId!=itemAdd.WarehouseLocationId).length>0)
     {
       swal.fire("Validate", this.trans.instant('Warehouse.data.WarehouseLocationName') + this.trans.instant('messg.isexisted'), 'warning');
       return false;
     }
+    this.EditRowID = 0;
     return true;
   }
 

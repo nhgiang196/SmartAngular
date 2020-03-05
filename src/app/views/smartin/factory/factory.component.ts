@@ -2,7 +2,7 @@ import { Component, OnInit, ElementRef, ViewChild, Output } from '@angular/core'
 import { collapseIboxHelper } from '../../../app.helpers';
 import { MyHelperService } from 'src/app/services/my-helper.service';
 import { WaterTreatmentService } from 'src/app/services/api-watertreatment.service';
-import { Factory, FactoryTechnology, FactoryFile, Files } from 'src/app/models/SmartInModels';
+import { Factory, FactoryTechnology, FactoryFile, Files, WarehouseLocation } from 'src/app/models/SmartInModels';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 import swal from 'sweetalert2';
@@ -153,21 +153,36 @@ export class FactoryComponent implements OnInit {
       })
   }
   
-  fnAddItem() { //press add item (in modal)
-    if (this.newTechnology.TechnologyName == null) {
-      swal.fire("Validate", this.trans.instant('Factory.data.TechnologyName') + this.trans.instant('messg.isnull'), 'warning');
-      return;
-    }
+  async fnAddItem() { //press add item (in modal)
+    let _checkValidate = await this.validateItem(this.newTechnology)
+    if (!_checkValidate) return;
     this.entity.FactoryTechnology.push(this.newTechnology);
     this.newTechnology = new FactoryTechnology();
   }
+
+  async validateItem(itemAdd: FactoryTechnology){
+    if (itemAdd.TechnologyName == null) {
+      swal.fire("Validate", this.trans.instant('Factory.data.TechnologyName') + this.trans.instant('messg.isnull'), 'warning');
+      return false;
+    }
+    if (await this.entity.FactoryTechnology.filter(t =>t.TechnologyName.toLowerCase() == itemAdd.TechnologyName.toLowerCase() && t.FactoryTechnologyId!=itemAdd.FactoryTechnologyId).length>0)
+    {
+      swal.fire("Validate", this.trans.instant('Factory.data.TechnologyName') + this.trans.instant('messg.isexisted'), 'warning');
+      return false;
+    }
+    this.EditRowID = 0;
+    return true
+  }
+
+
+  
 
   fnEditItem(index){ //press edit item (in modal)
     this.EditRowID = index +1;
     this.tech_entity = this.entity.FactoryTechnology[index];
   }
   fnSaveItem(index){
-    this.EditRowID = 0;
+    
   }
   fnDeleteItem(index) { //press delete item (in modal)
     this.entity.FactoryTechnology.splice(index, 1);
@@ -309,6 +324,7 @@ export class FactoryComponent implements OnInit {
     }
     return true;
   }
+  
   private uploadFile(files: File[]){ //upload file to server
     let formData = new FormData();
     for (let index = 0; index < files.length; index++) {
@@ -333,6 +349,8 @@ export class FactoryComponent implements OnInit {
   private fnCheckBeforeEdit(id) { //un done
     this.toastr.warning("User not dont have permission");
   }
+
+  
   ngAfterViewInit() { //CSS
   }
 
