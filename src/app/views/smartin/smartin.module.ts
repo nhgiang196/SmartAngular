@@ -12,6 +12,10 @@ import { ItemGridComponent } from './item/item-grid/item-grid.component';
 import { ItemDetailComponent } from './item/item-detail/item-detail.component';
 import { SlickCarouselModule } from 'ngx-slick-carousel';
 import { StageComponent } from './stage/stage.component';
+import { CustomerListComponent } from './customer/customer-list/customer-list.component';
+import { CustomerDetailComponent } from './customer/customer-detail/customer-detail.component';
+import { ContractComponent } from './contract/contract.component';
+import { CustomerComponent } from './customer/customer.component';
 
 
 const COMPONENTS = [
@@ -26,7 +30,7 @@ const COMPONENTS = [
 
 
 @NgModule({
-  declarations: [...COMPONENTS, ItemDetailComponent, StageComponent],
+  declarations: [...COMPONENTS, ItemDetailComponent, StageComponent, CustomerListComponent, CustomerDetailComponent,  ContractComponent, CustomerComponent],
   imports: [
     CommonModule,
     SharedModule,
