@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Stage, StageFile } from 'src/app/models/SmartInModels';
 import { Subject } from 'rxjs';
 import { WaterTreatmentService } from 'src/app/services/api-watertreatment.service';
@@ -8,6 +8,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { MyHelperService } from 'src/app/services/my-helper.service';
 import swal from 'sweetalert2';
 import { HttpEventType } from '@angular/common/http';
+import { DataTableDirective } from 'angular-datatables';
 declare let $: any;
 @Component({
   selector: 'app-stage',
@@ -15,11 +16,12 @@ declare let $: any;
   styleUrls: ['./stage.component.css']
 })
 export class StageComponent implements OnInit {
-
+  @ViewChild(DataTableDirective)
+  dtElement: DataTableDirective;
+  dtTrigger: Subject<any> = new Subject()
   Stages: Stage[]
   entity: Stage;
   dtOptions: DataTables.Settings = {};
-  dtTrigger: Subject<any> = new Subject();
   ACTION_STATUS: string;
   laddaSubmitLoading = false;
   existName = false;
@@ -49,6 +51,7 @@ export class StageComponent implements OnInit {
   }
 
   loadInit = async () => {
+   
     this.dtOptions = {
       autoWidth: true,
       responsive: true,
@@ -111,6 +114,13 @@ export class StageComponent implements OnInit {
     this.dtTrigger.unsubscribe();
   }
 
+  rerender(): void {
+    this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+      dtInstance.destroy();
+      this.dtTrigger.next();
+    });
+  }
+
   onRemove(event) { //press x to delte file (in modal)
     let index = this.files.indexOf(event);
     this.files.splice(index, 1); //UI del
@@ -131,7 +141,7 @@ export class StageComponent implements OnInit {
             swal.fire(
               'Deleted!', this.trans.instant('messg.delete.success'), 'success'
             );
-            this.loadInit();
+            this.rerender();
             $("#myModal4").modal('hide');
           }
           else this.toastr.warning(operationResult.Message);
@@ -164,9 +174,11 @@ export class StageComponent implements OnInit {
           if (operationResult.Success) {
             if (this.addFiles.FileList.length > 0) this.uploadFile(this.addFiles.FileList);
             this.toastr.success(this.trans.instant("messg.add.success"));
+            this.rerender();
           }
           else this.toastr.warning(operationResult.Message);
           this.laddaSubmitLoading = false;
+          $("#myModal4").modal('hide');
         }, err => { this.toastr.error(err.statusText); this.laddaSubmitLoading = false; })
       }
       if (this.ACTION_STATUS == 'update') {
@@ -289,4 +301,7 @@ export class StageComponent implements OnInit {
       this.uploadReportProgress = { progress: 0, message: 'Error: ' + err.statusText, isError: true };
     });
   }
+    ngAfterViewInit(): void {
+      this.dtTrigger.next();
+    }
 }
