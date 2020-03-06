@@ -328,11 +328,15 @@ export class ItemActionComponent implements OnInit {
   //factories
   fnAddFactory() {
     if (!this.isExistFactory())
-      this.entity.ItemFactory.push(this.newItemFactory);
+      {
+        this.entity.ItemFactory.push(this.newItemFactory);
+        this.newItemFactory = new ItemFactory();
+      }
     else {
       swal.fire("Validate", "Dữ liệu đã bị trùng", "warning");
       return;
     }
+  
   }
   fnEditFactory(index) {
     this.editRowId = index + 1;
@@ -352,6 +356,7 @@ export class ItemActionComponent implements OnInit {
       swal.fire("Validate", "Dữ liệu đã bị trùng", "warning");
       return;
     }
+     this.newItemFactory = new ItemFactory();
     this.editRowId = 0;
   }
 
@@ -371,8 +376,11 @@ export class ItemActionComponent implements OnInit {
   //properties
   fnAddProperty() {
     console.log(this.newItemProperty);
-    if (!this.isExistProperty())
+    if (!this.isExistProperty()){
       this.entity.ItemProperty.push(this.newItemProperty);
+      this.newItemProperty = new ItemProperty();
+    }
+     
     else{
       swal.fire("Validate", "Dữ liệu đã bị trùng", "warning");
       return;
@@ -418,7 +426,11 @@ export class ItemActionComponent implements OnInit {
   //packages
   fnAddPackage() {
     if (!this.isExistPackage())
+    {
       this.entity.ItemPackage.push(this.newItemPackage);
+      this.newItemPackage = new ItemPackage();
+    }
+      
     else {
       swal.fire("Validate", "Dữ liệu đã bị trùng", "warning");
       return;

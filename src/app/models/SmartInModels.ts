@@ -198,6 +198,7 @@ export class Unit {
 export class Stage {
   StageID: number = 0
   StageName: string
+  Description: string
   StageCode?: string
   CreateBy?: string
   CreateDate?: Date = new Date()

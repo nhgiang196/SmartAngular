@@ -1,12 +1,12 @@
 <div class="row wrapper border-bottom white-bg page-heading">
   <div class="col-sm-4">
-    <h2>{{ 'Stage.Breadcrumb' | translate }}</h2>
+    <h2>{{ "Stage.Breadcrumb" | translate }}</h2>
     <ol class="breadcrumb">
       <li>
-        <a href="index.html">{{ 'TopNav.Category' | translate }}</a>
+        <a href="index.html">{{ "TopNav.Category" | translate }}</a>
       </li>
       <li class="active">
-        <strong>{{ 'Stage.Breadcrumb' | translate }}</strong>
+        <strong>{{ "Stage.Breadcrumb" | translate }}</strong>
       </li>
     </ol>
   </div>
@@ -15,7 +15,7 @@
   <div class="row">
     <div class="col-lg-12">
       <div class="ibox float-e-margins">
-        <div class="ibox-content" [ngClass]=" {'sk-loading': iboxloading}">
+        <div class="ibox-content" [ngClass]="{ 'sk-loading': iboxloading }">
           <div class="sk-spinner sk-spinner-wave">
             <div class="sk-rect1"></div>
             <div class="sk-rect2"></div>
@@ -26,141 +26,280 @@
           <div class="row">
             <div class="col-sm-4">
               <!-- hidden this button -->
-              <button (click)="fnAdd()" type="button" class="btn btn-primary dim" data-toggle="modal"
-                data-target="#myModal4">
-                <i class="fa fa-plus"></i>{{'Stage.AddButton' | translate}}</button>
+              <button
+                (click)="fnAdd()"
+                type="button"
+                class="btn btn-primary dim"
+                data-toggle="modal"
+                data-target="#myModal4"
+              >
+                <i class="fa fa-plus"></i>{{ "Stage.AddButton" | translate }}
+              </button>
             </div>
           </div>
           <div class="row">
-            <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger"
-              class="table table-bordered table-hover table-striped" id="myTable" style="width:100%">
+            <table
+              datatable
+              [dtOptions]="dtOptions"
+              [dtTrigger]="dtTrigger"
+              class="table table-bordered table-hover table-striped"
+              id="myTable"
+              style="width:100%"
+            >
               <thead>
                 <tr>
-                  <th hidden="true">{{'Stage.StageId' | translate}}</th>
-                  <th>{{'Stage.StageName' | translate}}</th>
-                  <th>{{'Stage.StageCode' | translate}}</th>
-                  <th>{{'Stage.CreateBy' | translate}}</th>
-                  <th>{{'Stage.CreateDate' | translate}}</th>
-                  <th>{{'Stage.ModifyBy' | translate}}</th>
-                  <th>{{'Stage.ModifyDate' | translate}}</th>
-                  <th>{{'Stage.Status' | translate}}</th>
-                  <th>{{'Button.Action' | translate}}</th>
+                  <th hidden="true">{{ "Stage.StageId" | translate }}</th>
+                  <th>{{ "Stage.StageName" | translate }}</th>
+                  <th>{{ "Stage.StageCode" | translate }}</th>
+                  <th>{{ "Stage.CreateBy" | translate }}</th>
+                  <th>{{ "Stage.CreateDate" | translate }}</th>
+                  <th>{{ "Stage.ModifyBy" | translate }}</th>
+                  <th>{{ "Stage.ModifyDate" | translate }}</th>
+                  <th>{{ "Stage.Status" | translate }}</th>
+                  <th>{{ "Button.Action" | translate }}</th>
                 </tr>
               </thead>
               <tbody *ngIf="Stages?.length != 0">
                 <tr *ngFor="let item of Stages">
-                  <td hidden="true" style="text-align: left"> {{item.StageID</td>
-                  <td style="text-align: left">{{item.StageName}}</td>
-                  <td style="text-align: left">{{item.StageCode}}</td>
-                  <td style="text-align: left"> {{item.CreateBy}}</td>
-                  <td style="text-align: left">{{item.CreateDate | amDateFormat: 'YYYY-MM-DD HH:mm'}}</td>
-                  <td style="text-align: left"> {{item.ModifyBy}}</td>
-                  <td style="text-align: left">{{item.ModifyDate | amDateFormat: 'YYYY-MM-DD HH:mm'}}</td>
-                  <td style="text-align: left">{{item.Status}}</td>
+                  <td hidden="true" style="text-align: left">{{item.StageID</td>
+                  <td style="text-align: left">{{ item.StageName }}</td>
+                  <td style="text-align: left">{{ item.StageCode }}</td>
+                  <td style="text-align: left">{{ item.CreateBy }}</td>
+                  <td style="text-align: left">
+                    {{ item.CreateDate | amDateFormat: "YYYY-MM-DD HH:mm" }}
+                  </td>
+                  <td style="text-align: left">{{ item.ModifyBy }}</td>
+                  <td style="text-align: left">
+                    {{ item.ModifyDate | amDateFormat: "YYYY-MM-DD HH:mm" }}
+                  </td>
+                  <td style="text-align: left">{{ item.Status }}</td>
                   <td>
-                    <button type="button" class="btn btn-outline btn-danger" (click)="fnDelete(item.StageID)"><i
-                        class="fa fa-trash"></i></button>
-                    <button type="button" class="btn btn-outline btn-success" (click)="fnUpdate(item.StageID)"
-                      data-toggle="modal" data-target="#myModal4"><i class="fa fa-pencil"></i></button>
+                    <button
+                      type="button"
+                      class="btn btn-outline btn-danger"
+                      (click)="fnDelete(item.StageID)"
+                    >
+                      <i class="fa fa-trash"></i>
+                    </button>
+                    <button
+                      type="button"
+                      class="btn btn-outline btn-success"
+                      (click)="fnUpdate(item.StageID)"
+                      data-toggle="modal"
+                      data-target="#myModal4"
+                    >
+                      <i class="fa fa-pencil"></i>
+                    </button>
                   </td>
                 </tr>
               </tbody>
               <tbody *ngIf="Stages?.length == 0">
                 <tr>
-                  <td colspan="9" class="no-data-available">{{'messg.datatable.zeroRecords'  | translate}}</td>
+                  <td colspan="9" class="no-data-available">
+                    {{ "messg.datatable.zeroRecords" | translate }}
+                  </td>
                 </tr>
-              <tbody>
+              </tbody>
+
+              <tbody></tbody>
             </table>
           </div>
         </div>
       </div>
     </div>
   </div>
-
 </div>
 
 <!-- Modal -->
-<div class="modal inmodal" id="myModal4" data-backdrop="static" data-keyboard="true" tabindex="-1" role="dialog"
-  aria-hidden="true">
+<div
+  class="modal inmodal"
+  id="myModal4"
+  data-backdrop="static"
+  data-keyboard="true"
+  tabindex="-1"
+  role="dialog"
+  aria-hidden="true"
+>
   <div class="modal-dialog modal-lg ">
     <div class="modal-content animated fadeIn">
       <div class="modal-header">
-        <button type="button" (click)="loadInit()" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
-            class="sr-only"  >Close</span></button>
-        <h4 class="modal-title"> {{'Stage.Information' | translate }}</h4>
+        <button
+          type="button"
+          (click)="loadInit()"
+          class="close"
+          data-dismiss="modal"
+        >
+          <span aria-hidden="true">&times;</span
+          ><span class="sr-only">Close</span>
+        </button>
+        <h4 class="modal-title">{{ "Stage.Information" | translate }}</h4>
       </div>
       <div class="modal-body">
-        <form role="form" #myForm="ngForm" name="myForm">
-          <div class="row">
+        <div class="row">
+          <form role="form" #myForm="ngForm" name="myForm">
             <div class="col-lg-6">
               <div class="form-group">
-                <label> {{ 'Stage.StageName' | translate }} : </label>                
-                <input type="text" name="StageName" id="StageName" class="form-control" placeholder="{{'Stage.InputStageName' | translate}}"
-                  [(ngModel)]="entity.StageName" [ngClass]="{ 'is-invalid': existName }" required>
-                  <div *ngIf="existName" style="color: red;">{{ 'Stage.ErrorExistStageName' | translate }}</div>
+                <label> {{ "Stage.StageName" | translate }} : </label>
+                <input
+                  type="text"
+                  name="StageName"
+                  id="StageName"
+                  class="form-control"
+                  placeholder="{{ 'Stage.InputStageName' | translate }}"
+                  [(ngModel)]="entity.StageName"
+                  [ngClass]="{ 'is-invalid': existName }"
+                  required
+                />
+                <div *ngIf="existName" style="color: red;">
+                  {{ "Stage.ErrorExistStageName" | translate }}
+                </div>
               </div>
             </div>
             <div class="col-lg-6">
               <div class="form-group">
-                <label> {{ 'Stage.StageCode' | translate }} : </label>                
-                <input type="text" name="StageCode" id="StageCode" class="form-control" placeholder="{{'Stage.InputStageCode' | translate}}"
-                  [(ngModel)]="entity.StageCode" [ngClass]="{ 'is-invalid': existName }" required>
-                  <div *ngIf="existName" style="color: red;">{{ 'Stage.ErrorExistStageCode' | translate }}</div>
+                <label> {{ "Stage.StageCode" | translate }} : </label>
+                <input
+                  type="text"
+                  name="StageCode"
+                  id="StageCode"
+                  class="form-control"
+                  placeholder="{{ 'Stage.InputStageCode' | translate }}"
+                  [(ngModel)]="entity.StageCode"
+                  [ngClass]="{ 'is-invalid': existCode }"
+                  required
+                />
+                <div *ngIf="existName" style="color: red;">
+                  Không được trùng mã giai đoạn
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="form-group">
+                <label> Description : </label>
+                <textarea
+                  type="text"
+                  name="Description"
+                  id="Description"
+                  class="form-control"
+                  placeholder="Description"
+                  [(ngModel)]="entity.Description"
+                ></textarea>
+              </div>
+            </div>
+          </form>
+        </div>
+        <hr />
+        <!-- Upload file -->
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="form-group">
+              <label>{{ "Upload." | translate }} </label>
+              <ngx-dropzone
+                style="min-height: auto;"
+                (change)="onSelect($event)"
+                [expandable]="true"
+                [maxFileSize]="5000 * 1024"
+              >
+                <ngx-dropzone-label
+                  ><i class="fa fa-upload"></i>
+                  {{ "Upload.UploadFileCaption" | translate }}
+                </ngx-dropzone-label>
+                <ngx-dropzone-preview
+                  class="dropDownCustomClass animated fadeInUp"
+                  ngProjectAs="ngx-dropzone-preview"
+                  *ngFor="let f of files; let i = index"
+                  [file]="f"
+                  [removable]="true"
+                  (removed)="onRemove(f)"
+                  (click)="downloadFile(entity.StageFile[i].File.FileLocalName)"
+                >
+                  <ngx-dropzone-label
+                    ><i class="fa fa-download"></i>
+                    {{ entity.StageFile[i].File.FileOriginalName }}
+                  </ngx-dropzone-label>
+                </ngx-dropzone-preview>
+              </ngx-dropzone>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-12">
+            <span
+              class="badge"
+              [ngClass]="{
+                'badge-primary': uploadReportProgress.progress == 100,
+                'badge-danger': uploadReportProgress.isError
+              }"
+              >{{ uploadReportProgress.message }}</span
+            >
+            <div
+              *ngIf="
+                uploadReportProgress.progress > 0 &&
+                uploadReportProgress.progress < 100
+              "
+              class="progress progress-striped active"
+            >
+              <div
+                class="progress-bar progress-bar-success"
+                role="progressbar"
+                [style.width.%]="uploadReportProgress.progress"
+              >
+                {{ uploadReportProgress.progress }}%
               </div>
             </div>
           </div>
-          <hr>
-            <!-- Upload file -->
-            <div class="row">
-              <div class="col-lg-12">
-                <div class="form-group">
-                  <label>{{ 'Upload.' | translate }} </label>             
-                  <ngx-dropzone style="min-height: auto;" (change)="onSelect($event)" [expandable]="true" [maxFileSize]="5000*1024">
-                    <ngx-dropzone-label><i class="fa fa-upload"></i> {{ 'Upload.UploadFileCaption' | translate }} </ngx-dropzone-label>
-                    <ngx-dropzone-preview class="dropDownCustomClass animated fadeInUp"  ngProjectAs="ngx-dropzone-preview" *ngFor="let f of files ;let i = index" [file]="f"   [removable]="true" (removed)="onRemove(f)" (click)=downloadFile(entity.StageFile[i].File.FileLocalName) >
-                      <ngx-dropzone-label><i class="fa fa-download"></i> {{entity.StageFile[i].File.FileOriginalName}}
-                      </ngx-dropzone-label>
-                    </ngx-dropzone-preview>
-                  </ngx-dropzone>
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-lg-12">
-                <span class="badge" [ngClass]="{'badge-primary': uploadReportProgress.progress==100, 'badge-danger':uploadReportProgress.isError}" >{{uploadReportProgress.message}}</span>
-                <div *ngIf="uploadReportProgress.progress>0 && uploadReportProgress.progress<100 " class="progress progress-striped active">
-                  <div  class="progress-bar progress-bar-success" role="progressbar"
-                    [style.width.%]="uploadReportProgress.progress">
-                    {{uploadReportProgress.progress}}%
-                  </div>
-                </div>
-              </div>
-            </div>            
-          <!-- SubTable -->
-          <div class="row">
-            <div class="col-lg-12">
-              <div class="form-group">
-                <label>{{ 'Stage.Status' | translate }} :</label>
-                <div class="switch">
-                  <div class="onoffswitch">
-                    <input type="checkbox" class="onoffswitch-checkbox" name="status" id="status"
-                      (click)="onSwitchStatus()" [checked]="entity.Status==1 ? true : null">
-                    <label class="onoffswitch-label" for="status">
-                      <span class="onoffswitch-inner"></span>
-                      <span class="onoffswitch-switch"></span>
-                    </label>
-                  </div>
+        </div>
+        <!-- SubTable -->
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="form-group">
+              <label>{{ "Stage.Status" | translate }} :</label>
+              <div class="switch">
+                <div class="onoffswitch">
+                  <input
+                    type="checkbox"
+                    class="onoffswitch-checkbox"
+                    name="status"
+                    id="status"
+                    (click)="onSwitchStatus()"
+                    [checked]="entity.Status == 1 ? true : null"
+                  />
+                  <label class="onoffswitch-label" for="status">
+                    <span class="onoffswitch-inner"></span>
+                    <span class="onoffswitch-switch"></span>
+                  </label>
                 </div>
               </div>
             </div>
           </div>
-        </form>
+        </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-white" data-dismiss="modal" (click)="loadInit()">{{'Stage.CloseButton' | translate}}</button>
-        <button type="button" *ngIf="ACTION_STATUS=='update'" class="btn btn-danger hide"
-          (click)="fnDelete(entity.StageId)"><i class="fa fa-trash"></i> Delete</button>
-        <button type="button" class="btn btn-primary" (click)="fnSave()" [ladda]="laddaSubmitLoading" [disabled]="myForm.invalid">{{'Stage.SaveButton' | translate}}</button>
+        <button
+          type="button"
+          class="btn btn-white"
+          data-dismiss="modal"
+          (click)="loadInit()"
+        >
+          {{ "Stage.CloseButton" | translate }}
+        </button>
+        <button
+          type="button"
+          *ngIf="ACTION_STATUS == 'update'"
+          class="btn btn-danger hide"
+          (click)="fnDelete(entity.StageID)"
+        >
+          <i class="fa fa-trash"></i> Delete
+        </button>
+        <button
+          type="button"
+          class="btn btn-primary"
+          (click)="fnSave()"
+          [ladda]="laddaSubmitLoading"
+          [disabled]="myForm.invalid"
+        >
+          {{ "Stage.SaveButton" | translate }}
+        </button>
       </div>
     </div>
   </div>
