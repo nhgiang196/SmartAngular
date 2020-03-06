@@ -46,7 +46,7 @@ export class AuthService {
     localStorage.removeItem('currentUser');
     this.router.navigateByUrl('login');
   }
-  login =() =>  this.http.post(`${url}/loginSharePoint`, this.currentUser);  //loginSharePoint
+  login =() =>  this.http.post(`${url}/login`, this.currentUser);  //loginSharePoint
   ldapLogin =() =>  this.http.post(`${url}/ldapLogin`, this.currentUser); 
   LDAP =() =>  this.http.post(`${url}/ldap`, this.currentUser); 
   register = (entity) =>this.http.post(`${url}/register`, entity);  
