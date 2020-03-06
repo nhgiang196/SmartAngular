@@ -196,7 +196,7 @@ export class Unit {
 }
 
 export class Stage {
-  StageId: number = 0
+  StageID: number = 0
   StageName: string
   StageCode?: string
   CreateBy?: string
