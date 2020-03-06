@@ -1,16 +1,5 @@
-import { Component, OnInit } from "@angular/core";
-import {
-  Item,
-  ItemProperty,
-  Factory,
-  ItemFactory,
-  DataTablePaginationParram,
-  Unit,
-  ItemPackage,
-  FactoryFile,
-  ItemFile,
-  ItemType
-} from "src/app/models/SmartInModels";
+import { Component, OnInit, ViewChild, AfterViewInit, OnDestroy, Renderer } from "@angular/core";
+import {Item, ItemType} from "src/app/models/SmartInModels";
 import { Subject } from "rxjs";
 import { WaterTreatmentService } from "src/app/services/api-watertreatment.service";
 import { ToastrService } from "ngx-toastr";
@@ -20,17 +9,21 @@ import swal from "sweetalert2";
 import { MyHelperService } from "src/app/services/my-helper.service";
 import { Router, ActivatedRoute } from '@angular/router';
 import { map } from 'rxjs/operators';
+import { DataTableDirective } from 'angular-datatables';
 declare let $: any;
 @Component({
   selector: "app-item-list",
   templateUrl: "./item-list.component.html",
   styleUrls: ["./item-list.component.css"]
 })
-export class ItemListComponent implements OnInit {
+export class ItemListComponent implements  AfterViewInit, OnDestroy, OnInit {
+  @ViewChild(DataTableDirective)  datatableElement: DataTableDirective;
   Items: Item[];
   listItemType: Array<ItemType> = new Array<ItemType>();
   dtOptions: DataTables.Settings = {};
   dtTrigger: Subject<any> = new Subject();
+  dtElement: DataTableDirective;
+
   public ACTION_STATUS: string;
   iboxloading = false;
   itemTypeIdPram: any;
@@ -43,7 +36,8 @@ export class ItemListComponent implements OnInit {
     private auth: AuthService,
     public helper: MyHelperService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private renderer: Renderer,
   ) { }
 
   ngOnInit(): void {
@@ -51,38 +45,56 @@ export class ItemListComponent implements OnInit {
     this.getAllItemType();
   }
 
-  loadInit = () => {
+  loadInit = () => { 
     this.dtOptions = {
       autoWidth: true,
+      // dom: ` <"row"<"col-sm-4 m-b-xs"l><"#myid.col-sm-4 m-b-xs"f><"col-sm-4"p>><t><"row"<"col-sm-4 m-b-xs"i><"#myid2.col-sm-4 m-b-xs"f><"col-sm-4"p>>`, //recommend Dom --nhgiang
       responsive: true,
       serverSide: true,
+      deferRender: true,
       paging: true,
       stateSave: true,
       pagingType: 'full_numbers',
       search: { regex: true },
       processing: true,
       pageLength: 10,    
-      columns: [{ data: 'ItemID' }, { data: 'ItemTypeID' },
-      { data: 'ItemNo' }, { data: 'ItemName' },
-      { data: 'ItemPrintName' }, { data: 'ItemUnitID' },
-      { data: 'ItemModel' }, { data: 'ItemSerial' },
-      { data: 'ItemManufactureCountry' }, { data: 'ItemManufactureYear' },
-      { data: 'ItemLength' }, { data: 'ItemWidth' },
-      { data: 'ItemHeight' }, { data: 'ItemWeight' },
-      { data: 'CreateBy' },
-      { data: 'CreateDate' }, { data: 'ModifyBy' },
-      { data: 'ModifyDate' }, { data: 'Status' }],
-      // ajax: (dataTablesParameters: any, callback) => {
-      //   this.api.getDataTableItemPagination(dataTablesParameters).subscribe(res => {
-      //     this.Items = res.data;
-      //     console.log(this.Items)
-      //     callback({
-      //       recordsTotal: res.recordsTotal,
-      //       recordsFiltered: res.recordsFiltered,
-      //       data: []
-      //     });
-      //   })
-      // },
+      columns: [
+          { data: 'ItemID' }
+        , { data: 'ItemTypeID' }
+        , { data: 'ItemNo' }
+        , { data: 'ItemName' }
+        , { data: 'ItemPrintName' }
+        , { data: 'ItemUnitID' }
+        , { data: 'ItemModel' }
+        , { data: 'ItemSerial' }
+        , { data: 'ItemManufactureCountry' }
+        , { data: 'ItemManufactureYear' }
+        , { data: 'ItemLength' }
+        , { data: 'ItemWidth' }
+        , { data: 'ItemHeight' }
+        , { data: 'ItemWeight' }
+        , { data: 'CreateBy' }
+        , { data: 'CreateDate' }
+        , { data: 'ModifyBy' }
+        , { data: 'ModifyDate' }
+        , { data: 'Status' }
+        , { data : null}
+      ],
+      
+
+      ajax: (dataTablesParameters: any, callback) => {
+        this.dtOptions.ajax= (dataTablesParameters: any, callback) => { //chèn lại ajax ở một vị trí duy nhất khi định nghĩa
+          this.api.getItemByItemType(dataTablesParameters, this.itemTypeId).subscribe(res => {
+            this.Items = res.data;
+            console.log(this.Items)
+            callback({
+              recordsTotal: res.recordsTotal,
+              recordsFiltered: res.recordsFiltered,
+              data: []
+            });
+          })
+        }
+      },
       language:
       {
         searchPlaceholder: this.trans.instant('DefaultTable.searchPlaceholder'),
@@ -106,41 +118,8 @@ export class ItemListComponent implements OnInit {
         }
       }
     };
-    this.itemTypeIdPram = this.route.snapshot.params.id;
-    if (this.itemTypeIdPram == null)
-      this.itemTypeIdPram = 0;
-    this.itemTypeId = this.itemTypeIdPram;
-    this.loadItem(2);
+    this.itemTypeId = this.itemTypeIdPram = this.route.snapshot.params.id || 0; //shortcut rework
   };
-
-  loadItem = (itemTypeId = 0) => {
-    $("#myTable")
-      .DataTable()
-      .clear()
-      .destroy();
-  //  this.loadInit();
-    // this.api.getItemByItemType(itemTypeId).subscribe(res => {
-    //   console.log(res);
-    //   this.Items = res as any;
-    //   this.dtTrigger.next();
-    // }); 
-    this.dtOptions.ajax= (dataTablesParameters: any, callback) => {
-      this.api.getItemByItemType(dataTablesParameters, itemTypeId).subscribe(res => {
-        this.Items = res.data;
-        console.log(this.Items)
-        callback({
-          recordsTotal: res.recordsTotal,
-          recordsFiltered: res.recordsFiltered,
-          data: []
-        });
-      })
-    }
-  };
-
-  ngOnDestroy(): void {
-    // Do not forget to unsubscribe the event
-    this.dtTrigger.unsubscribe();
-  }
 
   fnDelete(id) {
     swal
@@ -189,7 +168,23 @@ export class ItemListComponent implements OnInit {
   }
 
   searchItemByItemType(idItemType) {
-    this.loadItem(idItemType);
-    //this.loadInit();
+    this.tableRender();
   }
+
+  ngOnDestroy(): void {
+    this.dtTrigger.unsubscribe(); 
+  }
+
+  tableRender(): void {
+    this.datatableElement.dtInstance.then((dtInstance: DataTables.Api) => {
+      dtInstance.destroy();
+      this.dtTrigger.next();
+    });
+  }
+
+  ngAfterViewInit(): void {
+    this.dtTrigger.next();
+    this.tableRender();
+  }
+
 }
