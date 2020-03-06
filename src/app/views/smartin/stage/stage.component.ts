@@ -232,8 +232,12 @@ export class StageComponent implements OnInit {
       this.laddaSubmitLoading = false;
       if(result.Data =="nameInvalid")
         this.existName = true;
-      if(result.Data =="codeInvalid")
+      else if(result.Data =="codeInvalid")
         this.existCode = true;
+        else{
+          this.existName = true;
+          this.existCode = true;
+        }
       return false;
     }
   }
