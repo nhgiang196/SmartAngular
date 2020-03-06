@@ -152,6 +152,16 @@ export class WaterTreatmentService {
    findStageById =(id) => this.http.get<any>(`${ApiUrl}/Stage/FindStageById?id=${id}` );
    validateStage =(entity) =>this.http.post(`${ApiUrl}/Stage/ValidateStage`,entity);
 
+   //bomFactory
+   addBomFactory =(entity) => this.http.post(`${ApiUrl}/BomFactory/AddBomFactory`,entity);
+   updateBomFactory =(entity) => this.http.put(`${ApiUrl}/BomFactory/UpdateBomFactory`,entity);
+   getDataTableBomFactoryPagination =(entity) => this.http.post<DataTablesResponse>(`${ApiUrl}/BomFactory/DataTableBomFactoryPagination`,entity);
+   deleteBomFactory =(id) => this.http.delete(`${ApiUrl}/BomFactory/DeleteBomFactory`,{ params: { id: id } });
+   getBomFactoryPagination =(entity) => this.http.post<any>(`${ApiUrl}/BomFactory/GetBomFactoryPagination`,entity,{} );
+   getBomFactory =() => this.http.get(`${ApiUrl}/BomFactory/GetBomFactory` );
+   findBomFactoryById =(id) => this.http.get<any>(`${ApiUrl}/BomFactory/FindBomFactoryById?id=${id}` );
+   validateBomFactory =(entity) =>this.http.post(`${ApiUrl}/BomFactory/ValidateBomFactory`,entity);
+
 
   //Item Services
   addItem =(entity) => this.http.post(`${ApiUrl}/Item/AddItem`,entity);

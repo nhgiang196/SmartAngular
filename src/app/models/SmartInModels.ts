@@ -196,7 +196,7 @@ export class Unit {
 }
 
 export class Stage {
-  StageID: number = 0
+  StageId: number = 0
   StageName: string
   StageCode?: string
   CreateBy?: string
@@ -212,6 +212,43 @@ export class StageFile {
   FileId: number = 0
   File: Files = new Files()
 }
+
+export class BomFactory {
+	BomFactoryID: number = 0
+	FactoryID: number = 0
+	Validate?: Date
+  Descriptions?: string
+  CreateBy: string
+  CreateDate: Date = null
+  ModifyBy: string
+  ModifyDate: Date = null
+  Status?: number = 0
+  Factory? : Factory = new Factory();
+  BomStage?: BomStage [] = []
+}
+
+export class BomItem {
+	BomItemId: number = 0
+	BomStageId: number = 0
+	ItemId?: number = 0
+	Type?: number = 0
+	UnitId?: number = 0
+  Quantity?: number
+  Item?: Item = new Item();
+  Unit?: Unit = new Unit();
+}
+
+export class BomStage {
+	BomStageId: number = 0
+	BomFactoryId: number = 0
+	StageId?: number = 0
+	OrderNumber?: number
+	Sequence?: boolean = false
+  Description?: string
+  BomItem?: BomItem[] =[]
+}
+
+
 
 
 
