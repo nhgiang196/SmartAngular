@@ -49,6 +49,9 @@ import { ItemGridComponent } from './views/smartin/item/item-grid/item-grid.comp
 import { ItemDetailComponent } from './views/smartin/item/item-detail/item-detail.component';
 import { ItemResolver } from './resolvers/item.resolver';
 import { StageComponent } from './views/smartin/stage/stage.component';
+import { CustomerComponent } from './views/smartin/customer/customer.component';
+import { ContractComponent } from './views/smartin/category/contract/contract.component';
+import { CustomerDetailComponent } from './views/smartin/customer/customer-detail/customer-detail.component';
 
 
 /**XLNT */
@@ -119,8 +122,11 @@ export const ROUTES: Routes = [
               {path:'action/:id',component: ItemActionComponent, resolve: { item: ItemResolver}}
             ]
            },
-           { path: 'item/:id', component: ItemListComponent },
+          { path: 'item/:id', component: ItemListComponent },
           { path: 'warehouse', component: WarehouseComponent },
+          { path: 'customer', component: CustomerComponent },
+          { path: 'customer/:id', component: CustomerDetailComponent },
+          { path: 'contract', component: ContractComponent },
           { path: '', component: CategoryNavigationComponent, outlet: 'sidemenu' },
         ]
       },

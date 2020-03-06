@@ -14,7 +14,7 @@ import { SlickCarouselModule } from 'ngx-slick-carousel';
 import { StageComponent } from './stage/stage.component';
 import { CustomerListComponent } from './customer/customer-list/customer-list.component';
 import { CustomerDetailComponent } from './customer/customer-detail/customer-detail.component';
-import { ContractComponent } from './contract/contract.component';
+import { ContractComponent } from './category/contract/contract.component';
 import { CustomerComponent } from './customer/customer.component';
 
 
