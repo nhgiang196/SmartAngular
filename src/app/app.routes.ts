@@ -131,6 +131,17 @@ export const ROUTES: Routes = [
           { path: '', component: CategoryNavigationComponent, outlet: 'sidemenu' },
         ]
       },
+       //bom
+       {
+        path: 'bom', canActivate: [AuthGuard], children: [
+          { path: 'list', component: BomListComponent },
+          { path: 'unit', component: UnitMeasurementComponent },
+          { path: 'stage', component: StageComponent },        
+           { path: 'item/:id', component: ItemListComponent },
+          { path: 'warehouse', component: WarehouseComponent },
+          { path: '', component: CategoryNavigationComponent, outlet: 'sidemenu' },
+    ]
+  },
     ]
   },
   { //BlankComponent

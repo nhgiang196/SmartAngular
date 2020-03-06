@@ -11,6 +11,7 @@ import { ItemActionComponent } from './item/item-action/item-action.component';
 import { ItemGridComponent } from './item/item-grid/item-grid.component';
 import { ItemDetailComponent } from './item/item-detail/item-detail.component';
 import { StageComponent } from './stage/stage.component';
+import { BomListComponent } from './bom/bom-list/bom-list.component';
 
 import { CustomerListComponent } from './category/customer/customer-list/customer-list.component';
 import { CustomerDetailComponent } from './category/customer/customer-detail/customer-detail.component';
@@ -38,7 +39,7 @@ const COMPONENTS = [
 
 
 @NgModule({
-  declarations: [...COMPONENTS, ContractComponent ],
+  declarations: [...COMPONENTS ],
   imports: [
     CommonModule,
     SharedModule,
