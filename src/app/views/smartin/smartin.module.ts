@@ -10,12 +10,14 @@ import { ItemListComponent } from './item/item-list/item-list.component';
 import { ItemActionComponent } from './item/item-action/item-action.component';
 import { ItemGridComponent } from './item/item-grid/item-grid.component';
 import { ItemDetailComponent } from './item/item-detail/item-detail.component';
-import { SlickCarouselModule } from 'ngx-slick-carousel';
 import { StageComponent } from './stage/stage.component';
+
 import { CustomerListComponent } from './category/customer/customer-list/customer-list.component';
 import { CustomerDetailComponent } from './category/customer/customer-detail/customer-detail.component';
-import { ContractComponent } from './category/contract/contract.component';
 import { CustomerComponent } from './category/customer/customer.component';
+import { ContractComponent } from './category/customer/contract/contract.component';
+
+
 
 
 const COMPONENTS = [
@@ -25,12 +27,18 @@ const COMPONENTS = [
   WarehouseComponent,
   ItemListComponent,
   ItemGridComponent,
-  ItemActionComponent
+  ItemActionComponent,
+  ItemDetailComponent, 
+  StageComponent, 
+  CustomerListComponent, 
+  CustomerDetailComponent, 
+  CustomerComponent,
+  ContractComponent
 ];
 
 
 @NgModule({
-  declarations: [...COMPONENTS, ItemDetailComponent, StageComponent, CustomerListComponent, CustomerDetailComponent,  ContractComponent, CustomerComponent],
+  declarations: [...COMPONENTS, ContractComponent ],
   imports: [
     CommonModule,
     SharedModule,
