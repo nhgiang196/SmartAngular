@@ -25,6 +25,7 @@ export class StageComponent implements OnInit {
   ACTION_STATUS: string;
   laddaSubmitLoading = false;
   existName = false;
+  existCode = false;
   iboxloading = false;
   files: File[] = [];
   addFiles: { FileList: File[], FileLocalNameList: string[] };
@@ -188,16 +189,18 @@ export class StageComponent implements OnInit {
             if (this.addFiles.FileList.length > 0) this.uploadFile(this.addFiles.FileList);
             this.toastr.success(this.trans.instant("messg.update.success"));
             this.addFiles = { FileList: [], FileLocalNameList: [] };
+            this.rerender();
+            $("#myModal4").modal('hide');
           }
           else this.toastr.warning(operationResult.Message);
           this.laddaSubmitLoading = false;
         }, err => { this.toastr.error(err.statusText); this.laddaSubmitLoading = false; })
       }
-      await this.loadInit();
     }
   }
   fnUpdate(id) { //press a link name of entity
     this.existName = false;
+    this.existCode =false;
     this.ACTION_STATUS = 'update'
     $("#myModal4").modal('hide');
     if (id === null) { this.toastr.warning('Stage ID is Null, cant show modal'); return; }
@@ -225,8 +228,16 @@ export class StageComponent implements OnInit {
     let result = await this.api.validateStage(this.entity).toPromise().then() as any;
     if (result.Success) return true;
     else {
+      debugger;
       this.laddaSubmitLoading = false;
-      this.existName = true;
+      if(result.Data =="nameInvalid")
+        this.existName = true;
+      else if(result.Data =="codeInvalid")
+        this.existCode = true;
+        else{
+          this.existName = true;
+          this.existCode = true;
+        }
       return false;
     }
   }
