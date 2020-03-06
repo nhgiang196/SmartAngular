@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, AfterViewInit, OnDestroy, Renderer } from "@angular/core";
-import { CustomerComponent } from '../../customer/customer.component';
+import { CustomerComponent } from '../customer/customer.component';
 
 @Component({
   selector: 'app-contract',

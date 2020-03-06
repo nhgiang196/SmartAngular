@@ -49,9 +49,9 @@ import { ItemGridComponent } from './views/smartin/item/item-grid/item-grid.comp
 import { ItemDetailComponent } from './views/smartin/item/item-detail/item-detail.component';
 import { ItemResolver } from './resolvers/item.resolver';
 import { StageComponent } from './views/smartin/stage/stage.component';
-import { CustomerComponent } from './views/smartin/customer/customer.component';
+import { CustomerComponent } from './views/smartin/category/customer/customer.component';
 import { ContractComponent } from './views/smartin/category/contract/contract.component';
-import { CustomerDetailComponent } from './views/smartin/customer/customer-detail/customer-detail.component';
+import { CustomerDetailComponent } from './views/smartin/category/customer/customer-detail/customer-detail.component';
 
 
 /**XLNT */

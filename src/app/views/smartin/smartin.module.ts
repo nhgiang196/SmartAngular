@@ -12,10 +12,10 @@ import { ItemGridComponent } from './item/item-grid/item-grid.component';
 import { ItemDetailComponent } from './item/item-detail/item-detail.component';
 import { SlickCarouselModule } from 'ngx-slick-carousel';
 import { StageComponent } from './stage/stage.component';
-import { CustomerListComponent } from './customer/customer-list/customer-list.component';
-import { CustomerDetailComponent } from './customer/customer-detail/customer-detail.component';
+import { CustomerListComponent } from './category/customer/customer-list/customer-list.component';
+import { CustomerDetailComponent } from './category/customer/customer-detail/customer-detail.component';
 import { ContractComponent } from './category/contract/contract.component';
-import { CustomerComponent } from './customer/customer.component';
+import { CustomerComponent } from './category/customer/customer.component';
 
 
 const COMPONENTS = [
