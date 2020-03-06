@@ -34,7 +34,8 @@ const COMPONENTS = [
   CustomerListComponent, 
   CustomerDetailComponent, 
   CustomerComponent,
-  ContractComponent
+  ContractComponent,
+  BomListComponent
 ];
 
 

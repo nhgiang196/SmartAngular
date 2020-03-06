@@ -53,6 +53,7 @@ import { CustomerComponent } from './views/smartin/category/customer/customer.co
 import { CustomerDetailComponent } from './views/smartin/category/customer/customer-detail/customer-detail.component';
 import { ContractComponent } from './views/smartin/category/customer/contract/contract.component';
 import { CustomerDetailResolverService } from './views/smartin/category/customer/customer-detail.resolver';
+import { BomListComponent } from './views/smartin/bom/bom-list/bom-list.component';
 
 
 /**XLNT */
