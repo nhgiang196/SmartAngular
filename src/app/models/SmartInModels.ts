@@ -71,7 +71,7 @@ export class DataTablePaginationParams {
 }
 export class Item {
   ItemId?: number = 0
-  ItemTypeId?: number = 0
+  ItemTypeId?: number = null
   ItemNo?: string
   ItemName?: string
   ItemPrintName?: string
@@ -290,4 +290,83 @@ export class WarehouseLocation {
   WarehouseLocationHeight: number = 0
   Status: number = 1
 }
+
+export class Customer {
+	ContractID: number = 0
+	CustomerID?: number = 0
+	ContractNo?: string
+	ContractCode?: string
+	ContractType?: number
+	SignDate?: Date
+	EffectiveDate?: Date
+	EndDate?: Date
+	StandardType?: number
+	Ratio?: any
+	Description?: string
+  IsIntergration?: boolean
+  Contract : Contract[] = []
+  CustomerFile: CustomerFile[] = []
+}
+
+
+export class CustomerFile {
+  CustomerFileID: number = 0
+  CustomerID: number = 0
+  FileID: number = 0
+  File: Files = new Files()
+}
+
+
+
+export class Contract {
+	ContractID: number = 0 
+	CustomerID?: number = 0
+	ContractNo?: string
+	ContractCode?: string
+	ContractType?: number
+	SignDate?: Date
+	EffectiveDate?: Date
+	EndDate?: Date
+	StandardType?: number
+	Ratio?: any
+	Description?: string
+  IsIntergration?: boolean
+  ContractPrice : ContractPrice[] = []
+  ContractBreach : ContractBreach[] = []
+  ContractFile : ContractFile[] = []
+}
+
+export class ContractPrice {
+	ContractPriceID: number = 0
+	ContractID?: number = 0
+	Ratio?: any
+	Currency?: string
+	Price?: any
+	Tax?: any
+}
+
+export class ContractBreach {
+	ContractBreachID: number= 0
+	ContractID?: number = 0
+	BreachType: number
+	ResolveType?: number
+	Times?: number
+}
+
+
+
+export class ContractFile {
+  ContractFileID: number = 0
+  ContractID: number = 0
+  FileId: number = 0
+  File: Files = new Files()
+}
+
+
+
+
+
+
+
+
 

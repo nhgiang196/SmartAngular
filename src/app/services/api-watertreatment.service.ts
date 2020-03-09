@@ -213,6 +213,24 @@ export class WaterTreatmentService {
   checkItemNameExist =(itemName) => this.http.get<any>(`${ApiUrl}/Item/CheckItemNameExist?ItemName=${itemName}` );
   
 
+  /**Customer */
+  addCustomer =(entity) => this.http.post(`${ApiUrl}/Customer/AddCustomer`,entity);
+  updateCustomer =(entity) => this.http.put(`${ApiUrl}/Customer/UpdateCustomer`,entity);
+  deleteCustomer =(id) => this.http.delete(`${ApiUrl}/Customer/DeleteCustomer`,{ params: { id: id } });
+  getCustomerPagination =(entity) => this.http.post<any>(`${ApiUrl}/IteCustomerm/GetCustomerPagination`,entity,{} );
+  getDataTableCustomerPagination =(entity) => this.http.post<DataTablesResponse>(`${ApiUrl}/Customer/DataTableCustomerPagination`,entity);
+  getCustomer =() => this.http.get(`${ApiUrl}/Customer/GetCustomer` );
+  findCustomerById =(id) => this.http.get<any>(`${ApiUrl}/Customer/FindCustomerById?id=${id}` );
+  validateCustomer =(entity) =>{ return this.http.post(`${ApiUrl}/Customer/ValidateCustomer`,entity);} 
 
+  /**Contract */
+  getContract =() => this.http.get(`${ApiUrl}/Contract/GetContract` );
+  getContractPagination =(entity) => this.http.post<any>(`${ApiUrl}/Contract/GetCustomerPagination`,entity,{} );
+  getDataTableContractPagination =(entity) => this.http.post<DataTablesResponse>(`${ApiUrl}/Item/DataTableContractPagination`,entity);
+  findContractById =(id) => this.http.get<any>(`${ApiUrl}/Contract/FindContractById?id=${id}` );
+  addContract =(entity) => this.http.post(`${ApiUrl}/Contract/AddContract`,entity);
+  updateContract =(entity) => this.http.put(`${ApiUrl}/Contract/UpdateContract`,entity);
+  deleteContract =(id) => this.http.delete(`${ApiUrl}/Contract/DeleteContract?id=${id}`);
+  validateContract =(entity) => this.http.post(`${ApiUrl}/Contract/ValidateContract?`,entity);
 
 }
