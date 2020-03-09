@@ -59,7 +59,7 @@ export class File {
   Status: number = 1 //current
 }
 
-export class DataTablePaginationParram {
+export class DataTablePaginationParams {
   key: string = ''
   keyFields: string = ''
   page: number = 1
@@ -231,9 +231,11 @@ export class BomFactory {
 export class BomItem {
 	BomItemId: number = 0
 	BomStageId: number = 0
-	ItemId?: number = 0
+  ItemId?: number = 0
+  ItemName:string
 	Type?: number = 0
-	UnitId?: number = 0
+  UnitId?: number = 0
+  UnitName: string
   Quantity?: number
   Item?: Item = new Item();
   Unit?: Unit = new Unit();
@@ -241,17 +243,14 @@ export class BomItem {
 
 export class BomStage {
 	BomStageId: number = 0
-	BomFactoryId: number = 0
-	StageId?: number = 0
+  BomFactoryId: number = 0
+  StageId?: number = 0
+  StageName: string
 	OrderNumber?: number
 	Sequence?: boolean = false
   Description?: string
   BomItem?: BomItem[] =[]
 }
-
-
-
-
 
 export class Warehouse {
   WarehouseId: number = 0
@@ -293,18 +292,20 @@ export class WarehouseLocation {
 }
 
 export class Customer {
-	ContractID: number = 0
-	CustomerID?: number = 0
-	ContractNo?: string
-	ContractCode?: string
-	ContractType?: number
-	SignDate?: Date
-	EffectiveDate?: Date
-	EndDate?: Date
-	StandardType?: number
-	Ratio?: any
+	CustomerID: number = 0
+	CustomerName?: string
+	FactoryID?: number 
+	CustomerAddress?: string
+	ContactName?: string
+	ContactEmail?: string
+	ContactPhone?: string
 	Description?: string
-  IsIntergration?: boolean
+	CreateBy?: string
+	CreateDate?: Date
+	ModifyBy?: string
+	ModifyDate?: Date
+	Status?: number
+	IsIntergration?: boolean
   Contract : Contract[] = []
   CustomerFile: CustomerFile[] = []
 }
@@ -331,7 +332,7 @@ export class Contract {
 	StandardType?: number
 	Ratio?: any
 	Description?: string
-  IsIntergration?: boolean
+  IsIntergration?: boolean = true
   ContractPrice : ContractPrice[] = []
   ContractBreach : ContractBreach[] = []
   ContractFile : ContractFile[] = []

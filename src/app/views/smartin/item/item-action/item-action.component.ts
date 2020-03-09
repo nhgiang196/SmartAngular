@@ -4,11 +4,11 @@ import {
   ItemFactory,
   ItemProperty,
   ItemPackage,
-  DataTablePaginationParram,
   ItemFile,
   Unit,
   Factory,
-  ItemType
+  ItemType,
+  DataTablePaginationParams
 } from "src/app/models/SmartInModels";
 import { WaterTreatmentService } from "src/app/services/api-watertreatment.service";
 import { ToastrService } from "ngx-toastr";
@@ -279,7 +279,7 @@ export class ItemActionComponent implements OnInit {
   // }
 
   private async loadFactory() {
-    const model: DataTablePaginationParram = {
+    const model: DataTablePaginationParams = {
       key: "",
       entity: "Factory",
       keyFields: "",
@@ -523,7 +523,7 @@ export class ItemActionComponent implements OnInit {
   }
 
   async loadProperty(code) {
-    const model: DataTablePaginationParram = {
+    const model: DataTablePaginationParams = {
       key: "",
       entity: "ItemType",
       keyFields: "",
@@ -577,18 +577,7 @@ export class ItemActionComponent implements OnInit {
   //   this.entity.ItemUnitId =99;
   // }
 
-  private async loadUnit() {
-    const model: DataTablePaginationParram = {
-      key: "",
-      entity: "Unit",
-      keyFields: "",
-      selectFields: "UnitName,UnitId",
-      page: 1,
-      pageSize: 9999,
-      orderDir: "asc",
-      orderBy: "UnitName"
-    };
-
+  private async loadUnit() {  
     // this.listUnit = await this.api.getUnitPagination(model).pipe(
     //   map(res => {
     //     return res.result.map(item => {
@@ -614,9 +603,9 @@ export class ItemActionComponent implements OnInit {
     //     )
     // );
     // this.entity.ItemUnitId =99;
-
+    let keySearch = ""
     let data: any = await this.api
-      .getUnitPagination(model)
+      .getUnitPagination(keySearch)
       .toPromise()
       .then();
     this.listUnit = data.result;

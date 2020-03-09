@@ -1,16 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { DataTablePaginationParram, DataTablesResponse } from '../models/SmartInModels';
+import {  DataTablesResponse, DataTablePaginationParams } from '../models/SmartInModels';
 
 const ApiUrl = "api/v1";
 
 
 @Injectable({ providedIn: 'root' })
 export class WaterTreatmentService {
-  severSide={
-
-  }
   constructor(
     private http: HttpClient, private router: Router
   ) { }
@@ -30,14 +27,14 @@ export class WaterTreatmentService {
     return this.http.get<any>(`${ApiUrl}/Factory/GetFactory`);
   }
   getBasicFactory(){
-    let pr = new DataTablePaginationParram(); 
+    let pr = new DataTablePaginationParams(); 
     pr.selectFields = "FactoryID, FactoryName, Status "
     pr.pageSize = 9999;
     return this.http.post(`${ApiUrl}/Factory/GetFactoryPagination`, pr);
   }
 
   getFactoryPagination(keyvalue) {
-    let pr = new DataTablePaginationParram(); 
+    let pr = new DataTablePaginationParams(); 
     pr.keyFields="FactoryName,FactoryAddress,FactoryContact,ContactPhone"
     pr.key = keyvalue; 
     pr.pageSize = 9999;
@@ -70,7 +67,7 @@ export class WaterTreatmentService {
 
   /** WAREHOUSE */
   getWarehousePagination =(keyvalue) => {
-    let pr = new DataTablePaginationParram(); 
+    let pr = new DataTablePaginationParams(); 
     pr.keyFields="WarehouseCode,WarehouseName,WarehouseAddress,WarehouseType,WarehouseUserName,Status";
     pr.selectFields = " WarehouseID, WarehouseCode, WarehouseName, f.FactoryName, WarehouseType, WarehouseAddress, WarehouseUserName, u.NormalizedUserName , w.Status ";
     pr.entity = `Warehouse w LEFT JOIN [BCM_Auth].dbo.AspNetUsers u ON u.UserName= w.WarehouseUserName
@@ -133,7 +130,19 @@ export class WaterTreatmentService {
   addUnit =(entity) => this.http.post(`${ApiUrl}/Unit/AddUnit`,entity);
   updateUnit =(entity) => this.http.put(`${ApiUrl}/Unit/UpdateUnit`,entity);
   deleteUnit =(id) => this.http.delete(`${ApiUrl}/Unit/DeleteUnit`,{ params: { id: id } });
-  getUnitPagination =(entity) => this.http.post<any>(`${ApiUrl}/Unit/GetUnitPagination`,entity,{} );
+  getUnitPagination =(keySearch) =>{
+    const model: DataTablePaginationParams = {
+      key: keySearch,
+      entity: "Unit",
+      keyFields: "",
+      selectFields: "UnitName,UnitId",
+      page: 1,
+      pageSize: 9999,
+      orderDir: "asc",
+      orderBy: "UnitName"
+    };
+   return this.http.post<any>(`${ApiUrl}/Unit/GetUnitPagination`,model,{} )
+  }
   getDataTableUnitPagination =(entity) => this.http.post<DataTablesResponse>(`${ApiUrl}/Unit/DataTableUnitPagination`,entity);
   getUnitSelect2 =(keyword) => this.http.get<any>(`${ApiUrl}/Unit/GetUnitPaginationToSelect2?keyword=`+keyword );
   getUnit =() => this.http.get(`${ApiUrl}/Unit/GetUnit` );
@@ -147,7 +156,19 @@ export class WaterTreatmentService {
    updateStage =(entity) => this.http.put(`${ApiUrl}/Stage/UpdateStage`,entity);
    getDataTableStagePagination =(entity) => this.http.post<DataTablesResponse>(`${ApiUrl}/Stage/DataTableStagePagination`,entity);
    deleteStage =(id) => this.http.delete(`${ApiUrl}/Stage/DeleteStage`,{ params: { id: id } });
-   getStagePagination =(entity) => this.http.post<any>(`${ApiUrl}/Stage/GetStagePagination`,entity,{} );
+   getStagePagination =(keySearch) => {
+    const model: DataTablePaginationParams = {
+      key: keySearch,
+      entity: "Stage",
+      keyFields: "",
+      selectFields: "StageId,StageCode,StageName",
+      page: 1,
+      pageSize: 9999,
+      orderDir: "asc",
+      orderBy: "StageName"
+    };
+    return this.http.post<any>(`${ApiUrl}/Stage/GetStagePagination`,model,{} )
+   }
    getStage =() => this.http.get(`${ApiUrl}/Stage/GetStage` );
    findStageById =(id) => this.http.get<any>(`${ApiUrl}/Stage/FindStageById?id=${id}` );
    validateStage =(entity) =>this.http.post(`${ApiUrl}/Stage/ValidateStage`,entity);
@@ -167,7 +188,26 @@ export class WaterTreatmentService {
   addItem =(entity) => this.http.post(`${ApiUrl}/Item/AddItem`,entity);
   updateItem =(entity) => this.http.put(`${ApiUrl}/Item/UpdateItem`,entity);
   deleteItem =(id) => this.http.delete(`${ApiUrl}/Item/DeleteItem`,{ params: { id: id } });
-  getItemPagination =(entity) => this.http.post<any>(`${ApiUrl}/Item/GetItemPagination`,entity,{} );
+  getItemPagination =(keySearch) =>{
+    const model: DataTablePaginationParams = {
+      key: keySearch,
+      entity: "Item",
+      keyFields: "ItemName",
+      selectFields: "ItemId,ItemNo  +' '+ ItemName as ItemName",
+      page: 1,
+      pageSize: 9999,
+      orderDir: "asc",
+      orderBy: "ItemName"
+    };
+    
+    return this.http.post<any>(`${ApiUrl}/Item/GetItemPagination`,model,{} );
+  }
+  getSelect2ItemPagination =(params) =>{  
+    return this.http.get<any>(`${ApiUrl}/Item/GetSelect2ItemPagination`,{ params: params } );
+  }
+  getItemSelect2Pagination(entity){
+    return this.http.post<any>(`${ApiUrl}/Item/GetItemPagination`,entity);
+  }
   getDataTableItemPagination =(entity) => this.http.post<DataTablesResponse>(`${ApiUrl}/Item/DataTableItemPagination`,entity);
   getItem =() => this.http.get(`${ApiUrl}/Item/GetItem` );
   getItemByItemType =(entity,itemTypeId) => this.http.post<DataTablesResponse>(`${ApiUrl}/Item/GetItemByItemType/${itemTypeId}`,entity)//{ params: { itemTypeId: itemTypeId } } );
