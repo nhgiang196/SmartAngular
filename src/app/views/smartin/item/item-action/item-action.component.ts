@@ -120,9 +120,15 @@ export class ItemActionComponent implements OnInit {
     this.uploadReportProgress = { progress: 0, message: null, isError: null };
     this.laddaSubmitLoading = true;
     let e = this.entity;
-    e.ItemManufactureYear = this.helper.yearConvertToString(
-      new Date(e.ItemManufactureYear)
-    );
+    if(e.ItemManufactureYear!=0 && e.ItemManufactureYear!=null ){
+      e.ItemManufactureYear = this.helper.yearConvertToString(
+        new Date(e.ItemManufactureYear)
+      );
+    }
+    else{
+      e.ItemManufactureYear =null;
+    }
+   
 
     if (this.itemIdPram == null) e.CreateBy = this.auth.currentUser.Username;
     else e.ModifyBy = this.auth.currentUser.Username;
