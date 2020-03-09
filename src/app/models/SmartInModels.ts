@@ -196,7 +196,7 @@ export class Unit {
 }
 
 export class Stage {
-  StageID: number = 0
+  StageId: number = 0
   StageName: string
   Description: string
   StageCode?: string
@@ -213,6 +213,43 @@ export class StageFile {
   FileId: number = 0
   File: Files = new Files()
 }
+
+export class BomFactory {
+	BomFactoryID: number = 0
+	FactoryID: number = 0
+	Validate?: Date
+  Descriptions?: string
+  CreateBy: string
+  CreateDate: Date = null
+  ModifyBy: string
+  ModifyDate: Date = null
+  Status?: number = 0
+  Factory? : Factory = new Factory();
+  BomStage?: BomStage [] = []
+}
+
+export class BomItem {
+	BomItemId: number = 0
+	BomStageId: number = 0
+	ItemId?: number = 0
+	Type?: number = 0
+	UnitId?: number = 0
+  Quantity?: number
+  Item?: Item = new Item();
+  Unit?: Unit = new Unit();
+}
+
+export class BomStage {
+	BomStageId: number = 0
+	BomFactoryId: number = 0
+	StageId?: number = 0
+	OrderNumber?: number
+	Sequence?: boolean = false
+  Description?: string
+  BomItem?: BomItem[] =[]
+}
+
+
 
 
 
@@ -254,4 +291,83 @@ export class WarehouseLocation {
   WarehouseLocationHeight: number = 0
   Status: number = 1
 }
+
+export class Customer {
+	ContractID: number = 0
+	CustomerID?: number = 0
+	ContractNo?: string
+	ContractCode?: string
+	ContractType?: number
+	SignDate?: Date
+	EffectiveDate?: Date
+	EndDate?: Date
+	StandardType?: number
+	Ratio?: any
+	Description?: string
+  IsIntergration?: boolean
+  Contract : Contract[] = []
+  CustomerFile: CustomerFile[] = []
+}
+
+
+export class CustomerFile {
+  CustomerFileID: number = 0
+  CustomerID: number = 0
+  FileID: number = 0
+  File: Files = new Files()
+}
+
+
+
+export class Contract {
+	ContractID: number = 0 
+	CustomerID?: number = 0
+	ContractNo?: string
+	ContractCode?: string
+	ContractType?: number
+	SignDate?: Date
+	EffectiveDate?: Date
+	EndDate?: Date
+	StandardType?: number
+	Ratio?: any
+	Description?: string
+  IsIntergration?: boolean
+  ContractPrice : ContractPrice[] = []
+  ContractBreach : ContractBreach[] = []
+  ContractFile : ContractFile[] = []
+}
+
+export class ContractPrice {
+	ContractPriceID: number = 0
+	ContractID?: number = 0
+	Ratio?: any
+	Currency?: string
+	Price?: any
+	Tax?: any
+}
+
+export class ContractBreach {
+	ContractBreachID: number= 0
+	ContractID?: number = 0
+	BreachType: number
+	ResolveType?: number
+	Times?: number
+}
+
+
+
+export class ContractFile {
+  ContractFileID: number = 0
+  ContractID: number = 0
+  FileId: number = 0
+  File: Files = new Files()
+}
+
+
+
+
+
+
+
+
 

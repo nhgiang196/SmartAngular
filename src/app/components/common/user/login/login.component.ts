@@ -42,16 +42,15 @@ export class LoginComponent implements OnInit {
         this.authService.currentUser = JSON.parse(localStorage.getItem('currentUser'));
         this.router.navigateByUrl(localStorage.getItem('rememberLastUrl') ||  'mainView');
         localStorage.removeItem('rememberLastUrl');
-        
-
+        this.laddaSubmitLoading = false;
       }
       else {
         //this.toastr.warning('Incorrect password or username', 'Login failed!');
+        this.laddaSubmitLoading = false;
         this.toastr.warning(this.translate.instant("messg.login.failed"),this.translate.instant("messg.login.caption"))
         // console.log(res["Errors"]);
         // this.router.navigate(['/register']);
       }
-      this.laddaSubmitLoading = false;
     }).catch(err=>{
       this.toastr.error(err.message,err.statusText+': '+err.status);
       this.laddaSubmitLoading = false;

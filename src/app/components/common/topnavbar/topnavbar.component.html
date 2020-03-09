@@ -18,7 +18,7 @@
                 data-toggle="dropdown">DANH MỤC<span class="caret"></span></a>
             <ul role="menu" class="dropdown-menu">
                <li><a [routerLink]="['/category/stage']" >o Giai đoạn xử lý nước thải</a></li>
-               <li><a [routerLink]="['/category/itemType']" >o Đơn vị xả thải</a></li>
+               <li><a [routerLink]="['/category/customer']" >o Đơn vị xả thải</a></li>
                <li><a [routerLink]="['/category/warehouse']" >o Kho</a></li>
                <li><a [routerLink]="['/category/itemType']" routerLinkActive="router-link-active" >o Loại vật tư</a></li>
                <li><a [routerLink]="['/category/unit']">o Đơn vị tính</a></li>
@@ -29,9 +29,9 @@
             <a role="button" href="#" class="dropdown-toggle"
                 data-toggle="dropdown">ĐỊNH MỨC HÓA CHẤT <span class="caret"></span></a>
             <ul role="menu" class="dropdown-menu">
-                <li><a>o Định mức hóa chất sử dụng</a></li>
-                <li><a>o Gia test điều chỉnh định mức hóa chất sử dụng</a></li>
-                <li><a>o Tính định mức hóa chất sử dụng theo lịch sử vận hành</a></li>
+                <li><a [routerLink]="['/bom/list']">o Định mức hóa chất sử dụng</a></li>
+                <li><a [routerLink]="['/bom/stage']">o Gia test điều chỉnh định mức hóa chất sử dụng</a></li>
+                <li><a [routerLink]="['/bom/stage']">o Tính định mức hóa chất sử dụng theo lịch sử vận hành</a></li>
             </ul>
         </li>
         <li class="dropdown">

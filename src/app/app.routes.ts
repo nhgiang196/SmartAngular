@@ -49,6 +49,11 @@ import { ItemGridComponent } from './views/smartin/item/item-grid/item-grid.comp
 import { ItemDetailComponent } from './views/smartin/item/item-detail/item-detail.component';
 import { ItemResolver } from './resolvers/item.resolver';
 import { StageComponent } from './views/smartin/stage/stage.component';
+import { CustomerComponent } from './views/smartin/category/customer/customer.component';
+import { CustomerDetailComponent } from './views/smartin/category/customer/customer-detail/customer-detail.component';
+import { ContractComponent } from './views/smartin/category/customer/contract/contract.component';
+import { CustomerDetailResolverService } from './views/smartin/category/customer/customer-detail.resolver';
+import { BomListComponent } from './views/smartin/bom/bom-list/bom-list.component';
 
 
 /**XLNT */
@@ -119,11 +124,25 @@ export const ROUTES: Routes = [
               {path:'action/:id',component: ItemActionComponent, resolve: { item: ItemResolver}}
             ]
            },
-           { path: 'item/:id', component: ItemListComponent },
+          { path: 'item/:id', component: ItemListComponent },
           { path: 'warehouse', component: WarehouseComponent },
+          { path: 'customer', component: CustomerComponent },
+          { path: 'customer/detail/:id', component: CustomerDetailComponent, resolve: { dataResolver: CustomerDetailResolverService }},
+          { path: 'customer/detail/:id/contract', component: ContractComponent }, //prepare resolved
           { path: '', component: CategoryNavigationComponent, outlet: 'sidemenu' },
         ]
       },
+       //bom
+       {
+        path: 'bom', canActivate: [AuthGuard], children: [
+          { path: 'list', component: BomListComponent },
+          { path: 'unit', component: UnitMeasurementComponent },
+          { path: 'stage', component: StageComponent },        
+           { path: 'item/:id', component: ItemListComponent },
+          { path: 'warehouse', component: WarehouseComponent },
+          { path: '', component: CategoryNavigationComponent, outlet: 'sidemenu' },
+    ]
+  },
     ]
   },
   { //BlankComponent
