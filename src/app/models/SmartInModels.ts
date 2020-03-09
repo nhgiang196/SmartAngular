@@ -60,14 +60,15 @@ export class File {
 }
 
 export class DataTablePaginationParams {
-  key: string = ''
-  keyFields: string = ''
-  page: number = 1
-  pageSize: number = 50
-  orderBy: string = null
-  orderDir: string = 'asc'
-  entity: string = null
-  selectFields: string = null
+  key?: string = ''
+  keyFields?: string = ''
+  page?: number = 0
+  pageSize?: number = null
+  orderBy?: string = null
+  orderDir?: string = 'asc'
+  entity?: string = null
+  selectFields?: string = null
+  specialCondition?: string =null
 }
 export class Item {
   ItemId?: number = 0
