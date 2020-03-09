@@ -2,6 +2,7 @@ import { Component, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 declare let $: any;
 @Component({
   selector: 'app-contract',
@@ -16,9 +17,8 @@ export class ContractComponent implements OnInit, AfterViewInit, OnDestroy {
 
 
   constructor(
-    // private modalService: NgbModal,
     route: ActivatedRoute,
-    router: Router
+    private router: Router
   ) {
     // route.params.pipe(takeUntil(this.destroy)).subscribe(params => {
 
@@ -37,15 +37,16 @@ export class ContractComponent implements OnInit, AfterViewInit, OnDestroy {
   
 
   ngOnInit() {
+    $('.modal').modal('show');
   }
 
+
   ngAfterViewInit(){
+    
   }
   ngOnDestroy(){
     $('.modal').modal('hide');
     this.destroy.next();
-
-
   }
 
 }
