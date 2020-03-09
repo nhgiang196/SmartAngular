@@ -42,7 +42,7 @@ export class ItemActionComponent implements OnInit {
   private pathFile = "uploadFilesItem";
   minMode: BsDatepickerViewMode = "year";
   bsConfig: Partial<BsDatepickerConfig>;
-
+  initCombobox = { Factories: [], FullFactories: [], FactoriesCopy:[]};
   itemIdPram: any = null;
   entity: Item = new Item();
   itemFactory: ItemFactory = new ItemFactory();
@@ -277,7 +277,7 @@ export class ItemActionComponent implements OnInit {
       key: "",
       entity: "Factory",
       keyFields: "",
-      selectFields: "FactoryName,FactoryId",
+      selectFields: "FactoryName,FactoryId,Status",
       page: 1,
       pageSize: 9999,
       orderDir: "asc",
@@ -295,8 +295,10 @@ export class ItemActionComponent implements OnInit {
       .getAllFactoryPagination(model)
       .toPromise()
       .then();
-    this.listFactory = data.result;
-    console.log(this.listFactory);
+
+    this.initCombobox.Factories = ( data as any).result.filter(x=>x.Status ==1) as Factory[];
+    this.initCombobox.FullFactories = ( data as any).result as Factory[];
+    this.initCombobox.FactoriesCopy =  ( data as any).result.filter(x=>x.Status ==1) as Factory[];
   }
 
   factoryChange(item) {
@@ -338,9 +340,18 @@ export class ItemActionComponent implements OnInit {
     }
   
   }
-  fnEditFactory(index) {
+  fnEditFactory(index,item) {
+
+    var data =this.initCombobox.Factories.find(x=>x.FactoryId ==item.FactoryId && x.isCopy !=true);
+    if(!data){
+      this.initCombobox.Factories =this.initCombobox.FactoriesCopy.concat([{FactoryId:item.FactoryId,FactoryName:item.FactoryName,isCopy:true}]);
+    }
+    else{
+      this.initCombobox.Factories = this.initCombobox.FactoriesCopy;
+    }
     this.editRowId = index + 1;
     this.itemFactory = this.entity.ItemFactory[index];
+    this.newItemFactory = new ItemFactory();
   }
   fnDeleteFactory(index) {
     this.entity.ItemFactory.splice(index, 1);
@@ -389,12 +400,19 @@ export class ItemActionComponent implements OnInit {
   fnEditProperty(index) {
     this.editRowId = index + 1;
     this.itemProperty = this.entity.ItemProperty[index];
+    
+    this.newItemProperty = new ItemProperty();
   }
 
   fnSaveProperty() {
-    console.log(this.entity.ItemFactory);
+    debugger;
+    console.log(this.itemProperty);
     if (this.checkDuplicateProperty()) {
       swal.fire("Validate", "Dữ liệu đã bị trùng", "warning");
+      return;
+    }
+    if(this.itemProperty.ItemTypePropertyValue ==""){
+      swal.fire("Validate", "Không được để trống dữ liệu", "warning");
       return;
     }
     this.editRowId = 0;
@@ -425,20 +443,22 @@ export class ItemActionComponent implements OnInit {
 
   //packages
   fnAddPackage() {
-    if (!this.isExistPackage())
+    if(this.isExistPackage() ==1){
+      swal.fire("Validate", "Dữ liệu đã bị trùng", "warning");
+    }
+    else if(this.isExistPackage()==-1){
+      swal.fire("Validate", "Dữ liệu đã bị trùng với unit đã chọn ngoài tab thông tin", "warning");
+    }
+    else
     {
       this.entity.ItemPackage.push(this.newItemPackage);
       this.newItemPackage = new ItemPackage();
-    }
-      
-    else {
-      swal.fire("Validate", "Dữ liệu đã bị trùng", "warning");
-      return;
     }
   }
   fnEditPackage(index) {
     this.editRowId = index + 1;
     this.itemPackage = this.entity.ItemPackage[index];
+    this.newItemPackage = new ItemPackage();
   }
 
   fnSavePackage() {
@@ -454,6 +474,12 @@ export class ItemActionComponent implements OnInit {
         "warning"
       );
       return;
+    }else if(this.itemPackage.ItemPackageCoefficient==0 ||this.itemPackage.ItemPackageCoefficient==null ){
+      swal.fire(
+        "Validate",
+        "Hệ số quy đổi phải lớn hơn 0",
+        "warning"
+      );
     } else this.editRowId = 0;
   }
 
@@ -481,9 +507,13 @@ export class ItemActionComponent implements OnInit {
     this.entity.ItemPackage.splice(index, 1);
   }
   isExistPackage() {
-    return this.entity.ItemPackage.find(
-      x => x.ItemPackageUnitId == this.newItemPackage.ItemPackageUnitId
-    );
+    if(this.entity.ItemPackage.find(x => x.ItemPackageUnitId == this.newItemPackage.ItemPackageUnitId)){
+      return 1;
+    }
+    if (this.newItemPackage.ItemPackageUnitId == this.entity.ItemUnitId){
+      return -1;
+    }
+    return 0;
   }
 
   async loadProperty(code) {

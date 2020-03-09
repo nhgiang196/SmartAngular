@@ -17,18 +17,18 @@
         <div class="col-lg-12">
             <div class="tabs-container">
                 <ul class="nav nav-tabs">
-                    <li class="active"><a data-toggle="tab" href="#tab-1"><i class="fa fa-info-circle"></i>
+                    <li class="active" [class.disabledTab] ="editRowId!=0"><a data-toggle="tab" href="#tab-1"><i class="fa fa-info-circle"></i>
                             {{'Item.label.Information' | translate }}</a>
                     </li>
-                    <li class=""><a data-toggle="tab" href="#tab-2" (click)="editRowId = 0;"><i
+                    <li [class.disabledTab] ="editRowId!=0"><a data-toggle="tab" href="#tab-2" (click)="editRowId = 0;" class=""><i
                                 class="fa fa-industry"></i> {{'Item.label.Factory' | translate }}</a></li>
-                    <li class=""><a data-toggle="tab" href="#tab-3" (click)="editRowId = 0;"><i
-                                class="fa fa-list-ul"></i> {{'Item.label.Property' | translate }}</a></li>
-                    <li class=""><a data-toggle="tab" href="#tab-4" (click)="editRowId = 0;"><i
-                                class="fa fa-cube"></i>{{'Item.label.Package' | translate }}</a></li>
-                    <li class=""><a data-toggle="tab" href="#tab-5" (click)="editRowId = 0;"><i class="fa fa-file"></i>
+                    <li [class.disabledTab] ="editRowId!=0"><a data-toggle="tab" href="#tab-3" (click)="editRowId = 0;"><i
+                                class="fa fa-list-ul" ></i> {{'Item.label.Property' | translate }}</a></li>
+                    <li [class.disabledTab] ="editRowId!=0"><a data-toggle="tab" href="#tab-4" (click)="editRowId = 0;"><i
+                                class="fa fa-cube" ></i>{{'Item.label.Package' | translate }}</a></li>
+                    <li [class.disabledTab] ="editRowId!=0"><a data-toggle="tab"  href="#tab-5" (click)="editRowId = 0;"><i class="fa fa-file"></i>
                             {{ 'Upload.' | translate }}</a></li>
-                    <li class=""><a data-toggle="tab" href="#tab-6" (click)="editRowId = 0;"><i class="fa fa-file"></i>
+                    <li [class.disabledTab] ="editRowId!=0"><a data-toggle="tab" href="#tab-6" (click)="editRowId = 0;"><i class="fa fa-file"></i>
                             {{ 'Upload.Image' | translate }}</a></li>
                 </ul>
 
@@ -212,8 +212,7 @@
                                                                     <th>#</th>
                                                                     <th>{{'Item.datacolumn.FactoryId' | translate }} *
                                                                     </th>
-                                                                    <th>{{'Item.datacolumn.IntergrationCode' | translate }}
-                                                                        *</th>
+                                                                    <th>{{'Item.datacolumn.IntergrationCode' | translate }}</th>
                                                                     <th>{{'Button.Action' | translate }}</th>
 
                                                                 </tr>
@@ -225,13 +224,13 @@
                                                                     <td *ngIf="i+1 !== editRowId"> {{item.FactoryName}}
                                                                     </td>
                                                                     <td *ngIf="i+1 === editRowId">
-                                                                        <ng-select [items]="listFactory" id="FactoryId"
+                                                                        <ng-select [items]="initCombobox.Factories" id="FactoryId"
                                                                             name="FactoryId"
                                                                             [(ngModel)]="itemFactory.FactoryId"
                                                                             dropdownPosition="top"
                                                                             (change)="itemFactory.FactoryName = $event.FactoryName "
                                                                             bindLabel="FactoryName"
-                                                                            bindValue="FactoryId" required> </ng-select>
+                                                                            bindValue="FactoryId" > </ng-select>
                                                                     </td>
                                                                     <td *ngIf="i+1 !== editRowId">
                                                                         {{item.IntergrationCode}} </td>
@@ -250,7 +249,7 @@
                                                                                     class="fa fa-check"></i></button>
                                                                             <button type="button"
                                                                                 class="btn btn-sm btn-outline btn-success"
-                                                                                (click)="fnEditFactory(i)"
+                                                                                (click)="fnEditFactory(i,item)"
                                                                                 *ngIf="i+1 !== editRowId"><i
                                                                                     class="fa fa-pencil"></i></button>
                                                                             <button type="button"
@@ -265,7 +264,7 @@
                                                                 <tr>
                                                                     <td>{{entity.ItemFactory.length +1}}</td>
                                                                     <td>
-                                                                        <ng-select [items]="listFactory"
+                                                                        <ng-select [items]="initCombobox.FactoriesCopy"
                                                                             id="newFactoryId" name="newFactoryId"
                                                                             placeholder="{{'Item.placeholdercolumn.FactoryId' | translate }}"
                                                                             [(ngModel)]="newItemFactory.FactoryId"
@@ -279,13 +278,13 @@
                                                                             class="form-control"
                                                                             name="newIntergrationCode"
                                                                             placeholder="{{'Item.placeholdercolumn.IntergrationCode' | translate }}"
-                                                                            required>
+                                                                            >
                                                                     </td>
                                                                     <td>
                                                                         <div class="btn-group">
                                                                             <button type="button"
                                                                                 class="btn  btn-sm btn-outline btn-info pull-right"
-                                                                                [disabled]="!newItemFactory.FactoryId || !newItemFactory.IntergrationCode"
+                                                                                [disabled]="!newItemFactory.FactoryId"
                                                                                 (click)="fnAddFactory()"><i
                                                                                     class="fa fa-plus"></i> </button>
                                                                         </div>
@@ -338,6 +337,7 @@
                                                 <td>
                                                     <div class="btn-group">
                                                         <button type="button" class="btn btn-sm btn-outline btn-primary"
+                                                       
                                                             (click)="fnSaveProperty()" *ngIf="i+1 === editRowId"><i
                                                                 class="fa fa-check"></i></button>
                                                         <button type="button" class="btn btn-sm btn-outline btn-success"

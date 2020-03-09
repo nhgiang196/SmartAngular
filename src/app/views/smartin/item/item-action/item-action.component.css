@@ -5,3 +5,7 @@
 .p-0{
     padding: 0 !important;
 }
+.disabledTab{
+    pointer-events: none;
+    cursor: not-allowed;
+}
