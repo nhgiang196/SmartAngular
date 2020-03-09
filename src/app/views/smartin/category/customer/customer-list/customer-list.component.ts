@@ -32,7 +32,7 @@ export class CustomerListComponent  implements  AfterViewInit, OnDestroy, OnInit
     this.dtOptions = {
       autoWidth: true,
       responsive: true,
-      // dom: ` <"row"<"col-sm-4 m-b-xs"l><"#myid.col-sm-4 m-b-xs"f><"col-sm-4"p>><t><"row"<"col-sm-4 m-b-xs"i><"#myid2.col-sm-4 m-b-xs"f><"col-sm-4"p>>`, //recommend Dom --nhgiang
+      dom: ` <"row"<"col-sm-4 m-b-xs"l><"#myid.col-sm-4 m-b-xs"f><"col-sm-4"p>><t><"row"<"col-sm-4 m-b-xs"i><"#myid2.col-sm-4 m-b-xs"f><"col-sm-4"p>>`, //recommend Dom --nhgiang
       // serverSide: true,
       // processing: true,
       // deferRender: true,
