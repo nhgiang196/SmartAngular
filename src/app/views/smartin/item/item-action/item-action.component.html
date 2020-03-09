@@ -32,9 +32,9 @@
                             {{ 'Upload.Image' | translate }}</a></li>
                 </ul>
 
-                
+
                     <div class="tab-content">
-                 
+
                         <div id="tab-1" class="tab-pane active">
                             <form role="form" #myForm="ngForm">
                             <div class="panel-body">
@@ -167,11 +167,17 @@
                                                 name="ItemDescription"></textarea>
                                         </div>
                                         <label
-                                             class="col-sm-2 control-label">Item type:</label>
+                                             class="col-sm-2 control-label">Item type *:</label>
                                             <div class="col-sm-4">
-                                                <select class="form-control" [(ngModel)]="entity.ItemTypeId" name="ItemTypeId" (change)="changeItemType($event.target.value)">
+                                                <!-- <select class="form-control" [(ngModel)]="entity.ItemTypeId" name="ItemTypeId" (change)="changeItemType($event.target.value)"  #ItemTypeId="ngModel">
                                                     <option *ngFor="let item of listItemType" [value]="item.ItemTypeId"  >{{item.ItemTypeName}}</option>
-                                                </select>
+                                                </select> -->
+                                                <ng-select class="custom" [items]="listItemType" bindLabel="ItemTypeName"
+                                                bindValue="ItemTypeId"
+                                                placeholder="Please select item type"
+                                                [(ngModel)]="entity.ItemTypeId" name="ItemTypeId" required
+                                                >
+                                            </ng-select>
                                             </div>
                                     </div>
                                     <div class="form-group">
@@ -180,7 +186,7 @@
                                         <div class="col-sm-4">
                                         </div>
                                         <label class="col-sm-2 control-label p-0">{{ 'Factory.data.Status' | translate }} :</label>
-                                      
+
                                         <div class="switch col-sm-4">
                                         <div class="onoffswitch">
                                             <input type="checkbox" class="onoffswitch-checkbox" name="status" id="status"  (click)="onSwitchStatus()" [checked]="entity.Status==1 ? true : null" >
@@ -191,13 +197,13 @@
                                         </div>
                                         </div>
                                     </div>
-                                    
+
                                 </fieldset>
                             </div>
                         </form>
                         </div>
-                   
-                        
+
+
                         <div id="tab-2" class="tab-pane">
                             <div class="panel-body">
                                 <fieldset class="form-horizontal">
@@ -228,7 +234,7 @@
                                                                             name="FactoryId"
                                                                             [(ngModel)]="itemFactory.FactoryId"
                                                                             dropdownPosition="top"
-                                                                            (change)="itemFactory.FactoryName = $event.FactoryName "
+                                                                            (change)="$event!=null? itemFactory.FactoryName = $event.FactoryName: null "
                                                                             bindLabel="FactoryName"
                                                                             bindValue="FactoryId" > </ng-select>
                                                                     </td>
@@ -245,10 +251,12 @@
                                                                             <button type="button"
                                                                                 class="btn btn-sm btn-outline btn-primary"
                                                                                 (click)="fnSaveFactory(i)"
+                                                                                [disabled]="!itemFactory.FactoryId"
                                                                                 *ngIf="i+1 === editRowId"><i
                                                                                     class="fa fa-check"></i></button>
                                                                             <button type="button"
                                                                                 class="btn btn-sm btn-outline btn-success"
+                                                                                [disabled]="editRowId!=0"
                                                                                 (click)="fnEditFactory(i,item)"
                                                                                 *ngIf="i+1 !== editRowId"><i
                                                                                     class="fa fa-pencil"></i></button>
@@ -268,7 +276,7 @@
                                                                             id="newFactoryId" name="newFactoryId"
                                                                             placeholder="{{'Item.placeholdercolumn.FactoryId' | translate }}"
                                                                             [(ngModel)]="newItemFactory.FactoryId"
-                                                                            (change)="newItemFactory.FactoryName = $event.FactoryName "
+                                                                            (change)="$event!=null? newItemFactory.FactoryName = $event.FactoryName: null"
                                                                             bindLabel="FactoryName"
                                                                             bindValue="FactoryId" required> </ng-select>
                                                                     </td>
@@ -325,7 +333,7 @@
                                                         bindValue="id" placeholder="Select item"
                                                         name="ItemTypePropertyId" dropdownPosition="top" required
                                                         [(ngModel)]="itemProperty.ItemTypePropertyId"
-                                                        (change)="itemProperty.ItemTypePropertyName = $event.text ">
+                                                        (change)=" $event!=null?itemProperty.ItemTypePropertyName = $event.text:null ">
                                                     </ng-select>
                                                 </td>
                                                 <td *ngIf="i+1 !== editRowId"> {{item.ItemTypePropertyValue}} </td>
@@ -337,10 +345,13 @@
                                                 <td>
                                                     <div class="btn-group">
                                                         <button type="button" class="btn btn-sm btn-outline btn-primary"
-                                                       
-                                                            (click)="fnSaveProperty()" *ngIf="i+1 === editRowId"><i
+
+                                                            (click)="fnSaveProperty()" *ngIf="i+1 === editRowId"
+                                                            [disabled]="!itemProperty.ItemTypePropertyId || !itemProperty.ItemTypePropertyValue"
+                                                            ><i
                                                                 class="fa fa-check"></i></button>
                                                         <button type="button" class="btn btn-sm btn-outline btn-success"
+                                                            [disabled]="editRowId!=0"
                                                             (click)="fnEditProperty(i)" *ngIf="i+1 !== editRowId"><i
                                                                 class="fa fa-pencil"></i></button>
                                                         <button type="button" class="btn btn-sm btn-outline btn-danger"
@@ -411,7 +422,7 @@
                                                             placeholder="Please select unit" name="temPackageUnitId"
                                                             dropdownPosition="top" required
                                                             [(ngModel)]="itemPackage.ItemPackageUnitId"
-                                                            (change)="itemPackage.UnitName = $event.UnitName ">
+                                                            (change)="$event!=null?itemPackage.UnitName = $event.UnitName:null ">
                                                         </ng-select>
                                                     </td>
                                                     <td *ngIf="i+1 !== editRowId">{{item.ItemPackageCoefficient}} </td>
@@ -449,10 +460,12 @@
                                                         <div class="btn-group">
                                                             <button type="button"
                                                                 class="btn btn-sm btn-outline btn-primary"
+                                                                [disabled]="!itemPackage.ItemPackageUnitId || !itemPackage.ItemPackageCoefficient"
                                                                 (click)="fnSavePackage()" *ngIf="i+1 === editRowId"><i
                                                                     class="fa fa-check"></i></button>
                                                             <button type="button"
                                                                 class="btn btn-sm btn-outline btn-success"
+                                                                [disabled]="editRowId!=0"
                                                                 (click)="fnEditPackage(i)" *ngIf="i+1 !== editRowId"><i
                                                                     class="fa fa-pencil"></i></button>
                                                             <button type="button"
@@ -470,7 +483,7 @@
                                                             bindLabel="UnitName" bindValue="UnitId"
                                                             placeholder="{{'Item.placeholdercolumn.ItemPackageUnitId' | translate }}" name="newItemPackageUnitId"
                                                             required [(ngModel)]="newItemPackage.ItemPackageUnitId"
-                                                            (change)="newItemPackage.UnitName = $event.UnitName ">
+                                                            (change)="$event!=null?newItemPackage.UnitName = $event.UnitName:null ">
                                                         </ng-select>
                                                     </td>
                                                     <td>
@@ -583,18 +596,18 @@
 
                             </div>
                         </div>
-                        
+
                     </div>
-                
+
 
             </div>
         </div>
         <div class="col-sm-12">
             <div class="ibox-content m-b-sm border-bottom">
                 <div class="row">
-                    <div class="col-sm-12"> 
+                    <div class="col-sm-12">
                         <button class="btn btn-primary pull-right" [ladda]="laddaSubmitLoading"
-                      
+
                             [disabled]="myForm.invalid ||editRowId!=0" (click)="fnSave()">
                             <i class="fa fa-plus"></i>
                             {{'Button.Save' | translate}}

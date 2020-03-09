@@ -329,6 +329,7 @@ export class ItemActionComponent implements OnInit {
   //add list
   //factories
   fnAddFactory() {
+    
     if (!this.isExistFactory())
       {
         this.entity.ItemFactory.push(this.newItemFactory);
@@ -341,7 +342,6 @@ export class ItemActionComponent implements OnInit {
   
   }
   fnEditFactory(index,item) {
-
     var data =this.initCombobox.Factories.find(x=>x.FactoryId ==item.FactoryId && x.isCopy !=true);
     if(!data){
       this.initCombobox.Factories =this.initCombobox.FactoriesCopy.concat([{FactoryId:item.FactoryId,FactoryName:item.FactoryName,isCopy:true}]);

@@ -71,7 +71,7 @@ export class DataTablePaginationParram {
 }
 export class Item {
   ItemId?: number = 0
-  ItemTypeId?: number = 0
+  ItemTypeId?: number = null
   ItemNo?: string
   ItemName?: string
   ItemPrintName?: string
