@@ -294,7 +294,8 @@ export class WarehouseLocation {
 
 export class Customer {
 	ContractID: number = 0
-	CustomerID?: number = 0
+  CustomerID?: number = 0
+  FactoryID?: number = null
 	ContractNo?: string
 	ContractCode?: string
 	ContractType?: number
@@ -331,7 +332,7 @@ export class Contract {
 	StandardType?: number
 	Ratio?: any
 	Description?: string
-  IsIntergration?: boolean
+  IsIntergration?: boolean = true
   ContractPrice : ContractPrice[] = []
   ContractBreach : ContractBreach[] = []
   ContractFile : ContractFile[] = []
