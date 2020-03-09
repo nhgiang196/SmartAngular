@@ -20,31 +20,30 @@
                 </tr>
               </thead>
               <tbody >
-                <tr>
-                  <td> CustomerID        </td>       
-                  <td> CustomerName      </td>         
-                  <td> FactoryID         </td>       
-                  <td> CustomerAddress   </td>             
-                  <td> ContactName       </td>         
-                  <td> ContactEmail      </td>         
-                  <td> ContactPhone      </td>         
-                  <td> Description       </td>         
-                  <td> CreateBy          </td>     
-                  <td> CreateDate        </td>       
-                  <td> ModifyBy          </td>     
-                  <td> ModifyDate        </td>       
-                  <td> Status            </td>   
-                  <td> IsIntergration    </td>           
+                <tr *ngFor="let item of lsData" >
+                  <td> {{item.CustomerID }}        </td>       
+                  <td> {{item.CustomerName }}      </td>         
+                  <td> {{item.FactoryName }}         </td>       
+                  <td> {{item.CustomerAddress }}   </td>             
+                  <td> {{item.ContactName }}       </td>         
+                  <td> {{item.ContactEmail }}      </td>         
+                  <td> {{item.ContactPhone }}      </td>         
+                  <td> {{item.Description }}       </td>         
+                  <td> {{item.CreateBy }}          </td>     
+                  <td> {{item.CreateDate }}        </td>       
+                  <td> {{item.ModifyBy }}          </td>     
+                  <td> {{item.ModifyDate }}        </td>       
+                  <td> <span class="badge " [ngClass]="{'badge-success': item.Status==1, 'badge-danger':item.Status==0}"  >{{item.CustomerStatus }}  </span>     
+                  </td>   
+                  <td>   {{item.IsIntergration }}    </td>           
                   <td>
-                    <button type="button" class="btn btn-outline btn-danger" ><i
-                        class="fa fa-trash"></i></button>
-                    <button type="button" class="btn btn-outline btn-success" 
-                      data-toggle="modal" data-target="#myModal4"><i class="fa fa-pencil"></i></button>
+                    <button type="button" class="btn btn-outline btn-danger"><i class="fa fa-trash"></i></button>
+                    <button type="button" class="btn btn-outline btn-success"><i class="fa fa-pencil"  [routerLink]="['../customer/'+item.CustomerID]" ></i></button>
                   </td>
                 </tr>
               </tbody>
 
-              <tbody *ngIf="lsDatatable?.length == 0">
+              <tbody *ngIf="lsData?.length == 0">
                 <tr>
                   <td colspan="20" class="no-data-available">{{'messg.datatable.zeroRecords'  | translate}}</td>
                 </tr>
