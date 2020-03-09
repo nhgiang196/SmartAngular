@@ -63,6 +63,7 @@ export class CustomerDetailComponent implements OnInit {
   }
 
 
+
   /**EVENT TRIGGER */
 
   async onSelect(event) { //drag file(s) or choose file(s) in ngFileZone
@@ -110,6 +111,10 @@ export class CustomerDetailComponent implements OnInit {
     this.files.push(...event.addedFiles); //refresh showing in Directive
     this.addFiles.FileList.push(...event.addedFiles);
 
+  }
+
+  fnDownloadFile(filename) { //press FILES preview
+    this.api.downloadFile(this.pathFile + '/' + filename);
   }
 
 

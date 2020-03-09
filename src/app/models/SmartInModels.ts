@@ -292,19 +292,20 @@ export class WarehouseLocation {
 }
 
 export class Customer {
-	ContractID: number = 0
-  CustomerID?: number = 0
-  FactoryID?: number = null
-	ContractNo?: string
-	ContractCode?: string
-	ContractType?: number
-	SignDate?: Date
-	EffectiveDate?: Date
-	EndDate?: Date
-	StandardType?: number
-	Ratio?: any
+	CustomerID: number = 0
+	CustomerName?: string
+	FactoryID?: number 
+	CustomerAddress?: string
+	ContactName?: string
+	ContactEmail?: string
+	ContactPhone?: string
 	Description?: string
-  IsIntergration?: boolean
+	CreateBy?: string
+	CreateDate?: Date
+	ModifyBy?: string
+	ModifyDate?: Date
+	Status?: number
+	IsIntergration?: boolean
   Contract : Contract[] = []
   CustomerFile: CustomerFile[] = []
 }

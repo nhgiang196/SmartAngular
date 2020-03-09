@@ -13,9 +13,7 @@ declare let $: any;
 export class CustomerComponent implements  OnInit {
   iboxloading = false;
   constructor(
-    private api: WaterTreatmentService,
-    private trans: TranslateService,
-    public router: Router,
+    
   ) { 
   }
   ngOnInit() {

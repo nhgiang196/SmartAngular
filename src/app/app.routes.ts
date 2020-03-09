@@ -129,7 +129,7 @@ export const ROUTES: Routes = [
           { path: 'customers', component: CustomerComponent },
           { path: 'customer/:id', component: CustomerDetailComponent, resolve: { dataResolver: CustomerDetailResolverService },
               children: [
-                { path: 'contract', component: ContractComponent }, //prepare resolved
+                { path: ':contractID', component: ContractComponent }, //prepare resolved
               ]},
           
           { path: '', component: CategoryNavigationComponent, outlet: 'sidemenu' },
