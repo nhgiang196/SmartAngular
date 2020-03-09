@@ -8,9 +8,6 @@ const ApiUrl = "api/v1";
 
 @Injectable({ providedIn: 'root' })
 export class WaterTreatmentService {
-  severSide={
-
-  }
   constructor(
     private http: HttpClient, private router: Router
   ) { }
@@ -196,8 +193,8 @@ export class WaterTreatmentService {
     const model: DataTablePaginationParams = {
       key: keySearch,
       entity: "Item",
-      keyFields: "",
-      selectFields: "ItemId,ItemNo,ItemName",
+      keyFields: "ItemName",
+      selectFields: "ItemId,ItemNo  +' '+ ItemName as ItemName",
       page: 1,
       pageSize: 9999,
       orderDir: "asc",
@@ -205,6 +202,12 @@ export class WaterTreatmentService {
     };
     
     return this.http.post<any>(`${ApiUrl}/Item/GetItemPagination`,model,{} );
+  }
+  getSelect2ItemPagination =(params) =>{  
+    return this.http.get<any>(`${ApiUrl}/Item/GetSelect2ItemPagination`,{ params: params } );
+  }
+  getItemSelect2Pagination(entity){
+    return this.http.post<any>(`${ApiUrl}/Item/GetItemPagination`,entity);
   }
   getDataTableItemPagination =(entity) => this.http.post<DataTablesResponse>(`${ApiUrl}/Item/DataTableItemPagination`,entity);
   getItem =() => this.http.get(`${ApiUrl}/Item/GetItem` );

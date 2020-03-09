@@ -1,16 +1,17 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { DataTableDirective } from 'angular-datatables';
-import { Subject } from 'rxjs';
+import { Subject, Observable, of } from 'rxjs';
 import { BomFactory, BomStage, BomItem, Unit, Stage, Factory, DataTablePaginationParams, Item } from 'src/app/models/SmartInModels';
 import { WaterTreatmentService } from 'src/app/services/api-watertreatment.service';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 import { AuthService } from 'src/app/services/auth.service';
 import { MyHelperService } from 'src/app/services/my-helper.service';
-import { HttpEventType } from '@angular/common/http';
 declare let $: any;
 import swal from 'sweetalert2';
 import { UserIdleConfig } from 'angular-user-idle';
+import { delay } from 'rxjs/operators';
+import { ReturnStatement } from '@angular/compiler';
 
 @Component({
   selector: 'app-bom-list',
@@ -30,22 +31,28 @@ export class BomListComponent implements OnInit {
   outBomItem: BomItem;
   newBomItem: BomItem;
   entity: BomFactory;
-  bomItems: BomItem [];
-  outBomItems : BomItem[] = [];
+  bomItems: BomItem[];
+  outBomItems: BomItem[] = [];
   dtOptions: DataTables.Settings = {};
   ACTION_STATUS: string;
   laddaSubmitLoading = false;
   existName = false;
   iboxloading = false;
-  currentStageId : number =0;
-  bsConfig = { dateInputFormat: 'YYYY-MM-DD' , adaptivePosition: true };
-    //set rowEdit
-    editRowId: number = 0;
+  currentStageId: number = 0;
+  bsConfig = { dateInputFormat: 'YYYY-MM-DD', adaptivePosition: true };
+  //set rowEdit
+  editRowId: number = 0;
   // Default load data
-  units: Unit [] = [];
-  stages : Stage[] =[]
-  factories: Factory[] =[]
+  units: Unit[] = [];
+  stages: Stage[] = []
+  factories: Factory[] = []
   items: Item[] =[]
+  itemsBuffer : Item[]=[]
+
+  // ng-select server side
+  bufferSize = 50;
+  numberOfItemsFromEndBeforeFetchingMore = 10;
+  loading = false;
   constructor(
     private api: WaterTreatmentService,
     private toastr: ToastrService,
@@ -55,7 +62,7 @@ export class BomListComponent implements OnInit {
   ) { }
 
   async ngOnInit() {
-  //  this.loadInit()
+    //  this.loadInit()
     this.resetEntity();
     //  this.serverSide();
     await this.loadUnit();
@@ -64,18 +71,18 @@ export class BomListComponent implements OnInit {
     await this.loadItems();
   }
   private resetEntity() {
-    this.entity = new BomFactory();   
+    this.entity = new BomFactory();
     this.bomStage = new BomStage();
     this.newBomStage = new BomStage();
     this.inBomItem = new BomItem();
-    this.outBomItem  = new BomItem();
-    this.newBomItem =  new BomItem();
+    this.outBomItem = new BomItem();
+    this.newBomItem = new BomItem();
     this.bomItems = [];
     this.BomFactorys = [];
   }
 
   loadInit = async () => {
-   
+
     this.dtOptions = {
       autoWidth: true,
       responsive: true,
@@ -97,8 +104,8 @@ export class BomListComponent implements OnInit {
         })
       },
       columns: [{ data: 'BomFactoryId' }, { data: 'BomFactoryName' },
-      { data: 'BomFactoryCode' },{ data: 'CreateBy' }, 
-      { data: 'CreateDate' },{ data: 'ModifyBy' }, 
+      { data: 'BomFactoryCode' }, { data: 'CreateBy' },
+      { data: 'CreateDate' }, { data: 'ModifyBy' },
       { data: 'ModifyDate' }, { data: 'Status' }],
       language:
       {
@@ -133,11 +140,11 @@ export class BomListComponent implements OnInit {
     });
 
   }
-  showBomModal(id){
+  showBomModal(id) {
     this.currentStageId = id
     $('#myModal4').modal('hide');
   }
-  showBomFactoryModal(){
+  showBomFactoryModal() {
     $('#myModal2').modal('hide');
     $('#myModal4').modal('show');
   }
@@ -146,7 +153,27 @@ export class BomListComponent implements OnInit {
     this.dtTrigger.unsubscribe();
   }
 
- 
+  onScrollToEnd() {
+    this.fetchMore();
+  }
+
+  onScroll({ end }) {
+    if (this.loading || this.items.length <= this.itemsBuffer.length) 
+        return;
+    if (end + this.numberOfItemsFromEndBeforeFetchingMore >= this.itemsBuffer.length)
+        this.fetchMore();
+  }
+
+  private fetchMore() {
+    const len = this.itemsBuffer.length;
+    const more = this.items.slice(len, this.bufferSize + len);
+    this.loading = true;
+    // using timeout here to simulate backend API delay
+    setTimeout(() => {
+      this.loading = false;      
+      this.itemsBuffer = this.itemsBuffer.concat(more);
+    }, 200)
+  }
   async loadUnit() {
     let keySearch = ""
     let data: any = await this.api
@@ -155,21 +182,29 @@ export class BomListComponent implements OnInit {
       .then();
     this.units = data.result;
   }
-  async loadFactories(){  
+  async loadFactories() {
     let keySearch = ""
-    let data:any = await this.api.getFactoryPagination(keySearch).toPromise().then();
+    let data: any = await this.api.getFactoryPagination(keySearch).toPromise().then();
     this.factories = data.result;
   }
-  async loadStages(){
+  async loadStages() {
     let keySearch = ""
-    let data:any = await this.api.getStagePagination(keySearch).toPromise().then();
+    let data: any = await this.api.getStagePagination(keySearch).toPromise().then();
     this.stages = data.result;
   }
-  async loadItems(){
+  async loadItems() {
     let keySearch = ""
-    let data:any = await this.api.getItemPagination(keySearch).toPromise().then();
+    let data: any = await this.api.getItemPagination(keySearch).toPromise().then();
     this.items = data.result;
+    console.log('records: ' +data.result.length);
+    this.itemsBuffer = this.items.slice(0, this.bufferSize);
   }
+  customSearchFn(term: string, item: Item) {
+    term = term.toLowerCase();
+    return item.ItemName.toLowerCase().indexOf(term) > -1
+}
+
+
 
 
   rerender(): void {
@@ -185,23 +220,22 @@ export class BomListComponent implements OnInit {
     this.entity.BomStage.push(this.newBomStage);
     this.newBomStage = new BomStage();
   }
-  fnEditStage(index){ //press edit item (in modal)
-    this.editRowId = index +1;
+  fnEditStage(index) { //press edit item (in modal)
+    this.editRowId = index + 1;
     this.bomStage = this.entity.BomStage[index];
   }
-  fnSaveStage(index){
-    
+  fnSaveStage(index) {
+
   }
   fnDeleteStage(index) { //press delete item (in modal)
     this.entity.BomStage.splice(index, 1);
   }
-  async validateStage(itemAdd: BomStage){
+  async validateStage(itemAdd: BomStage) {
     if (itemAdd.BomStageId == null) {
       swal.fire("Validate", this.trans.instant('Factory.data.TechnologyName') + this.trans.instant('messg.isnull'), 'warning');
       return false;
     }
-    if (await this.entity.BomStage.filter(t =>t.BomStageId == itemAdd.BomStageId).length>0)
-    {
+    if (await this.entity.BomStage.filter(t => t.BomStageId == itemAdd.BomStageId).length > 0) {
       swal.fire("Validate", this.trans.instant('Factory.data.TechnologyName') + this.trans.instant('messg.isexisted'), 'warning');
       return false;
     }
@@ -218,47 +252,46 @@ export class BomListComponent implements OnInit {
     // this.entity.BomStage[id].BomItem = this.bomItems;
     this.outBomItems.push(this.newBomItem)
     this.newBomItem = new BomItem();
-    
+
   }
-  fnEditOutBomItem(index){ //press edit item (in modal)
-    this.editRowId = index +1;
+  fnEditOutBomItem(index) { //press edit item (in modal)
+    this.editRowId = index + 1;
     this.bomStage = this.entity.BomStage[index];
   }
-  fnSaveOutBomItem(){
+  fnSaveOutBomItem() {
     this.entity.BomStage[this.currentStageId].BomItem = this.outBomItems;
     // this.outBomItems = [];
     // this.inBomItem = new BomItem();
 
     console.log(this.entity);
-    
+
     // $("#myModal2").modal('hide');
 
   }
-  fnReset(){
-     this.outBomItems = [];
+  fnReset() {
+    this.outBomItems = [];
     this.inBomItem = new BomItem();
   }
   fnDeleteOutBomItem(index) { //press delete item (in modal)
     this.entity.BomStage.splice(index, 1);
   }
-  async validateOutBomItem(itemAdd: BomStage){
+  async validateOutBomItem(itemAdd: BomStage) {
     if (itemAdd.BomStageId == null) {
       swal.fire("Validate", this.trans.instant('Factory.data.TechnologyName') + this.trans.instant('messg.isnull'), 'warning');
       return false;
     }
-    if (await this.entity.BomStage.filter(t =>t.BomStageId == itemAdd.BomStageId).length>0)
-    {
+    if (await this.entity.BomStage.filter(t => t.BomStageId == itemAdd.BomStageId).length > 0) {
       swal.fire("Validate", this.trans.instant('Factory.data.TechnologyName') + this.trans.instant('messg.isexisted'), 'warning');
       return false;
     }
     this.editRowId = 0;
     return true
   }
-  fnSaveBomItem(){
+  fnSaveBomItem() {
     this.entity.BomStage[this.currentStageId].BomItem = this.outBomItems;
     this.outBomItems = [];
     this.inBomItem = new BomItem();
-    console.log("currentStage: " +this.currentStageId)
+    console.log("currentStage: " + this.currentStageId)
     console.log(this.entity);
   }
 
@@ -293,13 +326,13 @@ export class BomListComponent implements OnInit {
   onSwitchStatus() {
     this.entity.Status = this.entity.Status == 0 ? 1 : 0;
   }
-  onSwitchSequence(){
+  onSwitchSequence() {
     !this.newBomStage.Sequence
   }
 
   async fnSave() {
     this.laddaSubmitLoading = true;
-    var e = this.entity;  
+    var e = this.entity;
     if (await this.fnValidate(e)) {
       console.log('send entity: ', e);
       if (this.ACTION_STATUS == 'add') {
@@ -324,7 +357,7 @@ export class BomListComponent implements OnInit {
           this.laddaSubmitLoading = false;
         }, err => { this.toastr.error(err.statusText); this.laddaSubmitLoading = false; })
       }
-    //  await this.loadInit();
+      //  await this.loadInit();
     }
   }
   fnUpdate(id) { //press a link name of entity
@@ -354,9 +387,9 @@ export class BomListComponent implements OnInit {
       return false;
     }
   }
- 
-    // ngAfterViewInit(): void {
-    //   this.dtTrigger.next();
-    // }
+
+  // ngAfterViewInit(): void {
+  //   this.dtTrigger.next();
+  // }
 
 }

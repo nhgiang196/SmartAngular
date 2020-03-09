@@ -215,6 +215,7 @@
   },
   "Item": {
     "Breadcrumb": "ITEM",
+    "Information": "INFOMATION",
     "data.ItemID": "Item ID",
     "data.ItemTypeID": "Item Type",
     "data.ItemNo": "Item Code",
@@ -258,15 +259,18 @@
     "placeholder.ItemHeight": "Enter Item's Height Per One UOM",
     "placeholder.ItemWeight": "Enter Item's Weight Per One UOM",
     "placeholder.ItemDescription": "Enter More Description About Item",
-    "placeholdercolumn.FactoryId": "Select Factory Uses The Item",
+    "placeholdercolumn.FactoryId": "Select Factory Using The Item",
     "placeholdercolumn.IntergrationCode": "Enter Item's Intergration Code In Factory",
-    "placeholdercolumn.ItemTypePropertyId": "Select Property Of Item Type",
+    "placeholdercolumn.ItemTypePropertyId": "Select Property of Item",
     "placeholdercolumn.ItemTypePropertyValue": "Enter Property's Value",
     "placeholdercolumn.ItemPackageUnitId": "Select Package Unit",
+    "placeholder.ItemTypeId": "Select Item Type",
     "label.Information": "Item's Information",
     "label.Factory": "Factory",
     "label.Property": "Property",
-    "label.Package": "Package"    
+    "label.Package": "Package",
+    "label.ItemTypeSearch": "Item Type",
+    "label.ItemTypeSearchValue0": "All Item Type" 
   },
   "messg": {
     "isnull": " is null",

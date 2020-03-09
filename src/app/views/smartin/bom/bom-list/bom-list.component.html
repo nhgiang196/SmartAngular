@@ -163,12 +163,12 @@
                     <td *ngIf="i+1 !== editRowId">{{item.Description }} </td>
 
                     <td *ngIf="i+1 === editRowId">
-                        <ng-select class="custom" [items]="stages" bindLabel="StageName" bindValue="StageId"
-                              placeholder="{{'Item.placeholdercolumn.ItemPackageUnitId' | translate }}" name="outBomStageID"
-                              (change)="newBomStage.StageName = $event.StageName "
-                              required [(ngModel)]="bomStage.BomStageId">
+                      <ng-select class="custom" [items]="stages" bindLabel="StageName" bindValue="StageId"
+                        placeholder="{{'Item.placeholdercolumn.ItemPackageUnitId' | translate }}" name="outBomStageID"
+                        (change)="newBomStage.StageName =  $event? $event.StageName :'' " required
+                        [(ngModel)]="bomStage.BomStageId">
                       </ng-select>
-                      </td>
+                    </td>
                     <td *ngIf="i+1 === editRowId"><input type="number" class="form-control" name="outOrderNumber"
                         id="outOrderNumber" [(ngModel)]="bomStage.OrderNumber"> </td>
                     <td *ngIf="i+1 === editRowId"><input type="text" class="form-control" name="outSequence"
@@ -196,30 +196,32 @@
                     <td> {{entity.BomStage.length +1}} </td>
                     <td>
                       <ng-select class="custom" [items]="stages" bindLabel="StageName" bindValue="StageId"
-                          placeholder="{{'Item.placeholdercolumn.ItemPackageUnitId' | translate }}" name="newBomStageID" id="newBomStageID"
-                          (change)="newBomStage.StageName = $event.StageName "
-                          [(ngModel)]="newBomStage.BomStageId" required>
-                      </ng-select>                   
-                      </td>
+                        placeholder="{{'Item.placeholdercolumn.ItemPackageUnitId' | translate }}" name="newBomStageID"
+                        id="newBomStageID" (change)="newBomStage.StageName = $event? $event.StageName :''"
+                        [(ngModel)]="newBomStage.BomStageId" required>
+                      </ng-select>
+                    </td>
                     <td><input type="number" class="form-control" name="newOrderNumber" id="newOrderNumber"
                         [(ngModel)]="newBomStage.OrderNumber"></td>
                     <td>
                       <div class="switch">
                         <div class="onoffswitch">
-                          <input type="checkbox" class="onoffswitch-checkbox"  name="newSequence" id="newSequence" [(ngModel)]="newBomStage.Sequence"
-                            (click)="onSwitchSequence()" [checked]="newBomStage.Sequence">
+                          <input type="checkbox" class="onoffswitch-checkbox" name="newSequence" id="newSequence"
+                            [(ngModel)]="newBomStage.Sequence" (click)="onSwitchSequence()"
+                            [checked]="newBomStage.Sequence">
                           <label class="onoffswitch-label" for="newSequence">
                             <span class="onoffswitch-inner"></span>
                             <span class="onoffswitch-switch"></span>
                           </label>
                         </div>
                       </div>
-                      </td>
+                    </td>
                     <td><input type="text" class="form-control" name="newDescription" id="newDescription"
                         [(ngModel)]="newBomStage.Description"></td>
                     <td>
                       <button type="button" class="btn  btn-sm btn-outline btn-info pull-right"
-                        [disabled]="!newBomStage.BomStageId " (click)="fnAddStage()"><i class="fa fa-plus"></i> </button>
+                        [disabled]="!newBomStage.BomStageId " (click)="fnAddStage()"><i class="fa fa-plus"></i>
+                      </button>
                     </td>
                   </tr>
                 </tbody>
@@ -256,9 +258,14 @@
             <div class="col-lg-6">
               <div class="form-group">
                 <label> {{ 'BomFactory.BomItem.ItemId' | translate }} : </label>
-                <ng-select class="custom" [items]="items" bindLabel="ItemName" bindValue="ItemId"
-                    placeholder="{{'BomFactory.BomItem.ItemId' | translate}}" [(ngModel)]="inBomItem.ItemId" name="inItemId" id="inItemId" required>
-                </ng-select>             
+                <ng-select class="custom" [items]="itemsBuffer" [virtualScroll]="true" [loading]="loading"
+                  appendTo="body" (scroll)="onScroll($event)" (scrollToEnd)="onScrollToEnd()" bindLabel="ItemName"
+                  bindValue="ItemId" autofocus placeholder="{{'BomFactory.BomItem.ItemId' | translate}}"
+                  [(ngModel)]="inBomItem.ItemId" name="inItemId" id="inItemId" required>
+                  <ng-template ng-header-tmp>
+                    <small class="form-text text-muted">Loaded {{itemsBuffer.length}} of {{items.length}}</small>
+                  </ng-template>
+                </ng-select>
               </div>
             </div>
             <div class="col-lg-6">
@@ -303,16 +310,17 @@
                     <td *ngIf="i+1 !== editRowId">{{item.Quantity }} </td>
 
                     <td *ngIf="i+1 === editRowId">
-                        <ng-select class="custom" [items]="items" bindLabel="ItemName" bindValue="ItemId"
-                           placeholder="{{'BomFactory.BomItem.ItemId' | translate}}"name="BomStageID"
-                           (change)="outBomItem.ItemName = $event.ItemName "
-                           id="BomStageID" [(ngModel)]="outBomItem.ItemId" required>
-                        </ng-select>           
-                      </td>
+                      <ng-select class="custom" [items]="items" bindLabel="ItemName" bindValue="ItemId"
+                        placeholder="{{'BomFactory.BomItem.ItemId' | translate}}" name="BomStageID"
+                        (change)="outBomItem.ItemName = $event? $event.ItemName : ''" id="BomStageID"
+                        [(ngModel)]="outBomItem.ItemId" required>
+                      </ng-select>
+                    </td>
                     <td *ngIf="i+1 === editRowId">
                       <ng-select class="custom" [items]="units" bindLabel="UnitName" bindValue="UnitId"
                         placeholder="{{'Item.placeholdercolumn.ItemPackageUnitId' | translate }}" name="outUnitId"
-                        required [(ngModel)]="outBomItem.UnitId" (change)="outBomItem.UnitName = $event.UnitName ">
+                        required [(ngModel)]="outBomItem.UnitId"
+                        (change)="outBomItem.UnitName =  $event? $event.UnitName :'' ">
                       </ng-select>
                       <input type="number" class="form-control" name="OrderNumber" id="OrderNumber"
                         [(ngModel)]="outBomItem.UnitId">
@@ -335,23 +343,31 @@
                   <tr>
                     <td> {{bomItems.length +1}} </td>
                     <td>
-                      <ng-select class="custom" [items]="items" bindLabel="ItemName" bindValue="ItemId"
-                        placeholder="{{'BomFactory.BomItem.ItemId' | translate}}"name="ItemId" id="ItemId" 
-                        (change)="newBomItem.ItemName = $event.ItemName "
-                        [(ngModel)]="newBomItem.ItemId" required>
-                      </ng-select>       
-                   </td>
+                      <ng-select class="custom" [items]="itemsBuffer" [virtualScroll]="true" [loading]="loading"
+                        (change)="newBomItem.ItemName =   $event? $event.ItemName :''" appendTo="body"
+                        (scroll)="onScroll($event)" (scrollToEnd)="onScrollToEnd()" bindLabel="ItemName"
+                        [searchFn]="customSearchFn"
+                        bindValue="ItemID" autofocus placeholder="{{'BomFactory.BomItem.ItemId' | translate}}"
+                        [(ngModel)]="newBomItem.ItemId" name="ItemId" id="ItemId" required>
+                        <ng-template ng-header-tmp>
+                          <small class="form-text text-muted">Loaded {{itemsBuffer.length}} of {{items.length}}</small>
+                        </ng-template>
+                      </ng-select>
+
+                    </td>
                     <td>
                       <ng-select class="custom" [items]="units" bindLabel="UnitName" bindValue="UnitId"
                         placeholder="{{'Item.placeholdercolumn.ItemPackageUnitId' | translate }}" name="outUnitId"
-                        required [(ngModel)]="newBomItem.UnitId" (change)="newBomItem.UnitName = $event.UnitName ">
+                        required [(ngModel)]="newBomItem.UnitId"
+                        (change)="newBomItem.UnitName =  $event? $event.UnitName :'' ">
                       </ng-select>
                     </td>
                     <td><input type="text" class="form-control" name="newQuantity" id="newQuantity"
                         [(ngModel)]="newBomItem.Quantity"> </td>
                     <td>
                       <button type="button" class="btn  btn-sm btn-outline btn-info pull-right"
-                        [disabled]="!newBomItem.ItemId || !newBomItem.UnitId || !newBomItem.Quantity" (click)="fnAddOutBomItem()"><i class="fa fa-plus"></i> </button>
+                        [disabled]="!newBomItem.ItemId || !newBomItem.UnitId || !newBomItem.Quantity"
+                        (click)="fnAddOutBomItem()"><i class="fa fa-plus"></i> </button>
                     </td>
                   </tr>
                 </tbody>
@@ -361,9 +377,11 @@
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-white" data-dismiss="modal" data-toggle="modal" data-target="#myModal4" (click)="fnReset()"  >{{'BomFactory.CloseButton' | translate}}</button>
-        <button type="button" class="btn btn-primary" [ladda]="laddaSubmitLoading" data-toggle="modal" data-target="#myModal4" data-dismiss="modal"
-          (click)="fnSaveBomItem()" >{{'BomFactory.SaveButton' | translate}}</button>
+        <button type="button" class="btn btn-white" data-dismiss="modal" data-toggle="modal" data-target="#myModal4"
+          (click)="fnReset()">{{'BomFactory.CloseButton' | translate}}</button>
+        <button type="button" class="btn btn-primary" [ladda]="laddaSubmitLoading" data-toggle="modal"
+          data-target="#myModal4" data-dismiss="modal"
+          (click)="fnSaveBomItem()">{{'BomFactory.SaveButton' | translate}}</button>
       </div>
     </div>
   </div>
