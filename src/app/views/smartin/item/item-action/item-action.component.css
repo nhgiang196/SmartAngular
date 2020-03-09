@@ -9,3 +9,7 @@
     pointer-events: none;
     cursor: not-allowed;
 }
+
+.btn.disabled, .btn[disabled], fieldset[disabled] .btn {
+    color: #fff !important;
+}

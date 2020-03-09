@@ -4,11 +4,11 @@ import {
   ItemFactory,
   ItemProperty,
   ItemPackage,
-  DataTablePaginationParram,
   ItemFile,
   Unit,
   Factory,
-  ItemType
+  ItemType,
+  DataTablePaginationParams
 } from "src/app/models/SmartInModels";
 import { WaterTreatmentService } from "src/app/services/api-watertreatment.service";
 import { ToastrService } from "ngx-toastr";
@@ -120,9 +120,15 @@ export class ItemActionComponent implements OnInit {
     this.uploadReportProgress = { progress: 0, message: null, isError: null };
     this.laddaSubmitLoading = true;
     let e = this.entity;
-    e.ItemManufactureYear = this.helper.yearConvertToString(
-      new Date(e.ItemManufactureYear)
-    );
+    if(e.ItemManufactureYear!=0 && e.ItemManufactureYear!=null ){
+      e.ItemManufactureYear = this.helper.yearConvertToString(
+        new Date(e.ItemManufactureYear)
+      );
+    }
+    else{
+      e.ItemManufactureYear =null;
+    }
+   
 
     if (this.itemIdPram == null) e.CreateBy = this.auth.currentUser.Username;
     else e.ModifyBy = this.auth.currentUser.Username;
@@ -273,7 +279,7 @@ export class ItemActionComponent implements OnInit {
   // }
 
   private async loadFactory() {
-    const model: DataTablePaginationParram = {
+    const model: DataTablePaginationParams = {
       key: "",
       entity: "Factory",
       keyFields: "",
@@ -329,6 +335,7 @@ export class ItemActionComponent implements OnInit {
   //add list
   //factories
   fnAddFactory() {
+    
     if (!this.isExistFactory())
       {
         this.entity.ItemFactory.push(this.newItemFactory);
@@ -341,7 +348,6 @@ export class ItemActionComponent implements OnInit {
   
   }
   fnEditFactory(index,item) {
-
     var data =this.initCombobox.Factories.find(x=>x.FactoryId ==item.FactoryId && x.isCopy !=true);
     if(!data){
       this.initCombobox.Factories =this.initCombobox.FactoriesCopy.concat([{FactoryId:item.FactoryId,FactoryName:item.FactoryName,isCopy:true}]);
@@ -517,7 +523,7 @@ export class ItemActionComponent implements OnInit {
   }
 
   async loadProperty(code) {
-    const model: DataTablePaginationParram = {
+    const model: DataTablePaginationParams = {
       key: "",
       entity: "ItemType",
       keyFields: "",
@@ -571,18 +577,7 @@ export class ItemActionComponent implements OnInit {
   //   this.entity.ItemUnitId =99;
   // }
 
-  private async loadUnit() {
-    const model: DataTablePaginationParram = {
-      key: "",
-      entity: "Unit",
-      keyFields: "",
-      selectFields: "UnitName,UnitId",
-      page: 1,
-      pageSize: 9999,
-      orderDir: "asc",
-      orderBy: "UnitName"
-    };
-
+  private async loadUnit() {  
     // this.listUnit = await this.api.getUnitPagination(model).pipe(
     //   map(res => {
     //     return res.result.map(item => {
@@ -608,9 +603,9 @@ export class ItemActionComponent implements OnInit {
     //     )
     // );
     // this.entity.ItemUnitId =99;
-
+    let keySearch = ""
     let data: any = await this.api
-      .getUnitPagination(model)
+      .getUnitPagination(keySearch)
       .toPromise()
       .then();
     this.listUnit = data.result;
