@@ -219,6 +219,7 @@
   },
   "Item": {
     "Breadcrumb": "VẬT TƯ",
+    "Information": "THÔNG TIN",
     "data.ItemId": "ID vật tư",
     "data.ItemTypeId": "Loại vật tư",
     "data.ItemNo": "Mã vật tư",
@@ -267,10 +268,13 @@
     "placeholdercolumn.ItemTypePropertyId": "Chọn thuộc tính theo loại vật tư",
     "placeholdercolumn.ItemTypePropertyValue": "Nhập giá trị thuộc tính",
     "placeholdercolumn.ItemPackageUnitId": "Chọn đơn vị đóng gói",
+    "placeholder.ItemTypeId": "Chọn loại vật tư",
     "label.Information": "Thông tin vật tư",
     "label.Factory": "Nhà máy",
     "label.Property": "Thuộc tính",
-    "label.Package": "Đóng gói"
+    "label.Package": "Đóng gói",
+    "label.ItemTypeSearch": "Loại vật tư",
+    "label.ItemTypeSearchValue0": "Tất cả"
   },
   "messg": {
     "isnull": " bị rỗng",
