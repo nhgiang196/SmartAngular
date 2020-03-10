@@ -7,6 +7,8 @@ import { MyHelperService } from 'src/app/services/my-helper.service';
 import { TranslateService } from '@ngx-translate/core';
 import { WaterTreatmentService } from 'src/app/services/api-watertreatment.service';
 import { trigger, animate, style, transition } from '@angular/animations';
+import { AuthService } from 'src/app/services/auth.service';
+import { HttpEventType } from '@angular/common/http';
 
 
 @Component({
@@ -31,6 +33,7 @@ export class CustomerDetailComponent implements OnInit {
     private toastr: ToastrService,
     private helper: MyHelperService,
     private trans: TranslateService,
+    private auth: AuthService
   ) { }
 
   
@@ -42,6 +45,9 @@ export class CustomerDetailComponent implements OnInit {
   uploadReportProgress: any = { progress: 0, message: null, isError: null };
   initCombobox = { Factories: [], FullFactories: [] };
   EditRowID = 0;
+
+  laddaSubmitLoading=false;
+
 
 
     /**INIT FUNCTIONS */
@@ -56,7 +62,6 @@ export class CustomerDetailComponent implements OnInit {
 
   async loadInit(){
     await this.loadFactoryList();
-    
     /**Add Combobox Value: FACTORY */
     let dataResolver = this.route.snapshot.data["dataResolver"];
     let _factoryAddTag = await this.initCombobox.FullFactories.find(x=>x.FactoryID== dataResolver.FactoryId );
@@ -97,6 +102,49 @@ export class CustomerDetailComponent implements OnInit {
     this.uploadReportProgress =  { progress : 0, message: null , isError: null };
     this.EditRowID=0;
   }
+
+  async fnSave() { // press save button
+    debugger;
+    this.laddaSubmitLoading = true;
+
+    var e = this.entity;
+    if (await this.fnValidate(e)) {
+      if (this.route.snapshot.params.id== null) { //add
+        e.CreateBy = this.auth.currentUser.Username;
+        this.api.addCustomer(e).subscribe(res => {
+          var operationResult: any = res
+          if (operationResult.Success) {
+            this.toastr.success(this.trans.instant("messg.add.success"));
+            this.router.navigate(["/category/customer/" + operationResult.Data]);
+          }
+          else this.toastr.warning(operationResult.Message);
+          this.laddaSubmitLoading = false;
+
+        }, err => { this.toastr.error(err.statusText); this.laddaSubmitLoading = false; })
+      }
+      else {
+        e.ModifyBy = this.auth.currentUser.Username;
+        this.api.updateCustomer(e).subscribe(res => {
+          var operationResult: any = res
+          if (operationResult.Success) {
+            if (this.addFiles.FileList.length > 0) this.uploadFile(this.addFiles.FileList);
+            this.toastr.success(this.trans.instant("messg.update.success"));
+            this.router.navigate(["/category/customer/" + this.entity.CustomerID]);
+          }
+          else this.toastr.warning(operationResult.Message);
+          this.laddaSubmitLoading = false;
+        }, err => { this.toastr.error(err.statusText); this.laddaSubmitLoading = false; })
+      }
+    }
+  }
+
+  fnValidate(e){
+    return true;
+  }
+
+
+
+
 
  
 
@@ -155,10 +203,44 @@ export class CustomerDetailComponent implements OnInit {
     this.api.downloadFile(this.pathFile + '/' + filename);
   }
 
-
   
 
+  onSwitchStatus (_TYPE){ //modal switch on change
+    if (_TYPE == 'entity') this.entity.Status = this.entity.Status==0? 1: 0;
+    if (_TYPE == 'entityIsIntergration') this.entity.IsIntergration = !this.entity.IsIntergration;
+  }
+
+  private uploadFile(files: File[]) { //upload file to server
+    let formData = new FormData();
+    for (let index = 0; index < files.length; index++) {
+      let _file = files[index];
+      formData.append("files", _file, this.addFiles.FileLocalNameList[index]);
+    }
+    this.api.uploadFile(formData, this.pathFile).subscribe(event => {
+      if (event.type === HttpEventType.UploadProgress)
+        this.uploadReportProgress.progress = Math.round(100 * event.loaded / event.total);
+      else if (event.type === HttpEventType.Response) {
+        this.uploadReportProgress.message = this.trans.instant('Upload.UploadFileSuccess');
+        // this.onUploadFinished.emit(event.body);
+      }
+    }, err => {
+      this.toastr.warning(err.statusText, this.trans.instant('Upload.UploadFileError'));
+      this.uploadReportProgress = { progress: 0, message: 'Error: '+ err.statusText, isError: true };
+    });
+  }
+
+
+
+
+
+
+  
+  ngAfterViewInit(){
+    
+  }
 
   
 
 }
+
+

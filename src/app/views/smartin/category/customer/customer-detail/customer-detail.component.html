@@ -67,29 +67,41 @@
                     <label class="col-sm-2 control-label">{{'Customer.data.ContactEmail' | translate }}:</label>
                     <div class="col-sm-4">
                       <input autocomplete="off" type="text" [(ngModel)]="entity.ContactEmail" class="form-control"
-                        placeholder="{{'Customer.placeholder.ContactEmail' | translate }}" name="ContactEmail" required>
+                        placeholder="{{'Customer.placeholder.ContactEmail' | translate }}" name="ContactEmail" >
 
                     </div>
                     <label class="col-sm-2 control-label">{{'Customer.data.ContactPhone' | translate }}:</label>
                     <div class="col-sm-4">
                       <input autocomplete="off" type="text" [(ngModel)]="entity.ContactPhone" class="form-control"
-                        placeholder="{{'Customer.placeholder.ContactPhone' | translate }}" name="ContactPhone" required>
+                        placeholder="{{'Customer.placeholder.ContactPhone' | translate }}" name="ContactPhone" >
                     </div>
                   </div>
                   <div class="form-group">
                     <label class="col-sm-2 control-label">{{'Customer.data.Description' | translate }}:</label>
                     <div class="col-sm-4">
                       <input autocomplete="off" type="text" [(ngModel)]="entity.Description" class="form-control"
-                        placeholder="{{'Customer.placeholder.Description' | translate }}" name="Description" required>
+                        placeholder="{{'Customer.placeholder.Description' | translate }}" name="Description" >
                     </div>
                   </div>
                   <div class="form-group">
                     <label class="col-sm-2 control-label">{{'Customer.data.IsIntergration' | translate }}:</label>
                     <div class="col-sm-4">
+                      <span (click)="onSwitchStatus('entityIsIntergration')" ><i class="fa fa-lg" [ngClass]="{'fa-check-square-o text-info': entity.IsIntergration==true, 'fa-square-o':entity.IsIntergration==false}" ></i> </span>
+                      
 
                     </div>
                     <label class="col-sm-2 control-label">{{'Customer.data.Status' | translate }}*:</label>
                     <div class="col-sm-4">
+                      <div class="switch">
+                        <div class="onoffswitch">
+                          <input type="checkbox" class="onoffswitch-checkbox" name="status" id="status"  (click)="onSwitchStatus('entity')" [checked]="entity.Status==1 ? true : null" >
+                          <label class="onoffswitch-label" for="status">
+                            <span class="onoffswitch-inner"></span>
+                            <span class="onoffswitch-switch"></span>
+                          </label>
+                        </div>
+                      </div>
+
 
                     </div>
                   </div>
@@ -258,17 +270,12 @@
 
       </div>
       <div class="ibox-content">
-        <button class="btn btn-primary" (click)="fnTest()">Test</button>
+        
+        <div class="row">
+          <div class="col-sm-6"><button class="btn btn-primary" (click)="fnTest()">Test</button>
+          </div><div class="col-sm-6"><button class="btn btn-primary pull-right" [ladda]="laddaSubmitLoading" [disabled]="myForm.invalid ||EditRowID!=0" (click)="fnSave()"><i class="fa fa-paper-plane-o"></i> {{'Button.Save' | translate}}</button></div>
+        </div>
       </div>
-
-
-
-
-
-
-
-
-
 
 
 
