@@ -96,11 +96,7 @@ export class CustomerListComponent  implements  AfterViewInit, OnDestroy, OnInit
         }
       }
     };
-
-
   }
-
-  
 
   ngOnDestroy(): void {
     this.dtTrigger.unsubscribe(); 

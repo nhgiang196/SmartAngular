@@ -6,12 +6,20 @@ import swal from 'sweetalert2';
 import { MyHelperService } from 'src/app/services/my-helper.service';
 import { TranslateService } from '@ngx-translate/core';
 import { WaterTreatmentService } from 'src/app/services/api-watertreatment.service';
+import { trigger, animate, style, transition } from '@angular/animations';
 
 
 @Component({
   selector: 'app-customer-detail',
   templateUrl: './customer-detail.component.html',
-  styleUrls: ['./customer-detail.component.css']
+  styleUrls: ['./customer-detail.component.css'],
+  animations: [
+    // the fade-in/fade-out animation.
+    trigger('simpleFadeAnimation', [
+      transition(':leave',
+        animate(300, style({ opacity: 0 })))
+    ])
+  ]
 })
 
 export class CustomerDetailComponent implements OnInit {
@@ -39,9 +47,30 @@ export class CustomerDetailComponent implements OnInit {
     /**INIT FUNCTIONS */
   ngOnInit() {
     this.resetEntity();
+    this.loadInit();
+  }
+  fnTest(){
+    console.log(this.route);
+    console.log(this.router);
   }
 
+  async loadInit(){
+    await this.loadFactoryList();
+    
+    /**Add Combobox Value: FACTORY */
+    let dataResolver = this.route.snapshot.data["dataResolver"];
+    let _factoryAddTag = await this.initCombobox.FullFactories.find(x=>x.FactoryID== dataResolver.FactoryId );
+    if (_factoryAddTag && await !this.initCombobox.Factories.find(x=> x.FactoryID== dataResolver.FactoryId) )  
+      this.initCombobox.Factories = this.initCombobox.Factories.concat([_factoryAddTag]);
+    this.entity = dataResolver;
+    this.entity.Contract = [];
+    debugger;
+    await this.loadContractByCustomer();
+    console.log(this.entity);
 
+  }
+
+  
   
   /**PRIVATE FUNCTIONS  */
 
@@ -49,7 +78,15 @@ export class CustomerDetailComponent implements OnInit {
     let res = await this.api.getBasicFactory().toPromise().then().catch(err => this.toastr.warning('Get factories Failed, check network')) as any;
     this.initCombobox.Factories = ( res as any).result.filter(x=>x.Status ==1) as Factory[];
     this.initCombobox.FullFactories = ( res as any).result as Factory[];
+    console.log(this.initCombobox);
   }
+
+  private async loadContractByCustomer(){
+      this.api.getContractByCustomer( this.route.snapshot.params.id).subscribe(res=>{
+      this.entity.Contract = res.result as any ;
+    })
+  }
+  
 
 
   private async resetEntity() { //reset entity values
@@ -59,8 +96,9 @@ export class CustomerDetailComponent implements OnInit {
     this.invalid = {};
     this.uploadReportProgress =  { progress : 0, message: null , isError: null };
     this.EditRowID=0;
-    await this.loadFactoryList();
   }
+
+ 
 
 
 
@@ -116,6 +154,9 @@ export class CustomerDetailComponent implements OnInit {
   fnDownloadFile(filename) { //press FILES preview
     this.api.downloadFile(this.pathFile + '/' + filename);
   }
+
+
+  
 
 
   

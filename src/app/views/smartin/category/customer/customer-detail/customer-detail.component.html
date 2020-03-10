@@ -45,7 +45,7 @@
                     </div>
                     <label class="col-sm-2 control-label">{{'Customer.data.FactoryID' | translate }}*:</label>
                     <div class="col-sm-4">
-                      <ng-select [items]="initCombobox.Factories" bindLabel="FactoryName" bindValue="FactoryID"
+                      <ng-select [items]="initCombobox.Factories" bindLabel="FactoryName" bindValue="FactoryID" [(ngModel)]="entity.FactoryId"
                         class="custom" placeholder="{{'Customer.data.FactoryID' | translate }}" name="FactoryID"
                         required></ng-select>
 
@@ -122,8 +122,8 @@
                     <!-- TABLE -->
                     <td *ngIf="i+1 !== EditRowID">{{item.ContractNo}} </td>
                     <td *ngIf="i+1 !== EditRowID">{{item.ContractCode}} </td>
-                    <td *ngIf="i+1 !== EditRowID">{{item.ContractType}} </td>
-                    <td *ngIf="i+1 !== EditRowID">{{item.EffectiveDate}} </td>
+                    <td *ngIf="i+1 !== EditRowID">{{item.ContractTypeName}} </td>
+                    <td *ngIf="i+1 !== EditRowID">{{item.EffectiveDate | amDateFormat: 'DD-MM-YYYY'}} </td>
                     <td *ngIf="i+1 !== EditRowID">{{item.StandardType}} </td>
                     <td *ngIf="i+1 !== EditRowID">{{item.Ratio}} </td>
                     <td *ngIf="i+1 !== EditRowID">{{item.Description}} </td>
@@ -258,7 +258,7 @@
 
       </div>
       <div class="ibox-content">
-        <button class="btn btn-primary">Test</button>
+        <button class="btn btn-primary" (click)="fnTest()">Test</button>
       </div>
 
 
