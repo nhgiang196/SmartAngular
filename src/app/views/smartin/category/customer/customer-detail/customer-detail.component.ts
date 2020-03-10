@@ -48,10 +48,6 @@ export class CustomerDetailComponent implements OnInit {
     this.resetEntity();
     this.loadInit();
   }
-  fnTest() {
-    console.log(this.route);
-    console.log(this.router);
-  }
   async loadInit() {
     await this.loadFactoryList();
     /**Add Combobox Value: FACTORY */
@@ -229,5 +225,6 @@ export class CustomerDetailComponent implements OnInit {
   }
 
   ngAfterViewInit() { 
+    
   } 
 }

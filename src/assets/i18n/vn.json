@@ -413,7 +413,19 @@
     "data.ContractPrice.Currency": "Ngoại tệ",
     "data.ContractPrice.Price": "Đơn giá",
     "data.ContractPrice.Tax": "Thuế suất",
+    "placeholder.ContractType"  : "Chọn loại hợp đồng",       
+    "placeholder.ContractNo":"Nhập số hợp đồng",
+    "placeholder.SignDate":"Nhập ngày ký",
+    "placeholder.EffectiveDate":"Nhập ngày hiệu lực",
+    "placeholder.EndDate":"Nhập ngày kết thúc",
+    "placeholder.StandardType":"Chọn tiêu chuẩn",
+    "placeholder.Ratio":"Nhập Tỷ lệ",
+    "placeholder.Description":"Nhập ghi chú",
     "mssg.DeleteAsk_Title": "Xóa hợp đồng?",
-    "mssg.DeleteAsk_Text": "Bạn có chắc muốn xóa hợp đồng này?"
+    "mssg.DeleteAsk_Text": "Bạn có chắc muốn xóa hợp đồng này?",
+    "label.Breach":"Xử lý vi phạm",
+    "label.Price":"Chi tiết đơn giá",
+    "label.File":"File hợp đồng",
+    "label.Information":"Cập nhật hợp đồng"
   }
 }

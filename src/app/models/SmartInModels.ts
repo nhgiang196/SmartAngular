@@ -326,11 +326,11 @@ export class Contract {
 	CustomerID?: number = 0
 	ContractNo?: string
 	ContractCode?: string
-	ContractType?: number
+	ContractType?: number = 1
 	SignDate?: Date
 	EffectiveDate?: Date
 	EndDate?: Date
-	StandardType?: number
+	StandardType?: number = 1
 	Ratio?: any
 	Description?: string
   IsIntergration?: boolean = true
@@ -342,10 +342,10 @@ export class Contract {
 export class ContractPrice {
 	ContractPriceID: number = 0
 	ContractID?: number = 0
-	Ratio?: any
-	Currency?: string
-	Price?: any
-	Tax?: any
+	Ratio?: any = 0
+	Currency?: string = '0'
+	Price?: any = 0
+	Tax?: any = 0
 }
 
 export class ContractBreach {

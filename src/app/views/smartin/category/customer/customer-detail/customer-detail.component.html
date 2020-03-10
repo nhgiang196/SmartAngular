@@ -234,7 +234,7 @@
                     <td></td>
                     <td></td>
                     <td>
-                      <button type="button" class="btn  btn-sm btn-outline btn-info pull-right" [routerLink]="['contract']" ><i
+                      <button type="button" class="btn  btn-sm btn-outline btn-info pull-right"  ><i
                           class="fa fa-plus" (click)=fnEditItem(0)  data-toggle="modal" data-target="#myContractModal"></i> </button>
                     </td>
                   </tr>
@@ -276,7 +276,7 @@
       <div class="ibox-content">
         
         <div class="row">
-          <div class="col-sm-6"><button class="btn btn-primary" (click)="fnTest()">Test</button>
+          
           </div><div class="col-sm-6"><button class="btn btn-primary pull-right" [ladda]="laddaSubmitLoading" [disabled]="myForm.invalid ||EditRowID!=0" (click)="fnSave()"><i class="fa fa-paper-plane-o"></i> {{'Button.Save' | translate}}</button></div>
         </div>
       </div>

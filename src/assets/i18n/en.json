@@ -410,7 +410,19 @@
     "data.ContractPrice.Currency": "Currency",
     "data.ContractPrice.Price": "Price",
     "data.ContractPrice.Tax": "Tax",
+    "placeholder.ContractType"  : "Choose Contract Type",            
+    "placeholder.ContractNo":"Enter ContractNo",
+    "placeholder.SignDate":"Enter  SignDate",
+    "placeholder.EffectiveDate":"Enter EffectiveDate",
+    "placeholder.EndDate":"Enter EndDate",
+    "placeholder.StandardType":"Choose StandardType",
+    "placeholder.Ratio":"Enter Ratio",
+    "placeholder.Description":"Enter Description",
     "mssg.DeleteAsk_Title": "Delete Contract?",
-    "mssg.DeleteAsk_Text": "Sure to delete this Contract?"              
+    "mssg.DeleteAsk_Text": "Sure to delete this Contract?",
+    "label.Breach":"Contract Breach",
+    "label.Price":"Price Detail",
+    "label.File":"Attached Files",
+    "label.Information":"Contract Information"
   }
 }
