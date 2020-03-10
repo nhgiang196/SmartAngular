@@ -63,7 +63,7 @@ export class DataTablePaginationParams {
   key?: string = ''
   keyFields?: string = ''
   page?: number = 0
-  pageSize?: number = null
+  pageSize?: number = 0
   orderBy?: string = null
   orderDir?: string = 'asc'
   entity?: string = null
@@ -295,7 +295,7 @@ export class WarehouseLocation {
 export class Customer {
 	CustomerID: number = 0
 	CustomerName?: string
-	FactoryID?: number 
+	FactoryId?: number 
 	CustomerAddress?: string
 	ContactName?: string
 	ContactEmail?: string

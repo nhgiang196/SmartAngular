@@ -238,7 +238,6 @@ export class WaterTreatmentService {
     let e = new DataTablePaginationParams();
     e.selectFields= ` * , [ContractTypeName] = dbo.GetDefine('ContractType',ContractType) `
     e.specialCondition = `CustomerID= ${keyValue}`;
-    e.pageSize =9999;
     console.log('parrams send',e);
     return this.http.post<any>(`${ApiUrl}/Contract/GetContractPagination` ,e);
   }
