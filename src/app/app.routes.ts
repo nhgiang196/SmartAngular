@@ -64,7 +64,6 @@ export const ROUTES: Routes = [
   { path: '', redirectTo: 'mainView', pathMatch: 'full' },
   { path: 'admin', redirectTo: '/admin/factory', pathMatch: 'full' },
   { path: 'user', redirectTo: '/user/profile', pathMatch: 'full' },
-
   // App views
   { //BasicComponent
     path: '', component: BasicComponent,
@@ -127,10 +126,15 @@ export const ROUTES: Routes = [
           { path: 'item/:id', component: ItemListComponent },
           { path: 'warehouse', component: WarehouseComponent },
           { path: 'customers', component: CustomerComponent },
+          { path: 'newcustomer', component: CustomerDetailComponent,
+              children: [
+                { path: '', component: ContractComponent }, //prepare resolved
+          ]},
           { path: 'customer/:id', component: CustomerDetailComponent, resolve: { dataResolver: CustomerDetailResolverService },
               children: [
                 { path: ':contractID', component: ContractComponent }, //prepare resolved
-              ]},
+                { path: '', component: ContractComponent }, //prepare resolved
+          ]},
           
           { path: '', component: CategoryNavigationComponent, outlet: 'sidemenu' },
         ]
