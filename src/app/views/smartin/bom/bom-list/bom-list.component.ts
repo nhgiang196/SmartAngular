@@ -1,8 +1,7 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { DataTableDirective } from "angular-datatables";
 import { Subject } from "rxjs";
-import {
-  BomFactory,
+import {BomFactory,
   BomStage,
   BomItem,
   Unit,
@@ -19,9 +18,7 @@ import { MyHelperService } from "src/app/services/my-helper.service";
 import { HttpEventType } from "@angular/common/http";
 declare let $: any;
 import swal from "sweetalert2";
-import { UserIdleConfig } from "angular-user-idle";
-import { delay } from 'rxjs/operators';
-import { ReturnStatement } from '@angular/compiler';
+import { debounceTime, distinctUntilChanged, switchMap, map } from 'rxjs/operators';
 @Component({
   selector: "app-bom-list",
   templateUrl: "./bom-list.component.html",
@@ -60,6 +57,7 @@ export class BomListComponent implements OnInit {
   items: Item[] =[]
   itemsBuffer : Item[]=[]
 
+  input$ = new Subject<string>();
   // ng-select server side
   bufferSize = 50;
   numberOfItemsFromEndBeforeFetchingMore = 10;
@@ -67,9 +65,7 @@ export class BomListComponent implements OnInit {
   constructor(
     private api: WaterTreatmentService,
     private toastr: ToastrService,
-    private trans: TranslateService,
-    private auth: AuthService,
-    private helper: MyHelperService
+    private trans: TranslateService
   ) {}
 
   async ngOnInit() {
@@ -80,6 +76,7 @@ export class BomListComponent implements OnInit {
     await this.loadFactories();
     await this.loadStages();
     await this.loadItems();
+    this.onSearch(); // for search in server
   }
   private resetEntity() {
     this.entity = new BomFactory();
@@ -212,6 +209,21 @@ export class BomListComponent implements OnInit {
     this.items = data.result;
     console.log('records: ' +data.result.length);
     this.itemsBuffer = this.items.slice(0, this.bufferSize);
+  }
+ onSearch(){
+    this.input$.pipe(
+      debounceTime(200),
+      distinctUntilChanged(),
+      switchMap(term =>  this.fakeService(term))
+    ).subscribe(data => {
+        this.itemsBuffer = data.slice(0, this.bufferSize);
+      })
+  }
+  private  fakeService(term) {
+    let data =  this.api.getItemPagination(term).pipe(map(data=> {
+      return data.result.filter((x: { ItemName: string }) => x.ItemName.includes(term))
+    }));   
+    return data;
   }
   customSearchFn(term: string, item: Item) {
     term = term.toLowerCase();
@@ -404,8 +416,7 @@ export class BomListComponent implements OnInit {
 
   async fnSave() {
     this.laddaSubmitLoading = true;
-    var e = this.entity;
-    if (await this.fnValidate(e)) {
+    if (await this.fnValidate()) {
       console.log("send entity: ", e);
       if (this.ACTION_STATUS == "add") {
         this.api.addBomFactory(e).subscribe(
@@ -470,11 +481,8 @@ export class BomListComponent implements OnInit {
       }
     );
   }
-  private async fnValidate(e) {
-    let result = (await this.api
-      .validateBomFactory(this.entity)
-      .toPromise()
-      .then()) as any;
+  private async fnValidate() {
+    let result = await this.api.validateBomFactory(this.entity).toPromise().then() as any;
     if (result.Success) return true;
     else {
       this.laddaSubmitLoading = false;
