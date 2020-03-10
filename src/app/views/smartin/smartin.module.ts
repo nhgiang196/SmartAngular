@@ -20,6 +20,7 @@ import { ContractComponent } from './category/customer/contract/contract.compone
 import { BomStageModalComponent } from './bom/bom-stage-modal/bom-stage-modal.component';
 import { BomItemModalComponent } from './bom/bom-item-modal/bom-item-modal.component';
 import { MonitorStandardComponent } from './monitor/monitor-standard/monitor-standard.component';
+import { MonitorChartComponent } from './monitor/monitor-chart/monitor-chart.component';
 
 
 
@@ -41,7 +42,8 @@ const COMPONENTS = [
   BomListComponent,
   BomStageModalComponent,
   BomItemModalComponent,
-  MonitorStandardComponent
+  MonitorStandardComponent,
+  MonitorChartComponent
 ];
 
 
