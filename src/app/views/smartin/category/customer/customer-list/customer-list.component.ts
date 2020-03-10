@@ -6,6 +6,7 @@ import { TranslateService } from "@ngx-translate/core";
 import { DataTableDirective } from 'angular-datatables';
 import swal from "sweetalert2";
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 declare let $: any;
 
 @Component({
@@ -25,6 +26,7 @@ export class CustomerListComponent  implements  AfterViewInit, OnDestroy, OnInit
     private api: WaterTreatmentService,
     private trans: TranslateService,
     public router: Router,
+    private toastr: ToastrService
   ) { 
   }
 
@@ -62,7 +64,7 @@ export class CustomerListComponent  implements  AfterViewInit, OnDestroy, OnInit
       ajax: (dataTablesParameters: any, callback) => {
         this.dtOptions.ajax= (dataTablesParameters: any, callback) => { //chèn lại ajax ở một vị trí duy nhất khi định nghĩa
           this.api.getDataTableCustomerPagination(dataTablesParameters).subscribe(res => {
-            debugger;
+            
             this.lsData = res.data;
             console.log("DATATABLE:",this.lsData);
             callback({
@@ -111,10 +113,52 @@ export class CustomerListComponent  implements  AfterViewInit, OnDestroy, OnInit
   }
 
   
+  fnDelete(id){
+
+    swal.fire({
+      title: this.trans.instant('Warehouse.mssg.DeleteAsk_Title'),
+      titleText: this.trans.instant('Warehouse.mssg.DeleteAsk_Text'),
+      confirmButtonText: this.trans.instant('Button.OK'),
+      cancelButtonText: this.trans.instant('Button.Cancel'),
+      type: 'warning',
+      showCancelButton: true,
+      reverseButtons: true
+    }).then((result) => {
+      if (result.value) {
+        this.api.deleteCustomer(id).subscribe(res => {
+          var operationResult: any = res
+          if (operationResult.Success) {
+            swal.fire(
+              // 'Deleted!', this.trans.instant('messg.delete.success'), 
+              {
+                title: 'Deleted!',
+                titleText: this.trans.instant('messg.delete.success'),
+                confirmButtonText: this.trans.instant('Button.OK'),
+                type: 'success',
+              }
+            );
+            this.tableRender();
+          }
+          else this.toastr.warning(operationResult.Message);
+        }, err => { this.toastr.error(err.statusText) })
+      }
+    })
+
+
+
+
+
+  }
+
+
+
+  
   ngAfterViewInit(): void {
     this.dtTrigger.next();
     this.tableRender();
   }
+
+
 
 
 

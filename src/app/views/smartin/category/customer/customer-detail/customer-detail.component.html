@@ -134,12 +134,15 @@
                     <!-- TABLE -->
                     <td *ngIf="i+1 !== EditRowID">{{item.ContractNo}} </td>
                     <td *ngIf="i+1 !== EditRowID">{{item.ContractCode}} </td>
-                    <td *ngIf="i+1 !== EditRowID">{{item.ContractTypeName}} </td>
+                    <td *ngIf="i+1 !== EditRowID">{{'Contract.data.ContractType'+item.ContractType | translate}} </td>
                     <td *ngIf="i+1 !== EditRowID">{{item.EffectiveDate | amDateFormat: 'DD-MM-YYYY'}} </td>
-                    <td *ngIf="i+1 !== EditRowID">{{item.StandardType}} </td>
+                    <td *ngIf="i+1 !== EditRowID">{{'Contract.data.StandardType'+ item.StandardType | translate}} </td>
                     <td *ngIf="i+1 !== EditRowID">{{item.Ratio}} </td>
                     <td *ngIf="i+1 !== EditRowID">{{item.Description}} </td>
-                    <td *ngIf="i+1 !== EditRowID">{{item.IsIntergration}} </td>
+                    <td *ngIf="i+1 !== EditRowID">
+                      <span><i class="fa fa-lg" [ngClass]="{'fa-check-square-o text-info': item.IsIntergration==true, 'fa-square-o':item.IsIntergration==false}" ></i> </span>
+
+                    </td>
 
                     <!-- FORM -->
                     <!-- <td *ngIf="i+1 === EditRowID"><input type="text" class="form-control" name="WarehouseLocationCode"
@@ -187,7 +190,8 @@
                           [disabled]="!locationEntity.WarehouseLocationCode || !locationEntity.WarehouseLocationName"
                           (click)="validateItem(locationEntity)" *ngIf="i+1 === EditRowID"><i
                             class="fa fa-check"></i></button>
-                        <button type="button" class="btn btn-sm btn-outline btn-success" (click)="fnEditItem(i)"
+                        <button type="button" class="btn btn-sm btn-outline btn-success" (click)="fnEditItem(item.ContractID)"
+                        data-toggle="modal" data-target="#myContractModal"
                           *ngIf="i+1 !== EditRowID"><i class="fa fa-pencil"></i></button>
                         <button type="button" class="btn btn-sm btn-outline btn-danger" (click)="fnDeleteItem(i)"
                           *ngIf="i+1 !== EditRowID"><i class="fa fa-trash"></i></button>
@@ -230,8 +234,8 @@
                     <td></td>
                     <td></td>
                     <td>
-                      <button type="button" class="btn  btn-sm btn-outline btn-info pull-right" [routerLink]="['contract']" ><i
-                          class="fa fa-plus"></i> </button>
+                      <button type="button" class="btn  btn-sm btn-outline btn-info pull-right"  ><i
+                          class="fa fa-plus" (click)=fnEditItem(0)  data-toggle="modal" data-target="#myContractModal"></i> </button>
                     </td>
                   </tr>
 
@@ -272,7 +276,7 @@
       <div class="ibox-content">
         
         <div class="row">
-          <div class="col-sm-6"><button class="btn btn-primary" (click)="fnTest()">Test</button>
+          <div class="col-sm-6">
           </div><div class="col-sm-6"><button class="btn btn-primary pull-right" [ladda]="laddaSubmitLoading" [disabled]="myForm.invalid ||EditRowID!=0" (click)="fnSave()"><i class="fa fa-paper-plane-o"></i> {{'Button.Save' | translate}}</button></div>
         </div>
       </div>
@@ -283,5 +287,5 @@
   </div>
 </div>
 
-<router-outlet></router-outlet>
+<app-contract  [contractid]="app_ContractID" (contract)="onChangeAdd($event)"></app-contract>
 

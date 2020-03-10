@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, Input } from '@angular/core';
-import { Factory, BomFactory, Stage, BomStage } from 'src/app/models/SmartInModels';
+import { Factory, BomFactory, Stage, BomStage, Unit } from 'src/app/models/SmartInModels';
 import { WaterTreatmentService } from 'src/app/services/api-watertreatment.service';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
@@ -12,7 +12,8 @@ import swal from "sweetalert2";
 export class BomStageModalComponent implements OnInit {
   @Input() entity: BomFactory;
   @Input() factories: Factory[];
-  @Input() stages: Stage[] = []
+  @Input() stages: Stage[] = [];
+  @Input() units: Unit[] = []
   //varible
   laddaSubmitLoading = false;
   editRowId: number = 0;
@@ -29,6 +30,7 @@ export class BomStageModalComponent implements OnInit {
     private trans: TranslateService) { }
 
   ngOnInit() {
+    console.log(this.factories);
     this.resetEntity();
   }
 
