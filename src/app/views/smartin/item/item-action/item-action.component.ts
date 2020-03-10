@@ -606,7 +606,7 @@ export class ItemActionComponent implements OnInit {
     let keySearch = ""
     let data: any = await this.api
       .getUnitPagination(keySearch)
-      .toPromise()
+            .toPromise()
       .then();
     this.listUnit = data.result;
   }

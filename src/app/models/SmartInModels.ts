@@ -234,7 +234,7 @@ export class BomItem {
 	BomStageId: number = 0
   ItemId?: number = 0
   ItemName:string
-	Type?: number = 0
+	BomType?: string
   UnitId?: number = 0
   UnitName: string
   Quantity?: number
