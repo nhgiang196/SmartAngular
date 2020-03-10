@@ -54,6 +54,7 @@ import { CustomerDetailComponent } from './views/smartin/category/customer/custo
 import { ContractComponent } from './views/smartin/category/customer/contract/contract.component';
 import { CustomerDetailResolverService } from './views/smartin/category/customer/customer-detail.resolver';
 import { BomListComponent } from './views/smartin/bom/bom-list/bom-list.component';
+import { MonitorStandardComponent } from './views/smartin/monitor/monitor-standard/monitor-standard.component';
 
 
 /**XLNT */
@@ -136,12 +137,18 @@ export const ROUTES: Routes = [
         path: 'bom', canActivate: [AuthGuard], children: [
           { path: 'list', component: BomListComponent },
           { path: 'unit', component: UnitMeasurementComponent },
-          { path: 'stage', component: StageComponent },        
+          { path: 'stage', component: StageComponent },
            { path: 'item/:id', component: ItemListComponent },
           { path: 'warehouse', component: WarehouseComponent },
           { path: '', component: CategoryNavigationComponent, outlet: 'sidemenu' },
-    ]
-  },
+        ]
+      },
+       //monitor
+       {
+        path: 'monitor', canActivate: [AuthGuard], children: [
+          { path: 'standard', component: MonitorStandardComponent },
+        ]
+      },
     ]
   },
   { //BlankComponent
@@ -150,7 +157,7 @@ export const ROUTES: Routes = [
       // { path: 'landingView', component: LandingViewComponent },
       { path: 'login', component: LoginComponent },
       { path: 'register',  component: RegisterComponent },
-      { path: 'forgotPassword', component: ForgotPasswordComponent },      
+      { path: 'forgotPassword', component: ForgotPasswordComponent },
       { path: 'resetPassword', component: UserResetPasswordComponent },
 
       { path: 'voucherReportView/:VoucherId', component: VoucherReportComponent},
