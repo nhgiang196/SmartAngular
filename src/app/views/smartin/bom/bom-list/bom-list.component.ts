@@ -416,6 +416,7 @@ export class BomListComponent implements OnInit {
 
   async fnSave() {
     this.laddaSubmitLoading = true;
+    var e = this.entity;
     if (await this.fnValidate()) {
       console.log("send entity: ", e);
       if (this.ACTION_STATUS == "add") {
