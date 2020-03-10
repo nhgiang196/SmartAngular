@@ -18,13 +18,8 @@ export class ItemGridComponent implements OnInit {
     this.loadItems();
   }
   loadItems(){
-    let pr = new DataTablePaginationParams();
-    pr.pageSize=50;
-    pr.page= 1;
-    pr.selectFields = ` q.*, ItemTypeName, [FirstImagePath] = ISNULL((SELECT TOP 1 f.[Path] FROM ItemFile i JOIN [File] f ON f.FileID = i.FileID WHERE i.ItemID= q.ItemID AND I.IsImage=1),'assets/img/empty.jpg')`;
-    pr.entity = ` Item q LEFT join ItemType t ON t.ItemTypeID=q.ItemTypeID `;
-    pr.specialCondition = ` EXISTS( SELECT * FROM ItemFile jk WHERE jk.IsImage=1 AND jk.ItemID= q.ItemID) `;
-    this.api.getItemPagination_Grid(pr).subscribe(res=>{
+    
+    this.api.getItemPagination_Grid().subscribe(res=>{
       this.Items = res.result as any
       console.log(res)
     });
