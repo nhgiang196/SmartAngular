@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
-import {  DataTablesResponse, DataTablePaginationParams } from '../models/SmartInModels';
+import {  DataTablesResponse, DataTablePaginationParams, MonitorStandard } from '../models/SmartInModels';
 
 const ApiUrl = "api/v1";
 
@@ -22,26 +22,26 @@ export class WaterTreatmentService {
     return this.http.put(`${ApiUrl}/User/UpdateUser`, entity);
   }
 
-  /** FACTORY */ 
+  /** FACTORY */
   getFactory() {
     return this.http.get<any>(`${ApiUrl}/Factory/GetFactory`);
   }
   getBasicFactory(){
-    let pr = new DataTablePaginationParams(); 
+    let pr = new DataTablePaginationParams();
     pr.selectFields = "FactoryID, FactoryName, Status "
     pr.pageSize = 9999;
     return this.http.post(`${ApiUrl}/Factory/GetFactoryPagination`, pr);
   }
 
   getFactoryPagination(keyvalue) {
-    let pr = new DataTablePaginationParams(); 
+    let pr = new DataTablePaginationParams();
     pr.keyFields="FactoryName,FactoryAddress,FactoryContact,ContactPhone"
-    pr.key = keyvalue; 
+    pr.key = keyvalue;
     pr.pageSize = 9999;
     return this.http.post(`${ApiUrl}/Factory/GetFactoryPagination`, pr);
   }
 
-  
+
   getAllFactoryPagination(model) {
     return this.http.post(`${ApiUrl}/Factory/GetFactoryPagination`, model);
   }
@@ -67,7 +67,7 @@ export class WaterTreatmentService {
 
   /** WAREHOUSE */
   getWarehousePagination =(keyvalue) => { // Note: BA yêu cầu gửi Parram như thế này
-    let pr = new DataTablePaginationParams();  
+    let pr = new DataTablePaginationParams();
     pr.keyFields="WarehouseCode,WarehouseName,WarehouseAddress,WarehouseType,WarehouseUserName,Status";
     pr.selectFields = " WarehouseID, WarehouseCode, WarehouseName, f.FactoryName, WarehouseType, WarehouseAddress, WarehouseUserName, u.NormalizedUserName , w.Status ";
     pr.entity = `Warehouse w LEFT JOIN [BCM_Auth].dbo.AspNetUsers u ON u.UserName= w.WarehouseUserName
@@ -115,14 +115,14 @@ export class WaterTreatmentService {
   findItemTypeById =(id) => this.http.get(`${ApiUrl}/ItemType/FindItemTypeById?id=${id}` );
   getItemTypePaginationByCode =(entity,code) => this.http.post<any>(`${ApiUrl}/ItemType/GetItemTypePaginationByCode/${code}`,entity,{} );
   validateItemType=(entity) => this.http.post(`${ApiUrl}/ItemType/ValidateItemType`,entity);
-  
+
   //ItemTypeProperty
-  
+
   addItemTypeProperty =(entity) => this.http.post(`${ApiUrl}/ItemTypeProperty/AddItemTypeProperty`,entity);
   updateItemTypeProperty =(entity) => this.http.put(`${ApiUrl}/ItemTypeProperty/UpdateItemTypeProperty`,entity);
   getDataTableItemTypePagination =(entity) => this.http.post<DataTablesResponse>(`${ApiUrl}/ItemType/DataTableItemTypePagination`,entity);
   deleteItemTypeProperty =(id) => this.http.delete(`${ApiUrl}/ItemTypeProperty/DeleteItemTypeProperty`,{ params: { id: id } });
-  getItemTypePropertyPagination =(entity) => this.http.post<any>(`${ApiUrl}/ItemTypeProperty/GetItemTypePropertyPagination`,entity,{} );  
+  getItemTypePropertyPagination =(entity) => this.http.post<any>(`${ApiUrl}/ItemTypeProperty/GetItemTypePropertyPagination`,entity,{} );
   getItemTypeProperty =() => this.http.get(`${ApiUrl}/ItemTypeProperty/GetItemType` );
   findItemTypePropertyById =(id) => this.http.get<any>(`${ApiUrl}/ItemTypeProperty/FindItemTypePropertyById?id=${id}` );
 
@@ -149,7 +149,7 @@ export class WaterTreatmentService {
   findUnitById =(id) => this.http.get<any>(`${ApiUrl}/Unit/FindUnitById?id=${id}` );
   validateUnit =(entity) =>{
     return this.http.post(`${ApiUrl}/Unit/ValidateUnit`,entity);
-  } 
+  }
 
    //Stage Services
    addStage =(entity) => this.http.post(`${ApiUrl}/Stage/AddStage`,entity);
@@ -200,7 +200,7 @@ export class WaterTreatmentService {
       orderDir: "asc",
       orderBy: "ItemName"
     };
-    
+
     return this.http.post<any>(`${ApiUrl}/Item/GetItemPagination`,model );
   }
   getItemPagination_Grid=()=>{
@@ -212,7 +212,7 @@ export class WaterTreatmentService {
     pr.specialCondition = ` EXISTS( SELECT * FROM ItemFile jk WHERE jk.IsImage=1 AND jk.ItemID= q.ItemID) `;
     return this.http.post<any>(`${ApiUrl}/Item/GetItemPagination`,pr );
   }
-  getSelect2ItemPagination =(params) =>{  
+  getSelect2ItemPagination =(params) =>{
     return this.http.get<any>(`${ApiUrl}/Item/GetSelect2ItemPagination`,{ params: params } );
   }
   getItemSelect2Pagination(entity){
@@ -224,7 +224,7 @@ export class WaterTreatmentService {
   // getItemByItemType =(itemTypeId) => this.http.get(`${ApiUrl}/Item/GetItemByItemType/`,{ params: { itemTypeId: itemTypeId } } );
   findItemById =(id) => this.http.get<any>(`${ApiUrl}/Item/FindItemById?id=${id}` );
   checkItemNameExist =(itemName) => this.http.get<any>(`${ApiUrl}/Item/CheckItemNameExist?ItemName=${itemName}` );
-  
+
 
   /**Customer */
   addCustomer =(entity) => this.http.post(`${ApiUrl}/Customer/AddCustomer`,entity);
@@ -239,7 +239,7 @@ export class WaterTreatmentService {
     return this.http.post<DataTablesResponse>(`${ApiUrl}/Customer/DataTableCustomerPagination`,entity);}
   getCustomer =() => this.http.get(`${ApiUrl}/Customer/GetCustomer` );
   findCustomerById =(id) => this.http.get<any>(`${ApiUrl}/Customer/FindCustomerById?id=${id}` );
-  validateCustomer =(entity) =>{ return this.http.post(`${ApiUrl}/Customer/ValidateCustomer`,entity);} 
+  validateCustomer =(entity) =>{ return this.http.post(`${ApiUrl}/Customer/ValidateCustomer`,entity);}
 
   /**Contract */
   getContract =() => this.http.get(`${ApiUrl}/Contract/GetContract` );
@@ -258,4 +258,7 @@ export class WaterTreatmentService {
   deleteContract =(id) => this.http.delete(`${ApiUrl}/Contract/DeleteContract?id=${id}`);
   validateContract =(entity) => this.http.post(`${ApiUrl}/Contract/ValidateContract?`,entity);
 
+
+  //Moninor
+  getAllMonitorStandard= () => this.http.get<MonitorStandard[]>(`${ApiUrl}/MonitorStandard/GetMonitorStandard`);
 }

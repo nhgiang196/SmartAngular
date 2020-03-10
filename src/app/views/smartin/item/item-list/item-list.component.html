@@ -25,14 +25,14 @@
           </div>
           <div class="row">
             <div class="col-sm-4">
-              
+
               <!-- hidden this button -->
               <button (click)="fnAdd()" type="button" class="btn btn-primary dim" >
                 <i class="fa fa-plus"></i> {{'Button.Add' | translate}}</button>
-                
+
             </div>
             <div class="col-sm-4">
-            
+
             </div>
             <div class="col-sm-4">
               <div class="row">
@@ -44,11 +44,11 @@
                 </select>
                 </div>
               </div>
-              
+
             </div>
           </div>
           <div class="row">
-            <table datatable [dtOptions]="dtOptions"  [dtTrigger]="dtTrigger" 
+            <table datatable [dtOptions]="dtOptions"  [dtTrigger]="dtTrigger"
               class="table table-bordered table-hover table-striped" id="myTable" style="width:100%">
               <thead>
                 <tr>
@@ -76,12 +76,12 @@
               </thead>
               <tbody *ngIf="Items?.length != 0">
                 <tr *ngFor="let item of Items">
-                  <td style="text-align: left" hidden="true"> {{item.ItemID}}</td>
-                  <td style="text-align: left" hidden="true"> {{item.ItemTypeID}}</td>
+                  <td style="text-align: left" hidden="true"> {{item.ItemId}}</td>
+                  <td style="text-align: left" hidden="true"> {{item.ItemTypeId}}</td>
                   <td style="text-align: left"> {{item.ItemNo}}</td>
                   <td style="text-align: left"> {{item.ItemName}}</td>
                   <td style="text-align: left"> {{item.ItemPrintName}}</td>
-                  <td style="text-align: left" hidden="true"> {{item.ItemUnitID}}</td>
+                  <td style="text-align: left" hidden="true"> {{item.ItemUnitId}}</td>
                   <td style="text-align: left"> {{item.ItemModel}}</td>
                   <td style="text-align: left"> {{item.ItemSerial}}</td>
                   <td style="text-align: left">{{item.ItemManufactureCountry}}</td>
@@ -96,9 +96,9 @@
                   <td style="text-align: left">{{item.ModifyDate | amDateFormat: 'YYYY-MM-DD HH:mm'}}</td>
                   <td style="text-align: left" hidden="true">{{item.Status}}</td>
                   <td>
-                    <button type="button" class="btn btn-outline btn-danger" (click)="fnDelete(item.ItemID)"><i
+                    <button type="button" class="btn btn-outline btn-danger" (click)="fnDelete(item.ItemId)"><i
                         class="fa fa-trash"></i></button>
-                    <button type="button" class="btn btn-outline btn-success" (click)="fnUpdate(item.ItemID)"
+                    <button type="button" class="btn btn-outline btn-success" (click)="fnUpdate(item.ItemId)"
                       data-toggle="modal" data-target="#myModal4"><i class="fa fa-pencil"></i></button>
                   </td>
                 </tr>
