@@ -8,9 +8,6 @@ const ApiUrl = "api/v1";
 
 @Injectable({ providedIn: 'root' })
 export class WaterTreatmentService {
-  severSide={
-
-  }
   constructor(
     private http: HttpClient, private router: Router
   ) { }
@@ -69,8 +66,8 @@ export class WaterTreatmentService {
   }
 
   /** WAREHOUSE */
-  getWarehousePagination =(keyvalue) => {
-    let pr = new DataTablePaginationParams(); 
+  getWarehousePagination =(keyvalue) => { // Note: BA yêu cầu gửi Parram như thế này
+    let pr = new DataTablePaginationParams();  
     pr.keyFields="WarehouseCode,WarehouseName,WarehouseAddress,WarehouseType,WarehouseUserName,Status";
     pr.selectFields = " WarehouseID, WarehouseCode, WarehouseName, f.FactoryName, WarehouseType, WarehouseAddress, WarehouseUserName, u.NormalizedUserName , w.Status ";
     pr.entity = `Warehouse w LEFT JOIN [BCM_Auth].dbo.AspNetUsers u ON u.UserName= w.WarehouseUserName
@@ -134,7 +131,7 @@ export class WaterTreatmentService {
   updateUnit =(entity) => this.http.put(`${ApiUrl}/Unit/UpdateUnit`,entity);
   deleteUnit =(id) => this.http.delete(`${ApiUrl}/Unit/DeleteUnit`,{ params: { id: id } });
   getUnitPagination =(keySearch) =>{
-    const model: DataTablePaginationParams = {
+    let model : DataTablePaginationParams = {
       key: keySearch,
       entity: "Unit",
       keyFields: "",
@@ -160,7 +157,8 @@ export class WaterTreatmentService {
    getDataTableStagePagination =(entity) => this.http.post<DataTablesResponse>(`${ApiUrl}/Stage/DataTableStagePagination`,entity);
    deleteStage =(id) => this.http.delete(`${ApiUrl}/Stage/DeleteStage`,{ params: { id: id } });
    getStagePagination =(keySearch) => {
-    const model: DataTablePaginationParams = {
+    let model = new DataTablePaginationParams();
+    model= {
       key: keySearch,
       entity: "Stage",
       keyFields: "",
@@ -195,8 +193,8 @@ export class WaterTreatmentService {
     const model: DataTablePaginationParams = {
       key: keySearch,
       entity: "Item",
-      keyFields: "",
-      selectFields: "ItemId,ItemNo,ItemName",
+      keyFields: "ItemName",
+      selectFields: "ItemId,ItemNo  +' '+ ItemName as ItemName",
       page: 1,
       pageSize: 9999,
       orderDir: "asc",
@@ -204,6 +202,12 @@ export class WaterTreatmentService {
     };
     
     return this.http.post<any>(`${ApiUrl}/Item/GetItemPagination`,model,{} );
+  }
+  getSelect2ItemPagination =(params) =>{  
+    return this.http.get<any>(`${ApiUrl}/Item/GetSelect2ItemPagination`,{ params: params } );
+  }
+  getItemSelect2Pagination(entity){
+    return this.http.post<any>(`${ApiUrl}/Item/GetItemPagination`,entity);
   }
   getDataTableItemPagination =(entity) => this.http.post<DataTablesResponse>(`${ApiUrl}/Item/DataTableItemPagination`,entity);
   getItem =() => this.http.get(`${ApiUrl}/Item/GetItem` );
@@ -218,14 +222,27 @@ export class WaterTreatmentService {
   updateCustomer =(entity) => this.http.put(`${ApiUrl}/Customer/UpdateCustomer`,entity);
   deleteCustomer =(id) => this.http.delete(`${ApiUrl}/Customer/DeleteCustomer`,{ params: { id: id } });
   getCustomerPagination =(entity) => this.http.post<any>(`${ApiUrl}/IteCustomerm/GetCustomerPagination`,entity,{} );
-  getDataTableCustomerPagination =(entity) => this.http.post<DataTablesResponse>(`${ApiUrl}/Customer/DataTableCustomerPagination`,entity);
+  getDataTableCustomerPagination =(entity) => { // Note: BA yêu cầu gửi Parram như thế này
+    entity.KeyFields = `c.CustomerID, c.CustomerName, c.FactoryID	,c.CustomerAddress, c.ContactName, c.ContactEmail, c.ContactPhone, c.Description, c.CreateBy	, c.CreateDate, c.ModifyBy	, c.ModifyDate, c.Status	, c.IsIntergration`;
+    entity.SelectFields = ` c.*, FactoryName , [CustomerStatus] = dbo.GetDefine('CustomerStatus',c.Status) `;
+    entity.Entity = `  Customer c LEFT JOIN Factory f ON f.FactoryID = c.FactoryID`;
+    entity.SpecialCondition = `1=1`;
+    return this.http.post<DataTablesResponse>(`${ApiUrl}/Customer/DataTableCustomerPagination`,entity);}
   getCustomer =() => this.http.get(`${ApiUrl}/Customer/GetCustomer` );
   findCustomerById =(id) => this.http.get<any>(`${ApiUrl}/Customer/FindCustomerById?id=${id}` );
   validateCustomer =(entity) =>{ return this.http.post(`${ApiUrl}/Customer/ValidateCustomer`,entity);} 
 
   /**Contract */
   getContract =() => this.http.get(`${ApiUrl}/Contract/GetContract` );
-  getContractPagination =(entity) => this.http.post<any>(`${ApiUrl}/Contract/GetCustomerPagination`,entity,{} );
+  getContractByCustomer =(keyValue) =>  {
+    let e = new DataTablePaginationParams();
+    e.selectFields= ` * , [ContractTypeName] = dbo.GetDefine('ContractType',ContractType) `
+    e.specialCondition = `CustomerID= ${keyValue}`;
+    e.pageSize =9999;
+    console.log('parrams send',e);
+    return this.http.post<any>(`${ApiUrl}/Contract/GetContractPagination` ,e);
+  }
+  getContractPagination =(entity) => this.http.post<any>(`${ApiUrl}/Contract/GetContractPagination`,entity,{} );
   getDataTableContractPagination =(entity) => this.http.post<DataTablesResponse>(`${ApiUrl}/Item/DataTableContractPagination`,entity);
   findContractById =(id) => this.http.get<any>(`${ApiUrl}/Contract/FindContractById?id=${id}` );
   addContract =(entity) => this.http.post(`${ApiUrl}/Contract/AddContract`,entity);

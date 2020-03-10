@@ -126,9 +126,12 @@ export const ROUTES: Routes = [
            },
           { path: 'item/:id', component: ItemListComponent },
           { path: 'warehouse', component: WarehouseComponent },
-          { path: 'customer', component: CustomerComponent },
-          { path: 'customer/detail/:id', component: CustomerDetailComponent, resolve: { dataResolver: CustomerDetailResolverService }},
-          { path: 'customer/detail/:id/contract', component: ContractComponent }, //prepare resolved
+          { path: 'customers', component: CustomerComponent },
+          { path: 'customer/:id', component: CustomerDetailComponent, resolve: { dataResolver: CustomerDetailResolverService },
+              children: [
+                { path: ':contractID', component: ContractComponent }, //prepare resolved
+              ]},
+          
           { path: '', component: CategoryNavigationComponent, outlet: 'sidemenu' },
         ]
       },

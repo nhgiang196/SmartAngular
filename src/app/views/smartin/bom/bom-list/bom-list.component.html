@@ -527,20 +527,14 @@
           <div class="row">
             <div class="col-lg-6">
               <div class="form-group">
-                <label>
-                  {{ "BomFactory.BomItem.ItemId" | translate }} *:
-                </label>
-                <ng-select
-                  class="custom"
-                  [items]="items"
-                  bindLabel="ItemName"
-                  bindValue="ItemId"
-                  placeholder="{{ 'BomFactory.BomItem.ItemId' | translate }}"
-                  [(ngModel)]="outBomItem.ItemId"
-                  name="inItemId"
-                  id="inItemId"
-                  required
-                >
+                <label> {{ 'BomFactory.BomItem.ItemId' | translate }} : </label>
+                <ng-select class="custom" [items]="itemsBuffer" [virtualScroll]="true" [loading]="loading"
+                  appendTo="body" (scroll)="onScroll($event)" (scrollToEnd)="onScrollToEnd()" bindLabel="ItemName"
+                  bindValue="ItemId" autofocus placeholder="{{'BomFactory.BomItem.ItemId' | translate}}"
+                  [(ngModel)]="inBomItem.ItemId" name="inItemId" id="inItemId" required>
+                  <ng-template ng-header-tmp>
+                    <small class="form-text text-muted">Loaded {{itemsBuffer.length}} of {{items.length}}</small>
+                  </ng-template>
                 </ng-select>
               </div>
             </div>
@@ -686,32 +680,23 @@
                   <tr>
                     <td>{{ bomItems.length + 1 }}</td>
                     <td>
-                      <ng-select
-                        class="custom"
-                        [items]="items"
-                        bindLabel="ItemName"
-                        bindValue="ItemId"
-                        placeholder="{{'BomFactory.BomItem.ItemId' | translate}}"
-                        name="ItemId"
-                        id="ItemId"
-                        (change)="$event != null? (newBomItem.ItemName = $event.ItemName) : null"
-                        [(ngModel)]="newBomItem.ItemId"
-                        required
-                      >
+                      <ng-select class="custom" [items]="itemsBuffer" [virtualScroll]="true" [loading]="loading"
+                        (change)="newBomItem.ItemName =   $event? $event.ItemName :''" appendTo="body"
+                        (scroll)="onScroll($event)" (scrollToEnd)="onScrollToEnd()" bindLabel="ItemName"
+                        [searchFn]="customSearchFn"
+                        bindValue="ItemID" autofocus placeholder="{{'BomFactory.BomItem.ItemId' | translate}}"
+                        [(ngModel)]="newBomItem.ItemId" name="ItemId" id="ItemId" required>
+                        <ng-template ng-header-tmp>
+                          <small class="form-text text-muted">Loaded {{itemsBuffer.length}} of {{items.length}}</small>
+                        </ng-template>
                       </ng-select>
+
                     </td>
                     <td>
-                      <ng-select
-                        class="custom"
-                        [items]="units"
-                        bindLabel="UnitName"
-                        bindValue="UnitId"
-                        placeholder="{{'Item.placeholdercolumn.ItemPackageUnitId' | translate}}"
-                        name="newInUnitId"
-                        required
-                        [(ngModel)]="newBomItem.UnitId"
-                        (change)="$event!=null?newBomItem.UnitName = $event.UnitName:null"
-                      >
+                      <ng-select class="custom" [items]="units" bindLabel="UnitName" bindValue="UnitId"
+                        placeholder="{{'Item.placeholdercolumn.ItemPackageUnitId' | translate }}" name="outUnitId"
+                        required [(ngModel)]="newBomItem.UnitId"
+                        (change)="newBomItem.UnitName =  $event? $event.UnitName :'' ">
                       </ng-select>
                     </td>
                     <td>

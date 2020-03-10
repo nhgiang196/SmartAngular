@@ -60,14 +60,15 @@ export class File {
 }
 
 export class DataTablePaginationParams {
-  key: string = ''
-  keyFields: string = ''
-  page: number = 1
-  pageSize: number = 50
-  orderBy: string = null
-  orderDir: string = 'asc'
-  entity: string = null
-  selectFields: string = null
+  key?: string = ''
+  keyFields?: string = ''
+  page?: number = 0
+  pageSize?: number = null
+  orderBy?: string = null
+  orderDir?: string = 'asc'
+  entity?: string = null
+  selectFields?: string = null
+  specialCondition?: string =null
 }
 export class Item {
   ItemId?: number = 0
@@ -292,18 +293,20 @@ export class WarehouseLocation {
 }
 
 export class Customer {
-	ContractID: number = 0
-	CustomerID?: number = 0
-	ContractNo?: string
-	ContractCode?: string
-	ContractType?: number
-	SignDate?: Date
-	EffectiveDate?: Date
-	EndDate?: Date
-	StandardType?: number
-	Ratio?: any
+	CustomerID: number = 0
+	CustomerName?: string
+	FactoryID?: number 
+	CustomerAddress?: string
+	ContactName?: string
+	ContactEmail?: string
+	ContactPhone?: string
 	Description?: string
-  IsIntergration?: boolean
+	CreateBy?: string
+	CreateDate?: Date
+	ModifyBy?: string
+	ModifyDate?: Date
+	Status?: number
+	IsIntergration?: boolean
   Contract : Contract[] = []
   CustomerFile: CustomerFile[] = []
 }
@@ -330,7 +333,7 @@ export class Contract {
 	StandardType?: number
 	Ratio?: any
 	Description?: string
-  IsIntergration?: boolean
+  IsIntergration?: boolean = true
   ContractPrice : ContractPrice[] = []
   ContractBreach : ContractBreach[] = []
   ContractFile : ContractFile[] = []

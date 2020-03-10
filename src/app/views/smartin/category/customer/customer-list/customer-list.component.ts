@@ -20,6 +20,7 @@ export class CustomerListComponent  implements  AfterViewInit, OnDestroy, OnInit
   public ACTION_STATUS: string;
   iboxloading = false;
   laddaSubmitLoading = false;
+  lsData: any = [];
   constructor(
     private api: WaterTreatmentService,
     private trans: TranslateService,
@@ -32,44 +33,45 @@ export class CustomerListComponent  implements  AfterViewInit, OnDestroy, OnInit
     this.dtOptions = {
       autoWidth: true,
       responsive: true,
-      // dom: ` <"row"<"col-sm-4 m-b-xs"l><"#myid.col-sm-4 m-b-xs"f><"col-sm-4"p>><t><"row"<"col-sm-4 m-b-xs"i><"#myid2.col-sm-4 m-b-xs"f><"col-sm-4"p>>`, //recommend Dom --nhgiang
-      // serverSide: true,
-      // processing: true,
-      // deferRender: true,
-      // stateSave: true,
+      dom: ` <"row"<"col-sm-4 m-b-xs"l><"#myid.col-sm-4 m-b-xs"f><"col-sm-4"p>><t><"row"<"col-sm-4 m-b-xs"i><"#myid2.col-sm-4 m-b-xs"f><"col-sm-4"p>>`, //recommend Dom --nhgiang
+      serverSide: true,
+      processing: true,
+      deferRender: true,
+      stateSave: true,
       paging: true,
       pageLength: 10,    
       pagingType: 'full_numbers',
       search: { regex: true },
-      // columns: [
-      //     { data: 'CustomerID' }
-      //    , { data: 'CustomerName'}
-      //    , { data: 'FactoryID'}
-      //    , { data: 'CustomerAddress'}
-      //    , { data: 'ContactName'}
-      //    , { data: 'ContactEmail'}
-      //    , { data: 'ContactPhone'}
-      //    , { data: 'Description'}
-      //    , { data: 'CreateBy'}
-      //    , { data: 'CreateDate'}
-      //    , { data: 'ModifyBy'}
-      //    , { data: 'ModifyDate'}
-      //    , { data: 'Status'}
-      //    , { data: 'IsIntergration'}
-      //    , { data : null}
-      // ],
+      columns: [
+          { data: 'CustomerID' }
+         , { data: 'CustomerName'}
+         , { data: 'FactoryName'}
+         , { data: 'CustomerAddress'}
+         , { data: 'ContactName'}
+         , { data: 'ContactEmail'}
+         , { data: 'ContactPhone'}
+         , { data: 'Description'}
+         , { data: 'CreateBy'}
+         , { data: 'CreateDate'}
+         , { data: 'ModifyBy'}
+         , { data: 'ModifyDate'}
+         , { data: 'Status'}
+         , { data: 'IsIntergration'}
+         , { data : null}
+      ],
       ajax: (dataTablesParameters: any, callback) => {
-        // this.dtOptions.ajax= (dataTablesParameters: any, callback) => { //chèn lại ajax ở một vị trí duy nhất khi định nghĩa
-        //   this.api._______________(dataTablesParameters, this.itemTypeId).subscribe(res => {
-        //     this.Items = res.data;
-        //     console.log(this.Items)
-        //     callback({
-        //       recordsTotal: res.recordsTotal,
-        //       recordsFiltered: res.recordsFiltered,
-        //       data: []
-        //     });
-        //   })
-        // }
+        this.dtOptions.ajax= (dataTablesParameters: any, callback) => { //chèn lại ajax ở một vị trí duy nhất khi định nghĩa
+          this.api.getDataTableCustomerPagination(dataTablesParameters).subscribe(res => {
+            debugger;
+            this.lsData = res.data;
+            console.log("DATATABLE:",this.lsData);
+            callback({
+              recordsTotal: res.recordsTotal,
+              recordsFiltered: res.recordsFiltered,
+              data: []
+            });
+          })
+        }
       },
       language:
       {
@@ -94,19 +96,26 @@ export class CustomerListComponent  implements  AfterViewInit, OnDestroy, OnInit
         }
       }
     };
-
-
-  }
-
-  
-  ngAfterViewInit(): void {
-    this.dtTrigger.next();
   }
 
   ngOnDestroy(): void {
     this.dtTrigger.unsubscribe(); 
     
   }
+
+  tableRender(){
+    this.datatableElement.dtInstance.then((dtInstance: DataTables.Api) => {
+      dtInstance.destroy();
+      this.dtTrigger.next();
+    });
+  }
+
+  
+  ngAfterViewInit(): void {
+    this.dtTrigger.next();
+    this.tableRender();
+  }
+
 
 
 }

@@ -20,7 +20,8 @@ import { HttpEventType } from "@angular/common/http";
 declare let $: any;
 import swal from "sweetalert2";
 import { UserIdleConfig } from "angular-user-idle";
-
+import { delay } from 'rxjs/operators';
+import { ReturnStatement } from '@angular/compiler';
 @Component({
   selector: "app-bom-list",
   templateUrl: "./bom-list.component.html",
@@ -54,9 +55,15 @@ export class BomListComponent implements OnInit {
   editRowId: number = 0;
   // Default load data
   units: Unit[] = [];
-  stages: Stage[] = [];
-  factories: Factory[] = [];
-  items: Item[] = [];
+  stages: Stage[] = []
+  factories: Factory[] = []
+  items: Item[] =[]
+  itemsBuffer : Item[]=[]
+
+  // ng-select server side
+  bufferSize = 50;
+  numberOfItemsFromEndBeforeFetchingMore = 10;
+  loading = false;
   constructor(
     private api: WaterTreatmentService,
     private toastr: ToastrService,
@@ -108,29 +115,24 @@ export class BomListComponent implements OnInit {
             });
           });
       },
-      columns: [
-        { data: "BomFactoryId" },
-        { data: "BomFactoryName" },
-        { data: "BomFactoryCode" },
-        { data: "CreateBy" },
-        { data: "CreateDate" },
-        { data: "ModifyBy" },
-        { data: "ModifyDate" },
-        { data: "Status" }
-      ],
-      language: {
-        searchPlaceholder: this.trans.instant("DefaultTable.searchPlaceholder"),
-        emptyTable: this.trans.instant("DefaultTable.emptyTable"),
-        info: this.trans.instant("DefaultTable.info"),
-        infoEmpty: this.trans.instant("DefaultTable.infoEmpty"),
-        infoFiltered: this.trans.instant("DefaultTable.infoFiltered"),
-        infoPostFix: this.trans.instant("DefaultTable.infoPostFix"),
-        thousands: this.trans.instant("DefaultTable.thousands"),
-        lengthMenu: this.trans.instant("DefaultTable.lengthMenu"),
-        loadingRecords: this.trans.instant("DefaultTable.loadingRecords"),
-        processing: this.trans.instant("DefaultTable.processing"),
-        search: this.trans.instant("DefaultTable.search"),
-        zeroRecords: this.trans.instant("DefaultTable.zeroRecords"),
+      columns: [{ data: 'BomFactoryId' }, { data: 'BomFactoryName' },
+      { data: 'BomFactoryCode' }, { data: 'CreateBy' },
+      { data: 'CreateDate' }, { data: 'ModifyBy' },
+      { data: 'ModifyDate' }, { data: 'Status' }],
+      language:
+      {
+        searchPlaceholder: this.trans.instant('DefaultTable.searchPlaceholder'),
+        emptyTable: this.trans.instant('DefaultTable.emptyTable'),
+        info: this.trans.instant('DefaultTable.info'),
+        infoEmpty: this.trans.instant('DefaultTable.infoEmpty'),
+        infoFiltered: this.trans.instant('DefaultTable.infoFiltered'),
+        infoPostFix: this.trans.instant('DefaultTable.infoPostFix'),
+        thousands: this.trans.instant('DefaultTable.thousands'),
+        lengthMenu: this.trans.instant('DefaultTable.lengthMenu'),
+        loadingRecords: this.trans.instant('DefaultTable.loadingRecords'),
+        processing: this.trans.instant('DefaultTable.processing'),
+        search: this.trans.instant('DefaultTable.search'),
+        zeroRecords: this.trans.instant('DefaultTable.zeroRecords'),
         //url: this.trans.instant('DefaultTable.url'),
         paginate: {
           first: "<<",
@@ -165,6 +167,27 @@ export class BomListComponent implements OnInit {
     this.dtTrigger.unsubscribe();
   }
 
+  onScrollToEnd() {
+    this.fetchMore();
+  }
+
+  onScroll({ end }) {
+    if (this.loading || this.items.length <= this.itemsBuffer.length) 
+        return;
+    if (end + this.numberOfItemsFromEndBeforeFetchingMore >= this.itemsBuffer.length)
+        this.fetchMore();
+  }
+
+  private fetchMore() {
+    const len = this.itemsBuffer.length;
+    const more = this.items.slice(len, this.bufferSize + len);
+    this.loading = true;
+    // using timeout here to simulate backend API delay
+    setTimeout(() => {
+      this.loading = false;      
+      this.itemsBuffer = this.itemsBuffer.concat(more);
+    }, 200)
+  }
   async loadUnit() {
     let keySearch = "";
     let data: any = await this.api
@@ -174,29 +197,28 @@ export class BomListComponent implements OnInit {
     this.units = data.result;
   }
   async loadFactories() {
-    let keySearch = "";
-    let data: any = await this.api
-      .getFactoryPagination(keySearch)
-      .toPromise()
-      .then();
+    let keySearch = ""
+    let data: any = await this.api.getFactoryPagination(keySearch).toPromise().then();
     this.factories = data.result;
   }
   async loadStages() {
-    let keySearch = "";
-    let data: any = await this.api
-      .getStagePagination(keySearch)
-      .toPromise()
-      .then();
+    let keySearch = ""
+    let data: any = await this.api.getStagePagination(keySearch).toPromise().then();
     this.stages = data.result;
   }
   async loadItems() {
-    let keySearch = "";
-    let data: any = await this.api
-      .getItemPagination(keySearch)
-      .toPromise()
-      .then();
+    let keySearch = ""
+    let data: any = await this.api.getItemPagination(keySearch).toPromise().then();
     this.items = data.result;
+    console.log('records: ' +data.result.length);
+    this.itemsBuffer = this.items.slice(0, this.bufferSize);
   }
+  customSearchFn(term: string, item: Item) {
+    term = term.toLowerCase();
+    return item.ItemName.toLowerCase().indexOf(term) > -1
+}
+
+
 
   rerender(): void {
     this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
