@@ -14,7 +14,6 @@ declare let $: any;
 })
 export class ContractComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input('contractid') contractId : string;
-  @Output('listvalue') listValue: any =[];
   @Output('contract') send_entity = new EventEmitter<Contract>();
 
   constructor(
@@ -75,6 +74,11 @@ export class ContractComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   fnAddItemBreach(item){
     
+
+  }
+
+  fnSave(){
+    this.send_entity.emit(this.entity);
 
   }
 

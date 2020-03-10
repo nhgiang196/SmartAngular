@@ -72,13 +72,6 @@ export class CustomerDetailComponent implements OnInit {
     this.initCombobox.FullFactories = (res as any).result as Factory[];
     console.log(this.initCombobox);
   }
-  // private async loadContractByCustomer() {
-  //   this.entity.Contract = []; 
-  //   this.api.getContractByCustomer(this.route.snapshot.params.id).subscribe(res => {
-  //     this.entity.Contract = res.result as any;
-  //     console.log('init Contract',res.result);
-  //   })
-  // } 
   private async resetEntity() { //reset entity values
     this.entity = new Customer();
     this.files = [];

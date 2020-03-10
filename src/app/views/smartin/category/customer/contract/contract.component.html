@@ -300,7 +300,7 @@
       </div>
       <div class="modal-footer">
         <button class="btn btn-white"  data-dismiss="modal">{{'Button.Close' | translate}}</button>
-        <button type="button" class="btn btn-primary"   [ladda]="laddaSubmitLoading" ><i class="fa fa-paper-plane-o"></i> {{'Button.Save' | translate}} </button>
+        <button type="button" class="btn btn-primary"   [ladda]="laddaSubmitLoading" (click)="fnSave()" ><i class="fa fa-paper-plane-o"></i> {{'Button.Save' | translate}} </button>
       </div>
     </div>
   </div>
