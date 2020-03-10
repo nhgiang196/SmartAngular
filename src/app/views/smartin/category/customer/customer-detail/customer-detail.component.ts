@@ -9,8 +9,6 @@ import { WaterTreatmentService } from 'src/app/services/api-watertreatment.servi
 import { trigger, animate, style, transition } from '@angular/animations';
 import { AuthService } from 'src/app/services/auth.service';
 import { HttpEventType } from '@angular/common/http';
-
-
 @Component({
   selector: 'app-customer-detail',
   templateUrl: './customer-detail.component.html',
@@ -23,9 +21,7 @@ import { HttpEventType } from '@angular/common/http';
     ])
   ]
 })
-
 export class CustomerDetailComponent implements OnInit {
-
   constructor(
     private api: WaterTreatmentService,
     private router: Router,
@@ -34,82 +30,66 @@ export class CustomerDetailComponent implements OnInit {
     private helper: MyHelperService,
     private trans: TranslateService,
     private auth: AuthService
-  ) { }
-
-  
-  private  pathFile = "uploadFileCustomer";
-  entity : Customer;
+  ) { } 
+  private pathFile = "uploadFileCustomer";
+  entity: Customer;
   files: File[] = [];
   addFiles: { FileList: File[], FileLocalNameList: string[] };
   invalid: any = {};
   uploadReportProgress: any = { progress: 0, message: null, isError: null };
   initCombobox = { Factories: [], FullFactories: [] };
   EditRowID = 0;
-
-  laddaSubmitLoading=false;
-
-
-
-    /**INIT FUNCTIONS */
+  laddaSubmitLoading = false;
+  /**INIT FUNCTIONS */
   ngOnInit() {
     this.resetEntity();
     this.loadInit();
   }
-  fnTest(){
+  fnTest() {
     console.log(this.route);
     console.log(this.router);
   }
-
-  async loadInit(){
+  async loadInit() {
     await this.loadFactoryList();
     /**Add Combobox Value: FACTORY */
     let dataResolver = this.route.snapshot.data["dataResolver"];
-    let _factoryAddTag = await this.initCombobox.FullFactories.find(x=>x.FactoryID== dataResolver.FactoryId );
-    if (_factoryAddTag && await !this.initCombobox.Factories.find(x=> x.FactoryID== dataResolver.FactoryId) )  
+    let _factoryAddTag = await this.initCombobox.FullFactories.find(x => x.FactoryID == dataResolver.FactoryId);
+    if (_factoryAddTag && await !this.initCombobox.Factories.find(x => x.FactoryID == dataResolver.FactoryId))
       this.initCombobox.Factories = this.initCombobox.Factories.concat([_factoryAddTag]);
     this.entity = dataResolver;
-    this.entity.Contract = [];
-    debugger;
+    this.entity.Contract = []; 
     await this.loadContractByCustomer();
+    this.entity.CustomerFile.forEach(item => {
+      let _tempFile = new File([], item.File.FileOriginalName);
+      this.files.push(_tempFile);
+    })
     console.log(this.entity);
-
-  }
-
-  
-  
-  /**PRIVATE FUNCTIONS  */
-
+  }  
+  /**PRIVATE FUNCTIONS */
   private async loadFactoryList() {
     let res = await this.api.getBasicFactory().toPromise().then().catch(err => this.toastr.warning('Get factories Failed, check network')) as any;
-    this.initCombobox.Factories = ( res as any).result.filter(x=>x.Status ==1) as Factory[];
-    this.initCombobox.FullFactories = ( res as any).result as Factory[];
+    this.initCombobox.Factories = (res as any).result.filter(x => x.Status == 1) as Factory[];
+    this.initCombobox.FullFactories = (res as any).result as Factory[];
     console.log(this.initCombobox);
   }
-
-  private async loadContractByCustomer(){
-      this.api.getContractByCustomer( this.route.snapshot.params.id).subscribe(res=>{
-      this.entity.Contract = res.result as any ;
+  private async loadContractByCustomer() {
+    this.api.getContractByCustomer(this.route.snapshot.params.id).subscribe(res => {
+      this.entity.Contract = res.result as any;
     })
-  }
-  
-
-
+  } 
   private async resetEntity() { //reset entity values
     this.entity = new Customer();
     this.files = [];
     this.addFiles = { FileList: [], FileLocalNameList: [] }
     this.invalid = {};
-    this.uploadReportProgress =  { progress : 0, message: null , isError: null };
-    this.EditRowID=0;
+    this.uploadReportProgress = { progress: 0, message: null, isError: null };
+    this.EditRowID = 0;
   }
-
-  async fnSave() { // press save button
-    debugger;
+  async fnSave() { // press save button 
     this.laddaSubmitLoading = true;
-
     var e = this.entity;
     if (await this.fnValidate(e)) {
-      if (this.route.snapshot.params.id== null) { //add
+      if (this.route.snapshot.params.id == null) { //add
         e.CreateBy = this.auth.currentUser.Username;
         this.api.addCustomer(e).subscribe(res => {
           var operationResult: any = res
@@ -119,7 +99,6 @@ export class CustomerDetailComponent implements OnInit {
           }
           else this.toastr.warning(operationResult.Message);
           this.laddaSubmitLoading = false;
-
         }, err => { this.toastr.error(err.statusText); this.laddaSubmitLoading = false; })
       }
       else {
@@ -137,27 +116,15 @@ export class CustomerDetailComponent implements OnInit {
       }
     }
   }
-
-  fnValidate(e){
+  fnValidate(e) {
     return true;
-  }
-
-
-
-
-
- 
-
-
-
+  } 
   /**EVENT TRIGGER */
-
   async onSelect(event) { //drag file(s) or choose file(s) in ngFileZone
     var askBeforeUpload = false;
     if (event.rejectedFiles.length > 0) this.toastr.warning(this.trans.instant('messg.maximumFileSize5000'));
     var _addFiles = event.addedFiles;
-    for (var index in _addFiles) {
-      
+    for (var index in _addFiles) { 
       let item = event.addedFiles[index];
       let convertName = this.helper.getFileNameWithExtension(item);
       let currentFile = this.entity.CustomerFile;
@@ -178,8 +145,8 @@ export class CustomerDetailComponent implements OnInit {
           })
         }
         if (!allowUpload) return;
-        let _FileElement = this.files.filter(x=>x.name == findElement.File.FileOriginalName)[0];
-        let _indexFileElement = this.files.indexOf(_FileElement,0);
+        let _FileElement = this.files.filter(x => x.name == findElement.File.FileOriginalName)[0];
+        let _indexFileElement = this.files.indexOf(_FileElement, 0);
         this.files.splice(_indexFileElement, 1);
         this.addFiles.FileList.splice(_indexFileElement, 1);
       }
@@ -192,24 +159,22 @@ export class CustomerDetailComponent implements OnInit {
         this.entity.CustomerFile.push(_warehouseFile);
         this.addFiles.FileLocalNameList.push(convertName);
       }
-
     }
     this.files.push(...event.addedFiles); //refresh showing in Directive
     this.addFiles.FileList.push(...event.addedFiles);
-
   }
-
   fnDownloadFile(filename) { //press FILES preview
     this.api.downloadFile(this.pathFile + '/' + filename);
   }
-
-  
-
-  onSwitchStatus (_TYPE){ //modal switch on change
-    if (_TYPE == 'entity') this.entity.Status = this.entity.Status==0? 1: 0;
+  fnRemoveFile(event) { //PRESS X TO REMOVE FILES
+    let index = this.files.indexOf(event);
+    this.files.splice(index, 1); //UI del
+    this.entity.CustomerFile.splice(index, 1);
+  } 
+  onSwitchStatus(_TYPE) { //modal switch on change
+    if (_TYPE == 'entity') this.entity.Status = this.entity.Status == 0 ? 1 : 0;
     if (_TYPE == 'entityIsIntergration') this.entity.IsIntergration = !this.entity.IsIntergration;
   }
-
   private uploadFile(files: File[]) { //upload file to server
     let formData = new FormData();
     for (let index = 0; index < files.length; index++) {
@@ -225,22 +190,9 @@ export class CustomerDetailComponent implements OnInit {
       }
     }, err => {
       this.toastr.warning(err.statusText, this.trans.instant('Upload.UploadFileError'));
-      this.uploadReportProgress = { progress: 0, message: 'Error: '+ err.statusText, isError: true };
+      this.uploadReportProgress = { progress: 0, message: 'Error: ' + err.statusText, isError: true };
     });
-  }
-
-
-
-
-
-
-  
-  ngAfterViewInit(){
-    
-  }
-
-  
-
+  } 
+  ngAfterViewInit() { 
+  } 
 }
-
-

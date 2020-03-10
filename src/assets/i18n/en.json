@@ -344,7 +344,14 @@
     "data.ModifyBy" : "Modify By" ,
     "data.ModifyDate" : "Modify Date",
     "data.Status" : "Status",
-    "data.IsIntergration" : "Is Intergration" 
+    "data.IsIntergration" : "Is Intergration" ,
+    "placeholder.CustomerName" : "Enter Customer name",
+    "placeholder.FactoryID" : "Choose Factory" ,
+    "placeholder.CustomerAddress" : "Enter Customer Address" ,
+    "placeholder.ContactName" : "Enter Contact Name",
+    "placeholder.ContactEmail" : "Enter Contact Email",
+    "placeholder.ContactPhone" : "Enter Contact phone",
+    "placeholder.Description" : "Enter Description"
   },
   "Contract":{
     "":"Contract",

@@ -369,7 +369,14 @@
     "data.ModifyBy" : "Chỉnh sửa" ,
     "data.ModifyDate" : "Ngày sửa",
     "data.Status" : "Trạng thái",
-    "data.IsIntergration" : "Tích hợp"
+    "data.IsIntergration" : "Tích hợp",
+    "placeholder.CustomerName" : "Nhập tên đơn vị xả thải",
+    "placeholder.FactoryID" : "Chọn Nhà máy" ,
+    "placeholder.CustomerAddress" : "Nhập địa chỉ" ,
+    "placeholder.ContactName" : "Nhập người liên hệ",
+    "placeholder.ContactEmail" : "Nhập email",
+    "placeholder.ContactPhone" : "Nhập số điện thoại liên hệ",
+    "placeholder.Description" : "Nhập ghi chú"
     
   },
   "Contract":{
