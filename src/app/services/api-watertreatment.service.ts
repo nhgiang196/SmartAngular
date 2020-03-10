@@ -203,6 +203,9 @@ export class WaterTreatmentService {
     
     return this.http.post<any>(`${ApiUrl}/Item/GetItemPagination`,model );
   }
+  getItemPagination_Grid=(e)=>{
+    return this.http.post<any>(`${ApiUrl}/Item/GetItemPagination`,e );
+  }
   getSelect2ItemPagination =(params) =>{  
     return this.http.get<any>(`${ApiUrl}/Item/GetSelect2ItemPagination`,{ params: params } );
   }
