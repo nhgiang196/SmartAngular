@@ -369,7 +369,8 @@
     "data.ModifyBy" : "Chỉnh sửa" ,
     "data.ModifyDate" : "Ngày sửa",
     "data.Status" : "Trạng thái",
-    "data.IsIntergration" : "Tích hợp" 
+    "data.IsIntergration" : "Tích hợp"
+    
   },
   "Contract":{
     "":"Hợp đồng",
