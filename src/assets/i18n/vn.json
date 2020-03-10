@@ -399,6 +399,8 @@
     "data.ContractPrice.Ratio": "Định mức (m3/ngày đêm)",
     "data.ContractPrice.Currency": "Ngoại tệ",
     "data.ContractPrice.Price": "Đơn giá",
-    "data.ContractPrice.Tax": "Thuế suất"              
+    "data.ContractPrice.Tax": "Thuế suất",
+    "mssg.DeleteAsk_Title": "Xóa hợp đồng?",
+    "mssg.DeleteAsk_Text": "Bạn có chắc muốn xóa hợp đồng này?"
   }
 }

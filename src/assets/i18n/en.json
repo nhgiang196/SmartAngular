@@ -373,6 +373,8 @@
     "data.ContractPrice.Ratio": "Ratio",
     "data.ContractPrice.Currency": "Currency",
     "data.ContractPrice.Price": "Price",
-    "data.ContractPrice.Tax": "Tax"              
+    "data.ContractPrice.Tax": "Tax",
+    "mssg.DeleteAsk_Title": "Delete Contract?",
+    "mssg.DeleteAsk_Text": "Sure to delete this Contract?"              
   }
 }
