@@ -52,7 +52,7 @@ export class StageComponent implements OnInit {
   }
 
   loadInit = async () => {
-   
+
     this.dtOptions = {
       autoWidth: true,
       responsive: true,
@@ -74,8 +74,8 @@ export class StageComponent implements OnInit {
         })
       },
       columns: [{ data: 'StageId' }, { data: 'StageName' },
-      { data: 'StageCode' },{ data: 'CreateBy' }, 
-      { data: 'CreateDate' },{ data: 'ModifyBy' }, 
+      { data: 'StageCode' }, { data: 'CreateBy' },
+      { data: 'CreateDate' }, { data: 'ModifyBy' },
       { data: 'ModifyDate' }, { data: 'Status' }],
       language:
       {
@@ -129,8 +129,10 @@ export class StageComponent implements OnInit {
   }
   fnDelete(id) {
     swal.fire({
-      title: this.trans.instant('Stage.DeleteAsk_Title'),
-      titleText: this.trans.instant('Stage.DeleteAsk_Text'),
+      title: this.trans.instant('Stage.mssg.DeleteAsk_Title'),
+      titleText: this.trans.instant('Stage.mssg.DeleteAsk_Text'),
+      confirmButtonText: this.trans.instant('Button.Yes'),
+      cancelButtonText: this.trans.instant('Button.Cancel'),
       type: 'warning',
       showCancelButton: true,
       reverseButtons: true
@@ -140,7 +142,12 @@ export class StageComponent implements OnInit {
           var operationResult: any = res
           if (operationResult.Success) {
             swal.fire(
-              'Deleted!', this.trans.instant('messg.delete.success'), 'success'
+              {
+                title: this.trans.instant('messg.delete.caption'),
+                titleText: this.trans.instant('messg.delete.success'),
+                confirmButtonText: this.trans.instant('Button.OK'),
+                type: 'success',
+              }
             );
             this.rerender();
             $("#myModal4").modal('hide');
@@ -200,7 +207,7 @@ export class StageComponent implements OnInit {
   }
   fnUpdate(id) { //press a link name of entity
     this.existName = false;
-    this.existCode =false;
+    this.existCode = false;
     this.ACTION_STATUS = 'update'
     $("#myModal4").modal('hide');
     if (id === null) { this.toastr.warning('Stage ID is Null, cant show modal'); return; }
@@ -230,14 +237,14 @@ export class StageComponent implements OnInit {
     else {
       debugger;
       this.laddaSubmitLoading = false;
-      if(result.Data =="nameInvalid")
+      if (result.Data == "nameInvalid")
         this.existName = true;
-      else if(result.Data =="codeInvalid")
+      else if (result.Data == "codeInvalid")
         this.existCode = true;
-        else{
-          this.existName = true;
-          this.existCode = true;
-        }
+      else {
+        this.existName = true;
+        this.existCode = true;
+      }
       return false;
     }
   }
@@ -248,7 +255,17 @@ export class StageComponent implements OnInit {
   /** EVENT TRIGGERS */
   async onSelect(event) { //drag file(s) or choose file(s) in ngFileZone
     var askBeforeUpload = false;
-    if (event.rejectedFiles.length > 0) this.toastr.warning(this.trans.instant('messg.maximumFileSize5000'));
+    if (event.rejectedFiles.length > 0) {
+      swal.fire(
+        {
+          title: this.trans.instant('Upload.OverMaximumSizeCaption'),
+          titleText: this.trans.instant('Upload.OverMaximumSize5000Message'),
+          confirmButtonText: this.trans.instant('Button.OK'),
+          type: 'warning',
+        }
+      );
+      allowUpload = false;
+    }
     var _addFiles = event.addedFiles;
     for (var index in _addFiles) {
       let item = event.addedFiles[index];
@@ -261,10 +278,10 @@ export class StageComponent implements OnInit {
           askBeforeUpload = true;
           var allowUpload = true;
           await swal.fire({
-            title: this.trans.instant('File.DuplicateCaption'),
-            titleText: this.trans.instant('File.DuplicateMessage'),
+            title: this.trans.instant("Upload.DuplicateCaption"),
+            titleText: this.trans.instant("Upload.DuplicateMessage"),
             type: 'warning',
-            confirmButtonText: this.trans.instant('Button.OK'),
+            confirmButtonText: this.trans.instant('Button.Yes'),
             cancelButtonText: this.trans.instant('Button.Cancel'),
             showCancelButton: true,
             reverseButtons: true
@@ -312,7 +329,7 @@ export class StageComponent implements OnInit {
       this.uploadReportProgress = { progress: 0, message: 'Error: ' + err.statusText, isError: true };
     });
   }
-    ngAfterViewInit(): void {
-      this.dtTrigger.next();
-    }
+  ngAfterViewInit(): void {
+    this.dtTrigger.next();
+  }
 }
