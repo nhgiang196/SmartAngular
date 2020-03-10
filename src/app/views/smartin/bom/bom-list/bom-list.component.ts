@@ -151,10 +151,7 @@ export class BomListComponent implements OnInit {
       this.dtTrigger.next();
     });
   };
-  showBomModal(id) {
-    this.currentStageId = id;
-    $("#myModal4").modal("hide");
-  }
+
   showBomFactoryModal() {
     $("#myModal2").modal("hide");
     $("#myModal4").modal("show");
@@ -246,16 +243,9 @@ export class BomListComponent implements OnInit {
     this.entity.BomStage.push(this.newBomStage);
     this.newBomStage = new BomStage();
   }
-  fnEditStage(index) {
-    //press edit item (in modal)
-    this.editRowId = index + 1;
-    this.bomStage = this.entity.BomStage[index];
-  }
+
   fnSaveStage(index) {}
-  fnDeleteStage(index) {
-    //press delete item (in modal)
-    this.entity.BomStage.splice(index, 1);
-  }
+  
    validateStage(itemAdd: BomStage, typeAction) {
     if (itemAdd.BomStageId == null) {
       swal.fire(
@@ -407,53 +397,12 @@ export class BomListComponent implements OnInit {
     this.existName = false;
     this.resetEntity();
   }
-  onSwitchStatus() {
-    this.entity.Status = this.entity.Status == 0 ? 1 : 0;
-  }
+  
   onSwitchSequence() {
     !this.newBomStage.Sequence;
   }
 
-  async fnSave() {
-    this.laddaSubmitLoading = true;
-    var e = this.entity;
-    if (await this.fnValidate()) {
-      console.log("send entity: ", e);
-      if (this.ACTION_STATUS == "add") {
-        this.api.addBomFactory(e).subscribe(
-          res => {
-            var operationResult: any = res;
-            if (operationResult.Success) {
-              this.toastr.success(this.trans.instant("messg.add.success"));
-              this.rerender();
-            } else this.toastr.warning(operationResult.Message);
-            this.laddaSubmitLoading = false;
-            $("#myModal4").modal("hide");
-          },
-          err => {
-            this.toastr.error(err.statusText);
-            this.laddaSubmitLoading = false;
-          }
-        );
-      }
-      if (this.ACTION_STATUS == "update") {
-        this.api.updateBomFactory(e).subscribe(
-          res => {
-            var operationResult: any = res;
-            if (operationResult.Success) {
-              this.toastr.success(this.trans.instant("messg.update.success"));
-            } else this.toastr.warning(operationResult.Message);
-            this.laddaSubmitLoading = false;
-          },
-          err => {
-            this.toastr.error(err.statusText);
-            this.laddaSubmitLoading = false;
-          }
-        );
-      }
-      //  await this.loadInit();
-    }
-  }
+  
   fnUpdate(id) {
     //press a link name of entity
     this.existName = false;
