@@ -305,8 +305,8 @@ export class Customer {
 	CreateDate?: Date
 	ModifyBy?: string
 	ModifyDate?: Date
-	Status?: number
-	IsIntergration?: boolean
+	Status?: number = 1
+	IsIntergration?: boolean = false
   Contract : Contract[] = []
   CustomerFile: CustomerFile[] = []
 }
