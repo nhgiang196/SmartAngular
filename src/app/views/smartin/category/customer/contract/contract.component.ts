@@ -1,8 +1,9 @@
-import { Component, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, AfterViewInit, OnDestroy, Input, Output, SimpleChanges } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+import { Contract } from 'src/app/models/SmartInModels';
 declare let $: any;
 @Component({
   selector: 'app-contract',
@@ -10,43 +11,59 @@ declare let $: any;
   styleUrls: ['./contract.component.css']
 })
 export class ContractComponent implements OnInit, AfterViewInit, OnDestroy {
-
-  destroy = new Subject<any>();
-  currentDialog = null;
-  laddaSubmitLoading= false;
-
+  @Input('contractid') contractId : string;
+  @Output('listvalue') listValue: any =[];
+  
 
   constructor(
     route: ActivatedRoute,
     private router: Router
   ) {
-    // route.params.pipe(takeUntil(this.destroy)).subscribe(params => {
-
-    //   // When router navigates on this component is takes the params and opens up the photo detail modal
-    //   // this.currentDialog = this.modalService.open(ContractComponent, {centered: true});
-    //   this.currentDialog.componentInstance.photo = params.id;
-
-    //   // Go back to home page after the modal is closed
-    //   this.currentDialog.result.then(result => {
-    //       router.navigateByUrl('/');
-    //   }, reason => {
-    //       router.navigateByUrl('/');
-    //   });
-    //   });
   }
+
   
+  entity : Contract;
+  files: File[] = [];
+  addFiles: { FileList: File[], FileLocalNameList: string[] };
+  invalid: any = {};
+  uploadReportProgress: any = { progress: 0, message: null, isError: null };
+  initCombobox = {  };
+  EditRowID = 0;
+  laddaSubmitLoading= false;
 
   ngOnInit() {
-    // $('.modal').modal('show');
+    this.resetEntity();
   }
 
+  ngOnChanges(changes: SimpleChanges) {
+    console.log('changes',changes);
+    if (changes.contractId.firstChange || changes.contractId.currentValue==null ) return;
+  }
+
+  
+
+  
+
+  private async resetEntity() { //reset entity values
+    this.entity = new Contract();
+    this.files = [];
+    this.addFiles = { FileList: [], FileLocalNameList: [] }
+    this.invalid = {};
+    this.uploadReportProgress = { progress: 0, message: null, isError: null };
+    this.EditRowID = 0;
+  }
+
+
+
+  private showModal(){
+    $('#myModal').modal('show');
+  }
 
   ngAfterViewInit(){
     
   }
   ngOnDestroy(){
-    // $('.modal').modal('hide');
-    // this.destroy.next();
+
   }
 
 }

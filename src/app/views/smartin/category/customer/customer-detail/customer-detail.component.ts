@@ -9,6 +9,8 @@ import { WaterTreatmentService } from 'src/app/services/api-watertreatment.servi
 import { trigger, animate, style, transition } from '@angular/animations';
 import { AuthService } from 'src/app/services/auth.service';
 import { HttpEventType } from '@angular/common/http';
+declare let $: any;
+
 @Component({
   selector: 'app-customer-detail',
   templateUrl: './customer-detail.component.html',
@@ -40,6 +42,7 @@ export class CustomerDetailComponent implements OnInit {
   initCombobox = { Factories: [], FullFactories: [] };
   EditRowID = 0;
   laddaSubmitLoading = false;
+  app_ContractID= 0;
   /**INIT FUNCTIONS */
   ngOnInit() {
     this.resetEntity();
@@ -75,6 +78,7 @@ export class CustomerDetailComponent implements OnInit {
   private async loadContractByCustomer() {
     this.api.getContractByCustomer(this.route.snapshot.params.id).subscribe(res => {
       this.entity.Contract = res.result as any;
+      console.log('retrun Contract',res.result);
     })
   } 
   private async resetEntity() { //reset entity values
@@ -193,6 +197,29 @@ export class CustomerDetailComponent implements OnInit {
       this.uploadReportProgress = { progress: 0, message: 'Error: ' + err.statusText, isError: true };
     });
   } 
+
+
+  fnEditItem(id){
+    console.log('edit item',id);
+    this.app_ContractID = id;
+  }
+
+  fnDeleteItem(index){
+    swal.fire({
+      title: this.trans.instant('Contract.mssg.DeleteAsk_Title'),
+      titleText: this.trans.instant('Contract.mssg.DeleteAsk_Text'),
+      confirmButtonText: this.trans.instant('Button.OK'),
+      cancelButtonText: this.trans.instant('Button.Cancel'),
+      type: 'warning',
+      showCancelButton: true,
+      reverseButtons: true
+    }).then((result) => {
+    if (result.value) {
+        this.entity.Contract.splice(index, 1);
+      }
+    })
+  }
+
   ngAfterViewInit() { 
   } 
 }

@@ -187,7 +187,8 @@
                           [disabled]="!locationEntity.WarehouseLocationCode || !locationEntity.WarehouseLocationName"
                           (click)="validateItem(locationEntity)" *ngIf="i+1 === EditRowID"><i
                             class="fa fa-check"></i></button>
-                        <button type="button" class="btn btn-sm btn-outline btn-success" (click)="fnEditItem(i)"
+                        <button type="button" class="btn btn-sm btn-outline btn-success" (click)="fnEditItem(item.ContractID)"
+                        data-toggle="modal" data-target="#myContractModal"
                           *ngIf="i+1 !== EditRowID"><i class="fa fa-pencil"></i></button>
                         <button type="button" class="btn btn-sm btn-outline btn-danger" (click)="fnDeleteItem(i)"
                           *ngIf="i+1 !== EditRowID"><i class="fa fa-trash"></i></button>
@@ -231,7 +232,7 @@
                     <td></td>
                     <td>
                       <button type="button" class="btn  btn-sm btn-outline btn-info pull-right" [routerLink]="['contract']" ><i
-                          class="fa fa-plus"></i> </button>
+                          class="fa fa-plus" (click)=fnEditItem(0)  data-toggle="modal" data-target="#myContractModal"></i> </button>
                     </td>
                   </tr>
 
@@ -283,5 +284,5 @@
   </div>
 </div>
 
-<router-outlet></router-outlet>
+<app-contract  [contractid]="app_ContractID"></app-contract>
 
