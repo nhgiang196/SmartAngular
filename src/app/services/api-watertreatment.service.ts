@@ -200,7 +200,7 @@ export class WaterTreatmentService {
       orderBy: "ItemName"
     };
     
-    return this.http.post<any>(`${ApiUrl}/Item/GetItemPagination`,model,{} );
+    return this.http.post<any>(`${ApiUrl}/Item/GetItemPagination`,model );
   }
   getSelect2ItemPagination =(params) =>{  
     return this.http.get<any>(`${ApiUrl}/Item/GetSelect2ItemPagination`,{ params: params } );

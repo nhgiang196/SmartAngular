@@ -343,8 +343,9 @@
                   <tr>
                     <td> {{bomItems.length +1}} </td>
                     <td>
+                      <!-- //[typeahead]="input$" -->
                       <ng-select class="custom" [items]="itemsBuffer" [virtualScroll]="true" [loading]="loading"
-                        (change)="newBomItem.ItemName =   $event? $event.ItemName :''" appendTo="body"
+                        (change)="newBomItem.ItemName =   $event? $event.ItemName :''" appendTo="body" 
                         (scroll)="onScroll($event)" (scrollToEnd)="onScrollToEnd()" bindLabel="ItemName"
                         [searchFn]="customSearchFn"
                         bindValue="ItemID" autofocus placeholder="{{'BomFactory.BomItem.ItemId' | translate}}"
