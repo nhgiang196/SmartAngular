@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { Item } from 'src/app/models/SmartInModels';
+import { Component, OnInit, PlatformRef } from '@angular/core';
+import { Item , DataTablePaginationParams} from 'src/app/models/SmartInModels';
 import { WaterTreatmentService } from 'src/app/services/api-watertreatment.service';
 import { environment } from 'src/environments/environment';
+import { PRIMARY_OUTLET } from '@angular/router';
 
 @Component({
   selector: 'app-item-grid',
@@ -10,25 +11,18 @@ import { environment } from 'src/environments/environment';
 })
 export class ItemGridComponent implements OnInit {
   baseUrl:string = environment['apiUrl'];
-  Items?: Item[] = [];
+  Items?: any;
   constructor(private api: WaterTreatmentService) { }
 
   ngOnInit() {
     this.loadItems();
   }
   loadItems(){
-    this.api.getItem().subscribe(res=>{
-      this.Items = res as any
+    
+    this.api.getItemPagination_Grid().subscribe(res=>{
+      this.Items = res.result as any
       console.log(res)
     });
 
-  }
-  getUrlImage(item){
-    var getItem = item as Item;
-    var fileImages = getItem.ItemFile.filter(x=>x.IsImage ==true);
-    if(fileImages.length>0){
-      return this.baseUrl + fileImages[0].File.Path;
-    }
-    return "assets/img/empty.jpg";
   }
 }

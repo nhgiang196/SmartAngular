@@ -30,12 +30,12 @@
                   <td> {{item.ContactPhone }}      </td>         
                   <td> {{item.Description }}       </td>         
                   <td> {{item.CreateBy }}          </td>     
-                  <td> {{item.CreateDate }}        </td>       
+                  <td> {{item.CreateDate  | amDateFormat: 'DD-MM-YYYY HH:mm' }}        </td>       
                   <td> {{item.ModifyBy }}          </td>     
-                  <td> {{item.ModifyDate }}        </td>       
+                  <td> {{item.ModifyDate  | amDateFormat: 'DD-MM-YYYY HH:mm' }}        </td>       
                   <td> <span class="badge " [ngClass]="{'badge-success': item.Status==1, 'badge-danger':item.Status==0}"  >{{item.CustomerStatus }}  </span>     
                   </td>   
-                  <td>   {{item.IsIntergration }}    </td>           
+                  <td> <span><i class="fa fa-lg" [ngClass]="{'fa-check-square-o text-info': item.IsIntergration==true, 'fa-square-o':item.IsIntergration==false}" ></i> </span></td>           
                   <td>
                     <button type="button" class="btn btn-outline btn-danger"><i class="fa fa-trash"></i></button>
                     <button type="button" class="btn btn-outline btn-success" [routerLink]="['../customer/'+item.CustomerID]"><i class="fa fa-pencil"   ></i></button>

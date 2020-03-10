@@ -203,6 +203,15 @@ export class WaterTreatmentService {
     
     return this.http.post<any>(`${ApiUrl}/Item/GetItemPagination`,model );
   }
+  getItemPagination_Grid=()=>{
+    let pr = new DataTablePaginationParams();
+    pr.pageSize=50;
+    pr.page= 1;
+    pr.selectFields = ` q.*, ItemTypeName, [FirstImagePath] = ISNULL((SELECT TOP 1 f.[Path] FROM ItemFile i JOIN [File] f ON f.FileID = i.FileID WHERE i.ItemID= q.ItemID AND I.IsImage=1),'assets/img/empty.jpg')`;
+    pr.entity = ` Item q LEFT join ItemType t ON t.ItemTypeID=q.ItemTypeID `;
+    pr.specialCondition = ` EXISTS( SELECT * FROM ItemFile jk WHERE jk.IsImage=1 AND jk.ItemID= q.ItemID) `;
+    return this.http.post<any>(`${ApiUrl}/Item/GetItemPagination`,pr );
+  }
   getSelect2ItemPagination =(params) =>{  
     return this.http.get<any>(`${ApiUrl}/Item/GetSelect2ItemPagination`,{ params: params } );
   }
@@ -238,7 +247,6 @@ export class WaterTreatmentService {
     let e = new DataTablePaginationParams();
     e.selectFields= ` * , [ContractTypeName] = dbo.GetDefine('ContractType',ContractType) `
     e.specialCondition = `CustomerID= ${keyValue}`;
-    e.pageSize =9999;
     console.log('parrams send',e);
     return this.http.post<any>(`${ApiUrl}/Contract/GetContractPagination` ,e);
   }
