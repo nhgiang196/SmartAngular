@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Customer, CustomerFile, Factory } from 'src/app/models/SmartInModels';
+import { Customer, CustomerFile, Factory, Contract } from 'src/app/models/SmartInModels';
 import { ToastrService } from 'ngx-toastr';
 import swal from 'sweetalert2';
 import { MyHelperService } from 'src/app/services/my-helper.service';
@@ -60,8 +60,8 @@ export class CustomerDetailComponent implements OnInit {
     if (_factoryAddTag && await !this.initCombobox.Factories.find(x => x.FactoryID == dataResolver.FactoryId))
       this.initCombobox.Factories = this.initCombobox.Factories.concat([_factoryAddTag]);
     this.entity = dataResolver;
-    this.entity.Contract = []; 
-    await this.loadContractByCustomer();
+    
+    // await this.loadContractByCustomer();
     this.entity.CustomerFile.forEach(item => {
       let _tempFile = new File([], item.File.FileOriginalName);
       this.files.push(_tempFile);
@@ -70,17 +70,19 @@ export class CustomerDetailComponent implements OnInit {
   }  
   /**PRIVATE FUNCTIONS */
   private async loadFactoryList() {
+    
     let res = await this.api.getBasicFactory().toPromise().then().catch(err => this.toastr.warning('Get factories Failed, check network')) as any;
     this.initCombobox.Factories = (res as any).result.filter(x => x.Status == 1) as Factory[];
     this.initCombobox.FullFactories = (res as any).result as Factory[];
     console.log(this.initCombobox);
   }
-  private async loadContractByCustomer() {
-    this.api.getContractByCustomer(this.route.snapshot.params.id).subscribe(res => {
-      this.entity.Contract = res.result as any;
-      console.log('retrun Contract',res.result);
-    })
-  } 
+  // private async loadContractByCustomer() {
+  //   this.entity.Contract = []; 
+  //   this.api.getContractByCustomer(this.route.snapshot.params.id).subscribe(res => {
+  //     this.entity.Contract = res.result as any;
+  //     console.log('init Contract',res.result);
+  //   })
+  // } 
   private async resetEntity() { //reset entity values
     this.entity = new Customer();
     this.files = [];
@@ -218,6 +220,12 @@ export class CustomerDetailComponent implements OnInit {
         this.entity.Contract.splice(index, 1);
       }
     })
+  }
+
+  onChangeAdd(returnContract : Contract){
+    console.log('return Contract',returnContract);
+
+
   }
 
   ngAfterViewInit() { 

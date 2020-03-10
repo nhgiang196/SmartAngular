@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, OnDestroy, Input, Output, SimpleChanges } from '@angular/core';
+import { Component, OnInit, AfterViewInit, OnDestroy, Input, Output, SimpleChanges , EventEmitter} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -13,15 +13,13 @@ declare let $: any;
 export class ContractComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input('contractid') contractId : string;
   @Output('listvalue') listValue: any =[];
-  
+  @Output('contract') send_entity = new EventEmitter<Contract>();
 
   constructor(
     route: ActivatedRoute,
     private router: Router
   ) {
   }
-
-  
   entity : Contract;
   files: File[] = [];
   addFiles: { FileList: File[], FileLocalNameList: string[] };
