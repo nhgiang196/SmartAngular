@@ -19,6 +19,7 @@ import { CustomerComponent } from './category/customer/customer.component';
 import { ContractComponent } from './category/customer/contract/contract.component';
 import { BomStageModalComponent } from './bom/bom-stage-modal/bom-stage-modal.component';
 import { BomItemModalComponent } from './bom/bom-item-modal/bom-item-modal.component';
+import { MonitorStandardComponent } from './monitor/monitor-standard/monitor-standard.component';
 
 
 
@@ -31,15 +32,16 @@ const COMPONENTS = [
   ItemListComponent,
   ItemGridComponent,
   ItemActionComponent,
-  ItemDetailComponent, 
-  StageComponent, 
-  CustomerListComponent, 
-  CustomerDetailComponent, 
+  ItemDetailComponent,
+  StageComponent,
+  CustomerListComponent,
+  CustomerDetailComponent,
   CustomerComponent,
   ContractComponent,
   BomListComponent,
   BomStageModalComponent,
-  BomItemModalComponent
+  BomItemModalComponent,
+  MonitorStandardComponent
 ];
 
 

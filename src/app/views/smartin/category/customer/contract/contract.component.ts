@@ -37,7 +37,7 @@ export class ContractComponent implements OnInit, AfterViewInit, OnDestroy {
   
 
   ngOnInit() {
-    $('.modal').modal('show');
+    // $('.modal').modal('show');
   }
 
 
@@ -45,8 +45,8 @@ export class ContractComponent implements OnInit, AfterViewInit, OnDestroy {
     
   }
   ngOnDestroy(){
-    $('.modal').modal('hide');
-    this.destroy.next();
+    // $('.modal').modal('hide');
+    // this.destroy.next();
   }
 
 }

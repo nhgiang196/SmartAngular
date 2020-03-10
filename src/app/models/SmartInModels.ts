@@ -63,7 +63,7 @@ export class DataTablePaginationParams {
   key?: string = ''
   keyFields?: string = ''
   page?: number = 0
-  pageSize?: number = null
+  pageSize?: number = 0
   orderBy?: string = null
   orderDir?: string = 'asc'
   entity?: string = null
@@ -295,7 +295,7 @@ export class WarehouseLocation {
 export class Customer {
 	CustomerID: number = 0
 	CustomerName?: string
-	FactoryID?: number 
+	FactoryId?: number
 	CustomerAddress?: string
 	ContactName?: string
 	ContactEmail?: string
@@ -322,7 +322,7 @@ export class CustomerFile {
 
 
 export class Contract {
-	ContractID: number = 0 
+	ContractID: number = 0
 	CustomerID?: number = 0
 	ContractNo?: string
 	ContractCode?: string
@@ -363,6 +363,35 @@ export class ContractFile {
   ContractID: number = 0
   FileId: number = 0
   File: Files = new Files()
+}
+
+//Monitor
+export class MonitorStandard{
+  MonitorStandardId: number
+  FactoryId: number
+  ValidateDateFrom:Date
+  ValidateDateTo: Date
+  MonitorStandardDesc: string
+  TemperatureMin: number
+  TemperatureMax: number
+  PHmin: number
+  PHmax: number
+  Codmin: number
+  Codmax: number
+  Tssmin:number
+  Tssmax: number
+  ColorMin:number
+  ColorMax:number
+  Qmin: number
+  Qmax:number
+  AmoniMin:number
+  AmoniMax: number
+  CreateBy: string
+  CreateDate: Date
+  ModifyBy: string
+  ModifyDate:Date
+  Status: boolean
+  Factory: Factory =new Factory()
 }
 
 
