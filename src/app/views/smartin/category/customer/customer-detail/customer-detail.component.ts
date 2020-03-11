@@ -10,18 +10,10 @@ import { trigger, animate, style, transition } from '@angular/animations';
 import { AuthService } from 'src/app/services/auth.service';
 import { HttpEventType } from '@angular/common/http';
 declare let $: any;
-
 @Component({
   selector: 'app-customer-detail',
   templateUrl: './customer-detail.component.html',
   styleUrls: ['./customer-detail.component.css'],
-  animations: [
-    // the fade-in/fade-out animation.
-    trigger('simpleFadeAnimation', [
-      transition(':leave',
-        animate(300, style({ opacity: 0 })))
-    ])
-  ]
 })
 export class CustomerDetailComponent implements OnInit {
   constructor(
@@ -32,17 +24,18 @@ export class CustomerDetailComponent implements OnInit {
     private helper: MyHelperService,
     private trans: TranslateService,
     private auth: AuthService
-  ) { } 
+  ) { }
   private pathFile = "uploadFileCustomer";
   entity: Customer;
   files: File[] = [];
   addFiles: { FileList: File[], FileLocalNameList: string[] };
-  invalid: any = {};
+  invalid: any = { Existed_CustomerName: false };
   uploadReportProgress: any = { progress: 0, message: null, isError: null };
   initCombobox = { Factories: [], FullFactories: [] };
   EditRowID = 0;
   laddaSubmitLoading = false;
-  app_ContractID= 0;
+  app_ContractID = 0;
+  private editIndex: number = 0;
   /**INIT FUNCTIONS */
   ngOnInit() {
     this.resetEntity();
@@ -56,29 +49,20 @@ export class CustomerDetailComponent implements OnInit {
     if (_factoryAddTag && await !this.initCombobox.Factories.find(x => x.FactoryID == dataResolver.FactoryId))
       this.initCombobox.Factories = this.initCombobox.Factories.concat([_factoryAddTag]);
     this.entity = dataResolver;
-    
     // await this.loadContractByCustomer();
     this.entity.CustomerFile.forEach(item => {
       let _tempFile = new File([], item.File.FileOriginalName);
       this.files.push(_tempFile);
     })
     console.log(this.entity);
-  }  
-  /**PRIVATE FUNCTIONS */
+  }
+  /**INIT FUNCTIONS */
   private async loadFactoryList() {
-    
     let res = await this.api.getBasicFactory().toPromise().then().catch(err => this.toastr.warning('Get factories Failed, check network')) as any;
     this.initCombobox.Factories = (res as any).result.filter(x => x.Status == 1) as Factory[];
     this.initCombobox.FullFactories = (res as any).result as Factory[];
     console.log(this.initCombobox);
   }
-  // private async loadContractByCustomer() {
-  //   this.entity.Contract = []; 
-  //   this.api.getContractByCustomer(this.route.snapshot.params.id).subscribe(res => {
-  //     this.entity.Contract = res.result as any;
-  //     console.log('init Contract',res.result);
-  //   })
-  // } 
   private async resetEntity() { //reset entity values
     this.entity = new Customer();
     this.files = [];
@@ -86,47 +70,79 @@ export class CustomerDetailComponent implements OnInit {
     this.invalid = {};
     this.uploadReportProgress = { progress: 0, message: null, isError: null };
     this.EditRowID = 0;
+    this.editIndex = 0;
   }
+  /** BUTTON ACTIONS */
   async fnSave() { // press save button 
+    this.invalid = {};
     this.laddaSubmitLoading = true;
-    var e = this.entity;
-    if (await this.fnValidate(e)) {
-      if (this.route.snapshot.params.id == null) { //add
-        e.CreateBy = this.auth.currentUser.Username;
-        this.api.addCustomer(e).subscribe(res => {
-          var operationResult: any = res
-          if (operationResult.Success) {
-            this.toastr.success(this.trans.instant("messg.add.success"));
-            this.router.navigate(["/category/customer/" + operationResult.Data]);
-          }
-          else this.toastr.warning(operationResult.Message);
-          this.laddaSubmitLoading = false;
-        }, err => { this.toastr.error(err.statusText); this.laddaSubmitLoading = false; })
-      }
-      else {
-        e.ModifyBy = this.auth.currentUser.Username;
-        this.api.updateCustomer(e).subscribe(res => {
-          var operationResult: any = res
-          if (operationResult.Success) {
-            if (this.addFiles.FileList.length > 0) this.uploadFile(this.addFiles.FileList);
-            this.toastr.success(this.trans.instant("messg.update.success"));
-            this.router.navigate(["/category/customer/" + this.entity.CustomerID]);
-          }
-          else this.toastr.warning(operationResult.Message);
-          this.laddaSubmitLoading = false;
-        }, err => { this.toastr.error(err.statusText); this.laddaSubmitLoading = false; })
+    let _valid = await this.api.validateCustomer(this.entity).toPromise().then() as any;
+    if (!_valid.Success) {
+      this.laddaSubmitLoading = false;
+      this.invalid[_valid.Message] = true;
+      return;
+    }
+    else {
+      var e = this.entity;
+      if (await this.fnValidate(e)) {
+        if (this.route.snapshot.params.id == null) { //add
+          e.CreateBy = this.auth.currentUser.Username;
+          this.api.addCustomer(e).subscribe(res => {
+            var operationResult: any = res
+            if (operationResult.Success) {
+              this.toastr.success(this.trans.instant("messg.add.success"));
+              this.router.navigate(["/category/customer/" + operationResult.Data]);
+            }
+            else this.toastr.warning(operationResult.Message);
+            this.laddaSubmitLoading = false;
+          }, err => { this.toastr.error(err.statusText); this.laddaSubmitLoading = false; })
+        }
+        else {
+          e.ModifyBy = this.auth.currentUser.Username;
+          this.api.updateCustomer(e).subscribe(res => {
+            var operationResult: any = res
+            if (operationResult.Success) {
+              if (this.addFiles.FileList.length > 0) this.uploadFile(this.addFiles.FileList);
+              this.toastr.success(this.trans.instant("messg.update.success"));
+              this.router.navigate(["/category/customer/" + this.entity.CustomerId]);
+            }
+            else this.toastr.warning(operationResult.Message);
+            this.laddaSubmitLoading = false;
+          }, err => { this.toastr.error(err.statusText); this.laddaSubmitLoading = false; })
+        }
       }
     }
   }
   fnValidate(e) {
     return true;
-  } 
+  }
+  fnEditItem(contractID, index) {
+    console.log('edit item', contractID);
+    console.log('edit index', index)
+    this.editIndex = index;
+    this.app_ContractID = contractID;
+  }
+  fnDeleteItem(index) {
+    swal.fire({
+      title: this.trans.instant('Contract.mssg.DeleteAsk_Title'),
+      titleText: this.trans.instant('Contract.mssg.DeleteAsk_Text'),
+      confirmButtonText: this.trans.instant('Button.OK'),
+      cancelButtonText: this.trans.instant('Button.Cancel'),
+      type: 'warning',
+      showCancelButton: true,
+      reverseButtons: true
+    }).then((result) => {
+      if (result.value) {
+        this.entity.Contract.splice(index, 1);
+      }
+    })
+  }
   /**EVENT TRIGGER */
   async onSelect(event) { //drag file(s) or choose file(s) in ngFileZone
     var askBeforeUpload = false;
     if (event.rejectedFiles.length > 0) this.toastr.warning(this.trans.instant('messg.maximumFileSize5000'));
     var _addFiles = event.addedFiles;
-    for (var index in _addFiles) { 
+    for (var index in _addFiles) {
       let item = event.addedFiles[index];
       let convertName = this.helper.getFileNameWithExtension(item);
       let currentFile = this.entity.CustomerFile;
@@ -172,7 +188,7 @@ export class CustomerDetailComponent implements OnInit {
     let index = this.files.indexOf(event);
     this.files.splice(index, 1); //UI del
     this.entity.CustomerFile.splice(index, 1);
-  } 
+  }
   onSwitchStatus(_TYPE) { //modal switch on change
     if (_TYPE == 'entity') this.entity.Status = this.entity.Status == 0 ? 1 : 0;
     if (_TYPE == 'entityIsIntergration') this.entity.IsIntergration = !this.entity.IsIntergration;
@@ -194,37 +210,12 @@ export class CustomerDetailComponent implements OnInit {
       this.toastr.warning(err.statusText, this.trans.instant('Upload.UploadFileError'));
       this.uploadReportProgress = { progress: 0, message: 'Error: ' + err.statusText, isError: true };
     });
-  } 
-
-
-  fnEditItem(id){
-    console.log('edit item',id);
-    this.app_ContractID = id;
   }
-
-  fnDeleteItem(index){
-    swal.fire({
-      title: this.trans.instant('Contract.mssg.DeleteAsk_Title'),
-      titleText: this.trans.instant('Contract.mssg.DeleteAsk_Text'),
-      confirmButtonText: this.trans.instant('Button.OK'),
-      cancelButtonText: this.trans.instant('Button.Cancel'),
-      type: 'warning',
-      showCancelButton: true,
-      reverseButtons: true
-    }).then((result) => {
-    if (result.value) {
-        this.entity.Contract.splice(index, 1);
-      }
-    })
+  
+  onChangeAdd(returnContract: Contract) {
+    console.log('return Contract', returnContract);
+    this.entity.Contract.splice(this.editIndex, 1, returnContract);
   }
-
-  onChangeAdd(returnContract : Contract){
-    console.log('return Contract',returnContract);
-
-
+  ngAfterViewInit() {
   }
-
-  ngAfterViewInit() { 
-    
-  } 
 }

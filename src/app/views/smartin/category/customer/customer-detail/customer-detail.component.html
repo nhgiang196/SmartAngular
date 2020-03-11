@@ -41,7 +41,9 @@
                     <label class="col-sm-2 control-label">{{'Customer.data.CustomerName' | translate }}*:</label>
                     <div class="col-sm-4">
                       <input autocomplete="off" type="text" [(ngModel)]="entity.CustomerName" class="form-control"
-                        placeholder="{{'Customer.placeholder.CustomerName' | translate }}" name="CustomerName" required>
+                        placeholder="{{'Customer.placeholder.CustomerName' | translate }}" name="CustomerName" required
+                        [ngClass]="{ 'is-invalid':  invalid.Existed_CustomerName }">
+                        <div *ngIf="invalid.Existed_CustomerName" style="color: red;">{{ 'Customer.invalid.Existed_CustomerName' | translate }}</div>
                     </div>
                     <label class="col-sm-2 control-label">{{'Customer.data.FactoryID' | translate }}*:</label>
                     <div class="col-sm-4">
@@ -128,8 +130,7 @@
                 </thead>
                 <tbody>
 
-                  <tr class="animated fadeInRight" *ngFor="let item of entity.Contract; let i = index"
-                    [@simpleFadeAnimation]="'in'">
+                  <tr class="animated fadeInRight" *ngFor="let item of entity.Contract; let i = index">
                     <td> {{i+1}} </td>
                     <!-- TABLE -->
                     <td *ngIf="i+1 !== EditRowID">{{item.ContractNo}} </td>
@@ -190,9 +191,7 @@
                           [disabled]="!locationEntity.WarehouseLocationCode || !locationEntity.WarehouseLocationName"
                           (click)="validateItem(locationEntity)" *ngIf="i+1 === EditRowID"><i
                             class="fa fa-check"></i></button>
-                        <button type="button" class="btn btn-sm btn-outline btn-success" (click)="fnEditItem(item.ContractID)"
-                        data-toggle="modal" data-target="#myContractModal"
-                          *ngIf="i+1 !== EditRowID"><i class="fa fa-pencil"></i></button>
+                        <button type="button" class="btn btn-sm btn-outline btn-success" (click)="fnEditItem(item.ContractId,i)" data-toggle="modal" data-target="#myContractModal"><i class="fa fa-pencil"></i></button>
                         <button type="button" class="btn btn-sm btn-outline btn-danger" (click)="fnDeleteItem(i)"
                           *ngIf="i+1 !== EditRowID"><i class="fa fa-trash"></i></button>
                       </div>
@@ -234,8 +233,7 @@
                     <td></td>
                     <td></td>
                     <td>
-                      <button type="button" class="btn  btn-sm btn-outline btn-info pull-right"  ><i
-                          class="fa fa-plus" (click)=fnEditItem(0)  data-toggle="modal" data-target="#myContractModal"></i> </button>
+                      <button type="button" class="btn  btn-sm btn-outline btn-info pull-right"  (click)="fnEditItem(0,entity.Contract.length)"   data-toggle="modal" data-target="#myContractModal"><i class="fa fa-plus" ></i> </button>
                     </td>
                   </tr>
 

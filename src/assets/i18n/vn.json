@@ -381,7 +381,8 @@
     "placeholder.ContactName" : "Nhập người liên hệ",
     "placeholder.ContactEmail" : "Nhập email",
     "placeholder.ContactPhone" : "Nhập số điện thoại liên hệ",
-    "placeholder.Description" : "Nhập ghi chú"
+    "placeholder.Description" : "Nhập ghi chú",
+    "invalid.Existed_CustomerName":"Trùng tên đơn vị xả thải"
     
   },
   "Contract":{
@@ -426,6 +427,7 @@
     "label.Breach":"Xử lý vi phạm",
     "label.Price":"Chi tiết đơn giá",
     "label.File":"File hợp đồng",
-    "label.Information":"Cập nhật hợp đồng"
+    "label.Information":"CẬP NHẬT HỢP ĐỒNG",
+    "invalid.Existed_ContractNo":"Số hợp đồng bị trùng"
   }
 }
