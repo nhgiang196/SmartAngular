@@ -161,9 +161,10 @@ export class ContractComponent implements OnInit, AfterViewInit {
   fnDeleteContractBreach(index) {
     this.entity.ContractBreach.splice(index, 1);
   }
-  fnValidateContractBreach() {
+  fnSaveContractBreach() {
+    
   }
-  fnValidateContractPrice() {
+  fnSaveContractPrice() {
   }
   /**Event triggers */
   async onSelect(event) { //drag file(s) or choose file(s) in ngFileZone

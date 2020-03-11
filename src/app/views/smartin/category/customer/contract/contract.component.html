@@ -70,7 +70,7 @@
             <div class="col-lg-6">
               <div class="form-group">
                 <label> {{ 'Contract.data.StandardType' | translate }} *: </label>
-                <select autocomplete="off" class="select2_demo_3 form-control" [(ngModel)]="entity.StandardType" name="StandardType" id="StandardType"  placeholder="Select" required>
+                <select autocomplete="off" class="select2_demo_3 form-control" [(ngModel)]="entity.StandardType" name="StandardType" id="StandardType"  placeholder="Select" >
                   <option selected value=1 > {{ 'Contract.data.StandardType1' | translate }} </option>
                   <option value=2> {{ 'Contract.data.StandardType2' | translate }} </option>
                 </select>
@@ -142,12 +142,12 @@
                         <td *ngIf="i+1 !== EditRowID">{{item.Times}} </td>
                         <!-- FORM -->
                         <td *ngIf="i+1 === EditRowID">
-                          <select autocomplete="off" class="select2_demo_3 form-control"  [(ngModel)]="subEntity_ContractBreach.BreachType" name="BreachType" required>
+                          <select autocomplete="off" class="select2_demo_3 form-control"  [(ngModel)]="subEntity_ContractBreach.BreachType" name="BreachType" >
                             <option selected value=1> {{ 'Contract.data.ContractBreach.BreachType1' | translate }} </option>
                             <option value=2> {{ 'Contract.data.ContractBreach.BreachType2' | translate }} </option>
                           </select>
                         <td *ngIf="i+1 === EditRowID">
-                          <select autocomplete="off" class="select2_demo_3 form-control"  [(ngModel)]="subEntity_ContractBreach.ResolveType" name="ResolveType" required>
+                          <select autocomplete="off" class="select2_demo_3 form-control"  [(ngModel)]="subEntity_ContractBreach.ResolveType" name="ResolveType" >
                             <option selected value=1> {{ 'Contract.data.ContractBreach.ResolveType1' | translate }} </option>
                             <option value=2> {{ 'Contract.data.ContractBreach.ResolveType2' | translate }} </option>
                           </select>
@@ -157,8 +157,8 @@
                         <td>
                           <div class="btn-group">
                             <button type="button" class="btn btn-sm btn-outline btn-primary"
-                              [disabled]="!subEntity_ContractBreach"
-                              (click)="validateItem(locationEntity)" *ngIf="i+1 === EditRowID"><i class="fa fa-check"></i></button>
+                              [disabled]="!subEntity_ContractBreach.BreachType || !subEntity_ContractBreach.ResolveType"
+                              (click)="EditRowID=0" *ngIf="i+1 === EditRowID"><i class="fa fa-check"></i></button>
                             <button type="button" class="btn btn-sm btn-outline btn-success" (click)="fnEditContractBreach(i)" [disabled]="EditRowID!=0"
                               *ngIf="i+1 !== EditRowID"><i class="fa fa-pencil"></i></button>
                             <button type="button" class="btn btn-sm btn-outline btn-danger" (click)="fnDeleteContractBreach(i)"
@@ -170,18 +170,19 @@
                       <tr>
                         <td> {{entity.ContractBreach.length+1}} </td>
                         <td> 
-                          <select autocomplete="off" class="select2_demo_3 form-control"  [(ngModel)]="newEntity_ContractBreach.BreachType" name="newBreachType" required>
+                          <select autocomplete="off" class="select2_demo_3 form-control"  [(ngModel)]="newEntity_ContractBreach.BreachType" name="newBreachType" >
                             <option selected value=1> {{ 'Contract.data.ContractBreach.BreachType1' | translate }} </option>
                             <option value=2> {{ 'Contract.data.ContractBreach.BreachType2' | translate }} </option>
                           </select>
                         <td> 
-                          <select autocomplete="off" class="select2_demo_3 form-control"  [(ngModel)]="newEntity_ContractBreach.ResolveType" name="newResolveType" required>
+                          <select autocomplete="off" class="select2_demo_3 form-control"  [(ngModel)]="newEntity_ContractBreach.ResolveType" name="newResolveType" >
                             <option selected value=1> {{ 'Contract.data.ContractBreach.ResolveType1' | translate }} </option>
                             <option value=2> {{ 'Contract.data.ContractBreach.ResolveType2' | translate }} </option>
                           </select>
                         <td> <input autocomplete="off" type="number" class="form-control"  name="newTimes" [(ngModel)]="newEntity_ContractBreach.Times"> </td>
                         <td>
-                          <button type="button" class="btn  btn-sm btn-outline btn-info pull-right"  (click)="fnAddContractBreach(newEntity_ContractBreach)"><i class="fa fa-plus"></i> </button>
+                          <button [disabled]="!newEntity_ContractBreach.BreachType || !newEntity_ContractBreach.ResolveType"
+                          type="button" class="btn  btn-sm btn-outline btn-info pull-right"  (click)="fnAddContractBreach(newEntity_ContractBreach)"><i class="fa fa-plus"></i> </button>
                         </td>
                       </tr>
     
@@ -246,8 +247,8 @@
                         <td>
                           <div class="btn-group">
                             <button type="button" class="btn btn-sm btn-outline btn-primary"
-                              [disabled]="!subEntity_ContractPrice"
-                              (click)="validateItem(locationEntity)" *ngIf="i+1 === EditRowID_PRICE"><i
+                              
+                              (click)="EditRowID_PRICE=0" *ngIf="i+1 === EditRowID_PRICE"><i
                                 class="fa fa-check"></i></button>
                             <button type="button" class="btn btn-sm btn-outline btn-success" (click)="fnEditContractPrice(i)"  [disabled]="EditRowID_PRICE!=0"
                               *ngIf="i+1 !== EditRowID_PRICE"><i class="fa fa-pencil"></i></button>
@@ -340,7 +341,7 @@
       </div>
       <div class="modal-footer">
         <button class="btn btn-white"  data-dismiss="modal">{{'Button.Close' | translate}}</button>
-        <button type="button" class="btn btn-primary"   [ladda]="laddaSubmitLoading" (click)="fnSave()" ><i class="fa fa-paper-plane-o"></i> {{'Button.Save' | translate}} </button>
+        <button type="button" class="btn btn-primary" [disabled]="mySubForm.invalid || EditRowID!=0 || EditRowID_PRICE!=0"  [ladda]="laddaSubmitLoading" (click)="fnSave()" ><i class="fa fa-paper-plane-o"></i> {{'Button.Save' | translate}} </button>
       </div>
     </div>
   </div>
