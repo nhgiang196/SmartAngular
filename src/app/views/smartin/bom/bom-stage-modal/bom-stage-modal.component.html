@@ -1,0 +1,329 @@
+<div
+  class="modal inmodal"
+  id="myModal4"
+  data-backdrop="static"
+  data-keyboard="true"
+  tabindex="-1"
+  role="dialog"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-lg ">
+    <div class="modal-content animated fadeIn">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">
+          <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+        </button>
+        <h4 class="modal-title">{{ "BomFactory.Information" | translate }}</h4>
+      </div>
+      <div class="modal-body">
+        <form role="form" #myForm="ngForm" name="myForm">
+          <div class="row">
+            <div class="col-lg-6">
+              <div class="form-group">
+                <label> {{ "BomFactory.FactoryID" | translate }} : *</label>
+                <!-- <input type="text" name="FactoryID" id="FactoryID" class="form-control" placeholder="{{'BomFactory.InputFactoryID' | translate}}"
+                  [(ngModel)]="entity.FactoryID" [ngClass]="{ 'is-invalid': existName }" required> -->
+                <!-- <div *ngIf="existName" style="color: red;">{{ 'BomFactory.ErrorExistFactoryID' | translate }}</div> -->
+                <ng-select
+                  class="custom"
+                  [items]="factories"
+                  bindLabel="FactoryName"
+                  bindValue="FactoryID"
+                  placeholder="select factory"
+                  name="FactoryID"
+                  [(ngModel)]="entity.FactoryID"
+                  required>
+                </ng-select>
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="form-group">
+                <label> {{ "BomFactory.Validate" | translate }} :</label>
+                <input
+                  type="text"
+                  name="Validate"
+                  id="Validate"
+                  class="form-control"
+                  bsDatepicker
+                  readonly
+                  [bsConfig]="bsConfig"
+                  [(ngModel)]="entity.Validate"
+                  placeholder="{{'BomFactory.placeholder.Validate' | translate}}"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-6">
+              <div class="form-group">
+                <label> {{ "BomFactory.Descriptions" | translate }} : </label>
+                <textarea
+                  type="text"
+                  name="Descriptions"
+                  id="Descriptions"
+                  class="form-control"
+                  placeholder="{{ 'BomFactory.InputDescriptions' | translate }}"
+                  rows="2"
+                  [(ngModel)]="entity.Descriptions"
+                  [ngClass]="{ 'is-invalid': existName }"
+                ></textarea>
+                <!-- <div *ngIf="existName" style="color: red;">{{ 'BomFactory.ErrorExistDescriptions' | translate }}</div> -->
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="form-group">
+                <label>{{ "BomFactory.data.Status" | translate }} :</label>
+                <div class="switch">
+                  <div class="onoffswitch">
+                    <input
+                      type="checkbox"
+                      class="onoffswitch-checkbox"
+                      name="status"
+                      id="status"
+                      (click)="onSwitchStatus()"
+                      [checked]="entity.Status == 1 ? true : null"
+                    />
+                    <label class="onoffswitch-label" for="status">
+                      <span class="onoffswitch-inner"></span>
+                      <span class="onoffswitch-switch"></span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <hr />
+          <!-- table Stage -->
+          <div class="row">
+            <div class="col-lg-12">
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th width="5%">#</th>
+                    <th width="35%">
+                      {{ "Stage.data.StageID" | translate }} *
+                    </th>
+                    <th width="15%">
+                      {{ "Stage.data.OrderNumber" | translate }} *
+                    </th>
+                    <th width="15%">{{ "Stage.data.Sequence" | translate }}</th>
+                    <th width="15%">
+                      {{ "Stage.data.Description" | translate }}
+                    </th>
+                    <th width="10%">{{ "Button.Action" | translate }}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr
+                    class="animated fadeInRight"
+                    *ngFor="let item of entity.BomStage; let i = index"
+                  >
+                    <td>{{ i + 1 }}</td>
+                    <td *ngIf="i + 1 !== editRowId">{{ item.StageName }}</td>
+                    <td *ngIf="i + 1 !== editRowId">{{ item.OrderNumber }}</td>
+                    <td *ngIf="i + 1 !== editRowId">
+                      <div class="switch disabledSwitch">
+                        <div class="onoffswitch">
+                          <input
+                            type="checkbox"
+                            class="onoffswitch-checkbox"
+                            [name]="'viewStage' + i"
+                            [id]="'viewStage' + i"
+                            [(ngModel)]="item.Sequence"
+                            [checked]="item.Sequence"
+                          />
+                          <label class="onoffswitch-label" [for]="'viewStage' + i">
+                            <span class="onoffswitch-inner"></span>
+                            <span class="onoffswitch-switch"></span>
+                          </label>
+                        </div>
+                      </div>
+                    </td>
+                    <td *ngIf="i + 1 !== editRowId">{{ item.Description }}</td>
+                    <td *ngIf="i + 1 === editRowId">
+                      <ng-select
+                        class="custom"
+                        [items]="stages"
+                        bindLabel="StageName"
+                        bindValue="StageId"
+                        placeholder="{{'Item.placeholdercolumn.ItemPackageUnitId' | translate}}"
+                        name="outBomStageID"
+                        (change)="$event != null? (bomStage.StageName = $event.StageName): null"
+                        required
+                        [(ngModel)]="bomStage.BomStageId"
+                      >
+                      </ng-select>
+                    </td>
+                    <td *ngIf="i + 1 === editRowId">
+                      <input
+                        type="number"
+                        class="form-control"
+                        name="outOrderNumber"
+                        min="0"
+                        (change)="$event.target.value < 0 || $event.target.value == ''? (bomStage.OrderNumber = 0): bomStage.OrderNumber"
+                        id="outOrderNumber"
+                        [(ngModel)]="bomStage.OrderNumber"/>
+                    </td>
+                    <td *ngIf="i + 1 === editRowId">
+                      <div class="switch">
+                        <div class="onoffswitch">
+                          <input
+                            type="checkbox"
+                            class="onoffswitch-checkbox"
+                            [name]="'editStage' + i"
+                            [id]="'editStage' + i"
+                            [(ngModel)]="item.Sequence"
+                            [checked]="item.Sequence"
+                          />
+                          <label class="onoffswitch-label" [for]="'editStage' + i">
+                            <span class="onoffswitch-inner"></span>
+                            <span class="onoffswitch-switch"></span>
+                          </label>
+                        </div>
+                      </div>
+                    </td>
+                    <td *ngIf="i + 1 === editRowId">
+                      <input
+                        type="text"
+                        class="form-control"
+                        name="outDescription"
+                        id="outDescription"
+                        [(ngModel)]="bomStage.Description"
+                      />
+                    </td>
+                    <td>
+                      <div class="btn-group">
+                        <div class="text-nowrap">
+                          <button
+                            type="button"
+                            class="btn btn-sm btn-outline btn-primary"
+                            [disabled]="!bomStage.BomStageId || !bomStage.OrderNumber"
+                            (click)="validateStage(bomStage, 'edit')"
+                            *ngIf="i + 1 === editRowId">
+                            <i class="fa fa-check"></i>
+                          </button>
+                          <button
+                            type="button"
+                            class="btn btn-sm btn-outline btn-success"
+                            [disabled]="editRowId != 0"
+                            (click)="fnEditStage(i)"
+                            *ngIf="i + 1 !== editRowId">
+                            <i class="fa fa-pencil"></i>
+                          </button>
+                          <button
+                            type="button"
+                            class="btn btn-sm btn-outline btn-danger"
+                            (click)="fnDeleteStage(i)"
+                            *ngIf="i + 1 !== editRowId">
+                            <i class="fa fa-trash"></i>
+                          </button>
+                          <button
+                            type="button"
+                            class="btn btn-sm btn-outline btn-default"
+                            data-toggle="modal"
+                            data-target="#myModal2"
+                            (click)="showBomModal(i)"
+                            *ngIf="i + 1 !== editRowId">
+                            <i class="fa fa-plus"></i>
+                          </button>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                  <!-- new record -->
+                  <tr>
+                    <td>{{ entity.BomStage.length + 1 }}</td>
+                    <td>
+                      <ng-select
+                        class="custom"
+                        [items]="stages"
+                        bindLabel="StageName"
+                        bindValue="StageId"
+                        placeholder="{{'Item.placeholdercolumn.ItemPackageUnitId' | translate}}"
+                        name="newBomStageID"
+                        id="newBomStageID"
+                        (change)="$event != null? (newBomStage.StageName = $event.StageName): null"
+                        [(ngModel)]="newBomStage.BomStageId"
+                        required></ng-select>
+                    </td>
+                    <td>
+                      <input
+                        type="number"
+                        class="form-control"
+                        name="newOrderNumber"
+                        id="newOrderNumber"
+                        min="0"
+                        (change)="$event.target.value < 0 || $event.target.value == ''? (newBomStage.OrderNumber = 0): newBomStage.OrderNumber"
+                        [(ngModel)]="newBomStage.OrderNumber"
+                      />
+                    </td>
+
+                    <td>
+                      <div class="switch">
+                        <div class="onoffswitch">
+                          <input
+                            type="checkbox"
+                            class="onoffswitch-checkbox"
+                            name="newSequence"
+                            id="newSequence"
+                            [(ngModel)]="newBomStage.Sequence"
+                            (click)="onSwitchSequence()"
+                            [checked]="newBomStage.Sequence"
+                          />
+                          <label class="onoffswitch-label" for="newSequence">
+                            <span class="onoffswitch-inner"></span>
+                            <span class="onoffswitch-switch"></span>
+                          </label>
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <input
+                        type="text"
+                        class="form-control"
+                        name="newDescription"
+                        id="newDescription"
+                        [(ngModel)]="newBomStage.Description"
+                      />
+                    </td>
+
+                    <td>
+                      <button
+                        type="button"
+                        class="btn btn-sm btn-outline btn-info pull-right"
+                        [disabled]="!newBomStage.BomStageId || !newBomStage.OrderNumber"
+                        (click)="fnAddStage()">
+                        <i class="fa fa-plus"></i>
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-white"
+          data-dismiss="modal">
+          {{ "BomFactory.CloseButton" | translate }}
+        </button>
+        <button
+          type="button"
+          class="btn btn-primary"
+          (click)="fnSave()"
+          [ladda]="laddaSubmitLoading"
+          [disabled]="myForm.invalid || editRowId != 0"
+        >
+          {{ "BomFactory.SaveButton" | translate }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Modal định mức hóa chất -->
+<app-bom-item-modal [entity]="entity"   [units] ="units"></app-bom-item-modal>

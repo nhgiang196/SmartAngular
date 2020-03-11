@@ -28,18 +28,15 @@ export class BomListComponent implements OnInit {
   @ViewChild(DataTableDirective)
   dtElement: DataTableDirective;
   dtTrigger: Subject<any> = new Subject();
-  //const
-  typeBomIn: string = "In";
-  typeBomOut: string = "Out";
+  
 
   BomFactorys: BomFactory[];
   bomStage: BomStage;
   newBomStage: BomStage;
-  inBomItem: BomItem;
   outBomItem: BomItem;
   newBomItem: BomItem;
   entity: BomFactory;
-  bomItems: BomItem[];
+ 
   inBomItems: BomItem[] = [];
   dtOptions: DataTables.Settings = {};
   ACTION_STATUS: string;
@@ -57,7 +54,7 @@ export class BomListComponent implements OnInit {
   items: Item[] =[]
   itemsBuffer : Item[]=[]
 
-  input$ = new Subject<string>();
+  
   // ng-select server side
   bufferSize = 50;
   numberOfItemsFromEndBeforeFetchingMore = 10;
@@ -76,16 +73,14 @@ export class BomListComponent implements OnInit {
     await this.loadFactories();
     await this.loadStages();
     await this.loadItems();
-    this.onSearch(); // for search in server
+    
   }
   private resetEntity() {
     this.entity = new BomFactory();
     this.bomStage = new BomStage();
     this.newBomStage = new BomStage();
-    this.inBomItem = new BomItem();
     this.outBomItem = new BomItem();
     this.newBomItem = new BomItem();
-    this.bomItems = [];
     this.BomFactorys = [];
   }
 
@@ -151,10 +146,7 @@ export class BomListComponent implements OnInit {
       this.dtTrigger.next();
     });
   };
-  showBomModal(id) {
-    this.currentStageId = id;
-    $("#myModal4").modal("hide");
-  }
+
   showBomFactoryModal() {
     $("#myModal2").modal("hide");
     $("#myModal4").modal("show");
@@ -164,27 +156,8 @@ export class BomListComponent implements OnInit {
     this.dtTrigger.unsubscribe();
   }
 
-  onScrollToEnd() {
-    this.fetchMore();
-  }
-
-  onScroll({ end }) {
-    if (this.loading || this.items.length <= this.itemsBuffer.length) 
-        return;
-    if (end + this.numberOfItemsFromEndBeforeFetchingMore >= this.itemsBuffer.length)
-        this.fetchMore();
-  }
-
-  private fetchMore() {
-    const len = this.itemsBuffer.length;
-    const more = this.items.slice(len, this.bufferSize + len);
-    this.loading = true;
-    // using timeout here to simulate backend API delay
-    setTimeout(() => {
-      this.loading = false;      
-      this.itemsBuffer = this.itemsBuffer.concat(more);
-    }, 200)
-  }
+  
+ 
   async loadUnit() {
     let keySearch = "";
     let data: any = await this.api
@@ -210,25 +183,6 @@ export class BomListComponent implements OnInit {
     console.log('records: ' +data.result.length);
     this.itemsBuffer = this.items.slice(0, this.bufferSize);
   }
- onSearch(){
-    this.input$.pipe(
-      debounceTime(200),
-      distinctUntilChanged(),
-      switchMap(term =>  this.fakeService(term))
-    ).subscribe(data => {
-        this.itemsBuffer = data.slice(0, this.bufferSize);
-      })
-  }
-  private  fakeService(term) {
-    let data =  this.api.getItemPagination(term).pipe(map(data=> {
-      return data.result.filter((x: { ItemName: string }) => x.ItemName.includes(term))
-    }));   
-    return data;
-  }
-  customSearchFn(term: string, item: Item) {
-    term = term.toLowerCase();
-    return item.ItemName.toLowerCase().indexOf(term) > -1
-}
 
 
 
@@ -246,17 +200,10 @@ export class BomListComponent implements OnInit {
     this.entity.BomStage.push(this.newBomStage);
     this.newBomStage = new BomStage();
   }
-  fnEditStage(index) {
-    //press edit item (in modal)
-    this.editRowId = index + 1;
-    this.bomStage = this.entity.BomStage[index];
-  }
+
   fnSaveStage(index) {}
-  fnDeleteStage(index) {
-    //press delete item (in modal)
-    this.entity.BomStage.splice(index, 1);
-  }
-   validateStage(itemAdd: BomStage, typeAction) {
+  
+ validateStage(itemAdd: BomStage, typeAction) {
     if (itemAdd.BomStageId == null) {
       swal.fire(
         "Validate",
@@ -286,89 +233,6 @@ export class BomListComponent implements OnInit {
     }
     if (typeAction == "edit") this.editRowId = 0;
     return true;
-  }
-
-  async fnAddInBomItem() {
-    //press add item (in modal)
-    //let _checkValidate = await this.validateItem(this.newBomStage)
-    //if (!_checkValidate) return;
-    // this.bomItems.push(this.inBomItem);
-    // this.bomItems.push(this.outBomItem)
-    // this.entity.BomStage[id].BomItem.push();
-    // this.entity.BomStage[id].BomItem = this.bomItems;
-    if(this.fnValidateBomItem(this.newBomItem,'add')){
-      this.newBomItem.BomType = this.typeBomIn;
-      this.inBomItems.push(this.newBomItem);
-      this.newBomItem = new BomItem();
-    }
-  
-  }
-
-  fnValidateBomItem(item: BomItem,typeAction) {
-    console.log(item);
-   
-    if (this.inBomItems.filter(x => x.ItemId == item.ItemId).length > 0 &&typeAction == "add") {
-      swal.fire(
-        "Validate",
-        this.trans.instant("Factory.data.TechnologyName") +
-          this.trans.instant("messg.isexisted"),
-        "warning"
-      );
-      return false;
-    }
-    if (this.inBomItems.filter(x => x.ItemId == item.ItemId).length > 0 &&typeAction == "edit") {
-      swal.fire(
-        "Validate",
-        this.trans.instant("Factory.data.TechnologyName") +
-          this.trans.instant("messg.isexisted"),
-        "warning"
-      );
-      return false;
-    }
-
-    if (typeAction == "edit") this.editRowId = 0;
-    return true;
-  }
-
-  fnEditInBomItem(index) {
-    //press edit item (in modal)
-    this.editRowId = index + 1;
-    this.inBomItem =JSON.parse(JSON.stringify( this.inBomItems[index]));
-    this.newBomItem = new BomItem();
-  }
-  fnSaveOutBomItem() {
-    this.entity.BomStage[this.currentStageId].BomItem = this.inBomItems;
-    // this.outBomItems = [];
-    // this.inBomItem = new BomItem();
-
-    console.log(this.entity);
-
-    // $("#myModal2").modal('hide');
-  }
-  fnReset() {
-    this.inBomItems = [];
-    this.inBomItem = new BomItem();
-  }
-  fnDeleteInBomItem(index) {
-    //press delete item (in modal)
-    this.inBomItems.splice(index, 1);
-  }
-
-  fnSaveInBomItem(index) {console.log(this.inBomItems)
-    if (this.fnValidateBomItem(this.inBomItem,'edit')) {
-      this.inBomItems[index] = this.inBomItem;
-      this.editRowId = 0;
-    }
-  }
-  
-  fnSaveBomItem() {
-    this.entity.BomStage[this.currentStageId].BomItem = this.inBomItems;
-    this.outBomItem.BomType = this.typeBomOut;
-    this.entity.BomStage[this.currentStageId].BomItem.push(this.outBomItem);
-    this.inBomItems = [];
-    this.inBomItem = new BomItem();
-    console.log("currentStage: " + this.currentStageId);
-    console.log(this.entity);
   }
 
   fnDelete(id) {
@@ -407,53 +271,10 @@ export class BomListComponent implements OnInit {
     this.existName = false;
     this.resetEntity();
   }
-  onSwitchStatus() {
-    this.entity.Status = this.entity.Status == 0 ? 1 : 0;
-  }
-  onSwitchSequence() {
-    !this.newBomStage.Sequence;
-  }
+  
 
-  async fnSave() {
-    this.laddaSubmitLoading = true;
-    var e = this.entity;
-    if (await this.fnValidate()) {
-      console.log("send entity: ", e);
-      if (this.ACTION_STATUS == "add") {
-        this.api.addBomFactory(e).subscribe(
-          res => {
-            var operationResult: any = res;
-            if (operationResult.Success) {
-              this.toastr.success(this.trans.instant("messg.add.success"));
-              this.rerender();
-            } else this.toastr.warning(operationResult.Message);
-            this.laddaSubmitLoading = false;
-            $("#myModal4").modal("hide");
-          },
-          err => {
-            this.toastr.error(err.statusText);
-            this.laddaSubmitLoading = false;
-          }
-        );
-      }
-      if (this.ACTION_STATUS == "update") {
-        this.api.updateBomFactory(e).subscribe(
-          res => {
-            var operationResult: any = res;
-            if (operationResult.Success) {
-              this.toastr.success(this.trans.instant("messg.update.success"));
-            } else this.toastr.warning(operationResult.Message);
-            this.laddaSubmitLoading = false;
-          },
-          err => {
-            this.toastr.error(err.statusText);
-            this.laddaSubmitLoading = false;
-          }
-        );
-      }
-      //  await this.loadInit();
-    }
-  }
+
+  
   fnUpdate(id) {
     //press a link name of entity
     this.existName = false;
