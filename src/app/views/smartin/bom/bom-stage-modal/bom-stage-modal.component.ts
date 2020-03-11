@@ -4,6 +4,7 @@ import { WaterTreatmentService } from 'src/app/services/api-watertreatment.servi
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 import swal from "sweetalert2";
+declare let $: any;
 @Component({
   selector: 'app-bom-stage-modal',
   templateUrl: './bom-stage-modal.component.html',
@@ -17,7 +18,7 @@ export class BomStageModalComponent implements OnInit {
   //varible
   laddaSubmitLoading = false;
   editRowId: number = 0;
-
+  currentStageId: number = 0;
 
   bomStage: BomStage;
   newBomStage: BomStage;
@@ -45,7 +46,7 @@ export class BomStageModalComponent implements OnInit {
   }
 
   validateStage(itemAdd: BomStage, typeAction) {
-    if (itemAdd.BomStageId == null) {
+    if (itemAdd.BomStageID == null) {
       swal.fire(
         "Validate",
         this.trans.instant("Factory.data.TechnologyName") +
@@ -54,7 +55,7 @@ export class BomStageModalComponent implements OnInit {
       );
       return false;
     }
-    if (( this.entity.BomStage.filter(t => t.BomStageId == itemAdd.BomStageId).length) > 0 &&typeAction == "add") {
+    if (( this.entity.BomStage.filter(t => t.BomStageID == itemAdd.BomStageID).length) > 0 &&typeAction == "add") {
       swal.fire(
         "Validate",
         this.trans.instant("Factory.data.TechnologyName") +
@@ -63,7 +64,7 @@ export class BomStageModalComponent implements OnInit {
       );
       return false;
     }
-    if (( this.entity.BomStage.filter(t => t.BomStageId == itemAdd.BomStageId).length) > 1 &&typeAction == "edit") {
+    if (( this.entity.BomStage.filter(t => t.BomStageID == itemAdd.BomStageID).length) > 1 &&typeAction == "edit") {
       swal.fire(
         "Validate",
         this.trans.instant("Factory.data.TechnologyName") +
@@ -88,8 +89,9 @@ export class BomStageModalComponent implements OnInit {
   }
 
   showBomModal(id) {
-    // this.currentStageId = id;
-    // $("#myModal4").modal("hide");
+    this.currentStageId = id;
+    $("#myModal4").modal("hide");
+    $("#myModal2").modal("show");
   }
   onSwitchSequence() {
     !this.newBomStage.Sequence;
