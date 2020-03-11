@@ -15,13 +15,7 @@ declare let $: any;
   selector: 'app-customer-detail',
   templateUrl: './customer-detail.component.html',
   styleUrls: ['./customer-detail.component.css'],
-  animations: [
-    // the fade-in/fade-out animation.
-    trigger('simpleFadeAnimation', [
-      transition(':leave',
-        animate(300, style({ opacity: 0 })))
-    ])
-  ]
+
 })
 export class CustomerDetailComponent implements OnInit {
   constructor(
@@ -43,6 +37,7 @@ export class CustomerDetailComponent implements OnInit {
   EditRowID = 0;
   laddaSubmitLoading = false;
   app_ContractID= 0;
+  private editIndex: number = 0;
   /**INIT FUNCTIONS */
   ngOnInit() {
     this.resetEntity();
@@ -79,6 +74,7 @@ export class CustomerDetailComponent implements OnInit {
     this.invalid = {};
     this.uploadReportProgress = { progress: 0, message: null, isError: null };
     this.EditRowID = 0;
+    this.editIndex = 0;
   }
   async fnSave() { // press save button 
     this.laddaSubmitLoading = true;
@@ -190,9 +186,11 @@ export class CustomerDetailComponent implements OnInit {
   }
 
 
-  fnEditItem(id){
-    console.log('edit item',id);
-    this.app_ContractID = id;
+  fnEditItem(contractID,index){
+    console.log('edit item',contractID);
+    console.log('edit index',index)
+    this.editIndex = index;
+    this.app_ContractID = contractID;
   }
 
   fnDeleteItem(index){
@@ -213,8 +211,7 @@ export class CustomerDetailComponent implements OnInit {
 
   onChangeAdd(returnContract : Contract){
     console.log('return Contract',returnContract);
-
-
+    this.entity.Contract.splice(this.editIndex,1,returnContract);
   }
 
   ngAfterViewInit() { 

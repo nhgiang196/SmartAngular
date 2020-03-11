@@ -362,6 +362,7 @@ export class ContractFile {
   ContractFileId: number = 0
   ContractId: number = 0
   FileId: number = 0
+  Url: string = null
   File: Files = new Files()
 }
 

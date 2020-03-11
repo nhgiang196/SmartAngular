@@ -57,12 +57,11 @@ export class ContractComponent implements OnInit, AfterViewInit {
   newEntity_ContractBreach :ContractBreach= new ContractBreach();
 
   ngOnInit() {
-    this.resetEntity();
-    
   }
 
   private async resetEntity() { //reset entity values
     this.entity = new Contract();
+    this.entity.CustomerId = this.route.snapshot.params.id || 0;
     this.files = [];
     this.addFiles = { FileList: [], FileLocalNameList: [] }
     this.invalid = { Existed_ContractNo: false};
@@ -73,9 +72,9 @@ export class ContractComponent implements OnInit, AfterViewInit {
 
   ngOnChanges(changes: SimpleChanges) {
     console.log('changes',changes);
+    this.resetEntity();
     if (changes.contractId.firstChange || changes.contractId.currentValue==null || changes.contractId.currentValue==0  ) return;
     else {
-      this.resetEntity();
       this.loadContractDetail(changes.contractId.currentValue);
     }
   }
@@ -84,21 +83,61 @@ export class ContractComponent implements OnInit, AfterViewInit {
     this.api.findContractById(id).subscribe(res=>{
       console.log('findContractById',res);
       this.entity = res;
+      res.ContractFile.forEach(item => {
+        let _tempFile = new File([], item.File.FileOriginalName);
+        this.files.push(_tempFile);
+      })
     })
   }
 
   ngAfterViewInit(){
-    $('#myContractModal').modal('show');
+    // $('#myContractModal').modal('show');
   }
  
 
 
   /**Button Functions */
-  fnSave(){
-    this.entity.SignDate = this.helper.dateConvertToString(this.entity.SignDate);
-    this.entity.EffectiveDate = this.helper.dateConvertToString(this.entity.EffectiveDate);
-    this.entity.EndDate = this.helper.dateConvertToString(this.entity.EndDate);
-    this.send_entity.emit(this.entity);
+  async fnSave(){
+    let e = this.entity;
+    this.sendToApi(e);
+  }
+
+  
+  private async sendToApi(e){
+    e.SignDate = this.helper.dateConvertToString(e.SignDate);
+    e.EffectiveDate = this.helper.dateConvertToString(e.EffectiveDate);
+    e.EndDate = this.helper.dateConvertToString(e.EndDate);
+    await this.uploadFile(this.addFiles.FileList);
+    if (e.ContractId ==0) //add
+    {
+       console.log('create_contract',e);
+       let operationResult = await this.api.addContract(e).toPromise().then().catch(err => this.toastr.error(err.statusText,'Network')) as any;
+       if (operationResult.Success){
+        this.toastr.success(this.trans.instant("messg.add.success"));
+        this.entity.ContractId = operationResult.Data; //ID return;
+        this.sendtoParentView(this.entity);
+        ;
+       }
+       else this.toastr.warning(operationResult.Message);
+    }
+    else { //update
+      console.log('update_Contract',e);
+      let operationResult = await this.api.updateContract(e).toPromise().then().catch(err => this.toastr.error(err.statusText,'Network')) as any;
+      if (operationResult.Success){
+       this.toastr.success(this.trans.instant("messg.add.success"));
+       this.sendtoParentView(this.entity);
+      }
+      else this.toastr.warning(operationResult.Message);
+    }
+  }
+
+  private sendtoParentView(e: Contract){
+    let _sendParent = Object.assign({}, e); //stop binding
+    delete _sendParent.ContractBreach;
+    delete _sendParent.ContractPrice;
+    delete _sendParent.ContractFile;
+    this.send_entity.emit(_sendParent);
+    $('#myContractModal').modal('hide');
   }
   
   fnAddContractBreach(itemAdd){
@@ -183,12 +222,13 @@ export class ContractComponent implements OnInit, AfterViewInit {
         this.addFiles.FileList.splice(_indexFileElement, 1);
       }
       else {
-        let _warehouseFile = new ContractFile();
-        _warehouseFile.File.FileOriginalName = item.name;
-        _warehouseFile.File.FileLocalName = convertName;
-        _warehouseFile.File.Path = this.pathFile + '/' + convertName;
-        _warehouseFile.File.FileType = item.type;
-        this.entity.ContractFile.push(_warehouseFile);
+        let _contractFile = new ContractFile();
+        // _contractFile.ContractId = this.entity.ContractId;
+        _contractFile.File.FileOriginalName = item.name;
+        _contractFile.File.FileLocalName = convertName;
+        _contractFile.File.Path = this.pathFile + '/' + convertName;
+        _contractFile.File.FileType = item.type;
+        this.entity.ContractFile.push(_contractFile);
         this.addFiles.FileLocalNameList.push(convertName);
       }
     }
@@ -219,6 +259,7 @@ export class ContractComponent implements OnInit, AfterViewInit {
         this.uploadReportProgress.progress = Math.round(100 * event.loaded / event.total);
       else if (event.type === HttpEventType.Response) {
         this.uploadReportProgress.message = this.trans.instant('Upload.UploadFileSuccess');
+        this.addFiles = { FileList: [], FileLocalNameList: [] };
         // this.onUploadFinished.emit(event.body);
       }
     }, err => {

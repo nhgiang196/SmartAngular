@@ -233,9 +233,9 @@ export class WaterTreatmentService {
   getCustomerPagination =(entity) => this.http.post<any>(`${ApiUrl}/IteCustomerm/GetCustomerPagination`,entity,{} );
   getDataTableCustomerPagination =(entity) => { // Note: BA yêu cầu gửi Parram như thế này
     entity.KeyFields = `c.CustomerID, c.CustomerName, c.FactoryID	,c.CustomerAddress, c.ContactName, c.ContactEmail, c.ContactPhone, c.Description, c.CreateBy	, c.CreateDate, c.ModifyBy	, c.ModifyDate, c.Status	, c.IsIntergration`;
-    entity.SelectFields = ` c.*, FactoryName , [CustomerStatus] = dbo.GetDefine('CustomerStatus',c.Status) `;
+    entity.SelectFields = `
+     c.*, FactoryName , [CustomerStatus] = dbo.GetDefine('CustomerStatus',c.Status) `;
     entity.Entity = `  Customer c LEFT JOIN Factory f ON f.FactoryID = c.FactoryID`;
-    entity.SpecialCondition = `1=1`;
     return this.http.post<DataTablesResponse>(`${ApiUrl}/Customer/DataTableCustomerPagination`,entity);}
   getCustomer =() => this.http.get(`${ApiUrl}/Customer/GetCustomer` );
   findCustomerById =(id) => this.http.get<any>(`${ApiUrl}/Customer/FindCustomerById?id=${id}` );
