@@ -343,7 +343,7 @@ export class ContractPrice {
 	ContractPriceID: number = 0
 	ContractID?: number = 0
 	Ratio?: any = 0
-	Currency?: string = '0'
+	Currency?: string = '$'
 	Price?: any = 0
 	Tax?: any = 0
 }

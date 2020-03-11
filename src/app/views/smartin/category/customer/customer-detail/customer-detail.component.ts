@@ -187,7 +187,7 @@ export class CustomerDetailComponent implements OnInit {
       this.toastr.warning(err.statusText, this.trans.instant('Upload.UploadFileError'));
       this.uploadReportProgress = { progress: 0, message: 'Error: ' + err.statusText, isError: true };
     });
-  } 
+  }
 
 
   fnEditItem(id){

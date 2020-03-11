@@ -190,9 +190,7 @@
                           [disabled]="!locationEntity.WarehouseLocationCode || !locationEntity.WarehouseLocationName"
                           (click)="validateItem(locationEntity)" *ngIf="i+1 === EditRowID"><i
                             class="fa fa-check"></i></button>
-                        <button type="button" class="btn btn-sm btn-outline btn-success" (click)="fnEditItem(item.ContractID)"
-                        data-toggle="modal" data-target="#myContractModal"
-                          *ngIf="i+1 !== EditRowID"><i class="fa fa-pencil"></i></button>
+                        <button type="button" class="btn btn-sm btn-outline btn-success" (click)="fnEditItem(item.ContractId)" data-toggle="modal" data-target="#myContractModal"><i class="fa fa-pencil"></i></button>
                         <button type="button" class="btn btn-sm btn-outline btn-danger" (click)="fnDeleteItem(i)"
                           *ngIf="i+1 !== EditRowID"><i class="fa fa-trash"></i></button>
                       </div>
@@ -234,8 +232,7 @@
                     <td></td>
                     <td></td>
                     <td>
-                      <button type="button" class="btn  btn-sm btn-outline btn-info pull-right"  ><i
-                          class="fa fa-plus" (click)=fnEditItem(0)  data-toggle="modal" data-target="#myContractModal"></i> </button>
+                      <button type="button" class="btn  btn-sm btn-outline btn-info pull-right"  (click)="fnEditItem(0)"   data-toggle="modal" data-target="#myContractModal"><i class="fa fa-plus" ></i> </button>
                     </td>
                   </tr>
 
