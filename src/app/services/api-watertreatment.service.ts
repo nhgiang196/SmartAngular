@@ -258,11 +258,13 @@ export class WaterTreatmentService {
   deleteContract =(id) => this.http.delete(`${ApiUrl}/Contract/DeleteContract?id=${id}`);
   validateContract =(entity) => this.http.post(`${ApiUrl}/Contract/ValidateContract?`,entity);
 
-
   //Moninor Standard
   getAllMonitorStandard= () => this.http.get<MonitorStandard[]>(`${ApiUrl}/MonitorStandard/GetMonitorStandard`);
+  addMonitorStandard =(entity) => this.http.post(`${ApiUrl}/MonitorStandard/AddMonitorStandard`,entity);
   deleteMonitorStandard =(id) => this.http.delete(`${ApiUrl}/MonitorStandard/DeleteMonitorStandard?id=${id}`);
   updateMonitorStandard =(entity) => this.http.put(`${ApiUrl}/MonitorStandard/UpdateMonitorStandard`,entity);
+  validateMonitorStandard =(entity) => this.http.post(`${ApiUrl}/MonitorStandard/ValidateMonitorStandardByDate`,entity);
+
    //Monitor Services
    addMonitor =(entity) => this.http.post(`${ApiUrl}/Monitor/AddMonitor`,entity);
    getMonitorChart =() => this.http.get(`${ApiUrl}/Monitor/GetChart`);

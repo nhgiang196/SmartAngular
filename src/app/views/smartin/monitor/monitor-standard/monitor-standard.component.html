@@ -46,6 +46,7 @@
                   <th>COD</th>
                   <th>TSS</th>
                   <th>Màu</th>
+                  <th>Q</th>
                   <th>Amoni</th>
                   <th>Ghi chú</th>
                   <th style="text-align: left">Action</th>
@@ -60,6 +61,7 @@
                   <td style="text-align: left"> {{monitor.Codmax}}</td>
                   <td style="text-align: left"> {{monitor.Tssmax}}</td>
                   <td style="text-align: left"> {{monitor.Codmax}}</td>
+                  <td style="text-align: left"> {{monitor.Qmax}}</td>
                   <td style="text-align: left"> {{monitor.AmoniMax}}</td>
                   <td style="text-align: left"> {{monitor.MonitorStandardDesc}}</td>
                   <td>
@@ -98,8 +100,9 @@
             <div class="col-lg-4">
               <div class="form-group">
                 <label> Factory Code :* </label>
-                <input type="text" name="FactoryName" id="FactoryName" class="form-control"
-                  placeholder="Input Factory Name">
+                <ng-select [items]="initCombobox.Factories" bindLabel="FactoryName" bindValue="FactoryID" [(ngModel)]="entity.FactoryId"
+                        class="custom" placeholder="{{'Customer.placeholder.FactoryID' | translate }}" name="FactoryID"
+                        required></ng-select>
               </div>
             </div>
             <div class="col-lg-8">
@@ -116,27 +119,29 @@
                 <div class="col-lg-6">
                   <input
                   type="text"
-                  name="Validate"
-                  id="Validate"
+                  name="ValidateDateFrom"
+                  id="ValidateDateFrom"
                   class="form-control"
                   bsDatepicker
                   readonly
                   [bsConfig]="bsConfig"
-
                   placeholder="ValidateDateFrom"
+                  [(ngModel)]= "entity.ValidateDateFrom"
+                  [ngClass]="{ 'is-invalid': existName }"
                 />
                 </div>
                 <div class="col-lg-6">
                   <input
                   type="text"
-                  name="Validate"
-                  id="Validate"
+                  name="ValidateDateTo"
+                  id="ValidateDateTo"
                   class="form-control"
                   bsDatepicker
                   readonly
                   [bsConfig]="bsConfig"
-
                   placeholder="ValidateDateTo"
+                  [(ngModel)]= "entity.ValidateDateTo"
+                  [ngClass]="{ 'is-invalid': existName }"
                 />
                 </div>
                 </div>
@@ -154,7 +159,7 @@
                   class="form-control"
                   placeholder="Input Descriptions"
                   rows="2"
-                  [ngClass]="{ 'is-invalid': existName }"
+                  [(ngModel)]= "entity.MonitorStandardDesc"
                 ></textarea>
               </div>
               </div>
@@ -168,10 +173,12 @@
                 </div>
                 <div class="row">
                   <div class="col-lg-6"><input type="number" min="0" name="TemperatureMin" id="TemperatureMin" class="form-control"
-                    placeholder="0">
+                    (change)="($event.target.value<0 ||$event.target.value=='' ) ?entity.TemperatureMin =0:entity.TemperatureMin"
+                    placeholder="0" [(ngModel)]="entity.TemperatureMin">
                   </div>
                   <div class="col-lg-6"><input type="number" min="0" name="TemperatureMax" id="TemperatureMax" class="form-control"
-                    placeholder="0">
+                    (change)="($event.target.value<0 ||$event.target.value=='' ) ?entity.TemperatureMax =0:entity.TemperatureMax"
+                    placeholder="0"  [(ngModel)]="entity.TemperatureMax">
                   </div>
                 </div>
               </div>
@@ -184,10 +191,12 @@
                 </div>
                 <div class="row">
                   <div class="col-lg-6"><input type="number" min="0" name="PHmin" id="PHmin" class="form-control"
-                    placeholder="0">
+                    (change)="($event.target.value<0 ||$event.target.value=='' ) ?entity.TemperatureMin =0:entity.TemperatureMin"
+                    placeholder="0" [(ngModel)]= "entity.PHmin">
                   </div>
                   <div class="col-lg-6"><input type="number" min="0" name="PHmax" id="PHmax" class="form-control"
-                    placeholder="0">
+                    (change)="($event.target.value<0 ||$event.target.value=='' ) ?entity.TemperatureMax =0:entity.TemperatureMax"
+                    placeholder="0" [(ngModel)]= "entity.PHmax">
                   </div>
                 </div>
               </div>
@@ -203,10 +212,10 @@
                 </div>
                 <div class="row">
                   <div class="col-lg-6"><input type="number" min="0" name="Codmin" id="Codmin" class="form-control"
-                    placeholder="0">
+                    placeholder="0" [(ngModel)]= "entity.Codmin">
                   </div>
                   <div class="col-lg-6"><input type="number" min="0" name="Codmax" id="Codmax" class="form-control"
-                    placeholder="0">
+                    placeholder="0" [(ngModel)]= "entity.Codmax">
                   </div>
                 </div>
               </div>
@@ -219,10 +228,10 @@
                 </div>
                 <div class="row">
                   <div class="col-lg-6"><input type="number" min="0" name="Tssmin" id="Tssmin" class="form-control"
-                    placeholder="0">
+                    placeholder="0" [(ngModel)]= "entity.Tssmin">
                   </div>
                   <div class="col-lg-6"><input type="number" min="0" name="Tssmax" id="Tssmax" class="form-control"
-                    placeholder="0">
+                    placeholder="0" [(ngModel)]= "entity.Tssmax">
                   </div>
                 </div>
               </div>
@@ -238,10 +247,10 @@
                 </div>
                 <div class="row">
                   <div class="col-lg-6"><input type="number" min="0" name="ColorMin" id="ColorMin" class="form-control"
-                    placeholder="0">
+                    placeholder="0" [(ngModel)]= "entity.ColorMin">
                   </div>
                   <div class="col-lg-6"><input type="number" min="0" name="ColorMax" id="ColorMax" class="form-control"
-                    placeholder="0">
+                    placeholder="0" [(ngModel)]= "entity.ColorMax">
                   </div>
                 </div>
               </div>
@@ -254,10 +263,10 @@
                 </div>
                 <div class="row">
                   <div class="col-lg-6"><input type="number" min="0" name="Qmin" id="Qmin" class="form-control"
-                    placeholder="0">
+                    placeholder="0" [(ngModel)]= "entity.Qmin">
                   </div>
                   <div class="col-lg-6"><input type="number" min="0" name="Qmax" id="Qmax" class="form-control"
-                    placeholder="0">
+                    placeholder="0" [(ngModel)]= "entity.Qmax">
                   </div>
                 </div>
               </div>
@@ -272,10 +281,10 @@
                 </div>
                 <div class="row">
                   <div class="col-lg-6"><input type="number" min="0" name="AmoniMin" id="AmoniMin" class="form-control"
-                    placeholder="0">
+                    placeholder="0" [(ngModel)]= "entity.AmoniMin">
                   </div>
                   <div class="col-lg-6"><input type="number" min="0" name="AmoniMax" id="AmoniMax" class="form-control"
-                    placeholder="0">
+                    placeholder="0" [(ngModel)]= "entity.AmoniMax">
                   </div>
                 </div>
               </div>
@@ -299,9 +308,9 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-white" data-dismiss="modal"
-          (click)="loadData()">{{'ItemType.CloseButton' | translate}}</button>
-        <!-- <button type="button" class="btn btn-primary" (click)="fnSave();" [ladda]="laddaSubmitLoading"
-          [disabled]="myForm.invalid||EditRowID!=0">{{'ItemType.SaveButton' | translate}}</button> -->
+          (click)="loadData()">Close</button>
+        <button type="button" class="btn btn-primary" (click)="fnSave();" [ladda]="laddaSubmitLoading"
+          [disabled]="myForm.invalid||EditRowID!=0">Save</button>
       </div>
     </div>
   </div>
