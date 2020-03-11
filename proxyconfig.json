@@ -4,6 +4,11 @@
         "secure": false,
         "changeOrigin": true
     },
+    "/signalR/*":{
+        "target":"http://localhost:3333",
+        "secure": false,
+        "changeOrigin": true
+    },
     "/auth/*":{
         "target":"http://supporteoffice.becamex.com.vn:6789", 
         "secure": false,

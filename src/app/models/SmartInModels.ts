@@ -394,6 +394,12 @@ export class MonitorStandard{
   Factory: Factory =new Factory()
 }
 
+export class ChartModel {
+  data: []
+  label: string
+}
+
+
 
 
 
