@@ -68,7 +68,7 @@ export class WaterTreatmentService {
   /** WAREHOUSE */
   getWarehousePagination =(keyvalue) => { // Note: BA yêu cầu gửi Parram như thế này
     let pr = new DataTablePaginationParams();
-    pr.keyFields="WarehouseCode,WarehouseName,WarehouseAddress,WarehouseType,WarehouseUserName,Status";
+    pr.keyFields="WarehouseCode,WarehouseName,WarehouseAddress,WarehouseType,WarehouseUserName,w.Status";
     pr.selectFields = " WarehouseID, WarehouseCode, WarehouseName, f.FactoryName, WarehouseType, WarehouseAddress, WarehouseUserName, u.NormalizedUserName , w.Status ";
     pr.entity = `Warehouse w LEFT JOIN [BCM_Auth].dbo.AspNetUsers u ON u.UserName= w.WarehouseUserName
                       LEFT JOIN Factory f ON f.FactoryID = w.FactoryID`;

@@ -18,6 +18,7 @@ export class MonitorStandardComponent implements OnInit {
   ACTION_STATUS: string;
   existName = false;
   entity: MonitorStandard;
+  iboxloading = false;
   constructor(  private api: WaterTreatmentService,private toastr: ToastrService,private trans: TranslateService,) { }
 
   ngOnInit() {
