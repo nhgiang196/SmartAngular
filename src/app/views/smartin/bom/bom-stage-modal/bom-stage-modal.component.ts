@@ -90,8 +90,8 @@ export class BomStageModalComponent implements OnInit {
 
   showBomModal(id) {
     this.currentStageId = id;
-    $("#myModal4").modal("hide");
-    $("#myModal2").modal("show");
+    $("#modalStages").modal("hide");
+    $("#modalOut").modal("show");
   }
   onSwitchSequence() {
     !this.newBomStage.Sequence;

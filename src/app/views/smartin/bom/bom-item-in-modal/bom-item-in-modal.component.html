@@ -1,6 +1,6 @@
 <div
   class="modal inmodal"
-  id="myModal2"
+  id="modalIn"
   data-backdrop="static"
   data-keyboard="true"
   tabindex="-1"
@@ -44,7 +44,7 @@
                 <tbody>
                   <tr
                     class="animated fadeInRight"
-                    *ngFor="let item of outBomItems; let i = index"
+                    *ngFor="let item of inBomItems; let i = index"
                   >
                     <td>{{ i + 1 }}</td>
                     <td *ngIf="i + 1 !== editRowId">{{ item.ItemName }}</td>
@@ -59,9 +59,9 @@
                         bindValue="ItemId"
                         placeholder="{{'BomFactory.BomItem.ItemId' | translate}}"
                         name="BomStageID"
-                        (change)="$event != null? (outBomItem.ItemName = $event.ItemName): null"
+                        (change)="$event != null? (inBomItem.ItemName = $event.ItemName): null"
                         id="BomStageID"
-                        [(ngModel)]="outBomItem.ItemID"
+                        [(ngModel)]="inBomItem.ItemID"
                       >
                       </ng-select>
                     </td>
@@ -73,8 +73,8 @@
                         bindValue="UnitID"
                         placeholder="{{'Item.placeholdercolumn.ItemPackageUnitId' | translate}}"
                         name="inUnitId"
-                        [(ngModel)]="outBomItem.UnitID"
-                        (change)="$event != null? (outBomItem.UnitName = $event.UnitName): null"
+                        [(ngModel)]="inBomItem.UnitID"
+                        (change)="$event != null? (inBomItem.UnitName = $event.UnitName): null"
                       >
                       </ng-select>
                       
@@ -86,8 +86,8 @@
                         name="Quantity"
                         id="Quantity"
                         min="0"
-                        (change)="( $event.target.value < 0 || $event.target.value == '')? (outBomItem.Quantity): outBomItem.Quantity"
-                        [(ngModel)]="outBomItem.Quantity"
+                        (change)="( $event.target.value < 0 || $event.target.value == '')? (inBomItem.Quantity): inBomItem.Quantity"
+                        [(ngModel)]="inBomItem.Quantity"
                       />
                     </td>
                     <td>
@@ -128,7 +128,7 @@
                       </div>
                     </td>
                   </tr>
-                  <!-- new record -->
+                  <!-- new record -->  
                   <tr>
                     <td>{{ bomItems.length + 1 }}</td>
                     <td>
@@ -190,8 +190,7 @@
           class="btn btn-white"
           data-dismiss="modal"
           data-toggle="modal"
-          data-target="#myModal4"
-          (click)="fnReset()"
+          data-target="#modalOut"
         >
           {{ "BomFactory.CloseButton" | translate }}
         </button>
@@ -199,9 +198,6 @@
           type="button"
           class="btn btn-primary"
           [ladda]="laddaSubmitLoading"
-          data-toggle="modal"
-          data-target="#myModal4"
-          data-dismiss="modal"
           (click)="fnSaveBomItem()"
         >
           {{ "BomFactory.SaveButton" | translate }}

@@ -32,7 +32,11 @@ export class BomItemOutModalComponent implements OnInit {
   loading = false;
   bufferSize = 50;
   editRowId: number = 0;
+  parentOutId:number=0;
   laddaSubmitLoading = false;
+
+
+
   constructor( private api: WaterTreatmentService,
     private toastr: ToastrService,
     private trans: TranslateService) { }
@@ -79,7 +83,7 @@ export class BomItemOutModalComponent implements OnInit {
       // this.entity.BomStage[id].BomItem.push();
       // this.entity.BomStage[id].BomItem = this.bomItems;
       if(this.fnValidateBomItem(this.newBomItem,'add')){
-        this.newBomItem.BomItemType = this.typeBomIn;
+        this.newBomItem.BomItemType = this.typeBomOut;
         this.outBomItems.push(this.newBomItem);
         this.newBomItem = new BomItem();
       }
@@ -109,7 +113,12 @@ export class BomItemOutModalComponent implements OnInit {
       if (typeAction == "edit") this.editRowId = 0;
       return true;
     }
-
+    fnEditOutBomItem(index) {
+      //press edit item (in modal)
+      this.editRowId = index + 1;
+      this.outBomItem =JSON.parse(JSON.stringify( this.outBomItems[index]));
+      this.newBomItem = new BomItem();
+    }
     
     fnSaveOutBomItem() {
       this.entity.BomStage[this.currentStageId].BomItem = this.outBomItems;
@@ -158,11 +167,19 @@ export class BomItemOutModalComponent implements OnInit {
   }
   fnSaveBomItem() {
     this.entity.BomStage[this.currentStageId].BomItem = this.outBomItems;
-    this.outBomItem.BomItemType = this.typeBomOut;
-    this.entity.BomStage[this.currentStageId].BomItem.push(this.outBomItem);
     this.outBomItems = [];
-    console.log("currentStage: " + this.currentStageId);
+    console.log("BomItemType: " + this.currentStageId);
     console.log(this.entity);
+  }
+
+  showModalIn(i){
+    this.parentOutId = i;
+    $("#modalIn").modal("show");
+    $("#modalOut").modal("hide");
+  }
+
+  addInBomItem(listInBomItem){
+    this.outBomItems = this.outBomItems.concat(listInBomItem);
   }
 
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Item, BomItem, Unit, BomFactory, Stage } from 'src/app/models/SmartInModels';
 import { Subject } from 'rxjs';
 declare let $: any;
@@ -13,19 +13,19 @@ import { debounceTime, distinctUntilChanged, switchMap, map } from 'rxjs/operato
   styleUrls: ['./bom-item-in-modal.component.css']
 })
 export class BomItemInModalComponent implements OnInit {
-  @Input() entity: BomFactory;
   @Input() units: Unit[] =[];
-  @Input() currentStageId: number
+  @Input() parentOutId: number;
+  @Input() currentStageId: number;
+  @Output() addInBomItem = new EventEmitter<BomItem[]>();
 //const
   
   typeBomIn: string = "In";
   typeBomOut: string = "Out";
   itemsBuffer : Item[]=[]
   items: Item[] =[]
-  outBomItems: BomItem[] = [];
+  inBomItems: BomItem[] = [];
   bomItems: BomItem[];
   inBomItem: BomItem;
-  outBomItem: BomItem; 
    newBomItem: BomItem;
   //config
   input$ = new Subject<string>();
@@ -45,8 +45,7 @@ export class BomItemInModalComponent implements OnInit {
   }
 
   private resetEntity() {
-    this.inBomItem = new BomItem();
-    this.outBomItem = new  BomItem(); 
+    this.inBomItem = new BomItem(); 
     this.newBomItem = new BomItem();
     this.bomItems = [];
   }
@@ -71,9 +70,9 @@ export class BomItemInModalComponent implements OnInit {
       }, 200)
     }
 
-    fnSaveInBomItem(index) {console.log(this.outBomItems)
+    fnSaveInBomItem(index) {console.log(this.inBomItems)
       if (this.fnValidateBomItem(this.inBomItem,'edit')) {
-        this.outBomItems[index] = this.inBomItem;
+        this.inBomItems[index] = this.inBomItem;
         this.editRowId = 0;
       }
     }
@@ -87,14 +86,15 @@ export class BomItemInModalComponent implements OnInit {
       // this.entity.BomStage[id].BomItem = this.bomItems;
       if(this.fnValidateBomItem(this.newBomItem,'add')){
         this.newBomItem.BomItemType = this.typeBomIn;
-        this.outBomItems.push(this.newBomItem);
+        this.newBomItem.BomItemParentID= this.parentOutId;
+         this.inBomItems.push(this.newBomItem);
         this.newBomItem = new BomItem();
       }
     
     }
   
     fnValidateBomItem(item: BomItem,typeAction) {
-      if (this.outBomItems.filter(x => x.ItemID == item.ItemID).length > 0 &&typeAction == "add") {
+      if (this.inBomItems.filter(x => x.ItemID == item.ItemID).length > 0 &&typeAction == "add") {
         swal.fire(
           "Validate",
           this.trans.instant("Factory.data.TechnologyName") +
@@ -103,7 +103,7 @@ export class BomItemInModalComponent implements OnInit {
         );
         return false;
       }
-      if (this.outBomItems.filter(x => x.ItemID == item.ItemID).length > 0 &&typeAction == "edit") {
+      if (this.inBomItems.filter(x => x.ItemID == item.ItemID).length > 0 &&typeAction == "edit") {
         swal.fire(
           "Validate",
           this.trans.instant("Factory.data.TechnologyName") +
@@ -120,22 +120,22 @@ export class BomItemInModalComponent implements OnInit {
     fnEditInBomItem(index) {
       //press edit item (in modal)
       this.editRowId = index + 1;
-      this.inBomItem =JSON.parse(JSON.stringify( this.outBomItems[index]));
+      this.inBomItem =JSON.parse(JSON.stringify( this.inBomItems[index]));
       this.newBomItem = new BomItem();
     }
-    fnSaveOutBomItem() {
-      this.entity.BomStage[this.currentStageId].BomItem = this.outBomItems;
-      // this.outBomItems = [];
-      // this.inBomItem = new BomItem();
+    // fnSaveOutBomItem() {
+    //   this.entity.BomStage[this.currentStageId].BomItem = this.inBomItems;
+    //   // this.inBomItems = [];
+    //   // this.inBomItem = new BomItem();
   
-      console.log(this.entity);
+    //   console.log(this.entity);
   
-      // $("#myModal2").modal('hide');
-    }
+    //   // $("#myModal2").modal('hide');
+    // }
 
     fnDeleteInBomItem(index) {
       //press delete item (in modal)
-      this.outBomItems.splice(index, 1);
+      this.inBomItems.splice(index, 1);
     }
 
   async loadItems() {
@@ -166,17 +166,13 @@ export class BomItemInModalComponent implements OnInit {
   }
 
   fnReset() {
-    this.outBomItems = [];
+    this.inBomItems = [];
     this.inBomItem = new BomItem();
   }
   fnSaveBomItem() {
-    this.entity.BomStage[this.currentStageId].BomItem = this.outBomItems;
-    this.outBomItem.BomItemType = this.typeBomOut;
-    this.entity.BomStage[this.currentStageId].BomItem.push(this.outBomItem);
-    this.outBomItems = [];
-    this.inBomItem = new BomItem();
-    console.log("currentStage: " + this.currentStageId);
-    console.log(this.entity);
+    this.addInBomItem.emit(this.inBomItems)
+    $("#modalIn").modal("hide");
+    $("#modalOut").modal("show");
   }
 
 }

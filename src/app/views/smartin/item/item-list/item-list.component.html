@@ -96,9 +96,9 @@
                   <td style="text-align: left">{{item.ModifyDate | amDateFormat: 'YYYY-MM-DD HH:mm'}}</td>
                   <td style="text-align: left" hidden="true">{{item.Status}}</td>
                   <td>
-                    <button type="button" class="btn btn-outline btn-danger" (click)="fnDelete(item.ItemId)"><i
+                    <button type="button" class="btn btn-outline btn-danger" (click)="fnDelete(item.ItemID)"><i
                         class="fa fa-trash"></i></button>
-                    <button type="button" class="btn btn-outline btn-success" (click)="fnUpdate(item.ItemId)"
+                    <button type="button" class="btn btn-outline btn-success" (click)="fnUpdate(item.ItemID)"
                       data-toggle="modal" data-target="#myModal4"><i class="fa fa-pencil"></i></button>
                   </td>
                 </tr>

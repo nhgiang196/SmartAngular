@@ -71,7 +71,7 @@ export class DataTablePaginationParams {
   specialCondition?: string =null
 }
 export class Item {
-  ItemId?: number = 0
+  ItemID?: number = 0
   ItemTypeId?: number = null
   ItemNo?: string
   ItemName?: string
@@ -238,6 +238,7 @@ export class BomItem {
   UnitID?: number = 0
   UnitName: string
   Quantity?: number
+  BomItemParentID?: number
   Item?: Item = new Item();
   Unit?: Unit = new Unit();
 }

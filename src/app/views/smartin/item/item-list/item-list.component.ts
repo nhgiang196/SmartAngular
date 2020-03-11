@@ -18,7 +18,7 @@ declare let $: any;
 })
 export class ItemListComponent implements  AfterViewInit, OnDestroy, OnInit {
   @ViewChild(DataTableDirective)  datatableElement: DataTableDirective;
-  Items: Item[];
+  Items: any = [];
   listItemType: Array<ItemType> = new Array<ItemType>();
   dtOptions: DataTables.Settings = {};
   dtTrigger: Subject<any> = new Subject();
@@ -85,7 +85,7 @@ export class ItemListComponent implements  AfterViewInit, OnDestroy, OnInit {
       ajax: (dataTablesParameters: any, callback) => {
         this.dtOptions.ajax= (dataTablesParameters: any, callback) => { //chèn lại ajax ở một vị trí duy nhất khi định nghĩa
           this.api.getItemByItemType(dataTablesParameters, this.itemTypeId).subscribe(res => {
-            this.Items = res.data;
+            this.Items = res.data  as any;
             console.log(this.Items)
             callback({
               recordsTotal: res.recordsTotal,
@@ -122,6 +122,7 @@ export class ItemListComponent implements  AfterViewInit, OnDestroy, OnInit {
   };
 
   fnDelete(id) {
+    debugger;
     swal
       .fire({
         title: this.trans.instant("Factory.DeleteAsk_Title"),
