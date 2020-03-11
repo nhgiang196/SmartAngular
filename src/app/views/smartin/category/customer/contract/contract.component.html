@@ -1,6 +1,6 @@
 
 <div class="modal inmodal" id="myContractModal" data-backdrop="static" data-keyboard="true" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog modal-lg "  style="width: 80%;">
+  <div class="modal-dialog modal-lg "  style="width: 65%;">
     <div class="modal-content animated fadeIn" >
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
@@ -30,16 +30,39 @@
           </div>
           <div class="row">
             <div class="col-lg-6">
+              <label>{{ 'Contract.data.ContractCode' | translate }} *:</label>
+              <input autocomplete="off" type="text" name="ContractCode" id="ContractCode" [(ngModel)]="entity.ContractCode" class="form-control" placeholder="{{ 'Contract.placeholder.ContractCode' | translate }}" 
+                 [ngClass]="{ 'is-invalid':  invalid.Existed_ContractCode }" required>
+              <div *ngIf="invalid.Existed_ContractCode" style="color: red;">{{ 'Contract.invalid.Existed_ContractCode' | translate }}</div>
+              
+              
+              
+            </div>
+
+            <div class="col-lg-6">
               <div class="form-group">
-                <label>{{ 'Factory.data.SignDate' | translate }} :</label>
-                <input type="text" name="SignDate" id="SignDate" class="form-control" placeholder="{{ 'Contract.placeholder.SignDate' | translate }}" 
+                <label>{{ 'Contract.data.SignDate' | translate }} :</label>
+                <input autocomplete="off"  type="text" name="SignDate" id="SignDate" class="form-control" placeholder="{{ 'Contract.placeholder.SignDate' | translate }}" 
                   bsDatepicker readonly [bsConfig]="bsConfig" [(ngModel)]="entity.SignDate">
               </div>
             </div>
+           
+          </div>
+          <div class="row">
             <div class="col-lg-6">
-              <label>{{ 'Contract.data.EffectiveDate' | translate }} :</label>
-              <input type="text" name="EffectiveDate" id="EffectiveDate" class="form-control" placeholder="{{ 'Contract.placeholder.EffectiveDate' | translate }}" 
+              <div class="form-group">
+                <label>{{ 'Contract.data.EffectiveDate' | translate }} :</label>
+                <input autocomplete="off"  type="text" name="EffectiveDate" id="EffectiveDate" class="form-control" placeholder="{{ 'Contract.placeholder.EffectiveDate' | translate }}" 
                 bsDatepicker readonly [bsConfig]="bsConfig" [(ngModel)]="entity.EffectiveDate">
+
+              </div>
+
+              
+            </div>
+            <div class="col-lg-6">
+              <label>{{ 'Contract.data.EndDate' | translate }} :</label>
+              <input autocomplete="off" type="text" name="EndDate" id="EndDate" class="form-control" placeholder="{{ 'Contract.placeholder.EndDate' | translate }}" 
+                bsDatepicker readonly [bsConfig]="bsConfig" [(ngModel)]="entity.EndDate">
               
             </div>
           </div>
@@ -47,17 +70,21 @@
             <div class="col-lg-6">
               <div class="form-group">
                 <label> {{ 'Contract.data.StandardType' | translate }} *: </label>
-                <select autocomplete="off" class="select2_demo_3 form-control" [(ngModel)]="entity.StandardType" name="StandardType" id="StandardType"  placeholder="Select" required>
+                <select autocomplete="off" class="select2_demo_3 form-control" [(ngModel)]="entity.StandardType" name="StandardType" id="StandardType"  placeholder="Select" >
                   <option selected value=1 > {{ 'Contract.data.StandardType1' | translate }} </option>
                   <option value=2> {{ 'Contract.data.StandardType2' | translate }} </option>
                 </select>
 
               </div>
+              
             </div>
             <div class="col-lg-6">
-              <label>{{ 'Contract.data.EndDate' | translate }} :</label>
-              <input type="text" name="EndDate" id="EndDate" class="form-control" placeholder="{{ 'Contract.placeholder.EndDate' | translate }}" 
-                bsDatepicker readonly [bsConfig]="bsConfig" [(ngModel)]="entity.EndDate">
+              <div class="form-group">
+                <label>{{ 'Contract.data.Description' | translate }} :</label>
+                <input autocomplete="off" type="text" name="Description" id="Description" [(ngModel)]="entity.Description" class="form-control" placeholder="{{ 'Contract.placeholder.Description' | translate }}" >
+              </div>
+              
+              
               
             </div>
           </div>
@@ -68,16 +95,8 @@
                 <input autocomplete="off" type="text" name="Ratio" id="Ratio" [(ngModel)]="entity.Ratio" class="form-control" placeholder="{{ 'Contract.placeholder.Ratio' | translate }}" >
 
               </div>
-            </div>
-            <div class="col-lg-6">
-              <label>{{ 'Contract.data.Description' | translate }} :</label>
-              <input autocomplete="off" type="text" name="Description" id="Description" [(ngModel)]="entity.Description" class="form-control" placeholder="{{ 'Contract.placeholder.Description' | translate }}" >
               
-              
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-lg-6"></div>  
+            </div>  
             <div class="col-lg-6">
               <div class="form-group">
                 <label>{{ 'Contract.data.IsIntergration' | translate }} :</label>
@@ -114,7 +133,6 @@
                       </tr>
                     </thead>
                     <tbody>
-    
                       <tr class="animated fadeInRight" *ngFor="let item of entity.ContractBreach; let i = index"
                         [@simpleFadeAnimation]="'in'">
                         <td> {{i+1}} </td>
@@ -124,22 +142,26 @@
                         <td *ngIf="i+1 !== EditRowID">{{item.Times}} </td>
                         <!-- FORM -->
                         <td *ngIf="i+1 === EditRowID">
-                          <input autocomplete="off" type="text" class="form-control" name="BreachType" [(ngModel)]="subEntity_ContractBreach.BreachType"></td>
+                          <select autocomplete="off" class="select2_demo_3 form-control"  [(ngModel)]="subEntity_ContractBreach.BreachType" name="BreachType" >
+                            <option selected value=1> {{ 'Contract.data.ContractBreach.BreachType1' | translate }} </option>
+                            <option value=2> {{ 'Contract.data.ContractBreach.BreachType2' | translate }} </option>
+                          </select>
                         <td *ngIf="i+1 === EditRowID">
-                          <input autocomplete="off" type="text" class="form-control" name="ResolveType" [(ngModel)]="subEntity_ContractBreach.ResolveType"></td>
+                          <select autocomplete="off" class="select2_demo_3 form-control"  [(ngModel)]="subEntity_ContractBreach.ResolveType" name="ResolveType" >
+                            <option selected value=1> {{ 'Contract.data.ContractBreach.ResolveType1' | translate }} </option>
+                            <option value=2> {{ 'Contract.data.ContractBreach.ResolveType2' | translate }} </option>
+                          </select>
                         <td *ngIf="i+1 === EditRowID">
                           <input autocomplete="off" type="number" class="form-control" name="Times" [(ngModel)]="subEntity_ContractBreach.Times"></td>
                         <!-- BUTTON -->
                         <td>
                           <div class="btn-group">
                             <button type="button" class="btn btn-sm btn-outline btn-primary"
-                              [disabled]="!locationEntity.WarehouseLocationCode || !locationEntity.WarehouseLocationName"
-                              (click)="validateItem(locationEntity)" *ngIf="i+1 === EditRowID"><i
-                                class="fa fa-check"></i></button>
-                            <button type="button" class="btn btn-sm btn-outline btn-success" (click)="fnEditItem(item.ContractID)"
-                            data-toggle="modal" data-target="#myContractModal"
+                              [disabled]="!subEntity_ContractBreach.BreachType || !subEntity_ContractBreach.ResolveType"
+                              (click)="EditRowID=0" *ngIf="i+1 === EditRowID"><i class="fa fa-check"></i></button>
+                            <button type="button" class="btn btn-sm btn-outline btn-success" (click)="fnEditContractBreach(i)" [disabled]="EditRowID!=0"
                               *ngIf="i+1 !== EditRowID"><i class="fa fa-pencil"></i></button>
-                            <button type="button" class="btn btn-sm btn-outline btn-danger" (click)="fnDeleteItem(i)"
+                            <button type="button" class="btn btn-sm btn-outline btn-danger" (click)="fnDeleteContractBreach(i)"
                               *ngIf="i+1 !== EditRowID"><i class="fa fa-trash"></i></button>
                           </div>
                         </td>
@@ -147,12 +169,20 @@
                       
                       <tr>
                         <td> {{entity.ContractBreach.length+1}} </td>
-                        <td> <input autocomplete="off" type="text" class="form-control"    name="newBreachType" [(ngModel)]="newEntity_ContractBreach.BreachType"> </td>
-                        <td> <input autocomplete="off" type="text" class="form-control"    name="newResolveType" [(ngModel)]="newEntity_ContractBreach.ResolveType"> </td>
+                        <td> 
+                          <select autocomplete="off" class="select2_demo_3 form-control"  [(ngModel)]="newEntity_ContractBreach.BreachType" name="newBreachType" >
+                            <option selected value=1> {{ 'Contract.data.ContractBreach.BreachType1' | translate }} </option>
+                            <option value=2> {{ 'Contract.data.ContractBreach.BreachType2' | translate }} </option>
+                          </select>
+                        <td> 
+                          <select autocomplete="off" class="select2_demo_3 form-control"  [(ngModel)]="newEntity_ContractBreach.ResolveType" name="newResolveType" >
+                            <option selected value=1> {{ 'Contract.data.ContractBreach.ResolveType1' | translate }} </option>
+                            <option value=2> {{ 'Contract.data.ContractBreach.ResolveType2' | translate }} </option>
+                          </select>
                         <td> <input autocomplete="off" type="number" class="form-control"  name="newTimes" [(ngModel)]="newEntity_ContractBreach.Times"> </td>
                         <td>
-                          <button type="button" class="btn  btn-sm btn-outline btn-info pull-right" ><i
-                              class="fa fa-plus" (click)="fnAddItemBreach(newEntity_ContractBreach)"></i> </button>
+                          <button [disabled]="!newEntity_ContractBreach.BreachType || !newEntity_ContractBreach.ResolveType"
+                          type="button" class="btn  btn-sm btn-outline btn-info pull-right"  (click)="fnAddContractBreach(newEntity_ContractBreach)"><i class="fa fa-plus"></i> </button>
                         </td>
                       </tr>
     
@@ -200,31 +230,30 @@
                         [@simpleFadeAnimation]="'in'">
                         <td> {{i+1}} </td>
                         <!-- TABLE -->
-                        <td *ngIf="i+1 !== EditRowID">{{item.Ratio}} </td>
-                        <td *ngIf="i+1 !== EditRowID">{{item.Currency}} </td>
-                        <td *ngIf="i+1 !== EditRowID">{{item.Price}} </td>
-                        <td *ngIf="i+1 !== EditRowID">{{item.Tax}} </td>
+                        <td *ngIf="i+1 !== EditRowID_PRICE">{{item.Ratio}} </td>
+                        <td *ngIf="i+1 !== EditRowID_PRICE">{{item.Currency}} </td>
+                        <td *ngIf="i+1 !== EditRowID_PRICE">{{item.Price}} </td>
+                        <td *ngIf="i+1 !== EditRowID_PRICE">{{item.Tax}} </td>
                         <!-- FORM -->
-                        <td *ngIf="i+1 === EditRowID">
+                        <td *ngIf="i+1 === EditRowID_PRICE">
                           <input autocomplete="off" type="number" class="form-control" name="Ratio" [(ngModel)]="subEntity_ContractPrice.Ratio"></td>
-                        <td *ngIf="i+1 === EditRowID">
+                        <td *ngIf="i+1 === EditRowID_PRICE">
                           <input autocomplete="off" type="text" class="form-control" name="Currency" [(ngModel)]="subEntity_ContractPrice.Currency"></td>
-                        <td *ngIf="i+1 === EditRowID">
+                        <td *ngIf="i+1 === EditRowID_PRICE">
                           <input autocomplete="off" type="number" class="form-control" name="Price" [(ngModel)]="subEntity_ContractPrice.Price"></td>
-                        <td *ngIf="i+1 === EditRowID">
+                        <td *ngIf="i+1 === EditRowID_PRICE">
                           <input autocomplete="off" type="number" class="form-control" name="Tax" [(ngModel)]="subEntity_ContractPrice.Tax"></td>
                         <!-- BUTTON -->
                         <td>
                           <div class="btn-group">
                             <button type="button" class="btn btn-sm btn-outline btn-primary"
-                              [disabled]="!locationEntity.WarehouseLocationCode || !locationEntity.WarehouseLocationName"
-                              (click)="validateItem(locationEntity)" *ngIf="i+1 === EditRowID"><i
+                              
+                              (click)="EditRowID_PRICE=0" *ngIf="i+1 === EditRowID_PRICE"><i
                                 class="fa fa-check"></i></button>
-                            <button type="button" class="btn btn-sm btn-outline btn-success" (click)="fnEditItem(item.ContractID)"
-                            data-toggle="modal" data-target="#myContractModal"
-                              *ngIf="i+1 !== EditRowID"><i class="fa fa-pencil"></i></button>
-                            <button type="button" class="btn btn-sm btn-outline btn-danger" (click)="fnDeleteItem(i)"
-                              *ngIf="i+1 !== EditRowID"><i class="fa fa-trash"></i></button>
+                            <button type="button" class="btn btn-sm btn-outline btn-success" (click)="fnEditContractPrice(i)"  [disabled]="EditRowID_PRICE!=0"
+                              *ngIf="i+1 !== EditRowID_PRICE"><i class="fa fa-pencil"></i></button>
+                            <button type="button" class="btn btn-sm btn-outline btn-danger" (click)="fnDeleteContractPrice(i)"
+                              *ngIf="i+1 !== EditRowID_PRICE"><i class="fa fa-trash"></i></button>
                           </div>
                         </td>
                       </tr>
@@ -236,8 +265,8 @@
                         <td> <input autocomplete="off" type="number" class="form-control" name="newPrice" [(ngModel)]="newEntity_ContractPrice.Price"> </td>
                         <td> <input autocomplete="off" type="number" class="form-control" name="newTax" [(ngModel)]="newEntity_ContractPrice.Tax"> </td>
                         <td>
-                          <button type="button" class="btn  btn-sm btn-outline btn-info pull-right" ><i
-                              class="fa fa-plus" (click)="fnAddItemPrice(newEntity_ContractPrice)"></i> </button>
+                          <button type="button" class="btn  btn-sm btn-outline btn-info pull-right" (click)="fnAddContractPrice(newEntity_ContractPrice)" ><i
+                              class="fa fa-plus" ></i> </button>
                         </td>
                       </tr>
     
@@ -278,6 +307,18 @@
                       </ngx-dropzone>
                     </div>
                   </div>
+                  <div class="row">
+                    <div class="col-lg-12">
+                      <span class="badge" [ngClass]="{'badge-primary': uploadReportProgress.progress==100, 'badge-danger':uploadReportProgress.isError}" >{{uploadReportProgress.message}}</span>
+                      <div *ngIf="uploadReportProgress.progress>0 && uploadReportProgress.progress<100 " class="progress progress-striped active">
+                        <div  class="progress-bar progress-bar-success" role="progressbar"
+                          [style.width.%]="uploadReportProgress.progress">
+                          {{uploadReportProgress.progress}}%
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  
 
 
 
@@ -300,61 +341,8 @@
       </div>
       <div class="modal-footer">
         <button class="btn btn-white"  data-dismiss="modal">{{'Button.Close' | translate}}</button>
-        <button type="button" class="btn btn-primary"   [ladda]="laddaSubmitLoading" ><i class="fa fa-paper-plane-o"></i> {{'Button.Save' | translate}} </button>
+        <button type="button" class="btn btn-primary" [disabled]="mySubForm.invalid || EditRowID!=0 || EditRowID_PRICE!=0"  [ladda]="laddaSubmitLoading" (click)="fnSave()" ><i class="fa fa-paper-plane-o"></i> {{'Button.Save' | translate}} </button>
       </div>
     </div>
   </div>
 </div>
-
-(modal is active with contractID : {{contractId}})
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<script>
-  /* iBOX HELPER */
-
-  $('.ibox-tools').on('click', function () {
-    var collapse = $(this).find('.collapse-link');
-    
-    var ibox = $(this).closest('div.ibox');
-    var button = collapse.find('i');
-    var content = ibox.children('.ibox-content');
-    content.slideToggle(200);
-    button.toggleClass('fa-chevron-up').toggleClass('fa-chevron-down');
-    ibox.toggleClass('').toggleClass('border-bottom');
-    setTimeout(function () {
-      ibox.resize();
-      ibox.find('[id^=map-]').resize();
-    }, 50);
-  });
-  // Close ibox function
-  $('.close-link').on('click', function () {
-    var content = $(this).closest('div.ibox');
-    content.remove();
-  });
-  // Fullscreen ibox function
-  $('.fullscreen-link').on('click', function () {
-    var ibox = $(this).closest('div.ibox');
-    var button = $(this).find('i');
-    $('body').toggleClass('fullscreen-ibox-mode');
-    button.toggleClass('fa-expand').toggleClass('fa-compress');
-    ibox.toggleClass('fullscreen');
-    setTimeout(function () {
-      $(window).trigger('resize');
-    }, 100);
-  });
-
-</script>

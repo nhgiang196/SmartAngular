@@ -379,7 +379,8 @@
     "placeholder.ContactName" : "Enter Contact Name",
     "placeholder.ContactEmail" : "Enter Contact Email",
     "placeholder.ContactPhone" : "Enter Contact phone",
-    "placeholder.Description" : "Enter Description"
+    "placeholder.Description" : "Enter Description",
+    "invalid.Existed_CustomerName":"Trùng tên đơn vị xả thải"
   },
   "Contract":{
     "":"Contract",
@@ -423,6 +424,7 @@
     "label.Breach":"Contract Breach",
     "label.Price":"Price Detail",
     "label.File":"Attached Files",
-    "label.Information":"Contract Information"
+    "label.Information":"CONTRACT'S INFORMATION",
+    "invalid.Existed_ContractNo":"Số hợp đồng bị trùng"
   }
 }
