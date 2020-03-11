@@ -12,7 +12,6 @@
       <div class="modal-header">
         <button
           type="button"
-          (click)="loadInit()"
           class="close"
           data-dismiss="modal"
         >
@@ -247,7 +246,7 @@
           data-toggle="modal"
           data-target="#myModal4"
           data-dismiss="modal"
-          [disabled]="myForm.invalid || editRowId != 0 || !outBomItem.ItemId ||!outBomItem.UnitId||!outBomItem.Quantity"
+          [disabled]="editRowId != 0 || !outBomItem.ItemId ||!outBomItem.UnitId||!outBomItem.Quantity"
           (click)="fnSaveBomItem()"
         >
           {{ "BomFactory.SaveButton" | translate }}

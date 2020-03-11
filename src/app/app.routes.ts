@@ -55,6 +55,7 @@ import { ContractComponent } from './views/smartin/category/customer/contract/co
 import { CustomerDetailResolverService } from './views/smartin/category/customer/customer-detail.resolver';
 import { BomListComponent } from './views/smartin/bom/bom-list/bom-list.component';
 import { MonitorStandardComponent } from './views/smartin/monitor/monitor-standard/monitor-standard.component';
+import { MonitorChartComponent } from './views/smartin/monitor/monitor-chart/monitor-chart.component';
 
 
 /**XLNT */
@@ -147,6 +148,7 @@ export const ROUTES: Routes = [
        {
         path: 'monitor', canActivate: [AuthGuard], children: [
           { path: 'standard', component: MonitorStandardComponent },
+          { path: 'chart', component: MonitorChartComponent }
         ]
       },
     ]

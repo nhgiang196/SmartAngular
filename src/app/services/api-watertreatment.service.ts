@@ -259,6 +259,32 @@ export class WaterTreatmentService {
   validateContract =(entity) => this.http.post(`${ApiUrl}/Contract/ValidateContract?`,entity);
 
 
-  //Moninor
+  //Moninor Standard
   getAllMonitorStandard= () => this.http.get<MonitorStandard[]>(`${ApiUrl}/MonitorStandard/GetMonitorStandard`);
+  deleteMonitorStandard =(id) => this.http.delete(`${ApiUrl}/MonitorStandard/DeleteMonitorStandard?id=${id}`);
+
+   //Monitor Services
+   addMonitor =(entity) => this.http.post(`${ApiUrl}/Monitor/AddMonitor`,entity);
+   getMonitorChart =() => this.http.get(`${ApiUrl}/Monitor/GetChart`);
+   updateMonitor =(entity) => this.http.put(`${ApiUrl}/Monitor/UpdateMonitor`,entity);
+   getDataTableMonitorPagination =(entity) => this.http.post<DataTablesResponse>(`${ApiUrl}/Monitor/DataTableMonitorPagination`,entity);
+   deleteMonitor =(id) => this.http.delete(`${ApiUrl}/Monitor/DeleteMonitor`,{ params: { id: id } });
+   getMonitorPagination =(keySearch) => {
+    let model = new DataTablePaginationParams();
+    model= {
+      key: keySearch,
+      entity: "Monitor",
+      keyFields: "",
+      selectFields: "MonitorId,MonitorCode,MonitorName",
+      page: 1,
+      pageSize: 9999,
+      orderDir: "asc",
+      orderBy: "MonitorName"
+    };
+    return this.http.post<any>(`${ApiUrl}/Monitor/GetMonitorPagination`,model,{} )
+   }
+   getMonitor =() => this.http.get(`${ApiUrl}/Monitor/GetMonitor` );
+   findMonitorById =(id) => this.http.get<any>(`${ApiUrl}/Monitor/FindMonitorById?id=${id}` );
+   validateMonitor =(entity) =>this.http.post(`${ApiUrl}/Monitor/ValidateStage`,entity);
+
 }

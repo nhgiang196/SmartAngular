@@ -29,13 +29,10 @@
                   [items]="factories"
                   bindLabel="FactoryName"
                   bindValue="FactoryID"
-                  placeholder="{{
-                    'BomFactory.placeholdercolumn.FactoryID' | translate
-                  }}"
+                  placeholder="select factory"
                   name="FactoryID"
                   [(ngModel)]="entity.FactoryID"
-                  required
-                >
+                  required>
                 </ng-select>
               </div>
             </div>
@@ -51,9 +48,7 @@
                   readonly
                   [bsConfig]="bsConfig"
                   [(ngModel)]="entity.Validate"
-                  placeholder="{{
-                    'BomFactory.placeholder.Validate' | translate
-                  }}"
+                  placeholder="{{'BomFactory.placeholder.Validate' | translate}}"
                 />
               </div>
             </div>
@@ -137,10 +132,7 @@
                             [(ngModel)]="item.Sequence"
                             [checked]="item.Sequence"
                           />
-                          <label
-                            class="onoffswitch-label"
-                            [for]="'viewStage' + i"
-                          >
+                          <label class="onoffswitch-label" [for]="'viewStage' + i">
                             <span class="onoffswitch-inner"></span>
                             <span class="onoffswitch-switch"></span>
                           </label>
@@ -148,7 +140,6 @@
                       </div>
                     </td>
                     <td *ngIf="i + 1 !== editRowId">{{ item.Description }}</td>
-
                     <td *ngIf="i + 1 === editRowId">
                       <ng-select
                         class="custom"
@@ -171,8 +162,7 @@
                         min="0"
                         (change)="$event.target.value < 0 || $event.target.value == ''? (bomStage.OrderNumber = 0): bomStage.OrderNumber"
                         id="outOrderNumber"
-                        [(ngModel)]="bomStage.OrderNumber"
-                      />
+                        [(ngModel)]="bomStage.OrderNumber"/>
                     </td>
                     <td *ngIf="i + 1 === editRowId">
                       <div class="switch">
@@ -300,7 +290,7 @@
                     <td>
                       <button
                         type="button"
-                        class="btn  btn-sm btn-outline btn-info pull-right"
+                        class="btn btn-sm btn-outline btn-info pull-right"
                         [disabled]="!newBomStage.BomStageId || !newBomStage.OrderNumber"
                         (click)="fnAddStage()">
                         <i class="fa fa-plus"></i>
@@ -333,3 +323,7 @@
     </div>
   </div>
 </div>
+
+
+<!-- Modal định mức hóa chất -->
+<app-bom-item-modal [entity]="entity"   [units] ="units"></app-bom-item-modal>

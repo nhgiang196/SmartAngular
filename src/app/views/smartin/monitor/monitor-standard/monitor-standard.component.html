@@ -1,12 +1,12 @@
 <div class="row wrapper border-bottom white-bg page-heading">
   <div class="col-sm-4">
-    <h2>{{ 'Item.Breadcrumb' | translate }}</h2>
+    <h2>{{ 'Monitor.Breadcrumb' | translate }}</h2>
     <ol class="breadcrumb">
       <li>
-        <a href="index.html">{{ 'TopNav.Category' | translate }}</a>
+        <a href="index.html">{{ 'TopNav.Monitor' | translate }}</a>
       </li>
       <li class="active">
-        <strong>{{ 'Item.Breadcrumb' | translate }}</strong>
+        <strong>{{ 'Monitor.Breadcrumb' | translate }}</strong>
       </li>
     </ol>
   </div>
@@ -25,56 +25,52 @@
           </div>
           <div class="row">
             <div class="col-sm-4">
-
               <!-- hidden this button -->
-              <button  type="button" class="btn btn-primary dim" >
-                <i class="fa fa-plus"></i> {{'Button.Add' | translate}}</button>
-
+              <button  type="button" class="btn btn-primary dim" data-toggle="modal"
+                data-target="#myModal4" style="display: none;">
+                <i class="fa fa-plus"></i> Add </button>
             </div>
             <div class="col-sm-4">
-
-            </div>
-            <div class="col-sm-4">
-              <div class="row">
-                <label class="col-sm-3">{{'Item.label.ItemTypeSearch' | translate}}</label>
-                <div class="col-sm-9">
-                  <select class="form-control" >
-                    <option value="0">{{'Item.label.ItemTypeSearchValue0' | translate}}</option>
-
-                </select>
-                </div>
-              </div>
-
             </div>
           </div>
           <div class="row">
-            <table datatable [dtOptions]="dtOptions"  [dtTrigger]="dtTrigger"
+            <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger"
               class="table table-bordered table-hover table-striped" id="myTable" style="width:100%">
               <thead>
                 <tr>
 
-                  <th>{{'Item.data.CreateBy' | translate}}</th>
-                  <th>{{'Item.data.CreateDate' | translate}}</th>
-                  <th>{{'Item.data.ModifyBy' | translate}}</th>
-                  <th>{{'Item.data.ModifyDate' | translate}}</th>
-                  <td style="text-align: left">Action</td>
+                  <th>STT</th>
+                  <th>Nhà máy</th>
+                  <th>Nhiệt độ</th>
+                  <th>pH</th>
+                  <th>COD</th>
+                  <th>TSS</th>
+                  <th>Màu</th>
+                  <th>Amoni</th>
+                  <th>Ghi chú</th>
+                  <th style="text-align: left">Action</th>
                 </tr>
               </thead>
-              <tbody *ngIf="Items?.length != 0">
-                <tr *ngFor="let item of Items">
-                  <td style="text-align: left"> {{item.CreateBy}}</td>
-                  <td style="text-align: left"> {{item.ItemName}}</td>
-                  <td style="text-align: left"> {{item.ItemPrintName}}</td>
-                  <td style="text-align: left"> {{item.ItemModel}}</td>
+              <tbody *ngIf="monitors?.length != 0">
+                <tr *ngFor="let monitor of monitors, let i = index">
+                  <td style="text-align: left"> {{monitor.MonitorStandardId}}</td>
+                  <td style="text-align: left"> {{monitor.Factory.FactoryName}}</td>
+                  <td style="text-align: left"> {{monitor.TemperatureMax}}</td>
+                  <td style="text-align: left"> {{monitor.PHmin}}-{{monitor.PHmax}}</td>
+                  <td style="text-align: left"> {{monitor.Codmax}}</td>
+                  <td style="text-align: left"> {{monitor.Tssmax}}</td>
+                  <td style="text-align: left"> {{monitor.Codmax}}</td>
+                  <td style="text-align: left"> {{monitor.AmoniMax}}</td>
+                  <td style="text-align: left"> {{monitor.MonitorStandardDesc}}</td>
                   <td>
-                    <button type="button" class="btn btn-outline btn-danger"><i
+                    <button type="button" class="btn btn-outline btn-danger"  (click)="fnDelete(monitor.MonitorStandardId)"><i
                         class="fa fa-trash"></i></button>
                     <button type="button" class="btn btn-outline btn-success" data-toggle="modal" data-target="#myModal4"><i class="fa fa-pencil"></i></button>
                   </td>
                 </tr>
               </tbody>
 
-              <tbody *ngIf="Items?.length == 0">
+              <tbody *ngIf="monitors?.length == 0">
                 <tr>
                   <td colspan="20" class="no-data-available">{{'messg.datatable.zeroRecords'  | translate}}</td>
                 </tr>

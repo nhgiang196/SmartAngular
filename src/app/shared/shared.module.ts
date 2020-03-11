@@ -22,6 +22,7 @@ import {AutocompleteLibModule} from 'angular-ng-autocomplete';
 import { SlickCarouselModule } from 'ngx-slick-carousel';
 
 import { Select2Module } from 'ng2-select2';
+import { ChartsModule } from 'ng2-charts';
 
 
 // AoT requires an exported function for factories
@@ -72,7 +73,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     PopoverModule.forRoot(),
     TimepickerModule.forRoot(),
     MomentModule.forRoot(),
-    SlickCarouselModule
+    SlickCarouselModule,
+    ChartsModule
     
   ],
   exports: [
@@ -96,7 +98,9 @@ export function HttpLoaderFactory(http: HttpClient) {
     NgxDropzoneModule,
     AutocompleteLibModule,
     Select2Module,
-    SlickCarouselModule
+    SlickCarouselModule,
+    ChartsModule
+    
   ]
 
 })
