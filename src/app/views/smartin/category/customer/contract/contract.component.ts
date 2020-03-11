@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, OnDestroy, Input, Output, SimpleChanges , EventEmitter} from '@angular/core';
+import { Component, OnInit, AfterViewInit, OnDestroy, Input, Output, SimpleChanges, EventEmitter } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -26,9 +26,8 @@ import { trigger, transition, animate, style } from '@angular/animations';
   ]
 })
 export class ContractComponent implements OnInit, AfterViewInit {
-  @Input('contractid') contractId : number;
+  @Input('contractid') contractId: number;
   @Output('contract') send_entity = new EventEmitter<Contract>();
-  
   constructor(
     private api: WaterTreatmentService,
     private router: Router,
@@ -40,48 +39,43 @@ export class ContractComponent implements OnInit, AfterViewInit {
   ) {
   }
   private pathFile = 'uploadFileContract'
-  entity : Contract;
+  entity: Contract;
   files: File[] = [];
   addFiles: { FileList: File[], FileLocalNameList: string[] };
   invalid: any = {};
   uploadReportProgress: any = { progress: 0, message: null, isError: null };
-  initCombobox = {  };
+  initCombobox = {};
   EditRowID = 0;
   EditRowID_PRICE = 0;
-  laddaSubmitLoading= false;
+  laddaSubmitLoading = false;
   bsConfig = { dateInputFormat: 'YYYY-MM-DD', adaptivePosition: true };
-
-  subEntity_ContractPrice : ContractPrice = new ContractPrice();
-  newEntity_ContractPrice : ContractPrice = new ContractPrice();
+  subEntity_ContractPrice: ContractPrice = new ContractPrice();
+  newEntity_ContractPrice: ContractPrice = new ContractPrice();
   subEntity_ContractBreach: ContractBreach = new ContractBreach();
-  newEntity_ContractBreach :ContractBreach= new ContractBreach();
-
+  newEntity_ContractBreach: ContractBreach = new ContractBreach();
   ngOnInit() {
   }
-
   private async resetEntity() { //reset entity values
     this.entity = new Contract();
     this.entity.CustomerId = this.route.snapshot.params.id || 0;
     this.files = [];
     this.addFiles = { FileList: [], FileLocalNameList: [] }
-    this.invalid = { Existed_ContractNo: false};
+    this.invalid = { Existed_ContractNo: false };
     this.uploadReportProgress = { progress: 0, message: null, isError: null };
     this.EditRowID = 0;
     this.EditRowID_PRICE = 0;
   }
-
   ngOnChanges(changes: SimpleChanges) {
-    console.log('changes',changes);
+    console.log('changes', changes);
     this.resetEntity();
-    if (changes.contractId.firstChange || changes.contractId.currentValue==null || changes.contractId.currentValue==0  ) return;
+    if (changes.contractId.firstChange || changes.contractId.currentValue == null || changes.contractId.currentValue == 0) return;
     else {
       this.loadContractDetail(changes.contractId.currentValue);
     }
   }
-
-  private loadContractDetail(id){
-    this.api.findContractById(id).subscribe(res=>{
-      console.log('findContractById',res);
+  private loadContractDetail(id) {
+    this.api.findContractById(id).subscribe(res => {
+      console.log('findContractById', res);
       this.entity = res;
       res.ContractFile.forEach(item => {
         let _tempFile = new File([], item.File.FileOriginalName);
@@ -89,49 +83,47 @@ export class ContractComponent implements OnInit, AfterViewInit {
       })
     })
   }
-
-  ngAfterViewInit(){
-    // $('#myContractModal').modal('show');
+  ngAfterViewInit() {
+    collapseIboxHelper()
   }
- 
-
-
   /**Button Functions */
-  async fnSave(){
+  async fnSave() {
+    this.invalid = {};
     let e = this.entity;
-    this.sendToApi(e);
+    let valid = await this.api.validateContract(e).toPromise().then() as any
+    if (valid.Success) {
+      this.sendToApi(e);
+    }
+    else this.invalid[valid.Message] = true;
   }
-
-  
-  private async sendToApi(e){
+  private async sendToApi(e) {
     e.SignDate = this.helper.dateConvertToString(e.SignDate);
     e.EffectiveDate = this.helper.dateConvertToString(e.EffectiveDate);
     e.EndDate = this.helper.dateConvertToString(e.EndDate);
     await this.uploadFile(this.addFiles.FileList);
-    if (e.ContractId ==0) //add
+    if (e.ContractId == 0) //add
     {
-       console.log('create_contract',e);
-       let operationResult = await this.api.addContract(e).toPromise().then().catch(err => this.toastr.error(err.statusText,'Network')) as any;
-       if (operationResult.Success){
+      console.log('create_contract', e);
+      let operationResult = await this.api.addContract(e).toPromise().then().catch(err => this.toastr.error(err.statusText, 'Network')) as any;
+      if (operationResult.Success) {
         this.toastr.success(this.trans.instant("messg.add.success"));
         this.entity.ContractId = operationResult.Data; //ID return;
         this.sendtoParentView(this.entity);
         ;
-       }
-       else this.toastr.warning(operationResult.Message);
+      }
+      else this.toastr.warning(operationResult.Message);
     }
     else { //update
-      console.log('update_Contract',e);
-      let operationResult = await this.api.updateContract(e).toPromise().then().catch(err => this.toastr.error(err.statusText,'Network')) as any;
-      if (operationResult.Success){
-       this.toastr.success(this.trans.instant("messg.add.success"));
-       this.sendtoParentView(this.entity);
+      console.log('update_Contract', e);
+      let operationResult = await this.api.updateContract(e).toPromise().then().catch(err => this.toastr.error(err.statusText, 'Network')) as any;
+      if (operationResult.Success) {
+        this.toastr.success(this.trans.instant("messg.add.success"));
+        this.sendtoParentView(this.entity);
       }
       else this.toastr.warning(operationResult.Message);
     }
   }
-
-  private sendtoParentView(e: Contract){
+  private sendtoParentView(e: Contract) {
     let _sendParent = Object.assign({}, e); //stop binding
     delete _sendParent.ContractBreach;
     delete _sendParent.ContractPrice;
@@ -139,8 +131,7 @@ export class ContractComponent implements OnInit, AfterViewInit {
     this.send_entity.emit(_sendParent);
     $('#myContractModal').modal('hide');
   }
-  
-  fnAddContractBreach(itemAdd){
+  fnAddContractBreach(itemAdd) {
     // let _checkValidate = await this.validateItem(itemAdd);
     //  if (!_checkValidate) return;
     // let validateResult = await this.api.validateWarehouseLocation(itemAdd).toPromise().then() as any;
@@ -151,51 +142,35 @@ export class ContractComponent implements OnInit, AfterViewInit {
     this.entity.ContractBreach.push(itemAdd);
     this.newEntity_ContractBreach = new ContractBreach();
   }
-  fnAddContractPrice(itemAdd){
+  fnAddContractPrice(itemAdd) {
     itemAdd.ContractID = this.entity.ContractId;
     this.entity.ContractPrice.push(itemAdd);
-    this.newEntity_ContractPrice= new ContractPrice();
+    this.newEntity_ContractPrice = new ContractPrice();
   }
-
-  fnEditContractBreach(index){
+  fnEditContractBreach(index) {
     this.EditRowID = index + 1;
     this.subEntity_ContractBreach = this.entity.ContractBreach[index];
   }
-
-  fnEditContractPrice(index){
+  fnEditContractPrice(index) {
     this.EditRowID_PRICE = index + 1;
     this.subEntity_ContractPrice = this.entity.ContractPrice[index];
   }
-
-  fnDeleteContractPrice(index){
+  fnDeleteContractPrice(index) {
     this.entity.ContractPrice.splice(index, 1);
   }
-  
-  fnDeleteContractBreach(index){
+  fnDeleteContractBreach(index) {
     this.entity.ContractBreach.splice(index, 1);
   }
-
-  fnValidateContractBreach(){
-    
-
+  fnValidateContractBreach() {
   }
-
-  fnValidateContractPrice(){
-    
+  fnValidateContractPrice() {
   }
-
-  
-
-
-
   /**Event triggers */
-
-
   async onSelect(event) { //drag file(s) or choose file(s) in ngFileZone
     var askBeforeUpload = false;
     if (event.rejectedFiles.length > 0) this.toastr.warning(this.trans.instant('messg.maximumFileSize5000'));
     var _addFiles = event.addedFiles;
-    for (var index in _addFiles) { 
+    for (var index in _addFiles) {
       let item = event.addedFiles[index];
       let convertName = this.helper.getFileNameWithExtension(item);
       let currentFile = this.entity.ContractFile;
@@ -235,7 +210,6 @@ export class ContractComponent implements OnInit, AfterViewInit {
     this.files.push(...event.addedFiles); //refresh showing in Directive
     this.addFiles.FileList.push(...event.addedFiles);
   }
-
   fnDownloadFile(filename) { //press FILES preview
     this.api.downloadFile(this.pathFile + '/' + filename);
   }
@@ -243,11 +217,8 @@ export class ContractComponent implements OnInit, AfterViewInit {
     let index = this.files.indexOf(event);
     this.files.splice(index, 1); //UI del
     this.entity.ContractFile.splice(index, 1);
-  } 
-  
-
+  }
   /**PRIVATE FUNCTIONS */
-
   private uploadFile(files: File[]) { //upload file to server
     let formData = new FormData();
     for (let index = 0; index < files.length; index++) {
@@ -267,8 +238,4 @@ export class ContractComponent implements OnInit, AfterViewInit {
       this.uploadReportProgress = { progress: 0, message: 'Error: ' + err.statusText, isError: true };
     });
   }
-
-
-  
-
 }

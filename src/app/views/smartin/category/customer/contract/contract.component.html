@@ -1,6 +1,6 @@
 
 <div class="modal inmodal" id="myContractModal" data-backdrop="static" data-keyboard="true" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog modal-lg "  style="width: 80%;">
+  <div class="modal-dialog modal-lg "  style="width: 65%;">
     <div class="modal-content animated fadeIn" >
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
@@ -30,16 +30,39 @@
           </div>
           <div class="row">
             <div class="col-lg-6">
+              <label>{{ 'Contract.data.ContractCode' | translate }} *:</label>
+              <input autocomplete="off" type="text" name="ContractCode" id="ContractCode" [(ngModel)]="entity.ContractCode" class="form-control" placeholder="{{ 'Contract.placeholder.ContractCode' | translate }}" 
+                 [ngClass]="{ 'is-invalid':  invalid.Existed_ContractCode }" required>
+              <div *ngIf="invalid.Existed_ContractCode" style="color: red;">{{ 'Contract.invalid.Existed_ContractCode' | translate }}</div>
+              
+              
+              
+            </div>
+
+            <div class="col-lg-6">
               <div class="form-group">
                 <label>{{ 'Contract.data.SignDate' | translate }} :</label>
                 <input autocomplete="off"  type="text" name="SignDate" id="SignDate" class="form-control" placeholder="{{ 'Contract.placeholder.SignDate' | translate }}" 
                   bsDatepicker readonly [bsConfig]="bsConfig" [(ngModel)]="entity.SignDate">
               </div>
             </div>
+           
+          </div>
+          <div class="row">
             <div class="col-lg-6">
-              <label>{{ 'Contract.data.EffectiveDate' | translate }} :</label>
-              <input autocomplete="off"  type="text" name="EffectiveDate" id="EffectiveDate" class="form-control" placeholder="{{ 'Contract.placeholder.EffectiveDate' | translate }}" 
+              <div class="form-group">
+                <label>{{ 'Contract.data.EffectiveDate' | translate }} :</label>
+                <input autocomplete="off"  type="text" name="EffectiveDate" id="EffectiveDate" class="form-control" placeholder="{{ 'Contract.placeholder.EffectiveDate' | translate }}" 
                 bsDatepicker readonly [bsConfig]="bsConfig" [(ngModel)]="entity.EffectiveDate">
+
+              </div>
+
+              
+            </div>
+            <div class="col-lg-6">
+              <label>{{ 'Contract.data.EndDate' | translate }} :</label>
+              <input autocomplete="off" type="text" name="EndDate" id="EndDate" class="form-control" placeholder="{{ 'Contract.placeholder.EndDate' | translate }}" 
+                bsDatepicker readonly [bsConfig]="bsConfig" [(ngModel)]="entity.EndDate">
               
             </div>
           </div>
@@ -53,11 +76,15 @@
                 </select>
 
               </div>
+              
             </div>
             <div class="col-lg-6">
-              <label>{{ 'Contract.data.EndDate' | translate }} :</label>
-              <input autocomplete="off" type="text" name="EndDate" id="EndDate" class="form-control" placeholder="{{ 'Contract.placeholder.EndDate' | translate }}" 
-                bsDatepicker readonly [bsConfig]="bsConfig" [(ngModel)]="entity.EndDate">
+              <div class="form-group">
+                <label>{{ 'Contract.data.Description' | translate }} :</label>
+                <input autocomplete="off" type="text" name="Description" id="Description" [(ngModel)]="entity.Description" class="form-control" placeholder="{{ 'Contract.placeholder.Description' | translate }}" >
+              </div>
+              
+              
               
             </div>
           </div>
@@ -68,16 +95,8 @@
                 <input autocomplete="off" type="text" name="Ratio" id="Ratio" [(ngModel)]="entity.Ratio" class="form-control" placeholder="{{ 'Contract.placeholder.Ratio' | translate }}" >
 
               </div>
-            </div>
-            <div class="col-lg-6">
-              <label>{{ 'Contract.data.Description' | translate }} :</label>
-              <input autocomplete="off" type="text" name="Description" id="Description" [(ngModel)]="entity.Description" class="form-control" placeholder="{{ 'Contract.placeholder.Description' | translate }}" >
               
-              
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-lg-6"></div>  
+            </div>  
             <div class="col-lg-6">
               <div class="form-group">
                 <label>{{ 'Contract.data.IsIntergration' | translate }} :</label>
@@ -326,56 +345,3 @@
     </div>
   </div>
 </div>
-
-(modal is active with contractID : {{contractId}})
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<script>
-  /* iBOX HELPER */
-
-  $('.ibox-tools').on('click', function () {
-    var collapse = $(this).find('.collapse-link');
-    
-    var ibox = $(this).closest('div.ibox');
-    var button = collapse.find('i');
-    var content = ibox.children('.ibox-content');
-    content.slideToggle(200);
-    button.toggleClass('fa-chevron-up').toggleClass('fa-chevron-down');
-    ibox.toggleClass('').toggleClass('border-bottom');
-    setTimeout(function () {
-      ibox.resize();
-      ibox.find('[id^=map-]').resize();
-    }, 50);
-  });
-  // Close ibox function
-  $('.close-link').on('click', function () {
-    var content = $(this).closest('div.ibox');
-    content.remove();
-  });
-  // Fullscreen ibox function
-  $('.fullscreen-link').on('click', function () {
-    var ibox = $(this).closest('div.ibox');
-    var button = $(this).find('i');
-    $('body').toggleClass('fullscreen-ibox-mode');
-    button.toggleClass('fa-expand').toggleClass('fa-compress');
-    ibox.toggleClass('fullscreen');
-    setTimeout(function () {
-      $(window).trigger('resize');
-    }, 100);
-  });
-
-</script>

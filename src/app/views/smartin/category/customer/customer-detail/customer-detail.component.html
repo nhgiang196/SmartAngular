@@ -41,7 +41,9 @@
                     <label class="col-sm-2 control-label">{{'Customer.data.CustomerName' | translate }}*:</label>
                     <div class="col-sm-4">
                       <input autocomplete="off" type="text" [(ngModel)]="entity.CustomerName" class="form-control"
-                        placeholder="{{'Customer.placeholder.CustomerName' | translate }}" name="CustomerName" required>
+                        placeholder="{{'Customer.placeholder.CustomerName' | translate }}" name="CustomerName" required
+                        [ngClass]="{ 'is-invalid':  invalid.Existed_CustomerName }">
+                        <div *ngIf="invalid.Existed_CustomerName" style="color: red;">{{ 'Customer.invalid.Existed_CustomerName' | translate }}</div>
                     </div>
                     <label class="col-sm-2 control-label">{{'Customer.data.FactoryID' | translate }}*:</label>
                     <div class="col-sm-4">
