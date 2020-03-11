@@ -25,7 +25,7 @@ import { trigger, transition, animate, style } from '@angular/animations';
     ])
   ]
 })
-export class ContractComponent implements OnInit, AfterViewInit, OnDestroy {
+export class ContractComponent implements OnInit, AfterViewInit {
   @Input('contractid') contractId : number;
   @Output('contract') send_entity = new EventEmitter<Contract>();
   
@@ -73,19 +73,31 @@ export class ContractComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnChanges(changes: SimpleChanges) {
     console.log('changes',changes);
-    if (changes.contractId.firstChange || changes.contractId.currentValue==null ) return;
+    if (changes.contractId.firstChange || changes.contractId.currentValue==null || changes.contractId.currentValue==0  ) return;
+    else {
+      this.resetEntity();
+      this.loadContractDetail(changes.contractId.currentValue);
+    }
+  }
+
+  private loadContractDetail(id){
+    this.api.findContractById(id).subscribe(res=>{
+      console.log('findContractById',res);
+      this.entity = res;
+    })
   }
 
   ngAfterViewInit(){
     $('#myContractModal').modal('show');
   }
-  ngOnDestroy(){
-
-  }
+ 
 
 
   /**Button Functions */
   fnSave(){
+    this.entity.SignDate = this.helper.dateConvertToString(this.entity.SignDate);
+    this.entity.EffectiveDate = this.helper.dateConvertToString(this.entity.EffectiveDate);
+    this.entity.EndDate = this.helper.dateConvertToString(this.entity.EndDate);
     this.send_entity.emit(this.entity);
   }
   
@@ -96,12 +108,12 @@ export class ContractComponent implements OnInit, AfterViewInit, OnDestroy {
     // if (!validateResult.Success){
     //   swal.fire("Validate",this.trans.instant('Warehouse.invalid.'+ validateResult.Message),'warning'); return;
     // }
-    itemAdd.ContractID = this.entity.ContractID;
+    itemAdd.ContractID = this.entity.ContractId;
     this.entity.ContractBreach.push(itemAdd);
     this.newEntity_ContractBreach = new ContractBreach();
   }
   fnAddContractPrice(itemAdd){
-    itemAdd.ContractID = this.entity.ContractID;
+    itemAdd.ContractID = this.entity.ContractId;
     this.entity.ContractPrice.push(itemAdd);
     this.newEntity_ContractPrice= new ContractPrice();
   }
@@ -125,6 +137,7 @@ export class ContractComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   fnValidateContractBreach(){
+    
 
   }
 

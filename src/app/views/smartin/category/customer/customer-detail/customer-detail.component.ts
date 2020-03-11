@@ -103,7 +103,7 @@ export class CustomerDetailComponent implements OnInit {
           if (operationResult.Success) {
             if (this.addFiles.FileList.length > 0) this.uploadFile(this.addFiles.FileList);
             this.toastr.success(this.trans.instant("messg.update.success"));
-            this.router.navigate(["/category/customer/" + this.entity.CustomerID]);
+            this.router.navigate(["/category/customer/" + this.entity.CustomerId]);
           }
           else this.toastr.warning(operationResult.Message);
           this.laddaSubmitLoading = false;

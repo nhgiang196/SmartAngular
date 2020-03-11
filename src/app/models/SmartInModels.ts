@@ -293,7 +293,7 @@ export class WarehouseLocation {
 }
 
 export class Customer {
-	CustomerID: number = 0
+	CustomerId: number = 0
 	CustomerName?: string
 	FactoryId?: number
 	CustomerAddress?: string
@@ -313,8 +313,8 @@ export class Customer {
 
 
 export class CustomerFile {
-  CustomerFileID: number = 0
-  CustomerID: number = 0
+  CustomerFileId: number = 0
+  CustomerId: number = 0
   FileID: number = 0
   File: Files = new Files()
 }
@@ -322,14 +322,14 @@ export class CustomerFile {
 
 
 export class Contract {
-	ContractID: number = 0
-	CustomerID?: number = 0
+	ContractId: number = 0
+	CustomerId?: number = 0
 	ContractNo?: string
 	ContractCode?: string
 	ContractType?: number = 1
-	SignDate?: Date
-	EffectiveDate?: Date
-	EndDate?: Date
+	SignDate?: any
+	EffectiveDate?: any
+	EndDate?: any
 	StandardType?: number = 1
 	Ratio?: any
 	Description?: string
@@ -340,8 +340,8 @@ export class Contract {
 }
 
 export class ContractPrice {
-	ContractPriceID: number = 0
-	ContractID?: number = 0
+	ContractPriceId: number = 0
+	ContractId?: number = 0
 	Ratio?: any = 0
 	Currency?: string = '$'
 	Price?: any = 0
@@ -349,8 +349,8 @@ export class ContractPrice {
 }
 
 export class ContractBreach {
-	ContractBreachID: number= 0
-	ContractID?: number = 0
+	ContractBreachId: number= 0
+	ContractId?: number = 0
 	BreachType: number
 	ResolveType?: number
 	Times?: number
@@ -359,8 +359,8 @@ export class ContractBreach {
 
 
 export class ContractFile {
-  ContractFileID: number = 0
-  ContractID: number = 0
+  ContractFileId: number = 0
+  ContractId: number = 0
   FileId: number = 0
   File: Files = new Files()
 }
