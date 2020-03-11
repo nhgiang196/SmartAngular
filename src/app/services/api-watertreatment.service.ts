@@ -262,7 +262,7 @@ export class WaterTreatmentService {
   //Moninor Standard
   getAllMonitorStandard= () => this.http.get<MonitorStandard[]>(`${ApiUrl}/MonitorStandard/GetMonitorStandard`);
   deleteMonitorStandard =(id) => this.http.delete(`${ApiUrl}/MonitorStandard/DeleteMonitorStandard?id=${id}`);
-
+  updateMonitorStandard =(entity) => this.http.put(`${ApiUrl}/MonitorStandard/UpdateMonitorStandard`,entity);
    //Monitor Services
    addMonitor =(entity) => this.http.post(`${ApiUrl}/Monitor/AddMonitor`,entity);
    getMonitorChart =() => this.http.get(`${ApiUrl}/Monitor/GetChart`);

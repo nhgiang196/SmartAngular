@@ -18,7 +18,8 @@ import { CustomerDetailComponent } from './category/customer/customer-detail/cus
 import { CustomerComponent } from './category/customer/customer.component';
 import { ContractComponent } from './category/customer/contract/contract.component';
 import { BomStageModalComponent } from './bom/bom-stage-modal/bom-stage-modal.component';
-import { BomItemModalComponent } from './bom/bom-item-modal/bom-item-modal.component';
+import { BomItemInModalComponent } from './bom/bom-item-in-modal/bom-item-in-modal.component';
+import { BomItemOutModalComponent } from './bom/bom-item-out-modal/bom-item-out-modal.component';
 import { MonitorStandardComponent } from './monitor/monitor-standard/monitor-standard.component';
 import { MonitorChartComponent } from './monitor/monitor-chart/monitor-chart.component';
 
@@ -41,7 +42,8 @@ const COMPONENTS = [
   ContractComponent,
   BomListComponent,
   BomStageModalComponent,
-  BomItemModalComponent,
+  BomItemInModalComponent,
+  BomItemOutModalComponent,
   MonitorStandardComponent,
   MonitorChartComponent
 ];

@@ -150,7 +150,7 @@
                         name="outBomStageID"
                         (change)="$event != null? (bomStage.StageName = $event.StageName): null"
                         required
-                        [(ngModel)]="bomStage.BomStageId"
+                        [(ngModel)]="bomStage.BomStageID"
                       >
                       </ng-select>
                     </td>
@@ -197,7 +197,7 @@
                           <button
                             type="button"
                             class="btn btn-sm btn-outline btn-primary"
-                            [disabled]="!bomStage.BomStageId || !bomStage.OrderNumber"
+                            [disabled]="!bomStage.BomStageID || !bomStage.OrderNumber"
                             (click)="validateStage(bomStage, 'edit')"
                             *ngIf="i + 1 === editRowId">
                             <i class="fa fa-check"></i>
@@ -220,8 +220,6 @@
                           <button
                             type="button"
                             class="btn btn-sm btn-outline btn-default"
-                            data-toggle="modal"
-                            data-target="#myModal2"
                             (click)="showBomModal(i)"
                             *ngIf="i + 1 !== editRowId">
                             <i class="fa fa-plus"></i>
@@ -243,7 +241,7 @@
                         name="newBomStageID"
                         id="newBomStageID"
                         (change)="$event != null? (newBomStage.StageName = $event.StageName): null"
-                        [(ngModel)]="newBomStage.BomStageId"
+                        [(ngModel)]="newBomStage.BomStageID"
                         required></ng-select>
                     </td>
                     <td>
@@ -291,7 +289,7 @@
                       <button
                         type="button"
                         class="btn btn-sm btn-outline btn-info pull-right"
-                        [disabled]="!newBomStage.BomStageId || !newBomStage.OrderNumber"
+                        [disabled]="!newBomStage.BomStageID || !newBomStage.OrderNumber"
                         (click)="fnAddStage()">
                         <i class="fa fa-plus"></i>
                       </button>
@@ -326,4 +324,4 @@
 
 
 <!-- Modal định mức hóa chất -->
-<app-bom-item-modal [entity]="entity"   [units] ="units"></app-bom-item-modal>
+<app-bom-item-out-modal [entity]="entity" [units] ="units" [currentStageId]="currentStageId"></app-bom-item-out-modal>

@@ -43,7 +43,6 @@ export class BomListComponent implements OnInit {
   laddaSubmitLoading = false;
   existName = false;
   iboxloading = false;
-  currentStageId: number = 0;
   bsConfig = { dateInputFormat: "YYYY-MM-DD", adaptivePosition: true };
   //set rowEdit
   editRowId: number = 0;
@@ -204,7 +203,7 @@ export class BomListComponent implements OnInit {
   fnSaveStage(index) {}
   
  validateStage(itemAdd: BomStage, typeAction) {
-    if (itemAdd.BomStageId == null) {
+    if (itemAdd.BomStageID == null) {
       swal.fire(
         "Validate",
         this.trans.instant("Factory.data.TechnologyName") +
@@ -213,7 +212,7 @@ export class BomListComponent implements OnInit {
       );
       return false;
     }
-    if (( this.entity.BomStage.filter(t => t.BomStageId == itemAdd.BomStageId).length) > 0 &&typeAction == "add") {
+    if (( this.entity.BomStage.filter(t => t.BomStageID == itemAdd.BomStageID).length) > 0 &&typeAction == "add") {
       swal.fire(
         "Validate",
         this.trans.instant("Factory.data.TechnologyName") +
@@ -222,7 +221,7 @@ export class BomListComponent implements OnInit {
       );
       return false;
     }
-    if (( this.entity.BomStage.filter(t => t.BomStageId == itemAdd.BomStageId).length) > 1 &&typeAction == "edit") {
+    if (( this.entity.BomStage.filter(t => t.BomStageID == itemAdd.BomStageID).length) > 1 &&typeAction == "edit") {
       swal.fire(
         "Validate",
         this.trans.instant("Factory.data.TechnologyName") +

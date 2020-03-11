@@ -230,12 +230,12 @@ export class BomFactory {
 }
 
 export class BomItem {
-	BomItemId: number = 0
-	BomStageId: number = 0
-  ItemId?: number = 0
+	BomItemID: number = 0
+	BomStageID: number = 0
+  ItemID?: number = 0
   ItemName:string
-	BomType?: string
-  UnitId?: number = 0
+	BomItemType?: string
+  UnitID?: number = 0
   UnitName: string
   Quantity?: number
   Item?: Item = new Item();
@@ -243,9 +243,9 @@ export class BomItem {
 }
 
 export class BomStage {
-	BomStageId: number = 0
-  BomFactoryId: number = 0
-  StageId?: number = 0
+	BomStageID: number = 0
+  BomFactoryID: number = 0
+  StageID?: number = 0
   StageName: string
 	OrderNumber?: number
 	Sequence?: boolean = false
