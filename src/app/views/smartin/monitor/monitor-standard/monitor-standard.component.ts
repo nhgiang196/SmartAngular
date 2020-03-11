@@ -52,7 +52,8 @@ export class MonitorStandardComponent implements OnInit {
 
     this.loadData();
   }
-
+ //config
+ bsConfig = { dateInputFormat: "YYYY-MM-DD", adaptivePosition: true };
   loadData(){
     $('#myTable').DataTable().clear().destroy();
     this.api.getAllMonitorStandard().subscribe(res=>{
@@ -90,5 +91,12 @@ export class MonitorStandardComponent implements OnInit {
           }, err => { this.toastr.error(err.statusText) })
         }
       })
+  }
+
+  fnUpdate(current)
+  {
+    this.ACTION_STATUS = 'update'
+    this.entity = current;
+    this.existName = false;
   }
 }

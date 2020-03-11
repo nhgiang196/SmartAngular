@@ -26,8 +26,8 @@
           <div class="row">
             <div class="col-sm-4">
               <!-- hidden this button -->
-              <button  type="button" class="btn btn-primary dim" data-toggle="modal"
-                data-target="#myModal4" style="display: none;">
+              <button type="button" class="btn btn-primary dim" data-toggle="modal"
+                data-target="#myModal4" >
                 <i class="fa fa-plus"></i> Add </button>
             </div>
             <div class="col-sm-4">
@@ -53,7 +53,7 @@
               </thead>
               <tbody *ngIf="monitors?.length != 0">
                 <tr *ngFor="let monitor of monitors, let i = index">
-                  <td style="text-align: left"> {{monitor.MonitorStandardId}}</td>
+                  <td style="text-align: left"> {{i+1}}</td>
                   <td style="text-align: left"> {{monitor.Factory.FactoryName}}</td>
                   <td style="text-align: left"> {{monitor.TemperatureMax}}</td>
                   <td style="text-align: left"> {{monitor.PHmin}}-{{monitor.PHmax}}</td>
@@ -65,7 +65,8 @@
                   <td>
                     <button type="button" class="btn btn-outline btn-danger"  (click)="fnDelete(monitor.MonitorStandardId)"><i
                         class="fa fa-trash"></i></button>
-                    <button type="button" class="btn btn-outline btn-success" data-toggle="modal" data-target="#myModal4"><i class="fa fa-pencil"></i></button>
+                    <button type="button" class="btn btn-outline btn-success" (click)="fnUpdate(monitor)"
+                     data-toggle="modal" data-target="#myModal4"><i class="fa fa-pencil"></i></button>
                   </td>
                 </tr>
               </tbody>
@@ -81,5 +82,227 @@
       </div>
     </div>
   </div>
+<!-- Modal -->
+<div class="modal inmodal" id="myModal4" data-backdrop="static" data-keyboard="true" tabindex="-1" role="dialog"
+  aria-hidden="true">
+  <div class="modal-dialog modal-lg ">
+    <div class="modal-content animated fadeIn">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" (click)="loadData()"><span
+            aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title">MonitorStandard.Model</h4>
+      </div>
+      <div class="modal-body">
+        <form role="form" #myForm="ngForm" name="myForm">
+          <div class="row">
+            <div class="col-lg-4">
+              <div class="form-group">
+                <label> Factory Code :* </label>
+                <input type="text" name="FactoryName" id="FactoryName" class="form-control"
+                  placeholder="Input Factory Name">
+              </div>
+            </div>
+            <div class="col-lg-8">
+              <div class="form-group">
+                <div class="row">
+                  <div class="col-lg-6">
+                    <label> Validate : From</label>
+                  </div>
+                  <div class="col-lg-6">
+                    <label> To</label>
+                  </div>
+                </div>
+                <div class="row">
+                <div class="col-lg-6">
+                  <input
+                  type="text"
+                  name="Validate"
+                  id="Validate"
+                  class="form-control"
+                  bsDatepicker
+                  readonly
+                  [bsConfig]="bsConfig"
 
+                  placeholder="ValidateDateFrom"
+                />
+                </div>
+                <div class="col-lg-6">
+                  <input
+                  type="text"
+                  name="Validate"
+                  id="Validate"
+                  class="form-control"
+                  bsDatepicker
+                  readonly
+                  [bsConfig]="bsConfig"
+
+                  placeholder="ValidateDateTo"
+                />
+                </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="form-group">
+                <label> Descriptions</label>
+                <textarea
+                  type="text"
+                  name="MonitorStandardDesc"
+                  id="MonitorStandardDesc"
+                  class="form-control"
+                  placeholder="Input Descriptions"
+                  rows="2"
+                  [ngClass]="{ 'is-invalid': existName }"
+                ></textarea>
+              </div>
+              </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-6">
+              <div class="form-group">
+                <div class="row">
+                  <div class="col-lg-6"><label> Temperature : From</label></div>
+                  <div class="col-lg-6"><label> To</label></div>
+                </div>
+                <div class="row">
+                  <div class="col-lg-6"><input type="number" min="0" name="TemperatureMin" id="TemperatureMin" class="form-control"
+                    placeholder="0">
+                  </div>
+                  <div class="col-lg-6"><input type="number" min="0" name="TemperatureMax" id="TemperatureMax" class="form-control"
+                    placeholder="0">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="form-group">
+                <div class="row">
+                  <div class="col-lg-6"><label> pH : From</label></div>
+                  <div class="col-lg-6"><label> To</label></div>
+                </div>
+                <div class="row">
+                  <div class="col-lg-6"><input type="number" min="0" name="PHmin" id="PHmin" class="form-control"
+                    placeholder="0">
+                  </div>
+                  <div class="col-lg-6"><input type="number" min="0" name="PHmax" id="PHmax" class="form-control"
+                    placeholder="0">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-lg-6">
+              <div class="form-group">
+                <div class="row">
+                  <div class="col-lg-6"><label> COD : From</label></div>
+                  <div class="col-lg-6"><label> To</label></div>
+                </div>
+                <div class="row">
+                  <div class="col-lg-6"><input type="number" min="0" name="Codmin" id="Codmin" class="form-control"
+                    placeholder="0">
+                  </div>
+                  <div class="col-lg-6"><input type="number" min="0" name="Codmax" id="Codmax" class="form-control"
+                    placeholder="0">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="form-group">
+                <div class="row">
+                  <div class="col-lg-6"><label> TSS : From</label></div>
+                  <div class="col-lg-6"><label> To</label></div>
+                </div>
+                <div class="row">
+                  <div class="col-lg-6"><input type="number" min="0" name="Tssmin" id="Tssmin" class="form-control"
+                    placeholder="0">
+                  </div>
+                  <div class="col-lg-6"><input type="number" min="0" name="Tssmax" id="Tssmax" class="form-control"
+                    placeholder="0">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-lg-6">
+              <div class="form-group">
+                <div class="row">
+                  <div class="col-lg-6"><label> Color : From</label></div>
+                  <div class="col-lg-6"><label> To</label></div>
+                </div>
+                <div class="row">
+                  <div class="col-lg-6"><input type="number" min="0" name="ColorMin" id="ColorMin" class="form-control"
+                    placeholder="0">
+                  </div>
+                  <div class="col-lg-6"><input type="number" min="0" name="ColorMax" id="ColorMax" class="form-control"
+                    placeholder="0">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="form-group">
+                <div class="row">
+                  <div class="col-lg-6"><label> Q : From</label></div>
+                  <div class="col-lg-6"><label> To</label></div>
+                </div>
+                <div class="row">
+                  <div class="col-lg-6"><input type="number" min="0" name="Qmin" id="Qmin" class="form-control"
+                    placeholder="0">
+                  </div>
+                  <div class="col-lg-6"><input type="number" min="0" name="Qmax" id="Qmax" class="form-control"
+                    placeholder="0">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-6">
+              <div class="form-group">
+                <div class="row">
+                  <div class="col-lg-6"><label> Amoni : From</label></div>
+                  <div class="col-lg-6"><label> To</label></div>
+                </div>
+                <div class="row">
+                  <div class="col-lg-6"><input type="number" min="0" name="AmoniMin" id="AmoniMin" class="form-control"
+                    placeholder="0">
+                  </div>
+                  <div class="col-lg-6"><input type="number" min="0" name="AmoniMax" id="AmoniMax" class="form-control"
+                    placeholder="0">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="form-group" style="display: none;">
+                <div class="row">
+                  <div class="col-lg-6"><label></label></div>
+                  <div class="col-lg-6"><label></label></div>
+                </div>
+                <div class="row">
+                  <div class="col-lg-6">
+                  </div>
+                  <div class="col-lg-6">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-white" data-dismiss="modal"
+          (click)="loadData()">{{'ItemType.CloseButton' | translate}}</button>
+        <!-- <button type="button" class="btn btn-primary" (click)="fnSave();" [ladda]="laddaSubmitLoading"
+          [disabled]="myForm.invalid||EditRowID!=0">{{'ItemType.SaveButton' | translate}}</button> -->
+      </div>
+    </div>
+  </div>
 </div>
