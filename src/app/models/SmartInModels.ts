@@ -71,7 +71,7 @@ export class DataTablePaginationParams {
   specialCondition?: string =null
 }
 export class Item {
-  ItemID?: number = 0
+  ItemId?: number = 0
   ItemTypeId?: number = null
   ItemNo?: string
   ItemName?: string
@@ -316,7 +316,7 @@ export class Customer {
 export class CustomerFile {
   CustomerFileId: number = 0
   CustomerId: number = 0
-  FileID: number = 0
+  FileId: number = 0
   File: Files = new Files()
 }
 
