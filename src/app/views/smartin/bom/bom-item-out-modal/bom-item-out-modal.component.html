@@ -1,6 +1,6 @@
 <div
   class="modal inmodal"
-  id="myModal2"
+  id="modalOut"
   data-backdrop="static"
   data-keyboard="true"
   tabindex="-1"
@@ -42,9 +42,10 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr
+                  <ng-container  *ngFor="let item of outBomItems; let i = index">
+                    <tr
                     class="animated fadeInRight"
-                    *ngFor="let item of outBomItems; let i = index"
+                    *ngIf="!item.BomItemParentId"
                   >
                     <td>{{ i + 1 }}</td>
                     <td *ngIf="i + 1 !== editRowId">{{ item.ItemName }}</td>
@@ -58,10 +59,10 @@
                         bindLabel="ItemName"
                         bindValue="ItemId"
                         placeholder="{{'BomFactory.BomItem.ItemId' | translate}}"
-                        name="BomStageID"
+                        name="BomStageId"
                         (change)="$event != null? (outBomItem.ItemName = $event.ItemName): null"
-                        id="BomStageID"
-                        [(ngModel)]="outBomItem.ItemID"
+                        id="BomStageId"
+                        [(ngModel)]="outBomItem.ItemId"
                       >
                       </ng-select>
                     </td>
@@ -70,10 +71,10 @@
                         class="custom"
                         [items]="units"
                         bindLabel="UnitName"
-                        bindValue="UnitID"
+                        bindValue="UnitId"
                         placeholder="{{'Item.placeholdercolumn.ItemPackageUnitId' | translate}}"
                         name="inUnitId"
-                        [(ngModel)]="outBomItem.UnitID"
+                        [(ngModel)]="outBomItem.UnitId"
                         (change)="$event != null? (outBomItem.UnitName = $event.UnitName): null"
                       >
                       </ng-select>
@@ -96,7 +97,7 @@
                           <button
                             type="button"
                             class="btn btn-sm btn-outline btn-primary"
-                            (click)="fnSaveInBomItem(i)"
+                            (click)="fnSaveOutBomItem(i)"
                             *ngIf="i + 1 === editRowId"
                           >
                             <i class="fa fa-check"></i>
@@ -105,7 +106,7 @@
                             type="button"
                             class="btn btn-sm btn-outline btn-success"
                             [disabled]="editRowId != 0"
-                            (click)="fnEditInBomItem(i)"
+                            (click)="fnEditOutBomItem(i)"
                             *ngIf="i + 1 !== editRowId"
                           >
                             <i class="fa fa-pencil"></i>
@@ -121,6 +122,7 @@
                           <button
                             type="button"
                             class="btn btn-sm btn-outline btn-default"
+                            (click)="showModalIn(i)"
                             *ngIf="i + 1 !== editRowId">
                             <i class="fa fa-plus"></i>
                           </button>
@@ -128,6 +130,8 @@
                       </div>
                     </td>
                   </tr>
+                  </ng-container>
+                  
                   <!-- new record -->
                   <tr>
                     <td>{{ bomItems.length + 1 }}</td>
@@ -142,7 +146,7 @@
                         [searchFn]="customSearchFn"
                         [typeahead]="input$"
                         bindValue="ItemId" autofocus placeholder="{{'BomFactory.BomItem.ItemId' | translate}}"
-                        [(ngModel)]="newBomItem.ItemID" name="ItemID" id="ItemID" required>
+                        [(ngModel)]="newBomItem.ItemId" name="ItemId" id="ItemId" required>
                         <ng-template ng-header-tmp>
                           <small class="form-text text-muted">Loaded {{itemsBuffer.length}} of {{items.length}}</small>
                         </ng-template>
@@ -152,7 +156,7 @@
                     <td>
                       <ng-select class="custom" [items]="units" bindLabel="UnitName" bindValue="UnitId"
                         placeholder="{{'Item.placeholdercolumn.ItemPackageUnitId' | translate }}" name="outUnitId"
-                        required [(ngModel)]="newBomItem.UnitID"
+                        required [(ngModel)]="newBomItem.UnitId"
                         (change)="newBomItem.UnitName =  $event? $event.UnitName :'' ">
                       </ng-select>
                     </td>
@@ -171,7 +175,7 @@
                       <button
                         type="button"
                         class="btn  btn-sm btn-outline btn-info pull-right"
-                        [disabled]="!newBomItem.ItemID||!newBomItem.UnitID ||!newBomItem.Quantity"
+                        [disabled]="!newBomItem.ItemId||!newBomItem.UnitId ||!newBomItem.Quantity"
                         (click)="fnAddInBomItem()"
                       >
                         <i class="fa fa-plus"></i>
@@ -190,7 +194,7 @@
           class="btn btn-white"
           data-dismiss="modal"
           data-toggle="modal"
-          data-target="#myModal4"
+          data-target="#modalStages"
           (click)="fnReset()"
         >
           {{ "BomFactory.CloseButton" | translate }}
@@ -200,7 +204,7 @@
           class="btn btn-primary"
           [ladda]="laddaSubmitLoading"
           data-toggle="modal"
-          data-target="#myModal4"
+          data-target="#modalStages"
           data-dismiss="modal"
           (click)="fnSaveBomItem()"
         >
@@ -210,3 +214,5 @@
     </div>
   </div>
 </div>
+
+<app-bom-item-in-modal [units]="units" [parentOutId] ="parentOutId" [currentStageId]="currentStageId" (addInBomItem)="addInBomItem($event)"></app-bom-item-in-modal>

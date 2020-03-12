@@ -203,7 +203,7 @@ export class BomListComponent implements OnInit {
   fnSaveStage(index) {}
   
  validateStage(itemAdd: BomStage, typeAction) {
-    if (itemAdd.BomStageID == null) {
+    if (itemAdd.BomStageId == null) {
       swal.fire(
         "Validate",
         this.trans.instant("Factory.data.TechnologyName") +
@@ -212,7 +212,7 @@ export class BomListComponent implements OnInit {
       );
       return false;
     }
-    if (( this.entity.BomStage.filter(t => t.BomStageID == itemAdd.BomStageID).length) > 0 &&typeAction == "add") {
+    if (( this.entity.BomStage.filter(t => t.BomStageId == itemAdd.BomStageId).length) > 0 &&typeAction == "add") {
       swal.fire(
         "Validate",
         this.trans.instant("Factory.data.TechnologyName") +
@@ -221,7 +221,7 @@ export class BomListComponent implements OnInit {
       );
       return false;
     }
-    if (( this.entity.BomStage.filter(t => t.BomStageID == itemAdd.BomStageID).length) > 1 &&typeAction == "edit") {
+    if (( this.entity.BomStage.filter(t => t.BomStageId == itemAdd.BomStageId).length) > 1 &&typeAction == "edit") {
       swal.fire(
         "Validate",
         this.trans.instant("Factory.data.TechnologyName") +
@@ -280,7 +280,7 @@ export class BomListComponent implements OnInit {
     this.ACTION_STATUS = "update";
     $("#myModal4").modal("hide");
     if (id === null) {
-      this.toastr.warning("BomFactory ID is Null, cant show modal");
+      this.toastr.warning("BomFactory Id is Null, cant show modal");
       return;
     }
     this.resetEntity();
