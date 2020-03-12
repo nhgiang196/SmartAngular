@@ -400,6 +400,17 @@ export class ChartModel {
   label: string
 }
 
+export class ChartDemo
+{
+    data: Data [] =[]
+    label : string;
+}
+export class Data
+{
+  x: number =0;
+  y: number =0;
+}
+
 
 
 
