@@ -79,53 +79,7 @@
               </table>
             </div>
           </div>
-          <div class="row">
-            <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger"
-              class="table table-bordered table-hover table-striped" id="myTable" style="width:100%">
-              <thead>
-                <tr>
 
-                  <th>STT</th>
-                  <th>Nhà máy</th>
-                  <th>Nhiệt độ</th>
-                  <th>pH</th>
-                  <th>COD</th>
-                  <th>TSS</th>
-                  <th>Màu</th>
-                  <th>Q</th>
-                  <th>Amoni</th>
-                  <th>Ghi chú</th>
-                  <th style="text-align: left">Action</th>
-                </tr>
-              </thead>
-              <tbody *ngIf="monitors?.length != 0">
-                <tr *ngFor="let monitor of monitors, let i = index">
-                  <td style="text-align: left"> {{i+1}}</td>
-                  <td style="text-align: left"> {{monitor.Factory.FactoryName}}</td>
-                  <td style="text-align: left"> {{monitor.TemperatureMax}}</td>
-                  <td style="text-align: left"> {{monitor.PHmin}}-{{monitor.PHmax}}</td>
-                  <td style="text-align: left"> {{monitor.Codmax}}</td>
-                  <td style="text-align: left"> {{monitor.Tssmax}}</td>
-                  <td style="text-align: left"> {{monitor.Codmax}}</td>
-                  <td style="text-align: left"> {{monitor.Qmax}}</td>
-                  <td style="text-align: left"> {{monitor.AmoniMax}}</td>
-                  <td style="text-align: left"> {{monitor.MonitorStandardDesc}}</td>
-                  <td>
-                    <button type="button" class="btn btn-outline btn-danger"  (click)="fnDelete(monitor.MonitorStandardId)"><i
-                        class="fa fa-trash"></i></button>
-                    <button type="button" class="btn btn-outline btn-success" (click)="fnUpdate(monitor)"
-                     data-toggle="modal" data-target="#myModal4"><i class="fa fa-pencil"></i></button>
-                  </td>
-                </tr>
-              </tbody>
-
-              <tbody *ngIf="monitors?.length == 0">
-                <tr>
-                  <td colspan="20" class="no-data-available">{{'messg.datatable.zeroRecords'  | translate}}</td>
-                </tr>
-              <tbody>
-            </table>
-          </div>
         </div>
       </div>
     </div>
@@ -146,10 +100,11 @@
             <div class="col-lg-4">
               <div class="form-group">
                 <label> Factory Code :* </label>
-                <ng-select [items]="initCombobox.Factories" bindLabel="FactoryName" bindValue="FactoryID" [(ngModel)]="entity.FactoryId"
-                        class="custom" placeholder="{{'Customer.placeholder.FactoryID' | translate }}" name="FactoryID"
-                        required></ng-select>
+                <ng-select [items]="initCombobox.Factories" bindLabel="FactoryName" bindValue="FactoryId" [(ngModel)]="entity.FactoryId"
+                    class="custom" placeholder="Input Factory Name" name="FactoryId"
+                    required></ng-select>
               </div>
+            </div>
               <div class="col-lg-8">
                 <div class="form-group">
                   <div class="row">
@@ -160,35 +115,7 @@
                       <label> To</label>
                     </div>
                   </div>
-                  <div class="row">
-                  <div class="col-lg-6">
-                    <input
-                    type="text"
-                    name="Validate"
-                    id="Validate"
-                    class="form-control"
-                    bsDatepicker
-                    readonly
-                    [bsConfig]="bsConfig"
 
-                    placeholder="ValidateDateFrom"
-                  />
-                  </div>
-                  <div class="col-lg-6">
-                    <input
-                    type="text"
-                    name="Validate"
-                    id="Validate"
-                    class="form-control"
-                    bsDatepicker
-                    readonly
-                    [bsConfig]="bsConfig"
-
-                    placeholder="ValidateDateTo"
-                  />
-                  </div>
-                  </div>
-                </div>
                 <div class="row">
                 <div class="col-lg-6">
                   <input
@@ -199,7 +126,7 @@
                   bsDatepicker
                   readonly
                   [bsConfig]="bsConfig"
-                  placeholder="ValidateDateFrom"
+                  placeholder="Date From"
                   [(ngModel)]= "entity.ValidateDateFrom"
                   [ngClass]="{ 'is-invalid': existName }"
                 />
@@ -213,7 +140,7 @@
                   bsDatepicker
                   readonly
                   [bsConfig]="bsConfig"
-                  placeholder="ValidateDateTo"
+                  placeholder="Date To"
                   [(ngModel)]= "entity.ValidateDateTo"
                   [ngClass]="{ 'is-invalid': existName }"
                 />
