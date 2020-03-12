@@ -382,6 +382,7 @@
     "placeholder.ContactEmail" : "Nhập email",
     "placeholder.ContactPhone" : "Nhập số điện thoại liên hệ",
     "placeholder.Description" : "Nhập ghi chú",
+    "label.Breadcrumb":"ĐƠN VỊ XẢ THẢI",
     "invalid.Existed_CustomerName":"Trùng tên đơn vị xả thải"
     
   },

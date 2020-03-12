@@ -380,6 +380,7 @@
     "placeholder.ContactEmail" : "Enter Contact Email",
     "placeholder.ContactPhone" : "Enter Contact phone",
     "placeholder.Description" : "Enter Description",
+    "label.Breadcrumb":"ĐƠN VỊ XẢ THẢI",
     "invalid.Existed_CustomerName":"Trùng tên đơn vị xả thải"
   },
   "Contract":{
