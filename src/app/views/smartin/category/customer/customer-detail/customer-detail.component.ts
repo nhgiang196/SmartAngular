@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Customer, CustomerFile, Factory, Contract } from 'src/app/models/SmartInModels';
 import { ToastrService } from 'ngx-toastr';
@@ -9,6 +9,8 @@ import { WaterTreatmentService } from 'src/app/services/api-watertreatment.servi
 import { trigger, animate, style, transition } from '@angular/animations';
 import { AuthService } from 'src/app/services/auth.service';
 import { HttpEventType } from '@angular/common/http';
+import { setQuarter } from 'ngx-bootstrap/chronos/units/quarter';
+import { ContractComponent } from '../contract/contract.component';
 declare let $: any;
 @Component({
   selector: 'app-customer-detail',
@@ -16,6 +18,8 @@ declare let $: any;
   styleUrls: ['./customer-detail.component.css'],
 })
 export class CustomerDetailComponent implements OnInit {
+  @ViewChild(ContractComponent) childView: ContractComponent;
+
   constructor(
     private api: WaterTreatmentService,
     private router: Router,
@@ -29,12 +33,12 @@ export class CustomerDetailComponent implements OnInit {
   entity: Customer;
   files: File[] = [];
   addFiles: { FileList: File[], FileLocalNameList: string[] };
-  invalid: any = { Existed_CustomerName: false };
+  invalid: any = { Existed_CustomerName: false, Null_CustomerName: false };
   uploadReportProgress: any = { progress: 0, message: null, isError: null };
   initCombobox = { Factories: [], FullFactories: [] };
-  EditRowID = 0;
+  EditRowNumber = 0;
   laddaSubmitLoading = false;
-  app_ContractID = 0;
+  app_contractId = 0;
   private editIndex: number = 0;
   /**INIT FUNCTIONS */
   ngOnInit() {
@@ -44,11 +48,13 @@ export class CustomerDetailComponent implements OnInit {
   async loadInit() {
     await this.loadFactoryList();
     /**Add Combobox Value: FACTORY */
-    let dataResolver = this.route.snapshot.data["dataResolver"];
-    let _factoryAddTag = await this.initCombobox.FullFactories.find(x => x.FactoryID == dataResolver.FactoryId);
-    if (_factoryAddTag && await !this.initCombobox.Factories.find(x => x.FactoryID == dataResolver.FactoryId))
-      this.initCombobox.Factories = this.initCombobox.Factories.concat([_factoryAddTag]);
-    this.entity = dataResolver;
+    let dataResolver = this.route.snapshot.data["dataResolver"] as any;
+    if (dataResolver){
+      let _factoryAddTag = await this.initCombobox.FullFactories.find(x => x.FactoryId == dataResolver.FactoryId);
+      if (_factoryAddTag && await !this.initCombobox.Factories.find(x => x.FactoryId == dataResolver.FactoryId))
+        this.initCombobox.Factories = this.initCombobox.Factories.concat([_factoryAddTag]);
+      this.entity = dataResolver;
+    }
     // await this.loadContractByCustomer();
     this.entity.CustomerFile.forEach(item => {
       let _tempFile = new File([], item.File.FileOriginalName);
@@ -69,7 +75,7 @@ export class CustomerDetailComponent implements OnInit {
     this.addFiles = { FileList: [], FileLocalNameList: [] }
     this.invalid = {};
     this.uploadReportProgress = { progress: 0, message: null, isError: null };
-    this.EditRowID = 0;
+    this.EditRowNumber = 0;
     this.editIndex = 0;
   }
   /** BUTTON ACTIONS */
@@ -116,11 +122,12 @@ export class CustomerDetailComponent implements OnInit {
   fnValidate(e) {
     return true;
   }
-  fnEditItem(contractID, index) {
-    console.log('edit item', contractID);
+  fnEditItem(contractId, index) {
+    this.childView.resetEntity();
+    console.log('edit item', contractId);
     console.log('edit index', index)
     this.editIndex = index;
-    this.app_ContractID = contractID;
+    this.app_contractId = contractId;
   }
   fnDeleteItem(index) {
     swal.fire({
@@ -214,7 +221,24 @@ export class CustomerDetailComponent implements OnInit {
   
   onChangeAdd(returnContract: Contract) {
     console.log('return Contract', returnContract);
-    this.entity.Contract.splice(this.editIndex, 1, returnContract);
+    if (returnContract.CustomerId==0)
+      swal.fire({
+        titleText: this.trans.instant('Customer.mssg.AskForCreateContractCustomer'),
+        confirmButtonText: this.trans.instant('Button.OK'),
+        cancelButtonText: this.trans.instant('Button.Cancel'),
+        type: 'question',
+        showCancelButton: true,
+        reverseButtons: true
+      }).then((result) => {
+        if (result.value) {
+          this.entity.Contract.splice(this.editIndex, 1, returnContract);
+          this.fnSave();
+        }
+      })
+    else {
+      this.entity.Contract.splice(this.editIndex, 1, returnContract);
+    }
+    
   }
   ngAfterViewInit() {
   }

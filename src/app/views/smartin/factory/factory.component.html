@@ -3,7 +3,7 @@
     <h2>{{ 'Factory.label.Breadcrumb' | translate }}</h2>
     <ol class="breadcrumb">
       <li>
-        <a href="index.html">{{ 'TopNav.Administration' | translate }}</a>
+        <a >{{ 'TopNav.Administration' | translate }}</a>
       </li>
       <li class="active">
         <strong>{{ 'Factory.label.Breadcrumb' | translate }}</strong>
@@ -56,9 +56,9 @@
             <div class="col-lg-3" *ngFor="let item of factory">
               <div class="panel panel-info">
                 <div class="panel-heading text-center" >
-                  <a (click)="fnEditSignal(item.FactoryID)"><i class="fa fa-info-circle"></i> {{item.FactoryName}}
+                  <a (click)="fnEditSignal(item.FactoryId)"><i class="fa fa-info-circle"></i> {{item.FactoryName}}
                   </a>
-                  <button class="btn btn-sm btn-outline pull-right css_btnDel" (click)="fnDelete(item.FactoryID)" ><i class="fa fa-times-circle"></i> </button>
+                  <button class="btn btn-sm btn-outline pull-right css_btnDel" (click)="fnDelete(item.FactoryId)" ><i class="fa fa-times-circle"></i> </button>
                 </div>
                 <div class="panel-body" >
                   <p> <strong>{{ 'Factory.data.FactoryAddress' | translate}}:</strong>  {{item.FactoryAddress}}</p>
@@ -260,20 +260,20 @@
                 <tr class="animated fadeInRight" *ngFor="let item of entity.FactoryTechnology; let i = index"
                   [@simpleFadeAnimation]="'in'">
                   <td> {{i+1}} </td>
-                  <td *ngIf="i+1 !== EditRowID">{{item.TechnologyName}} </td>
-                  <td *ngIf="i+1 !== EditRowID">{{item.TechnologyDescription}} </td>
-                  <td *ngIf="i+1 !== EditRowID">{{item.TechnologyFromDate | amDateFormat: 'DD-MM-YYYY  ' }} </td>                  
-                  <td *ngIf="i+1 !== EditRowID">{{item.TechnologyToDate | amDateFormat: 'DD-MM-YYYY ' }} </td>
+                  <td *ngIf="i+1 !== EditRowNumber">{{item.TechnologyName}} </td>
+                  <td *ngIf="i+1 !== EditRowNumber">{{item.TechnologyDescription}} </td>
+                  <td *ngIf="i+1 !== EditRowNumber">{{item.TechnologyFromDate | amDateFormat: 'DD-MM-YYYY  ' }} </td>                  
+                  <td *ngIf="i+1 !== EditRowNumber">{{item.TechnologyToDate | amDateFormat: 'DD-MM-YYYY ' }} </td>
 
-                  <td *ngIf="i+1 === EditRowID" ><input type="text" class="form-control" name="Technology" id="Technology" [(ngModel)]="tech_entity.TechnologyName"></td>
-                  <td *ngIf="i+1 === EditRowID"><input type="text" class="form-control" name="Description" id="Description" [(ngModel)]="tech_entity.TechnologyDescription"> </td>
-                  <td *ngIf="i+1 === EditRowID"><input bsDatepicker [bsConfig]="bsConfig" type="text" class="form-control"  readonly name="BeginDate" id="BeginDate" [(ngModel)]="tech_entity.TechnologyFromDate" > </td>
-                  <td *ngIf="i+1 === EditRowID"><input bsDatepicker [bsConfig]="bsConfig" type="text" class="form-control" readonly name="EndDate" id="EndDate" [(ngModel)]="tech_entity.TechnologyToDate" > </td>
+                  <td *ngIf="i+1 === EditRowNumber" ><input type="text" class="form-control" name="Technology" id="Technology" [(ngModel)]="tech_entity.TechnologyName"></td>
+                  <td *ngIf="i+1 === EditRowNumber"><input type="text" class="form-control" name="Description" id="Description" [(ngModel)]="tech_entity.TechnologyDescription"> </td>
+                  <td *ngIf="i+1 === EditRowNumber"><input bsDatepicker [bsConfig]="bsConfig" type="text" class="form-control"  readonly name="BeginDate" id="BeginDate" [(ngModel)]="tech_entity.TechnologyFromDate" > </td>
+                  <td *ngIf="i+1 === EditRowNumber"><input bsDatepicker [bsConfig]="bsConfig" type="text" class="form-control" readonly name="EndDate" id="EndDate" [(ngModel)]="tech_entity.TechnologyToDate" > </td>
                   <td >
                   <div class="btn-group">
-                    <button type="button" class="btn btn-sm btn-outline btn-primary" (click)="validateItem(tech_entity)" *ngIf="i+1 === EditRowID" ><i class="fa fa-check"></i></button>
-                    <button type="button" class="btn btn-sm btn-outline btn-success" (click)="fnEditItem(i)"*ngIf="i+1 !== EditRowID"><i class="fa fa-pencil"></i></button>
-                    <button type="button" class="btn btn-sm btn-outline btn-danger" (click)="fnDeleteItem(i)" *ngIf="i+1 !== EditRowID"><i class="fa fa-trash"></i></button>
+                    <button type="button" class="btn btn-sm btn-outline btn-primary" (click)="validateItem(tech_entity)" *ngIf="i+1 === EditRowNumber" ><i class="fa fa-check"></i></button>
+                    <button type="button" class="btn btn-sm btn-outline btn-success" (click)="fnEditItem(i)"*ngIf="i+1 !== EditRowNumber"><i class="fa fa-pencil"></i></button>
+                    <button type="button" class="btn btn-sm btn-outline btn-danger" (click)="fnDeleteItem(i)" *ngIf="i+1 !== EditRowNumber"><i class="fa fa-trash"></i></button>
                   </div>                      
                   </td>
                 </tr>
@@ -295,7 +295,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-white" data-dismiss="modal">{{'Button.Close' | translate}}  </button>
-        <button type="button" class="btn btn-primary" (click)="fnSave();" [ladda]="laddaSubmitLoading" [disabled]="myForm.invalid||EditRowID!=0"><i class="fa fa-paper-plane-o"></i> {{'Button.Save' | translate}} </button>
+        <button type="button" class="btn btn-primary" (click)="fnSave();" [ladda]="laddaSubmitLoading" [disabled]="myForm.invalid||EditRowNumber!=0"><i class="fa fa-paper-plane-o"></i> {{'Button.Save' | translate}} </button>
       </div>
     </div>
   </div>

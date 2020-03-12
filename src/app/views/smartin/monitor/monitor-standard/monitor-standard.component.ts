@@ -24,6 +24,8 @@ export class MonitorStandardComponent implements OnInit {
   laddaSubmitLoading = false;
   EditRowID: number =0;
   entity: MonitorStandard;
+  iboxloading = false;
+
   initCombobox = { Factories: [], FullFactories: [] };
   constructor(
     private api: WaterTreatmentService,
@@ -78,10 +80,9 @@ export class MonitorStandardComponent implements OnInit {
     let res = await this.api.getBasicFactory().toPromise().then().catch(err => this.toastr.warning('Get factories Failed, check network')) as any;
     this.initCombobox.Factories = (res as any).result.filter(x => x.Status == 1) as Factory[];
     this.initCombobox.FullFactories = (res as any).result as Factory[];
-    console.log(this.initCombobox);
   }
 
- private async loadData(){
+  async loadData(){
     $('#myTable').DataTable().clear().destroy();
     this.api.getAllMonitorStandard().subscribe(res=>{
       this.monitors = res;
@@ -92,13 +93,7 @@ export class MonitorStandardComponent implements OnInit {
     }
     )
     await this.loadFactoryList();
-    /**Add Combobox Value: FACTORY */
 
-    // let dataResolver = this.route.snapshot.data["dataResolver"];
-    // let _factoryAddTag = await this.initCombobox.FullFactories.find(x => x.FactoryID == dataResolver.FactoryID);
-    // if (_factoryAddTag && await !this.initCombobox.Factories.find(x => x.FactoryID == dataResolver.FactoryID))
-      // this.initCombobox.Factories = this.initCombobox.Factories.concat([_factoryAddTag]);
-    // this.entity = dataResolver;
   }
   ngOnDestroy(): void {
     // Do not forget to unsubscribe the event
@@ -139,17 +134,11 @@ export class MonitorStandardComponent implements OnInit {
 
     this.existName = false;
 
-    let _factoryAddTag = await this.initCombobox.FullFactories.find(x => x.FactoryID == current.FactoryId);
-    if (_factoryAddTag && await !this.initCombobox.Factories.find(x => x.FactoryID == current.FactoryId))
+    let _factoryAddTag = await this.initCombobox.FullFactories.find(x => x.FactoryId == current.FactoryId);
+    if (_factoryAddTag && await !this.initCombobox.Factories.find(x => x.FactoryId == current.FactoryId))
       this.initCombobox.Factories = this.initCombobox.Factories.concat([_factoryAddTag]);
 
       this.entity = current;
-
-
-
-
-
-
 
   }
 
@@ -160,7 +149,6 @@ export class MonitorStandardComponent implements OnInit {
     e.ValidateDateTo = this.helpper.dateConvertToString(e.ValidateDateTo);
 
     if ( await this.fnValidate(e)) {
-      console.log('send entity: ', e);
       if (this.ACTION_STATUS == 'add') {
         e.CreateBy = this.auth.currentUser.Username;
         this.api.addItemType(e).subscribe(res => {

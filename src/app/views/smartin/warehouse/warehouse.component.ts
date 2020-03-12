@@ -47,7 +47,7 @@ export class WarehouseComponent implements OnInit {
   invalid: any = { Existed_WarehouseCode: false, Existed_WarehouseName: false };
   initCombobox = { Factories: [], FullFactories: [], Users: [] };
   uploadReportProgress: any = { progress: 0, message: null, isError: null };
-  EditRowID: number = 0;
+  EditRowNumber: number = 0;
   /**INIT FUNCTIONS */
   ngOnInit() { //init functions
     this.resetEntity();
@@ -95,8 +95,8 @@ export class WarehouseComponent implements OnInit {
     await this.resetEntity();
     
     await this.api.findWarehouseById(id).subscribe(res => {
-      let _factoryAddTag = this.initCombobox.FullFactories.find(x=>x.FactoryID== res.FactoryId );
-      if (_factoryAddTag && !this.initCombobox.Factories.find(x=> x.FactoryID== res.FactoryId) )  
+      let _factoryAddTag = this.initCombobox.FullFactories.find(x=>x.FactoryId== res.FactoryId );
+      if (_factoryAddTag && !this.initCombobox.Factories.find(x=> x.FactoryId== res.FactoryId) )  
       this.initCombobox.Factories = this.initCombobox.Factories.concat([_factoryAddTag]);
       this.entity = res;
       $("#myModal4").modal('show');
@@ -226,12 +226,12 @@ export class WarehouseComponent implements OnInit {
       swal.fire("Validate", this.trans.instant('Warehouse.data.WarehouseLocationName') + this.trans.instant('messg.isexisted'), 'warning');
       return false;
     }
-    this.EditRowID = 0;
+    this.EditRowNumber = 0;
     return true;
   }
 
   fnEditItem(index) { //press a link of Item
-    this.EditRowID = index + 1;
+    this.EditRowNumber = index + 1;
     this.locationEntity = this.entity.WarehouseLocation[index];
   }
   fnDeleteItem(index) { //PRESS delete button item
@@ -307,7 +307,7 @@ export class WarehouseComponent implements OnInit {
     this.addFiles = { FileList: [], FileLocalNameList: [] }
     this.invalid = {};
     this.uploadReportProgress =  { progress : 0, message: null , isError: null };
-    this.EditRowID=0;
+    this.EditRowNumber=0;
     await this.loadFactoryList();
   }
   private CheckBeforeEdit(id) { //check auth before edit 

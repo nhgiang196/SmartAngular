@@ -28,14 +28,13 @@ export class WaterTreatmentService {
   }
   getBasicFactory(){
     let pr = new DataTablePaginationParams();
-    pr.selectFields = "FactoryID, FactoryName, Status "
-    pr.pageSize = 9999;
+    pr.selectFields = "FactoryId, [FactoryName]= IIF(ISNULL(FactoryName,'')='',N'[Noname factory]',FactoryName), Status ";
     return this.http.post(`${ApiUrl}/Factory/GetFactoryPagination`, pr);
   }
 
   getFactoryPagination(keyvalue) {
     let pr = new DataTablePaginationParams();
-    pr.keyFields="FactoryName,FactoryAddress,FactoryContact,ContactPhone"
+    pr.keyFields="FactoryName ,FactoryAddress,FactoryContact,ContactPhone"
     pr.key = keyvalue;
     pr.pageSize = 9999;
     return this.http.post(`${ApiUrl}/Factory/GetFactoryPagination`, pr);
@@ -69,10 +68,10 @@ export class WaterTreatmentService {
   getWarehousePagination =(keyvalue) => { // Note: BA yêu cầu gửi Parram như thế này
     let pr = new DataTablePaginationParams();
     pr.keyFields="WarehouseCode,WarehouseName,WarehouseAddress,WarehouseType,WarehouseUserName,w.Status";
-    pr.selectFields = " WarehouseID, WarehouseCode, WarehouseName, f.FactoryName, WarehouseType, WarehouseAddress, WarehouseUserName, u.NormalizedUserName , w.Status ";
+    pr.selectFields = " WarehouseId, WarehouseCode, WarehouseName, f.FactoryName, WarehouseType, WarehouseAddress, WarehouseUserName, u.NormalizedUserName , w.Status ";
     pr.entity = `Warehouse w LEFT JOIN [BCM_Auth].dbo.AspNetUsers u ON u.UserName= w.WarehouseUserName
-                      LEFT JOIN Factory f ON f.FactoryID = w.FactoryID`;
-    pr.key = keyvalue; pr.pageSize = 9999;
+                      LEFT JOIN Factory f ON f.FactoryId = w.FactoryId`;
+    pr.key = keyvalue;
     return this.http.post<any>(`${ApiUrl}/Warehouse/GetWarehousePagination`,pr);
   };
   getWarehouse =() => this.http.get(`${ApiUrl}/Warehouse/GetWarehouse` );
@@ -207,9 +206,9 @@ export class WaterTreatmentService {
     let pr = new DataTablePaginationParams();
     pr.pageSize=50;
     pr.page= 1;
-    pr.selectFields = ` q.*, ItemTypeName, [FirstImagePath] = ISNULL((SELECT TOP 1 f.[Path] FROM ItemFile i JOIN [File] f ON f.FileID = i.FileID WHERE i.ItemID= q.ItemID AND I.IsImage=1),'assets/img/empty.jpg')`;
-    pr.entity = ` Item q LEFT join ItemType t ON t.ItemTypeID=q.ItemTypeID `;
-    pr.specialCondition = ` EXISTS( SELECT * FROM ItemFile jk WHERE jk.IsImage=1 AND jk.ItemID= q.ItemID) `;
+    pr.selectFields = ` q.*, ItemTypeName, [FirstImagePath] = ISNULL((SELECT TOP 1 f.[Path] FROM ItemFile i JOIN [File] f ON f.FileId = i.FileId WHERE i.ItemId= q.ItemId AND I.IsImage=1),'assets/img/empty.jpg')`;
+    pr.entity = ` Item q LEFT join ItemType t ON t.ItemTypeId=q.ItemTypeId `;
+    pr.specialCondition = ` EXISTS( SELECT * FROM ItemFile jk WHERE jk.IsImage=1 AND jk.ItemId= q.ItemId) `;
     return this.http.post<any>(`${ApiUrl}/Item/GetItemPagination`,pr );
   }
   getSelect2ItemPagination =(params) =>{
@@ -232,10 +231,10 @@ export class WaterTreatmentService {
   deleteCustomer =(id) => this.http.delete(`${ApiUrl}/Customer/DeleteCustomer`,{ params: { id: id } });
   getCustomerPagination =(entity) => this.http.post<any>(`${ApiUrl}/IteCustomerm/GetCustomerPagination`,entity,{} );
   getDataTableCustomerPagination =(entity) => { // Note: BA yêu cầu gửi Parram như thế này
-    entity.KeyFields = `c.CustomerID, c.CustomerName, c.FactoryID	,c.CustomerAddress, c.ContactName, c.ContactEmail, c.ContactPhone, c.Description, c.CreateBy	, c.CreateDate, c.ModifyBy	, c.ModifyDate, c.Status	, c.IsIntergration`;
+    entity.KeyFields = `c.CustomerId, c.CustomerName, c.FactoryId	,c.CustomerAddress, c.ContactName, c.ContactEmail, c.ContactPhone, c.Description, c.CreateBy	, c.CreateDate, c.ModifyBy	, c.ModifyDate, c.Status	, c.IsIntergration`;
     entity.SelectFields = `
      c.*, FactoryName , [CustomerStatus] = dbo.GetDefine('CustomerStatus',c.Status) `;
-    entity.Entity = `  Customer c LEFT JOIN Factory f ON f.FactoryID = c.FactoryID`;
+    entity.Entity = `  Customer c LEFT JOIN Factory f ON f.FactoryId = c.FactoryId`;
     return this.http.post<DataTablesResponse>(`${ApiUrl}/Customer/DataTableCustomerPagination`,entity);}
   getCustomer =() => this.http.get(`${ApiUrl}/Customer/GetCustomer` );
   findCustomerById =(id) => this.http.get<any>(`${ApiUrl}/Customer/FindCustomerById?id=${id}` );
@@ -246,7 +245,7 @@ export class WaterTreatmentService {
   getContractByCustomer =(keyValue) =>  {
     let e = new DataTablePaginationParams();
     e.selectFields= ` * , [ContractTypeName] = dbo.GetDefine('ContractType',ContractType) `
-    e.specialCondition = `CustomerID= ${keyValue}`;
+    e.specialCondition = `CustomerId= ${keyValue}`;
     console.log('parrams send',e);
     return this.http.post<any>(`${ApiUrl}/Contract/GetContractPagination` ,e);
   }

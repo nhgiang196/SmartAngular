@@ -1,10 +1,31 @@
-<table datatable [dtOptions]="dtOptions"  [dtTrigger]="dtTrigger" 
+<div class="wrapper wrapper-content animated fadeInRight">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="ibox float-e-margins">
+        <div class="ibox-content" [ngClass]=" {'sk-loading': iboxloading}">
+          <div class="sk-spinner sk-spinner-wave">
+            <div class="sk-rect1"></div>
+            <div class="sk-rect2"></div>
+            <div class="sk-rect3"></div>
+            <div class="sk-rect4"></div>
+            <div class="sk-rect 5"></div>
+          </div>
+          <div class="row">
+            <div class="col-sm-4">
+              <!-- hidden this button -->
+              <button type="button" class="btn btn-primary dim" [routerLink]="['../newcustomer']">
+                <i class="fa fa-plus"></i>{{'Button.Add' | translate}}
+              </button>
+            </div>
+          </div>
+          <div class="row">
+            <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger"
               class="table table-bordered table-hover table-striped" id="myTable" style="width:100%">
               <thead>
                 <tr>
-                  <th>{{'Customer.data.CustomerID' | translate}}</th>
+                  <th>{{'Customer.data.CustomerId' | translate}}</th>
                   <th>{{'Customer.data.CustomerName' | translate}}</th>
-                  <th>{{'Customer.data.FactoryID' | translate}}</th>
+                  <th>{{'Customer.data.FactoryId' | translate}}</th>
                   <th>{{'Customer.data.CustomerAddress' | translate}}</th>
                   <th>{{'Customer.data.ContactName' | translate}}</th>
                   <th>{{'Customer.data.ContactEmail' | translate}}</th>
@@ -19,26 +40,32 @@
                   <th>{{'Button.Action'   | translate}}</th>
                 </tr>
               </thead>
-              <tbody >
-                <tr *ngFor="let item of lsData" >
-                  <td> {{item.CustomerID }}        </td>       
-                  <td> {{item.CustomerName }}      </td>         
-                  <td> {{item.FactoryName }}         </td>       
-                  <td> {{item.CustomerAddress }}   </td>             
-                  <td> {{item.ContactName }}       </td>         
-                  <td> {{item.ContactEmail }}      </td>         
-                  <td> {{item.ContactPhone }}      </td>         
-                  <td> {{item.Description }}       </td>         
-                  <td> {{item.CreateBy }}          </td>     
-                  <td> {{item.CreateDate  | amDateFormat: 'DD-MM-YYYY HH:mm' }}        </td>       
-                  <td> {{item.ModifyBy }}          </td>     
-                  <td> {{item.ModifyDate  | amDateFormat: 'DD-MM-YYYY HH:mm' }}        </td>       
-                  <td> <span class="badge " [ngClass]="{'badge-success': item.Status==1, 'badge-danger':item.Status==0}"  >{{item.CustomerStatus }}  </span>     
-                  </td>   
-                  <td> <span><i class="fa fa-lg" [ngClass]="{'fa-check-square-o text-info': item.IsIntergration==true, 'fa-square-o':item.IsIntergration==false}" ></i> </span></td>           
+              <tbody>
+                <tr *ngFor="let item of lsData">
+                  <td> {{item.CustomerId }} </td>
+                  <td> {{item.CustomerName }} </td>
+                  <td> {{item.FactoryName }} </td>
+                  <td> {{item.CustomerAddress }} </td>
+                  <td> {{item.ContactName }} </td>
+                  <td> {{item.ContactEmail }} </td>
+                  <td> {{item.ContactPhone }} </td>
+                  <td> {{item.Description }} </td>
+                  <td> {{item.CreateBy }} </td>
+                  <td> {{item.CreateDate  | amDateFormat: 'DD-MM-YYYY HH:mm' }} </td>
+                  <td> {{item.ModifyBy }} </td>
+                  <td> {{item.ModifyDate  | amDateFormat: 'DD-MM-YYYY HH:mm' }} </td>
+                  <td> <span class="badge "
+                      [ngClass]="{'badge-success': item.Status==1, 'badge-danger':item.Status==0}">{{item.CustomerStatus }}
+                    </span>
+                  </td>
+                  <td> <span><i class="fa fa-lg"
+                        [ngClass]="{'fa-check-square-o text-info': item.IsIntergration==true, 'fa-square-o':item.IsIntergration==false}"></i>
+                    </span></td>
                   <td>
-                    <button type="button" class="btn btn-outline btn-danger" (click)="fnDelete(item.CustomerID)"><i class="fa fa-trash"></i></button>
-                    <button type="button" class="btn btn-outline btn-success" [routerLink]="['../customer/'+item.CustomerID]"><i class="fa fa-pencil"   ></i></button>
+                    <button type="button" class="btn btn-outline btn-danger" (click)="fnDelete(item.CustomerId)"><i
+                        class="fa fa-trash"></i></button>
+                    <button type="button" class="btn btn-outline btn-success"
+                      [routerLink]="['../customer/'+item.CustomerId]"><i class="fa fa-pencil"></i></button>
                   </td>
                 </tr>
               </tbody>
@@ -49,3 +76,13 @@
                 </tr>
               <tbody>
             </table>
+
+
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

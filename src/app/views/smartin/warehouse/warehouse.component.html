@@ -3,7 +3,7 @@
     <h2>{{ 'Warehouse.label.Breadcrumb' | translate }}</h2>
     <ol class="breadcrumb">
       <li>
-        <a href="index.html">{{ 'TopNav.Category' | translate }}</a>
+        <a>{{ 'TopNav.Category' | translate }}</a>
       </li>
       <li class="active">
         <strong>{{ 'Warehouse.label.Breadcrumb' | translate }}</strong>
@@ -58,9 +58,9 @@
             <div class="col-lg-3" *ngFor="let item of Warehouse">
               <div class="panel panel-info">
                 <div class="panel-heading text-center">
-                  <a (click)="fnEditSignal(item.WarehouseID)"><i class="fa fa-info-circle"></i> {{item.WarehouseName}}
+                  <a (click)="fnEditSignal(item.WarehouseId)"><i class="fa fa-info-circle"></i> {{item.WarehouseName}}
                   </a>
-                  <button class="btn btn-sm btn-outline pull-right css_btnDel" (click)="fnDelete(item.WarehouseID)" ><i class="fa fa-times-circle"></i> </button>
+                  <button class="btn btn-sm btn-outline pull-right css_btnDel" (click)="fnDelete(item.WarehouseId)" ><i class="fa fa-times-circle"></i> </button>
                 </div>
                 <div class="panel-body">
                   <p> <strong>{{ 'Warehouse.data.WarehouseCode' | translate}}:</strong>  {{item.WarehouseCode}}</p>
@@ -105,8 +105,8 @@
               </div>
             </div>
             <div class="col-lg-6">
-              <label>{{ 'Warehouse.data.FactoryID' | translate }} *:</label>
-              <ng-select autocomplete="off"  [items]="initCombobox.Factories" placeholder="{{ 'Warehouse.placeholder.FactoryID' | translate }}" id="FactoryId" name="FactoryId"  [(ngModel)]="entity.FactoryId"  bindLabel="FactoryName" bindValue="FactoryID" required> </ng-select>
+              <label>{{ 'Warehouse.data.FactoryId' | translate }} *:</label>
+              <ng-select autocomplete="off"  [items]="initCombobox.Factories" placeholder="{{ 'Warehouse.placeholder.FactoryId' | translate }}" id="FactoryId" name="FactoryId"  [(ngModel)]="entity.FactoryId"  bindLabel="FactoryName" bindValue="FactoryId" required> </ng-select>
               
             </div>
           </div>         
@@ -164,20 +164,25 @@
           <div class="row">
             <div class="col-lg-4">
               <div class="form-group">
-                <label> {{ 'Warehouse.data.WarehouseLength' | translate }}: </label>
-                <input autocomplete="off" type="number" name="WarehouseLength" id="WarehouseLength" [(ngModel)]="entity.WarehouseLength" class="form-control" placeholder="Enter your __________"  required>
+                <label> {{ 'Warehouse.data.WarehouseLength' | translate }}*: </label>
+                <input  autocomplete="off" type="number" name="WarehouseLength" id="WarehouseLength" [(ngModel)]="entity.WarehouseLength" class="form-control"   min="0" required
+                [ngClass]="{ 'is-invalid': entity.WarehouseLength<0}">
+                
               </div>
             </div>
             <div class="col-lg-4">
               <div class="form-group">
-                <label> {{ 'Warehouse.data.WarehouseWidth' | translate }}: </label>
-                <input autocomplete="off" type="number" name="WarehouseWidth" id="WarehouseWidth" [(ngModel)]="entity.WarehouseWidth" class="form-control" placeholder="Enter your __________"  required>
+                <label> {{ 'Warehouse.data.WarehouseWidth' | translate }}*: </label>
+                <input autocomplete="off" type="number" name="WarehouseWidth" id="WarehouseWidth" [(ngModel)]="entity.WarehouseWidth" 
+                class="form-control"  min="0"  required [ngClass]="{ 'is-invalid': entity.WarehouseWidth<0}">
+                
               </div>
             </div>
             <div class="col-lg-4">
               <div class="form-group">
-                <label> {{ 'Warehouse.data.WarehouseHeight' | translate }}: </label>
-                <input autocomplete="off" type="number" name="WarehouseHeight" id="WarehouseHeight" [(ngModel)]="entity.WarehouseHeight" class="form-control" placeholder="Enter your __________" required>
+                <label> {{ 'Warehouse.data.WarehouseHeight' | translate }}*: </label>
+                <input autocomplete="off" type="number" name="WarehouseHeight" id="WarehouseHeight" [(ngModel)]="entity.WarehouseHeight" class="form-control"
+                [ngClass]="{ 'is-invalid': entity.WarehouseHeight<0}"   min="0" required>
               </div>
             </div>
           </div>
@@ -229,18 +234,18 @@
                 <tr class="animated fadeInRight" *ngFor="let item of entity.WarehouseLocation; let i = index"
                   [@simpleFadeAnimation]="'in'">
                   <td> {{i+1}} </td>
-                  <td  *ngIf="i+1 !== EditRowID">{{item.WarehouseLocationCode}} </td>
-                  <td  *ngIf="i+1 !== EditRowID">{{item.WarehouseLocationName}} </td>
-                  <td  *ngIf="i+1 !== EditRowID">{{item.WarehouseLocationLength}} </td>
-                  <td  *ngIf="i+1 !== EditRowID">{{item.WarehouseLocationWidth}} </td>
-                  <td  *ngIf="i+1 !== EditRowID">{{item.WarehouseLocationHeight}} </td>
+                  <td  *ngIf="i+1 !== EditRowNumber">{{item.WarehouseLocationCode}} </td>
+                  <td  *ngIf="i+1 !== EditRowNumber">{{item.WarehouseLocationName}} </td>
+                  <td  *ngIf="i+1 !== EditRowNumber">{{item.WarehouseLocationLength}} </td>
+                  <td  *ngIf="i+1 !== EditRowNumber">{{item.WarehouseLocationWidth}} </td>
+                  <td  *ngIf="i+1 !== EditRowNumber">{{item.WarehouseLocationHeight}} </td>
 
-                  <td  *ngIf="i+1 === EditRowID"><input type="text" class="form-control" name="WarehouseLocationCode" id="WarehouseLocationCode" [(ngModel)]="locationEntity.WarehouseLocationCode"></td>
-                  <td  *ngIf="i+1 === EditRowID"><input type="text" class="form-control" name="WarehouseLocationName" id="WarehouseLocationName" [(ngModel)]="locationEntity.WarehouseLocationName"></td>
-                  <td  *ngIf="i+1 === EditRowID"><input type="number" class="form-control" name="WarehouseLocationLength" id="WarehouseLocationLength" [(ngModel)]="locationEntity.WarehouseLocationLength"></td>
-                  <td  *ngIf="i+1 === EditRowID"><input type="number" class="form-control" name="WarehouseLocationWidth" id="WarehouseLocationWidth" [(ngModel)]="locationEntity.WarehouseLocationWidth"></td>
-                  <td  *ngIf="i+1 === EditRowID"><input type="number" class="form-control" name="WarehouseLocationHeight" id="WarehouseLocationHeight" [(ngModel)]="locationEntity.WarehouseLocationHeight"></td>
-                  <td  *ngIf="i+1 !== EditRowID"> 
+                  <td  *ngIf="i+1 === EditRowNumber"><input type="text" class="form-control" name="WarehouseLocationCode" id="WarehouseLocationCode" [(ngModel)]="locationEntity.WarehouseLocationCode"></td>
+                  <td  *ngIf="i+1 === EditRowNumber"><input type="text" class="form-control" name="WarehouseLocationName" id="WarehouseLocationName" [(ngModel)]="locationEntity.WarehouseLocationName"></td>
+                  <td  *ngIf="i+1 === EditRowNumber"><input type="number" class="form-control" name="WarehouseLocationLength" id="WarehouseLocationLength" [(ngModel)]="locationEntity.WarehouseLocationLength"></td>
+                  <td  *ngIf="i+1 === EditRowNumber"><input type="number" class="form-control" name="WarehouseLocationWidth" id="WarehouseLocationWidth" [(ngModel)]="locationEntity.WarehouseLocationWidth"></td>
+                  <td  *ngIf="i+1 === EditRowNumber"><input type="number" class="form-control" name="WarehouseLocationHeight" id="WarehouseLocationHeight" [(ngModel)]="locationEntity.WarehouseLocationHeight"></td>
+                  <td  *ngIf="i+1 !== EditRowNumber"> 
                     <div class="switch">
                       <div class="onoffswitch">
                         <input type="checkbox" class="onoffswitch-checkbox" [name]="'showed_status' +(i+1)" [id]="'showed_status'+(i+1)" disabled [checked]="item.Status ==1 ? true : null" >
@@ -251,7 +256,7 @@
                       </div>
                     </div>
                   </td>
-                  <td  *ngIf="i+1 === EditRowID">                    
+                  <td  *ngIf="i+1 === EditRowNumber">                    
                     <div class="switch">
                       <div class="onoffswitch">
                         <input type="checkbox" class="onoffswitch-checkbox" [name]="'status' +(i+1)" [id]="'status'+(i+1)" (click)="onSwitchStatus('locationEntity')" [checked]="locationEntity.Status==1 ? true : null" >
@@ -264,9 +269,9 @@
                   </td>
                   <td>
                     <div class="btn-group">
-                      <button type="button" class="btn btn-sm btn-outline btn-primary" [disabled]="!locationEntity.WarehouseLocationCode || !locationEntity.WarehouseLocationName" (click)="validateItem(locationEntity)" *ngIf="i+1 === EditRowID" ><i class="fa fa-check"></i></button>
-                      <button type="button" class="btn btn-sm btn-outline btn-success" (click)="fnEditItem(i)"*ngIf="i+1 !== EditRowID"><i class="fa fa-pencil"></i></button>
-                      <button type="button" class="btn btn-sm btn-outline btn-danger" (click)="fnDeleteItem(i)" *ngIf="i+1 !== EditRowID"><i class="fa fa-trash"></i></button>
+                      <button type="button" class="btn btn-sm btn-outline btn-primary" [disabled]="!locationEntity.WarehouseLocationCode || !locationEntity.WarehouseLocationName" (click)="validateItem(locationEntity)" *ngIf="i+1 === EditRowNumber" ><i class="fa fa-check"></i></button>
+                      <button type="button" class="btn btn-sm btn-outline btn-success" (click)="fnEditItem(i)"*ngIf="i+1 !== EditRowNumber"><i class="fa fa-pencil"></i></button>
+                      <button type="button" class="btn btn-sm btn-outline btn-danger" (click)="fnDeleteItem(i)" *ngIf="i+1 !== EditRowNumber"><i class="fa fa-trash"></i></button>
                     </div>                        
                   </td>
                 </tr>
@@ -300,7 +305,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-white" data-dismiss="modal">{{'Button.Close' | translate}}  </button>
-        <button type="button" class="btn btn-primary" (click)="fnSave();" [disabled]="myForm.invalid||EditRowID!=0" [ladda]="laddaSubmitLoading" ><i class="fa fa-paper-plane-o"></i> {{'Button.Save' | translate}} </button>
+        <button type="button" class="btn btn-primary" (click)="fnSave();" [disabled]="myForm.invalid||EditRowNumber!=0 || entity.WarehouseLength<0 || entity.WarehouseWidth<0 || entity.WarehouseHeight<0" [ladda]="laddaSubmitLoading" ><i class="fa fa-paper-plane-o"></i> {{'Button.Save' | translate}} </button>
       </div>
     </div>
   </div>
