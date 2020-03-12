@@ -28,7 +28,7 @@ export class WaterTreatmentService {
   }
   getBasicFactory(){
     let pr = new DataTablePaginationParams();
-    pr.selectFields = "FactoryID, FactoryName, Status "
+    pr.selectFields = "FactoryId, FactoryName, Status "
     pr.pageSize = 9999;
     return this.http.post(`${ApiUrl}/Factory/GetFactoryPagination`, pr);
   }
