@@ -46,7 +46,7 @@ export class BomStageModalComponent implements OnInit {
   }
 
   validateStage(itemAdd: BomStage, typeAction) {
-    if (itemAdd.BomStageID == null) {
+    if (itemAdd.BomStageId == null) {
       swal.fire(
         "Validate",
         this.trans.instant("Factory.data.TechnologyName") +
@@ -55,7 +55,7 @@ export class BomStageModalComponent implements OnInit {
       );
       return false;
     }
-    if (( this.entity.BomStage.filter(t => t.BomStageID == itemAdd.BomStageID).length) > 0 &&typeAction == "add") {
+    if (( this.entity.BomStage.filter(t => t.BomStageId == itemAdd.BomStageId).length) > 0 &&typeAction == "add") {
       swal.fire(
         "Validate",
         this.trans.instant("Factory.data.TechnologyName") +
@@ -64,7 +64,7 @@ export class BomStageModalComponent implements OnInit {
       );
       return false;
     }
-    if (( this.entity.BomStage.filter(t => t.BomStageID == itemAdd.BomStageID).length) > 1 &&typeAction == "edit") {
+    if (( this.entity.BomStage.filter(t => t.BomStageId == itemAdd.BomStageId).length) > 1 &&typeAction == "edit") {
       swal.fire(
         "Validate",
         this.trans.instant("Factory.data.TechnologyName") +
@@ -107,43 +107,8 @@ export class BomStageModalComponent implements OnInit {
 
   async fnSave() {
     console.log(this.entity);
-    // this.laddaSubmitLoading = true;
-    // var e = this.entity;
-    // if (await this.fnValidate()) {
-    //   console.log("send entity: ", e);
-    //   if (this.ACTION_STATUS == "add") {
-    //     this.api.addBomFactory(e).subscribe(
-    //       res => {
-    //         var operationResult: any = res;
-    //         if (operationResult.Success) {
-    //           this.toastr.success(this.trans.instant("messg.add.success"));
-    //           this.rerender();
-    //         } else this.toastr.warning(operationResult.Message);
-    //         this.laddaSubmitLoading = false;
-    //         $("#myModal4").modal("hide");
-    //       },
-    //       err => {
-    //         this.toastr.error(err.statusText);
-    //         this.laddaSubmitLoading = false;
-    //       }
-    //     );
-    //   }
-    //   if (this.ACTION_STATUS == "update") {
-    //     this.api.updateBomFactory(e).subscribe(
-    //       res => {
-    //         var operationResult: any = res;
-    //         if (operationResult.Success) {
-    //           this.toastr.success(this.trans.instant("messg.update.success"));
-    //         } else this.toastr.warning(operationResult.Message);
-    //         this.laddaSubmitLoading = false;
-    //       },
-    //       err => {
-    //         this.toastr.error(err.statusText);
-    //         this.laddaSubmitLoading = false;
-    //       }
-    //     );
-    //   }
-    //   //  await this.loadInit();
-    // }
+    this.api.addBomFactory(this.entity).subscribe(res=>{
+        debugger
+    });
   }
 }

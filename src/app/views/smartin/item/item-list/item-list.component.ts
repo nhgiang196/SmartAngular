@@ -18,7 +18,7 @@ declare let $: any;
 })
 export class ItemListComponent implements  AfterViewInit, OnDestroy, OnInit {
   @ViewChild(DataTableDirective)  datatableElement: DataTableDirective;
-  Items: any = [];
+  Items: Item[] = [];
   listItemType: Array<ItemType> = new Array<ItemType>();
   dtOptions: DataTables.Settings = {};
   dtTrigger: Subject<any> = new Subject();
@@ -59,12 +59,12 @@ export class ItemListComponent implements  AfterViewInit, OnDestroy, OnInit {
       processing: true,
       pageLength: 10,    
       columns: [
-          { data: 'ItemID' }
-        , { data: 'ItemTypeID' }
+          { data: 'ItemId' }
+        , { data: 'ItemTypeId' }
         , { data: 'ItemNo' }
         , { data: 'ItemName' }
         , { data: 'ItemPrintName' }
-        , { data: 'ItemUnitID' }
+        , { data: 'ItemUnitId' }
         , { data: 'ItemModel' }
         , { data: 'ItemSerial' }
         , { data: 'ItemManufactureCountry' }

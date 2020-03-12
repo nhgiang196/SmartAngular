@@ -91,7 +91,7 @@ export class BomItemOutModalComponent implements OnInit {
     }
   
     fnValidateBomItem(item: BomItem,typeAction) {
-      if (this.outBomItems.filter(x => x.ItemID == item.ItemID).length > 0 &&typeAction == "add") {
+      if (this.outBomItems.filter(x => x.ItemId == item.ItemId).length > 0 &&typeAction == "add") {
         swal.fire(
           "Validate",
           this.trans.instant("Factory.data.TechnologyName") +
@@ -100,7 +100,7 @@ export class BomItemOutModalComponent implements OnInit {
         );
         return false;
       }
-      if (this.outBomItems.filter(x => x.ItemID == item.ItemID).length > 0 &&typeAction == "edit") {
+      if (this.outBomItems.filter(x => x.ItemId == item.ItemId).length > 0 &&typeAction == "edit") {
         swal.fire(
           "Validate",
           this.trans.instant("Factory.data.TechnologyName") +

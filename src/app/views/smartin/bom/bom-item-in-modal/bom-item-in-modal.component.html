@@ -58,10 +58,10 @@
                         bindLabel="ItemName"
                         bindValue="ItemId"
                         placeholder="{{'BomFactory.BomItem.ItemId' | translate}}"
-                        name="BomStageID"
+                        name="BomStageId"
                         (change)="$event != null? (inBomItem.ItemName = $event.ItemName): null"
-                        id="BomStageID"
-                        [(ngModel)]="inBomItem.ItemID"
+                        id="BomStageId"
+                        [(ngModel)]="inBomItem.ItemId"
                       >
                       </ng-select>
                     </td>
@@ -70,10 +70,10 @@
                         class="custom"
                         [items]="units"
                         bindLabel="UnitName"
-                        bindValue="UnitID"
+                        bindValue="UnitId"
                         placeholder="{{'Item.placeholdercolumn.ItemPackageUnitId' | translate}}"
                         name="inUnitId"
-                        [(ngModel)]="inBomItem.UnitID"
+                        [(ngModel)]="inBomItem.UnitId"
                         (change)="$event != null? (inBomItem.UnitName = $event.UnitName): null"
                       >
                       </ng-select>
@@ -142,7 +142,7 @@
                         [searchFn]="customSearchFn"
                         [typeahead]="input$"
                         bindValue="ItemId" autofocus placeholder="{{'BomFactory.BomItem.ItemId' | translate}}"
-                        [(ngModel)]="newBomItem.ItemID" name="ItemID" id="ItemID" required>
+                        [(ngModel)]="newBomItem.ItemId" name="ItemId" id="ItemId" required>
                         <ng-template ng-header-tmp>
                           <small class="form-text text-muted">Loaded {{itemsBuffer.length}} of {{items.length}}</small>
                         </ng-template>
@@ -152,7 +152,7 @@
                     <td>
                       <ng-select class="custom" [items]="units" bindLabel="UnitName" bindValue="UnitId"
                         placeholder="{{'Item.placeholdercolumn.ItemPackageUnitId' | translate }}" name="outUnitId"
-                        required [(ngModel)]="newBomItem.UnitID"
+                        required [(ngModel)]="newBomItem.UnitId"
                         (change)="newBomItem.UnitName =  $event? $event.UnitName :'' ">
                       </ng-select>
                     </td>
@@ -171,7 +171,7 @@
                       <button
                         type="button"
                         class="btn  btn-sm btn-outline btn-info pull-right"
-                        [disabled]="!newBomItem.ItemID||!newBomItem.UnitID ||!newBomItem.Quantity"
+                        [disabled]="!newBomItem.ItemId||!newBomItem.UnitId ||!newBomItem.Quantity"
                         (click)="fnAddInBomItem()"
                       >
                         <i class="fa fa-plus"></i>

@@ -86,7 +86,7 @@ export class BomItemInModalComponent implements OnInit {
       // this.entity.BomStage[id].BomItem = this.bomItems;
       if(this.fnValidateBomItem(this.newBomItem,'add')){
         this.newBomItem.BomItemType = this.typeBomIn;
-        this.newBomItem.BomItemParentID= this.parentOutId;
+        this.newBomItem.BomItemParentId= this.parentOutId;
          this.inBomItems.push(this.newBomItem);
         this.newBomItem = new BomItem();
       }
@@ -94,7 +94,7 @@ export class BomItemInModalComponent implements OnInit {
     }
   
     fnValidateBomItem(item: BomItem,typeAction) {
-      if (this.inBomItems.filter(x => x.ItemID == item.ItemID).length > 0 &&typeAction == "add") {
+      if (this.inBomItems.filter(x => x.ItemId == item.ItemId).length > 0 &&typeAction == "add") {
         swal.fire(
           "Validate",
           this.trans.instant("Factory.data.TechnologyName") +
@@ -103,7 +103,7 @@ export class BomItemInModalComponent implements OnInit {
         );
         return false;
       }
-      if (this.inBomItems.filter(x => x.ItemID == item.ItemID).length > 0 &&typeAction == "edit") {
+      if (this.inBomItems.filter(x => x.ItemId == item.ItemId).length > 0 &&typeAction == "edit") {
         swal.fire(
           "Validate",
           this.trans.instant("Factory.data.TechnologyName") +

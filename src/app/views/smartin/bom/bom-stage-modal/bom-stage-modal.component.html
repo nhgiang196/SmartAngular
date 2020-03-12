@@ -20,18 +20,15 @@
           <div class="row">
             <div class="col-lg-6">
               <div class="form-group">
-                <label> {{ "BomFactory.FactoryID" | translate }} : *</label>
-                <!-- <input type="text" name="FactoryID" id="FactoryID" class="form-control" placeholder="{{'BomFactory.InputFactoryID' | translate}}"
-                  [(ngModel)]="entity.FactoryID" [ngClass]="{ 'is-invalid': existName }" required> -->
-                <!-- <div *ngIf="existName" style="color: red;">{{ 'BomFactory.ErrorExistFactoryID' | translate }}</div> -->
+                <label> {{ "BomFactory.FactoryId" | translate }} : *</label>
                 <ng-select
                   class="custom"
                   [items]="factories"
                   bindLabel="FactoryName"
-                  bindValue="FactoryID"
+                  bindValue="FactoryId"
                   placeholder="select factory"
-                  name="FactoryID"
-                  [(ngModel)]="entity.FactoryID"
+                  name="FactoryId"
+                  [(ngModel)]="entity.FactoryId"
                   required>
                 </ng-select>
               </div>
@@ -101,7 +98,7 @@
                   <tr>
                     <th width="5%">#</th>
                     <th width="35%">
-                      {{ "Stage.data.StageID" | translate }} *
+                      {{ "Stage.data.StageId" | translate }} *
                     </th>
                     <th width="15%">
                       {{ "Stage.data.OrderNumber" | translate }} *
@@ -147,10 +144,10 @@
                         bindLabel="StageName"
                         bindValue="StageId"
                         placeholder="{{'Item.placeholdercolumn.ItemPackageUnitId' | translate}}"
-                        name="outBomStageID"
+                        name="outBomStageId"
                         (change)="$event != null? (bomStage.StageName = $event.StageName): null"
                         required
-                        [(ngModel)]="bomStage.BomStageID"
+                        [(ngModel)]="bomStage.BomStageId"
                       >
                       </ng-select>
                     </td>
@@ -197,7 +194,7 @@
                           <button
                             type="button"
                             class="btn btn-sm btn-outline btn-primary"
-                            [disabled]="!bomStage.BomStageID || !bomStage.OrderNumber"
+                            [disabled]="!bomStage.BomStageId || !bomStage.OrderNumber"
                             (click)="validateStage(bomStage, 'edit')"
                             *ngIf="i + 1 === editRowId">
                             <i class="fa fa-check"></i>
@@ -238,10 +235,10 @@
                         bindLabel="StageName"
                         bindValue="StageId"
                         placeholder="{{'Item.placeholdercolumn.ItemPackageUnitId' | translate}}"
-                        name="newBomStageID"
-                        id="newBomStageID"
+                        name="newBomStageId"
+                        id="newBomStageId"
                         (change)="$event != null? (newBomStage.StageName = $event.StageName): null"
-                        [(ngModel)]="newBomStage.BomStageID"
+                        [(ngModel)]="newBomStage.BomStageId"
                         required></ng-select>
                     </td>
                     <td>
@@ -289,7 +286,7 @@
                       <button
                         type="button"
                         class="btn btn-sm btn-outline btn-info pull-right"
-                        [disabled]="!newBomStage.BomStageID || !newBomStage.OrderNumber"
+                        [disabled]="!newBomStage.BomStageId || !newBomStage.OrderNumber"
                         (click)="fnAddStage()">
                         <i class="fa fa-plus"></i>
                       </button>
