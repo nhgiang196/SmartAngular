@@ -371,8 +371,8 @@ export class ContractFile {
 export class MonitorStandard{
   MonitorStandardId: number
   FactoryId: number
-  ValidateDateFrom:Date
-  ValidateDateTo: Date
+  ValidateDateFrom:any
+  ValidateDateTo: any
   MonitorStandardDesc: string
   TemperatureMin: number
   TemperatureMax: number

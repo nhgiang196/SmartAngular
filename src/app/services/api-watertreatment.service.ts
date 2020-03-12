@@ -68,7 +68,7 @@ export class WaterTreatmentService {
   /** WAREHOUSE */
   getWarehousePagination =(keyvalue) => { // Note: BA yêu cầu gửi Parram như thế này
     let pr = new DataTablePaginationParams();
-    pr.keyFields="WarehouseCode,WarehouseName,WarehouseAddress,WarehouseType,WarehouseUserName,Status";
+    pr.keyFields="WarehouseCode,WarehouseName,WarehouseAddress,WarehouseType,WarehouseUserName,w.Status";
     pr.selectFields = " WarehouseID, WarehouseCode, WarehouseName, f.FactoryName, WarehouseType, WarehouseAddress, WarehouseUserName, u.NormalizedUserName , w.Status ";
     pr.entity = `Warehouse w LEFT JOIN [BCM_Auth].dbo.AspNetUsers u ON u.UserName= w.WarehouseUserName
                       LEFT JOIN Factory f ON f.FactoryID = w.FactoryID`;
@@ -258,11 +258,13 @@ export class WaterTreatmentService {
   deleteContract =(id) => this.http.delete(`${ApiUrl}/Contract/DeleteContract?id=${id}`);
   validateContract =(entity) => this.http.post(`${ApiUrl}/Contract/ValidateContract?`,entity);
 
-
   //Moninor Standard
   getAllMonitorStandard= () => this.http.get<MonitorStandard[]>(`${ApiUrl}/MonitorStandard/GetMonitorStandard`);
+  addMonitorStandard =(entity) => this.http.post(`${ApiUrl}/MonitorStandard/AddMonitorStandard`,entity);
   deleteMonitorStandard =(id) => this.http.delete(`${ApiUrl}/MonitorStandard/DeleteMonitorStandard?id=${id}`);
   updateMonitorStandard =(entity) => this.http.put(`${ApiUrl}/MonitorStandard/UpdateMonitorStandard`,entity);
+  validateMonitorStandard =(entity) => this.http.post(`${ApiUrl}/MonitorStandard/ValidateMonitorStandardByDate`,entity);
+
    //Monitor Services
    addMonitor =(entity) => this.http.post(`${ApiUrl}/Monitor/AddMonitor`,entity);
    getMonitorChart =() => this.http.get(`${ApiUrl}/Monitor/GetChart`);

@@ -22,6 +22,7 @@ export class BomStageModalComponent implements OnInit {
 
   bomStage: BomStage;
   newBomStage: BomStage;
+  existName: boolean = false;
 
   //config
   bsConfig = { dateInputFormat: "YYYY-MM-DD", adaptivePosition: true };
