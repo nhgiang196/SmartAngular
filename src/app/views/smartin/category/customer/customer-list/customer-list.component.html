@@ -2,9 +2,9 @@
               class="table table-bordered table-hover table-striped" id="myTable" style="width:100%">
               <thead>
                 <tr>
-                  <th>{{'Customer.data.CustomerID' | translate}}</th>
+                  <th>{{'Customer.data.CustomerId' | translate}}</th>
                   <th>{{'Customer.data.CustomerName' | translate}}</th>
-                  <th>{{'Customer.data.FactoryID' | translate}}</th>
+                  <th>{{'Customer.data.FactoryId' | translate}}</th>
                   <th>{{'Customer.data.CustomerAddress' | translate}}</th>
                   <th>{{'Customer.data.ContactName' | translate}}</th>
                   <th>{{'Customer.data.ContactEmail' | translate}}</th>
@@ -21,7 +21,7 @@
               </thead>
               <tbody >
                 <tr *ngFor="let item of lsData" >
-                  <td> {{item.CustomerID }}        </td>       
+                  <td> {{item.CustomerId }}        </td>       
                   <td> {{item.CustomerName }}      </td>         
                   <td> {{item.FactoryName }}         </td>       
                   <td> {{item.CustomerAddress }}   </td>             
@@ -37,8 +37,8 @@
                   </td>   
                   <td> <span><i class="fa fa-lg" [ngClass]="{'fa-check-square-o text-info': item.IsIntergration==true, 'fa-square-o':item.IsIntergration==false}" ></i> </span></td>           
                   <td>
-                    <button type="button" class="btn btn-outline btn-danger" (click)="fnDelete(item.CustomerID)"><i class="fa fa-trash"></i></button>
-                    <button type="button" class="btn btn-outline btn-success" [routerLink]="['../customer/'+item.CustomerID]"><i class="fa fa-pencil"   ></i></button>
+                    <button type="button" class="btn btn-outline btn-danger" (click)="fnDelete(item.CustomerId)"><i class="fa fa-trash"></i></button>
+                    <button type="button" class="btn btn-outline btn-success" [routerLink]="['../customer/'+item.CustomerId]"><i class="fa fa-pencil"   ></i></button>
                   </td>
                 </tr>
               </tbody>

@@ -45,10 +45,10 @@
                         [ngClass]="{ 'is-invalid':  invalid.Existed_CustomerName }">
                         <div *ngIf="invalid.Existed_CustomerName" style="color: red;">{{ 'Customer.invalid.Existed_CustomerName' | translate }}</div>
                     </div>
-                    <label class="col-sm-2 control-label">{{'Customer.data.FactoryID' | translate }}*:</label>
+                    <label class="col-sm-2 control-label">{{'Customer.data.FactoryId' | translate }}*:</label>
                     <div class="col-sm-4">
-                      <ng-select [items]="initCombobox.Factories" bindLabel="FactoryName" bindValue="FactoryID" [(ngModel)]="entity.FactoryId"
-                        class="custom" placeholder="{{'Customer.placeholder.FactoryID' | translate }}" name="FactoryID"
+                      <ng-select [items]="initCombobox.Factories" bindLabel="FactoryName" bindValue="FactoryId" [(ngModel)]="entity.FactoryId"
+                        class="custom" placeholder="{{'Customer.placeholder.FactoryId' | translate }}" name="FactoryId"
                         required></ng-select>
 
                     </div>
@@ -133,33 +133,33 @@
                   <tr class="animated fadeInRight" *ngFor="let item of entity.Contract; let i = index">
                     <td> {{i+1}} </td>
                     <!-- TABLE -->
-                    <td *ngIf="i+1 !== EditRowID">{{item.ContractNo}} </td>
-                    <td *ngIf="i+1 !== EditRowID">{{item.ContractCode}} </td>
-                    <td *ngIf="i+1 !== EditRowID">{{'Contract.data.ContractType'+item.ContractType | translate}} </td>
-                    <td *ngIf="i+1 !== EditRowID">{{item.EffectiveDate | amDateFormat: 'DD-MM-YYYY'}} </td>
-                    <td *ngIf="i+1 !== EditRowID">{{'Contract.data.StandardType'+ item.StandardType | translate}} </td>
-                    <td *ngIf="i+1 !== EditRowID">{{item.Ratio}} </td>
-                    <td *ngIf="i+1 !== EditRowID">{{item.Description}} </td>
-                    <td *ngIf="i+1 !== EditRowID">
+                    <td *ngIf="i+1 !== EditRowNumber">{{item.ContractNo}} </td>
+                    <td *ngIf="i+1 !== EditRowNumber">{{item.ContractCode}} </td>
+                    <td *ngIf="i+1 !== EditRowNumber">{{'Contract.data.ContractType'+item.ContractType | translate}} </td>
+                    <td *ngIf="i+1 !== EditRowNumber">{{item.EffectiveDate | amDateFormat: 'DD-MM-YYYY'}} </td>
+                    <td *ngIf="i+1 !== EditRowNumber">{{'Contract.data.StandardType'+ item.StandardType | translate}} </td>
+                    <td *ngIf="i+1 !== EditRowNumber">{{item.Ratio}} </td>
+                    <td *ngIf="i+1 !== EditRowNumber">{{item.Description}} </td>
+                    <td *ngIf="i+1 !== EditRowNumber">
                       <span><i class="fa fa-lg" [ngClass]="{'fa-check-square-o text-info': item.IsIntergration==true, 'fa-square-o':item.IsIntergration==false}" ></i> </span>
 
                     </td>
 
                     <!-- FORM -->
-                    <!-- <td *ngIf="i+1 === EditRowID"><input type="text" class="form-control" name="WarehouseLocationCode"
+                    <!-- <td *ngIf="i+1 === EditRowNumber"><input type="text" class="form-control" name="WarehouseLocationCode"
                         id="WarehouseLocationCode" [(ngModel)]="locationEntity.WarehouseLocationCode"></td>
-                    <td *ngIf="i+1 === EditRowID"><input type="text" class="form-control" name="WarehouseLocationName"
+                    <td *ngIf="i+1 === EditRowNumber"><input type="text" class="form-control" name="WarehouseLocationName"
                         id="WarehouseLocationName" [(ngModel)]="locationEntity.WarehouseLocationName"></td>
-                    <td *ngIf="i+1 === EditRowID"><input type="number" class="form-control"
+                    <td *ngIf="i+1 === EditRowNumber"><input type="number" class="form-control"
                         name="WarehouseLocationLength" id="WarehouseLocationLength"
                         [(ngModel)]="locationEntity.WarehouseLocationLength"></td>
-                    <td *ngIf="i+1 === EditRowID"><input type="number" class="form-control"
+                    <td *ngIf="i+1 === EditRowNumber"><input type="number" class="form-control"
                         name="WarehouseLocationWidth" id="WarehouseLocationWidth"
                         [(ngModel)]="locationEntity.WarehouseLocationWidth"></td>
-                    <td *ngIf="i+1 === EditRowID"><input type="number" class="form-control"
+                    <td *ngIf="i+1 === EditRowNumber"><input type="number" class="form-control"
                         name="WarehouseLocationHeight" id="WarehouseLocationHeight"
                         [(ngModel)]="locationEntity.WarehouseLocationHeight"></td>
-                    <td *ngIf="i+1 !== EditRowID">
+                    <td *ngIf="i+1 !== EditRowNumber">
                       <div class="switch">
                         <div class="onoffswitch">
                           <input type="checkbox" class="onoffswitch-checkbox" [name]="'showed_status' +(i+1)"
@@ -171,7 +171,7 @@
                         </div>
                       </div>
                     </td>
-                    <td *ngIf="i+1 === EditRowID">
+                    <td *ngIf="i+1 === EditRowNumber">
                       <div class="switch">
                         <div class="onoffswitch">
                           <input type="checkbox" class="onoffswitch-checkbox" [name]="'status' +(i+1)"
@@ -189,11 +189,11 @@
                       <div class="btn-group">
                         <button type="button" class="btn btn-sm btn-outline btn-primary"
                           [disabled]="!locationEntity.WarehouseLocationCode || !locationEntity.WarehouseLocationName"
-                          (click)="validateItem(locationEntity)" *ngIf="i+1 === EditRowID"><i
+                          (click)="validateItem(locationEntity)" *ngIf="i+1 === EditRowNumber"><i
                             class="fa fa-check"></i></button>
                         <button type="button" class="btn btn-sm btn-outline btn-success" (click)="fnEditItem(item.ContractId,i)" data-toggle="modal" data-target="#myContractModal"><i class="fa fa-pencil"></i></button>
                         <button type="button" class="btn btn-sm btn-outline btn-danger" (click)="fnDeleteItem(i)"
-                          *ngIf="i+1 !== EditRowID"><i class="fa fa-trash"></i></button>
+                          *ngIf="i+1 !== EditRowNumber"><i class="fa fa-trash"></i></button>
                       </div>
                     </td>
                   </tr>
@@ -275,7 +275,7 @@
         
         <div class="row">
           <div class="col-sm-6">
-          </div><div class="col-sm-6"><button class="btn btn-primary pull-right" [ladda]="laddaSubmitLoading" [disabled]="myForm.invalid ||EditRowID!=0" (click)="fnSave()"><i class="fa fa-paper-plane-o"></i> {{'Button.Save' | translate}}</button></div>
+          </div><div class="col-sm-6"><button class="btn btn-primary pull-right" [ladda]="laddaSubmitLoading" [disabled]="myForm.invalid ||EditRowNumber!=0" (click)="fnSave()"><i class="fa fa-paper-plane-o"></i> {{'Button.Save' | translate}}</button></div>
         </div>
       </div>
 
@@ -285,5 +285,5 @@
   </div>
 </div>
 
-<app-contract  [contractid]="app_ContractID" (contract)="onChangeAdd($event)"></app-contract>
+<app-contract  [contractid]="app_contractId" (contract)="onChangeAdd($event)"></app-contract>
 

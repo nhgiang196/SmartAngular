@@ -45,8 +45,8 @@ export class ContractComponent implements OnInit, AfterViewInit {
   invalid: any = {};
   uploadReportProgress: any = { progress: 0, message: null, isError: null };
   initCombobox = {};
-  EditRowID = 0;
-  EditRowID_PRICE = 0;
+  EditRowNumber = 0;
+  EditRowNumber_PRICE = 0;
   laddaSubmitLoading = false;
   bsConfig = { dateInputFormat: 'YYYY-MM-DD', adaptivePosition: true };
   subEntity_ContractPrice: ContractPrice = new ContractPrice();
@@ -62,8 +62,8 @@ export class ContractComponent implements OnInit, AfterViewInit {
     this.addFiles = { FileList: [], FileLocalNameList: [] }
     this.invalid = { Existed_ContractNo: false };
     this.uploadReportProgress = { progress: 0, message: null, isError: null };
-    this.EditRowID = 0;
-    this.EditRowID_PRICE = 0;
+    this.EditRowNumber = 0;
+    this.EditRowNumber_PRICE = 0;
   }
   ngOnChanges(changes: SimpleChanges) {
     console.log('changes', changes);
@@ -117,7 +117,7 @@ export class ContractComponent implements OnInit, AfterViewInit {
       console.log('update_Contract', e);
       let operationResult = await this.api.updateContract(e).toPromise().then().catch(err => this.toastr.error(err.statusText, 'Network')) as any;
       if (operationResult.Success) {
-        this.toastr.success(this.trans.instant("messg.add.success"));
+        this.toastr.success(this.trans.instant("messg.update.success"));
         this.sendtoParentView(this.entity);
       }
       else this.toastr.warning(operationResult.Message);
@@ -143,16 +143,16 @@ export class ContractComponent implements OnInit, AfterViewInit {
     this.newEntity_ContractBreach = new ContractBreach();
   }
   fnAddContractPrice(itemAdd) {
-    itemAdd.ContractID = this.entity.ContractId;
+    itemAdd.ContractId = this.entity.ContractId;
     this.entity.ContractPrice.push(itemAdd);
     this.newEntity_ContractPrice = new ContractPrice();
   }
   fnEditContractBreach(index) {
-    this.EditRowID = index + 1;
+    this.EditRowNumber = index + 1;
     this.subEntity_ContractBreach = this.entity.ContractBreach[index];
   }
   fnEditContractPrice(index) {
-    this.EditRowID_PRICE = index + 1;
+    this.EditRowNumber_PRICE = index + 1;
     this.subEntity_ContractPrice = this.entity.ContractPrice[index];
   }
   fnDeleteContractPrice(index) {
