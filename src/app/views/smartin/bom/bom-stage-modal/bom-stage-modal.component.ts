@@ -47,7 +47,7 @@ export class BomStageModalComponent implements OnInit {
   }
 
   validateStage(itemAdd: BomStage, typeAction) {
-    if (itemAdd.BomStageId == null) {
+    if (itemAdd.StageId == null) {
       swal.fire(
         "Validate",
         this.trans.instant("Factory.data.TechnologyName") +
@@ -56,7 +56,7 @@ export class BomStageModalComponent implements OnInit {
       );
       return false;
     }
-    if (( this.entity.BomStage.filter(t => t.BomStageId == itemAdd.BomStageId).length) > 0 &&typeAction == "add") {
+    if (( this.entity.BomStage.filter(t => t.StageId == itemAdd.StageId).length) > 0 &&typeAction == "add") {
       swal.fire(
         "Validate",
         this.trans.instant("Factory.data.TechnologyName") +
@@ -65,7 +65,7 @@ export class BomStageModalComponent implements OnInit {
       );
       return false;
     }
-    if (( this.entity.BomStage.filter(t => t.BomStageId == itemAdd.BomStageId).length) > 1 &&typeAction == "edit") {
+    if (( this.entity.BomStage.filter(t => t.StageId == itemAdd.StageId).length) > 1 &&typeAction == "edit") {
       swal.fire(
         "Validate",
         this.trans.instant("Factory.data.TechnologyName") +

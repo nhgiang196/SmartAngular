@@ -3,7 +3,6 @@ import { DataTableDirective } from "angular-datatables";
 import { Subject } from "rxjs";
 import {BomFactory,
   BomStage,
-  BomItem,
   Unit,
   Stage,
   Factory,
@@ -33,11 +32,8 @@ export class BomListComponent implements OnInit {
   BomFactorys: BomFactory[];
   bomStage: BomStage;
   newBomStage: BomStage;
-  outBomItem: BomItem;
-  newBomItem: BomItem;
   entity: BomFactory;
  
-  inBomItems: BomItem[] = [];
   dtOptions: DataTables.Settings = {};
   ACTION_STATUS: string;
   laddaSubmitLoading = false;
@@ -78,8 +74,6 @@ export class BomListComponent implements OnInit {
     this.entity = new BomFactory();
     this.bomStage = new BomStage();
     this.newBomStage = new BomStage();
-    this.outBomItem = new BomItem();
-    this.newBomItem = new BomItem();
     this.BomFactorys = [];
   }
 

@@ -7,6 +7,8 @@ const ApiUrl = "api/v1";
 })
 export class SignalRService {
   public data: ChartModel[];
+  public myData: number[] =[];
+  public myLabel:string[]=[]
   public bradcastedData: ChartModel[];
   private hubConnection: signalR.HubConnection
 
@@ -23,8 +25,17 @@ export class SignalRService {
 
   public addTransferChartDataListener = () => {
     this.hubConnection.on('transferchartdata', (data) => {
-      this.data = data;
-      console.log(data);
+     this.data = data;
+     let item = data[0].data[0];
+      this.myData.push(item.x);
+      this.myLabel.push(item.y);
+    
+     
+      if(this.myData.length >20)
+      {
+        this.myData.shift();
+         this.myLabel.shift();
+      }
     });
   }
 
@@ -32,10 +43,17 @@ export class SignalRService {
     this.hubConnection.invoke('broadcastchartdata', this.data)
     .catch(err => console.error(err));
   }
- 
+
   public addBroadcastChartDataListener = () => {
     this.hubConnection.on('broadcastchartdata', (data) => {
       this.bradcastedData = data;
     })
   }
+  last =  function(array, n) {
+    if (array == null) 
+      return void 0;
+    if (n == null) 
+       return array[array.length - 1];
+    return array.slice(Math.max(array.length - n, 0));  
+    };
 }

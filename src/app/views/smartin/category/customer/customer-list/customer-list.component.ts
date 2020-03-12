@@ -63,8 +63,9 @@ export class CustomerListComponent  implements  AfterViewInit, OnDestroy, OnInit
       ],
       ajax: (dataTablesParameters: any, callback) => {
         this.dtOptions.ajax= (dataTablesParameters: any, callback) => { //chèn lại ajax ở một vị trí duy nhất khi định nghĩa
+          this.iboxloading = true;
           this.api.getDataTableCustomerPagination(dataTablesParameters).subscribe(res => {
-            
+            this.iboxloading = false;
             this.lsData = res.data;
             console.log("DATATABLE:",this.lsData);
             callback({
@@ -116,8 +117,7 @@ export class CustomerListComponent  implements  AfterViewInit, OnDestroy, OnInit
   fnDelete(id){
 
     swal.fire({
-      title: this.trans.instant('Warehouse.mssg.DeleteAsk_Title'),
-      titleText: this.trans.instant('Warehouse.mssg.DeleteAsk_Text'),
+      titleText: this.trans.instant('Customer.mssg.DeleteAsk_Text'),
       confirmButtonText: this.trans.instant('Button.OK'),
       cancelButtonText: this.trans.instant('Button.Cancel'),
       type: 'warning',

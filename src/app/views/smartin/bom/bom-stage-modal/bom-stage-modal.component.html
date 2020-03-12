@@ -147,7 +147,7 @@
                         name="outBomStageId"
                         (change)="$event != null? (bomStage.StageName = $event.StageName): null"
                         required
-                        [(ngModel)]="bomStage.BomStageId"
+                        [(ngModel)]="bomStage.StageId"
                       >
                       </ng-select>
                     </td>
@@ -194,7 +194,7 @@
                           <button
                             type="button"
                             class="btn btn-sm btn-outline btn-primary"
-                            [disabled]="!bomStage.BomStageId || !bomStage.OrderNumber"
+                            [disabled]="!bomStage.StageId || !bomStage.OrderNumber"
                             (click)="validateStage(bomStage, 'edit')"
                             *ngIf="i + 1 === editRowId">
                             <i class="fa fa-check"></i>
@@ -238,7 +238,7 @@
                         name="newBomStageId"
                         id="newBomStageId"
                         (change)="$event != null? (newBomStage.StageName = $event.StageName): null"
-                        [(ngModel)]="newBomStage.BomStageId"
+                        [(ngModel)]="newBomStage.StageId"
                         required></ng-select>
                     </td>
                     <td>
@@ -286,7 +286,7 @@
                       <button
                         type="button"
                         class="btn btn-sm btn-outline btn-info pull-right"
-                        [disabled]="!newBomStage.BomStageId || !newBomStage.OrderNumber"
+                        [disabled]="!newBomStage.StageId || !newBomStage.OrderNumber"
                         (click)="fnAddStage()">
                         <i class="fa fa-plus"></i>
                       </button>

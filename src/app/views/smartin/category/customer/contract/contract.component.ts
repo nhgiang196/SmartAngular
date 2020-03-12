@@ -55,7 +55,8 @@ export class ContractComponent implements OnInit, AfterViewInit {
   newEntity_ContractBreach: ContractBreach = new ContractBreach();
   ngOnInit() {
   }
-  private async resetEntity() { //reset entity values
+   async resetEntity() { //reset entity values
+    debugger;
     this.entity = new Contract();
     this.entity.CustomerId = this.route.snapshot.params.id || 0;
     this.files = [];
@@ -65,6 +66,7 @@ export class ContractComponent implements OnInit, AfterViewInit {
     this.EditRowNumber = 0;
     this.EditRowNumber_PRICE = 0;
   }
+
   ngOnChanges(changes: SimpleChanges) {
     console.log('changes', changes);
     this.resetEntity();
@@ -84,7 +86,7 @@ export class ContractComponent implements OnInit, AfterViewInit {
     })
   }
   ngAfterViewInit() {
-    collapseIboxHelper()
+    collapseIboxHelper();
   }
   /**Button Functions */
   async fnSave() {
@@ -101,7 +103,12 @@ export class ContractComponent implements OnInit, AfterViewInit {
     e.EffectiveDate = this.helper.dateConvertToString(e.EffectiveDate);
     e.EndDate = this.helper.dateConvertToString(e.EndDate);
     await this.uploadFile(this.addFiles.FileList);
-    if (e.ContractId == 0) //add
+    if (e.CustomerId == 0) { //New customer, just send to parrent
+      let _sendParent = Object.assign({}, e); //stop binding
+      this.send_entity.emit(_sendParent);
+      $('#myContractModal').modal('hide');
+    }
+    else if (e.ContractId == 0) //add
     {
       console.log('create_contract', e);
       let operationResult = await this.api.addContract(e).toPromise().then().catch(err => this.toastr.error(err.statusText, 'Network')) as any;

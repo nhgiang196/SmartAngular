@@ -45,7 +45,8 @@
     "Undo": "Undo",
     "Login": "Login",
     "OK": "OK",
-    "Cancel": "Cancel"
+    "Cancel": "Cancel",
+    "Back": "Back"
   },
   "CommandTree": {
     "Dashboard": "Dashboard",
@@ -380,7 +381,11 @@
     "placeholder.ContactEmail" : "Enter Contact Email",
     "placeholder.ContactPhone" : "Enter Contact phone",
     "placeholder.Description" : "Enter Description",
-    "invalid.Existed_CustomerName":"Trùng tên đơn vị xả thải"
+    "label.Breadcrumb":"ĐƠN VỊ XẢ THẢI",
+    "invalid.Existed_CustomerName":"Trùng tên đơn vị xả thải",
+    "invalid.Null_CustomerName":"Tên đơn vị bị trống",
+    "mssg.AskForCreateContractCustomer":"Việc thêm hợp đồng sẽ đồng thời tạo đơn vị xả thải, bạn có đồng ý?",
+    "mssg.DeleteAsk_Text":"Bạn có chắc chắc muốn xóa đơn vị xả thải này?"
   },
   "Contract":{
     "":"Contract",
