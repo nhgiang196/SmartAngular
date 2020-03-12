@@ -1,3 +1,18 @@
+
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-sm-4">
+    <h2>{{ 'Customer.label.Breadcrumb' | translate }}</h2>
+    <ol class="breadcrumb">
+      <li>
+        <a >{{ 'TopNav.Category' | translate }}</a>
+      </li>
+      <li class="active">
+        <strong>{{ 'Customer.label.Breadcrumb' | translate }}</strong>
+      </li>
+    </ol>
+  </div>
+</div>
+
 <div class="wrapper wrapper-content animated fadeInRight">
   <div class="row">
     <div class="col-lg-12">
@@ -276,7 +291,13 @@
         
         <div class="row">
           <div class="col-sm-6">
-          </div><div class="col-sm-6"><button class="btn btn-primary pull-right" [ladda]="laddaSubmitLoading" [disabled]="myForm.invalid" (click)="fnSave()"><i class="fa fa-paper-plane-o"></i> {{'Button.Save' | translate}}</button></div>
+          </div>
+          
+          <div class="col-sm-6">
+            <button class="btn btn-primary dim pull-right" [ladda]="laddaSubmitLoading" [disabled]="myForm.invalid" (click)="fnSave()"><i class="fa fa-paper-plane-o"></i> {{'Button.Save' | translate}}</button>
+            <button class="btn btn-outline dim pull-right" [routerLink]="['/category/customers']" ><i class="fa fa-chevron-circle-left"></i> {{'Button.Back' | translate}}  </button>
+
+          </div>
         </div>
       </div>
 

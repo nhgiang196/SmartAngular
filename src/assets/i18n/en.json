@@ -45,7 +45,8 @@
     "Undo": "Undo",
     "Login": "Login",
     "OK": "OK",
-    "Cancel": "Cancel"
+    "Cancel": "Cancel",
+    "Back": "Back"
   },
   "CommandTree": {
     "Dashboard": "Dashboard",

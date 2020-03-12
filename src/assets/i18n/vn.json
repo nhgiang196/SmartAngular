@@ -45,7 +45,8 @@
     "Undo": "Hoàn tác",
     "Login": "Đăng nhập",
     "OK": "OK",
-    "Cancel": "Hủy"
+    "Cancel": "Hủy",
+    "Back": "Quay lại"
   },
   "CommandTree": {
     "Dashboard": "Trang đầu",
