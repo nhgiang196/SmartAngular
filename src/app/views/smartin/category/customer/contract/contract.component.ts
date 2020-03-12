@@ -55,7 +55,8 @@ export class ContractComponent implements OnInit, AfterViewInit {
   newEntity_ContractBreach: ContractBreach = new ContractBreach();
   ngOnInit() {
   }
-  private async resetEntity() { //reset entity values
+   async resetEntity() { //reset entity values
+    debugger;
     this.entity = new Contract();
     this.entity.CustomerId = this.route.snapshot.params.id || 0;
     this.files = [];
@@ -65,6 +66,7 @@ export class ContractComponent implements OnInit, AfterViewInit {
     this.EditRowNumber = 0;
     this.EditRowNumber_PRICE = 0;
   }
+
   ngOnChanges(changes: SimpleChanges) {
     console.log('changes', changes);
     this.resetEntity();

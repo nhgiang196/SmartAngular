@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Customer, CustomerFile, Factory, Contract } from 'src/app/models/SmartInModels';
 import { ToastrService } from 'ngx-toastr';
@@ -10,6 +10,7 @@ import { trigger, animate, style, transition } from '@angular/animations';
 import { AuthService } from 'src/app/services/auth.service';
 import { HttpEventType } from '@angular/common/http';
 import { setQuarter } from 'ngx-bootstrap/chronos/units/quarter';
+import { ContractComponent } from '../contract/contract.component';
 declare let $: any;
 @Component({
   selector: 'app-customer-detail',
@@ -17,6 +18,8 @@ declare let $: any;
   styleUrls: ['./customer-detail.component.css'],
 })
 export class CustomerDetailComponent implements OnInit {
+  @ViewChild(ContractComponent) childView: ContractComponent;
+
   constructor(
     private api: WaterTreatmentService,
     private router: Router,
@@ -120,6 +123,7 @@ export class CustomerDetailComponent implements OnInit {
     return true;
   }
   fnEditItem(contractId, index) {
+    this.childView.resetEntity();
     console.log('edit item', contractId);
     console.log('edit index', index)
     this.editIndex = index;
