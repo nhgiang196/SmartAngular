@@ -32,9 +32,9 @@ export class CustomerDetailComponent implements OnInit {
   invalid: any = { Existed_CustomerName: false };
   uploadReportProgress: any = { progress: 0, message: null, isError: null };
   initCombobox = { Factories: [], FullFactories: [] };
-  EditRowID = 0;
+  EditRowNumber = 0;
   laddaSubmitLoading = false;
-  app_ContractID = 0;
+  app_contractId = 0;
   private editIndex: number = 0;
   /**INIT FUNCTIONS */
   ngOnInit() {
@@ -45,8 +45,8 @@ export class CustomerDetailComponent implements OnInit {
     await this.loadFactoryList();
     /**Add Combobox Value: FACTORY */
     let dataResolver = this.route.snapshot.data["dataResolver"];
-    let _factoryAddTag = await this.initCombobox.FullFactories.find(x => x.FactoryID == dataResolver.FactoryId);
-    if (_factoryAddTag && await !this.initCombobox.Factories.find(x => x.FactoryID == dataResolver.FactoryId))
+    let _factoryAddTag = await this.initCombobox.FullFactories.find(x => x.FactoryId == dataResolver.FactoryId);
+    if (_factoryAddTag && await !this.initCombobox.Factories.find(x => x.FactoryId == dataResolver.FactoryId))
       this.initCombobox.Factories = this.initCombobox.Factories.concat([_factoryAddTag]);
     this.entity = dataResolver;
     // await this.loadContractByCustomer();
@@ -69,7 +69,7 @@ export class CustomerDetailComponent implements OnInit {
     this.addFiles = { FileList: [], FileLocalNameList: [] }
     this.invalid = {};
     this.uploadReportProgress = { progress: 0, message: null, isError: null };
-    this.EditRowID = 0;
+    this.EditRowNumber = 0;
     this.editIndex = 0;
   }
   /** BUTTON ACTIONS */
@@ -116,11 +116,11 @@ export class CustomerDetailComponent implements OnInit {
   fnValidate(e) {
     return true;
   }
-  fnEditItem(contractID, index) {
-    console.log('edit item', contractID);
+  fnEditItem(contractId, index) {
+    console.log('edit item', contractId);
     console.log('edit index', index)
     this.editIndex = index;
-    this.app_ContractID = contractID;
+    this.app_contractId = contractId;
   }
   fnDeleteItem(index) {
     swal.fire({

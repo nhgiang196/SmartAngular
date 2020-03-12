@@ -315,7 +315,7 @@ export class Customer {
 export class CustomerFile {
   CustomerFileId: number = 0
   CustomerId: number = 0
-  FileID: number = 0
+  FileId: number = 0
   File: Files = new Files()
 }
 

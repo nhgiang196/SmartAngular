@@ -45,7 +45,7 @@ export class CustomerListComponent  implements  AfterViewInit, OnDestroy, OnInit
       pagingType: 'full_numbers',
       search: { regex: true },
       columns: [
-          { data: 'CustomerID' }
+          { data: 'CustomerId' }
          , { data: 'CustomerName'}
          , { data: 'FactoryName'}
          , { data: 'CustomerAddress'}
