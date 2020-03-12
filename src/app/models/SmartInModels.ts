@@ -229,16 +229,27 @@ export class BomFactory {
   BomStage?: BomStage [] = []
 }
 
-export class BomItem {
+export class BomItemOut {
 	BomItemId: number = 0
 	BomStageId: number = 0
   ItemId?: number = 0
   ItemName:string
-	BomItemType?: string
   UnitId?: number = 0
   UnitName: string
   Quantity?: number
-  BomItemParentId?: number
+  Item?: Item = new Item();
+  Unit?: Unit = new Unit();
+  BomItemIn?: BomItemIn [] = []
+}
+
+export class BomItemIn {
+	BomItemId: number = 0
+	BomStageId: number = 0
+  ItemId?: number = 0
+  ItemName:string
+  UnitId?: number = 0
+  UnitName: string
+  Quantity?: number
   Item?: Item = new Item();
   Unit?: Unit = new Unit();
 }
@@ -251,7 +262,7 @@ export class BomStage {
 	OrderNumber?: number
 	Sequence?: boolean = false
   Description?: string
-  BomItem?: BomItem[] =[]
+  BomItemOut?: BomItemOut[] =[]
 }
 
 export class Warehouse {
