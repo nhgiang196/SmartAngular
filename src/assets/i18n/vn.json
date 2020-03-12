@@ -383,7 +383,10 @@
     "placeholder.ContactPhone" : "Nhập số điện thoại liên hệ",
     "placeholder.Description" : "Nhập ghi chú",
     "label.Breadcrumb":"ĐƠN VỊ XẢ THẢI",
-    "invalid.Existed_CustomerName":"Trùng tên đơn vị xả thải"
+    "invalid.Existed_CustomerName":"Trùng tên đơn vị xả thải",
+    "invalid.Null_CustomerName":"Tên đơn vị bị trống",
+    "mssg.AskForCreateContractCustomer":"Việc thêm hợp đồng sẽ đồng thời tạo đơn vị xả thải, bạn có đồng ý?",
+    "mssg.DeleteAsk_Text":"Bạn có chắc chắc muốn xóa đơn vị xả thải này?"
     
   },
   "Contract":{

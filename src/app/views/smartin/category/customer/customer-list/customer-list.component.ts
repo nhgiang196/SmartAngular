@@ -116,8 +116,7 @@ export class CustomerListComponent  implements  AfterViewInit, OnDestroy, OnInit
   fnDelete(id){
 
     swal.fire({
-      title: this.trans.instant('Warehouse.mssg.DeleteAsk_Title'),
-      titleText: this.trans.instant('Warehouse.mssg.DeleteAsk_Text'),
+      titleText: this.trans.instant('Customer.mssg.DeleteAsk_Text'),
       confirmButtonText: this.trans.instant('Button.OK'),
       cancelButtonText: this.trans.instant('Button.Cancel'),
       type: 'warning',

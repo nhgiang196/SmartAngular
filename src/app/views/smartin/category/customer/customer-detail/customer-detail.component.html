@@ -34,82 +34,83 @@
         </ul>
         <div class="tab-content">
           <div id="tab-1" class="tab-pane active">
-            <form role="form" #myForm="ngForm">
-              <div class="panel-body">
-                <form class="form-horizontal">
-                  <div class="form-group">
-                    <label class="col-sm-2 control-label">{{'Customer.data.CustomerName' | translate }}*:</label>
-                    <div class="col-sm-4">
-                      <input autocomplete="off" type="text" [(ngModel)]="entity.CustomerName" class="form-control"
-                        placeholder="{{'Customer.placeholder.CustomerName' | translate }}" name="CustomerName" required
-                        [ngClass]="{ 'is-invalid':  invalid.Existed_CustomerName }">
-                        <div *ngIf="invalid.Existed_CustomerName" style="color: red;">{{ 'Customer.invalid.Existed_CustomerName' | translate }}</div>
-                    </div>
-                    <label class="col-sm-2 control-label">{{'Customer.data.FactoryId' | translate }}*:</label>
-                    <div class="col-sm-4">
-                      <ng-select [items]="initCombobox.Factories" bindLabel="FactoryName" bindValue="FactoryId" [(ngModel)]="entity.FactoryId"
-                        class="custom" placeholder="{{'Customer.placeholder.FactoryId' | translate }}" name="FactoryId"
-                        required></ng-select>
+            
+            <div class="panel-body">
+              <form class="form-horizontal"  role="form" #myForm="ngForm">
+                <div class="form-group">
+                  <label class="col-sm-2 control-label">{{'Customer.data.CustomerName' | translate }}*:</label>
+                  <div class="col-sm-4">
+                    <input autocomplete="off" type="text" [(ngModel)]="entity.CustomerName" class="form-control"
+                      placeholder="{{'Customer.placeholder.CustomerName' | translate }}" name="CustomerName" 
+                      [ngClass]="{ 'is-invalid':  invalid.Existed_CustomerName || invalid.Null_CustomerName }" required>
+                      <div *ngIf="invalid.Existed_CustomerName" style="color: red;">{{ 'Customer.invalid.Existed_CustomerName' | translate }}</div>
+                      <div *ngIf="invalid.Null_CustomerName" style="color: red;">{{ 'Customer.invalid.Null_CustomerName' | translate }}</div>
+                  </div>
+                  <label class="col-sm-2 control-label">{{'Customer.data.FactoryId' | translate }}*:</label>
+                  <div class="col-sm-4">
+                    <ng-select [items]="initCombobox.Factories" bindLabel="FactoryName" bindValue="FactoryId" [(ngModel)]="entity.FactoryId"
+                      class="custom" placeholder="{{'Customer.placeholder.FactoryId' | translate }}" name="FactoryId"
+                      required></ng-select>
 
-                    </div>
                   </div>
-                  <div class="form-group">
-                    <label class="col-sm-2 control-label">{{'Customer.data.CustomerAddress' | translate }}:</label>
-                    <div class="col-sm-4">
-                      <input autocomplete="off" type="text" [(ngModel)]="entity.CustomerAddress" class="form-control"
-                        placeholder="{{'Customer.placeholder.CustomerAddress' | translate }}" name="CustomerAddress">
-                    </div>
-                    <label class="col-sm-2 control-label">{{'Customer.data.ContactName' | translate }}:</label>
-                    <div class="col-sm-4">
-                      <input autocomplete="off" type="text" [(ngModel)]="entity.ContactName" class="form-control"
-                        placeholder="{{'Customer.placeholder.ContactName' | translate }}" name="ContactName">
-                    </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label">{{'Customer.data.CustomerAddress' | translate }}:</label>
+                  <div class="col-sm-4">
+                    <input autocomplete="off" type="text" [(ngModel)]="entity.CustomerAddress" class="form-control"
+                      placeholder="{{'Customer.placeholder.CustomerAddress' | translate }}" name="CustomerAddress">
                   </div>
-                  <div class="form-group">
-                    <label class="col-sm-2 control-label">{{'Customer.data.ContactEmail' | translate }}:</label>
-                    <div class="col-sm-4">
-                      <input autocomplete="off" type="text" [(ngModel)]="entity.ContactEmail" class="form-control"
-                        placeholder="{{'Customer.placeholder.ContactEmail' | translate }}" name="ContactEmail" >
+                  <label class="col-sm-2 control-label">{{'Customer.data.ContactName' | translate }}:</label>
+                  <div class="col-sm-4">
+                    <input autocomplete="off" type="text" [(ngModel)]="entity.ContactName" class="form-control"
+                      placeholder="{{'Customer.placeholder.ContactName' | translate }}" name="ContactName">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label">{{'Customer.data.ContactEmail' | translate }}:</label>
+                  <div class="col-sm-4">
+                    <input autocomplete="off" type="text" [(ngModel)]="entity.ContactEmail" class="form-control"
+                      placeholder="{{'Customer.placeholder.ContactEmail' | translate }}" name="ContactEmail" >
 
-                    </div>
-                    <label class="col-sm-2 control-label">{{'Customer.data.ContactPhone' | translate }}:</label>
-                    <div class="col-sm-4">
-                      <input autocomplete="off" type="text" [(ngModel)]="entity.ContactPhone" class="form-control"
-                        placeholder="{{'Customer.placeholder.ContactPhone' | translate }}" name="ContactPhone" >
-                    </div>
                   </div>
-                  <div class="form-group">
-                    <label class="col-sm-2 control-label">{{'Customer.data.Description' | translate }}:</label>
-                    <div class="col-sm-4">
-                      <input autocomplete="off" type="text" [(ngModel)]="entity.Description" class="form-control"
-                        placeholder="{{'Customer.placeholder.Description' | translate }}" name="Description" >
-                    </div>
+                  <label class="col-sm-2 control-label">{{'Customer.data.ContactPhone' | translate }}:</label>
+                  <div class="col-sm-4">
+                    <input autocomplete="off" type="text" [(ngModel)]="entity.ContactPhone" class="form-control"
+                      placeholder="{{'Customer.placeholder.ContactPhone' | translate }}" name="ContactPhone" >
                   </div>
-                  <div class="form-group">
-                    <label class="col-sm-2 control-label">{{'Customer.data.IsIntergration' | translate }}:</label>
-                    <div class="col-sm-4">
-                      <span (click)="onSwitchStatus('entityIsIntergration')" ><i class="fa fa-lg" [ngClass]="{'fa-check-square-o text-info': entity.IsIntergration==true, 'fa-square-o':entity.IsIntergration==false}" ></i> </span>
-                      
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label">{{'Customer.data.Description' | translate }}:</label>
+                  <div class="col-sm-4">
+                    <input autocomplete="off" type="text" [(ngModel)]="entity.Description" class="form-control"
+                      placeholder="{{'Customer.placeholder.Description' | translate }}" name="Description" >
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label">{{'Customer.data.IsIntergration' | translate }}:</label>
+                  <div class="col-sm-4">
+                    <span (click)="onSwitchStatus('entityIsIntergration')" ><i class="fa fa-lg" [ngClass]="{'fa-check-square-o text-info': entity.IsIntergration==true, 'fa-square-o':entity.IsIntergration==false}" ></i> </span>
+                    
 
-                    </div>
-                    <label class="col-sm-2 control-label">{{'Customer.data.Status' | translate }}*:</label>
-                    <div class="col-sm-4">
-                      <div class="switch">
-                        <div class="onoffswitch">
-                          <input type="checkbox" class="onoffswitch-checkbox" name="status" id="status"  (click)="onSwitchStatus('entity')" [checked]="entity.Status==1 ? true : null" >
-                          <label class="onoffswitch-label" for="status">
-                            <span class="onoffswitch-inner"></span>
-                            <span class="onoffswitch-switch"></span>
-                          </label>
-                        </div>
+                  </div>
+                  <label class="col-sm-2 control-label">{{'Customer.data.Status' | translate }}*:</label>
+                  <div class="col-sm-4">
+                    <div class="switch">
+                      <div class="onoffswitch">
+                        <input type="checkbox" class="onoffswitch-checkbox" name="status" id="status"  (click)="onSwitchStatus('entity')" [checked]="entity.Status==1 ? true : null" >
+                        <label class="onoffswitch-label" for="status">
+                          <span class="onoffswitch-inner"></span>
+                          <span class="onoffswitch-switch"></span>
+                        </label>
                       </div>
-
-
                     </div>
+
+
                   </div>
-                </form>
-              </div>
-            </form>
+                </div>
+              </form>
+            </div>
+          
           </div>
           <div id="tab-2" class="tab-pane">
             <div class="panel-body">
@@ -275,7 +276,7 @@
         
         <div class="row">
           <div class="col-sm-6">
-          </div><div class="col-sm-6"><button class="btn btn-primary pull-right" [ladda]="laddaSubmitLoading" [disabled]="myForm.invalid ||EditRowNumber!=0" (click)="fnSave()"><i class="fa fa-paper-plane-o"></i> {{'Button.Save' | translate}}</button></div>
+          </div><div class="col-sm-6"><button class="btn btn-primary pull-right" [ladda]="laddaSubmitLoading" [disabled]="myForm.invalid" (click)="fnSave()"><i class="fa fa-paper-plane-o"></i> {{'Button.Save' | translate}}</button></div>
         </div>
       </div>
 

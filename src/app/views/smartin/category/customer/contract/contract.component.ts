@@ -84,7 +84,7 @@ export class ContractComponent implements OnInit, AfterViewInit {
     })
   }
   ngAfterViewInit() {
-    collapseIboxHelper()
+    collapseIboxHelper();
   }
   /**Button Functions */
   async fnSave() {

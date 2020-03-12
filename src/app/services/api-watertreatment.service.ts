@@ -28,13 +28,13 @@ export class WaterTreatmentService {
   }
   getBasicFactory(){
     let pr = new DataTablePaginationParams();
-    pr.selectFields = "FactoryId, FactoryName, Status ";
+    pr.selectFields = "FactoryId, [FactoryName]= IIF(ISNULL(FactoryName,'')='',N'[Noname factory]',FactoryName), Status ";
     return this.http.post(`${ApiUrl}/Factory/GetFactoryPagination`, pr);
   }
 
   getFactoryPagination(keyvalue) {
     let pr = new DataTablePaginationParams();
-    pr.keyFields="FactoryName,FactoryAddress,FactoryContact,ContactPhone"
+    pr.keyFields="FactoryName ,FactoryAddress,FactoryContact,ContactPhone"
     pr.key = keyvalue;
     pr.pageSize = 9999;
     return this.http.post(`${ApiUrl}/Factory/GetFactoryPagination`, pr);

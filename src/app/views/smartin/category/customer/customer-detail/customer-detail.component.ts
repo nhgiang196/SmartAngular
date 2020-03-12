@@ -9,6 +9,7 @@ import { WaterTreatmentService } from 'src/app/services/api-watertreatment.servi
 import { trigger, animate, style, transition } from '@angular/animations';
 import { AuthService } from 'src/app/services/auth.service';
 import { HttpEventType } from '@angular/common/http';
+import { setQuarter } from 'ngx-bootstrap/chronos/units/quarter';
 declare let $: any;
 @Component({
   selector: 'app-customer-detail',
@@ -29,7 +30,7 @@ export class CustomerDetailComponent implements OnInit {
   entity: Customer;
   files: File[] = [];
   addFiles: { FileList: File[], FileLocalNameList: string[] };
-  invalid: any = { Existed_CustomerName: false };
+  invalid: any = { Existed_CustomerName: false, Null_CustomerName: false };
   uploadReportProgress: any = { progress: 0, message: null, isError: null };
   initCombobox = { Factories: [], FullFactories: [] };
   EditRowNumber = 0;
@@ -216,7 +217,21 @@ export class CustomerDetailComponent implements OnInit {
   
   onChangeAdd(returnContract: Contract) {
     console.log('return Contract', returnContract);
-    this.entity.Contract.splice(this.editIndex, 1, returnContract);
+    
+    swal.fire({
+      titleText: this.trans.instant('Customer.mssg.AskForCreateContractCustomer'),
+      confirmButtonText: this.trans.instant('Button.OK'),
+      cancelButtonText: this.trans.instant('Button.Cancel'),
+      type: 'question',
+      showCancelButton: true,
+      reverseButtons: true
+    }).then((result) => {
+      if (result.value) {
+        this.entity.Contract.splice(this.editIndex, 1, returnContract);
+        this.fnSave();
+      }
+    })
+    
   }
   ngAfterViewInit() {
   }
