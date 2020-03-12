@@ -152,7 +152,7 @@
                             <option value=2> {{ 'Contract.data.ContractBreach.ResolveType2' | translate }} </option>
                           </select>
                         <td *ngIf="i+1 === EditRowNumber">
-                          <input autocomplete="off" type="number" class="form-control" name="Times" [(ngModel)]="subEntity_ContractBreach.Times"></td>
+                          <input autocomplete="off" type="number" min="0" class="form-control" name="Times" [(ngModel)]="subEntity_ContractBreach.Times"></td>
                         <!-- BUTTON -->
                         <td>
                           <div class="btn-group">
@@ -179,7 +179,7 @@
                             <option selected value=1> {{ 'Contract.data.ContractBreach.ResolveType1' | translate }} </option>
                             <option value=2> {{ 'Contract.data.ContractBreach.ResolveType2' | translate }} </option>
                           </select>
-                        <td> <input autocomplete="off" type="number" class="form-control"  name="newTimes" [(ngModel)]="newEntity_ContractBreach.Times"> </td>
+                        <td> <input autocomplete="off" type="number" min="0" class="form-control"  name="newTimes" [(ngModel)]="newEntity_ContractBreach.Times"> </td>
                         <td>
                           <button [disabled]="!newEntity_ContractBreach.BreachType || !newEntity_ContractBreach.ResolveType"
                           type="button" class="btn  btn-sm btn-outline btn-info pull-right"  (click)="fnAddContractBreach(newEntity_ContractBreach)"><i class="fa fa-plus"></i> </button>
@@ -236,20 +236,18 @@
                         <td *ngIf="i+1 !== EditRowNumber_PRICE">{{item.Tax}} </td>
                         <!-- FORM -->
                         <td *ngIf="i+1 === EditRowNumber_PRICE">
-                          <input autocomplete="off" type="number" class="form-control" name="Ratio" [(ngModel)]="subEntity_ContractPrice.Ratio"></td>
+                          <input autocomplete="off" type="number" min="0" class="form-control" name="Ratio" [(ngModel)]="subEntity_ContractPrice.Ratio"></td>
                         <td *ngIf="i+1 === EditRowNumber_PRICE">
                           <input autocomplete="off" type="text" class="form-control" name="Currency" [(ngModel)]="subEntity_ContractPrice.Currency"></td>
                         <td *ngIf="i+1 === EditRowNumber_PRICE">
-                          <input autocomplete="off" type="number" class="form-control" name="Price" [(ngModel)]="subEntity_ContractPrice.Price"></td>
+                          <input autocomplete="off" type="number" min="0" class="form-control" name="Price" [(ngModel)]="subEntity_ContractPrice.Price"></td>
                         <td *ngIf="i+1 === EditRowNumber_PRICE">
-                          <input autocomplete="off" type="number" class="form-control" name="Tax" [(ngModel)]="subEntity_ContractPrice.Tax"></td>
+                          <input autocomplete="off" type="number" min="0" class="form-control" name="Tax" [(ngModel)]="subEntity_ContractPrice.Tax"></td>
                         <!-- BUTTON -->
                         <td>
                           <div class="btn-group">
-                            <button type="button" class="btn btn-sm btn-outline btn-primary"
-                              
-                              (click)="EditRowNumber_PRICE=0" *ngIf="i+1 === EditRowNumber_PRICE"><i
-                                class="fa fa-check"></i></button>
+                            <button type="button" class="btn btn-sm btn-outline btn-primary" (click)="EditRowNumber_PRICE=0" *ngIf="i+1 === EditRowNumber_PRICE"
+                            [disabled]="subEntity_ContractPrice.Ratio<0 || subEntity_ContractPrice.Price<0 || subEntity_ContractPrice.Tax<0" ><i class="fa fa-check"></i></button>
                             <button type="button" class="btn btn-sm btn-outline btn-success" (click)="fnEditContractPrice(i)"  [disabled]="EditRowNumber_PRICE!=0"
                               *ngIf="i+1 !== EditRowNumber_PRICE"><i class="fa fa-pencil"></i></button>
                             <button type="button" class="btn btn-sm btn-outline btn-danger" (click)="fnDeleteContractPrice(i)"
@@ -260,13 +258,14 @@
                       
                       <tr>
                         <td> {{entity.ContractPrice.length+1}} </td>
-                        <td> <input autocomplete="off" type="number" class="form-control" name="newRatio" [(ngModel)]="newEntity_ContractPrice.Ratio"> </td>
+                        <td> <input autocomplete="off" type="number" min="0" class="form-control" name="newRatio" [(ngModel)]="newEntity_ContractPrice.Ratio"> </td>
                         <td> <input autocomplete="off" type="text" class="form-control" name="newCurrency" [(ngModel)]="newEntity_ContractPrice.Currency"> </td>
-                        <td> <input autocomplete="off" type="number" class="form-control" name="newPrice" [(ngModel)]="newEntity_ContractPrice.Price"> </td>
-                        <td> <input autocomplete="off" type="number" class="form-control" name="newTax" [(ngModel)]="newEntity_ContractPrice.Tax"> </td>
+                        <td> <input autocomplete="off" type="number" min="0" class="form-control" name="newPrice" [(ngModel)]="newEntity_ContractPrice.Price"> </td>
+                        <td> <input autocomplete="off" type="number" min="0" class="form-control" name="newTax" [(ngModel)]="newEntity_ContractPrice.Tax"> </td>
                         <td>
-                          <button type="button" class="btn  btn-sm btn-outline btn-info pull-right" (click)="fnAddContractPrice(newEntity_ContractPrice)" ><i
-                              class="fa fa-plus" ></i> </button>
+                          <button type="button" class="btn  btn-sm btn-outline btn-info pull-right" (click)="fnAddContractPrice(newEntity_ContractPrice)" 
+                          [disabled]="newEntity_ContractPrice.Ratio<0 || newEntity_ContractPrice.Price<0 || newEntity_ContractPrice.Tax<0"
+                          ><i class="fa fa-plus" ></i> </button>
                         </td>
                       </tr>
     
@@ -341,7 +340,7 @@
       </div>
       <div class="modal-footer">
         <button class="btn btn-white"  data-dismiss="modal">{{'Button.Close' | translate}}</button>
-        <button type="button" class="btn btn-primary" [disabled]="mySubForm.invalid || EditRowNumber!=0 || EditRowNumber_PRICE!=0"  [ladda]="laddaSubmitLoading" (click)="fnSave()" ><i class="fa fa-paper-plane-o"></i> {{'Button.Save' | translate}} </button>
+        <button type="button" class="btn btn-primary" [disabled]="mySubForm.invalid || EditRowNumber!=0 || EditRowNumber_PRICE!=0 "  [ladda]="laddaSubmitLoading" (click)="fnSave()" ><i class="fa fa-paper-plane-o"></i> {{'Button.Save' | translate}} </button>
       </div>
     </div>
   </div>
