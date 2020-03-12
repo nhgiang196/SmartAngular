@@ -217,20 +217,23 @@ export class CustomerDetailComponent implements OnInit {
   
   onChangeAdd(returnContract: Contract) {
     console.log('return Contract', returnContract);
-    
-    swal.fire({
-      titleText: this.trans.instant('Customer.mssg.AskForCreateContractCustomer'),
-      confirmButtonText: this.trans.instant('Button.OK'),
-      cancelButtonText: this.trans.instant('Button.Cancel'),
-      type: 'question',
-      showCancelButton: true,
-      reverseButtons: true
-    }).then((result) => {
-      if (result.value) {
-        this.entity.Contract.splice(this.editIndex, 1, returnContract);
-        this.fnSave();
-      }
-    })
+    if (returnContract.CustomerId==0)
+      swal.fire({
+        titleText: this.trans.instant('Customer.mssg.AskForCreateContractCustomer'),
+        confirmButtonText: this.trans.instant('Button.OK'),
+        cancelButtonText: this.trans.instant('Button.Cancel'),
+        type: 'question',
+        showCancelButton: true,
+        reverseButtons: true
+      }).then((result) => {
+        if (result.value) {
+          this.entity.Contract.splice(this.editIndex, 1, returnContract);
+          this.fnSave();
+        }
+      })
+    else {
+      this.entity.Contract.splice(this.editIndex, 1, returnContract);
+    }
     
   }
   ngAfterViewInit() {
