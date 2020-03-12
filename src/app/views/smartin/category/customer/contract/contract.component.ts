@@ -101,7 +101,12 @@ export class ContractComponent implements OnInit, AfterViewInit {
     e.EffectiveDate = this.helper.dateConvertToString(e.EffectiveDate);
     e.EndDate = this.helper.dateConvertToString(e.EndDate);
     await this.uploadFile(this.addFiles.FileList);
-    if (e.ContractId == 0) //add
+    if (e.CustomerId == 0) { //New customer, just send to parrent
+      let _sendParent = Object.assign({}, e); //stop binding
+      this.send_entity.emit(_sendParent);
+      $('#myContractModal').modal('hide');
+    }
+    else if (e.ContractId == 0) //add
     {
       console.log('create_contract', e);
       let operationResult = await this.api.addContract(e).toPromise().then().catch(err => this.toastr.error(err.statusText, 'Network')) as any;

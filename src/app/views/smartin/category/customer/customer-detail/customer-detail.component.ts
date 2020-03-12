@@ -44,11 +44,13 @@ export class CustomerDetailComponent implements OnInit {
   async loadInit() {
     await this.loadFactoryList();
     /**Add Combobox Value: FACTORY */
-    let dataResolver = this.route.snapshot.data["dataResolver"];
-    let _factoryAddTag = await this.initCombobox.FullFactories.find(x => x.FactoryId == dataResolver.FactoryId);
-    if (_factoryAddTag && await !this.initCombobox.Factories.find(x => x.FactoryId == dataResolver.FactoryId))
-      this.initCombobox.Factories = this.initCombobox.Factories.concat([_factoryAddTag]);
-    this.entity = dataResolver;
+    let dataResolver = this.route.snapshot.data["dataResolver"] as any;
+    if (dataResolver){
+      let _factoryAddTag = await this.initCombobox.FullFactories.find(x => x.FactoryId == dataResolver.FactoryId);
+      if (_factoryAddTag && await !this.initCombobox.Factories.find(x => x.FactoryId == dataResolver.FactoryId))
+        this.initCombobox.Factories = this.initCombobox.Factories.concat([_factoryAddTag]);
+      this.entity = dataResolver;
+    }
     // await this.loadContractByCustomer();
     this.entity.CustomerFile.forEach(item => {
       let _tempFile = new File([], item.File.FileOriginalName);
