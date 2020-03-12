@@ -24,6 +24,8 @@ export class MonitorStandardComponent implements OnInit {
   laddaSubmitLoading = false;
   EditRowID: number =0;
   entity: MonitorStandard;
+  iboxloading = false;
+
   initCombobox = { Factories: [], FullFactories: [] };
   constructor(
     private api: WaterTreatmentService,
@@ -80,7 +82,7 @@ export class MonitorStandardComponent implements OnInit {
     this.initCombobox.FullFactories = (res as any).result as Factory[];
   }
 
- private async loadData(){
+  async loadData(){
     $('#myTable').DataTable().clear().destroy();
     this.api.getAllMonitorStandard().subscribe(res=>{
       this.monitors = res;

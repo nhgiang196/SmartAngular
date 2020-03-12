@@ -164,20 +164,25 @@
           <div class="row">
             <div class="col-lg-4">
               <div class="form-group">
-                <label> {{ 'Warehouse.data.WarehouseLength' | translate }}: </label>
-                <input autocomplete="off" type="number" name="WarehouseLength" id="WarehouseLength" [(ngModel)]="entity.WarehouseLength" class="form-control" placeholder="Enter your __________"  required>
+                <label> {{ 'Warehouse.data.WarehouseLength' | translate }}*: </label>
+                <input  autocomplete="off" type="number" name="WarehouseLength" id="WarehouseLength" [(ngModel)]="entity.WarehouseLength" class="form-control"   min="0" required
+                [ngClass]="{ 'is-invalid': entity.WarehouseLength<0}">
+                
               </div>
             </div>
             <div class="col-lg-4">
               <div class="form-group">
-                <label> {{ 'Warehouse.data.WarehouseWidth' | translate }}: </label>
-                <input autocomplete="off" type="number" name="WarehouseWidth" id="WarehouseWidth" [(ngModel)]="entity.WarehouseWidth" class="form-control" placeholder="Enter your __________"  required>
+                <label> {{ 'Warehouse.data.WarehouseWidth' | translate }}*: </label>
+                <input autocomplete="off" type="number" name="WarehouseWidth" id="WarehouseWidth" [(ngModel)]="entity.WarehouseWidth" 
+                class="form-control"  min="0"  required [ngClass]="{ 'is-invalid': entity.WarehouseWidth<0}">
+                
               </div>
             </div>
             <div class="col-lg-4">
               <div class="form-group">
-                <label> {{ 'Warehouse.data.WarehouseHeight' | translate }}: </label>
-                <input autocomplete="off" type="number" name="WarehouseHeight" id="WarehouseHeight" [(ngModel)]="entity.WarehouseHeight" class="form-control" placeholder="Enter your __________" required>
+                <label> {{ 'Warehouse.data.WarehouseHeight' | translate }}*: </label>
+                <input autocomplete="off" type="number" name="WarehouseHeight" id="WarehouseHeight" [(ngModel)]="entity.WarehouseHeight" class="form-control"
+                [ngClass]="{ 'is-invalid': entity.WarehouseHeight<0}"   min="0" required>
               </div>
             </div>
           </div>
@@ -300,7 +305,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-white" data-dismiss="modal">{{'Button.Close' | translate}}  </button>
-        <button type="button" class="btn btn-primary" (click)="fnSave();" [disabled]="myForm.invalid||EditRowNumber!=0" [ladda]="laddaSubmitLoading" ><i class="fa fa-paper-plane-o"></i> {{'Button.Save' | translate}} </button>
+        <button type="button" class="btn btn-primary" (click)="fnSave();" [disabled]="myForm.invalid||EditRowNumber!=0 || entity.WarehouseLength<0 || entity.WarehouseWidth<0 || entity.WarehouseHeight<0" [ladda]="laddaSubmitLoading" ><i class="fa fa-paper-plane-o"></i> {{'Button.Save' | translate}} </button>
       </div>
     </div>
   </div>
