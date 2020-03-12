@@ -1,3 +1,18 @@
+
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-sm-4">
+    <h2>{{ 'Customer.label.Breadcrumb' | translate }}</h2>
+    <ol class="breadcrumb">
+      <li>
+        <a >{{ 'TopNav.Category' | translate }}</a>
+      </li>
+      <li class="active">
+        <strong>{{ 'Customer.label.Breadcrumb' | translate }}</strong>
+      </li>
+    </ol>
+  </div>
+</div>
+
 <div class="wrapper wrapper-content animated fadeInRight">
   <div class="row">
     <div class="col-lg-12">
@@ -34,82 +49,83 @@
         </ul>
         <div class="tab-content">
           <div id="tab-1" class="tab-pane active">
-            <form role="form" #myForm="ngForm">
-              <div class="panel-body">
-                <form class="form-horizontal">
-                  <div class="form-group">
-                    <label class="col-sm-2 control-label">{{'Customer.data.CustomerName' | translate }}*:</label>
-                    <div class="col-sm-4">
-                      <input autocomplete="off" type="text" [(ngModel)]="entity.CustomerName" class="form-control"
-                        placeholder="{{'Customer.placeholder.CustomerName' | translate }}" name="CustomerName" required
-                        [ngClass]="{ 'is-invalid':  invalid.Existed_CustomerName }">
-                        <div *ngIf="invalid.Existed_CustomerName" style="color: red;">{{ 'Customer.invalid.Existed_CustomerName' | translate }}</div>
-                    </div>
-                    <label class="col-sm-2 control-label">{{'Customer.data.FactoryID' | translate }}*:</label>
-                    <div class="col-sm-4">
-                      <ng-select [items]="initCombobox.Factories" bindLabel="FactoryName" bindValue="FactoryID" [(ngModel)]="entity.FactoryId"
-                        class="custom" placeholder="{{'Customer.placeholder.FactoryID' | translate }}" name="FactoryID"
-                        required></ng-select>
+            
+            <div class="panel-body">
+              <form class="form-horizontal"  role="form" #myForm="ngForm">
+                <div class="form-group">
+                  <label class="col-sm-2 control-label">{{'Customer.data.CustomerName' | translate }}*:</label>
+                  <div class="col-sm-4">
+                    <input autocomplete="off" type="text" [(ngModel)]="entity.CustomerName" class="form-control"
+                      placeholder="{{'Customer.placeholder.CustomerName' | translate }}" name="CustomerName" 
+                      [ngClass]="{ 'is-invalid':  invalid.Existed_CustomerName || invalid.Null_CustomerName }" required>
+                      <div *ngIf="invalid.Existed_CustomerName" style="color: red;">{{ 'Customer.invalid.Existed_CustomerName' | translate }}</div>
+                      <div *ngIf="invalid.Null_CustomerName" style="color: red;">{{ 'Customer.invalid.Null_CustomerName' | translate }}</div>
+                  </div>
+                  <label class="col-sm-2 control-label">{{'Customer.data.FactoryId' | translate }}*:</label>
+                  <div class="col-sm-4">
+                    <ng-select [items]="initCombobox.Factories" bindLabel="FactoryName" bindValue="FactoryId" [(ngModel)]="entity.FactoryId"
+                      class="custom" placeholder="{{'Customer.placeholder.FactoryId' | translate }}" name="FactoryId"
+                      required></ng-select>
 
-                    </div>
                   </div>
-                  <div class="form-group">
-                    <label class="col-sm-2 control-label">{{'Customer.data.CustomerAddress' | translate }}:</label>
-                    <div class="col-sm-4">
-                      <input autocomplete="off" type="text" [(ngModel)]="entity.CustomerAddress" class="form-control"
-                        placeholder="{{'Customer.placeholder.CustomerAddress' | translate }}" name="CustomerAddress">
-                    </div>
-                    <label class="col-sm-2 control-label">{{'Customer.data.ContactName' | translate }}:</label>
-                    <div class="col-sm-4">
-                      <input autocomplete="off" type="text" [(ngModel)]="entity.ContactName" class="form-control"
-                        placeholder="{{'Customer.placeholder.ContactName' | translate }}" name="ContactName">
-                    </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label">{{'Customer.data.CustomerAddress' | translate }}:</label>
+                  <div class="col-sm-4">
+                    <input autocomplete="off" type="text" [(ngModel)]="entity.CustomerAddress" class="form-control"
+                      placeholder="{{'Customer.placeholder.CustomerAddress' | translate }}" name="CustomerAddress">
                   </div>
-                  <div class="form-group">
-                    <label class="col-sm-2 control-label">{{'Customer.data.ContactEmail' | translate }}:</label>
-                    <div class="col-sm-4">
-                      <input autocomplete="off" type="text" [(ngModel)]="entity.ContactEmail" class="form-control"
-                        placeholder="{{'Customer.placeholder.ContactEmail' | translate }}" name="ContactEmail" >
+                  <label class="col-sm-2 control-label">{{'Customer.data.ContactName' | translate }}:</label>
+                  <div class="col-sm-4">
+                    <input autocomplete="off" type="text" [(ngModel)]="entity.ContactName" class="form-control"
+                      placeholder="{{'Customer.placeholder.ContactName' | translate }}" name="ContactName">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label">{{'Customer.data.ContactEmail' | translate }}:</label>
+                  <div class="col-sm-4">
+                    <input autocomplete="off" type="text" [(ngModel)]="entity.ContactEmail" class="form-control"
+                      placeholder="{{'Customer.placeholder.ContactEmail' | translate }}" name="ContactEmail" >
 
-                    </div>
-                    <label class="col-sm-2 control-label">{{'Customer.data.ContactPhone' | translate }}:</label>
-                    <div class="col-sm-4">
-                      <input autocomplete="off" type="text" [(ngModel)]="entity.ContactPhone" class="form-control"
-                        placeholder="{{'Customer.placeholder.ContactPhone' | translate }}" name="ContactPhone" >
-                    </div>
                   </div>
-                  <div class="form-group">
-                    <label class="col-sm-2 control-label">{{'Customer.data.Description' | translate }}:</label>
-                    <div class="col-sm-4">
-                      <input autocomplete="off" type="text" [(ngModel)]="entity.Description" class="form-control"
-                        placeholder="{{'Customer.placeholder.Description' | translate }}" name="Description" >
-                    </div>
+                  <label class="col-sm-2 control-label">{{'Customer.data.ContactPhone' | translate }}:</label>
+                  <div class="col-sm-4">
+                    <input autocomplete="off" type="text" [(ngModel)]="entity.ContactPhone" class="form-control"
+                      placeholder="{{'Customer.placeholder.ContactPhone' | translate }}" name="ContactPhone" >
                   </div>
-                  <div class="form-group">
-                    <label class="col-sm-2 control-label">{{'Customer.data.IsIntergration' | translate }}:</label>
-                    <div class="col-sm-4">
-                      <span (click)="onSwitchStatus('entityIsIntergration')" ><i class="fa fa-lg" [ngClass]="{'fa-check-square-o text-info': entity.IsIntergration==true, 'fa-square-o':entity.IsIntergration==false}" ></i> </span>
-                      
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label">{{'Customer.data.Description' | translate }}:</label>
+                  <div class="col-sm-4">
+                    <input autocomplete="off" type="text" [(ngModel)]="entity.Description" class="form-control"
+                      placeholder="{{'Customer.placeholder.Description' | translate }}" name="Description" >
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label">{{'Customer.data.IsIntergration' | translate }}:</label>
+                  <div class="col-sm-4">
+                    <span (click)="onSwitchStatus('entityIsIntergration')" ><i class="fa fa-lg" [ngClass]="{'fa-check-square-o text-info': entity.IsIntergration==true, 'fa-square-o':entity.IsIntergration==false}" ></i> </span>
+                    
 
-                    </div>
-                    <label class="col-sm-2 control-label">{{'Customer.data.Status' | translate }}*:</label>
-                    <div class="col-sm-4">
-                      <div class="switch">
-                        <div class="onoffswitch">
-                          <input type="checkbox" class="onoffswitch-checkbox" name="status" id="status"  (click)="onSwitchStatus('entity')" [checked]="entity.Status==1 ? true : null" >
-                          <label class="onoffswitch-label" for="status">
-                            <span class="onoffswitch-inner"></span>
-                            <span class="onoffswitch-switch"></span>
-                          </label>
-                        </div>
+                  </div>
+                  <label class="col-sm-2 control-label">{{'Customer.data.Status' | translate }}*:</label>
+                  <div class="col-sm-4">
+                    <div class="switch">
+                      <div class="onoffswitch">
+                        <input type="checkbox" class="onoffswitch-checkbox" name="status" id="status"  (click)="onSwitchStatus('entity')" [checked]="entity.Status==1 ? true : null" >
+                        <label class="onoffswitch-label" for="status">
+                          <span class="onoffswitch-inner"></span>
+                          <span class="onoffswitch-switch"></span>
+                        </label>
                       </div>
-
-
                     </div>
+
+
                   </div>
-                </form>
-              </div>
-            </form>
+                </div>
+              </form>
+            </div>
+          
           </div>
           <div id="tab-2" class="tab-pane">
             <div class="panel-body">
@@ -133,33 +149,33 @@
                   <tr class="animated fadeInRight" *ngFor="let item of entity.Contract; let i = index">
                     <td> {{i+1}} </td>
                     <!-- TABLE -->
-                    <td *ngIf="i+1 !== EditRowID">{{item.ContractNo}} </td>
-                    <td *ngIf="i+1 !== EditRowID">{{item.ContractCode}} </td>
-                    <td *ngIf="i+1 !== EditRowID">{{'Contract.data.ContractType'+item.ContractType | translate}} </td>
-                    <td *ngIf="i+1 !== EditRowID">{{item.EffectiveDate | amDateFormat: 'DD-MM-YYYY'}} </td>
-                    <td *ngIf="i+1 !== EditRowID">{{'Contract.data.StandardType'+ item.StandardType | translate}} </td>
-                    <td *ngIf="i+1 !== EditRowID">{{item.Ratio}} </td>
-                    <td *ngIf="i+1 !== EditRowID">{{item.Description}} </td>
-                    <td *ngIf="i+1 !== EditRowID">
+                    <td *ngIf="i+1 !== EditRowNumber">{{item.ContractNo}} </td>
+                    <td *ngIf="i+1 !== EditRowNumber">{{item.ContractCode}} </td>
+                    <td *ngIf="i+1 !== EditRowNumber">{{'Contract.data.ContractType'+item.ContractType | translate}} </td>
+                    <td *ngIf="i+1 !== EditRowNumber">{{item.EffectiveDate | amDateFormat: 'DD-MM-YYYY'}} </td>
+                    <td *ngIf="i+1 !== EditRowNumber">{{'Contract.data.StandardType'+ item.StandardType | translate}} </td>
+                    <td *ngIf="i+1 !== EditRowNumber">{{item.Ratio}} </td>
+                    <td *ngIf="i+1 !== EditRowNumber">{{item.Description}} </td>
+                    <td *ngIf="i+1 !== EditRowNumber">
                       <span><i class="fa fa-lg" [ngClass]="{'fa-check-square-o text-info': item.IsIntergration==true, 'fa-square-o':item.IsIntergration==false}" ></i> </span>
 
                     </td>
 
                     <!-- FORM -->
-                    <!-- <td *ngIf="i+1 === EditRowID"><input type="text" class="form-control" name="WarehouseLocationCode"
+                    <!-- <td *ngIf="i+1 === EditRowNumber"><input type="text" class="form-control" name="WarehouseLocationCode"
                         id="WarehouseLocationCode" [(ngModel)]="locationEntity.WarehouseLocationCode"></td>
-                    <td *ngIf="i+1 === EditRowID"><input type="text" class="form-control" name="WarehouseLocationName"
+                    <td *ngIf="i+1 === EditRowNumber"><input type="text" class="form-control" name="WarehouseLocationName"
                         id="WarehouseLocationName" [(ngModel)]="locationEntity.WarehouseLocationName"></td>
-                    <td *ngIf="i+1 === EditRowID"><input type="number" class="form-control"
+                    <td *ngIf="i+1 === EditRowNumber"><input type="number" class="form-control"
                         name="WarehouseLocationLength" id="WarehouseLocationLength"
                         [(ngModel)]="locationEntity.WarehouseLocationLength"></td>
-                    <td *ngIf="i+1 === EditRowID"><input type="number" class="form-control"
+                    <td *ngIf="i+1 === EditRowNumber"><input type="number" class="form-control"
                         name="WarehouseLocationWidth" id="WarehouseLocationWidth"
                         [(ngModel)]="locationEntity.WarehouseLocationWidth"></td>
-                    <td *ngIf="i+1 === EditRowID"><input type="number" class="form-control"
+                    <td *ngIf="i+1 === EditRowNumber"><input type="number" class="form-control"
                         name="WarehouseLocationHeight" id="WarehouseLocationHeight"
                         [(ngModel)]="locationEntity.WarehouseLocationHeight"></td>
-                    <td *ngIf="i+1 !== EditRowID">
+                    <td *ngIf="i+1 !== EditRowNumber">
                       <div class="switch">
                         <div class="onoffswitch">
                           <input type="checkbox" class="onoffswitch-checkbox" [name]="'showed_status' +(i+1)"
@@ -171,7 +187,7 @@
                         </div>
                       </div>
                     </td>
-                    <td *ngIf="i+1 === EditRowID">
+                    <td *ngIf="i+1 === EditRowNumber">
                       <div class="switch">
                         <div class="onoffswitch">
                           <input type="checkbox" class="onoffswitch-checkbox" [name]="'status' +(i+1)"
@@ -189,11 +205,11 @@
                       <div class="btn-group">
                         <button type="button" class="btn btn-sm btn-outline btn-primary"
                           [disabled]="!locationEntity.WarehouseLocationCode || !locationEntity.WarehouseLocationName"
-                          (click)="validateItem(locationEntity)" *ngIf="i+1 === EditRowID"><i
+                          (click)="validateItem(locationEntity)" *ngIf="i+1 === EditRowNumber"><i
                             class="fa fa-check"></i></button>
                         <button type="button" class="btn btn-sm btn-outline btn-success" (click)="fnEditItem(item.ContractId,i)" data-toggle="modal" data-target="#myContractModal"><i class="fa fa-pencil"></i></button>
                         <button type="button" class="btn btn-sm btn-outline btn-danger" (click)="fnDeleteItem(i)"
-                          *ngIf="i+1 !== EditRowID"><i class="fa fa-trash"></i></button>
+                          *ngIf="i+1 !== EditRowNumber"><i class="fa fa-trash"></i></button>
                       </div>
                     </td>
                   </tr>
@@ -275,7 +291,13 @@
         
         <div class="row">
           <div class="col-sm-6">
-          </div><div class="col-sm-6"><button class="btn btn-primary pull-right" [ladda]="laddaSubmitLoading" [disabled]="myForm.invalid ||EditRowID!=0" (click)="fnSave()"><i class="fa fa-paper-plane-o"></i> {{'Button.Save' | translate}}</button></div>
+          </div>
+          
+          <div class="col-sm-6">
+            <button class="btn btn-primary dim pull-right" [ladda]="laddaSubmitLoading" [disabled]="myForm.invalid" (click)="fnSave()"><i class="fa fa-paper-plane-o"></i> {{'Button.Save' | translate}}</button>
+            <button class="btn btn-outline dim pull-right" [routerLink]="['/category/customers']" ><i class="fa fa-chevron-circle-left"></i> {{'Button.Back' | translate}}  </button>
+
+          </div>
         </div>
       </div>
 
@@ -285,5 +307,5 @@
   </div>
 </div>
 
-<app-contract  [contractid]="app_ContractID" (contract)="onChangeAdd($event)"></app-contract>
+<app-contract  [contractid]="app_contractId" (contract)="onChangeAdd($event)"></app-contract>
 

@@ -57,7 +57,7 @@ export class FactoryComponent implements OnInit {
   FactoryBuiltDate: Date = new Date();
   FactoryStartDate: Date = new Date();
   FactoryEndDate: Date = null;
-  EditRowID: number = 0;
+  EditRowNumber: number = 0;
 
   ngOnInit() {
     this.resetEntity();
@@ -66,7 +66,7 @@ export class FactoryComponent implements OnInit {
   /**INIT FUNCTIONS */
   loadInit() {
     this.iboxloading = true;
-    this.EditRowID = 0;
+    this.EditRowNumber = 0;
 
     this.api.getFactoryPagination(this.keyword).subscribe(res => {
       var data = res as any;
@@ -87,7 +87,7 @@ export class FactoryComponent implements OnInit {
     this.addFiles = { FileList: [], FileLocalNameList: [] }
     this.invalid = {};
     this.uploadReportProgress = { progress: 0, message: null, isError: null };
-    this.EditRowID = 0;
+    this.EditRowNumber = 0;
   }
 
   /** BUTTON ACTIONS */
@@ -168,12 +168,12 @@ export class FactoryComponent implements OnInit {
       swal.fire("Validate", this.trans.instant('Factory.data.TechnologyName') + this.trans.instant('messg.isexisted'), 'warning');
       return false;
     }
-    this.EditRowID = 0;
+    this.EditRowNumber = 0;
     return true
   }
 
   fnEditItem(index) { //press edit item (in modal)
-    this.EditRowID = index + 1;
+    this.EditRowNumber = index + 1;
     this.tech_entity = this.entity.FactoryTechnology[index];
   }
   fnSaveItem(index) {

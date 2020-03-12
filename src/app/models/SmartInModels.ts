@@ -216,26 +216,38 @@ export class StageFile {
 }
 
 export class BomFactory {
-	BomFactoryID: number = 0
-	FactoryID: number = 0
-	Validate?: Date
+	BomFactoryId: number = 0
+	FactoryId: number = 0
+	Validate?: Date= new Date()
   Descriptions?: string
   CreateBy: string
-  CreateDate: Date = null
+  CreateDate?: Date = new Date()
   ModifyBy: string
-  ModifyDate: Date = null
+  ModifyDate?: Date = new Date()
   Status?: number = 0
   Factory? : Factory = new Factory();
   BomStage?: BomStage [] = []
 }
 
-export class BomItem {
-	BomItemID: number = 0
-	BomStageID: number = 0
-  ItemID?: number = 0
+export class BomItemOut {
+	BomItemId: number = 0
+	BomStageId: number = 0
+  ItemId?: number = 0
   ItemName:string
-	BomItemType?: string
-  UnitID?: number = 0
+  UnitId?: number = 0
+  UnitName: string
+  Quantity?: number
+  Item?: Item = new Item();
+  Unit?: Unit = new Unit();
+  BomItemIn?: BomItemIn [] = []
+}
+
+export class BomItemIn {
+	BomItemId: number = 0
+	BomStageId: number = 0
+  ItemId?: number = 0
+  ItemName:string
+  UnitId?: number = 0
   UnitName: string
   Quantity?: number
   Item?: Item = new Item();
@@ -243,14 +255,14 @@ export class BomItem {
 }
 
 export class BomStage {
-	BomStageID: number = 0
-  BomFactoryID: number = 0
-  StageID?: number = 0
+	BomStageId: number = 0
+  BomFactoryId: number = 0
+  StageId?: number = 0
   StageName: string
 	OrderNumber?: number
 	Sequence?: boolean = false
   Description?: string
-  BomItem?: BomItem[] =[]
+  BomItemOut?: BomItemOut[] =[]
 }
 
 export class Warehouse {
@@ -315,7 +327,7 @@ export class Customer {
 export class CustomerFile {
   CustomerFileId: number = 0
   CustomerId: number = 0
-  FileID: number = 0
+  FileId: number = 0
   File: Files = new Files()
 }
 

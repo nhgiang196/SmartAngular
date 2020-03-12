@@ -26,7 +26,7 @@
           <div class="row">
             <div class="col-sm-4">
               <!-- hidden this button -->
-              <button (click)="fnAdd()" type="button" class="btn btn-primary dim" data-toggle="modal" data-target="#myModal4">
+              <button (click)="fnAdd()" type="button" class="btn btn-primary dim" data-toggle="modal" data-target="#modalStages">
                 <i class="fa fa-plus"></i >{{ "BomFactory.AddButton" | translate }}
               </button>
             </div>
@@ -58,7 +58,7 @@
               <tbody *ngIf="BomFactorys?.length != 0">
                 <tr *ngFor="let item of BomFactorys">
                   <td hidden="true" style="text-align: left">
-                    {{item.BomFactoryID
+                    {{item.BomFactoryId
                   </td>
                   <td style="text-align: left">{{ item.Validate }}</td>
                   <td style="text-align: left">{{ item.Descriptions }}</td>
@@ -75,14 +75,14 @@
                     <button
                       type="button"
                       class="btn btn-outline btn-danger"
-                      (click)="fnDelete(item.BomFactoryID)"
+                      (click)="fnDelete(item.BomFactoryId)"
                     >
                       <i class="fa fa-trash"></i>
                     </button>
                     <button
                       type="button"
                       class="btn btn-outline btn-success"
-                      (click)="fnUpdate(item.BomFactoryID)"
+                      (click)="fnUpdate(item.BomFactoryId)"
                       data-toggle="modal"
                       data-target="#myModal4"
                     >
