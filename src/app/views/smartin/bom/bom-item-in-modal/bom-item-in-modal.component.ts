@@ -49,26 +49,6 @@ export class BomItemInModalComponent implements OnInit {
     this.newBomItem = new BomItem();
     this.bomItems = [];
   }
-  onScrollToEnd() {
-    this.fetchMore();
-  }
-
-  onScroll({ end }) {
-    if (this.loading || this.items.length <= this.itemsBuffer.length) 
-        return;
-    if (end + this.numberOfItemsFromEndBeforeFetchingMore >= this.itemsBuffer.length)
-        this.fetchMore();
-  }
-    private fetchMore() {
-      const len = this.itemsBuffer.length;
-      const more = this.items.slice(len, this.bufferSize + len);
-      this.loading = true;
-      // using timeout here to simulate backend API delay
-      setTimeout(() => {
-        this.loading = false;      
-        this.itemsBuffer = this.itemsBuffer.concat(more);
-      }, 200)
-    }
 
     fnSaveInBomItem(index) {console.log(this.inBomItems)
       if (this.fnValidateBomItem(this.inBomItem,'edit')) {
@@ -145,25 +125,49 @@ export class BomItemInModalComponent implements OnInit {
     console.log('records: ' +data.result.length);
     this.itemsBuffer = this.items.slice(0, this.bufferSize);
   }
-    onSearch(){
+  onSearch(){ //ng-select
       this.input$.pipe(
         debounceTime(200),
-        distinctUntilChanged(),
+        distinctUntilChanged(), 
         switchMap(term =>  this.fakeService(term))
       ).subscribe(data => {
           this.itemsBuffer = data.slice(0, this.bufferSize);
         })
     }
-    private  fakeService(term) {
+  private  fakeService(term) { //ng-select
       let data =  this.api.getItemPagination(term).pipe(map(data=> {
         return data.result.filter((x: { ItemName: string }) => x.ItemName.includes(term))
       }));   
       return data;
     }
-    customSearchFn(term: string, item: Item) {
+  customSearchFn(term: string, item: Item) { //ng-select
       term = term.toLowerCase();
       return item.ItemName.toLowerCase().indexOf(term) > -1
   }
+
+  onScrollToEnd() { //ng-select
+    this.fetchMore();
+  }
+
+  onScroll({ end }) { //ng-select
+    if (this.loading || this.items.length <= this.itemsBuffer.length) 
+        return;
+    if (end + this.numberOfItemsFromEndBeforeFetchingMore >= this.itemsBuffer.length)
+        this.fetchMore();
+  }
+    private fetchMore() { //ng-select
+      const len = this.itemsBuffer.length;
+      const more = this.items.slice(len, this.bufferSize + len);
+      this.loading = true;
+      // using timeout here to simulate backend API delay
+      setTimeout(() => {
+        this.loading = false;      
+        this.itemsBuffer = this.itemsBuffer.concat(more);
+      }, 200)
+    }
+
+
+    
 
   fnReset() {
     this.inBomItems = [];

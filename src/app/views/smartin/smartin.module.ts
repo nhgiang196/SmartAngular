@@ -22,6 +22,7 @@ import { BomItemInModalComponent } from './bom/bom-item-in-modal/bom-item-in-mod
 import { BomItemOutModalComponent } from './bom/bom-item-out-modal/bom-item-out-modal.component';
 import { MonitorStandardComponent } from './monitor/monitor-standard/monitor-standard.component';
 import { MonitorChartComponent } from './monitor/monitor-chart/monitor-chart.component';
+import { UiSampleModule } from './ui-sample/ui-sample.module';
 
 
 
@@ -54,7 +55,8 @@ const COMPONENTS = [
   imports: [
     CommonModule,
     SharedModule,
-    RouterModule
+    RouterModule,
+    UiSampleModule
   ],
   exports:[COMPONENTS]
 })
