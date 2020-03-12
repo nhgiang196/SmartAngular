@@ -27,6 +27,7 @@
               <div class="col-sm-4">
                 <!-- hidden this button -->
                 <button type="button" class="btn btn-primary dim" data-toggle="modal"
+                  (click) = "fnAdd()"
                   data-target="#myModal4" >
                   <i class="fa fa-plus"></i> Add </button>
               </div>
@@ -39,28 +40,32 @@
                 <thead>
                   <tr>
 
-                    <th>STT</th>
-                    <th>Nhà máy</th>
-                    <th>Nhiệt độ</th>
+                    <th>Serial</th>
+                    <th>Factory</th>
+                    <th>Validate DateFrom</th>
+                    <th>Validate DateTo</th>
+                    <th>Temperature</th>
                     <th>pH</th>
                     <th>COD</th>
                     <th>TSS</th>
-                    <th>Màu</th>
+                    <th>Color</th>
                     <th>Amoni</th>
-                    <th>Ghi chú</th>
+                    <th>Note</th>
                     <th style="text-align: left">Action</th>
                   </tr>
                 </thead>
                 <tbody *ngIf="monitors?.length != 0">
                   <tr *ngFor="let monitor of monitors, let i = index">
                     <td style="text-align: left"> {{i+1}}</td>
-                    <td style="text-align: left"> {{monitor.Factory.FactoryName}}</td>
-                    <td style="text-align: left"> {{monitor.TemperatureMax}}</td>
-                    <td style="text-align: left"> {{monitor.PHmin}}-{{monitor.PHmax}}</td>
-                    <td style="text-align: left"> {{monitor.Codmax}}</td>
-                    <td style="text-align: left"> {{monitor.Tssmax}}</td>
-                    <td style="text-align: left"> {{monitor.Codmax}}</td>
-                    <td style="text-align: left"> {{monitor.AmoniMax}}</td>
+                    <td style="text-align: left"> {{monitor.FactoryName}}</td>
+                    <td style="text-align: left"> {{monitor.ValidateDateFrom}}</td>
+                    <td style="text-align: left"> {{monitor.ValidateDateTo}}</td>
+                    <td style="text-align: left"> {{monitor.TemperatureMax?monitor.TemperatureMax:0}}</td>
+                    <td style="text-align: left"> {{monitor.PHmin?monitor.PHmax:0}}-{{monitor.PHmax?monitor.PHmax:0}}</td>
+                    <td style="text-align: left"> {{monitor.Codmax?monitor.Codmax:0}}</td>
+                    <td style="text-align: left"> {{monitor.Tssmax?monitor.Tssmax:0}}</td>
+                    <td style="text-align: left"> {{monitor.Codmax?monitor.Codmax:0}}</td>
+                    <td style="text-align: left"> {{monitor.AmoniMax?monitor.AmoniMax:0}}</td>
                     <td style="text-align: left"> {{monitor.MonitorStandardDesc}}</td>
                     <td>
                       <button type="button" class="btn btn-outline btn-danger"  (click)="fnDelete(monitor.MonitorStandardId)"><i
@@ -98,9 +103,10 @@
         <form role="form" #myForm="ngForm" name="myForm">
           <div class="row">
             <div class="col-lg-4">
-              <div class="form-group">
+              <div class="form-group" >
                 <label> Factory Code :* </label>
                 <ng-select [items]="initCombobox.Factories" bindLabel="FactoryName" bindValue="FactoryId" [(ngModel)]="entity.FactoryId"
+                [disabled] ="isDisable"
                     class="custom" placeholder="Input Factory Name" name="FactoryId"
                     required></ng-select>
               </div>
@@ -129,6 +135,7 @@
                   placeholder="Date From"
                   [(ngModel)]= "entity.ValidateDateFrom"
                   [ngClass]="{ 'is-invalid': existName }"
+                  required
                 />
                 </div>
                 <div class="col-lg-6">
@@ -143,6 +150,7 @@
                   placeholder="Date To"
                   [(ngModel)]= "entity.ValidateDateTo"
                   [ngClass]="{ 'is-invalid': existName }"
+                  required
                 />
                 </div>
                 </div>

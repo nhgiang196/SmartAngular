@@ -393,6 +393,7 @@ export class MonitorStandard{
   ModifyBy: string
   ModifyDate:Date
   Status: boolean
+  FactoryName: string
   Factory: Factory =new Factory()
 }
 
