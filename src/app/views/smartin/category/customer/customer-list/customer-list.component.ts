@@ -63,8 +63,9 @@ export class CustomerListComponent  implements  AfterViewInit, OnDestroy, OnInit
       ],
       ajax: (dataTablesParameters: any, callback) => {
         this.dtOptions.ajax= (dataTablesParameters: any, callback) => { //chèn lại ajax ở một vị trí duy nhất khi định nghĩa
+          this.iboxloading = true;
           this.api.getDataTableCustomerPagination(dataTablesParameters).subscribe(res => {
-            
+            this.iboxloading = false;
             this.lsData = res.data;
             console.log("DATATABLE:",this.lsData);
             callback({
