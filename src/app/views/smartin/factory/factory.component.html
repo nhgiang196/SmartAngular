@@ -176,7 +176,7 @@
             </div>
           </div>
           <!-- Upload file -->
-          <app-smart-upload [filePath]="pathFile" (entityFile)="receiveElementFile($event)" ></app-smart-upload>
+          <app-smart-upload [filePath]="pathFile" (entityFile)="this.entity.FactoryFile = $event" ></app-smart-upload>
           <hr>
 
             <table class="table table-bordered">

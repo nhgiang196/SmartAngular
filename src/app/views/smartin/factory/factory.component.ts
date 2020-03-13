@@ -161,13 +161,14 @@ export class FactoryComponent implements OnInit {
     this.laddaSubmitLoading = true;
     var e = this.fnConvertFactoryDate(this.entity);
     if (await this.fnValidate(e)) {
+      await this.uploadComponent.uploadFile();
       if (this.ACTION_STATUS == 'add') {
         this.api.addFactory(e).subscribe(res => {
           var operationResult: any = res
           if (operationResult.Success) {
             this.toastr.success(this.trans.instant("messg.add.success"));
             $("#myModal4").modal('hide');
-            this.uploadComponent.uploadFile();
+            
             this.loadInit();
             this.fnEditSignal(operationResult.Data);
           }
@@ -179,7 +180,6 @@ export class FactoryComponent implements OnInit {
         this.api.updateFactory(e).subscribe(res => {
           var operationResult: any = res
           if (operationResult.Success) {
-            this.uploadComponent.uploadFile()
             this.loadInit();
             this.toastr.success(this.trans.instant("messg.update.success"));
           }
