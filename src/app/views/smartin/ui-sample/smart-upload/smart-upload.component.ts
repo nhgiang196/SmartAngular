@@ -87,7 +87,17 @@ export class SmartUploadComponent implements OnInit {
   /** EVENT TRIGGERS */
    async onSelect(event) { //drag file(s) or choose file(s) in ngFileZone
     var askBeforeUpload = false;
-    if (event.rejectedFiles.length > 0) this.toastr.warning(this.trans.instant('messg.maximumFileSize5000'));
+    if (event.rejectedFiles.length > 0) {
+      swal.fire(
+        {
+          title: this.trans.instant('Upload.OverMaximumSizeCaption'),
+          titleText: this.trans.instant('Upload.OverMaximumSize5000Message'),
+          confirmButtonText: this.trans.instant('Button.OK'),
+          type: 'warning',
+        }
+      );
+      allowUpload = false;
+    }
     var _addFiles = event.addedFiles;
     for (var index in _addFiles) {
       
@@ -101,9 +111,11 @@ export class SmartUploadComponent implements OnInit {
           askBeforeUpload = true;
           var allowUpload = true;
           await swal.fire({
-            title: 'File trùng',
-            titleText: 'Một số file bị trùng, bạn có muốn đè các file này lên bản gốc?',
+            title: this.trans.instant("Upload.DuplicateCaption"),
+            titleText: this.trans.instant("Upload.DuplicateMessage"),
             type: 'warning',
+            confirmButtonText: this.trans.instant('Button.Yes'),
+            cancelButtonText: this.trans.instant('Button.Cancel'),
             showCancelButton: true,
             reverseButtons: true
           }).then((result) => {
