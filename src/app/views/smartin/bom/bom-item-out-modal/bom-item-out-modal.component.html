@@ -22,7 +22,7 @@
       </div>
       <div class="modal-body">
         
-          <!-- table InBomItem -->
+          <!-- table OutBomItem -->
           <div class="row">
             <div class="col-lg-12">
               <table class="table table-bordered">
@@ -45,7 +45,6 @@
                   <ng-container  *ngFor="let item of outBomItems; let i = index">
                     <tr
                     class="animated fadeInRight"
-                    *ngIf="!item.BomItemParentId"
                   >
                     <td>{{ i + 1 }}</td>
                     <td *ngIf="i + 1 !== editRowId">{{ item.ItemName }}</td>
@@ -141,12 +140,12 @@
                         [items]="itemsBuffer" 
                         [virtualScroll]="true" 
                         [loading]="loading"
-                        (change)="newBomItem.ItemName =   $event? $event.ItemName :''" appendTo="body" 
+                        (change)="newBomItemOut.ItemName =   $event? $event.ItemName :''" appendTo="body" 
                         (scroll)="onScroll($event)" (scrollToEnd)="onScrollToEnd()" bindLabel="ItemName"
                         [searchFn]="customSearchFn"
                         [typeahead]="input$"
                         bindValue="ItemId" autofocus placeholder="{{'BomFactory.BomItem.ItemId' | translate}}"
-                        [(ngModel)]="newBomItem.ItemId" name="ItemId" id="ItemId" required>
+                        [(ngModel)]="newBomItemOut.ItemId" name="ItemId" id="ItemId" required>
                         <ng-template ng-header-tmp>
                           <small class="form-text text-muted">Loaded {{itemsBuffer.length}} of {{items.length}}</small>
                         </ng-template>
@@ -156,8 +155,8 @@
                     <td>
                       <ng-select class="custom" [items]="units" bindLabel="UnitName" bindValue="UnitId"
                         placeholder="{{'Item.placeholdercolumn.ItemPackageUnitId' | translate }}" name="outUnitId"
-                        required [(ngModel)]="newBomItem.UnitId"
-                        (change)="newBomItem.UnitName =  $event? $event.UnitName :'' ">
+                        required [(ngModel)]="newBomItemOut.UnitId"
+                        (change)="newBomItemOut.UnitName =  $event? $event.UnitName :'' ">
                       </ng-select>
                     </td>
                     <td>
@@ -167,15 +166,15 @@
                         name="newQuantity"
                         id="newQuantity"
                         min="0"
-                        (change)="( $event.target.value < 0 || $event.target.value == '')? (newBomItem.Quantity): newBomItem.Quantity"
-                        [(ngModel)]="newBomItem.Quantity"
+                        (change)="( $event.target.value < 0 || $event.target.value == '')? (newBomItemOut.Quantity): newBomItemOut.Quantity"
+                        [(ngModel)]="newBomItemOut.Quantity"
                       />
                     </td>
                     <td>
                       <button
                         type="button"
                         class="btn  btn-sm btn-outline btn-info pull-right"
-                        [disabled]="!newBomItem.ItemId||!newBomItem.UnitId ||!newBomItem.Quantity"
+                        [disabled]="!newBomItemOut.ItemId||!newBomItemOut.UnitId ||!newBomItemOut.Quantity"
                         (click)="fnAddInBomItem()"
                       >
                         <i class="fa fa-plus"></i>

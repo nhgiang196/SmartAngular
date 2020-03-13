@@ -45,7 +45,7 @@ export class ItemListComponent implements  AfterViewInit, OnDestroy, OnInit {
     this.getAllItemType();
   }
 
-  loadInit = () => { 
+  loadInit = () => {
     this.dtOptions = {
       autoWidth: true,
       // dom: ` <"row"<"col-sm-4 m-b-xs"l><"#myid.col-sm-4 m-b-xs"f><"col-sm-4"p>><t><"row"<"col-sm-4 m-b-xs"i><"#myid2.col-sm-4 m-b-xs"f><"col-sm-4"p>>`, //recommend Dom --nhgiang
@@ -57,7 +57,7 @@ export class ItemListComponent implements  AfterViewInit, OnDestroy, OnInit {
       pagingType: 'full_numbers',
       search: { regex: true },
       processing: true,
-      pageLength: 10,    
+      pageLength: 10,
       columns: [
           { data: 'ItemId' }
         , { data: 'ItemTypeId' }
@@ -80,10 +80,11 @@ export class ItemListComponent implements  AfterViewInit, OnDestroy, OnInit {
         , { data: 'Status' }
         , { data : null}
       ],
-      
+
 
       ajax: (dataTablesParameters: any, callback) => {
         this.dtOptions.ajax= (dataTablesParameters: any, callback) => { //chèn lại ajax ở một vị trí duy nhất khi định nghĩa
+          console.log(dataTablesParameters)
           this.api.getItemByItemType(dataTablesParameters, this.itemTypeId).subscribe(res => {
             this.Items = res.data  as any;
             console.log(this.Items)
@@ -173,7 +174,7 @@ export class ItemListComponent implements  AfterViewInit, OnDestroy, OnInit {
   }
 
   ngOnDestroy(): void {
-    this.dtTrigger.unsubscribe(); 
+    this.dtTrigger.unsubscribe();
   }
 
   tableRender(): void {

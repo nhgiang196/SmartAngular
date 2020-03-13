@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { Item, BomItem, Unit, BomFactory, Stage } from 'src/app/models/SmartInModels';
+import { Item, BomItemIn, Unit, BomFactory, Stage } from 'src/app/models/SmartInModels';
 import { Subject } from 'rxjs';
 declare let $: any;
 import swal from "sweetalert2";
@@ -16,17 +16,17 @@ export class BomItemInModalComponent implements OnInit {
   @Input() units: Unit[] =[];
   @Input() parentOutId: number;
   @Input() currentStageId: number;
-  @Output() addInBomItem = new EventEmitter<BomItem[]>();
+  @Output() addInBomItem = new EventEmitter<BomItemIn[]>();
 //const
   
   typeBomIn: string = "In";
   typeBomOut: string = "Out";
   itemsBuffer : Item[]=[]
   items: Item[] =[]
-  inBomItems: BomItem[] = [];
-  bomItems: BomItem[];
-  inBomItem: BomItem;
-   newBomItem: BomItem;
+  inBomItems: BomItemIn[] = [];
+  bomItems: BomItemIn[];
+  inBomItem: BomItemIn;
+   newBomItem: BomItemIn;
   //config
   input$ = new Subject<string>();
   numberOfItemsFromEndBeforeFetchingMore = 10;
@@ -45,8 +45,8 @@ export class BomItemInModalComponent implements OnInit {
   }
 
   private resetEntity() {
-    this.inBomItem = new BomItem(); 
-    this.newBomItem = new BomItem();
+    this.inBomItem = new BomItemIn(); 
+    this.newBomItem = new BomItemIn();
     this.bomItems = [];
   }
 
@@ -54,6 +54,7 @@ export class BomItemInModalComponent implements OnInit {
       if (this.fnValidateBomItem(this.inBomItem,'edit')) {
         this.inBomItems[index] = this.inBomItem;
         this.editRowId = 0;
+        
       }
     }
     async fnAddInBomItem() {
@@ -61,19 +62,18 @@ export class BomItemInModalComponent implements OnInit {
       //let _checkValidate = await this.validateItem(this.newBomStage)
       //if (!_checkValidate) return;
       // this.bomItems.push(this.inBomItem);
-      // this.bomItems.push(this.outBomItem)
-      // this.entity.BomStage[id].BomItem.push();
-      // this.entity.BomStage[id].BomItem = this.bomItems;
+      // this.bomItems.push(this.outBomItemIn)
+      // this.entity.BomStage[id].BomItemIn.push();
+      // this.entity.BomStage[id].BomItemIn = this.bomItems;
       if(this.fnValidateBomItem(this.newBomItem,'add')){
-        this.newBomItem.BomItemType = this.typeBomIn;
-        this.newBomItem.BomItemParentId= this.parentOutId;
+        //this.newBomItem.BomItemInParentId= this.parentOutId;
          this.inBomItems.push(this.newBomItem);
-        this.newBomItem = new BomItem();
+        this.newBomItem = new BomItemIn();
       }
     
     }
   
-    fnValidateBomItem(item: BomItem,typeAction) {
+    fnValidateBomItem(item: BomItemIn,typeAction) {
       if (this.inBomItems.filter(x => x.ItemId == item.ItemId).length > 0 &&typeAction == "add") {
         swal.fire(
           "Validate",
@@ -101,12 +101,12 @@ export class BomItemInModalComponent implements OnInit {
       //press edit item (in modal)
       this.editRowId = index + 1;
       this.inBomItem =JSON.parse(JSON.stringify( this.inBomItems[index]));
-      this.newBomItem = new BomItem();
+      this.newBomItem = new BomItemIn();
     }
-    // fnSaveOutBomItem() {
-    //   this.entity.BomStage[this.currentStageId].BomItem = this.inBomItems;
+    // fnSaveOutBomItemIn() {
+    //   this.entity.BomStage[this.currentStageId].BomItemIn = this.inBomItems;
     //   // this.inBomItems = [];
-    //   // this.inBomItem = new BomItem();
+    //   // this.inBomItem = new BomItemIn();
   
     //   console.log(this.entity);
   
@@ -171,7 +171,7 @@ export class BomItemInModalComponent implements OnInit {
 
   fnReset() {
     this.inBomItems = [];
-    this.inBomItem = new BomItem();
+    this.inBomItem = new BomItemIn();
   }
   fnSaveBomItem() {
     this.addInBomItem.emit(this.inBomItems)

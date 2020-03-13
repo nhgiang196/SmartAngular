@@ -264,6 +264,24 @@ export class WaterTreatmentService {
   updateMonitorStandard =(entity) => this.http.put(`${ApiUrl}/MonitorStandard/UpdateMonitorStandard`,entity);
   validateMonitorStandard =(entity) => this.http.post(`${ApiUrl}/MonitorStandard/ValidateMonitorStandardByDate`,entity);
 
+  getMonitorStandardPagination =(keyvalue) => {
+    let pr = new DataTablePaginationParams();
+    pr.keyFields="monitorstandardid, factoryName";
+    pr.selectFields = "a.*, b.FactoryName";
+    pr.entity = ` MonitorStandard a left join Factory b on a.FactoryId = b.FactoryId`;
+    pr.key = keyvalue;
+    pr.pageSize = 1;
+    pr.orderDir = "desc";
+    pr.orderBy = "MonitorStandardId";
+    return this.http.post<any>(`${ApiUrl}/MonitorStandard/GetMonitorStandardPagination`,pr);
+  };
+
+
+  getDataTableMonitorStandardPagination =(entity) => {
+    return this.http.post<any>(`${ApiUrl}/MonitorStandard/DataTableMonitorStandardPagination`,entity);
+  };
+
+
    //Monitor Services
    addMonitor =(entity) => this.http.post(`${ApiUrl}/Monitor/AddMonitor`,entity);
    getMonitorChart =() => this.http.get(`${ApiUrl}/Monitor/GetChart`);
