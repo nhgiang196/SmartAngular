@@ -42,7 +42,10 @@
             >
               <thead>
                 <tr>
-                  <th hidden="true">
+                  <th>
+                    STT
+                  </th>
+                  <th>
                     {{ "BomFactory.BomFactoryId" | translate }}
                   </th>
                   <th>{{ "BomFactory.Validate" | translate }}</th>
@@ -56,11 +59,14 @@
                 </tr>
               </thead>
               <tbody *ngIf="BomFactorys?.length != 0">
-                <tr *ngFor="let item of BomFactorys">
-                  <td hidden="true" style="text-align: left">
-                    {{item.BomFactoryId
+                <tr *ngFor="let item of BomFactorys;let i= index">
+                  <td  style="text-align: left">
+                    {{i+1}}
                   </td>
-                  <td style="text-align: left">{{ item.Validate }}</td>
+                  <td  style="text-align: left">
+                    {{item.FactoryName}}
+                  </td>
+                  <td style="text-align: left">{{ item.Validate | amDateFormat: "YYYY-MM-DD HH:mm"}}</td>
                   <td style="text-align: left">{{ item.Descriptions }}</td>
                   <td style="text-align: left">{{ item.CreateBy }}</td>
                   <td style="text-align: left">
@@ -70,9 +76,26 @@
                   <td style="text-align: left">
                     {{ item.ModifyDate | amDateFormat: "YYYY-MM-DD HH:mm" }}
                   </td>
-                  <td style="text-align: left">{{ item.Status }}</td>
+                  <td style="text-align: left">
+                    <div class="switch disabledSwitch">
+                      <div class="onoffswitch">
+                        <input
+                          type="checkbox"
+                          class="onoffswitch-checkbox"
+                          [name]="'viewStatus' + i"
+                          [id]="'viewStatus' + i"
+                          [(ngModel)]="item.Status"
+                          [checked]="item.Status"
+                        />
+                        <label class="onoffswitch-label" [for]="'viewStatus' + i">
+                          <span class="onoffswitch-inner"></span>
+                          <span class="onoffswitch-switch"></span>
+                        </label>
+                      </div>
+                    </div></td>
                   <td>
-                    <button
+                    <div  class="text-nowrap">
+                      <button
                       type="button"
                       class="btn btn-outline btn-danger"
                       (click)="fnDelete(item.BomFactoryId)"
@@ -88,6 +111,8 @@
                     >
                       <i class="fa fa-pencil"></i>
                     </button>
+                    </div>
+                    
                   </td>
                 </tr>
               </tbody>
@@ -112,7 +137,9 @@
 
   <app-bom-stage-modal
     [entity] = "entity"
+    [action] = "ACTION_STATUS"
     [stages] = "stages"
     [factories]="factories"
+    (isLoadData)="isLoadData($event)"
     [units] ="units">
   </app-bom-stage-modal>
