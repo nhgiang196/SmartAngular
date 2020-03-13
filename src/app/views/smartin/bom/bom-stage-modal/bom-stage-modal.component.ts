@@ -17,6 +17,7 @@ import { WaterTreatmentService } from "src/app/services/api-watertreatment.servi
 import { ToastrService } from "ngx-toastr";
 import { TranslateService } from "@ngx-translate/core";
 import swal from "sweetalert2";
+import { AuthService } from 'src/app/services/auth.service';
 declare let $: any;
 @Component({
   selector: "app-bom-stage-modal",
@@ -45,7 +46,8 @@ export class BomStageModalComponent implements OnInit {
   constructor(
     private api: WaterTreatmentService,
     private toastr: ToastrService,
-    private trans: TranslateService
+    private trans: TranslateService,
+    private auth: AuthService,
   ) {}
 
   ngOnInit() {
@@ -131,7 +133,9 @@ export class BomStageModalComponent implements OnInit {
 
   async fnSave() {
     console.log(this.entity);
+    
     if (this.action == "add") {
+      this.entity.CreateBy = this.auth.currentUser.Username;
       this.api.addBomFactory(this.entity).subscribe(
         res => {
           this.toastr.success("Validate", "Success");
@@ -144,6 +148,7 @@ export class BomStageModalComponent implements OnInit {
         }
       );
     } else {
+      this.entity.ModifyBy = this.auth.currentUser.Username;
       this.api.updateBomFactory(this.entity).subscribe(
         res => {
           var result = res as any;
