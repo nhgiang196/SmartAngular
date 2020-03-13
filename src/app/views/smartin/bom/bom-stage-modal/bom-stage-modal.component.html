@@ -10,7 +10,7 @@
   <div class="modal-dialog modal-lg ">
     <div class="modal-content animated fadeIn">
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">
+        <button type="button" class="close" data-dismiss="modal" (click)="isLoadData.emit(true)">
           <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
         </button>
         <h4 class="modal-title">{{ "BomFactory.Information" | translate }}</h4>
@@ -302,7 +302,10 @@
         <button
           type="button"
           class="btn btn-white"
-          data-dismiss="modal">
+          data-dismiss="modal"
+          [disabled]="editRowId != 0"
+          (click)="isLoadData.emit(true)"
+          >
           {{ "BomFactory.CloseButton" | translate }}
         </button>
         <button

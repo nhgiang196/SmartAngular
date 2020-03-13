@@ -1,9 +1,9 @@
 <div
-  class="modal inmodal"
+  class="modal outmodal"
   id="modalIn"
   data-backdrop="static"
   data-keyboard="true"
-  tabindex="-1"
+  tabindex="-2"
   role="dialog"
   aria-hidden="true"
 >
@@ -54,14 +54,15 @@
 
                     <td *ngIf="i + 1 === editRowId">
                       <ng-select
+                        dropdownPosition="bottom"
                         class="custom"
                         [items]="items"
                         bindLabel="ItemName"
                         bindValue="ItemId"
                         placeholder="{{'BomFactory.BomItem.ItemId' | translate}}"
-                        name="BomStageId"
+                        name="BomStageId2"
                         (change)="$event != null? (inBomItem.ItemName = $event.ItemName): null"
-                        id="BomStageId"
+                        id="BomStageId2"
                         [(ngModel)]="inBomItem.ItemId"
                       >
                       </ng-select>
@@ -186,6 +187,7 @@
           type="button"
           class="btn btn-white"
           (click)="fnBackModalOut()"
+          [disabled]="editRowId!=0"
         >
           {{ "BomFactory.CloseButton" | translate }}
         </button>
@@ -193,6 +195,7 @@
           type="button"
           class="btn btn-primary"
           [ladda]="laddaSubmitLoading"
+          [disabled]="editRowId!=0"
           (click)="fnSaveBomItem()"
         >
           {{ "BomFactory.SaveButton" | translate }}
