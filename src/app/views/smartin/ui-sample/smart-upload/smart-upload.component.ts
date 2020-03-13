@@ -33,15 +33,20 @@ export class SmartUploadComponent implements OnInit {
   ngOnInit() { //init functions
     this.resetEntity();
   }
-
-  resetEntity() { //reset entity values
+  /**
+   *  làm trống file hiển thị
+   */
+  public  resetEntity() { //reset entity values
     this.entityFile = [];
     this.files = [];
     this.addFiles = { FileList: [], FileLocalNameList: [] }
     this.uploadReportProgress =  { progress : 0, message: null , isError: null };
   }
-  
-  loadInit(DATA: UI_CustomFile[]){
+  /**
+   * Load file để hiển thị
+   * @param DATA : Entity File - danh sách entity
+   */
+  public loadInit(DATA: UI_CustomFile[]){
     this.resetEntity();
     this.entityFile = this.entityFile.concat(DATA);
     this.entityFile.forEach(item => {
@@ -49,19 +54,38 @@ export class SmartUploadComponent implements OnInit {
       this.files.push(_tempFile);
     })
   }
+  /** Lệnh upload lên server, thường dùng với await */
+  public uploadFile() { //upload file to server
+    if (this.addFiles.FileList.length==0) return;
+    this.uploadReportProgress = { progress: 0, message: null, isError: null };
+    let formData = new FormData();
+    for (let index = 0; index < this.addFiles.FileList.length; index++) {
+      let _file = this.addFiles.FileList[index];
+      formData.append("files", _file, this.addFiles.FileLocalNameList[index]);
+    }
+    this.api.uploadFile(formData, this.pathFile).subscribe(event => {
+      if (event.type === HttpEventType.UploadProgress)
+        this.uploadReportProgress.progress = Math.round(100 * event.loaded / event.total);
+      else if (event.type === HttpEventType.Response) {
+        this.uploadReportProgress.message = this.trans.instant('Upload.UploadFileSuccess');
+        // this.onUploadFinished.emit(event.body);
+      }
+    }, err => {
+      this.toastr.warning(err.statusText, this.trans.instant('Upload.UploadFileError'));
+      this.uploadReportProgress = { progress: 0, message: 'Error: '+ err.statusText, isError: true };
+    });
+  }
 
-
-
-  fnDownloadFile(filename) { //press FILES preview
+   fnDownloadFile(filename) { //press FILES preview
     this.api.downloadFile(this.pathFile + '/' + filename);
   }
-  fnRemoveFile(event) { //PRESS X TO REMOVE FILES
+    fnRemoveFile(event) { //PRESS X TO REMOVE FILES
     let index = this.files.indexOf(event);
     this.files.splice(index, 1); //UI del
     this.entityFile.splice(index, 1);
   }
   /** EVENT TRIGGERS */
-  async onSelect(event) { //drag file(s) or choose file(s) in ngFileZone
+   async onSelect(event) { //drag file(s) or choose file(s) in ngFileZone
     var askBeforeUpload = false;
     if (event.rejectedFiles.length > 0) this.toastr.warning(this.trans.instant('messg.maximumFileSize5000'));
     var _addFiles = event.addedFiles;
@@ -109,26 +133,7 @@ export class SmartUploadComponent implements OnInit {
     
   }
 
-  uploadFile() { //upload file to server
-    if (this.addFiles.FileList.length==0) return;
-    this.uploadReportProgress = { progress: 0, message: null, isError: null };
-    let formData = new FormData();
-    for (let index = 0; index < this.addFiles.FileList.length; index++) {
-      let _file = this.addFiles.FileList[index];
-      formData.append("files", _file, this.addFiles.FileLocalNameList[index]);
-    }
-    this.api.uploadFile(formData, this.pathFile).subscribe(event => {
-      if (event.type === HttpEventType.UploadProgress)
-        this.uploadReportProgress.progress = Math.round(100 * event.loaded / event.total);
-      else if (event.type === HttpEventType.Response) {
-        this.uploadReportProgress.message = this.trans.instant('Upload.UploadFileSuccess');
-        // this.onUploadFinished.emit(event.body);
-      }
-    }, err => {
-      this.toastr.warning(err.statusText, this.trans.instant('Upload.UploadFileError'));
-      this.uploadReportProgress = { progress: 0, message: 'Error: '+ err.statusText, isError: true };
-    });
-  }
+  
 
   
 
