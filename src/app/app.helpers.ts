@@ -151,3 +151,11 @@ export function collapseIboxHelper(){
   
 }
 
+export function SlimScrollFixSideBar(){
+  debugger;
+  if ($('#fixedsidebar').is(':checked')){
+    $('#fixedsidebar').click();
+  }
+
+}
+

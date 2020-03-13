@@ -1,4 +1,5 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { SlimScrollFixSideBar } from 'src/app/app.helpers';
 declare var jQuery: any;
 @Component({
   selector: 'app-admin-navigation',
@@ -13,6 +14,7 @@ export class AdminNavigationComponent implements OnInit, AfterViewInit {
   }
   ngAfterViewInit() {
     jQuery('#side-menu').metisMenu();
+    SlimScrollFixSideBar();
   }
 
 }
