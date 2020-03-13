@@ -271,7 +271,7 @@ export class WaterTreatmentService {
     pr.entity = ` MonitorStandard a left join Factory b on a.FactoryId = b.FactoryId`;
     pr.key = keyvalue;
     pr.pageSize = 1;
-    pr.orderDir = "desc";
+    pr.orderDir = "asc";
     pr.orderBy = "MonitorStandardId";
     return this.http.post<any>(`${ApiUrl}/MonitorStandard/GetMonitorStandardPagination`,pr);
   };
