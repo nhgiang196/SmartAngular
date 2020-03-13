@@ -1,18 +1,24 @@
 <div id="topNav" class="row border-bottom white-bg">
   <nav class="navbar navbar-static-top " role="navigation" style="margin-bottom: 0">
         <div class="navbar-header">
-            <a id="homeMenuButton" class="minimalize-styl-2 btn btn-primary " (click)="toggleNavigation()"><i
-                    class="fa fa-bars"></i> </a>
+            <a  role="button" id="homeMenuButton" class="minimalize-styl-2 btn btn-primary " (click)="toggleNavigation()"><i
+                class="fa fa-bars"></i> </a>
+
+
+            
             <!-- <form role="search" class="navbar-form-custom" method="post" action="#">
         <div class="form-group">
           <input type="text" placeholder="Tìm kiếm..." class="form-control" name="top-search" id="top-search">
         </div>
       </form> -->
+      <!-- <a id="homeMenuButton" class="minimalize-styl-2 btn btn-primary " (click)="toggleNavigation()"><i
+        class="fa fa-bars"></i> </a> -->
         </div>
 
-        <ul class="nav navbar-top-links navbar-nav">
+        <ul id="navaBarCustom" class="nav navbar-nav" style="margin: 0;">
             <li >
-                <a  >{{'TopNav.Home' | translate }} </a>
+                
+                <a  role="button" href="/#/mainView">{{'TopNav.Home' | translate }} </a>
             </li>
             <li class="dropdown">
                 <a role="button" href="#" class="dropdown-toggle"
@@ -164,6 +170,7 @@
                 </ul>
             </li>
         </ul>
+        
 
     </nav>
 

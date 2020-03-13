@@ -39,8 +39,11 @@ export function correctHeight() {
 export function detectBody() {
   if (jQuery(document).width() < 769) {
     jQuery('body').addClass('body-small')
+    jQuery('#navaBarCustom').addClass('navBarCustom')
+    
   } else {
     jQuery('body').removeClass('body-small')
+    jQuery('#navaBarCustom').removeClass('navBarCustom')
   }
 }
 // For demo purpose - animation css script
