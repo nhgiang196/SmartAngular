@@ -54,6 +54,9 @@ export class ContractComponent implements OnInit, AfterViewInit {
   newEntity_ContractBreach: ContractBreach = new ContractBreach();
   ngOnInit() {
   }
+  ngOnDestroy() {
+    $('.modal').modal('hide');
+  }
    async resetEntity() { //reset entity values
     
     this.entity = new Contract();
