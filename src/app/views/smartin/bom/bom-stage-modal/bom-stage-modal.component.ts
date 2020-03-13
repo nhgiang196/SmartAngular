@@ -79,13 +79,11 @@ export class BomStageModalComponent implements OnInit {
   }
 
   fnEditStage(index) {
-    //press edit item (in modal)
     this.editRowId = index + 1;
     this.bomStage = this.entity.BomStage[index];
   }
 
   fnDeleteStage(index) {
-    //press delete item (in modal)
     this.entity.BomStage.splice(index, 1);
   }
 
@@ -99,7 +97,6 @@ export class BomStageModalComponent implements OnInit {
   }
 
   async fnAddStage() {
-    //press add item (in modal)
     let _checkValidate =  this.validateStage(this.newBomStage, "add");
     if (!_checkValidate) return;
     this.entity.BomStage.push(this.newBomStage);

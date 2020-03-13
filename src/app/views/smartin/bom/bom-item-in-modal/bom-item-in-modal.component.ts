@@ -13,14 +13,12 @@ import { debounceTime, distinctUntilChanged, switchMap, map } from 'rxjs/operato
   styleUrls: ['./bom-item-in-modal.component.css']
 })
 export class BomItemInModalComponent implements OnInit {
+  @Input() entity: BomFactory;
   @Input() units: Unit[] =[];
   @Input() parentOutId: number;
   @Input() currentStageId: number;
-  @Output() addInBomItem = new EventEmitter<BomItemIn[]>();
 //const
   
-  typeBomIn: string = "In";
-  typeBomOut: string = "Out";
   itemsBuffer : Item[]=[]
   items: Item[] =[]
   inBomItems: BomItemIn[] = [];
@@ -78,18 +76,12 @@ export class BomItemInModalComponent implements OnInit {
       }
     }
     async fnAddInBomItem() {
-      //press add item (in modal)
-      //let _checkValidate = await this.validateItem(this.newBomStage)
-      //if (!_checkValidate) return;
-      // this.bomItems.push(this.inBomItem);
-      // this.bomItems.push(this.outBomItemIn)
-      // this.entity.BomStage[id].BomItemIn.push();
-      // this.entity.BomStage[id].BomItemIn = this.bomItems;
-      if(this.fnValidateBomItem(this.newBomItem,'add')){
+      //if(this.fnValidateBomItem(this.newBomItem,'add')){
         //this.newBomItem.BomItemInParentId= this.parentOutId;
-         this.inBomItems.push(this.newBomItem);
-        this.newBomItem = new BomItemIn();
-      }
+        this.newBomItem.IsNew =true;
+         this.entity.BomStage[this.currentStageId].BomItemOut[this.parentOutId].BomItemIn.push(this.newBomItem);
+          this.newBomItem = new BomItemIn();
+      //}
     
     }
   
@@ -169,8 +161,20 @@ export class BomItemInModalComponent implements OnInit {
     this.inBomItems = [];
     this.inBomItem = new BomItemIn();
   }
+
+  fnBackModalOut(){
+    this.entity.BomStage[this.currentStageId].BomItemOut[this.parentOutId].BomItemIn =this.entity.BomStage[this.currentStageId].BomItemOut[this.parentOutId].BomItemIn.filter(x=>(x.IsNew ==false) )
+    
+    $("#modalIn").modal("hide");
+    $("#modalOut").modal("show");
+  }
+
   fnSaveBomItem() {
-    this.addInBomItem.emit(this.inBomItems)
+    this.entity.BomStage[this.currentStageId].BomItemOut[this.parentOutId].BomItemIn.forEach(item=>{
+      item.Status=true;
+      item.IsNew =false;
+      return item;
+    });
     $("#modalIn").modal("hide");
     $("#modalOut").modal("show");
   }

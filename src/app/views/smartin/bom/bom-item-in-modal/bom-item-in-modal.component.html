@@ -42,9 +42,10 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr
+                  <ng-container   *ngFor="let item of entity.BomStage[currentStageId]?.BomItemOut[parentOutId]?.BomItemIn; let i = index">
+                    <tr
                     class="animated fadeInRight"
-                    *ngFor="let item of inBomItems; let i = index"
+                    *ngIf="item.Status==true || item.IsNew ==true"
                   >
                     <td>{{ i + 1 }}</td>
                     <td *ngIf="i + 1 !== editRowId">{{ item.ItemName }}</td>
@@ -118,16 +119,12 @@
                           >
                             <i class="fa fa-trash"></i>
                           </button>
-                          <button
-                            type="button"
-                            class="btn btn-sm btn-outline btn-default"
-                            *ngIf="i + 1 !== editRowId">
-                            <i class="fa fa-plus"></i>
-                          </button>
                         </div>
                       </div>
                     </td>
                   </tr>
+                  </ng-container>
+                 
                   <!-- new record -->  
                   <tr>
                     <td>{{ bomItems.length + 1 }}</td>
@@ -188,9 +185,7 @@
         <button
           type="button"
           class="btn btn-white"
-          data-dismiss="modal"
-          data-toggle="modal"
-          data-target="#modalOut"
+          (click)="fnBackModalOut()"
         >
           {{ "BomFactory.CloseButton" | translate }}
         </button>

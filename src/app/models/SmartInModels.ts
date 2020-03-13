@@ -239,6 +239,8 @@ export class BomItemOut {
   Quantity?: number
   Item?: Item = new Item();
   Unit?: Unit = new Unit();
+  Status?:boolean
+  IsNew?:boolean
   BomItemIn?: BomItemIn [] = []
 }
 
@@ -250,6 +252,8 @@ export class BomItemIn {
   UnitId?: number = 0
   UnitName: string
   Quantity?: number
+  Status?:boolean
+  IsNew?:boolean
   Item?: Item = new Item();
   Unit?: Unit = new Unit();
 }

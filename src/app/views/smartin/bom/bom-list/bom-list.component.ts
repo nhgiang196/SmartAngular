@@ -27,29 +27,24 @@ export class BomListComponent implements OnInit {
   @ViewChild(DataTableDirective)
   dtElement: DataTableDirective;
   dtTrigger: Subject<any> = new Subject();
-  
 
   BomFactorys: BomFactory[];
-  bomStage: BomStage;
-  newBomStage: BomStage;
-  entity: BomFactory;
- 
-  dtOptions: DataTables.Settings = {};
-  ACTION_STATUS: string;
-  laddaSubmitLoading = false;
-  existName = false;
-  iboxloading = false;
-  bsConfig = { dateInputFormat: "YYYY-MM-DD", adaptivePosition: true };
-  //set rowEdit
-  editRowId: number = 0;
   // Default load data
+  entity: BomFactory;
   units: Unit[] = [];
   stages: Stage[] = []
   factories: Factory[] = []
   items: Item[] =[]
   itemsBuffer : Item[]=[]
-
+ 
+  dtOptions: DataTables.Settings = {};
+  ACTION_STATUS: string;
+  laddaSubmitLoading = false;
+  iboxloading = false;
+  bsConfig = { dateInputFormat: "YYYY-MM-DD", adaptivePosition: true };
   
+
+
   // ng-select server side
   bufferSize = 50;
   numberOfItemsFromEndBeforeFetchingMore = 10;
@@ -72,8 +67,6 @@ export class BomListComponent implements OnInit {
   }
   private resetEntity() {
     this.entity = new BomFactory();
-    this.bomStage = new BomStage();
-    this.newBomStage = new BomStage();
     this.BomFactorys = [];
   }
 
@@ -140,17 +133,10 @@ export class BomListComponent implements OnInit {
     });
   };
 
-  showBomFactoryModal() {
-    $("#myModal2").modal("hide");
-    $("#myModal4").modal("show");
-  }
   ngOnDestroy(): void {
-    // Do not forget to unsubscribe the event
     this.dtTrigger.unsubscribe();
   }
 
-  
- 
   async loadUnit() {
     let keySearch = "";
     let data: any = await this.api
@@ -186,48 +172,8 @@ export class BomListComponent implements OnInit {
     });
   }
 
-  async fnAddStage() {
-    //press add item (in modal)
-    let _checkValidate =  this.validateStage(this.newBomStage, "add");
-    if (!_checkValidate) return;
-    this.entity.BomStage.push(this.newBomStage);
-    this.newBomStage = new BomStage();
-  }
-
-  fnSaveStage(index) {}
   
- validateStage(itemAdd: BomStage, typeAction) {
-    if (itemAdd.BomStageId == null) {
-      swal.fire(
-        "Validate",
-        this.trans.instant("Factory.data.TechnologyName") +
-          this.trans.instant("messg.isnull"),
-        "warning"
-      );
-      return false;
-    }
-    if (( this.entity.BomStage.filter(t => t.BomStageId == itemAdd.BomStageId).length) > 0 &&typeAction == "add") {
-      swal.fire(
-        "Validate",
-        this.trans.instant("Factory.data.TechnologyName") +
-          this.trans.instant("messg.isexisted"),
-        "warning"
-      );
-      return false;
-    }
-    if (( this.entity.BomStage.filter(t => t.BomStageId == itemAdd.BomStageId).length) > 1 &&typeAction == "edit") {
-      swal.fire(
-        "Validate",
-        this.trans.instant("Factory.data.TechnologyName") +
-          this.trans.instant("messg.isexisted"),
-        "warning"
-      );
-      return false;
-    }
-    if (typeAction == "edit") this.editRowId = 0;
-    return true;
-  }
-
+ 
   fnDelete(id) {
     swal
       .fire({
@@ -261,50 +207,36 @@ export class BomListComponent implements OnInit {
   }
   fnAdd() {
     this.ACTION_STATUS = "add";
-    this.existName = false;
     this.resetEntity();
   }
   
-
-
-  
-  fnUpdate(id) {
-    //press a link name of entity
-    this.existName = false;
-    this.ACTION_STATUS = "update";
-    $("#myModal4").modal("hide");
-    if (id === null) {
-      this.toastr.warning("BomFactory Id is Null, cant show modal");
-      return;
-    }
-    this.resetEntity();
-    this.ACTION_STATUS = "update";
-    this.iboxloading = true;
-    this.api.findBomFactoryById(id).subscribe(
-      res => {
-        this.entity = res;
-        //debugger
-        $("#myModal4").modal("show");
-        this.iboxloading = false;
-      },
-      error => {
-        this.iboxloading = false;
-        this.toastr.error(
-          error.statusText,
-          "Load BomFactory information error"
-        );
-      }
-    );
-  }
-  private async fnValidate() {
-    let result = await this.api.validateBomFactory(this.entity).toPromise().then() as any;
-    if (result.Success) return true;
-    else {
-      this.laddaSubmitLoading = false;
-      this.existName = true;
-      return false;
-    }
-  }
+   fnUpdate(id) {
+  //   //press a link name of entity
+  //   this.ACTION_STATUS = "update";
+  //   $("#myModal4").modal("hide");
+  //   if (id === null) {
+  //     this.toastr.warning("BomFactory Id is Null, cant show modal");
+  //     return;
+  //   }
+  //   this.resetEntity();
+  //   this.ACTION_STATUS = "update";
+  //   this.iboxloading = true;
+  //   this.api.findBomFactoryById(id).subscribe(
+  //     res => {
+  //       this.entity = res;
+  //       //debugger
+  //       $("#myModal4").modal("show");
+  //       this.iboxloading = false;
+  //     },
+  //     error => {
+  //       this.iboxloading = false;
+  //       this.toastr.error(
+  //         error.statusText,
+  //         "Load BomFactory information error"
+  //       );
+  //     }
+  //   );
+   }
 
   // ngAfterViewInit(): void {
   //   this.dtTrigger.next();
