@@ -6,11 +6,14 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { ProfileComponent } from './profile/profile.component';
 import { UserResetPasswordComponent } from './user-reset-password/user-reset-password.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
+import { SmartinModule } from 'src/app/views/smartin/smartin.module';
+import { UiSampleModule } from 'src/app/views/smartin/ui-sample/ui-sample.module';
 
 @NgModule({
   declarations: [LoginComponent, ChangePasswordComponent, UpdateProfileComponent, ProfileComponent, UserResetPasswordComponent, ForgotPasswordComponent],
   imports: [
-    SharedModule
+    SharedModule,
+    UiSampleModule
   ]
 })
 export class UserModule { }

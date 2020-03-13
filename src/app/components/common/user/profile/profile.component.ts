@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
+import { SmartSelectComponent } from 'src/app/views/smartin/ui-sample/smart-select/smart-select.component';
 
 @Component({
   selector: 'app-profile',
@@ -8,6 +9,7 @@ import { AuthService } from 'src/app/services/auth.service';
   styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit {
+  @ViewChild (SmartSelectComponent) child : SmartSelectComponent;
   profile: any = {};
   constructor(private router: ActivatedRoute, private authService: AuthService) { }
 
