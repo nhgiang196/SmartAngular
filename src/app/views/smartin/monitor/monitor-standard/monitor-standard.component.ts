@@ -34,7 +34,7 @@ export class MonitorStandardComponent implements OnInit {
   initCombobox = { Factories: [], FullFactories: [] };
 
   //config
- bsConfig = { dateInputFormat: "YYYY-MM-DD", adaptivePosition: true };
+  bsConfig = { dateInputFormat: "YYYY-MM-DD", adaptivePosition: true };
   constructor(
     private api: WaterTreatmentService,
     private toastr: ToastrService,
@@ -125,7 +125,6 @@ export class MonitorStandardComponent implements OnInit {
 
    /**PRIVATE FUNCTIONS */
    private async loadFactoryList() {
-
     let res = await this.api.getBasicFactory().toPromise().then().catch(err => this.toastr.warning('Get factories Failed, check network')) as any;
     this.initCombobox.Factories = (res as any).result.filter(x => x.Status == 1) as Factory[];
     this.initCombobox.FullFactories = (res as any).result as Factory[];
@@ -135,6 +134,7 @@ export class MonitorStandardComponent implements OnInit {
     // Do not forget to unsubscribe the event
     this.dtTrigger.unsubscribe();
   }
+
   fnDelete(id) {
     swal.fire({
       title: this.trans.instant('Monitor.DeleteAsk_Title'),
@@ -163,6 +163,7 @@ export class MonitorStandardComponent implements OnInit {
     this.isDisable = false;
     this.entity = new MonitorStandard();
   }
+
   async fnUpdate(current)
   {
     this.ACTION_STATUS = 'update';
@@ -186,7 +187,6 @@ export class MonitorStandardComponent implements OnInit {
       if (this.ACTION_STATUS == 'add') {
         e.CreateBy = this.auth.currentUser.Username;
         e.Factory = null;
-        console.log(e);
         this.api.addMonitorStandard(e).subscribe(res => {
           var operationResult: any = res
           if (operationResult.Success) {
@@ -217,6 +217,7 @@ export class MonitorStandardComponent implements OnInit {
       else{
         this.toastr.error("Validate Date was nested!");
             this.laddaSubmitLoading = false;
+            this.tableRender();
     }
 
   }
@@ -246,5 +247,8 @@ export class MonitorStandardComponent implements OnInit {
   ngAfterViewInit(): void {
     this.dtTrigger.next();
     this.tableRender();
+  }
+  reSetExistName(){// hiden is-invalid
+    this.existName = false;
   }
 }
