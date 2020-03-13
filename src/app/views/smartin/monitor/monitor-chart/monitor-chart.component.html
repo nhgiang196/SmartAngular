@@ -1,11 +1,13 @@
-<div style="display: block" *ngIf='signalRService.data'>
+<div >
   <canvas baseChart
-          [datasets]="signalRService.data"
-          [labels]="chartLabels"
-          [options]="chartOptions"
-          [legend]="chartLegend"
-          [chartType]="chartType"
-          [colors]="colors"
+          style="width: 512px; height: 320px"
+          [datasets]="lineChartData"
+          [labels]="lineChartLabels"
+          [options]="lineChartOptions"
+          [colors]="lineChartColors"
+          [legend]="lineChartLegend"
+          [chartType]="lineChartType"
+          [plugins]="lineChartPlugins">
           (chartClick)="chartClicked($event)"></canvas>
 </div>
 <br><br>

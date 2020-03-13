@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { DataTableDirective } from 'angular-datatables';
 import { Subject } from 'rxjs';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -16,6 +16,7 @@ declare const $ : any;
   styleUrls: ['./monitor-standard.component.css']
 })
 export class MonitorStandardComponent implements OnInit {
+  @ViewChild(DataTableDirective)  datatableElement: DataTableDirective;
   monitors:Array<MonitorStandard> = new Array<MonitorStandard>();
   dtOptions: DataTables.Settings = {};
   dtTrigger: Subject<any> = new Subject();
@@ -24,8 +25,10 @@ export class MonitorStandardComponent implements OnInit {
   laddaSubmitLoading = false;
   EditRowID: number =0;
   entity: MonitorStandard;
+  isDisable =false;
   iboxloading = false;
-
+  keyword: string = '';
+  monitorstandard_showed = 0;
   initCombobox = { Factories: [], FullFactories: [] };
   constructor(
     private api: WaterTreatmentService,
@@ -42,8 +45,41 @@ export class MonitorStandardComponent implements OnInit {
     this.dtOptions = {
       autoWidth: true,
       responsive: true,
+      serverSide: true,
+      deferRender: true,
+      paging: true,
+      stateSave: true,
       pagingType: 'full_numbers',
+      search: { regex: true },
+      processing: true,
       pageLength: 10,
+      columns: [
+          { data: 'MonitorStandardId' },
+          { data: 'FactoryName' },
+          { data: 'ValidateDateFrom' },
+          { data: 'ValidateDateTo' },
+          { data: 'TemperatureMaX' },
+          { data: 'pHMax' },
+          { data: 'CODMax' },
+          { data: 'TSSMax' },
+          { data: 'ColorMax' },
+          { data: 'AmoniMax' }
+
+      ],
+      ajax: (dataTablesParameters: any, callback) => {
+        this.dtOptions.ajax= (dataTablesParameters: any, callback) => { //chèn lại ajax ở một vị trí duy nhất khi định nghĩa
+           this.api.getDataTableMonitorStandardPagination(dataTablesParameters).subscribe(res => {
+            this.monitors = res.data  as any;
+            console.log(this.monitors)
+            callback({
+              recordsTotal: res.recordsTotal,
+              recordsFiltered: res.recordsFiltered,
+              data: []
+            });
+          })
+
+        }
+      },
       language:
       {
         searchPlaceholder: this.trans.instant('DefaultTable.searchPlaceholder'),
@@ -68,9 +104,24 @@ export class MonitorStandardComponent implements OnInit {
       }
     };
 
-    this.loadData();
-
+    //this.loadData();
+    this.loadFactoryList();
   }
+
+  loadData() { //init loading
+    this.iboxloading = true;
+    this.api.getMonitorStandardPagination(this.keyword).subscribe(res => {
+      var data = res as any;
+      this.monitors = data.result;
+      console.log(this.monitors);
+      this.monitorstandard_showed = data.totalCount;
+      this.iboxloading = false;
+    }, err => {
+      this.toastr.error(err.statusText, "Load init failed!");
+      this.iboxloading = false;
+    });
+  }
+
  //config
  bsConfig = { dateInputFormat: "YYYY-MM-DD", adaptivePosition: true };
 
@@ -82,19 +133,6 @@ export class MonitorStandardComponent implements OnInit {
     this.initCombobox.FullFactories = (res as any).result as Factory[];
   }
 
-  async loadData(){
-    $('#myTable').DataTable().clear().destroy();
-    this.api.getAllMonitorStandard().subscribe(res=>{
-      this.monitors = res;
-      this.dtTrigger.next();
-    },
-    err=>{
-      this.toastr.error(err.statusText)
-    }
-    )
-    await this.loadFactoryList();
-
-  }
   ngOnDestroy(): void {
     // Do not forget to unsubscribe the event
     this.dtTrigger.unsubscribe();
@@ -126,12 +164,13 @@ export class MonitorStandardComponent implements OnInit {
   fnAdd() {
     this.ACTION_STATUS = 'add';
     this.existName = false;
+    this.isDisable = false;
     this.entity = new MonitorStandard();
   }
   async fnUpdate(current)
   {
     this.ACTION_STATUS = 'update';
-
+    this.isDisable = true;
     this.existName = false;
 
     let _factoryAddTag = await this.initCombobox.FullFactories.find(x => x.FactoryId == current.FactoryId);
@@ -151,13 +190,16 @@ export class MonitorStandardComponent implements OnInit {
     if ( await this.fnValidate(e)) {
       if (this.ACTION_STATUS == 'add') {
         e.CreateBy = this.auth.currentUser.Username;
-        this.api.addItemType(e).subscribe(res => {
+        e.Factory = null;
+        console.log(e);
+        this.api.addMonitorStandard(e).subscribe(res => {
           var operationResult: any = res
           if (operationResult.Success) {
             this.toastr.success(this.trans.instant("messg.add.success"));
           }
           else this.toastr.warning(operationResult.Message);
           this.laddaSubmitLoading = false;
+          $('#myModal4').modal('hide');
         }, err => { this.toastr.error(err.statusText); this.laddaSubmitLoading = false; })
       }
       if (this.ACTION_STATUS == 'update') {
@@ -172,15 +214,22 @@ export class MonitorStandardComponent implements OnInit {
           $('#myModal4').modal('hide');
         }, err => { this.toastr.error(err.statusText); this.laddaSubmitLoading = false; })
       }
-      this.loadData();
+      }
+      else{
+        this.toastr.error("Validate Date was nested!");
+            this.laddaSubmitLoading = false;
     }
+    this.loadData();
   }
   private async fnValidate(e) {
 
     if(e.ValidateDateFrom < e.ValidateDateTo)
     {
       let result =  await this.api.validateMonitorStandard(e).toPromise().then() as any;
-      if (result.Success) return true;
+      if (result.Success) {
+        this.existName = false;
+        return true;
+      }
       else {
         this.laddaSubmitLoading = false;
         this.existName = true;
@@ -194,5 +243,14 @@ export class MonitorStandardComponent implements OnInit {
         return false;
     }
 }
-
+tableRender(): void {
+  this.datatableElement.dtInstance.then((dtInstance: DataTables.Api) => {
+    dtInstance.destroy();
+    this.dtTrigger.next();
+  });
+}
+ngAfterViewInit(): void {
+  this.dtTrigger.next();
+  this.tableRender();
+}
 }

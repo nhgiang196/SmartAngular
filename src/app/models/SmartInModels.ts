@@ -408,12 +408,24 @@ export class MonitorStandard{
   ModifyBy: string
   ModifyDate:Date
   Status: boolean
+  FactoryName: string
   Factory: Factory =new Factory()
 }
 
 export class ChartModel {
   data: []
   label: string
+}
+
+export class ChartDemo
+{
+    data: Data [] =[]
+    label : string;
+}
+export class Data
+{
+  x: number =0;
+  y: number =0;
 }
 
 
