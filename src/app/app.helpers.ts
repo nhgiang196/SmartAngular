@@ -40,6 +40,7 @@ export function detectBody() {
   if (jQuery(document).width() < 769) {
     jQuery('body').addClass('body-small')
     jQuery('#navaBarCustom').addClass('navBarCustom')
+    if (!jQuery('#homeMenuButton').is(':visible')) jQuery('#navaBarCustom').removeClass('navBarCustom')
     
   } else {
     jQuery('body').removeClass('body-small')
@@ -149,5 +150,12 @@ export function collapseIboxHelper(){
     }, 100);
   });
   
+}
+
+export function SlimScrollFixSideBar(){
+  if ($('#fixedsidebar').is(':checked')){
+    $('#fixedsidebar').click();
+  }
+
 }
 

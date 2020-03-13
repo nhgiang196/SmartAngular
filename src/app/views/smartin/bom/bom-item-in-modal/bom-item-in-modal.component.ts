@@ -49,15 +49,19 @@ export class BomItemInModalComponent implements OnInit {
   }
 
     fnSaveInBomItem(index) {console.log(this.inBomItems)
+
       if (this.fnValidateBomItem(this.inBomItem,'edit')) {
-        this.inBomItems[index] = this.inBomItem;
+      
+        this.inBomItem.IsNew = true;
+        this.entity.BomStage[this.currentStageId].BomItemOut[
+          index
+        ].BomItemIn[this.parentOutId] = this.inBomItem;
         this.editRowId = 0;
-        
       }
     }
     async fnAddInBomItem() {
-      //if(this.fnValidateBomItem(this.newBomItem,'add')){
-        //this.newBomItem.BomItemInParentId= this.parentOutId;
+      let _checkValidate =  this.fnValidateBomItem(this.newBomItem, "add");
+    if (!_checkValidate) return;
         this.newBomItem.IsNew =true;
          this.entity.BomStage[this.currentStageId].BomItemOut[this.parentOutId].BomItemIn.push(this.newBomItem);
           this.newBomItem = new BomItemIn();
@@ -66,7 +70,7 @@ export class BomItemInModalComponent implements OnInit {
     }
   
     fnValidateBomItem(item: BomItemIn,typeAction) {
-      if (this.inBomItems.filter(x => x.ItemId == item.ItemId).length > 0 &&typeAction == "add") {
+      if (this.entity.BomStage[this.currentStageId].BomItemOut[this.parentOutId].BomItemIn.filter(x => x.ItemId == item.ItemId).length > 0 &&typeAction == "add") {
         swal.fire(
           "Validate",
           this.trans.instant("Factory.data.TechnologyName") +
@@ -75,7 +79,7 @@ export class BomItemInModalComponent implements OnInit {
         );
         return false;
       }
-      if (this.inBomItems.filter(x => x.ItemId == item.ItemId).length > 0 &&typeAction == "edit") {
+      if (this.entity.BomStage[this.currentStageId].BomItemOut[this.parentOutId].BomItemIn.filter(x => x.ItemId == item.ItemId).length > 1 &&typeAction == "edit") {
         swal.fire(
           "Validate",
           this.trans.instant("Factory.data.TechnologyName") +
@@ -92,7 +96,9 @@ export class BomItemInModalComponent implements OnInit {
     fnEditInBomItem(index) {
       //press edit item (in modal)
       this.editRowId = index + 1;
-      this.inBomItem =JSON.parse(JSON.stringify( this.inBomItems[index]));
+      this.inBomItem = this.entity.BomStage[this.currentStageId].BomItemOut[
+        this.parentOutId
+      ].BomItemIn[index];
       this.newBomItem = new BomItemIn();
     }
     // fnSaveOutBomItemIn() {

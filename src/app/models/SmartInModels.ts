@@ -217,14 +217,15 @@ export class StageFile {
 
 export class BomFactory {
 	BomFactoryId: number = 0
-	FactoryId: number = 0
+  FactoryId: number 
+  FactoryName: number 
 	Validate?: Date= new Date()
   Descriptions?: string
   CreateBy: string
   CreateDate?: Date = new Date()
   ModifyBy: string
   ModifyDate?: Date = new Date()
-  Status?: number = 0
+  Status?: number = 1
   Factory? : Factory = new Factory();
   BomStage?: BomStage [] = []
 }
@@ -267,6 +268,7 @@ export class BomStage {
 	Sequence?: boolean = false
   Description?: string
   BomItemOut?: BomItemOut[] =[]
+  Stage?: Stage = new Stage();
 }
 
 export class Warehouse {

@@ -178,7 +178,7 @@
           <!-- Upload file -->
           <app-smart-upload [filePath]="pathFile" (entityFile)="this.entity.FactoryFile = $event" ></app-smart-upload>
           <hr>
-
+          <div class="table-responsive">
             <table class="table table-bordered">
               <thead>
                 <tr>
@@ -226,6 +226,8 @@
 
               </tbody>
             </table>
+
+          </div>
         </form>
       </div>
       <div class="modal-footer">

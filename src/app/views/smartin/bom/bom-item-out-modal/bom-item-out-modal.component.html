@@ -193,6 +193,7 @@
           type="button"
           class="btn btn-white"
           (click)="fnBackStageModal()"
+          [disabled]="editRowId!=0"
         >
           {{ "BomFactory.CloseButton" | translate }}
         </button>
@@ -204,6 +205,7 @@
           data-target="#modalStages"
           data-dismiss="modal"
           (click)="fnSaveBomItemOut()"
+          [disabled]="editRowId!=0"
         >
           {{ "BomFactory.SaveButton" | translate }}
         </button>
