@@ -5,9 +5,10 @@
         "changeOrigin": true
     },
     "/signalR/*":{
-        "target":"http://localhost:3333",
+        "target":"http://localhost:7777",
         "secure": false,
-        "changeOrigin": true
+        "changeOrigin": true,
+        "pathRewrite": {"^/signalR" : ""}
     },
     "/auth/*":{
         "target":"http://supporteoffice.becamex.com.vn:6789", 

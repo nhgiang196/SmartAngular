@@ -19,34 +19,47 @@ export class MonitorChartComponent implements OnInit {
   public lineChartLabels: Label[] = this.signalRService.myLabel//['January', 'February', 'March', 'April', 'May', 'June', 'July'];
   public lineChartOptions: any =
     {
-      responsive: true,
-      animation: {
-        duration: this.speed * 1.5,
-        easing: 'linear'
-      },
-      legend: false,     
+      label: "My First dataset",     
+      fill: false,
     };
   public lineChartColors: Color[] = [
     {
-      backgroundColor: 'rgba(255, 99, 132, 0.1)',
-      borderColor: 'rgb(255, 99, 132)',
+      backgroundColor: "rgba(75,192,192,0.4)",
+      borderColor: "rgba(75,192,192,1)",
+      pointBorderColor: "rgba(75,192,192,1)",
+      pointBackgroundColor: "#fff",
+      pointBorderWidth: 1,
+      pointHoverRadius: 5,
+      pointHoverBackgroundColor: "rgba(75,192,192,1)",
+      pointHoverBorderColor: "rgba(220,220,220,1)",
+      pointHoverBorderWidth: 2,
+      pointRadius: 5,
+      pointHitRadius: 10,
     },
   ];
   public lineChartLegend = true;
   public lineChartType = 'line';
   public lineChartPlugins = [];
 
-  constructor(public signalRService: SignalRService, private api: WaterTreatmentService) { }
+  constructor(public signalRService: SignalRService) { }
 
   ngOnInit() {
     this.signalRService.startConnection();
     this.signalRService.addTransferChartDataListener();
-    this.signalRService.addBroadcastChartDataListener();
-    this.startHttpRequest();
+   // this.signalRService.addBroadcastChartDataListener();
+    //this.startHttpRequest();
+    this.startRequestLatestChart();
   }
 
   private startHttpRequest = () => {
-    this.api.getMonitorChart().subscribe(res => console.log(res))
+    this.signalRService.getMonitorChart().subscribe(res => console.log(res))
+  }
+  private startRequestLatestChart =() =>{
+    this.signalRService.getLatestMonitorChart().subscribe(res => console.log(res))
+  }
+  private startRequestChartbyDate =() =>
+  {
+    this.signalRService.getChartByDate('2020-02-10','2020-03-10').subscribe(res => console.log(res))
   }
   public chartClicked = (event) => {
     this.signalRService.broadcastChartData();

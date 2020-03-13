@@ -1,0 +1,65 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-sm-4">
+    <h2>{{ 'Monitor.Breadcrumb' | translate }}</h2>
+    <ol class="breadcrumb">
+      <li>
+        <a href="index.html">{{ 'TopNav.Monitor' | translate }}</a>
+      </li>
+      <li class="active">
+        <strong>{{ 'Monitor.Breadcrumb' | translate }}</strong>
+      </li>
+    </ol>
+  </div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="ibox float-e-margins">
+        <div class="ibox-content" >
+          <div class="sk-spinner sk-spinner-wave">
+            <div class="sk-rect1"></div>
+            <div class="sk-rect2"></div>
+            <div class="sk-rect3"></div>
+            <div class="sk-rect4"></div>
+            <div class="sk-rect5"></div>
+          </div>       
+          <div class="row">
+            <table 
+              class="table table-bordered table-hover table-striped" id="myTable" style="width:100%">
+              <thead>
+                <tr>
+                  <th>STT</th>
+                  <th>Nhà máy</th>
+                  <th>Thời gian</th>
+                  <th>COD<sub>(mg/L)</sub></th>
+                  <th>pH</th>
+                  <th>TSS<sub>(mg/L)</sub></th>
+                  <th>Q đầu ra(m<sup>3</sup>/h)</th>
+                  <th>Độ màu<sub>(Pt-Co)</sub></th>
+                  <th>NH<sub>3</sub>-N<sub>(mg/L)</sub></th>
+                  <th>Nhiệt độ(<sup>o</sup>C)</th>
+                </tr>
+              </thead>
+              <tbody *ngIf="this.signalRService.FactoryData?.length != 0">
+                <tr *ngFor="let factory of this.signalRService.FactoryData, let i = index">
+                  <td style="text-align: left"> {{i+1}}</td>
+                  <td style="text-align: left"> {{factory.factoryId}}</td>
+                  <td style="text-align: left"> {{factory.monitorDate}}</td>
+                  <td style="text-align: left"> {{factory.cod}}</td>
+                  <td style="text-align: left"> {{factory.ph}}</td>
+                  <td style="text-align: left"> {{factory.tss}}</td>
+                  <td style="text-align: left"> {{factory.q}}</td>
+                  <td style="text-align: left"> {{factory.color}}</td>
+                  <td style="text-align: left"> {{factory.amoni}}</td>
+                  <td style="text-align: left"> {{factory.temperature}}</td>           
+                </tr>
+              </tbody>
+             
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

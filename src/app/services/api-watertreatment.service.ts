@@ -9,7 +9,7 @@ const ApiUrl = "api/v1";
 @Injectable({ providedIn: 'root' })
 export class WaterTreatmentService {
   constructor(
-    private http: HttpClient, private router: Router
+    private http: HttpClient
   ) { }
 
   getUser() {
@@ -284,7 +284,6 @@ export class WaterTreatmentService {
 
    //Monitor Services
    addMonitor =(entity) => this.http.post(`${ApiUrl}/Monitor/AddMonitor`,entity);
-   getMonitorChart =() => this.http.get(`${ApiUrl}/Monitor/GetChart`);
    updateMonitor =(entity) => this.http.put(`${ApiUrl}/Monitor/UpdateMonitor`,entity);
    getDataTableMonitorPagination =(entity) => this.http.post<DataTablesResponse>(`${ApiUrl}/Monitor/DataTableMonitorPagination`,entity);
    deleteMonitor =(id) => this.http.delete(`${ApiUrl}/Monitor/DeleteMonitor`,{ params: { id: id } });
