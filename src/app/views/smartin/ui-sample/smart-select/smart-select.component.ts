@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { Item, BomItem, Unit, BomFactory, Stage } from 'src/app/models/SmartInModels';
+import { Item, BomItemIn, Unit, BomFactory, Stage } from 'src/app/models/SmartInModels';
 import { Subject } from 'rxjs';
 declare let $: any;
 import swal from "sweetalert2";
@@ -31,18 +31,18 @@ export class SmartSelectComponent implements OnInit {
   editRowId: number = 0;
   laddaSubmitLoading = false;
 
-  inBomItems: BomItem[] = [];
-  bomItems: BomItem[];
-  inBomItem: BomItem;
-   newBomItem: BomItem;
+  inBomItems: BomItemIn[] = [];
+  bomItems: BomItemIn[];
+  inBomItem: BomItemIn;
+   newBomItem: BomItemIn;
 
 
   
 
   async ngOnInit() {
     this.onSearch();
-    this.inBomItem = new BomItem(); 
-    this.newBomItem = new BomItem();
+    this.inBomItem = new BomItemIn(); 
+    this.newBomItem = new BomItemIn();
     this.bomItems = [];
     await this.loadItems();
   }
