@@ -35,6 +35,7 @@ export class MonitorStandardComponent implements OnInit {
 
   //config
   bsConfig = { dateInputFormat: "YYYY-MM-DD", adaptivePosition: true };
+
   constructor(
     private api: WaterTreatmentService,
     private toastr: ToastrService,
@@ -82,6 +83,7 @@ export class MonitorStandardComponent implements OnInit {
           //chèn lại ajax ở một vị trí duy nhất khi định nghĩa
            this.api.getDataTableMonitorStandardPagination(dataTablesParameters).subscribe(res => {
             this.monitors = res.data;
+            console.log(this.monitors);
             this.recordStart = dataTablesParameters.start;
             callback({
               recordsTotal: res.recordsTotal,
@@ -166,6 +168,7 @@ export class MonitorStandardComponent implements OnInit {
 
   async fnUpdate(current)
   {
+
     this.ACTION_STATUS = 'update';
     this.isDisable = true;
     this.existName = false;
@@ -173,7 +176,12 @@ export class MonitorStandardComponent implements OnInit {
     let _factoryAddTag = await this.initCombobox.FullFactories.find(x => x.FactoryId == current.FactoryId);
     if (_factoryAddTag && await !this.initCombobox.Factories.find(x => x.FactoryId == current.FactoryId))
       this.initCombobox.Factories = this.initCombobox.Factories.concat([_factoryAddTag]);
-      this.entity = current;
+      this.api.findMonitorStandardById(current.MonitorStandardId).subscribe(res=>{
+        console.log(res)
+        this.entity = res
+      })
+  //  /   console.log(re)
+      // /this.entity = current;
 
   }
 
