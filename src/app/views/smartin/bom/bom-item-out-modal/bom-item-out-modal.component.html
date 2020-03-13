@@ -42,10 +42,11 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <ng-container  *ngFor="let item of outBomItems; let i = index">
+                  <ng-container  *ngFor="let item of entity.BomStage[currentStageId]?.BomItemOut; let i = index">
                     <tr
                     class="animated fadeInRight"
-                  >
+                    *ngIf="item.Status==true || item.IsNew ==true"
+                    >
                     <td>{{ i + 1 }}</td>
                     <td *ngIf="i + 1 !== editRowId">{{ item.ItemName }}</td>
                     <td *ngIf="i + 1 !== editRowId">{{ item.UnitName }}</td>
@@ -191,10 +192,7 @@
         <button
           type="button"
           class="btn btn-white"
-          data-dismiss="modal"
-          data-toggle="modal"
-          data-target="#modalStages"
-          (click)="fnReset()"
+          (click)="fnBackStageModal()"
         >
           {{ "BomFactory.CloseButton" | translate }}
         </button>
@@ -205,7 +203,7 @@
           data-toggle="modal"
           data-target="#modalStages"
           data-dismiss="modal"
-          (click)="fnSaveBomItem()"
+          (click)="fnSaveBomItemOut()"
         >
           {{ "BomFactory.SaveButton" | translate }}
         </button>
@@ -214,4 +212,4 @@
   </div>
 </div>
 
-<app-bom-item-in-modal [units]="units" [parentOutId] ="parentOutId" [currentStageId]="currentStageId" (addInBomItem)="addInBomItem($event)"></app-bom-item-in-modal>
+<app-bom-item-in-modal [entity]="entity" [units]="units" [parentOutId] ="parentOutId" [currentStageId]="currentStageId" ></app-bom-item-in-modal>
