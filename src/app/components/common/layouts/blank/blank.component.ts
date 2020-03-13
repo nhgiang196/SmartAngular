@@ -13,6 +13,9 @@ export class BlankComponent implements OnInit {
   }
   ngAfterViewInit() {
     $('body').addClass('gray-bg');    
+    $('.footer').addClass('fixed');    
+    $('.footer').css('margin-left', 0);    
+    
     $('.theme-config').remove();
   }
 

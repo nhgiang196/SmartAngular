@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, DoCheck } from '@angular/core';
 import { detectBody,smoothlyMenu, collapseIboxHelper } from '../../../../app.helpers';
 declare let $: any;
 @Component({
@@ -6,12 +6,15 @@ declare let $: any;
   templateUrl: './basic.component.html',
   styleUrls: ['./basic.component.css']
 })
-export class BasicComponent implements OnInit {
+export class BasicComponent implements OnInit , DoCheck{
 
   constructor() { }
 
-  ngOnInit() {
+  ngDoCheck(){
     detectBody();
+  }
+
+  ngOnInit() {
     // MetisMenu
     $('#side-menu').metisMenu();
     // Append config box / Only for demo purpose

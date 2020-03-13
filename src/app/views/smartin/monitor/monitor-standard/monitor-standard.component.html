@@ -36,7 +36,7 @@
             </div>
             <div class="row">
               <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger"
-                class="table table-bordered table-hover table-striped" id="myTable" style="width:100%">
+                class="table table-bordered table-hover table-striped" id="myTable2" style="width:100%">
                 <thead>
                   <tr>
 
@@ -56,10 +56,10 @@
                 </thead>
                 <tbody *ngIf="monitors?.length != 0">
                   <tr *ngFor="let monitor of monitors, let i = index">
-                    <td style="text-align: left"> {{i+1}}</td>
-                    <td style="text-align: left"> {{monitor.FactoryName}}</td>
-                    <td style="text-align: left"> {{monitor.ValidateDateFrom}}</td>
-                    <td style="text-align: left"> {{monitor.ValidateDateTo}}</td>
+                    <td style="text-align: left"> {{ recordStart+i+1}}</td>
+                    <td style="text-align: left"> {{monitor.FactoryName | uppercase}}</td>
+                    <td style="text-align: left"> {{monitor.ValidateDateFrom | amDateFormat: "YYYY-MM-DD HH:mm"}}</td>
+                    <td style="text-align: left"> {{monitor.ValidateDateTo | amDateFormat: "YYYY-MM-DD HH:mm"}}</td>
                     <td style="text-align: left"> {{monitor.TemperatureMax?monitor.TemperatureMax:0}}</td>
                     <td style="text-align: left"> {{monitor.PHmin?monitor.PHmax:0}}-{{monitor.PHmax?monitor.PHmax:0}}</td>
                     <td style="text-align: left"> {{monitor.Codmax?monitor.Codmax:0}}</td>
@@ -95,8 +95,10 @@
   <div class="modal-dialog modal-lg ">
     <div class="modal-content animated fadeIn">
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" (click)="loadData()"><span
-            aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <button type="button" class="close" data-dismiss="modal" (click)="tableRender()">
+          <span
+            aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+          </button>
         <h4 class="modal-title">MonitorStandard.Model</h4>
       </div>
       <div class="modal-body">
@@ -134,6 +136,7 @@
                   [bsConfig]="bsConfig"
                   placeholder="Date From"
                   [(ngModel)]= "entity.ValidateDateFrom"
+                  (ngModelChange)="reSetExistName()"
                   [ngClass]="{ 'is-invalid': existName }"
                   required
                 />
@@ -149,6 +152,7 @@
                   [bsConfig]="bsConfig"
                   placeholder="Date To"
                   [(ngModel)]= "entity.ValidateDateTo"
+                  (ngModelChange)="reSetExistName()"
                   [ngClass]="{ 'is-invalid': existName }"
                   required
                 />
@@ -317,7 +321,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-white" data-dismiss="modal"
-          (click)="loadData()">Close</button>
+          (click)="tableRender()">Close</button>
         <button type="button" class="btn btn-primary" (click)="fnSave();" [ladda]="laddaSubmitLoading"
           [disabled]="myForm.invalid||EditRowID!=0">Save</button>
       </div>

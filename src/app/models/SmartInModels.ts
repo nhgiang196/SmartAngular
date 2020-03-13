@@ -391,20 +391,20 @@ export class MonitorStandard{
   ValidateDateFrom:any
   ValidateDateTo: any
   MonitorStandardDesc: string
-  TemperatureMin: number
-  TemperatureMax: number
-  PHmin: number
-  PHmax: number
-  Codmin: number
-  Codmax: number
-  Tssmin:number
-  Tssmax: number
-  ColorMin:number
-  ColorMax:number
-  Qmin: number
-  Qmax:number
-  AmoniMin:number
-  AmoniMax: number
+  TemperatureMin: number =0
+  TemperatureMax: number =0
+  PHmin: number =0
+  PHmax: number =0
+  Codmin: number =0
+  Codmax: number =0
+  Tssmin:number =0
+  Tssmax: number =0
+  ColorMin:number =0
+  ColorMax:number =0
+  Qmin: number =0
+  Qmax:number =0
+  AmoniMin:number =0
+  AmoniMax: number =0
   CreateBy: string
   CreateDate: Date
   ModifyBy: string
@@ -431,6 +431,23 @@ export class Data
 }
 
 
+
+export class UI_CustomFile{
+  EntityFileId : number = 0;
+  EntityId: number =0;
+  FileId: number = 0;
+  ContractFileId: number = 0
+  ContractId: number = 0
+  CustomerFileId: number = 0
+  CustomerId: number = 0
+  WarehouseFileId: number = 0
+  WarehouseId: number = 0
+  FactoryFileId: number = 0
+  FactoryId: number = 0
+  Url: string = null
+
+  File : Files = new Files()
+}
 
 
 

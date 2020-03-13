@@ -8,6 +8,7 @@ import swal from 'sweetalert2';
 import { AuthService } from 'src/app/services/auth.service';
 import { trigger, transition, animate, style } from '@angular/animations';
 import { HttpEventType } from '@angular/common/http';
+import { SmartUploadComponent } from '../ui-sample/smart-upload/smart-upload.component';
 declare let $: any;
 @Component({
   selector: 'app-warehouse',
@@ -22,8 +23,8 @@ declare let $: any;
   ]
 })
 export class WarehouseComponent implements OnInit {
-  @ViewChild('myInputFile')// Dropzone:  set for emtpy file after Close or Reload
-  InputManual: ElementRef;
+  @ViewChild('myInputFile') InputManual: ElementRef;
+  @ViewChild(SmartUploadComponent) uploadComponent: SmartUploadComponent;
   constructor(
     private api: WaterTreatmentService,
     private toastr: ToastrService,
@@ -38,15 +39,12 @@ export class WarehouseComponent implements OnInit {
   newLocationEntity: WarehouseLocation;
   laddaSubmitLoading = false;
   iboxloading = false;
-  files: File[] = [];
-  addFiles: { FileList: File[], FileLocalNameList: string[] };
   keyword: string = '';
-  private pathFile = "uploadFileWarehouse";
+  pathFile = "uploadFileWarehouse";
   ACTION_STATUS: string;
   Warehouse_showed = 0;
   invalid: any = { Existed_WarehouseCode: false, Existed_WarehouseName: false };
   initCombobox = { Factories: [], FullFactories: [], Users: [] };
-  uploadReportProgress: any = { progress: 0, message: null, isError: null };
   EditRowNumber: number = 0;
   /**INIT FUNCTIONS */
   ngOnInit() { //init functions
@@ -86,6 +84,7 @@ export class WarehouseComponent implements OnInit {
   fnAdd() { //press new button
     this.ACTION_STATUS = 'add';
     this.resetEntity();
+    this.uploadComponent.resetEntity();
     this.entity.CreateBy = this.auth.currentUser.Username;
   }
   async fnEditSignal(id) { //press a link of ENTITY
@@ -102,13 +101,8 @@ export class WarehouseComponent implements OnInit {
       $("#myModal4").modal('show');
       this.iboxloading = false;
       /**CONTROL FILES */
-      this.entity.WarehouseFile.forEach(item => {
-        let _tempFile = new File([], item.File.FileOriginalName);
-        this.files.push(_tempFile);
-      })
+      this.uploadComponent.loadInit(res.WarehouseFile);
       this.entity.ModifyBy = this.auth.currentUser.Username;
-      this.files.push();
-
     }, error => {
       this.iboxloading = false;
       this.toastr.error(error.statusText, "Load factory information error");
@@ -151,6 +145,7 @@ export class WarehouseComponent implements OnInit {
     var e = this.entity;
     
     if (await this.fnValidate(e)) {
+      await this.uploadComponent.uploadFile();
       if (this.ACTION_STATUS == 'add') {
         e.CreateBy = this.auth.currentUser.Username;
         this.api.addWarehouse(e).subscribe(res => {
@@ -158,7 +153,6 @@ export class WarehouseComponent implements OnInit {
           if (operationResult.Success) {
             this.toastr.success(this.trans.instant("messg.add.success"));
             $("#myModal4").modal('hide');
-            if (this.addFiles.FileList.length > 0) this.uploadFile(this.addFiles.FileList);
             this.loadInit();
             this.fnEditSignal(operationResult.Data);
           }
@@ -172,26 +166,15 @@ export class WarehouseComponent implements OnInit {
         this.api.updateWarehouse(e).subscribe(res => {
           var operationResult: any = res
           if (operationResult.Success) {
-            if (this.addFiles.FileList.length > 0) this.uploadFile(this.addFiles.FileList);
             this.loadInit();
-            this.toastr.success(this.trans.instant("messg.update.success"));
-            this.addFiles = { FileList: [], FileLocalNameList :[]};
             
+            this.toastr.success(this.trans.instant("messg.update.success"));
           }
           else this.toastr.warning(operationResult.Message);
           this.laddaSubmitLoading = false;
         }, err => { this.toastr.error(err.statusText); this.laddaSubmitLoading = false; })
       }
     }
-  }
-  fnDownloadFile(filename) { //press FILES preview
-    
-    this.api.downloadFile(this.pathFile + '/' + filename);
-  }
-  fnRemoveFile(event) { //PRESS X TO REMOVE FILES
-    let index = this.files.indexOf(event);
-    this.files.splice(index, 1); //UI del
-    this.entity.WarehouseFile.splice(index, 1);
   }
   
   async fnAddItem() { //press add item
@@ -239,52 +222,6 @@ export class WarehouseComponent implements OnInit {
   }
 
   /** EVENT TRIGGERS */
-  async onSelect(event) { //drag file(s) or choose file(s) in ngFileZone
-    var askBeforeUpload = false;
-    if (event.rejectedFiles.length > 0) this.toastr.warning(this.trans.instant('messg.maximumFileSize5000'));
-    var _addFiles = event.addedFiles;
-    for (var index in _addFiles) {
-      
-      let item = event.addedFiles[index];
-      let convertName = this.helper.getFileNameWithExtension(item);
-      let currentFile = this.entity.WarehouseFile;
-      let findElement = currentFile.filter(x => x.File.FileOriginalName == item.name)[0];
-      //ASK THEN GET RESULT
-      if (findElement != null) {
-        if (!askBeforeUpload) {
-          askBeforeUpload = true;
-          var allowUpload = true;
-          await swal.fire({
-            title: 'File trùng',
-            titleText: 'Một số file bị trùng, bạn có muốn đè các file này lên bản gốc?',
-            type: 'warning',
-            showCancelButton: true,
-            reverseButtons: true
-          }).then((result) => {
-            if (result.dismiss === swal.DismissReason.cancel) allowUpload = false;
-          })
-        }
-        if (!allowUpload) return;
-        let _FileElement = this.files.filter(x=>x.name == findElement.File.FileOriginalName)[0];
-        let _indexFileElement = this.files.indexOf(_FileElement,0);
-        this.files.splice(_indexFileElement, 1);
-        this.addFiles.FileList.splice(_indexFileElement, 1);
-      }
-      else {
-        let _warehouseFile = new WarehouseFile();
-        _warehouseFile.File.FileOriginalName = item.name;
-        _warehouseFile.File.FileLocalName = convertName;
-        _warehouseFile.File.Path = this.pathFile + '/' + convertName;
-        _warehouseFile.File.FileType = item.type;
-        this.entity.WarehouseFile.push(_warehouseFile);
-        this.addFiles.FileLocalNameList.push(convertName);
-      }
-
-    }
-    this.files.push(...event.addedFiles); //refresh showing in Directive
-    this.addFiles.FileList.push(...event.addedFiles);
-
-  }
 
   /** PRIVATES FUNCTIONS */
   private async fnValidate(e: Warehouse) { // validate entity value
@@ -303,33 +240,12 @@ export class WarehouseComponent implements OnInit {
     this.entity = new Warehouse();
     this.locationEntity = new WarehouseLocation();
     this.newLocationEntity = new WarehouseLocation();
-    this.files = [];
-    this.addFiles = { FileList: [], FileLocalNameList: [] }
     this.invalid = {};
-    this.uploadReportProgress =  { progress : 0, message: null , isError: null };
     this.EditRowNumber=0;
     await this.loadFactoryList();
   }
   private CheckBeforeEdit(id) { //check auth before edit 
     this.toastr.warning("User not dont have permission");
-  }
-  private uploadFile(files: File[]) { //upload file to server
-    let formData = new FormData();
-    for (let index = 0; index < files.length; index++) {
-      let _file = files[index];
-      formData.append("files", _file, this.addFiles.FileLocalNameList[index]);
-    }
-    this.api.uploadFile(formData, this.pathFile).subscribe(event => {
-      if (event.type === HttpEventType.UploadProgress)
-        this.uploadReportProgress.progress = Math.round(100 * event.loaded / event.total);
-      else if (event.type === HttpEventType.Response) {
-        this.uploadReportProgress.message = this.trans.instant('Upload.UploadFileSuccess');
-        // this.onUploadFinished.emit(event.body);
-      }
-    }, err => {
-      this.toastr.warning(err.statusText, this.trans.instant('Upload.UploadFileError'));
-      this.uploadReportProgress = { progress: 0, message: 'Error: '+ err.statusText, isError: true };
-    });
   }
 
   ngOnDestroy(){
