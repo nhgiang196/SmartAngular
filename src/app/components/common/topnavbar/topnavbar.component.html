@@ -1,222 +1,182 @@
 <div id="topNav" class="row border-bottom white-bg">
-  <nav class="navbar navbar-static-top " role="navigation" style="margin-bottom: 0">
-    <div class="navbar-header">
-      <a id="homeMenuButton" class="minimalize-styl-2 btn btn-primary " (click)="toggleNavigation()"><i class="fa fa-bars"></i> </a>
-      <!-- <form role="search" class="navbar-form-custom" method="post" action="#">
+  <nav class="navbar navbar-static-top " role="navigation" style="margin-bottom: 0;z-index: 1;"     >
+        <div class="navbar-header">
+            <a  role="button" id="homeMenuButton" class="minimalize-styl-2 btn btn-primary " (click)="toggleNavigation()"><i
+                class="fa fa-bars"></i> </a>
+
+
+            
+            <!-- <form role="search" class="navbar-form-custom" method="post" action="#">
         <div class="form-group">
           <input type="text" placeholder="Tìm kiếm..." class="form-control" name="top-search" id="top-search">
         </div>
       </form> -->
-    </div>
+      <!-- <a id="homeMenuButton" class="minimalize-styl-2 btn btn-primary " (click)="toggleNavigation()"><i
+        class="fa fa-bars"></i> </a> -->
+        </div>
 
-    <ul class="nav navbar-nav">
-        <li >
-            <a aria-expanded="false" role="button" href="/#/mainView">{{'TopNav.Home' | translate }} </a>
-        </li>
-        <li class="dropdown">
-            <a role="button" href="#" class="dropdown-toggle"
-                data-toggle="dropdown">DANH MỤC<span class="caret"></span></a>
-            <ul role="menu" class="dropdown-menu">
-               <li><a [routerLink]="['/category/stage']" >o Giai đoạn xử lý nước thải</a></li>
-               <li><a [routerLink]="['/category/customers']" >o Đơn vị xả thải</a></li>
-               <li><a [routerLink]="['/category/warehouse']" >o Kho</a></li>
-               <li><a [routerLink]="['/category/itemType']" routerLinkActive="router-link-active" >o Loại vật tư</a></li>
-               <li><a [routerLink]="['/category/unit']">o Đơn vị tính</a></li>
-               <li><a [routerLink]="['/category/item']">o Vật tư</a></li>
-            </ul>
-        </li>
-        <li class="dropdown">
-            <a role="button" href="#" class="dropdown-toggle"
-                data-toggle="dropdown">ĐỊNH MỨC HÓA CHẤT <span class="caret"></span></a>
-            <ul role="menu" class="dropdown-menu">
-                <li><a [routerLink]="['/bom/list']">o Định mức hóa chất sử dụng</a></li>
-                <li><a [routerLink]="['/bom/stage']">o Gia test điều chỉnh định mức hóa chất sử dụng</a></li>
-                <li><a [routerLink]="['/bom/stage']">o Tính định mức hóa chất sử dụng theo lịch sử vận hành</a></li>
-            </ul>
-        </li>
-        <li class="dropdown">
-            <a role="button" href="#" class="dropdown-toggle"
-                data-toggle="dropdown">QUAN TRẮC <span class="caret"></span></a>
-            <ul role="menu" class="dropdown-menu">
-                <li><a>o Quan trắc đầu dò</a></li>
-                <li><a [routerLink]="['/monitor/standard']">o Tiêu chuẩn quan trắc nước thải đầu ra</a></li>
-                <li><a [routerLink]="['/monitor/chart']">o Quan trắc đầu dò</a></li>
-                <li><a [routerLink]="['/monitor/factoryData']">o Thông báo dữ liệu quan trắc vượt tiêu chuẩn</a></li>
-            </ul>
-        </li>
-        <li class="dropdown">
-            <a role="button" href="#" class="dropdown-toggle"
-                data-toggle="dropdown">VẬN HÀNH <span class="caret"></span></a>
-            <ul role="menu" class="dropdown-menu">
-                <li><a>o Kế hoạch vận hành</a></li>
-                <li><a>o Nhật ký vận hành</a></li>
-                <li><a>o Thống kê xử lý bùn</a></li>
-                <li><a>o Hoạt động máy móc thiết bị</a></li>
-                <li><a>o Hiệu suất vận hành</a></li>
-
-            </ul>
-        </li>
-        <li class="dropdown">
-            <a role="button" href="#" class="dropdown-toggle"
-                data-toggle="dropdown">TỒN KHO <span class="caret"></span></a>
-            <ul role="menu" class="dropdown-menu">
-                <li><a>o Nhập kho</a></li>
-                <li><a>o Xuất kho</a></li>
-                <li><a>o Báo cáo nhập xuất tồn</a></li>
-                <li><a>o Yêu cầu hóa chất máy móc thiết bị</a></li>
-
-            </ul>
-        </li>
-        <li class="dropdown">
-            <a role="button" href="#" class="dropdown-toggle"
-                data-toggle="dropdown">CHI PHÍ VẬN HÀNH <span class="caret"></span></a>
-            <ul role="menu" class="dropdown-menu">
-                <li><a>o Đơn giá hóa chất</a></li>
-                <li><a>o Đơn giá điện nước</a></li>
-                <li><a>o Kế hoạch chi phí vận hành</a></li>
-                <li><a>o Báo cáo chi phí vận hành</a></li>
-            </ul>
-        </li>
-
-    </ul>
-
-    <ul class="nav navbar-top-links navbar-right">
-      <!-- <li>
-        <span class="m-r-sm text-muted welcome-message">{{'TopNav.Welcome' | translate}} {{authService.currentUser.Username}} </span>
-      </li> -->
-      <li class="dropdown">
-        <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
-            <label>{{'TopNav.Language' | translate}}</label>
-          <img *ngIf="translate.currentLang=='en'" src="/assets/img/flags/32/United-States.png">
-          <img *ngIf="translate.currentLang=='vn'" src="/assets/img/flags/32/Vietnam.png">
-        </a>
-        <ul class="dropdown-menu">
-          <li>
-            <a (click)="langChanged('en')" class="btn btn-white btn-sm" [ngClass]="{active: translate.currentLang=='en'}"><img
-                src="/assets/img/flags/32/United-States.png"> English</a>
-          </li>
-          <li>
-            <a (click)="langChanged('vn')" class="btn btn-white btn-sm " [ngClass]="{active: translate.currentLang=='vn'}"><img
-                src="/assets/img/flags/32/Vietnam.png"> Tiếng Việt</a>
-          </li>
-
-
-
-        </ul>
-      </li>
-
-      <!-- <li class="dropdown">
-        <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
-          <i class="fa fa-envelope"></i>
-           <span class="label label-warning">{{engineApi.myTaskCount}}</span>
-        </a>
-        <ul class="dropdown-menu dropdown-messages dropdown-menu animated fadeInDown m-t-xs">
-         <div *ngFor="let item of engineApi.taskItems">
-            <li>
-              <div class="dropdown-messages-box">
-                <a class="pull-left" [routerLink]="['/taskFormView'item.formKeyitem.iditem.businessKey]">
-                  <img alt="image" class="img-circle" src="assets/img/a7.png">
-                </a>
-                <div class="media-body">
-                  <small class="pull-right">46h ago</small>
-                  <strong>{{item.name}}</strong> <strong>{{item.owner}}</strong>. <br>
-                  <h5 style="text-overflow: ellipsis; width: 200px; overflow: hidden;white-space: nowrap;">
-                    VoucherID: {{item.businessKey}}</h5>
-                  <small class="text-muted">{{item.created}}</small>
-                </div>
-              </div>
+        <ul id="navaBarCustom" class="nav navbar-nav" style="margin: 0;">
+            <li >
+                
+                <a  role="button" href="/#/mainView">{{'TopNav.Home' | translate }} </a>
             </li>
-            <li class="divider"></li>
-          </div>
-          <li>
-            <div class="text-center link-block">
-              <a [routerLink]="['/taskManageView']">
-                <i class="fa fa-envelope"></i> <strong>Show All My Tasks</strong>
-              </a>
+            <li class="dropdown">
+                <a role="button" href="#" class="dropdown-toggle"
+                    data-toggle="dropdown">DANH MỤC<span class="caret"></span></a>
+                <ul role="menu" class="dropdown-menu">
+                <li><a [routerLink]="['/category/stage']" >o Giai đoạn xử lý nước thải</a></li>
+                <li><a [routerLink]="['/category/customers']" >o Đơn vị xả thải</a></li>
+                <li><a [routerLink]="['/category/warehouse']" >o Kho</a></li>
+                <li><a [routerLink]="['/category/itemType']" routerLinkActive="router-link-active" >o Loại vật tư</a></li>
+                <li><a [routerLink]="['/category/unit']">o Đơn vị tính</a></li>
+                <li><a [routerLink]="['/category/item']">o Vật tư</a></li>
+                </ul>
+            </li>
+            <li class="dropdown">
+                <a role="button" href="#" class="dropdown-toggle"
+                    data-toggle="dropdown">ĐỊNH MỨC HÓA CHẤT <span class="caret"></span></a>
+                <ul role="menu" class="dropdown-menu">
+                    <li><a [routerLink]="['/bom/list']">o Định mức hóa chất sử dụng</a></li>
+                    <li><a [routerLink]="['/bom/stage']">o Gia test điều chỉnh định mức hóa chất sử dụng</a></li>
+                    <li><a [routerLink]="['/bom/stage']">o Tính định mức hóa chất sử dụng theo lịch sử vận hành</a></li>
+                </ul>
+            </li>
+            <li class="dropdown">
+                <a role="button" href="#" class="dropdown-toggle"
+                    data-toggle="dropdown">QUAN TRẮC <span class="caret"></span></a>
+                <ul role="menu" class="dropdown-menu">
+                    <li><a>o Quan trắc đầu dò</a></li>
+                    <li><a [routerLink]="['/monitor/standard']">o Tiêu chuẩn quan trắc nước thải đầu ra</a></li>
+                    <li><a [routerLink]="['/monitor/chart']">o Quan trắc đầu dò</a></li>
+                    <li><a>o Thông báo dữ liệu quan trắc vượt tiêu chuẩn</a></li>
+                </ul>
+            </li>
+            <li class="dropdown">
+                <a role="button" href="#" class="dropdown-toggle"
+                    data-toggle="dropdown">VẬN HÀNH <span class="caret"></span></a>
+                <ul role="menu" class="dropdown-menu">
+                    <li><a>o Kế hoạch vận hành</a></li>
+                    <li><a>o Nhật ký vận hành</a></li>
+                    <li><a>o Thống kê xử lý bùn</a></li>
+                    <li><a>o Hoạt động máy móc thiết bị</a></li>
+                    <li><a>o Hiệu suất vận hành</a></li>
 
-            </div>
-          </li>
-        </ul>
-      </li> -->
-      <li class="dropdown">
-        <!-- <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
-                        <i class="fa fa-bell"></i> <span class="label label-primary">8</span>
-                    </a> -->
-        <ul class="dropdown-menu dropdown-alerts animated fadeInDown m-t-xs">
-          <li>
-            <a href="mailbox.html">
-              <div>
-                <i class="fa fa-envelope fa-fw"></i> You have 16 messages
-                <span class="pull-right text-muted small">4 minutes ago</span>
-              </div>
-            </a>
-          </li>
-          <li class="divider"></li>
-          <li>
-            <a href="#/user/profile">
-              <div>
-                <i class="fa fa-twitter fa-fw"></i> 3 New Followers
-                <span class="pull-right text-muted small">12 minutes ago</span>
-              </div>
-            </a>
-          </li>
-          <li class="divider"></li>
-          <li>
-            <a href="grid_options.html">
-              <div>
-                <i class="fa fa-upload fa-fw"></i> Server Rebooted
-                <span class="pull-right text-muted small">4 minutes ago</span>
-              </div>
-            </a>
-          </li>
-          <li class="divider"></li>
-          <li>
-            <div class="text-center link-block">
-              <a href="#/notification">
-                <strong>See All Alerts</strong>
-                <i class="fa fa-angle-right"></i>
-              </a>
-            </div>
-          </li>
-        </ul>
-      </li>
-      <li>
+                </ul>
+            </li>
+            <li class="dropdown">
+                <a role="button" href="#" class="dropdown-toggle"
+                    data-toggle="dropdown">TỒN KHO <span class="caret"></span></a>
+                <ul role="menu" class="dropdown-menu">
+                    <li><a>o Nhập kho</a></li>
+                    <li><a>o Xuất kho</a></li>
+                    <li><a>o Báo cáo nhập xuất tồn</a></li>
+                    <li><a>o Yêu cầu hóa chất máy móc thiết bị</a></li>
 
-        <img alt="image" class="img-circle" src="assets/img/user.png">
-      </li>
-      <li class="dropdown">
-
-        <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-          <span class="block m-t-xs"> <strong class="font-bold">{{authService.currentUser.Username}}</strong>  <b class="caret"></b> </span>
-          <span class="text-muted text-xs block">{{authService.currentUser.Specification}} </span>
-        </a>
-        <ul class="dropdown-menu animated fadeInRight m-t-xs">
-          <li><a  [routerLink]="['/user']">{{'TopNav.Profile' | translate}}  </a></li>
-          <li><a  [routerLink]="['/admin']" >{{'TopNav.Administration' | translate}}</a></li>
-
-          <li class="divider"></li>
-          <li><a  (click)="authService.logout()" ><i class="fa fa-sign-out"></i> {{'TopNav.Logout' | translate}}</a></li>
+                </ul>
+            </li>
+            <li class="dropdown">
+                <a role="button" href="#" class="dropdown-toggle"
+                    data-toggle="dropdown">CHI PHÍ VẬN HÀNH <span class="caret"></span></a>
+                <ul role="menu" class="dropdown-menu">
+                    <li><a>o Đơn giá hóa chất</a></li>
+                    <li><a>o Đơn giá điện nước</a></li>
+                    <li><a>o Kế hoạch chi phí vận hành</a></li>
+                    <li><a>o Báo cáo chi phí vận hành</a></li>
+                </ul>
+            </li> 
 
         </ul>
-      </li>
+
+        <ul class="nav navbar-top-links navbar-right">
+            <li class="dropdown">
+                <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
+                    <label>{{'TopNav.Language' | translate}}</label>
+                    <img *ngIf="translate.currentLang=='en'" src="/assets/img/flags/32/United-States.png">
+                    <img *ngIf="translate.currentLang=='vn'" src="/assets/img/flags/32/Vietnam.png">
+                </a>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a (click)="langChanged('en')" class="btn btn-white btn-sm"
+                            [ngClass]="{active: translate.currentLang=='en'}"><img
+                                src="/assets/img/flags/32/United-States.png"> English</a>
+                    </li>
+                    <li>
+                        <a (click)="langChanged('vn')" class="btn btn-white btn-sm "
+                            [ngClass]="{active: translate.currentLang=='vn'}"><img
+                                src="/assets/img/flags/32/Vietnam.png"> Tiếng Việt</a>
+                    </li>
 
 
 
-      <li>
+                </ul>
+            </li>
+            <li class="dropdown">
+                <ul class="dropdown-menu dropdown-alerts animated fadeInDown m-t-xs">
+                    <li>
+                        <a href="mailbox.html">
+                            <div>
+                                <i class="fa fa-envelope fa-fw"></i> You have 16 messages
+                                <span class="pull-right text-muted small">4 minutes ago</span>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="divider"></li>
+                    <li>
+                        <a href="#/user/profile">
+                            <div>
+                                <i class="fa fa-twitter fa-fw"></i> 3 New Followers
+                                <span class="pull-right text-muted small">12 minutes ago</span>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="divider"></li>
+                    <li>
+                        <a href="grid_options.html">
+                            <div>
+                                <i class="fa fa-upload fa-fw"></i> Server Rebooted
+                                <span class="pull-right text-muted small">4 minutes ago</span>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="divider"></li>
+                    <li>
+                        <div class="text-center link-block">
+                            <a href="#/notification">
+                                <strong>See All Alerts</strong>
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        </div>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <img alt="image" class="img-circle" src="assets/img/user.png">
+            </li>
+            <li class="dropdown">
 
-      </li>
-      <!-- <li>
-            <a class="right-sidebar-toggle">
-                <i class="fa fa-tasks"></i>
-            </a>
-        </li> -->
-    </ul>
+                <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                    <span class="block m-t-xs"> <strong class="font-bold">{{authService.currentUser.Username}}</strong>
+                        <b class="caret"></b> </span>
+                    <span class="text-muted text-xs block">{{authService.currentUser.Specification}} </span>
+                </a>
+                <ul class="dropdown-menu animated fadeInRight m-t-xs">
+                    <li><a [routerLink]="['/user']">{{'TopNav.Profile' | translate}} </a></li>
+                    <li><a [routerLink]="['/admin']">{{'TopNav.Administration' | translate}}</a></li>
 
-  </nav>
+                    <li class="divider"></li>
+                    <li><a (click)="authService.logout()"><i class="fa fa-sign-out"></i>
+                            {{'TopNav.Logout' | translate}}</a></li>
 
-  <!-- Right Sidebar -->
+                </ul>
+            </li>
+        </ul>
+        
 
-  <!-- <div id="right-sidebar">
+    </nav>
+
+    <!-- Right Sidebar -->
+
+    <!-- <div id="right-sidebar">
             <div class="sidebar-container">
 
                 <ul class="nav nav-tabs navs-3">

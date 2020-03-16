@@ -1,20 +1,36 @@
-import { Component, OnInit, ViewChild, Input } from '@angular/core';
-import { Factory, BomFactory, Stage, BomStage, Unit } from 'src/app/models/SmartInModels';
-import { WaterTreatmentService } from 'src/app/services/api-watertreatment.service';
-import { ToastrService } from 'ngx-toastr';
-import { TranslateService } from '@ngx-translate/core';
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  Input,
+  Output,
+  EventEmitter
+} from "@angular/core";
+import {
+  Factory,
+  BomFactory,
+  Stage,
+  BomStage,
+  Unit
+} from "src/app/models/SmartInModels";
+import { WaterTreatmentService } from "src/app/services/api-watertreatment.service";
+import { ToastrService } from "ngx-toastr";
+import { TranslateService } from "@ngx-translate/core";
 import swal from "sweetalert2";
+import { AuthService } from 'src/app/services/auth.service';
 declare let $: any;
 @Component({
-  selector: 'app-bom-stage-modal',
-  templateUrl: './bom-stage-modal.component.html',
-  styleUrls: ['./bom-stage-modal.component.css']
+  selector: "app-bom-stage-modal",
+  templateUrl: "./bom-stage-modal.component.html",
+  styleUrls: ["./bom-stage-modal.component.css"]
 })
 export class BomStageModalComponent implements OnInit {
   @Input() entity: BomFactory;
+  @Input() action: string;
   @Input() factories: Factory[];
   @Input() stages: Stage[] = [];
-  @Input() units: Unit[] = []
+  @Input() units: Unit[] = [];
+  @Output() isLoadData = new EventEmitter<boolean>();
   //varible
   laddaSubmitLoading = false;
   editRowId: number = 0;
@@ -26,10 +42,13 @@ export class BomStageModalComponent implements OnInit {
 
   //config
   bsConfig = { dateInputFormat: "YYYY-MM-DD", adaptivePosition: true };
- 
-  constructor(private api: WaterTreatmentService,
+
+  constructor(
+    private api: WaterTreatmentService,
     private toastr: ToastrService,
-    private trans: TranslateService) { }
+    private trans: TranslateService,
+    private auth: AuthService,
+  ) {}
 
   ngOnInit() {
     console.log(this.factories);
@@ -56,7 +75,11 @@ export class BomStageModalComponent implements OnInit {
       );
       return false;
     }
-    if (( this.entity.BomStage.filter(t => t.StageId == itemAdd.StageId).length) > 0 &&typeAction == "add") {
+    if (
+      this.entity.BomStage.filter(t => t.StageId == itemAdd.StageId).length >
+        0 &&
+      typeAction == "add"
+    ) {
       swal.fire(
         "Validate",
         this.trans.instant("Factory.data.TechnologyName") +
@@ -65,7 +88,11 @@ export class BomStageModalComponent implements OnInit {
       );
       return false;
     }
-    if (( this.entity.BomStage.filter(t => t.StageId == itemAdd.StageId).length) > 1 &&typeAction == "edit") {
+    if (
+      this.entity.BomStage.filter(t => t.StageId == itemAdd.StageId).length >
+        1 &&
+      typeAction == "edit"
+    ) {
       swal.fire(
         "Validate",
         this.trans.instant("Factory.data.TechnologyName") +
@@ -79,17 +106,16 @@ export class BomStageModalComponent implements OnInit {
   }
 
   fnEditStage(index) {
-    //press edit item (in modal)
     this.editRowId = index + 1;
     this.bomStage = this.entity.BomStage[index];
   }
 
   fnDeleteStage(index) {
-    //press delete item (in modal)
     this.entity.BomStage.splice(index, 1);
   }
 
   showBomModal(id) {
+    console.log("entity", this.entity);
     this.currentStageId = id;
     $("#modalStages").modal("hide");
     $("#modalOut").modal("show");
@@ -99,8 +125,7 @@ export class BomStageModalComponent implements OnInit {
   }
 
   async fnAddStage() {
-    //press add item (in modal)
-    let _checkValidate =  this.validateStage(this.newBomStage, "add");
+    let _checkValidate = this.validateStage(this.newBomStage, "add");
     if (!_checkValidate) return;
     this.entity.BomStage.push(this.newBomStage);
     this.newBomStage = new BomStage();
@@ -108,8 +133,38 @@ export class BomStageModalComponent implements OnInit {
 
   async fnSave() {
     console.log(this.entity);
-    this.api.addBomFactory(this.entity).subscribe(res=>{
-        debugger
-    });
+    
+    if (this.action == "add") {
+      this.entity.CreateBy = this.auth.currentUser.Username;
+      this.api.addBomFactory(this.entity).subscribe(
+        res => {
+          this.toastr.success("Validate", "Success");
+          this.isLoadData.emit(true);
+          $("#modalStages").modal("hide");
+        },
+        err => {
+          this.isLoadData.emit(true);
+          this.toastr.error("Validate", "Error");
+        }
+      );
+    } else {
+      this.entity.ModifyBy = this.auth.currentUser.Username;
+      this.api.updateBomFactory(this.entity).subscribe(
+        res => {
+          var result = res as any;
+          if (result.Success) {
+            this.toastr.success("Validate", "Success");
+            $("#modalStages").modal("hide");
+            this.isLoadData.emit(true);
+          } else {
+            this.toastr.error("Validate", "Error");
+          }
+        },
+        err => {
+          this.isLoadData.emit(true);
+          this.toastr.error("Validate", "Error");
+        }
+      );
+    }
   }
 }

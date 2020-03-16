@@ -16,31 +16,10 @@
 <div class="wrapper wrapper-content animated fadeInRight">
   <div class="row">
     <div class="col-lg-12">
-
-      <!-- <div class="ibox-title">
-                  <h5>All form elements <small>With custom checbox and radion elements.</small></h5>
-                  <div class="ibox-tools">
-                      <a class="collapse-link">
-                          <i class="fa fa-chevron-up"></i>
-                      </a>
-                      <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                          <i class="fa fa-wrench"></i>
-                      </a>
-                      <ul class="dropdown-menu dropdown-user">
-                          <li><a href="#">Config option 1</a>
-                          </li>
-                          <li><a href="#">Config option 2</a>
-                          </li>
-                      </ul>
-                      <a class="close-link">
-                          <i class="fa fa-times"></i>
-                      </a>
-                  </div>
-              </div> -->
       <div class="tabs-container">
         <ul class="nav nav-tabs">
           <li class="active">
-            <a data-toggle="tab" href="#tab-1" ><i
+            <a data-toggle="tab" href="#tab-1" id="tab1_Home"><i
                 class="fa fa-info-circle"></i>{{'Customer.' | translate }}</a></li>
           <li><a data-toggle="tab" href="#tab-2" ><i
                 class="fa fa-tablet"></i>{{'Contract.' | translate }}</a></li>
@@ -129,156 +108,79 @@
           </div>
           <div id="tab-2" class="tab-pane">
             <div class="panel-body">
-              <table class="table table-bordered">
-                <thead>
-                  <tr>
-                    <th width="">#</th>
-                    <th width="">{{ 'Contract.data.ContractNo' | translate }} *</th>
-                    <th width="">{{ 'Contract.data.ContractCode' | translate }} *</th>
-                    <th width="">{{ 'Contract.data.ContractType' | translate }}</th>
-                    <th width="">{{ 'Contract.data.EffectiveDate' | translate }}</th>
-                    <th width="">{{ 'Contract.data.StandardType' | translate }}</th>
-                    <th width="">{{ 'Contract.data.Ratio' | translate }}</th>
-                    <th width="">{{ 'Contract.data.Description' | translate }}</th>
-                    <th width="">{{ 'Contract.data.IsIntergration' | translate }}</th>
-                    <th width="">{{ 'Button.Action' | translate }}</th>
-                  </tr>
-                </thead>
-                <tbody>
-
-                  <tr class="animated fadeInRight" *ngFor="let item of entity.Contract; let i = index">
-                    <td> {{i+1}} </td>
-                    <!-- TABLE -->
-                    <td *ngIf="i+1 !== EditRowNumber">{{item.ContractNo}} </td>
-                    <td *ngIf="i+1 !== EditRowNumber">{{item.ContractCode}} </td>
-                    <td *ngIf="i+1 !== EditRowNumber">{{'Contract.data.ContractType'+item.ContractType | translate}} </td>
-                    <td *ngIf="i+1 !== EditRowNumber">{{item.EffectiveDate | amDateFormat: 'DD-MM-YYYY'}} </td>
-                    <td *ngIf="i+1 !== EditRowNumber">{{'Contract.data.StandardType'+ item.StandardType | translate}} </td>
-                    <td *ngIf="i+1 !== EditRowNumber">{{item.Ratio}} </td>
-                    <td *ngIf="i+1 !== EditRowNumber">{{item.Description}} </td>
-                    <td *ngIf="i+1 !== EditRowNumber">
-                      <span><i class="fa fa-lg" [ngClass]="{'fa-check-square-o text-info': item.IsIntergration==true, 'fa-square-o':item.IsIntergration==false}" ></i> </span>
-
-                    </td>
-
-                    <!-- FORM -->
-                    <!-- <td *ngIf="i+1 === EditRowNumber"><input type="text" class="form-control" name="WarehouseLocationCode"
-                        id="WarehouseLocationCode" [(ngModel)]="locationEntity.WarehouseLocationCode"></td>
-                    <td *ngIf="i+1 === EditRowNumber"><input type="text" class="form-control" name="WarehouseLocationName"
-                        id="WarehouseLocationName" [(ngModel)]="locationEntity.WarehouseLocationName"></td>
-                    <td *ngIf="i+1 === EditRowNumber"><input type="number" class="form-control"
-                        name="WarehouseLocationLength" id="WarehouseLocationLength"
-                        [(ngModel)]="locationEntity.WarehouseLocationLength"></td>
-                    <td *ngIf="i+1 === EditRowNumber"><input type="number" class="form-control"
-                        name="WarehouseLocationWidth" id="WarehouseLocationWidth"
-                        [(ngModel)]="locationEntity.WarehouseLocationWidth"></td>
-                    <td *ngIf="i+1 === EditRowNumber"><input type="number" class="form-control"
-                        name="WarehouseLocationHeight" id="WarehouseLocationHeight"
-                        [(ngModel)]="locationEntity.WarehouseLocationHeight"></td>
-                    <td *ngIf="i+1 !== EditRowNumber">
-                      <div class="switch">
-                        <div class="onoffswitch">
-                          <input type="checkbox" class="onoffswitch-checkbox" [name]="'showed_status' +(i+1)"
-                            [id]="'showed_status'+(i+1)" disabled [checked]="item.Status ==1 ? true : null">
-                          <label class="onoffswitch-label" [for]="'showed_status' +(i+1)">
-                            <span class="onoffswitch-inner"></span>
-                            <span class="onoffswitch-switch"></span>
-                          </label>
+              <div class="table-reponsive">
+                <table class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th width="">#</th>
+                      <th width="">{{ 'Contract.data.ContractNo' | translate }} *</th>
+                      <th width="">{{ 'Contract.data.ContractCode' | translate }} *</th>
+                      <th width="">{{ 'Contract.data.ContractType' | translate }}</th>
+                      <th width="">{{ 'Contract.data.EffectiveDate' | translate }}</th>
+                      <th width="">{{ 'Contract.data.StandardType' | translate }}</th>
+                      <th width="">{{ 'Contract.data.Ratio' | translate }}</th>
+                      <th width="">{{ 'Contract.data.Description' | translate }}</th>
+                      <th width="">{{ 'Contract.data.IsIntergration' | translate }}</th>
+                      <th width="">{{ 'Button.Action' | translate }}</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+  
+                    <tr class="animated fadeInRight" *ngFor="let item of entity.Contract; let i = index">
+                      <td> {{i+1}} </td>
+                      <!-- TABLE -->
+                      <td *ngIf="i+1 !== EditRowNumber">{{item.ContractNo}} </td>
+                      <td *ngIf="i+1 !== EditRowNumber">{{item.ContractCode}} </td>
+                      <td *ngIf="i+1 !== EditRowNumber">{{'Contract.data.ContractType'+item.ContractType | translate}} </td>
+                      <td *ngIf="i+1 !== EditRowNumber">{{item.EffectiveDate | amDateFormat: 'DD-MM-YYYY'}} </td>
+                      <td *ngIf="i+1 !== EditRowNumber">{{'Contract.data.StandardType'+ item.StandardType | translate}} </td>
+                      <td *ngIf="i+1 !== EditRowNumber">{{item.Ratio}} </td>
+                      <td *ngIf="i+1 !== EditRowNumber">{{item.Description}} </td>
+                      <td *ngIf="i+1 !== EditRowNumber">
+                        <span><i class="fa fa-lg" [ngClass]="{'fa-check-square-o text-info': item.IsIntergration==true, 'fa-square-o':item.IsIntergration==false}" ></i> </span>
+  
+                      </td>
+                      <td>
+                        <div class="btn-group">
+                          <button type="button" class="btn btn-sm btn-outline btn-primary"
+                            [disabled]="!locationEntity.WarehouseLocationCode || !locationEntity.WarehouseLocationName"
+                            (click)="validateItem(locationEntity)" *ngIf="i+1 === EditRowNumber"><i
+                              class="fa fa-check"></i></button>
+                          <button type="button" class="btn btn-sm btn-outline btn-success" (click)="fnEditItem(item.ContractId,i)" data-toggle="modal" data-target="#myContractModal"><i class="fa fa-pencil"></i></button>
+                          <button type="button" class="btn btn-sm btn-outline btn-danger" (click)="fnDeleteItem(i)"
+                            *ngIf="i+1 !== EditRowNumber"><i class="fa fa-trash"></i></button>
                         </div>
-                      </div>
-                    </td>
-                    <td *ngIf="i+1 === EditRowNumber">
-                      <div class="switch">
-                        <div class="onoffswitch">
-                          <input type="checkbox" class="onoffswitch-checkbox" [name]="'status' +(i+1)"
-                            [id]="'status'+(i+1)" (click)="onSwitchStatus('locationEntity')"
-                            [checked]="locationEntity.Status==1 ? true : null">
-                          <label class="onoffswitch-label" [for]="'status' +(i+1)">
-                            <span class="onoffswitch-inner"></span>
-                            <span class="onoffswitch-switch"></span>
-                          </label>
-                        </div>
-                      </div>
-                    </td> -->
-                    <!-- BUTTON -->
-                    <td>
-                      <div class="btn-group">
-                        <button type="button" class="btn btn-sm btn-outline btn-primary"
-                          [disabled]="!locationEntity.WarehouseLocationCode || !locationEntity.WarehouseLocationName"
-                          (click)="validateItem(locationEntity)" *ngIf="i+1 === EditRowNumber"><i
-                            class="fa fa-check"></i></button>
-                        <button type="button" class="btn btn-sm btn-outline btn-success" (click)="fnEditItem(item.ContractId,i)" data-toggle="modal" data-target="#myContractModal"><i class="fa fa-pencil"></i></button>
-                        <button type="button" class="btn btn-sm btn-outline btn-danger" (click)="fnDeleteItem(i)"
-                          *ngIf="i+1 !== EditRowNumber"><i class="fa fa-trash"></i></button>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td>
+                        <button type="button" class="btn  btn-sm btn-outline btn-info pull-right"  (click)="fnEditItem(0,entity.Contract.length)"   data-toggle="modal" data-target="#myContractModal"><i class="fa fa-plus" ></i> </button>
+                      </td>
+                    </tr>
+  
+                  </tbody>
+                </table>
+  
 
-                    <!-- <td> {{entity.WarehouseLocation.length+1}} </td>
-                    <td> <input autocomplete="off" type="text" class="form-control" name="newWarehouseLocationCode"
-                        id="newWarehouseLocationCode" [(ngModel)]="newLocationEntity.WarehouseLocationCode"> </td>
-                    <td> <input autocomplete="off" type="text" class="form-control" name="newWarehouseLocationName"
-                        id="newWarehouseLocationName" [(ngModel)]="newLocationEntity.WarehouseLocationName"> </td>
-                    <td> <input autocomplete="off" type="number" class="form-control" name="newWarehouseLocationLength"
-                        id="newWarehouseLocationLength" [(ngModel)]="newLocationEntity.WarehouseLocationLength"> </td>
-                    <td> <input autocomplete="off" type="number" class="form-control" name="newWarehouseLocationWidth"
-                        id="newWarehouseLocationWidth" [(ngModel)]="newLocationEntity.WarehouseLocationWidth"> </td>
-                    <td> <input autocomplete="off" type="number" class="form-control" name="newWarehouseLocationHeight"
-                        id="newWarehouseLocationHeight" [(ngModel)]="newLocationEntity.WarehouseLocationHeight"> </td>
-                    <td>
-                      <div class="switch">
-                        <div class="onoffswitch">
-                          <input type="checkbox" class="onoffswitch-checkbox" name="newstatus +(i+1)"
-                            id="newstatus +(i+1)" (click)="onSwitchStatus('newLocationEntity')"
-                            [checked]="newLocationEntity.Status==1 ? true : null">
-                          <label class="onoffswitch-label" for="newstatus +(i+1)">
-                            <span class="onoffswitch-inner"></span>
-                            <span class="onoffswitch-switch"></span>
-                          </label>
-                        </div>
-                      </div>
-                    </td> -->
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td>
-                      <button type="button" class="btn  btn-sm btn-outline btn-info pull-right"  (click)="fnEditItem(0,entity.Contract.length)"   data-toggle="modal" data-target="#myContractModal"><i class="fa fa-plus" ></i> </button>
-                    </td>
-                  </tr>
-
-                </tbody>
-              </table>
-
+              </div>
+             
               
 
             </div>
           </div>
           <div id="tab-3" class="tab-pane">
             <div class="panel-body">
-              <div class="col-lg-12">
-                <div class="form-group">
-                  <label>{{ 'Upload.' | translate }} </label>
-                  <ngx-dropzone style="min-height: auto;" (change)="onSelect($event)" [expandable]="true"
-                    [maxFileSize]="5000*1024">
-                    <ngx-dropzone-label><i class="fa fa-upload"></i> {{ 'Upload.UploadFileCaption' | translate }}
-                    </ngx-dropzone-label>
-                    <ngx-dropzone-preview class="animated fadeInUp" ngProjectAs="ngx-dropzone-preview"
-                      *ngFor="let f of files ;let i = index" [file]="f" [removable]="true" (removed)="fnRemoveFile(f)"
-                      (click)=fnDownloadFile(entity.CustomerFile[i].File.FileLocalName)>
-                      <ngx-dropzone-label style="font-size:11px;"><i class="fa fa-download"></i>
-                        {{entity.CustomerFile[i].File.FileOriginalName}}
-                      </ngx-dropzone-label>
-                    </ngx-dropzone-preview>
-                  </ngx-dropzone>
-                </div>
-              </div>
+              <app-smart-upload  #customerFile [filePath]="pathFile" (entityFile)="this.entity.CustomerFile = $event" ></app-smart-upload>
+
             </div>
           </div>
 
@@ -307,5 +209,5 @@
   </div>
 </div>
 
-<app-contract  [contractid]="app_contractId" (contract)="onChangeAdd($event)"></app-contract>
+<app-contract  (contract)="onChangeAdd($event)"></app-contract>
 

@@ -13,14 +13,12 @@ import { debounceTime, distinctUntilChanged, switchMap, map } from 'rxjs/operato
   styleUrls: ['./bom-item-in-modal.component.css']
 })
 export class BomItemInModalComponent implements OnInit {
+  @Input() entity: BomFactory;
   @Input() units: Unit[] =[];
   @Input() parentOutId: number;
   @Input() currentStageId: number;
-  @Output() addInBomItem = new EventEmitter<BomItemIn[]>();
 //const
   
-  typeBomIn: string = "In";
-  typeBomOut: string = "Out";
   itemsBuffer : Item[]=[]
   items: Item[] =[]
   inBomItems: BomItemIn[] = [];
@@ -49,52 +47,30 @@ export class BomItemInModalComponent implements OnInit {
     this.newBomItem = new BomItemIn();
     this.bomItems = [];
   }
-  onScrollToEnd() {
-    this.fetchMore();
-  }
-
-  onScroll({ end }) {
-    if (this.loading || this.items.length <= this.itemsBuffer.length) 
-        return;
-    if (end + this.numberOfItemsFromEndBeforeFetchingMore >= this.itemsBuffer.length)
-        this.fetchMore();
-  }
-    private fetchMore() {
-      const len = this.itemsBuffer.length;
-      const more = this.items.slice(len, this.bufferSize + len);
-      this.loading = true;
-      // using timeout here to simulate backend API delay
-      setTimeout(() => {
-        this.loading = false;      
-        this.itemsBuffer = this.itemsBuffer.concat(more);
-      }, 200)
-    }
 
     fnSaveInBomItem(index) {console.log(this.inBomItems)
+
       if (this.fnValidateBomItem(this.inBomItem,'edit')) {
-        this.inBomItems[index] = this.inBomItem;
+      
+        this.inBomItem.IsNew = true;
+        this.entity.BomStage[this.currentStageId].BomItemOut[
+          index
+        ].BomItemIn[this.parentOutId] = this.inBomItem;
         this.editRowId = 0;
-        
       }
     }
     async fnAddInBomItem() {
-      //press add item (in modal)
-      //let _checkValidate = await this.validateItem(this.newBomStage)
-      //if (!_checkValidate) return;
-      // this.bomItems.push(this.inBomItem);
-      // this.bomItems.push(this.outBomItemIn)
-      // this.entity.BomStage[id].BomItemIn.push();
-      // this.entity.BomStage[id].BomItemIn = this.bomItems;
-      if(this.fnValidateBomItem(this.newBomItem,'add')){
-        //this.newBomItem.BomItemInParentId= this.parentOutId;
-         this.inBomItems.push(this.newBomItem);
-        this.newBomItem = new BomItemIn();
-      }
+      let _checkValidate =  this.fnValidateBomItem(this.newBomItem, "add");
+    if (!_checkValidate) return;
+        this.newBomItem.IsNew =true;
+         this.entity.BomStage[this.currentStageId].BomItemOut[this.parentOutId].BomItemIn.push(this.newBomItem);
+          this.newBomItem = new BomItemIn();
+      //}
     
     }
   
     fnValidateBomItem(item: BomItemIn,typeAction) {
-      if (this.inBomItems.filter(x => x.ItemId == item.ItemId).length > 0 &&typeAction == "add") {
+      if (this.entity.BomStage[this.currentStageId].BomItemOut[this.parentOutId].BomItemIn.filter(x => x.ItemId == item.ItemId).length > 0 &&typeAction == "add") {
         swal.fire(
           "Validate",
           this.trans.instant("Factory.data.TechnologyName") +
@@ -103,7 +79,7 @@ export class BomItemInModalComponent implements OnInit {
         );
         return false;
       }
-      if (this.inBomItems.filter(x => x.ItemId == item.ItemId).length > 0 &&typeAction == "edit") {
+      if (this.entity.BomStage[this.currentStageId].BomItemOut[this.parentOutId].BomItemIn.filter(x => x.ItemId == item.ItemId).length > 1 &&typeAction == "edit") {
         swal.fire(
           "Validate",
           this.trans.instant("Factory.data.TechnologyName") +
@@ -120,7 +96,9 @@ export class BomItemInModalComponent implements OnInit {
     fnEditInBomItem(index) {
       //press edit item (in modal)
       this.editRowId = index + 1;
-      this.inBomItem =JSON.parse(JSON.stringify( this.inBomItems[index]));
+      this.inBomItem = this.entity.BomStage[this.currentStageId].BomItemOut[
+        this.parentOutId
+      ].BomItemIn[index];
       this.newBomItem = new BomItemIn();
     }
     // fnSaveOutBomItemIn() {
@@ -145,32 +123,68 @@ export class BomItemInModalComponent implements OnInit {
     console.log('records: ' +data.result.length);
     this.itemsBuffer = this.items.slice(0, this.bufferSize);
   }
-    onSearch(){
+  onSearch(){ //ng-select
       this.input$.pipe(
         debounceTime(200),
-        distinctUntilChanged(),
+        distinctUntilChanged(), 
         switchMap(term =>  this.fakeService(term))
       ).subscribe(data => {
           this.itemsBuffer = data.slice(0, this.bufferSize);
         })
     }
-    private  fakeService(term) {
+  private  fakeService(term) { //ng-select
       let data =  this.api.getItemPagination(term).pipe(map(data=> {
         return data.result.filter((x: { ItemName: string }) => x.ItemName.includes(term))
       }));   
       return data;
     }
-    customSearchFn(term: string, item: Item) {
+  customSearchFn(term: string, item: Item) { //ng-select
       term = term.toLowerCase();
       return item.ItemName.toLowerCase().indexOf(term) > -1
   }
+
+  onScrollToEnd() { //ng-select
+    this.fetchMore();
+  }
+
+  onScroll({ end }) { //ng-select
+    if (this.loading || this.items.length <= this.itemsBuffer.length) 
+        return;
+    if (end + this.numberOfItemsFromEndBeforeFetchingMore >= this.itemsBuffer.length)
+        this.fetchMore();
+  }
+    private fetchMore() { //ng-select
+      const len = this.itemsBuffer.length;
+      const more = this.items.slice(len, this.bufferSize + len);
+      this.loading = true;
+      // using timeout here to simulate backend API delay
+      setTimeout(() => {
+        this.loading = false;      
+        this.itemsBuffer = this.itemsBuffer.concat(more);
+      }, 200)
+    }
+
+
+    
 
   fnReset() {
     this.inBomItems = [];
     this.inBomItem = new BomItemIn();
   }
+
+  fnBackModalOut(){
+    this.entity.BomStage[this.currentStageId].BomItemOut[this.parentOutId].BomItemIn =this.entity.BomStage[this.currentStageId].BomItemOut[this.parentOutId].BomItemIn.filter(x=>(x.IsNew ==false) )
+    
+    $("#modalIn").modal("hide");
+    $("#modalOut").modal("show");
+  }
+
   fnSaveBomItem() {
-    this.addInBomItem.emit(this.inBomItems)
+    this.entity.BomStage[this.currentStageId].BomItemOut[this.parentOutId].BomItemIn.forEach(item=>{
+      item.Status=true;
+      item.IsNew =false;
+      return item;
+    });
     $("#modalIn").modal("hide");
     $("#modalOut").modal("show");
   }

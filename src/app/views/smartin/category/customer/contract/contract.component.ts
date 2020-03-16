@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, OnDestroy, Input, Output, SimpleChanges, EventEmitter } from '@angular/core';
+import { Component, OnInit, AfterViewInit, OnDestroy, Input, Output, SimpleChanges, EventEmitter, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -13,6 +13,7 @@ import { AuthService } from 'src/app/services/auth.service';
 declare let $: any;
 import swal from 'sweetalert2';
 import { trigger, transition, animate, style } from '@angular/animations';
+import { SmartUploadComponent } from '../../../ui-sample/smart-upload/smart-upload.component';
 @Component({
   selector: 'app-contract',
   templateUrl: './contract.component.html',
@@ -26,6 +27,7 @@ import { trigger, transition, animate, style } from '@angular/animations';
   ]
 })
 export class ContractComponent implements OnInit, AfterViewInit {
+  @ViewChild('contractFile') uploadComponent: SmartUploadComponent;
   @Input('contractid') contractId: number;
   @Output('contract') send_entity = new EventEmitter<Contract>();
   constructor(
@@ -38,12 +40,9 @@ export class ContractComponent implements OnInit, AfterViewInit {
     private auth: AuthService
   ) {
   }
-  private pathFile = 'uploadFileContract'
+  pathFile = 'uploadFileContract'
   entity: Contract;
-  files: File[] = [];
-  addFiles: { FileList: File[], FileLocalNameList: string[] };
   invalid: any = {};
-  uploadReportProgress: any = { progress: 0, message: null, isError: null };
   initCombobox = {};
   EditRowNumber = 0;
   EditRowNumber_PRICE = 0;
@@ -55,34 +54,44 @@ export class ContractComponent implements OnInit, AfterViewInit {
   newEntity_ContractBreach: ContractBreach = new ContractBreach();
   ngOnInit() {
   }
+  ngOnDestroy() {
+    $('.modal').modal('hide');
+  }
    async resetEntity() { //reset entity values
-    debugger;
+    
     this.entity = new Contract();
     this.entity.CustomerId = this.route.snapshot.params.id || 0;
-    this.files = [];
-    this.addFiles = { FileList: [], FileLocalNameList: [] }
     this.invalid = { Existed_ContractNo: false };
-    this.uploadReportProgress = { progress: 0, message: null, isError: null };
     this.EditRowNumber = 0;
     this.EditRowNumber_PRICE = 0;
   }
 
-  ngOnChanges(changes: SimpleChanges) {
-    console.log('changes', changes);
-    this.resetEntity();
-    if (changes.contractId.firstChange || changes.contractId.currentValue == null || changes.contractId.currentValue == 0) return;
-    else {
-      this.loadContractDetail(changes.contractId.currentValue);
-    }
-  }
-  private loadContractDetail(id) {
+
+  loadInit(id){
+    this.uploadComponent.resetEntity();
+    if (id && id!=0)
     this.api.findContractById(id).subscribe(res => {
       console.log('findContractById', res);
       this.entity = res;
-      res.ContractFile.forEach(item => {
-        let _tempFile = new File([], item.File.FileOriginalName);
-        this.files.push(_tempFile);
-      })
+      this.uploadComponent.loadInit(res.ContractFile);
+    })
+  }
+
+  // ngOnChanges(changes: SimpleChanges) {
+  //   console.log('changes', changes);
+  //   this.resetEntity();
+  //   if (changes.contractId.firstChange || changes.contractId.currentValue == null || changes.contractId.currentValue == 0) return;
+  //   else {
+  //     this.loadContractDetail(changes.contractId.currentValue);
+  //   }
+  // }
+  private loadContractDetail(id) {
+    this.uploadComponent.resetEntity();
+    this.api.findContractById(id).subscribe(res => {
+      console.log('findContractById', res);
+      this.entity = res;
+      
+      this.uploadComponent.loadInit(res.ContractFile);
     })
   }
   ngAfterViewInit() {
@@ -102,7 +111,7 @@ export class ContractComponent implements OnInit, AfterViewInit {
     e.SignDate = this.helper.dateConvertToString(e.SignDate);
     e.EffectiveDate = this.helper.dateConvertToString(e.EffectiveDate);
     e.EndDate = this.helper.dateConvertToString(e.EndDate);
-    await this.uploadFile(this.addFiles.FileList);
+    await this.uploadComponent.uploadFile();
     if (e.CustomerId == 0) { //New customer, just send to parrent
       let _sendParent = Object.assign({}, e); //stop binding
       this.send_entity.emit(_sendParent);
@@ -172,78 +181,5 @@ export class ContractComponent implements OnInit, AfterViewInit {
     
   }
   fnSaveContractPrice() {
-  }
-  /**Event triggers */
-  async onSelect(event) { //drag file(s) or choose file(s) in ngFileZone
-    var askBeforeUpload = false;
-    if (event.rejectedFiles.length > 0) this.toastr.warning(this.trans.instant('messg.maximumFileSize5000'));
-    var _addFiles = event.addedFiles;
-    for (var index in _addFiles) {
-      let item = event.addedFiles[index];
-      let convertName = this.helper.getFileNameWithExtension(item);
-      let currentFile = this.entity.ContractFile;
-      let findElement = currentFile.filter(x => x.File.FileOriginalName == item.name)[0];
-      //ASK THEN GET RESULT
-      if (findElement != null) {
-        if (!askBeforeUpload) {
-          askBeforeUpload = true;
-          var allowUpload = true;
-          await swal.fire({
-            title: 'File trùng',
-            titleText: 'Một số file bị trùng, bạn có muốn đè các file này lên bản gốc?',
-            type: 'warning',
-            showCancelButton: true,
-            reverseButtons: true
-          }).then((result) => {
-            if (result.dismiss === swal.DismissReason.cancel) allowUpload = false;
-          })
-        }
-        if (!allowUpload) return;
-        let _FileElement = this.files.filter(x => x.name == findElement.File.FileOriginalName)[0];
-        let _indexFileElement = this.files.indexOf(_FileElement, 0);
-        this.files.splice(_indexFileElement, 1);
-        this.addFiles.FileList.splice(_indexFileElement, 1);
-      }
-      else {
-        let _contractFile = new ContractFile();
-        // _contractFile.ContractId = this.entity.ContractId;
-        _contractFile.File.FileOriginalName = item.name;
-        _contractFile.File.FileLocalName = convertName;
-        _contractFile.File.Path = this.pathFile + '/' + convertName;
-        _contractFile.File.FileType = item.type;
-        this.entity.ContractFile.push(_contractFile);
-        this.addFiles.FileLocalNameList.push(convertName);
-      }
-    }
-    this.files.push(...event.addedFiles); //refresh showing in Directive
-    this.addFiles.FileList.push(...event.addedFiles);
-  }
-  fnDownloadFile(filename) { //press FILES preview
-    this.api.downloadFile(this.pathFile + '/' + filename);
-  }
-  fnRemoveFile(event) { //PRESS X TO REMOVE FILES
-    let index = this.files.indexOf(event);
-    this.files.splice(index, 1); //UI del
-    this.entity.ContractFile.splice(index, 1);
-  }
-  /**PRIVATE FUNCTIONS */
-  private uploadFile(files: File[]) { //upload file to server
-    let formData = new FormData();
-    for (let index = 0; index < files.length; index++) {
-      let _file = files[index];
-      formData.append("files", _file, this.addFiles.FileLocalNameList[index]);
-    }
-    this.api.uploadFile(formData, this.pathFile).subscribe(event => {
-      if (event.type === HttpEventType.UploadProgress)
-        this.uploadReportProgress.progress = Math.round(100 * event.loaded / event.total);
-      else if (event.type === HttpEventType.Response) {
-        this.uploadReportProgress.message = this.trans.instant('Upload.UploadFileSuccess');
-        this.addFiles = { FileList: [], FileLocalNameList: [] };
-        // this.onUploadFinished.emit(event.body);
-      }
-    }, err => {
-      this.toastr.warning(err.statusText, this.trans.instant('Upload.UploadFileError'));
-      this.uploadReportProgress = { progress: 0, message: 'Error: ' + err.statusText, isError: true };
-    });
   }
 }

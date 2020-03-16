@@ -51,7 +51,7 @@
               </thead>
               <tbody *ngIf="Stages?.length != 0">
                 <tr *ngFor="let item of Stages">
-                  <td hidden="true" style="text-align: left">{{item.StageID</td>
+                  <td hidden="true" style="text-align: left">{{item.StageId</td>
                   <td style="text-align: left">{{ item.StageCode }}</td>
                   <td style="text-align: left">{{ item.StageName }}</td>
                   <td style="text-align: left">{{ item.Description }}</td>
@@ -65,10 +65,10 @@
                   </td>
                   <td style="text-align: left">{{ item.Status }}</td>
                   <td>
-                    <button type="button" class="btn btn-outline btn-danger" (click)="fnDelete(item.StageID)">
+                    <button type="button" class="btn btn-outline btn-danger" (click)="fnDelete(item.StageId)">
                       <i class="fa fa-trash"></i>
                     </button>
-                    <button type="button" class="btn btn-outline btn-success" (click)="fnUpdate(item.StageID)"
+                    <button type="button" class="btn btn-outline btn-success" (click)="fnUpdate(item.StageId)"
                       data-toggle="modal" data-target="#myModal4">
                       <i class="fa fa-pencil"></i>
                     </button>
@@ -199,7 +199,7 @@
           {{ "Button.Close" | translate }}
         </button>
         <button type="button" *ngIf="ACTION_STATUS == 'update'" class="btn btn-danger hide"
-          (click)="fnDelete(entity.StageID)">
+          (click)="fnDelete(entity.StageId)">
           <i class="fa fa-trash"></i> Delete
         </button>
         <button type="button" class="btn btn-primary" (click)="fnSave()" [ladda]="laddaSubmitLoading"
