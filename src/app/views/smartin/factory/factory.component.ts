@@ -35,6 +35,7 @@ export class FactoryComponent implements OnInit {
     public trans: TranslateService,
     public helper: MyHelperService,
     private auth: AuthService
+
   ) { }
   /** DECLARATION */
   bsConfig = { dateInputFormat: 'YYYY-MM-DD', adaptivePosition: true };
@@ -50,6 +51,7 @@ export class FactoryComponent implements OnInit {
   factory_showed = 0;
   invalid: any = { FactoryCodeNull: false, FactoryCodeExist: false, FactoryNameNull: false, FactoryNameExist: false };
   EditRowNumber: number = 0;
+  dtOptions: DataTables.Settings = {};
   ngOnInit() {
     this.resetEntity();
     this.loadInit();
@@ -67,6 +69,66 @@ export class FactoryComponent implements OnInit {
       this.toastr.error(err.statusText, "Load init failed!");
       this.iboxloading = false;
     })
+  }
+  loadData = async()=> {
+    this.dtOptions = {//Cau hinh datatable
+      autoWidth: true,
+      responsive: true,
+      serverSide: true,
+      paging: true,
+      stateSave: true,
+      pagingType: 'full_numbers',
+      search: { regex: true },
+      processing: true,
+      pageLength: 10,
+      columns: [ //khai du cot de render datatable lai nhan du
+        { data: 'FactoryId' },
+        { data: 'FactoryAddress' },
+        { data: 'FactoryContact' },
+        { data: 'ContactPhone' },
+        { data: 'FactoryType' },
+        { data: 'Status' },
+        { data: null },
+      ],
+
+      ajax: (dataTablesParameters: any, callback) => {
+        this.dtOptions.ajax= (dataTablesParameters: any, callback) => {//chèn lại ajax ở một vị trí duy nhất khi định nghĩa
+           this.api.getFactoryPagination(dataTablesParameters).subscribe(res => {
+            var data = res as any;
+            this.factory = data.result;
+            console.log(this.factory);
+            //this.recordStart = dataTablesParameters.start;
+            callback({
+              recordsTotal: res.recordsTotal,
+              recordsFiltered: res.recordsFiltered,
+              data: []
+            });
+          })
+        }
+      },
+      language:
+      {
+        searchPlaceholder: this.trans.instant('DefaultTable.searchPlaceholder'),
+        emptyTable: this.trans.instant('DefaultTable.emptyTable'),
+        info: this.trans.instant('DefaultTable.info'),
+        infoEmpty: this.trans.instant('DefaultTable.infoEmpty'),
+        infoFiltered: this.trans.instant('DefaultTable.infoFiltered'),
+        infoPostFix: this.trans.instant('DefaultTable.infoPostFix'),
+        thousands: this.trans.instant('DefaultTable.thousands'),
+        lengthMenu: this.trans.instant('DefaultTable.lengthMenu'),
+        loadingRecords: this.trans.instant('DefaultTable.loadingRecords'),
+        processing: this.trans.instant('DefaultTable.processing'),
+        search: this.trans.instant('DefaultTable.search'),
+        zeroRecords: this.trans.instant('DefaultTable.zeroRecords'),
+        //url: this.trans.instant('DefaultTable.url'),
+        paginate: {
+          first: '<<',
+          last: ">>",
+          next: ">",
+          previous: "<"
+        }
+      }
+    };
   }
   private resetEntity() {
     this.entity = new Factory();
@@ -116,7 +178,7 @@ export class FactoryComponent implements OnInit {
             var operationResult: any = res
             if (operationResult.Success) {
               swal.fire(
-                // 'Deleted!', this.trans.instant('messg.delete.success'), 
+                // 'Deleted!', this.trans.instant('messg.delete.success'),
                 {
                   title: this.trans.instant('messg.delete.caption'),
                   titleText: this.trans.instant('messg.delete.success'),
@@ -157,7 +219,7 @@ export class FactoryComponent implements OnInit {
   fnDeleteItem(index) { //press delete item (in modal)
     this.entity.FactoryTechnology.splice(index, 1);
   }
-  async fnSave() { //press save/SUBMIT button 
+  async fnSave() { //press save/SUBMIT button
     this.laddaSubmitLoading = true;
     var e = this.fnConvertFactoryDate(this.entity);
     if (await this.fnValidate(e)) {
@@ -168,7 +230,7 @@ export class FactoryComponent implements OnInit {
           if (operationResult.Success) {
             this.toastr.success(this.trans.instant("messg.add.success"));
             $("#myModal4").modal('hide');
-            
+
             this.loadInit();
             this.fnEditSignal(operationResult.Data);
           }

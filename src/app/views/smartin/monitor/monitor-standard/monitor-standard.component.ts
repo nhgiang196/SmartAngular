@@ -80,8 +80,7 @@ export class MonitorStandardComponent implements OnInit {
 
       ],
       ajax: (dataTablesParameters: any, callback) => {
-        this.dtOptions.ajax= (dataTablesParameters: any, callback) => {
-          //chèn lại ajax ở một vị trí duy nhất khi định nghĩa
+        this.dtOptions.ajax= (dataTablesParameters: any, callback) => {//chèn lại ajax ở một vị trí duy nhất khi định nghĩa
            this.api.getDataTableMonitorStandardPagination(dataTablesParameters).subscribe(res => {
             this.monitors = res.data;
             console.log(this.monitors);
@@ -119,7 +118,7 @@ export class MonitorStandardComponent implements OnInit {
     };
   }
 
-  tableRender(): void {
+  tableRender(): void { //Rerender
     this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
       dtInstance.destroy();
       this.dtTrigger.next();
@@ -133,7 +132,7 @@ export class MonitorStandardComponent implements OnInit {
     this.initCombobox.FullFactories = (res as any).result as Factory[];
   }
 
-  ngOnDestroy(): void {
+  ngOnDestroy(): void { //life cicle hook
     // Do not forget to unsubscribe the event
     this.dtTrigger.unsubscribe();
   }
@@ -189,48 +188,48 @@ export class MonitorStandardComponent implements OnInit {
     e.ValidateDateTo = this.helpper.dateConvertToString(e.ValidateDateTo);
     if(e.ValidateDateFrom <= e.ValidateDateTo)
     {
-    if ( await this.fnValidate(e)) {
-      if (this.ACTION_STATUS == 'add') {
-        e.CreateBy = this.auth.currentUser.Username;
-        e.Factory = null;
-        this.api.addMonitorStandard(e).subscribe(res => {
-          var operationResult: any = res
-          if (operationResult.Success) {
-            this.tableRender();
-            this.toastr.success(this.trans.instant("messg.add.success"));
-          }
-          else this.toastr.warning(operationResult.Message);
-          this.laddaSubmitLoading = false;
-          $('#myModal4').modal('hide');
-        }, err => { this.toastr.error(err.statusText); this.laddaSubmitLoading = false; })
-      }
-      if (this.ACTION_STATUS == 'update') {
-        e.ModifyBy = this.auth.currentUser.Username;
-        this.api.updateMonitorStandard(e).subscribe(res => {
-          var operationResult: any = res
-          if (operationResult.Success) {
-            this.tableRender();
-            this.toastr.success(this.trans.instant("messg.update.success"));
-
-          }
-          else this.toastr.warning(operationResult.Message);
-          this.laddaSubmitLoading = false;
-          $('#myModal4').modal('hide');
-        }, err => { this.toastr.error(err.statusText); this.laddaSubmitLoading = false; })
-      }
-      }
-      else{
-        swal.fire('Error.', 'Validate Date was nested!', 'error');
+      if ( await this.fnValidate(e)) {
+        if (this.ACTION_STATUS == 'add') {
+          e.CreateBy = this.auth.currentUser.Username;
+          e.Factory = null;
+          this.api.addMonitorStandard(e).subscribe(res => {
+            var operationResult: any = res
+            if (operationResult.Success) {
+              this.tableRender();
+              this.toastr.success(this.trans.instant("messg.add.success"));
+            }
+            else this.toastr.warning(operationResult.Message);
             this.laddaSubmitLoading = false;
-            this.tableRender();
+            $('#myModal4').modal('hide');
+          }, err => { this.toastr.error(err.statusText); this.laddaSubmitLoading = false; })
+        }
+        if (this.ACTION_STATUS == 'update') {
+          e.ModifyBy = this.auth.currentUser.Username;
+          this.api.updateMonitorStandard(e).subscribe(res => {
+            var operationResult: any = res
+            if (operationResult.Success) {
+              this.tableRender();
+              this.toastr.success(this.trans.instant("messg.update.success"));
+
+            }
+            else this.toastr.warning(operationResult.Message);
+            this.laddaSubmitLoading = false;
+            $('#myModal4').modal('hide');
+          }, err => { this.toastr.error(err.statusText); this.laddaSubmitLoading = false; })
+        }
+        }
+        else{
+          swal.fire('Error.', 'Validate Date was nested!', 'error');
+              this.laddaSubmitLoading = false;
+              this.tableRender();
+      }
     }
-  }
-  else{
-    swal.fire('Error.', 'ValidateForm bigger than ValidateTo!', 'error');
-    this.laddaSubmitLoading = false;
-    this.existName = true;
-      return false;
-  }
+    else{
+      swal.fire('Error.', 'ValidateForm bigger than ValidateTo!', 'error');
+      this.laddaSubmitLoading = false;
+      this.existName = true;
+        return false;
+    }
 
   }
   private async fnValidate(e) {
@@ -250,7 +249,7 @@ export class MonitorStandardComponent implements OnInit {
     this.dtTrigger.next();
     this.tableRender();
   }
-  reSetExistName(){// hiden is-invalid
+    reSetExistName(){// hiden is-invalid
     this.existName = false;
   }
 }

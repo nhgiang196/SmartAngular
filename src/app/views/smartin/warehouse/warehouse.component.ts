@@ -46,6 +46,8 @@ export class WarehouseComponent implements OnInit {
   invalid: any = { Existed_WarehouseCode: false, Existed_WarehouseName: false };
   initCombobox = { Factories: [], FullFactories: [], Users: [] };
   EditRowNumber: number = 0;
+  page = 1;
+  pageSize = 10;
   /**INIT FUNCTIONS */
   ngOnInit() { //init functions
     this.resetEntity();
@@ -62,10 +64,15 @@ export class WarehouseComponent implements OnInit {
       this.initCombobox.Users= res;
     }, err => this.toastr.warning('Get users Failed, check network'))
   }
+  searchLoad(){
+    this.page=1;
+    this.loadInit();
+
+  }
 
   loadInit() { //init loading
     this.iboxloading = true;
-    this.api.getWarehousePagination(this.keyword).subscribe(res => {
+    this.api.getWarehousePagination(this.keyword,this.page, this.pageSize).subscribe(res => {
       var data = res as any;
       this.Warehouse = data.result;
       this.Warehouse_showed = data.totalCount;
@@ -199,12 +206,15 @@ export class WarehouseComponent implements OnInit {
       swal.fire("Validate", this.trans.instant('Warehouse.data.WarehouseLocationName') + this.trans.instant('messg.isnull'), 'warning');
       return false;
     }
-    if (await this.entity.WarehouseLocation.filter(t =>t.WarehouseLocationCode.toLowerCase() == itemAdd.WarehouseLocationCode.toLowerCase() && t.WarehouseLocationId!=itemAdd.WarehouseLocationId).length>0)
+    let _validateCode = await this.entity.WarehouseLocation.find(t =>t.WarehouseLocationCode.toLowerCase()  == itemAdd.WarehouseLocationCode.toLowerCase() )
+    // && t.WarehouseLocationId!=itemAdd.WarehouseLocationId && itemAdd.WarehouseLocationId!=0
+    if (_validateCode && itemAdd != _validateCode)
     {
       swal.fire("Validate", this.trans.instant('Warehouse.data.WarehouseLocationCode') + this.trans.instant('messg.isexisted'), 'warning');
       return false;
     } 
-    if (await this.entity.WarehouseLocation.filter(t =>t.WarehouseLocationName.toLowerCase() == itemAdd.WarehouseLocationName.toLowerCase() && t.WarehouseLocationId!=itemAdd.WarehouseLocationId).length>0)
+    let _validateName = await this.entity.WarehouseLocation.find(t =>t.WarehouseLocationName.toLowerCase()  == itemAdd.WarehouseLocationName.toLowerCase() )
+    if (_validateName && itemAdd != _validateName)
     {
       swal.fire("Validate", this.trans.instant('Warehouse.data.WarehouseLocationName') + this.trans.instant('messg.isexisted'), 'warning');
       return false;

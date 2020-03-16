@@ -217,8 +217,8 @@ export class StageFile {
 
 export class BomFactory {
 	BomFactoryId: number = 0
-  FactoryId: number 
-  FactoryName: number 
+  FactoryId: number
+  FactoryName: number
 	Validate?: Date= new Date()
   Descriptions?: string
   CreateBy: string
@@ -384,7 +384,7 @@ export class ContractFile {
   File: Files = new Files()
 }
 
-//Monitor
+//Monitor standard
 export class MonitorStandard{
   MonitorStandardId: number
   FactoryId: number
