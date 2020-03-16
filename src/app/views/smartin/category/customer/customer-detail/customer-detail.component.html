@@ -108,67 +108,71 @@
           </div>
           <div id="tab-2" class="tab-pane">
             <div class="panel-body">
-              <table class="table table-bordered">
-                <thead>
-                  <tr>
-                    <th width="">#</th>
-                    <th width="">{{ 'Contract.data.ContractNo' | translate }} *</th>
-                    <th width="">{{ 'Contract.data.ContractCode' | translate }} *</th>
-                    <th width="">{{ 'Contract.data.ContractType' | translate }}</th>
-                    <th width="">{{ 'Contract.data.EffectiveDate' | translate }}</th>
-                    <th width="">{{ 'Contract.data.StandardType' | translate }}</th>
-                    <th width="">{{ 'Contract.data.Ratio' | translate }}</th>
-                    <th width="">{{ 'Contract.data.Description' | translate }}</th>
-                    <th width="">{{ 'Contract.data.IsIntergration' | translate }}</th>
-                    <th width="">{{ 'Button.Action' | translate }}</th>
-                  </tr>
-                </thead>
-                <tbody>
+              <div class="table-reponsive">
+                <table class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th width="">#</th>
+                      <th width="">{{ 'Contract.data.ContractNo' | translate }} *</th>
+                      <th width="">{{ 'Contract.data.ContractCode' | translate }} *</th>
+                      <th width="">{{ 'Contract.data.ContractType' | translate }}</th>
+                      <th width="">{{ 'Contract.data.EffectiveDate' | translate }}</th>
+                      <th width="">{{ 'Contract.data.StandardType' | translate }}</th>
+                      <th width="">{{ 'Contract.data.Ratio' | translate }}</th>
+                      <th width="">{{ 'Contract.data.Description' | translate }}</th>
+                      <th width="">{{ 'Contract.data.IsIntergration' | translate }}</th>
+                      <th width="">{{ 'Button.Action' | translate }}</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+  
+                    <tr class="animated fadeInRight" *ngFor="let item of entity.Contract; let i = index">
+                      <td> {{i+1}} </td>
+                      <!-- TABLE -->
+                      <td *ngIf="i+1 !== EditRowNumber">{{item.ContractNo}} </td>
+                      <td *ngIf="i+1 !== EditRowNumber">{{item.ContractCode}} </td>
+                      <td *ngIf="i+1 !== EditRowNumber">{{'Contract.data.ContractType'+item.ContractType | translate}} </td>
+                      <td *ngIf="i+1 !== EditRowNumber">{{item.EffectiveDate | amDateFormat: 'DD-MM-YYYY'}} </td>
+                      <td *ngIf="i+1 !== EditRowNumber">{{'Contract.data.StandardType'+ item.StandardType | translate}} </td>
+                      <td *ngIf="i+1 !== EditRowNumber">{{item.Ratio}} </td>
+                      <td *ngIf="i+1 !== EditRowNumber">{{item.Description}} </td>
+                      <td *ngIf="i+1 !== EditRowNumber">
+                        <span><i class="fa fa-lg" [ngClass]="{'fa-check-square-o text-info': item.IsIntergration==true, 'fa-square-o':item.IsIntergration==false}" ></i> </span>
+  
+                      </td>
+                      <td>
+                        <div class="btn-group">
+                          <button type="button" class="btn btn-sm btn-outline btn-primary"
+                            [disabled]="!locationEntity.WarehouseLocationCode || !locationEntity.WarehouseLocationName"
+                            (click)="validateItem(locationEntity)" *ngIf="i+1 === EditRowNumber"><i
+                              class="fa fa-check"></i></button>
+                          <button type="button" class="btn btn-sm btn-outline btn-success" (click)="fnEditItem(item.ContractId,i)" data-toggle="modal" data-target="#myContractModal"><i class="fa fa-pencil"></i></button>
+                          <button type="button" class="btn btn-sm btn-outline btn-danger" (click)="fnDeleteItem(i)"
+                            *ngIf="i+1 !== EditRowNumber"><i class="fa fa-trash"></i></button>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td>
+                        <button type="button" class="btn  btn-sm btn-outline btn-info pull-right"  (click)="fnEditItem(0,entity.Contract.length)"   data-toggle="modal" data-target="#myContractModal"><i class="fa fa-plus" ></i> </button>
+                      </td>
+                    </tr>
+  
+                  </tbody>
+                </table>
+  
 
-                  <tr class="animated fadeInRight" *ngFor="let item of entity.Contract; let i = index">
-                    <td> {{i+1}} </td>
-                    <!-- TABLE -->
-                    <td *ngIf="i+1 !== EditRowNumber">{{item.ContractNo}} </td>
-                    <td *ngIf="i+1 !== EditRowNumber">{{item.ContractCode}} </td>
-                    <td *ngIf="i+1 !== EditRowNumber">{{'Contract.data.ContractType'+item.ContractType | translate}} </td>
-                    <td *ngIf="i+1 !== EditRowNumber">{{item.EffectiveDate | amDateFormat: 'DD-MM-YYYY'}} </td>
-                    <td *ngIf="i+1 !== EditRowNumber">{{'Contract.data.StandardType'+ item.StandardType | translate}} </td>
-                    <td *ngIf="i+1 !== EditRowNumber">{{item.Ratio}} </td>
-                    <td *ngIf="i+1 !== EditRowNumber">{{item.Description}} </td>
-                    <td *ngIf="i+1 !== EditRowNumber">
-                      <span><i class="fa fa-lg" [ngClass]="{'fa-check-square-o text-info': item.IsIntergration==true, 'fa-square-o':item.IsIntergration==false}" ></i> </span>
-
-                    </td>
-                    <td>
-                      <div class="btn-group">
-                        <button type="button" class="btn btn-sm btn-outline btn-primary"
-                          [disabled]="!locationEntity.WarehouseLocationCode || !locationEntity.WarehouseLocationName"
-                          (click)="validateItem(locationEntity)" *ngIf="i+1 === EditRowNumber"><i
-                            class="fa fa-check"></i></button>
-                        <button type="button" class="btn btn-sm btn-outline btn-success" (click)="fnEditItem(item.ContractId,i)" data-toggle="modal" data-target="#myContractModal"><i class="fa fa-pencil"></i></button>
-                        <button type="button" class="btn btn-sm btn-outline btn-danger" (click)="fnDeleteItem(i)"
-                          *ngIf="i+1 !== EditRowNumber"><i class="fa fa-trash"></i></button>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td>
-                      <button type="button" class="btn  btn-sm btn-outline btn-info pull-right"  (click)="fnEditItem(0,entity.Contract.length)"   data-toggle="modal" data-target="#myContractModal"><i class="fa fa-plus" ></i> </button>
-                    </td>
-                  </tr>
-
-                </tbody>
-              </table>
-
+              </div>
+             
               
 
             </div>

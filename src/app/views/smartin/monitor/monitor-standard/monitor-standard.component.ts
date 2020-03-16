@@ -27,6 +27,7 @@ export class MonitorStandardComponent implements OnInit {
   laddaSubmitLoading = false;
   EditRowID: number =0;
   entity: MonitorStandard;
+  _monitor: MonitorStandard;
   isDisable =false;
   iboxloading = false;
   keyword: string = '';
@@ -35,6 +36,7 @@ export class MonitorStandardComponent implements OnInit {
 
   //config
   bsConfig = { dateInputFormat: "YYYY-MM-DD", adaptivePosition: true };
+
   constructor(
     private api: WaterTreatmentService,
     private toastr: ToastrService,
@@ -82,6 +84,7 @@ export class MonitorStandardComponent implements OnInit {
           //chèn lại ajax ở một vị trí duy nhất khi định nghĩa
            this.api.getDataTableMonitorStandardPagination(dataTablesParameters).subscribe(res => {
             this.monitors = res.data;
+            console.log(this.monitors);
             this.recordStart = dataTablesParameters.start;
             callback({
               recordsTotal: res.recordsTotal,
@@ -169,12 +172,14 @@ export class MonitorStandardComponent implements OnInit {
     this.ACTION_STATUS = 'update';
     this.isDisable = true;
     this.existName = false;
-
+    this.entity = new MonitorStandard();
     let _factoryAddTag = await this.initCombobox.FullFactories.find(x => x.FactoryId == current.FactoryId);
     if (_factoryAddTag && await !this.initCombobox.Factories.find(x => x.FactoryId == current.FactoryId))
       this.initCombobox.Factories = this.initCombobox.Factories.concat([_factoryAddTag]);
-      this.entity = current;
-
+      this.api.findMonitorStandardById(current.MonitorStandardId).subscribe(res=>{
+        console.log(res)
+        this.entity = res[0];
+      })
   }
 
   async fnSave() {
@@ -182,7 +187,8 @@ export class MonitorStandardComponent implements OnInit {
     var e = this.entity;
     e.ValidateDateFrom = this.helpper.dateConvertToString(e.ValidateDateFrom);
     e.ValidateDateTo = this.helpper.dateConvertToString(e.ValidateDateTo);
-
+    if(e.ValidateDateFrom <= e.ValidateDateTo)
+    {
     if ( await this.fnValidate(e)) {
       if (this.ACTION_STATUS == 'add') {
         e.CreateBy = this.auth.currentUser.Username;
@@ -192,7 +198,6 @@ export class MonitorStandardComponent implements OnInit {
           if (operationResult.Success) {
             this.tableRender();
             this.toastr.success(this.trans.instant("messg.add.success"));
-
           }
           else this.toastr.warning(operationResult.Message);
           this.laddaSubmitLoading = false;
@@ -215,16 +220,20 @@ export class MonitorStandardComponent implements OnInit {
       }
       }
       else{
-        this.toastr.error("Validate Date was nested!");
+        swal.fire('Error.', 'Validate Date was nested!', 'error');
             this.laddaSubmitLoading = false;
             this.tableRender();
     }
+  }
+  else{
+    swal.fire('Error.', 'ValidateForm bigger than ValidateTo!', 'error');
+    this.laddaSubmitLoading = false;
+    this.existName = true;
+      return false;
+  }
 
   }
   private async fnValidate(e) {
-
-    if(e.ValidateDateFrom < e.ValidateDateTo)
-    {
       let result =  await this.api.validateMonitorStandard(e).toPromise().then() as any;
       if (result.Success) {
         this.existName = false;
@@ -235,13 +244,6 @@ export class MonitorStandardComponent implements OnInit {
         this.existName = true;
         return false;
       }
-    }
-    else{
-      this.toastr.error("ValidateForm bigger than ValidateTo!");
-      this.laddaSubmitLoading = false;
-      this.existName = true;
-        return false;
-    }
 }
 
   ngAfterViewInit(): void {

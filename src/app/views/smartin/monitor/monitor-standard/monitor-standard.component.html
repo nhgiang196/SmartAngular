@@ -39,7 +39,6 @@
                 class="table table-bordered table-hover table-striped" id="myTable2" style="width:100%">
                 <thead>
                   <tr>
-
                     <th>Serial</th>
                     <th>Factory</th>
                     <th>Validate DateFrom</th>
@@ -60,12 +59,12 @@
                     <td style="text-align: left"> {{monitor.FactoryName | uppercase}}</td>
                     <td style="text-align: left"> {{monitor.ValidateDateFrom | amDateFormat: "YYYY-MM-DD HH:mm"}}</td>
                     <td style="text-align: left"> {{monitor.ValidateDateTo | amDateFormat: "YYYY-MM-DD HH:mm"}}</td>
-                    <td style="text-align: left"> {{monitor.TemperatureMax?monitor.TemperatureMax:0}}</td>
-                    <td style="text-align: left"> {{monitor.PHmin?monitor.PHmax:0}}-{{monitor.PHmax?monitor.PHmax:0}}</td>
-                    <td style="text-align: left"> {{monitor.Codmax?monitor.Codmax:0}}</td>
-                    <td style="text-align: left"> {{monitor.Tssmax?monitor.Tssmax:0}}</td>
-                    <td style="text-align: left"> {{monitor.Codmax?monitor.Codmax:0}}</td>
-                    <td style="text-align: left"> {{monitor.AmoniMax?monitor.AmoniMax:0}}</td>
+                    <td style="text-align: left"> {{monitor.TemperatureMax}}</td>
+                    <td style="text-align: left"> {{monitor.pHMin}}-{{monitor.pHMax}}</td>
+                    <td style="text-align: left"> {{monitor.CODMax}}</td>
+                    <td style="text-align: left"> {{monitor.TSSMax}}</td>
+                    <td style="text-align: left"> {{monitor.ColorMax}}</td>
+                    <td style="text-align: left"> {{monitor.AmoniMax}}</td>
                     <td style="text-align: left"> {{monitor.MonitorStandardDesc}}</td>
                     <td>
                       <button type="button" class="btn btn-outline btn-danger"  (click)="fnDelete(monitor.MonitorStandardId)"><i
@@ -204,11 +203,11 @@
                 </div>
                 <div class="row">
                   <div class="col-lg-6"><input type="number" min="0" name="PHmin" id="PHmin" class="form-control"
-                    (change)="($event.target.value<0 ||$event.target.value=='' ) ?entity.TemperatureMin =0:entity.TemperatureMin"
+                    (change)="($event.target.value<0 ||$event.target.value=='' ) ?entity.PHmin =0:entity.PHmin"
                     placeholder="0" [(ngModel)]= "entity.PHmin">
                   </div>
                   <div class="col-lg-6"><input type="number" min="0" name="PHmax" id="PHmax" class="form-control"
-                    (change)="($event.target.value<0 ||$event.target.value=='' ) ?entity.TemperatureMax =0:entity.TemperatureMax"
+                    (change)="($event.target.value<0 ||$event.target.value=='' ) ?entity.PHmax =0:entity.PHmax"
                     placeholder="0" [(ngModel)]= "entity.PHmax">
                   </div>
                 </div>
@@ -225,9 +224,11 @@
                 </div>
                 <div class="row">
                   <div class="col-lg-6"><input type="number" min="0" name="Codmin" id="Codmin" class="form-control"
+                    (change)="($event.target.value<0 ||$event.target.value=='' ) ?entity.Codmin =0:entity.Codmin"
                     placeholder="0" [(ngModel)]= "entity.Codmin">
                   </div>
                   <div class="col-lg-6"><input type="number" min="0" name="Codmax" id="Codmax" class="form-control"
+                    (change)="($event.target.value<0 ||$event.target.value=='' ) ?entity.Codmax =0:entity.Codmax"
                     placeholder="0" [(ngModel)]= "entity.Codmax">
                   </div>
                 </div>
@@ -241,9 +242,11 @@
                 </div>
                 <div class="row">
                   <div class="col-lg-6"><input type="number" min="0" name="Tssmin" id="Tssmin" class="form-control"
+                    (change)="($event.target.value<0 ||$event.target.value=='' ) ?entity.Tssmin =0:entity.Tssmin"
                     placeholder="0" [(ngModel)]= "entity.Tssmin">
                   </div>
                   <div class="col-lg-6"><input type="number" min="0" name="Tssmax" id="Tssmax" class="form-control"
+                    (change)="($event.target.value<0 ||$event.target.value=='' ) ?entity.Tssmax =0:entity.Tssmax"
                     placeholder="0" [(ngModel)]= "entity.Tssmax">
                   </div>
                 </div>
@@ -260,9 +263,11 @@
                 </div>
                 <div class="row">
                   <div class="col-lg-6"><input type="number" min="0" name="ColorMin" id="ColorMin" class="form-control"
+                    (change)="($event.target.value<0 ||$event.target.value=='' ) ?entity.ColorMin =0:entity.ColorMin"
                     placeholder="0" [(ngModel)]= "entity.ColorMin">
                   </div>
                   <div class="col-lg-6"><input type="number" min="0" name="ColorMax" id="ColorMax" class="form-control"
+                    (change)="($event.target.value<0 ||$event.target.value=='' ) ?entity.ColorMax =0:entity.ColorMax"
                     placeholder="0" [(ngModel)]= "entity.ColorMax">
                   </div>
                 </div>
@@ -276,9 +281,11 @@
                 </div>
                 <div class="row">
                   <div class="col-lg-6"><input type="number" min="0" name="Qmin" id="Qmin" class="form-control"
+                    (change)="($event.target.value<0 ||$event.target.value=='' ) ?entity.Qmin =0:entity.Qmin"
                     placeholder="0" [(ngModel)]= "entity.Qmin">
                   </div>
                   <div class="col-lg-6"><input type="number" min="0" name="Qmax" id="Qmax" class="form-control"
+                    (change)="($event.target.value<0 ||$event.target.value=='' ) ?entity.Qmax =0:entity.Qmax"
                     placeholder="0" [(ngModel)]= "entity.Qmax">
                   </div>
                 </div>
@@ -294,9 +301,11 @@
                 </div>
                 <div class="row">
                   <div class="col-lg-6"><input type="number" min="0" name="AmoniMin" id="AmoniMin" class="form-control"
+                    (change)="($event.target.value<0 ||$event.target.value=='' ) ?entity.AmoniMin =0:entity.AmoniMin"
                     placeholder="0" [(ngModel)]= "entity.AmoniMin">
                   </div>
                   <div class="col-lg-6"><input type="number" min="0" name="AmoniMax" id="AmoniMax" class="form-control"
+                    (change)="($event.target.value<0 ||$event.target.value=='' ) ?entity.AmoniMin =0:entity.AmoniMin"
                     placeholder="0" [(ngModel)]= "entity.AmoniMax">
                   </div>
                 </div>
