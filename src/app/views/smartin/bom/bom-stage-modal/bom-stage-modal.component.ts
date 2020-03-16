@@ -27,8 +27,8 @@ declare let $: any;
 export class BomStageModalComponent implements OnInit {
   @Input() entity: BomFactory;
   @Input() action: string;
-  @Input() factories: Factory[];
-  @Input() stages: Stage[] = [];
+  @Input() initComboboxFactories: any;
+  @Input() initComboboxStages: any;
   @Input() units: Unit[] = [];
   @Output() isLoadData = new EventEmitter<boolean>();
   //varible
@@ -51,7 +51,6 @@ export class BomStageModalComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    console.log(this.factories);
     this.resetEntity();
   }
 
@@ -106,8 +105,19 @@ export class BomStageModalComponent implements OnInit {
   }
 
   fnEditStage(index) {
+   
+    if(this.initComboboxStages.Stages.find(x=>x.StageId == this.entity.BomStage[this.currentStageId].StageId&& x.isCopy !=true)==null){
+      let item = this.initComboboxStages.FullStages.find(x=>x.StageId == this.entity.BomStage[this.currentStageId].StageId)
+      this.initComboboxStages.Stages= this.initComboboxStages.StagesCopy.concat([{StageId:item.StageId,StageName:item.StageName,isCopy:true}])
+    }
+    else{
+      this.initComboboxStages.Stages = this.initComboboxStages.StagesCopy;
+    }
+
+    
     this.editRowId = index + 1;
     this.bomStage = this.entity.BomStage[index];
+
   }
 
   fnDeleteStage(index) {
