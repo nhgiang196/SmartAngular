@@ -71,7 +71,11 @@ export class FactoryComponent implements OnInit {
       this.iboxloading = false;
     })
   }
+  searchLoad(){
+    this.pageIndex=1;
+    this.loadInit();
 
+  }
   private resetEntity() {
     this.entity = new Factory();
     this.tech_entity = new FactoryTechnology();

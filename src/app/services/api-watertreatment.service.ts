@@ -38,7 +38,6 @@ export class WaterTreatmentService {
     pr.key = keyvalue;
     pr.page = pageIndex<1? 1 : pageIndex;
     pr.pageSize = pageSize;
-    pr.pageSize = 9999;
     return this.http.post(`${ApiUrl}/Factory/GetFactoryPagination`, pr);
   }
   getFactoryPagination(keyvalue) {

@@ -24,24 +24,58 @@
             <div class="sk-rect5"></div>
           </div>
           <div class="row">
-            <div class="col-sm-4">
+            <div class="col-sm-2">
               <button (click)="fnAdd()" type="button" class="btn btn-primary dim" data-toggle="modal"
                 data-target="#myModal4">
                 <i class="fa fa-plus"></i> {{ 'Factory.btn.AddFactory' | translate}} </button>
 
             </div>
-            <div class="col-sm-4 text-center">
+            <!-- <div class="col-sm-4 text-center">
               <h2> {{'Factory.label.TotalFactory' | translate}} {{factory_showed}} {{'Factory.' | translate}} </h2>
               <small>{{'Factory.label.TotalFactory1' | translate}} {{factory.length}} {{'Factory.label.TotalFactory2' | translate}}</small>
-            </div>
+            </div> -->
 
-            <div class="col-sm-4">
+            <!-- <div class="col-sm-4">
               <div class="pull-right">
-               <label for="">{{ 'Factory.label.SearchTitle' | translate}}</label> 
+               <label for="">{{ 'Factory.label.SearchTitle' | translate}}</label>
                 <div class="input-group">
                     <input type="text"  class="form-control input-lg" placeholder="{{ 'Factory.label.SearchText' | translate}}" name="search"  [(ngModel)]="keyword"  (keyup)="$event.keyCode === 13 && loadInit()" >
                     <div class="input-group-btn">
                         <button class="btn btn-lg btn-primary" type="submit" (click)="loadInit()">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+              </div>
+
+            </div> -->
+            <div class="col-sm-2 text-center">
+              <div class="form-group">
+                <label for="choose">
+                  <small>{{'Warehouse.label.Showed'| translate}} </small>
+                </label>
+              <select id='choose' class="form-control" [(ngModel)]="pageSize" (change)="loadInit()" >
+                  <option value=10>10</option>
+                  <option value=25>25</option>
+                  <option value=50>50</option>
+                  <option value=0>All</option>
+              </select>
+              </div>
+            </div>
+            <div class="col-sm-4 text-center">
+              <h2> {{'Warehouse.label.TotalWarehouse' | translate}} {{factory_showed}} {{'Warehouse.' | translate}} </h2>
+              <button type="button" class="btn btn-white" (click)="pageIndex=pageIndex-1; loadInit()" ><i class="fa fa-chevron-left"></i></button>
+              <small>{{'Warehouse.label.Showed'| translate}} : {{factory.length}}  {{'Warehouse.' |  translate}} </small>
+              <button type="button" class="btn btn-white" (click)="pageIndex=pageIndex+1; loadInit()"><i class="fa fa-chevron-right"></i> </button>
+            </div>
+
+            <div class="col-sm-4">
+              <div class="pull-right">
+               <label for="">{{ 'Warehouse.label.SearchTitle' | translate}}</label>
+                <div class="input-group">
+                    <input type="text"  class="form-control input-lg" placeholder="{{ 'Warehouse.label.SearchText' | translate}}" name="search"  [(ngModel)]="keyword"  (keyup)="$event.keyCode === 13  && searchLoad()" >
+                    <div class="input-group-btn">
+                        <button class="btn btn-lg btn-primary" type="submit" (click)="searchLoad()">
                             <i class="fa fa-search"></i>
                         </button>
                     </div>
@@ -92,14 +126,14 @@
             <div class="col-lg-6">
               <div class="form-group">
                 <label> {{ 'Factory.data.FactoryCode' | translate }} *: </label>
-                <input type="text" name="Numcode" id="Numcode" class="form-control" placeholder="{{ 'Factory.placeholder.FactoryCode' | translate }}" 
+                <input type="text" name="Numcode" id="Numcode" class="form-control" placeholder="{{ 'Factory.placeholder.FactoryCode' | translate }}"
                   [(ngModel)]="entity.FactoryCode" [ngClass]="{ 'is-invalid':  invalid.FactoryCodeExist  }" required>
                   <div *ngIf="invalid.FactoryCodeExist" style="color: red;">{{ 'Factory.invalid.FactoryCodeExist' | translate }}</div>
               </div>
             </div>
             <div class="col-lg-6">
               <label>{{ 'Factory.data.FactoryBuiltDate' | translate }} :</label>
-              <input type="text" name="DateBuild" id="DateBuild" class="form-control" placeholder="{{ 'Factory.placeholder.FactoryBuiltDate' | translate }}" 
+              <input type="text" name="DateBuild" id="DateBuild" class="form-control" placeholder="{{ 'Factory.placeholder.FactoryBuiltDate' | translate }}"
                 bsDatepicker readonly [bsConfig]="bsConfig" [(ngModel)]="entity.FactoryBuiltDate">
             </div>
           </div>
@@ -130,7 +164,7 @@
             <div class="col-lg-6">
               <label>{{ 'Factory.data.FactoryEndDate' | translate }} :</label>
               <input  type="text" name="DateEnd" id="DateEnd" class="form-control"  [ngClass]="entity.Status==0? 'animated pulse' : '' " bsDatepicker  readonly
-                [bsConfig]="bsConfig" [disabled]="entity.Status==1"   [(ngModel)]="entity.FactoryEndDate"  placeholder="{{ 'Factory.placeholder.FactoryEndDate' | translate }}"> 
+                [bsConfig]="bsConfig" [disabled]="entity.Status==1"   [(ngModel)]="entity.FactoryEndDate"  placeholder="{{ 'Factory.placeholder.FactoryEndDate' | translate }}">
             </div>
           </div>
           <div class="row">
@@ -197,7 +231,7 @@
                   <td> {{i+1}} </td>
                   <td *ngIf="i+1 !== EditRowNumber">{{item.TechnologyName}} </td>
                   <td *ngIf="i+1 !== EditRowNumber">{{item.TechnologyDescription}} </td>
-                  <td *ngIf="i+1 !== EditRowNumber">{{item.TechnologyFromDate | amDateFormat: 'DD-MM-YYYY  ' }} </td>                  
+                  <td *ngIf="i+1 !== EditRowNumber">{{item.TechnologyFromDate | amDateFormat: 'DD-MM-YYYY  ' }} </td>
                   <td *ngIf="i+1 !== EditRowNumber">{{item.TechnologyToDate | amDateFormat: 'DD-MM-YYYY ' }} </td>
 
                   <td *ngIf="i+1 === EditRowNumber" ><input type="text" class="form-control" name="Technology" id="Technology" [(ngModel)]="tech_entity.TechnologyName"></td>
@@ -209,7 +243,7 @@
                     <button type="button" class="btn btn-sm btn-outline btn-primary" (click)="validateItem(tech_entity)" *ngIf="i+1 === EditRowNumber" ><i class="fa fa-check"></i></button>
                     <button type="button" class="btn btn-sm btn-outline btn-success" (click)="fnEditItem(i)"*ngIf="i+1 !== EditRowNumber"><i class="fa fa-pencil"></i></button>
                     <button type="button" class="btn btn-sm btn-outline btn-danger" (click)="fnDeleteItem(i)" *ngIf="i+1 !== EditRowNumber"><i class="fa fa-trash"></i></button>
-                  </div>                      
+                  </div>
                   </td>
                 </tr>
                 <!-- new record -->
