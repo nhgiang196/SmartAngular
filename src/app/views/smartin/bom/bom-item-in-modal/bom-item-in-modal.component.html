@@ -14,6 +14,7 @@
           type="button"
           class="close"
           data-dismiss="modal"
+          (click)="isLoadData.emit(true)"
         >
           <span aria-hidden="true">&times;</span
           ><span class="sr-only">Close</span>
@@ -59,7 +60,7 @@
                         bindValue="ItemId"
                         placeholder="{{'BomFactory.BomItem.ItemId' | translate}}"
                         name="BomStageId2"
-                        (change)="$event != null? (inBomItem.ItemName = $event.ItemName): null"
+                        (change)="fnChangeItem($event)"
                         id="BomStageId2"
                         [(ngModel)]="inBomItem.ItemId"
                       >
@@ -133,7 +134,7 @@
                         [items]="itemsBuffer" 
                         [virtualScroll]="true" 
                         [loading]="loading"
-                        (change)="newBomItem.ItemName =   $event? $event.ItemName :''" appendTo="body" 
+                        (change)="fnChangeNewRecordItem($event)" appendTo="body" 
                         (scroll)="onScroll($event)" (scrollToEnd)="onScrollToEnd()" bindLabel="ItemName"
                         [searchFn]="customSearchFn"
                         [typeahead]="input$"

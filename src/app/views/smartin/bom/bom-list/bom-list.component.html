@@ -36,7 +36,7 @@
               datatable
               [dtOptions]="dtOptions"
               [dtTrigger]="dtTrigger"
-              class="table table-bordered table-hover table-striped"
+              class="table table-bordered table-hover table-striped table-responsive"
               id="myTable"
               style="width:100%"
             >
@@ -54,7 +54,7 @@
                   <th>{{ "BomFactory.CreateDate" | translate }}</th>
                   <th>{{ "BomFactory.ModifyBy" | translate }}</th>
                   <th>{{ "BomFactory.ModifyDate" | translate }}</th>
-                  <th>{{ "BomFactory.Status" | translate }}</th>
+                  <th style="width: 150px;">Status</th>
                   <th>{{ "Button.Action" | translate }}</th>
                 </tr>
               </thead>
@@ -138,8 +138,8 @@
   <app-bom-stage-modal
     [entity] = "entity"
     [action] = "ACTION_STATUS"
-    [stages] = "stages"
-    [factories]="factories"
+    [initComboboxStages] = "initComboboxStages"
+    [initComboboxFactories]="initComboboxFactories"
     (isLoadData)="isLoadData($event)"
     [units] ="units">
   </app-bom-stage-modal>
