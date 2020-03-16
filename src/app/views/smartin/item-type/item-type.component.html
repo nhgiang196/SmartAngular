@@ -58,7 +58,7 @@
                   <td style="text-align: left">{{item.ModifyDate | amDateFormat: 'YYYY-MM-DD HH:mm'}}</td>
                   <td style="text-align: left">{{item.Status}}</td>
                   <td>
-                    <button type="button" class="btn btn-outline btn-danger" (click)="fnDelete(item.ItemTypeId)"><i
+                    <button type="button" class="btn btn-outline btn-danger hide" (click)="fnDelete(item.ItemTypeId)"><i
                         class="fa fa-trash"></i></button>
                     <button type="button" class="btn btn-outline btn-success" (click)="fnUpdate(item)"
                       data-toggle="modal" data-target="#myModal4"><i class="fa fa-pencil"></i></button>
@@ -142,9 +142,9 @@
                     <td *ngIf="i+1 === EditRowID"> <input type="text" name="ItemTypePropertyName"
                         id="ItemTypePropertyName" class="form-control"
                         placeholder="{{'ItemType.InputPropertyName' | translate}}"
-                        [(ngModel)]="item.ItemTypePropertyName"> </td>
+                        [(ngModel)]="itemTypeProperty.ItemTypePropertyName"> </td>
                     <td>
-                      <button type="button" class="btn btn-sm btn-outline btn-primary" (click)="fnSaveItem()"
+                      <button type="button" class="btn btn-sm btn-outline btn-primary" (click)="fnSaveItem(i)"
                         *ngIf="i+1 === EditRowID"><i class="fa fa-check"></i></button>
                       <button type="button" class="btn btn-sm btn-outline btn-success" (click)="fnEditItem(i)"
                         *ngIf="i+1 !== EditRowID"><i class="fa fa-pencil"></i></button>
