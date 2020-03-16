@@ -52,7 +52,7 @@
             <div class="col-sm-2 text-center">
               <div class="form-group">
                 <label for="choose">
-                  <small>{{'Warehouse.label.Showed'| translate}} </small>
+                  <small>{{'Factory.label.Showed'| translate}} </small>
                 </label>
               <select id='choose' class="form-control" [(ngModel)]="pageSize" (change)="loadInit()" >
                   <option value=10>10</option>
@@ -63,17 +63,17 @@
               </div>
             </div>
             <div class="col-sm-4 text-center">
-              <h2> {{'Warehouse.label.TotalWarehouse' | translate}} {{factory_showed}} {{'Warehouse.' | translate}} </h2>
+              <h2> {{'Factory.label.TotalFactory' | translate}} {{factory_showed}} {{'Factory.' | translate}} </h2>
               <button type="button" class="btn btn-white" (click)="pageIndex=pageIndex-1; loadInit()" ><i class="fa fa-chevron-left"></i></button>
-              <small>{{'Warehouse.label.Showed'| translate}} : {{factory.length}}  {{'Warehouse.' |  translate}} </small>
+              <small>{{'Factory.label.Showed'| translate}} : {{factory.length}}  {{'Factory.' |  translate}} </small>
               <button type="button" class="btn btn-white" (click)="pageIndex=pageIndex+1; loadInit()"><i class="fa fa-chevron-right"></i> </button>
             </div>
 
             <div class="col-sm-4">
               <div class="pull-right">
-               <label for="">{{ 'Warehouse.label.SearchTitle' | translate}}</label>
+               <label for="">{{ 'Factory.label.SearchTitle' | translate}}</label>
                 <div class="input-group">
-                    <input type="text"  class="form-control input-lg" placeholder="{{ 'Warehouse.label.SearchText' | translate}}" name="search"  [(ngModel)]="keyword"  (keyup)="$event.keyCode === 13  && searchLoad()" >
+                    <input type="text"  class="form-control input-lg" placeholder="{{ 'Factory.label.SearchText' | translate}}" name="search"  [(ngModel)]="keyword"  (keyup)="$event.keyCode === 13  && searchLoad()" >
                     <div class="input-group-btn">
                         <button class="btn btn-lg btn-primary" type="submit" (click)="searchLoad()">
                             <i class="fa fa-search"></i>
