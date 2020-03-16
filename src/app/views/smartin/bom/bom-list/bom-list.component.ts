@@ -34,6 +34,7 @@ export class BomListComponent implements OnInit {
   dtElement: DataTableDirective;
   dtTrigger: Subject<any> = new Subject();
   initComboboxFactories = { Factories: [], FullFactories: [], FactoriesCopy:[]};
+  initComboboxStages = { Stages: [], FullStages: [], StagesCopy:[]};
   BomFactorys: BomFactory[];
   // Default load data
   entity: BomFactory;
@@ -176,6 +177,10 @@ export class BomListComponent implements OnInit {
       .toPromise()
       .then();
     this.stages = data.result;
+    this.initComboboxStages.Stages = ( data as any).result.filter(x=>x.Status ==1) as Stage[];
+    this.initComboboxStages.FullStages = ( data as any).result as Stage[];
+    this.initComboboxStages.StagesCopy =  ( data as any).result.filter(x=>x.Status ==1) as Stage[];
+
   }
   async loadItems() {
     let keySearch = "";

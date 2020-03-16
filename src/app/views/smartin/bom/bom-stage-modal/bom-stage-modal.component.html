@@ -140,7 +140,7 @@
                     <td *ngIf="i + 1 === editRowId">
                       <ng-select
                         class="custom"
-                        [items]="stages"
+                        [items]="initComboboxStages.Stages"
                         bindLabel="StageName"
                         bindValue="StageId"
                         placeholder="{{'Item.placeholdercolumn.ItemPackageUnitId' | translate}}"
@@ -231,7 +231,7 @@
                     <td>
                       <ng-select
                         class="custom"
-                        [items]="stages"
+                        [items]="initComboboxStages.StagesCopy"
                         bindLabel="StageName"
                         bindValue="StageId"
                         placeholder="{{'Item.placeholdercolumn.ItemPackageUnitId' | translate}}"

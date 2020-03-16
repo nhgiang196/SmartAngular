@@ -161,7 +161,7 @@ export class WaterTreatmentService {
       key: keySearch,
       entity: "Stage",
       keyFields: "",
-      selectFields: "StageId,StageCode,StageName",
+      selectFields: "StageId,StageCode,StageName,Status",
       page: 1,
       pageSize: 9999,
       orderDir: "asc",
