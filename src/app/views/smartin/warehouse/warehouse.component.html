@@ -25,16 +25,38 @@
             <div class="sk-rect5"></div>
           </div>
           <div class="row">
-            <div class="col-sm-4">
+            <div class="col-sm-2">
               <button (click)="fnAdd()" type="button" class="btn btn-primary dim" data-toggle="modal"
                 data-target="#myModal4">
                 <i class="fa fa-plus"></i> {{ 'Warehouse.btn.Add' | translate}} </button>
 
             </div>
+            <div class="col-sm-2 text-center">
+              <div class="form-group">
+                <label for="choose">
+                  <small>{{'Warehouse.label.Showed'| translate}} </small> 
+                </label>
+              <select id='choose' class="form-control" [(ngModel)]="pageSize" (change)="loadInit()" >
+                  <option value=10>10</option>
+                  <option value=25>25</option>
+                  <option value=50>50</option>
+                  <option value=0>All</option>
+              </select>
+
+
+              </div>
+              
+
+            </div>
             <div class="col-sm-4 text-center">
               <h2> {{'Warehouse.label.TotalWarehouse' | translate}} {{Warehouse_showed}} {{'Warehouse.' | translate}} </h2>
+              <button type="button" class="btn btn-white" (click)="page=page-1; loadInit()" ><i class="fa fa-chevron-left"></i></button>
               <small>{{'Warehouse.label.Showed'| translate}} : {{Warehouse.length}}  {{'Warehouse.' |  translate}} </small>
+              <button type="button" class="btn btn-white" (click)="page=page+1; loadInit()"><i class="fa fa-chevron-right"></i> </button>
             </div>
+
+         
+
 
             <div class="col-sm-4">
               <div class="pull-right">
@@ -165,7 +187,7 @@
             <div class="col-lg-4">
               <div class="form-group">
                 <label> {{ 'Warehouse.data.WarehouseLength' | translate }}*: </label>
-                <input  autocomplete="off" type="number" name="WarehouseLength" id="WarehouseLength" [(ngModel)]="entity.WarehouseLength" class="form-control"   min="0" required
+                <input  autocomplete="off" type="number" min="0" name="WarehouseLength" id="WarehouseLength" [(ngModel)]="entity.WarehouseLength" class="form-control"   min="0" required
                 [ngClass]="{ 'is-invalid': entity.WarehouseLength<0}">
                 
               </div>
@@ -173,7 +195,7 @@
             <div class="col-lg-4">
               <div class="form-group">
                 <label> {{ 'Warehouse.data.WarehouseWidth' | translate }}*: </label>
-                <input autocomplete="off" type="number" name="WarehouseWidth" id="WarehouseWidth" [(ngModel)]="entity.WarehouseWidth" 
+                <input autocomplete="off" type="number" min="0" name="WarehouseWidth" id="WarehouseWidth" [(ngModel)]="entity.WarehouseWidth" 
                 class="form-control"  min="0"  required [ngClass]="{ 'is-invalid': entity.WarehouseWidth<0}">
                 
               </div>
@@ -181,7 +203,7 @@
             <div class="col-lg-4">
               <div class="form-group">
                 <label> {{ 'Warehouse.data.WarehouseHeight' | translate }}*: </label>
-                <input autocomplete="off" type="number" name="WarehouseHeight" id="WarehouseHeight" [(ngModel)]="entity.WarehouseHeight" class="form-control"
+                <input autocomplete="off" type="number" min="0" name="WarehouseHeight" id="WarehouseHeight" [(ngModel)]="entity.WarehouseHeight" class="form-control"
                 [ngClass]="{ 'is-invalid': entity.WarehouseHeight<0}"   min="0" required>
               </div>
             </div>
@@ -219,9 +241,9 @@
 
                   <td  *ngIf="i+1 === EditRowNumber"><input type="text" class="form-control" name="WarehouseLocationCode" id="WarehouseLocationCode" [(ngModel)]="locationEntity.WarehouseLocationCode"></td>
                   <td  *ngIf="i+1 === EditRowNumber"><input type="text" class="form-control" name="WarehouseLocationName" id="WarehouseLocationName" [(ngModel)]="locationEntity.WarehouseLocationName"></td>
-                  <td  *ngIf="i+1 === EditRowNumber"><input type="number" class="form-control" name="WarehouseLocationLength" id="WarehouseLocationLength" [(ngModel)]="locationEntity.WarehouseLocationLength"></td>
-                  <td  *ngIf="i+1 === EditRowNumber"><input type="number" class="form-control" name="WarehouseLocationWidth" id="WarehouseLocationWidth" [(ngModel)]="locationEntity.WarehouseLocationWidth"></td>
-                  <td  *ngIf="i+1 === EditRowNumber"><input type="number" class="form-control" name="WarehouseLocationHeight" id="WarehouseLocationHeight" [(ngModel)]="locationEntity.WarehouseLocationHeight"></td>
+                  <td  *ngIf="i+1 === EditRowNumber"><input type="number" min="0" class="form-control" name="WarehouseLocationLength" id="WarehouseLocationLength" [(ngModel)]="locationEntity.WarehouseLocationLength"  [ngClass]="{ 'is-invalid': locationEntity.WarehouseLocationLength<0}"></td>
+                  <td  *ngIf="i+1 === EditRowNumber"><input type="number" min="0" class="form-control" name="WarehouseLocationWidth" id="WarehouseLocationWidth" [(ngModel)]="locationEntity.WarehouseLocationWidth"  [ngClass]="{ 'is-invalid': locationEntity.WarehouseLocationWidth<0}"></td>
+                  <td  *ngIf="i+1 === EditRowNumber"><input type="number" min="0" class="form-control" name="WarehouseLocationHeight" id="WarehouseLocationHeight" [(ngModel)]="locationEntity.WarehouseLocationHeight"  [ngClass]="{ 'is-invalid': locationEntity.WarehouseLocationHeight<0}"></td>
                   <td  *ngIf="i+1 !== EditRowNumber"> 
                     <div class="switch">
                       <div class="onoffswitch">
@@ -246,7 +268,7 @@
                   </td>
                   <td>
                     <div class="btn-group">
-                      <button type="button" class="btn btn-sm btn-outline btn-primary" [disabled]="!locationEntity.WarehouseLocationCode || !locationEntity.WarehouseLocationName" (click)="validateItem(locationEntity)" *ngIf="i+1 === EditRowNumber" ><i class="fa fa-check"></i></button>
+                      <button type="button" class="btn btn-sm btn-outline btn-primary" [disabled]="!locationEntity.WarehouseLocationCode || !locationEntity.WarehouseLocationName || locationEntity.WarehouseLocationLength<0 || locationEntity.WarehouseLocationWidth<0 || locationEntity.WarehouseLocationHeight<0" (click)="validateItem(locationEntity)" *ngIf="i+1 === EditRowNumber" ><i class="fa fa-check"></i></button>
                       <button type="button" class="btn btn-sm btn-outline btn-success" (click)="fnEditItem(i)"*ngIf="i+1 !== EditRowNumber"><i class="fa fa-pencil"></i></button>
                       <button type="button" class="btn btn-sm btn-outline btn-danger" (click)="fnDeleteItem(i)" *ngIf="i+1 !== EditRowNumber"><i class="fa fa-trash"></i></button>
                     </div>                        
@@ -257,9 +279,9 @@
                   <td> {{entity.WarehouseLocation.length+1}} </td>
                   <td> <input autocomplete="off" type="text" class="form-control" name="newWarehouseLocationCode" id="newWarehouseLocationCode" [(ngModel)]="newLocationEntity.WarehouseLocationCode"> </td>
                   <td> <input autocomplete="off" type="text" class="form-control" name="newWarehouseLocationName" id="newWarehouseLocationName" [(ngModel)]="newLocationEntity.WarehouseLocationName"> </td>
-                  <td> <input autocomplete="off" type="number" class="form-control" name="newWarehouseLocationLength" id="newWarehouseLocationLength" [(ngModel)]="newLocationEntity.WarehouseLocationLength"> </td>
-                  <td> <input autocomplete="off" type="number" class="form-control" name="newWarehouseLocationWidth" id="newWarehouseLocationWidth" [(ngModel)]="newLocationEntity.WarehouseLocationWidth"> </td>
-                  <td> <input autocomplete="off" type="number" class="form-control" name="newWarehouseLocationHeight" id="newWarehouseLocationHeight" [(ngModel)]="newLocationEntity.WarehouseLocationHeight"> </td>
+                  <td> <input autocomplete="off" type="number" min="0" class="form-control" name="newWarehouseLocationLength" id="newWarehouseLocationLength" [(ngModel)]="newLocationEntity.WarehouseLocationLength" [ngClass]="{ 'is-invalid': newLocationEntity.WarehouseLocationLength<0}"> </td>
+                  <td> <input autocomplete="off" type="number" min="0" class="form-control" name="newWarehouseLocationWidth" id="newWarehouseLocationWidth" [(ngModel)]="newLocationEntity.WarehouseLocationWidth" [ngClass]="{ 'is-invalid': newLocationEntity.WarehouseLocationWidth<0}"> </td>
+                  <td> <input autocomplete="off" type="number" min="0" class="form-control" name="newWarehouseLocationHeight" id="newWarehouseLocationHeight" [(ngModel)]="newLocationEntity.WarehouseLocationHeight" [ngClass]="{ 'is-invalid': newLocationEntity.WarehouseLocationHeight<0}"> </td>
                   <td>
                     <div class="switch">
                       <div class="onoffswitch">
@@ -272,7 +294,7 @@
                     </div>
                   </td>
                   <td>
-                    <button type="button" class="btn  btn-sm btn-outline btn-info pull-right" (click)="fnAddItem()" [disabled]="!newLocationEntity.WarehouseLocationCode || !newLocationEntity.WarehouseLocationName"><i class="fa fa-plus"></i> </button>
+                    <button type="button" class="btn  btn-sm btn-outline btn-info pull-right" (click)="fnAddItem()" [disabled]="!newLocationEntity.WarehouseLocationCode || !newLocationEntity.WarehouseLocationName || newLocationEntity.WarehouseLocationLength<0 || newLocationEntity.WarehouseLocationHeight<0 || newLocationEntity.WarehouseHeight<0"><i class="fa fa-plus"></i> </button>
                   </td>
                 </tr>
 
