@@ -62,9 +62,9 @@
               <div class="pull-right">
                <label for="">{{ 'Warehouse.label.SearchTitle' | translate}}</label> 
                 <div class="input-group">
-                    <input type="text"  class="form-control input-lg" placeholder="{{ 'Warehouse.label.SearchText' | translate}}" name="search"  [(ngModel)]="keyword"  (keyup)="$event.keyCode === 13 && loadInit()" >
+                    <input type="text"  class="form-control input-lg" placeholder="{{ 'Warehouse.label.SearchText' | translate}}" name="search"  [(ngModel)]="keyword"  (keyup)="$event.keyCode === 13  && searchLoad()" >
                     <div class="input-group-btn">
-                        <button class="btn btn-lg btn-primary" type="submit" (click)="loadInit()">
+                        <button class="btn btn-lg btn-primary" type="submit" (click)="searchLoad()">
                             <i class="fa fa-search"></i>
                         </button>
                     </div>

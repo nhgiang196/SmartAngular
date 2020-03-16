@@ -64,6 +64,11 @@ export class WarehouseComponent implements OnInit {
       this.initCombobox.Users= res;
     }, err => this.toastr.warning('Get users Failed, check network'))
   }
+  searchLoad(){
+    this.page=1;
+    this.loadInit();
+
+  }
 
   loadInit() { //init loading
     this.iboxloading = true;
