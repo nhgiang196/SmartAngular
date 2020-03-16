@@ -182,7 +182,7 @@ export class WaterTreatmentService {
    getBomFactory =() => this.http.get(`${ApiUrl}/BomFactory/GetBomFactory` );
    findBomFactoryById =(id) => this.http.get<any>(`${ApiUrl}/BomFactory/FindBomFactoryById?id=${id}` );
    validateBomFactory =(entity) =>this.http.post(`${ApiUrl}/BomFactory/ValidateBomFactory`,entity);
-
+   getAllUnitByItemId =(id) => this.http.get<any>(`${ApiUrl}/BomFactory/GetAllUnitByItemId?id=${id}` );
 
   //Item Services
   addItem =(entity) => this.http.post(`${ApiUrl}/Item/AddItem`,entity);

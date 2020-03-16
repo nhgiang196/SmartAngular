@@ -33,7 +33,7 @@ export class BomListComponent implements OnInit {
   @ViewChild(DataTableDirective)
   dtElement: DataTableDirective;
   dtTrigger: Subject<any> = new Subject();
-
+  initComboboxFactories = { Factories: [], FullFactories: [], FactoriesCopy:[]};
   BomFactorys: BomFactory[];
   // Default load data
   entity: BomFactory;
@@ -68,14 +68,7 @@ export class BomListComponent implements OnInit {
     await this.loadStages();
     await this.loadItems();
     
-    let self = this;
-    $('#modalIn').on('hide.bs.modal', function () {
-      self.rerender();
-    })
-    $('#modalOut').on('hide.bs.modal', function () {
-      self.rerender();
-    })
-
+   
   }
   private resetEntity() {
     this.entity = new BomFactory();
@@ -171,7 +164,10 @@ export class BomListComponent implements OnInit {
       .getFactoryPagination(keySearch)
       .toPromise()
       .then();
-    this.factories = data.result;
+    // this.factories = data.result.filter(x=>x.Status==true);
+    this.initComboboxFactories.Factories = ( data as any).result.filter(x=>x.Status ==1) as Factory[];
+    this.initComboboxFactories.FullFactories = ( data as any).result as Factory[];
+    this.initComboboxFactories.FactoriesCopy =  ( data as any).result.filter(x=>x.Status ==1) as Factory[];
   }
   async loadStages() {
     let keySearch = "";
@@ -248,10 +244,12 @@ export class BomListComponent implements OnInit {
       item.StageName = item.Stage.StageName;
       item.BomItemOut.forEach(itemBomOut=>{
         itemBomOut.Status =true;
+        itemBomOut.IsNew =false;
         itemBomOut.ItemName = itemBomOut.Item.ItemName;
         itemBomOut.UnitName = itemBomOut.Unit.UnitName;
         itemBomOut.BomItemIn.forEach(itemBomIn=>{
           itemBomIn.Status =true;
+          itemBomIn.IsNew =false;
           itemBomIn.ItemName = itemBomIn.Item.ItemName;
           itemBomIn.UnitName = itemBomIn.Unit.UnitName;
           return itemBomIn;
@@ -271,8 +269,17 @@ export class BomListComponent implements OnInit {
       this.iboxloading = true;
       this.api.findBomFactoryById(id).subscribe(
         res => {
-
+          console.log(res);
           this.entity = res;
+          if(this.initComboboxFactories.Factories.find(x=>x.FactoryId == res.FactoryId&& x.isCopy !=true)==null){
+            let item = this.initComboboxFactories.FullFactories.find(x=>x.FactoryId == res.FactoryId)
+            this.initComboboxFactories.Factories= this.initComboboxFactories.Factories.concat([{FactoryId:item.FactoryId,FactoryName:item.FactoryName,isCopy:true}])
+          }
+          else{
+            this.initComboboxFactories.Factories = this.initComboboxFactories.FactoriesCopy;
+          }
+          console.log(this.initComboboxFactories);
+
           this.customEntityUpdated();
           //debugger
           $("#modalStages").modal("show");

@@ -23,7 +23,7 @@
                 <label> {{ "BomFactory.FactoryId" | translate }} : *</label>
                 <ng-select
                   class="custom"
-                  [items]="factories"
+                  [items]="initComboboxFactories.Factories"
                   bindLabel="FactoryName"
                   bindValue="FactoryId"
                   placeholder="select factory"
@@ -324,4 +324,4 @@
 
 
 <!-- Modal định mức hóa chất -->
-<app-bom-item-out-modal [entity]="entity" [units] ="units" [currentStageId]="currentStageId"></app-bom-item-out-modal>
+<app-bom-item-out-modal [entity]="entity" [units] ="units" [currentStageId]="currentStageId" (isLoadData)="isLoadData.emit(true)"></app-bom-item-out-modal>

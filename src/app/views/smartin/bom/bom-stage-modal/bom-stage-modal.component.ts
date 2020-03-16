@@ -27,7 +27,7 @@ declare let $: any;
 export class BomStageModalComponent implements OnInit {
   @Input() entity: BomFactory;
   @Input() action: string;
-  @Input() factories: Factory[];
+  @Input() initComboboxFactories: any;
   @Input() stages: Stage[] = [];
   @Input() units: Unit[] = [];
   @Output() isLoadData = new EventEmitter<boolean>();
@@ -51,7 +51,6 @@ export class BomStageModalComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    console.log(this.factories);
     this.resetEntity();
   }
 
