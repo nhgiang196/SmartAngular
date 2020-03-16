@@ -213,6 +213,7 @@ export class WaterTreatmentService {
     pr.specialCondition = ` EXISTS( SELECT * FROM ItemFile jk WHERE jk.IsImage=1 AND jk.ItemId= q.ItemId) `;
     return this.http.post<any>(`${ApiUrl}/Item/GetItemPagination`,pr );
   }
+  
   getSelect2ItemPagination =(params) =>{
     return this.http.get<any>(`${ApiUrl}/Item/GetSelect2ItemPagination`,{ params: params } );
   }
@@ -308,5 +309,12 @@ export class WaterTreatmentService {
    getMonitor =() => this.http.get(`${ApiUrl}/Monitor/GetMonitor` );
    findMonitorById =(id) => this.http.get<any>(`${ApiUrl}/Monitor/FindMonitorById?id=${id}` );
    validateMonitor =(entity) =>this.http.post(`${ApiUrl}/Monitor/ValidateStage`,entity);
+
+
+   /**UI module */
+
+   getItemPagination_Smart=(entity: DataTablePaginationParams)=>{
+    return this.http.post<any>(`${ApiUrl}/Item/GetSelectItemPagination_Smart`,entity );
+  }
 
 }

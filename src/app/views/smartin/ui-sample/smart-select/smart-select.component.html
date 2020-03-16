@@ -3,16 +3,33 @@
 
 <ng-select class="custom" 
  [items]="itemsBuffer" 
+ bindValue="id"
+ bindLabel="text"
  [virtualScroll]="true" 
  [loading]="loading"
- (change)="newBomItem.ItemName =   $event? $event.ItemName :''" appendTo="body" 
- (scroll)="onScroll($event)" (scrollToEnd)="onScrollToEnd()" bindLabel="ItemName"
- [searchFn]="customSearchFn"
+ (change)="chooseItem.text =   $event? $event.text :''" appendTo="body" 
+ (scroll)="onScroll($event)" 
+
  [typeahead]="input$"
- bindValue="ItemId" autofocus placeholder="{{'BomFactory.BomItem.ItemId' | translate}}"
- [(ngModel)]="newBomItem.ItemId" name="ItemId" id="ItemId" required>
+ (scrollToEnd)="onScrollToEnd()" 
+ autofocus 
+
+
+ 
+ [placeholder]="translatePlaceholder || ''"
+ 
+ name="id" 
+ id="id" 
+ required>
  <ng-template ng-header-tmp>
    <small class="form-text text-muted">Loaded {{itemsBuffer.length}} of {{items.length}}</small>
  </ng-template>
 </ng-select>
 
+
+<!-- +
+
+   [searchFn]="customSearchFn"
+
+
+-->

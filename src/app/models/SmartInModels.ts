@@ -450,9 +450,9 @@ export class UI_CustomFile{
 }
 
 
-
-
-
-
+export class SmartItem {
+  id: number 
+  text: string 
+}
 
 
