@@ -51,8 +51,7 @@ export class FactoryComponent implements OnInit {
   factory_showed = 0;
   invalid: any = { FactoryCodeNull: false, FactoryCodeExist: false, FactoryNameNull: false, FactoryNameExist: false };
   EditRowNumber: number = 0;
-  pageIndex = 1;
-  pageSize = 10;
+  dtOptions: DataTables.Settings = {};
   ngOnInit() {
     this.resetEntity();
     this.loadInit();
@@ -61,7 +60,7 @@ export class FactoryComponent implements OnInit {
   loadInit() {
     this.iboxloading = true;
     this.EditRowNumber = 0;
-    this.api.getFactoryPaginationMain(this.keyword, this.pageIndex, this.pageSize ).subscribe(res => {
+    this.api.getFactoryPagination(this.keyword).subscribe(res => {
       var data = res as any;
       this.factory = data.result;
       this.factory_showed = data.totalCount;
@@ -71,7 +70,7 @@ export class FactoryComponent implements OnInit {
       this.iboxloading = false;
     })
   }
-
+ 
   private resetEntity() {
     this.entity = new Factory();
     this.tech_entity = new FactoryTechnology();
