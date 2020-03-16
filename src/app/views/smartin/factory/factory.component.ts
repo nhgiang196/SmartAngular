@@ -51,7 +51,8 @@ export class FactoryComponent implements OnInit {
   factory_showed = 0;
   invalid: any = { FactoryCodeNull: false, FactoryCodeExist: false, FactoryNameNull: false, FactoryNameExist: false };
   EditRowNumber: number = 0;
-  dtOptions: DataTables.Settings = {};
+  pageIndex = 1;
+  pageSize = 10;
   ngOnInit() {
     this.resetEntity();
     this.loadInit();
@@ -60,7 +61,7 @@ export class FactoryComponent implements OnInit {
   loadInit() {
     this.iboxloading = true;
     this.EditRowNumber = 0;
-    this.api.getFactoryPagination(this.keyword).subscribe(res => {
+    this.api.getFactoryPaginationMain(this.keyword, this.pageIndex, this.pageSize ).subscribe(res => {
       var data = res as any;
       this.factory = data.result;
       this.factory_showed = data.totalCount;
@@ -70,66 +71,7 @@ export class FactoryComponent implements OnInit {
       this.iboxloading = false;
     })
   }
-  loadData = async()=> {
-    this.dtOptions = {//Cau hinh datatable
-      autoWidth: true,
-      responsive: true,
-      serverSide: true,
-      paging: true,
-      stateSave: true,
-      pagingType: 'full_numbers',
-      search: { regex: true },
-      processing: true,
-      pageLength: 10,
-      columns: [ //khai du cot de render datatable lai nhan du
-        { data: 'FactoryId' },
-        { data: 'FactoryAddress' },
-        { data: 'FactoryContact' },
-        { data: 'ContactPhone' },
-        { data: 'FactoryType' },
-        { data: 'Status' },
-        { data: null },
-      ],
 
-      ajax: (dataTablesParameters: any, callback) => {
-        this.dtOptions.ajax= (dataTablesParameters: any, callback) => {//chèn lại ajax ở một vị trí duy nhất khi định nghĩa
-           this.api.getFactoryPagination(dataTablesParameters).subscribe(res => {
-            var data = res as any;
-            this.factory = data.result;
-            console.log(this.factory);
-            //this.recordStart = dataTablesParameters.start;
-            callback({
-              recordsTotal: res.recordsTotal,
-              recordsFiltered: res.recordsFiltered,
-              data: []
-            });
-          })
-        }
-      },
-      language:
-      {
-        searchPlaceholder: this.trans.instant('DefaultTable.searchPlaceholder'),
-        emptyTable: this.trans.instant('DefaultTable.emptyTable'),
-        info: this.trans.instant('DefaultTable.info'),
-        infoEmpty: this.trans.instant('DefaultTable.infoEmpty'),
-        infoFiltered: this.trans.instant('DefaultTable.infoFiltered'),
-        infoPostFix: this.trans.instant('DefaultTable.infoPostFix'),
-        thousands: this.trans.instant('DefaultTable.thousands'),
-        lengthMenu: this.trans.instant('DefaultTable.lengthMenu'),
-        loadingRecords: this.trans.instant('DefaultTable.loadingRecords'),
-        processing: this.trans.instant('DefaultTable.processing'),
-        search: this.trans.instant('DefaultTable.search'),
-        zeroRecords: this.trans.instant('DefaultTable.zeroRecords'),
-        //url: this.trans.instant('DefaultTable.url'),
-        paginate: {
-          first: '<<',
-          last: ">>",
-          next: ">",
-          previous: "<"
-        }
-      }
-    };
-  }
   private resetEntity() {
     this.entity = new Factory();
     this.tech_entity = new FactoryTechnology();
