@@ -53,6 +53,7 @@
 
                     <td *ngIf="i + 1 === editRowId">
                       <ng-select
+                      autocomplete="off"
                         dropdownPosition="bottom"
                         class="custom"
                         [items]="items"
@@ -69,6 +70,7 @@
                     <td *ngIf="i + 1 === editRowId">
                       <ng-select
                         class="custom"
+                        autocomplete="off"
                         [items]="units"
                         bindLabel="UnitName"
                         bindValue="UnitId"
@@ -83,6 +85,7 @@
                     <td *ngIf="i + 1 === editRowId">
                       <input
                         type="number"
+                        autocomplete="off"
                         class="form-control"
                         name="Quantity"
                         id="Quantity"
@@ -131,6 +134,7 @@
                     <td>
                       <!-- //[typeahead]="input$" -->
                       <ng-select class="custom" 
+                      autocomplete="off"
                         [items]="itemsBuffer" 
                         [virtualScroll]="true" 
                         [loading]="loading"
@@ -147,7 +151,7 @@
 
                     </td>
                     <td>
-                      <ng-select class="custom" [items]="units" bindLabel="UnitName" bindValue="UnitId"
+                      <ng-select autocomplete="off" class="custom" [items]="units" bindLabel="UnitName" bindValue="UnitId"
                         placeholder="{{'Item.placeholdercolumn.ItemPackageUnitId' | translate }}" name="outUnitId"
                         required [(ngModel)]="newBomItem.UnitId"
                         (change)="newBomItem.UnitName =  $event? $event.UnitName :'' ">
