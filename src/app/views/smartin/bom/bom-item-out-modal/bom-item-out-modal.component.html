@@ -63,6 +63,7 @@
                         name="BomStageId"
                         (change)="fnChangeItem($event)"
                         id="BomStageId"
+                        autocomplete="off"
                         [(ngModel)]="outBomItem.ItemId"
                       >
                       </ng-select>
@@ -75,6 +76,7 @@
                         bindValue="UnitId"
                         placeholder="{{'Item.placeholdercolumn.ItemPackageUnitId' | translate}}"
                         name="inUnitId"
+                        autocomplete="off"
                         [(ngModel)]="outBomItem.UnitId"
                         (change)="$event != null? (outBomItem.UnitName = $event.UnitName): null"
                       >
@@ -87,6 +89,7 @@
                         class="form-control"
                         name="Quantity"
                         id="Quantity"
+                        autocomplete="off"
                         min="0"
                         (change)="( $event.target.value < 0 || $event.target.value == '')? outBomItem.Quantity=0: outBomItem.Quantity"
                         [(ngModel)]="outBomItem.Quantity"
@@ -139,6 +142,7 @@
                     <td>
                       <!-- //[typeahead]="input$" -->
                       <ng-select class="custom" 
+                      autocomplete="off"
                         [items]="itemsBuffer" 
                         [virtualScroll]="true" 
                         [loading]="loading"
@@ -164,6 +168,7 @@
                     </td>
                     <td>
                       <input
+                      autocomplete="off"
                         type="number"
                         class="form-control"
                         name="newQuantity"
