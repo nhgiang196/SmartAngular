@@ -38,10 +38,6 @@ export class BomItemInModalComponent implements OnInit {
   inBomItem: BomItemIn;
   newBomItem: BomItemIn;
   //config
-  input$ = new Subject<string>();
-  numberOfItemsFromEndBeforeFetchingMore = 10;
-  loading = false;
-  bufferSize = 50;
   editRowId: number = 0;
   laddaSubmitLoading = false;
   constructor(
@@ -51,9 +47,7 @@ export class BomItemInModalComponent implements OnInit {
   ) {}
 
   async ngOnInit() {
-    this.onSearch(); // for search in server
     this.resetEntity();
-    await this.loadItems();
   }
 
   private resetEntity() {
@@ -156,71 +150,6 @@ export class BomItemInModalComponent implements OnInit {
   fnDeleteInBomItem(index) {
     //press delete item (in modal)
     this.entity.BomStage[this.currentStageId].BomItemOut[this.parentOutId].BomItemIn.splice(index, 1);
-  }
-
-  async loadItems() {
-    let keySearch = "";
-    let data: any = await this.api
-      .getItemPagination(keySearch)
-      .toPromise()
-      .then();
-    this.items = data.result;
-    console.log("records: " + data.result.length);
-    this.itemsBuffer = this.items.slice(0, this.bufferSize);
-  }
-  onSearch() {
-    //ng-select
-    this.input$
-      .pipe(
-        debounceTime(200),
-        distinctUntilChanged(),
-        switchMap(term => this.fakeService(term))
-      )
-      .subscribe(data => {
-        this.itemsBuffer = data.slice(0, this.bufferSize);
-      });
-  }
-  private fakeService(term) {
-    //ng-select
-    let data = this.api.getItemPagination(term).pipe(
-      map(data => {
-        return data.result.filter((x: { ItemName: string }) =>
-          x.ItemName.includes(term)
-        );
-      })
-    );
-    return data;
-  }
-  customSearchFn(term: string, item: Item) {
-    //ng-select
-    term = term.toLowerCase();
-    return item.ItemName.toLowerCase().indexOf(term) > -1;
-  }
-
-  onScrollToEnd() {
-    //ng-select
-    this.fetchMore();
-  }
-
-  onScroll({ end }) {
-    //ng-select
-    if (this.loading || this.items.length <= this.itemsBuffer.length) return;
-    if (
-      end + this.numberOfItemsFromEndBeforeFetchingMore >=
-      this.itemsBuffer.length
-    )
-      this.fetchMore();
-  }
-  private fetchMore() {
-    //ng-select
-    const len = this.itemsBuffer.length;
-    const more = this.items.slice(len, this.bufferSize + len);
-    this.loading = true;
-    // using timeout here to simulate backend API delay
-    setTimeout(() => {
-      this.loading = false;
-      this.itemsBuffer = this.itemsBuffer.concat(more);
-    }, 200);
   }
 
   fnReset() {

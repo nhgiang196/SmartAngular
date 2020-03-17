@@ -39,10 +39,6 @@
                     <td *ngIf="i + 1 !== editRowId">{{ item.Quantity }}</td>
 
                     <td *ngIf="i + 1 === editRowId">
-                      <!-- <ng-select dropdownPosition="bottom" class="custom" [items]="items" bindLabel="ItemName"
-                        bindValue="ItemId" placeholder="{{'BomFactory.BomItem.ItemId' | translate}}" name="BomStageId2"
-                        (change)="fnChangeItem($event)" id="BomStageId2" [(ngModel)]="inBomItem.ItemId">
-                      </ng-select> -->
                       <app-smart-select   
                       name="3"  
                       listName="Item"
@@ -51,11 +47,6 @@
                       placeholder="{{'BomFactory.BomItem.ItemId' | translate}}"></app-smart-select>
                     </td>
                     <td *ngIf="i + 1 === editRowId">
-                      <!-- <ng-select class="custom" [items]="units" bindLabel="UnitName" bindValue="UnitId"
-                        placeholder="{{'Item.placeholdercolumn.ItemPackageUnitId' | translate}}" name="inUnitId"
-                        [(ngModel)]="inBomItem.UnitId"
-                        (change)="$event != null? (inBomItem.UnitName = $event.UnitName): null">
-                      </ng-select> -->
                       <app-smart-select 
                       name="4" 
                       listName="Unit"  
@@ -93,17 +84,6 @@
                 <tr>
                   <td>{{ bomItems.length + 1 }}</td>
                   <td>
-                    <!-- //[typeahead]="input$" -->
-                    <!-- <ng-select class="custom" [items]="itemsBuffer" [virtualScroll]="true" [loading]="loading"
-                      (change)="fnChangeNewRecordItem($event)" appendTo="body" (scroll)="onScroll($event)"
-                      (scrollToEnd)="onScrollToEnd()" bindLabel="ItemName" [searchFn]="customSearchFn"
-                      [typeahead]="input$" bindValue="ItemId" autofocus
-                      placeholder="{{'BomFactory.BomItem.ItemId' | translate}}" [(ngModel)]="newBomItem.ItemId"
-                      name="ItemId" id="ItemId" required>
-                      <ng-template ng-header-tmp>
-                        <small class="form-text text-muted">Loaded {{itemsBuffer.length}} of {{items.length}}</small>
-                      </ng-template>
-                    </ng-select> -->
                       <app-smart-select   
                       name="3"  
                       listName="Item"
@@ -114,11 +94,6 @@
 
                   </td>
                   <td>
-                    <!-- <ng-select class="custom" [items]="units" bindLabel="UnitName" bindValue="UnitId"
-                      placeholder="{{'Item.placeholdercolumn.ItemPackageUnitId' | translate }}" name="outUnitId"
-                      required [(ngModel)]="newBomItem.UnitId"
-                      (change)="newBomItem.UnitName =  $event? $event.UnitName :'' ">
-                    </ng-select> -->
                     <app-smart-select 
                        name="4" 
                        listName="Unit"  
