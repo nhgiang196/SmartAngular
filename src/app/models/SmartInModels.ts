@@ -27,6 +27,7 @@ export class FactoryTechnology {
   TechnologyDescription: string
   TechnologyName: string
   IsCurrent: boolean = true
+  isNew: boolean = true
 
 }
 export class FactoryFile {

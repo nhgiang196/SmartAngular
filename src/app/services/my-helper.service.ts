@@ -53,7 +53,7 @@ export class MyHelperService {
   * Get FileName with structure yyy-mm-dd...
   */
   removeFileNameWithExtension(fileName) {
-    //'2020022713380245'.length == 16 
+    //'2020022713380245'.length == 16
     var Extension = fileName.slice(fileName.lastIndexOf(".") + 1);
     var FileName =fileName.substring(fileName.lastIndexOf(".")-16, 0);
     return FileName + Extension;
@@ -89,7 +89,7 @@ export class MyHelperService {
     var ss = today.getSeconds();
     var iii = today.getMilliseconds();
     return yyyy + mm + dd + HH + MM + ss + iii;
-    
+
   }
 
   getCurrentDate() {
@@ -133,4 +133,5 @@ export class MyHelperService {
     return yyyy ;
 
   }
+
 }
