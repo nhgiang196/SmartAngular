@@ -32,10 +32,19 @@ export class WaterTreatmentService {
     return this.http.post(`${ApiUrl}/Factory/GetFactoryPagination`, pr);
   }
 
+  getFactoryPaginationMain(keyvalue, pageIndex, pageSize) {
+    let pr = new DataTablePaginationParams();
+    pr.keyFields="FactoryName ,FactoryAddress,FactoryContact,ContactPhone"
+    pr.key = keyvalue;
+    pr.page = pageIndex<1? 1 : pageIndex;
+    pr.pageSize = pageSize;
+    return this.http.post(`${ApiUrl}/Factory/GetFactoryPagination`, pr);
+  }
   getFactoryPagination(keyvalue) {
     let pr = new DataTablePaginationParams();
     pr.keyFields="FactoryName ,FactoryAddress,FactoryContact,ContactPhone"
     pr.key = keyvalue;
+
     pr.pageSize = 9999;
     return this.http.post(`${ApiUrl}/Factory/GetFactoryPagination`, pr);
   }
@@ -65,13 +74,15 @@ export class WaterTreatmentService {
   }
 
   /** WAREHOUSE */
-  getWarehousePagination =(keyvalue) => { // Note: BA yêu cầu gửi Parram như thế này
+  getWarehousePagination =(keyvalue, page, pageSize) => { // Note: BA yêu cầu gửi Parram như thế này
     let pr = new DataTablePaginationParams();
     pr.keyFields="WarehouseCode,WarehouseName,WarehouseAddress,WarehouseType,WarehouseUserName,w.Status";
     pr.selectFields = " WarehouseId, WarehouseCode, WarehouseName, f.FactoryName, WarehouseType, WarehouseAddress, WarehouseUserName, u.NormalizedUserName , w.Status ";
     pr.entity = `Warehouse w LEFT JOIN [BCM_Auth].dbo.AspNetUsers u ON u.UserName= w.WarehouseUserName
                       LEFT JOIN Factory f ON f.FactoryId = w.FactoryId`;
     pr.key = keyvalue;
+    pr.page = page<1? 1 : page;
+    pr.pageSize = pageSize;
     return this.http.post<any>(`${ApiUrl}/Warehouse/GetWarehousePagination`,pr);
   };
   getWarehouse =() => this.http.get(`${ApiUrl}/Warehouse/GetWarehouse` );
@@ -161,7 +172,7 @@ export class WaterTreatmentService {
       key: keySearch,
       entity: "Stage",
       keyFields: "",
-      selectFields: "StageId,StageCode,StageName",
+      selectFields: "StageId,StageCode,StageName,Status",
       page: 1,
       pageSize: 9999,
       orderDir: "asc",
@@ -182,7 +193,7 @@ export class WaterTreatmentService {
    getBomFactory =() => this.http.get(`${ApiUrl}/BomFactory/GetBomFactory` );
    findBomFactoryById =(id) => this.http.get<any>(`${ApiUrl}/BomFactory/FindBomFactoryById?id=${id}` );
    validateBomFactory =(entity) =>this.http.post(`${ApiUrl}/BomFactory/ValidateBomFactory`,entity);
-
+   getAllUnitByItemId =(id) => this.http.get<any>(`${ApiUrl}/BomFactory/GetAllUnitByItemId?id=${id}` );
 
   //Item Services
   addItem =(entity) => this.http.post(`${ApiUrl}/Item/AddItem`,entity);
@@ -211,6 +222,7 @@ export class WaterTreatmentService {
     pr.specialCondition = ` EXISTS( SELECT * FROM ItemFile jk WHERE jk.IsImage=1 AND jk.ItemId= q.ItemId) `;
     return this.http.post<any>(`${ApiUrl}/Item/GetItemPagination`,pr );
   }
+  
   getSelect2ItemPagination =(params) =>{
     return this.http.get<any>(`${ApiUrl}/Item/GetSelect2ItemPagination`,{ params: params } );
   }
@@ -305,5 +317,12 @@ export class WaterTreatmentService {
    getMonitor =() => this.http.get(`${ApiUrl}/Monitor/GetMonitor` );
    findMonitorById =(id) => this.http.get<any>(`${ApiUrl}/Monitor/FindMonitorById?id=${id}` );
    validateMonitor =(entity) =>this.http.post(`${ApiUrl}/Monitor/ValidateStage`,entity);
+
+
+   /**UI module */
+
+   getItemPagination_Smart=(entity: DataTablePaginationParams)=>{
+    return this.http.post<any>(`${ApiUrl}/Item/GetSelectItemPagination_Smart`,entity );
+  }
 
 }

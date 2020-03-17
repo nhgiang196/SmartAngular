@@ -59,12 +59,12 @@
                     <td style="text-align: left"> {{monitor.FactoryName | uppercase}}</td>
                     <td style="text-align: left"> {{monitor.ValidateDateFrom | amDateFormat: "YYYY-MM-DD HH:mm"}}</td>
                     <td style="text-align: left"> {{monitor.ValidateDateTo | amDateFormat: "YYYY-MM-DD HH:mm"}}</td>
-                    <td style="text-align: left"> {{monitor.TemperatureMax}}</td>
+                    <td style="text-align: left"> {{monitor.TemperatureMin}}-{{monitor.TemperatureMax}}</td>
                     <td style="text-align: left"> {{monitor.pHMin}}-{{monitor.pHMax}}</td>
-                    <td style="text-align: left"> {{monitor.CODMax}}</td>
-                    <td style="text-align: left"> {{monitor.TSSMax}}</td>
-                    <td style="text-align: left"> {{monitor.ColorMax}}</td>
-                    <td style="text-align: left"> {{monitor.AmoniMax}}</td>
+                    <td style="text-align: left"> {{monitor.CODMin}}-{{monitor.CODMax}}</td>
+                    <td style="text-align: left"> {{monitor.TSSMin}}-{{monitor.TSSMax}}</td>
+                    <td style="text-align: left"> {{monitor.ColorMin}}-{{monitor.ColorMax}}</td>
+                    <td style="text-align: left"> {{monitor.AmoniMin}}-{{monitor.AmoniMax}}</td>
                     <td style="text-align: left"> {{monitor.MonitorStandardDesc}}</td>
                     <td>
                       <button type="button" class="btn btn-outline btn-danger"  (click)="fnDelete(monitor.MonitorStandardId)"><i
@@ -107,7 +107,6 @@
               <div class="form-group" >
                 <label> Factory Code :* </label>
                 <ng-select [items]="initCombobox.Factories" bindLabel="FactoryName" bindValue="FactoryId" [(ngModel)]="entity.FactoryId"
-                [disabled] ="isDisable"
                     class="custom" placeholder="Input Factory Name" name="FactoryId"
                     required></ng-select>
               </div>
@@ -126,34 +125,34 @@
                 <div class="row">
                 <div class="col-lg-6">
                   <input
-                  type="text"
-                  name="ValidateDateFrom"
-                  id="ValidateDateFrom"
-                  class="form-control"
-                  bsDatepicker
-                  readonly
-                  [bsConfig]="bsConfig"
-                  placeholder="Date From"
-                  [(ngModel)]= "entity.ValidateDateFrom"
-                  (ngModelChange)="reSetExistName()"
-                  [ngClass]="{ 'is-invalid': existName }"
-                  required
+                    type="text"
+                    name="ValidateDateFrom"
+                    id="ValidateDateFrom"
+                    class="form-control"
+                    bsDatepicker
+                    readonly
+                    [bsConfig]="bsConfig"
+                    placeholder="Date From"
+                    [(ngModel)]= "entity.ValidateDateFrom"
+                    (ngModelChange)="reSetExistName()"
+                    [ngClass]="{ 'is-invalid': existName }"
+                    required
                 />
                 </div>
                 <div class="col-lg-6">
                   <input
-                  type="text"
-                  name="ValidateDateTo"
-                  id="ValidateDateTo"
-                  class="form-control"
-                  bsDatepicker
-                  readonly
-                  [bsConfig]="bsConfig"
-                  placeholder="Date To"
-                  [(ngModel)]= "entity.ValidateDateTo"
-                  (ngModelChange)="reSetExistName()"
-                  [ngClass]="{ 'is-invalid': existName }"
-                  required
+                    type="text"
+                    name="ValidateDateTo"
+                    id="ValidateDateTo"
+                    class="form-control"
+                    bsDatepicker
+                    readonly
+                    [bsConfig]="bsConfig"
+                    placeholder="Date To"
+                    [(ngModel)]= "entity.ValidateDateTo"
+                    (ngModelChange)="reSetExistName()"
+                    [ngClass]="{ 'is-invalid': existName }"
+                    required
                 />
                 </div>
                 </div>

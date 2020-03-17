@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from "@angular/core";
+import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
 import {
   Item,
   BomItemOut,
@@ -27,6 +27,7 @@ export class BomItemOutModalComponent implements OnInit {
   @Input() entity: BomFactory;
   @Input() units: Unit[] = [];
   @Input() currentStageId: number;
+  @Output() isLoadData = new EventEmitter<boolean>();
   //const
   itemsBuffer: Item[] = [];
   items: Item[] = [];
@@ -122,6 +123,34 @@ export class BomItemOutModalComponent implements OnInit {
     if (typeAction == "edit") this.editRowId = 0;
     return true;
   }
+
+  fnChangeItem(event:any){
+    this.outBomItem = new BomItemOut();
+    if(event != null)
+    {
+      this.outBomItem.ItemName = event.ItemName;
+      this.outBomItem.ItemId = event.ItemId;
+      this.api.getAllUnitByItemId(event.ItemId).subscribe(res=>{
+        this.units = [];
+        this.units = res.result;
+      });
+    }
+
+  }
+
+  fnChangeNewRecordItem(event:any){
+    this.newBomItemOut = new BomItemOut();
+    if(event != null)
+    {
+      this.newBomItemOut.ItemName = event.ItemName;
+      this.newBomItemOut.ItemId = event.ItemId;
+      this.api.getAllUnitByItemId(event.ItemId).subscribe(res=>{
+        this.units = res.result;
+      });
+    }
+
+  }
+
   fnEditOutBomItem(index) {
     //press edit item (in modal)
     this.editRowId = index + 1;
@@ -133,7 +162,7 @@ export class BomItemOutModalComponent implements OnInit {
 
   fnSaveOutBomItem(index) {
     if (this.fnValidateBomItemOut(this.outBomItem,'edit')) {
-      
+
       this.outBomItem.IsNew = true;
       this.entity.BomStage[this.currentStageId].BomItemOut[
         index
@@ -191,8 +220,6 @@ export class BomItemOutModalComponent implements OnInit {
     $("#modalStages").modal("show");
   }
   fnSaveBomItemOut() {
-    // this.entity.BomStage[this.currentStageId].BomItemOut = this.outBomItems;
-    // this.outBomItems = [];
     this.entity.BomStage[this.currentStageId].BomItemOut.forEach(item => {
       item.Status = true;
       item.IsNew = false;

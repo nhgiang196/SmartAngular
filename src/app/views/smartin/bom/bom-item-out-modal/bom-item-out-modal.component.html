@@ -14,6 +14,7 @@
           type="button"
           class="close"
           data-dismiss="modal"
+          (click)="isLoadData.emit(true)"
         >
           <span aria-hidden="true">&times;</span
           ><span class="sr-only">Close</span>
@@ -60,8 +61,9 @@
                         bindValue="ItemId"
                         placeholder="{{'BomFactory.BomItem.ItemId' | translate}}"
                         name="BomStageId"
-                        (change)="$event != null? (outBomItem.ItemName = $event.ItemName): null"
+                        (change)="fnChangeItem($event)"
                         id="BomStageId"
+                        autocomplete="off"
                         [(ngModel)]="outBomItem.ItemId"
                       >
                       </ng-select>
@@ -74,6 +76,7 @@
                         bindValue="UnitId"
                         placeholder="{{'Item.placeholdercolumn.ItemPackageUnitId' | translate}}"
                         name="inUnitId"
+                        autocomplete="off"
                         [(ngModel)]="outBomItem.UnitId"
                         (change)="$event != null? (outBomItem.UnitName = $event.UnitName): null"
                       >
@@ -86,8 +89,9 @@
                         class="form-control"
                         name="Quantity"
                         id="Quantity"
+                        autocomplete="off"
                         min="0"
-                        (change)="( $event.target.value < 0 || $event.target.value == '')? (outBomItem.Quantity): outBomItem.Quantity"
+                        (change)="( $event.target.value < 0 || $event.target.value == '')? outBomItem.Quantity=0: outBomItem.Quantity"
                         [(ngModel)]="outBomItem.Quantity"
                       />
                     </td>
@@ -138,10 +142,12 @@
                     <td>
                       <!-- //[typeahead]="input$" -->
                       <ng-select class="custom" 
+                      autocomplete="off"
                         [items]="itemsBuffer" 
                         [virtualScroll]="true" 
                         [loading]="loading"
-                        (change)="newBomItemOut.ItemName =   $event? $event.ItemName :''" appendTo="body" 
+                         appendTo="body" 
+                        (change)="fnChangeNewRecordItem($event)"
                         (scroll)="onScroll($event)" (scrollToEnd)="onScrollToEnd()" bindLabel="ItemName"
                         [searchFn]="customSearchFn"
                         [typeahead]="input$"
@@ -162,12 +168,13 @@
                     </td>
                     <td>
                       <input
+                      autocomplete="off"
                         type="number"
                         class="form-control"
                         name="newQuantity"
                         id="newQuantity"
                         min="0"
-                        (change)="( $event.target.value < 0 || $event.target.value == '')? (newBomItemOut.Quantity): newBomItemOut.Quantity"
+                        (change)="( $event.target.value < 0 || $event.target.value == '')? newBomItemOut.Quantity=0: newBomItemOut.Quantity"
                         [(ngModel)]="newBomItemOut.Quantity"
                       />
                     </td>
@@ -214,4 +221,4 @@
   </div>
 </div>
 
-<app-bom-item-in-modal [entity]="entity" [units]="units" [parentOutId] ="parentOutId" [currentStageId]="currentStageId" ></app-bom-item-in-modal>
+<app-bom-item-in-modal [entity]="entity" [units]="units" [parentOutId] ="parentOutId" [currentStageId]="currentStageId" (isLoadData)="isLoadData.emit(true)"></app-bom-item-in-modal>

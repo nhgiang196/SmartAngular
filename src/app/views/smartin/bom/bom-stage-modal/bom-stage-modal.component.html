@@ -22,8 +22,9 @@
               <div class="form-group">
                 <label> {{ "BomFactory.FactoryId" | translate }} : *</label>
                 <ng-select
+                autocomplete="off"
                   class="custom"
-                  [items]="factories"
+                  [items]="initComboboxFactories.Factories"
                   bindLabel="FactoryName"
                   bindValue="FactoryId"
                   placeholder="select factory"
@@ -37,6 +38,7 @@
               <div class="form-group">
                 <label> {{ "BomFactory.Validate" | translate }} :</label>
                 <input
+                autocomplete="off"
                   type="text"
                   name="Validate"
                   id="Validate"
@@ -55,6 +57,7 @@
               <div class="form-group">
                 <label> {{ "BomFactory.Descriptions" | translate }} : </label>
                 <textarea
+                  autocomplete="off"
                   type="text"
                   name="Descriptions"
                   id="Descriptions"
@@ -73,6 +76,7 @@
                 <div class="switch">
                   <div class="onoffswitch">
                     <input
+                      autocomplete="off"
                       type="checkbox"
                       class="onoffswitch-checkbox"
                       name="status"
@@ -140,7 +144,7 @@
                     <td *ngIf="i + 1 === editRowId">
                       <ng-select
                         class="custom"
-                        [items]="stages"
+                        [items]="initComboboxStages.Stages"
                         bindLabel="StageName"
                         bindValue="StageId"
                         placeholder="{{'Item.placeholdercolumn.ItemPackageUnitId' | translate}}"
@@ -231,7 +235,7 @@
                     <td>
                       <ng-select
                         class="custom"
-                        [items]="stages"
+                        [items]="initComboboxStages.StagesCopy"
                         bindLabel="StageName"
                         bindValue="StageId"
                         placeholder="{{'Item.placeholdercolumn.ItemPackageUnitId' | translate}}"
@@ -324,4 +328,4 @@
 
 
 <!-- Modal định mức hóa chất -->
-<app-bom-item-out-modal [entity]="entity" [units] ="units" [currentStageId]="currentStageId"></app-bom-item-out-modal>
+<app-bom-item-out-modal [entity]="entity" [units] ="units" [currentStageId]="currentStageId" (isLoadData)="isLoadData.emit(true)"></app-bom-item-out-modal>

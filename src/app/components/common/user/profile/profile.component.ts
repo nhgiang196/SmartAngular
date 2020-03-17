@@ -12,7 +12,7 @@ export class ProfileComponent implements OnInit {
   @ViewChild (SmartSelectComponent) child : SmartSelectComponent;
   profile: any = {};
   constructor(private router: ActivatedRoute, private authService: AuthService) { }
-
+  T : any;
   ngOnInit() {
     this.router.params.subscribe(params => {
       console.log(params);
