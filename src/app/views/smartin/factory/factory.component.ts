@@ -54,7 +54,7 @@ export class FactoryComponent implements OnInit {
   invalid: any = { FactoryCodeNull: false, FactoryCodeExist: false, FactoryNameNull: false, FactoryNameExist: false };
   EditRowNumber: number = 0;
   pageIndex = 1;
-  pageSize = 10;
+  pageSize = 12;
   isPrivious = false;
   isNext = false;
   ngOnInit() {
