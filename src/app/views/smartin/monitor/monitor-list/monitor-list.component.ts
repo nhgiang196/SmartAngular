@@ -25,4 +25,21 @@ export class MonitorListComponent implements OnInit {
     this.signalRService.getTableFactory().subscribe(res => console.log(res))
   }
 
+  public getColor(val,type="color"){
+    let result = [];
+    if(val.includes("#"))
+    {
+      let arr = val.split("#");
+      result.push(arr[0]);
+      result.push(arr[1])
+    }
+     else{
+      result.push(val);
+      result.push("")
+     }
+     return result;
+    
+  }
+
+
 }

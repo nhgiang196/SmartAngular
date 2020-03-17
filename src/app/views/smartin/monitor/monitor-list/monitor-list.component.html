@@ -54,7 +54,7 @@
             </div>
           </div>
           <div class="table-responsive">
-            <table class="table table-striped">
+            <table class="table table-striped table-bordered">
               <thead>
                 <tr>
                   <th>#</th>
@@ -75,13 +75,13 @@
                   <td style="text-align: left"> {{i+1}}</td>
                   <td style="text-align: left"> {{factory.factoryName}}</td>
                   <td style="text-align: left"> {{factory.monitorDate}}</td>
-                  <td style="text-align: left"> {{factory.cod}}</td>
-                  <td style="text-align: left"> {{factory.ph}}</td>
-                  <td style="text-align: left"> {{factory.tss}}</td>
-                  <td style="text-align: left"> {{factory.q}}</td>
-                  <td style="text-align: left"> {{factory.color}}</td>
-                  <td style="text-align: left"> {{factory.amoni}}</td>
-                  <td style="text-align: left"> {{factory.temperature}}</td>
+                  <td style="text-align: left" [style.background-color]="'#'+getColor(factory.cod)[1]"> {{getColor(factory.cod)[0]}}</td>
+                  <td style="text-align: left"  [style.background-color]="'#'+getColor(factory.ph)[1]"> {{getColor(factory.ph)[0]}}</td>
+                  <td style="text-align: left" [style.background-color]="'#'+getColor(factory.tss)[1]"> {{getColor(factory.tss)[0]}}</td>
+                  <td style="text-align: left" [style.background-color]="'#'+getColor(factory.q)[1]"> {{getColor(factory.q)[0]}}</td>
+                  <td style="text-align: left" [style.background-color]="'#'+getColor(factory.color)[1]"> {{getColor(factory.color)[0]}}</td>
+                  <td style="text-align: left" [style.background-color]="'#'+getColor(factory.amoni)[1]"> {{getColor(factory.amoni)[0]}}</td>
+                  <td style="text-align: left" [style.background-color]="'#'+getColor(factory.temperature)[1]"> {{getColor(factory.temperature)[0]}}</td>
                   <td style="text-align: left"> <a [routerLink]="['/monitor/tracking']">View Chart</a> </td>
                 </tr>
               </tbody>
