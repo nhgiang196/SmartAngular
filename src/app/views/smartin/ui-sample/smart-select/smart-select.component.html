@@ -1,6 +1,3 @@
-
-
-
 <ng-select class="custom" 
  [items]="itemsBuffer" 
  bindValue="id"
@@ -9,27 +6,14 @@
  [loading]="loading"
  (change)="chooseItem.text =   $event? $event.text :''" appendTo="body" 
  (scroll)="onScroll($event)" 
-
  [typeahead]="input$"
  (scrollToEnd)="onScrollToEnd()" 
  autofocus 
-
-
- 
  [placeholder]="translatePlaceholder || ''"
- 
  name="id" 
  id="id" 
  required>
  <ng-template ng-header-tmp>
-   <small class="form-text text-muted">Loaded {{itemsBuffer.length}} of {{items.length}}</small>
+   <small class="form-text text-muted">Loaded {{itemsBuffer.length}} of {{totalCount}}</small>
  </ng-template>
 </ng-select>
-
-
-<!-- +
-
-   [searchFn]="customSearchFn"
-
-
--->

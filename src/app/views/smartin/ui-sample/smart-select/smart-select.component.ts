@@ -11,16 +11,17 @@ import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
   styleUrls: ['./smart-select.component.css']
 })
 
-
 export class SmartSelectComponent implements OnInit {
   /** Tên danh sách hoặc thực thể 
    * @example : 'Item'
   */
-  @Input('listName') entityString : string = 'Items';
+  @Input('listName') entityString : string = 'Factory';
    /** Giá trị placeholder được translate
      * @example : 'BomFactory.BomItem.id'
      */
   @Input('translatePlaceholder')  translatePlaceholder : string = '';
+  /** Mã đặc biệt, phòng trương hợp bị trống do đổi status */
+  @Input('specialId') specialId : string = '185';
   /** Kết quả trả về
    * @example: itemID = $event
    */
@@ -30,58 +31,75 @@ export class SmartSelectComponent implements OnInit {
 
   /**Dấu hiệu load */
   loading = false;
+  /**Trang load cộng*/
+  page = 1
+  /** keyWord */
+  keyword =null
+  /** Total count */
+  totalCount : number = 0;
   /**Check giá trị nhập */
   input$ = new Subject<string>();
   /** Số item còn sót lại để thực hiện tác vụ load tiếp tục */
   numberOfItemsFromEndBeforeFetchingMore = 10;
   /** Số dòng */
   bufferSize = 50; 
-  /** Danh sánh sau khi lọc*/
+  /** Danh sách item sau khi lọc*/
   itemsBuffer : SmartItem[]=[];
-  /**Danh sách đầy đủ */
-  items:SmartItem[] = []; 
   /**Giá trị chọn */
   chooseItem : SmartItem
-  /**  */
-  private sendParams : DataTablePaginationParams = new DataTablePaginationParams();
 
   async ngOnInit() { 
     this.chooseItem = new SmartItem();
-
     await this.loadInit(); //init load 
     this.onSearch(); //input Event
-
   }
-
-
-  private selectParams(keyword: string = null){
-    var pr = new DataTablePaginationParams();
-    pr.page = 0;
-    pr.pageSize = this.bufferSize;
-    switch (this.entityString) {
-      case 'Items':
-        pr.selectFields = "[id] = ItemId, [text] =  ItemNo  ";
-        pr.entity = 'Item';
-        pr.orderBy='ItemNo';
-        // pr.specialCondition = keyword? `  ItemNo  +' '+ ItemName LIKE N'%${keyword}%'` : null
-        break;
-      case 'Users':
-
-        break;
-      default:  
-        break;
-    }
-    return pr;
-  }
-
   async loadInit() {
     var pr = this.selectParams();
     let res =  await this.api.getItemPagination_Smart(pr).toPromise().then() as any; 
-    this.items = res.result;
-    console.log('mapdata', this.items);
-    console.log('records: ' +res.totalCount);
-    this.itemsBuffer = this.items.slice(0, this.bufferSize);
+    this.totalCount = res.totalCount;
+    this.itemsBuffer =  res.result || [];
   }
+
+  private selectParams(keyword: string = null, page: number = 0){
+    var pr = new DataTablePaginationParams();
+    let conditionString = ' ';
+    let specialString = ' ';
+    let statusString = null;
+
+    
+    pr.pageSize = this.bufferSize;
+    if (page) pr.page = (page-1)* pr.pageSize; // recordRow from
+    switch (this.entityString) {
+      case 'Item':
+        pr.selectFields = "[id] = ItemId, [text] =  ItemNo + ' '  + ItemName ";
+        pr.entity = 'Item';
+        pr.orderBy='ItemNo';
+        if (keyword) conditionString = ` ItemNo  +' '+ ItemName LIKE N'%${keyword}%'` ;
+        if (this.specialId)   specialString =  `ItemId= ${ this.specialId}`;
+        break;
+      case 'Users':
+        pr.selectFields = "[id]= UserName, [text] = NormalizedUserName";
+        pr.entity = '[BCM_Auth].dbo.AspNetUsers';
+        pr.orderBy='NormalizedUserName'; //Department Later
+        if (keyword) conditionString = `  NormalizedUserName LIKE N'%${keyword}%'` ;
+        if (this.specialId)   specialString =  `UserName= ${ this.specialId}`;
+        break;
+      default:  
+      case 'Factory':
+        pr.selectFields = "[id] = FactoryId, [text] = FactoryName";
+        pr.entity = 'Factory';
+        pr.orderBy='FactoryBuiltDate'; 
+        pr.orderDir ='desc';
+        if (keyword) conditionString = `  FactoryName LIKE N'%${keyword}%'` ;
+        if (this.specialId) specialString =  `FactoryId= ${ this.specialId}`;
+        statusString = (keyword? ' AND ' : ' ') +' Status=1';
+        break;
+    }
+    pr.specialCondition = conditionString+ statusString + ((keyword || statusString!=null) && this.specialId? ' OR ' + specialString: '') 
+    console.log('param',pr);
+    return pr;
+  }
+
   
   onSearch(){ 
     this.input$.pipe(
@@ -89,49 +107,38 @@ export class SmartSelectComponent implements OnInit {
       distinctUntilChanged(), 
       switchMap(term =>  this.fakeService(term))
     ).subscribe(data => {
-        // console.log('buffer reflect:', data.slice(0, this.bufferSize))
-        // this.itemsBuffer = data.slice(0, this.bufferSize); //INIT FIRST TIME AFTER CHANGE INPUT
-        this.itemsBuffer = [];
-        this.itemsBuffer = data;
+        this.totalCount  =data.totalCount;
+        this.itemsBuffer= data.result || [];
         this.loading = false;
       })
   }
 
   private async  fakeService(term) { 
-    
+    this.keyword = term;
+    this.page=1;
     this.loading = true;
-    console.log('Input term: ', term);
-    console.log('fake item param', this.selectParams(term))
     let data =  await this.api.getItemPagination_Smart(this.selectParams(term)).toPromise().then();
-    console.log('returnData', data.result);
-    return data.result;
+    return data;
   }
-  
-  
-  // customSearchFn(term: string, item: any) { 
-  //     term = term.toLowerCase();
-  //     return item.ItemName.toLowerCase().indexOf(term) > -1
-  // }
 
   onScrollToEnd() { 
     this.fetchMore();
   }
 
   onScroll({ end }) { 
-    if (this.loading || this.items.length <= this.itemsBuffer.length) 
-        return;
     if (end + this.numberOfItemsFromEndBeforeFetchingMore >= this.itemsBuffer.length)
         this.fetchMore();
   }
-    private fetchMore() { 
-      const len = this.itemsBuffer.length;
-      const more = this.items.slice(len, this.bufferSize + len);
-      this.loading = true;
-      // using timeout here to simulate backend API delay
-      setTimeout(() => {
-        this.loading = false;      
-        this.itemsBuffer = this.itemsBuffer.concat(more);
-      }, 200)
-    }
+  private async fetchMore() { 
+    if (this.loading || this.totalCount <= this.itemsBuffer.length){
+      return;
+    } 
+    this.loading = true;
+    let data =  await this.api.getItemPagination_Smart(this.selectParams(this.keyword,++this.page)).toPromise().then();
+    this.loading = false;     
+    this.itemsBuffer = this.itemsBuffer.concat(data.result || []);
+    // setTimeout(() => { //reduce server performance
+    // }, 200)
+  }
 
 }
