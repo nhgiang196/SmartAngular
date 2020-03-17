@@ -1,3 +1,5 @@
+import { ChartDataSets } from 'chart.js'
+import { Label } from 'ng2-charts'
 
 export class Factory {
   FactoryId?: number = 0
@@ -414,24 +416,13 @@ export class MonitorStandard{
   Factory: Factory =new Factory()
 }
 
-export class ChartModel {
-  data: []
-  label: string
-}
 
-export class ChartDemo
+export class MonitorChartTracking
 {
-    data: Data [] =[]
-    label : string;
+  FactoryId: number =0;
+  StartDate: Date = new Date();
+  EndDate: Date = new Date();
 }
-export class Data
-{
-  x: number =0;
-  y: number =0;
-}
-
-
-
 export class UI_CustomFile{
   EntityFileId : number = 0;
   EntityId: number =0;

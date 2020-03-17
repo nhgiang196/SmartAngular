@@ -1,7 +1,7 @@
 <div >
   <canvas baseChart
           style="width: 512px; height: 320px"
-          [datasets]="lineChartData"
+          [datasets]="signalRService.codData"
           [labels]="lineChartLabels"
           [options]="lineChartOptions"
           [colors]="lineChartColors"
@@ -11,8 +11,8 @@
           (chartClick)="chartClicked($event)"></canvas>
 </div>
 <br><br>
-<ul>
+<!-- <ul>
   <li *ngFor='let data of signalRService.bradcastedData'>
     <strong>Label: </strong> {{data.label}} - <strong>Value: </strong> {{data.data[0]}}
   </li>
-</ul>
+</ul> -->

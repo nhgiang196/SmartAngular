@@ -1,16 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import { SignalRService } from 'src/app/services/signal-r.service';
-import { HttpClient } from '@angular/common/http';
-import { WaterTreatmentService } from 'src/app/services/api-watertreatment.service';
-import { ChartDataSets, ChartOptions } from 'chart.js';
+import { ChartDataSets } from 'chart.js';
 import { Label, Color } from 'ng2-charts';
+import { SignalRService } from 'src/app/services/signal-r.service';
+import { Factory, MonitorChartTracking } from 'src/app/models/SmartInModels';
+import { WaterTreatmentService } from 'src/app/services/api-watertreatment.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
-  selector: 'app-monitor-chart',
-  templateUrl: './monitor-chart.component.html',
-  styleUrls: ['./monitor-chart.component.css']
+  selector: 'app-monitor-tracking',
+  templateUrl: './monitor-tracking.component.html',
+  styleUrls: ['./monitor-tracking.component.css']
 })
-export class MonitorChartComponent implements OnInit {
+export class MonitorTrackingComponent implements OnInit {
 
   public lineChartCOD: ChartDataSets []=[  { data: this.signalRService.codData, label: 'COD' }]
   public lineChartpH: ChartDataSets []=[  { data: this.signalRService.pHData, label: 'pH' }]
@@ -18,8 +19,11 @@ export class MonitorChartComponent implements OnInit {
   public lineChartTSS: ChartDataSets []=[  { data: this.signalRService.TSSData, label: 'TSS' }]
   public lineChartQ: ChartDataSets []=[  { data: this.signalRService.qData, label: 'Q' }]
   public lineChartColor : ChartDataSets []=[  { data: this.signalRService.colorData, label: 'Color' }]
-  public lineChartAmoni : ChartDataSets []=[  { data: this.signalRService.amoniData, label: 'Amoni' }]
+  public lineChartAmoni : ChartDataSets []=[  { data: this.signalRService.amoniData, label: 'Amoni' }]  
+  initCombobox = { Factories: [], FullFactories: [], Users: [] };
   speed = 250;
+  entity : MonitorChartTracking = new MonitorChartTracking();
+  bsConfig = { dateInputFormat: "YYYY-MM-DD", adaptivePosition: true };
   public lineChartLabels: Label[] = this.signalRService.dataMonitorDate//['January', 'February', 'March', 'April', 'May', 'June', 'July'];
   public lineChartOptions: any =
     {
@@ -45,14 +49,19 @@ export class MonitorChartComponent implements OnInit {
   public lineChartType = 'line';
   public lineChartPlugins = [];
 
-  constructor(public signalRService: SignalRService) { }
+  constructor(public signalRService: SignalRService, 
+              private api: WaterTreatmentService,
+              private toastr: ToastrService) { }
 
   ngOnInit() {
     this.signalRService.startConnection();
     this.signalRService.addTransferChartDataListener();
-   // this.signalRService.addBroadcastChartDataListener();
-    //this.startHttpRequest();
     this.startRequestLatestChart();
+    this.loadFactoryList();
+  }
+  private async loadFactoryList() {
+    let res = await this.api.getBasicFactory().toPromise().then().catch(err => this.toastr.warning('Get factories Failed, check network')) as any;
+    this.initCombobox.Factories = ( res as any).result.filter(x=>x.Status ==1) as Factory[];
   }
 
   private startHttpRequest = () => {
@@ -68,5 +77,4 @@ export class MonitorChartComponent implements OnInit {
   public chartClicked = (event) => {
     this.signalRService.broadcastChartData();
   }
-
 }

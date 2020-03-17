@@ -57,6 +57,7 @@ import { BomListComponent } from './views/smartin/bom/bom-list/bom-list.componen
 import { MonitorStandardComponent } from './views/smartin/monitor/monitor-standard/monitor-standard.component';
 import { MonitorChartComponent } from './views/smartin/monitor/monitor-chart/monitor-chart.component';
 import { MonitorListComponent } from './views/smartin/monitor/monitor-list/monitor-list.component';
+import { MonitorTrackingComponent } from './views/smartin/monitor/monitor-tracking/monitor-tracking.component';
 
 
 /**XLNT */
@@ -148,6 +149,7 @@ export const ROUTES: Routes = [
        //monitor
        {
         path: 'monitor', canActivate: [AuthGuard], children: [
+          { path: 'tracking', component: MonitorTrackingComponent },
           { path: 'standard', component: MonitorStandardComponent },
           { path: 'chart', component: MonitorChartComponent },
           { path: 'factoryData', component: MonitorListComponent }
