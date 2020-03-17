@@ -27,6 +27,7 @@ export class FactoryTechnology {
   TechnologyDescription: string
   TechnologyName: string
   IsCurrent: boolean = true
+  isNew: boolean = true
 
 }
 export class FactoryFile {
@@ -450,9 +451,9 @@ export class UI_CustomFile{
 }
 
 
-
-
-
-
+export class SmartItem {
+  id: number 
+  text: string 
+}
 
 
