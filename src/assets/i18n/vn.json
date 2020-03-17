@@ -190,8 +190,8 @@
     "label.TotalFactory1": "Hiển thị",
     "label.TotalFactory2": "nhà máy",
     "label.Showed": "Hiển thị",
-    "mssg.DeleteAsk_Text": "Bạn có chắc muốn xóa nhà máy này?",
-    "mssg.DeleteAsk_Title": "Xóa nhà máy?"
+    "mssg.DeleteAskDeleteAsk_Title_Text": "Bạn có chắc muốn xóa nhà máy này?",
+    "mssg.": "Xóa nhà máy?"
   },
   "Warehouse": {
     "": "Kho",
