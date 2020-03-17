@@ -54,7 +54,7 @@ export class SmartUploadComponent implements OnInit {
       this.files.push(_tempFile);
     })
   }
-  /** Lệnh upload lên server, thường dùng với await */
+  /** Lệnh upload lên server, thường dùng chờ hàm này trước khi gửi dữ liệu (await) */
   public uploadFile() { //upload file to server
     if (this.addFiles.FileList.length==0) return;
     this.uploadReportProgress = { progress: 0, message: null, isError: null };
@@ -98,31 +98,35 @@ export class SmartUploadComponent implements OnInit {
       );
       allowUpload = false;
     }
-    var _addFiles = event.addedFiles;
+    var _addFiles = Object.assign({}, event.addedFiles); //stop binding
     for (var index in _addFiles) {
       
-      let item = event.addedFiles[index];
+      
+      let item = _addFiles[index];
       let convertName = this.helper.getFileNameWithExtension(item);
       let currentFile = this.entityFile;
       let findElement = currentFile.filter(x => x.File.FileOriginalName == item.name)[0];
       //ASK THEN GET RESULT
       if (findElement != null) {
-        if (!askBeforeUpload) {
-          askBeforeUpload = true;
-          var allowUpload = true;
-          await swal.fire({
-            title: this.trans.instant("Upload.DuplicateCaption"),
-            titleText: this.trans.instant("Upload.DuplicateMessage"),
-            type: 'warning',
-            confirmButtonText: this.trans.instant('Button.Yes'),
-            cancelButtonText: this.trans.instant('Button.Cancel'),
-            showCancelButton: true,
-            reverseButtons: true
-          }).then((result) => {
-            if (result.dismiss === swal.DismissReason.cancel) allowUpload = false;
-          })
+        // if (!askBeforeUpload) {
+        //   askBeforeUpload = true;
+        var allowUpload = true;
+        await swal.fire({
+          title: this.trans.instant("Upload.DuplicateCaption"),
+          titleText: this.trans.instant("Upload.DuplicateMessage")+ findElement.File.FileOriginalName,
+          type: 'warning',
+          confirmButtonText: this.trans.instant('Button.Yes'),
+          cancelButtonText: this.trans.instant('Button.Cancel'),
+          showCancelButton: true,
+          reverseButtons: true
+        }).then((result) => {
+          if (result.dismiss === swal.DismissReason.cancel) allowUpload = false;
+        })
+        // }
+        if (!allowUpload) {
+          event.addedFiles.splice(event.addedFiles.indexOf(item),1);
+          continue;
         }
-        if (!allowUpload) return;
         let _FileElement = this.files.filter(x=>x.name == findElement.File.FileOriginalName)[0];
         let _indexFileElement = this.files.indexOf(_FileElement,0);
         this.files.splice(_indexFileElement, 1);
