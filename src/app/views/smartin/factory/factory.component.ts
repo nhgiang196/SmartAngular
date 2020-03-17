@@ -15,6 +15,7 @@ import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { SmartUploadComponent } from '../ui-sample/smart-upload/smart-upload.component';
 import { CONNREFUSED } from 'dns';
 import { Action } from 'rxjs/internal/scheduler/Action';
+import { PageChangedEvent } from 'ngx-bootstrap/pagination';
 declare let $: any;
 @Component({
   selector: 'app-factory',
@@ -55,8 +56,7 @@ export class FactoryComponent implements OnInit {
   EditRowNumber: number = 0;
   pageIndex = 1;
   pageSize = 12;
-  isPrivious = false;
-  isNext = false;
+
   ngOnInit() {
     this.resetEntity();
     this.loadInit();
@@ -70,17 +70,6 @@ export class FactoryComponent implements OnInit {
       this.factory = data.result;
       this.factory_showed = data.totalCount;
       this.iboxloading = false;
-      let pageTotal =  Math.round((this.factory_showed/this.pageSize)+0.4);
-
-      if(this.pageIndex <=1){
-        this.pageIndex = 1;
-        this.isPrivious = true;
-      }else this.isPrivious = false;
-      if(this.pageIndex >= pageTotal)
-      {
-        this.pageIndex = pageTotal;
-        this.isNext = true;
-      } else this.isNext = false;
 
     }, err => {
       this.toastr.error(err.statusText, "Load init failed!");
@@ -88,6 +77,12 @@ export class FactoryComponent implements OnInit {
     })
 
   }
+  pageChanged(event: PageChangedEvent): void {
+    this.pageIndex = event.page;
+    this.loadInit();
+
+  }
+
   searchLoad(){
     this.pageIndex=1;
     this.loadInit();

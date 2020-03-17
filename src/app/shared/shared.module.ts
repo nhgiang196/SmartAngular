@@ -8,7 +8,7 @@ import { DataTablesModule } from 'angular-datatables';
 import { FormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
-import { BsDatepickerModule, PopoverModule, TimepickerModule } from 'ngx-bootstrap/';
+import { BsDatepickerModule, PopoverModule, TimepickerModule, PaginationModule } from 'ngx-bootstrap/';
 import { LaddaModule } from 'node_modules/angular2-ladda';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
@@ -35,8 +35,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     BrowserModule,
     RouterModule,
     FormsModule,
-    CommonModule,    
-    BrowserAnimationsModule,  
+    CommonModule,
+    BrowserAnimationsModule,
     NgwWowModule,
     // Optionally you can set time for `idle`, `timeout` and `ping` in seconds.
     // Default values: `idle` is 600 (10 minutes), `timeout` is 300 (5 minutes)
@@ -74,16 +74,17 @@ export function HttpLoaderFactory(http: HttpClient) {
     TimepickerModule.forRoot(),
     MomentModule.forRoot(),
     SlickCarouselModule,
-    ChartsModule
-    
+    ChartsModule,
+    PaginationModule.forRoot()
+
   ],
   exports: [
     BrowserModule,
     RouterModule,
     FormsModule,
     CommonModule,
-    UserIdleModule,    
-    BrowserAnimationsModule,  
+    UserIdleModule,
+    BrowserAnimationsModule,
     NgwWowModule,
     TranslateModule,
     DataTablesModule,
@@ -99,8 +100,9 @@ export function HttpLoaderFactory(http: HttpClient) {
     AutocompleteLibModule,
     Select2Module,
     SlickCarouselModule,
-    ChartsModule
-    
+    ChartsModule,
+    PaginationModule
+
   ]
 
 })

@@ -63,12 +63,8 @@
               </div>
             </div>
             <div class="col-sm-4 text-center">
-              <h2> {{'Factory.label.TotalFactory' | translate}} {{factory_showed}} {{'Factory.' | translate}} </h2>
-              <button type="button" class="btn btn-white" (click)="pageIndex=pageIndex-1; loadInit()" [disabled]="isPrivious">
-                <i class="fa fa-chevron-left" ></i></button>
-              <small>{{'Factory.label.Showed'| translate}} : {{factory.length}}  {{'Factory.' |  translate}} </small>
-              <button type="button" class="btn btn-white" (click)="pageIndex=pageIndex+1; loadInit()" [disabled]="isNext">
-                <i class="fa fa-chevron-right"></i> </button>
+              <h2 class="total-factory"> {{'Factory.label.TotalFactory' | translate}} {{factory_showed}} {{'Factory.' | translate}} </h2>
+              <pagination [totalItems]="factory_showed"   [itemsPerPage]="pageSize" (pageChanged)="pageChanged($event)"></pagination>
             </div>
 
             <div class="col-sm-4">
