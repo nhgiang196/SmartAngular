@@ -452,8 +452,8 @@ export class UI_CustomFile{
 
 
 export class SmartItem {
-  id: number 
-  text: string 
+  id: number  = 0
+  text: string = null
 }
 
 

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
+import { Component, OnInit, Input, Output, EventEmitter, ViewChild } from "@angular/core";
 import {
   Item,
   BomItemOut,
@@ -18,6 +18,7 @@ import {
   switchMap,
   map
 } from "rxjs/operators";
+import { SmartSelectComponent } from '../../ui-sample/smart-select/smart-select.component';
 @Component({
   selector: "app-bom-item-out-modal",
   templateUrl: "./bom-item-out-modal.component.html",
@@ -36,10 +37,6 @@ export class BomItemOutModalComponent implements OnInit {
   outBomItem: BomItemOut;
   newBomItemOut: BomItemOut;
   //config
-  input$ = new Subject<string>();
-  numberOfItemsFromEndBeforeFetchingMore = 10;
-  loading = false;
-  bufferSize = 50;
   editRowId: number = 0;
   parentOutId: number = 0;
   laddaSubmitLoading = false;
@@ -51,9 +48,7 @@ export class BomItemOutModalComponent implements OnInit {
   ) {}
 
   async ngOnInit() {
-    this.onSearch(); // for search in server
     this.resetEntity();
-    await this.loadItems();
   }
 
   private resetEntity() {
@@ -61,30 +56,8 @@ export class BomItemOutModalComponent implements OnInit {
     this.newBomItemOut = new BomItemOut();
     this.bomItems = [];
   }
-  onScrollToEnd() {
-    this.fetchMore();
-  }
-
-  onScroll({ end }) {
-    if (this.loading || this.items.length <= this.itemsBuffer.length) return;
-    if (
-      end + this.numberOfItemsFromEndBeforeFetchingMore >=
-      this.itemsBuffer.length
-    )
-      this.fetchMore();
-  }
-  private fetchMore() {
-    const len = this.itemsBuffer.length;
-    const more = this.items.slice(len, this.bufferSize + len);
-    this.loading = true;
-    // using timeout here to simulate backend API delay
-    setTimeout(() => {
-      this.loading = false;
-      this.itemsBuffer = this.itemsBuffer.concat(more);
-    }, 200);
-  }
-
   async fnAddInBomItem() {
+    console.log(this.newBomItemOut);
     let _checkValidate =  this.fnValidateBomItemOut(this.newBomItemOut, "add");
     if (!_checkValidate) return;
     this.newBomItemOut.IsNew = true;
@@ -175,43 +148,6 @@ export class BomItemOutModalComponent implements OnInit {
     //press delete item (in modal)
     this.entity.BomStage[this.currentStageId].BomItemOut.splice(index, 1);
   }
-
-  async loadItems() {
-    let keySearch = "";
-    let data: any = await this.api
-      .getItemPagination(keySearch)
-      .toPromise()
-      .then();
-    this.items = data.result;
-    console.log("records: " + data.result.length);
-    this.itemsBuffer = this.items.slice(0, this.bufferSize);
-  }
-  onSearch() {
-    this.input$
-      .pipe(
-        debounceTime(200),
-        distinctUntilChanged(),
-        switchMap(term => this.fakeService(term))
-      )
-      .subscribe(data => {
-        this.itemsBuffer = data.slice(0, this.bufferSize);
-      });
-  }
-  private fakeService(term) {
-    let data = this.api.getItemPagination(term).pipe(
-      map(data => {
-        return data.result.filter((x: { ItemName: string }) =>
-          x.ItemName.includes(term)
-        );
-      })
-    );
-    return data;
-  }
-  customSearchFn(term: string, item: Item) {
-    term = term.toLowerCase();
-    return item.ItemName.toLowerCase().indexOf(term) > -1;
-  }
-
   fnBackStageModal() {
     this.entity.BomStage[this.currentStageId].BomItemOut = this.entity.BomStage[
       this.currentStageId

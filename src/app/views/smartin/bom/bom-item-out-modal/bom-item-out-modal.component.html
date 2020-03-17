@@ -54,31 +54,18 @@
                     <td *ngIf="i + 1 !== editRowId">{{ item.Quantity }}</td>
 
                     <td *ngIf="i + 1 === editRowId">
-                      <ng-select
-                        class="custom"
-                        [items]="items"
-                        bindLabel="ItemName"
-                        bindValue="ItemId"
-                        placeholder="{{'BomFactory.BomItem.ItemId' | translate}}"
-                        name="BomStageId"
-                        (change)="fnChangeItem($event)"
-                        id="BomStageId"
-                        [(ngModel)]="outBomItem.ItemId"
-                      >
-                      </ng-select>
+                      <app-smart-select listName="ItemOut"  name="outBomItem_Item"
+                      [specialId]="outBomItem.ItemId"    
+                      (select_ngModel)="outBomItem.ItemId = $event.id;outBomItem.ItemName = $event.text"
+                      placeholder="{{'BomFactory.BomItem.ItemId' | translate}}">
+                      </app-smart-select>
                     </td>
                     <td *ngIf="i + 1 === editRowId">
-                      <ng-select
-                        class="custom"
-                        [items]="units"
-                        bindLabel="UnitName"
-                        bindValue="UnitId"
-                        placeholder="{{'Item.placeholdercolumn.ItemPackageUnitId' | translate}}"
-                        name="inUnitId"
-                        [(ngModel)]="outBomItem.UnitId"
-                        (change)="$event != null? (outBomItem.UnitName = $event.UnitName): null"
-                      >
-                      </ng-select>
+                      <app-smart-select name="outBomItem_PackageUnit" listName="Unit"  placeholder="{{'Item.placeholdercolumn.ItemPackageUnitId' | translate }}"    
+                      [specialId]="outBomItem.UnitId"    
+                      (select_ngModel)="outBomItem.UnitId = $event.id; outBomItem.UnitName = $event.text;">
+                    </app-smart-select>
+
                       
                     </td>
                     <td *ngIf="i + 1 === editRowId">
@@ -137,30 +124,20 @@
                   <tr>
                     <td>{{ bomItems.length + 1 }}</td>
                     <td>
-                      <!-- //[typeahead]="input$" -->
-                      <ng-select class="custom" 
-                        [items]="itemsBuffer" 
-                        [virtualScroll]="true" 
-                        [loading]="loading"
-                         appendTo="body" 
-                        (change)="fnChangeNewRecordItem($event)"
-                        (scroll)="onScroll($event)" (scrollToEnd)="onScrollToEnd()" bindLabel="ItemName"
-                        [searchFn]="customSearchFn"
-                        [typeahead]="input$"
-                        bindValue="ItemId" autofocus placeholder="{{'BomFactory.BomItem.ItemId' | translate}}"
-                        [(ngModel)]="newBomItemOut.ItemId" name="ItemId" id="ItemId" required>
-                        <ng-template ng-header-tmp>
-                          <small class="form-text text-muted">Loaded {{itemsBuffer.length}} of {{items.length}}</small>
-                        </ng-template>
-                      </ng-select>
-
+                      <app-smart-select   
+                      name="newBomItemOut_Item"  
+                      listName="ItemOut"
+                      [specialId]="newBomItemOut.ItemId"    
+                      (select_ngModel)="newBomItemOut.ItemId = $event.id;;newBomItemOut.ItemName = $event.text;"
+                      placeholder="{{'BomFactory.BomItem.ItemId' | translate}}"></app-smart-select>
                     </td>
                     <td>
-                      <ng-select class="custom" [items]="units" bindLabel="UnitName" bindValue="UnitId"
-                        placeholder="{{'Item.placeholdercolumn.ItemPackageUnitId' | translate }}" name="outUnitId"
-                        required [(ngModel)]="newBomItemOut.UnitId"
-                        (change)="newBomItemOut.UnitName =  $event? $event.UnitName :'' ">
-                      </ng-select>
+                      <app-smart-select 
+                       name="newBomItemOut_PackageUnit" 
+                       listName="Unit"  
+                       [specialId]="newBomItemOut.UnitId"    
+                       (select_ngModel)="newBomItemOut.UnitId = $event.id;newBomItemOut.UnitName = $event.text;"
+                       placeholder="{{'Item.placeholdercolumn.ItemPackageUnitId' | translate }}"></app-smart-select>
                     </td>
                     <td>
                       <input

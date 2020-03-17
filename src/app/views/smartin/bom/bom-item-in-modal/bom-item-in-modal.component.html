@@ -1,202 +1,156 @@
-<div
-  class="modal outmodal"
-  id="modalIn"
-  data-backdrop="static"
-  data-keyboard="true"
-  tabindex="-2"
-  role="dialog"
-  aria-hidden="true"
->
+<div class="modal outmodal" id="modalIn" data-backdrop="static" data-keyboard="true" tabindex="-2" role="dialog"
+  aria-hidden="true">
   <div class="modal-dialog modal-lg ">
     <div class="modal-content animated fadeIn">
       <div class="modal-header">
-        <button
-          type="button"
-          class="close"
-          data-dismiss="modal"
-          (click)="isLoadData.emit(true)"
-        >
-          <span aria-hidden="true">&times;</span
-          ><span class="sr-only">Close</span>
+        <button type="button" class="close" data-dismiss="modal" (click)="isLoadData.emit(true)">
+          <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
         </button>
         <h4 class="modal-title">Danh sách đầu vào</h4>
       </div>
       <div class="modal-body">
-     
-          <!-- table InBomItem -->
-          <div class="row">
-            <div class="col-lg-12">
-              <table class="table table-bordered">
-                <thead>
-                  <tr>
-                    <th width="5%">#</th>
-                    <th width="35%">
-                      {{ "BomFactory.BomItem.ItemId" | translate }} *
-                    </th>
-                    <th width="35%">
-                      {{ "BomFactory.BomItem.UnitId" | translate }} *
-                    </th>
-                    <th width="15%">
-                      {{ "BomFactory.BomItem.Quantity" | translate }} *
-                    </th>
-                    <th width="10%">{{ "Button.Action" | translate }}</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <ng-container   *ngFor="let item of entity.BomStage[currentStageId]?.BomItemOut[parentOutId]?.BomItemIn; let i = index">
-                    <tr  *ngIf="item.Status==true || item.IsNew ==true"
-                  >
+
+        <!-- table InBomItem -->
+        <div class="row">
+          <div class="col-lg-12">
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th width="5%">#</th>
+                  <th width="35%">
+                    {{ "BomFactory.BomItem.ItemId" | translate }} *
+                  </th>
+                  <th width="35%">
+                    {{ "BomFactory.BomItem.UnitId" | translate }} *
+                  </th>
+                  <th width="15%">
+                    {{ "BomFactory.BomItem.Quantity" | translate }} *
+                  </th>
+                  <th width="10%">{{ "Button.Action" | translate }}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <ng-container
+                  *ngFor="let item of entity.BomStage[currentStageId]?.BomItemOut[parentOutId]?.BomItemIn; let i = index">
+                  <tr *ngIf="item.Status==true || item.IsNew ==true">
                     <td>{{ i + 1 }}</td>
                     <td *ngIf="i + 1 !== editRowId">{{ item.ItemName }}</td>
                     <td *ngIf="i + 1 !== editRowId">{{ item.UnitName }}</td>
                     <td *ngIf="i + 1 !== editRowId">{{ item.Quantity }}</td>
 
                     <td *ngIf="i + 1 === editRowId">
-                      <ng-select
-                        dropdownPosition="bottom"
-                        class="custom"
-                        [items]="items"
-                        bindLabel="ItemName"
-                        bindValue="ItemId"
-                        placeholder="{{'BomFactory.BomItem.ItemId' | translate}}"
-                        name="BomStageId2"
-                        (change)="fnChangeItem($event)"
-                        id="BomStageId2"
-                        [(ngModel)]="inBomItem.ItemId"
-                      >
-                      </ng-select>
+                      <!-- <ng-select dropdownPosition="bottom" class="custom" [items]="items" bindLabel="ItemName"
+                        bindValue="ItemId" placeholder="{{'BomFactory.BomItem.ItemId' | translate}}" name="BomStageId2"
+                        (change)="fnChangeItem($event)" id="BomStageId2" [(ngModel)]="inBomItem.ItemId">
+                      </ng-select> -->
+                      <app-smart-select   
+                      name="3"  
+                      listName="Item"
+                      [specialId]="inBomItem.ItemId"    
+                      (select_ngModel)="inBomItem.ItemId = $event.id;;inBomItem.ItemName = $event.text;"
+                      placeholder="{{'BomFactory.BomItem.ItemId' | translate}}"></app-smart-select>
                     </td>
                     <td *ngIf="i + 1 === editRowId">
-                      <ng-select
-                        class="custom"
-                        [items]="units"
-                        bindLabel="UnitName"
-                        bindValue="UnitId"
-                        placeholder="{{'Item.placeholdercolumn.ItemPackageUnitId' | translate}}"
-                        name="inUnitId"
+                      <!-- <ng-select class="custom" [items]="units" bindLabel="UnitName" bindValue="UnitId"
+                        placeholder="{{'Item.placeholdercolumn.ItemPackageUnitId' | translate}}" name="inUnitId"
                         [(ngModel)]="inBomItem.UnitId"
-                        (change)="$event != null? (inBomItem.UnitName = $event.UnitName): null"
-                      >
-                      </ng-select>
-                      
+                        (change)="$event != null? (inBomItem.UnitName = $event.UnitName): null">
+                      </ng-select> -->
+                      <app-smart-select 
+                      name="4" 
+                      listName="Unit"  
+                      [specialId]="inBomItem.UnitId"    
+                      (select_ngModel)="inBomItem.UnitId = $event.id;inBomItem.UnitName = $event.text;"
+                      placeholder="{{'Item.placeholdercolumn.ItemPackageUnitId' | translate }}"></app-smart-select>
                     </td>
                     <td *ngIf="i + 1 === editRowId">
-                      <input
-                        type="number"
-                        class="form-control"
-                        name="Quantity"
-                        id="Quantity"
-                        min="0"
+                      <input type="number" class="form-control" name="Quantity" id="Quantity" min="0"
                         (change)="( $event.target.value < 0 || $event.target.value == '')? inBomItem.Quantity=0: inBomItem.Quantity"
-                        [(ngModel)]="inBomItem.Quantity"
-                      />
+                        [(ngModel)]="inBomItem.Quantity" />
                     </td>
                     <td>
                       <div class="btn-group">
                         <div class="text-nowrap">
-                          <button
-                            type="button"
-                            class="btn btn-sm btn-outline btn-primary"
-                            (click)="fnSaveInBomItem(i)"
-                            *ngIf="i + 1 === editRowId"
-                          >
+                          <button type="button" class="btn btn-sm btn-outline btn-primary" (click)="fnSaveInBomItem(i)"
+                            *ngIf="i + 1 === editRowId">
                             <i class="fa fa-check"></i>
                           </button>
-                          <button
-                            type="button"
-                            class="btn btn-sm btn-outline btn-success"
-                            [disabled]="editRowId != 0"
-                            (click)="fnEditInBomItem(i)"
-                            *ngIf="i + 1 !== editRowId"
-                          >
+                          <button type="button" class="btn btn-sm btn-outline btn-success" [disabled]="editRowId != 0"
+                            (click)="fnEditInBomItem(i)" *ngIf="i + 1 !== editRowId">
                             <i class="fa fa-pencil"></i>
                           </button>
-                          <button
-                            type="button"
-                            class="btn btn-sm btn-outline btn-danger"
-                            (click)="fnDeleteInBomItem(i)"
-                            *ngIf="i + 1 !== editRowId"
-                          >
+                          <button type="button" class="btn btn-sm btn-outline btn-danger" (click)="fnDeleteInBomItem(i)"
+                            *ngIf="i + 1 !== editRowId">
                             <i class="fa fa-trash"></i>
                           </button>
                         </div>
                       </div>
                     </td>
                   </tr>
-                  </ng-container>
-                 
-                  <!-- new record -->  
-                  <tr>
-                    <td>{{ bomItems.length + 1 }}</td>
-                    <td>
-                      <!-- //[typeahead]="input$" -->
-                      <ng-select class="custom" 
-                        [items]="itemsBuffer" 
-                        [virtualScroll]="true" 
-                        [loading]="loading"
-                        (change)="fnChangeNewRecordItem($event)" appendTo="body" 
-                        (scroll)="onScroll($event)" (scrollToEnd)="onScrollToEnd()" bindLabel="ItemName"
-                        [searchFn]="customSearchFn"
-                        [typeahead]="input$"
-                        bindValue="ItemId" autofocus placeholder="{{'BomFactory.BomItem.ItemId' | translate}}"
-                        [(ngModel)]="newBomItem.ItemId" name="ItemId" id="ItemId" required>
-                        <ng-template ng-header-tmp>
-                          <small class="form-text text-muted">Loaded {{itemsBuffer.length}} of {{items.length}}</small>
-                        </ng-template>
-                      </ng-select>
+                </ng-container>
 
-                    </td>
-                    <td>
-                      <ng-select class="custom" [items]="units" bindLabel="UnitName" bindValue="UnitId"
-                        placeholder="{{'Item.placeholdercolumn.ItemPackageUnitId' | translate }}" name="outUnitId"
-                        required [(ngModel)]="newBomItem.UnitId"
-                        (change)="newBomItem.UnitName =  $event? $event.UnitName :'' ">
-                      </ng-select>
-                    </td>
-                    <td>
-                      <input
-                        type="number"
-                        class="form-control"
-                        name="newQuantity"
-                        id="newQuantity"
-                        min="0"
-                        (change)="( $event.target.value < 0 || $event.target.value == '')?newBomItem.Quantity=0: newBomItem.Quantity"
-                        [(ngModel)]="newBomItem.Quantity"
-                      />
-                    </td>
-                    <td>
-                      <button
-                        type="button"
-                        class="btn  btn-sm btn-outline btn-info pull-right"
-                        [disabled]="!newBomItem.ItemId||!newBomItem.UnitId ||!newBomItem.Quantity"
-                        (click)="fnAddInBomItem()"
-                      >
-                        <i class="fa fa-plus"></i>
-                      </button>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+                <!-- new record -->
+                <tr>
+                  <td>{{ bomItems.length + 1 }}</td>
+                  <td>
+                    <!-- //[typeahead]="input$" -->
+                    <!-- <ng-select class="custom" [items]="itemsBuffer" [virtualScroll]="true" [loading]="loading"
+                      (change)="fnChangeNewRecordItem($event)" appendTo="body" (scroll)="onScroll($event)"
+                      (scrollToEnd)="onScrollToEnd()" bindLabel="ItemName" [searchFn]="customSearchFn"
+                      [typeahead]="input$" bindValue="ItemId" autofocus
+                      placeholder="{{'BomFactory.BomItem.ItemId' | translate}}" [(ngModel)]="newBomItem.ItemId"
+                      name="ItemId" id="ItemId" required>
+                      <ng-template ng-header-tmp>
+                        <small class="form-text text-muted">Loaded {{itemsBuffer.length}} of {{items.length}}</small>
+                      </ng-template>
+                    </ng-select> -->
+                      <app-smart-select   
+                      name="3"  
+                      listName="Item"
+                      [specialId]="newBomItem.ItemId"    
+                      (select_ngModel)="newBomItem.ItemId = $event.id;;newBomItem.ItemName = $event.text;"
+                      placeholder="{{'BomFactory.BomItem.ItemId' | translate}}"></app-smart-select>
+
+
+                  </td>
+                  <td>
+                    <!-- <ng-select class="custom" [items]="units" bindLabel="UnitName" bindValue="UnitId"
+                      placeholder="{{'Item.placeholdercolumn.ItemPackageUnitId' | translate }}" name="outUnitId"
+                      required [(ngModel)]="newBomItem.UnitId"
+                      (change)="newBomItem.UnitName =  $event? $event.UnitName :'' ">
+                    </ng-select> -->
+                    <app-smart-select 
+                       name="4" 
+                       listName="Unit"  
+                       [specialId]="newBomItem.UnitId"    
+                       (select_ngModel)="newBomItem.UnitId = $event.id;newBomItem.UnitName = $event.text;"
+                       placeholder="{{'Item.placeholdercolumn.ItemPackageUnitId' | translate }}"></app-smart-select>
+                  </td>
+                  <td>
+                    <input type="number" class="form-control" name="newQuantity" id="newQuantity" min="0"
+                      (change)="( $event.target.value < 0 || $event.target.value == '')?newBomItem.Quantity=0: newBomItem.Quantity"
+                      [(ngModel)]="newBomItem.Quantity" />
+                  </td>
+                  <td>
+                    <button type="button" class="btn  btn-sm btn-outline btn-info pull-right"
+                      [disabled]="!newBomItem.ItemId||!newBomItem.UnitId ||!newBomItem.Quantity"
+                      (click)="fnAddInBomItem()">
+                      <i class="fa fa-plus"></i>
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
           </div>
-      
+        </div>
+
       </div>
       <div class="modal-footer">
-        <button
-          type="button"
-          class="btn btn-white"
-          (click)="fnBackModalOut()"
-          [disabled]="editRowId!=0"
-        >
+        <button type="button" class="btn btn-white" (click)="fnBackModalOut()" [disabled]="editRowId!=0">
           {{ "BomFactory.CloseButton" | translate }}
         </button>
-        <button
-          type="button"
-          class="btn btn-primary"
-          [ladda]="laddaSubmitLoading"
-          [disabled]="editRowId!=0"
-          (click)="fnSaveBomItem()"
-        >
+        <button type="button" class="btn btn-primary" [ladda]="laddaSubmitLoading" [disabled]="editRowId!=0"
+          (click)="fnSaveBomItem()">
           {{ "BomFactory.SaveButton" | translate }}
         </button>
       </div>
