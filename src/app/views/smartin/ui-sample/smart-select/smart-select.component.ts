@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter, ɵConsole } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ɵConsole, SimpleChanges, OnChanges } from '@angular/core';
 import { SmartItem, DataTablePaginationParams  } from 'src/app/models/SmartInModels';
 import { Subject } from 'rxjs';
 declare let $: any;
@@ -11,21 +11,21 @@ import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
   styleUrls: ['./smart-select.component.css']
 })
 
-export class SmartSelectComponent implements OnInit {
+export class SmartSelectComponent implements OnInit ,OnChanges  {
   /** Tên danh sách hoặc thực thể 
    * @example : 'Item'
   */
-  @Input('listName') entityString : string = 'Factory';
+  @Input('listName') entityString : string ;
    /** Giá trị placeholder được translate
-     * @example : 'BomFactory.BomItem.id'
+     * @example : 'Item'
      */
   @Input('translatePlaceholder')  translatePlaceholder : string = '';
   /** Mã đặc biệt, phòng trương hợp bị trống do đổi status */
-  @Input('specialId') specialId : string = '185';
+  @Input('specialId') specialId : string ;
   /** Kết quả trả về
    * @example: itemID = $event
    */
-  @Output('select_ngModel') send_value : EventEmitter<string>;
+  @Output('select_ngModel') send_value = new EventEmitter<SmartItem>();
 
   constructor(private api: WaterTreatmentService) { }
 
@@ -49,24 +49,27 @@ export class SmartSelectComponent implements OnInit {
   chooseItem : SmartItem
 
   async ngOnInit() { 
-    this.chooseItem = new SmartItem();
-    await this.loadInit(); //init load 
     this.onSearch(); //input Event
   }
   async loadInit() {
+    this.chooseItem = new SmartItem();
+    console.log('load init Special ID', this.specialId);
     var pr = this.selectParams();
     let res =  await this.api.getItemPagination_Smart(pr).toPromise().then() as any; 
     this.totalCount = res.totalCount;
     this.itemsBuffer =  res.result || [];
   }
 
+  ngOnChanges(changes: SimpleChanges): void {
+      debugger;
+      this.loadInit();
+  }
+
   private selectParams(keyword: string = null, page: number = 0){
     var pr = new DataTablePaginationParams();
     let conditionString = ' ';
     let specialString = ' ';
-    let statusString = null;
-
-    
+    let statusString = ' ';
     pr.pageSize = this.bufferSize;
     if (page) pr.page = (page-1)* pr.pageSize; // recordRow from
     switch (this.entityString) {
@@ -84,7 +87,6 @@ export class SmartSelectComponent implements OnInit {
         if (keyword) conditionString = `  NormalizedUserName LIKE N'%${keyword}%'` ;
         if (this.specialId)   specialString =  `UserName= ${ this.specialId}`;
         break;
-      default:  
       case 'Factory':
         pr.selectFields = "[id] = FactoryId, [text] = FactoryName";
         pr.entity = 'Factory';
@@ -100,6 +102,11 @@ export class SmartSelectComponent implements OnInit {
     return pr;
   }
 
+  onChange(event){
+    this.chooseItem.text =   event? event.text :'';
+    console.log('send_value',this.chooseItem);
+    this.send_value.emit(this.chooseItem);
+  }
   
   onSearch(){ 
     this.input$.pipe(
