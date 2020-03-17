@@ -123,7 +123,6 @@ export class ItemListComponent implements  AfterViewInit, OnDestroy, OnInit {
   };
 
   fnDelete(id) {
-    debugger;
     swal
       .fire({
         title: this.trans.instant("Factory.DeleteAsk_Title"),

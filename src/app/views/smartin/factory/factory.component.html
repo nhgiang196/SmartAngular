@@ -55,18 +55,16 @@
                   <small>{{'Factory.label.Showed'| translate}} </small>
                 </label>
               <select id='choose' class="form-control" [(ngModel)]="pageSize" (change)="loadInit()" >
-                  <option value=10>10</option>
-                  <option value=25>25</option>
-                  <option value=50>50</option>
+                  <option value=12>12</option>
+                  <option value=24>24</option>
+                  <option value=36>36</option>
                   <option value=0>All</option>
               </select>
               </div>
             </div>
             <div class="col-sm-4 text-center">
-              <h2> {{'Factory.label.TotalFactory' | translate}} {{factory_showed}} {{'Factory.' | translate}} </h2>
-              <button type="button" class="btn btn-white" (click)="pageIndex=pageIndex-1; loadInit()" ><i class="fa fa-chevron-left"></i></button>
-              <small>{{'Factory.label.Showed'| translate}} : {{factory.length}}  {{'Factory.' |  translate}} </small>
-              <button type="button" class="btn btn-white" (click)="pageIndex=pageIndex+1; loadInit()"><i class="fa fa-chevron-right"></i> </button>
+              <h2 class="total-factory"> {{'Factory.label.TotalFactory' | translate}} {{factory_showed}} {{'Factory.' | translate}} </h2>
+              <pagination [totalItems]="factory_showed"   [itemsPerPage]="pageSize" (pageChanged)="pageChanged($event)"></pagination>
             </div>
 
             <div class="col-sm-4">

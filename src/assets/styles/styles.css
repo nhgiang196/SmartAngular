@@ -10603,7 +10603,7 @@ ol {
   .footer-page {
       position: fixed;
   }
-/*   
+/*
   .header-report {
     margin-top: 4.5mm;
     position: fixed;
@@ -10614,7 +10614,7 @@ ol {
     /* position: fixed; */
     bottom: 20mm;
   }
-  
+
 }
 
 bs-datepicker-container, bs-daterangepicker-container { z-index: 3501 !important; }
@@ -10663,8 +10663,8 @@ bs-datepicker-container, bs-daterangepicker-container { z-index: 3501 !important
 }
 
 .dropDownCustomClass>ngx-dropzone-label {
-  font-size:11px; 
-  white-space: nowrap; 
+  font-size:11px;
+  white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
@@ -10693,4 +10693,9 @@ bs-datepicker-container, bs-daterangepicker-container { z-index: 3501 !important
 .disabledSwitch{
   pointer-events: none;
   cursor: not-allowed;
+}
+
+
+.pagination {
+  margin-top: -5px !important;
 }

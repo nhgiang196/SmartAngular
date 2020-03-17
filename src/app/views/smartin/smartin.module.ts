@@ -23,6 +23,8 @@ import { BomItemOutModalComponent } from './bom/bom-item-out-modal/bom-item-out-
 import { MonitorStandardComponent } from './monitor/monitor-standard/monitor-standard.component';
 import { MonitorChartComponent } from './monitor/monitor-chart/monitor-chart.component';
 import { UiSampleModule } from './ui-sample/ui-sample.module';
+import { MonitorListComponent } from './monitor/monitor-list/monitor-list.component';
+import { MonitorTrackingComponent } from './monitor/monitor-tracking/monitor-tracking.component';
 
 
 
@@ -51,7 +53,7 @@ const COMPONENTS = [
 
 
 @NgModule({
-  declarations: [...COMPONENTS ],
+  declarations: [...COMPONENTS, MonitorListComponent, MonitorTrackingComponent ],
   imports: [
     CommonModule,
     SharedModule,

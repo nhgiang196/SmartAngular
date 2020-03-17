@@ -27,14 +27,14 @@
   <div class="row">
     <div class="ibox-content">
       Smart select
-      <select  [(ngModel)]="myselect" >
+      <select  [(ngModel)]="myselect" [disabled]="myselect">
         <option selected value='Item'>Item</option>
         <option value='Factory'>Factory</option>
         <option value='Users'>Users</option>
       </select>'
       <label for="spc">Special ID</label> 
       <input id="spc" type="text"  [(ngModel)]="myspecialID"> @example: 185 (Factory)
-      <app-smart-select [specialId]="myspecialID"  [listName]="myselect"  (select_ngModel)="T = $event"></app-smart-select>
+      <app-smart-select *ngIf="myselect" [specialId]="myspecialID"  [listName]="myselect"  (select_ngModel)="T = $event"></app-smart-select>
       <img src="https://i.imgur.com/TSfvHBC.png" style="padding-top: 20px;" >
       </div>
     <div class="ibox-content">

@@ -15,6 +15,7 @@ import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { SmartUploadComponent } from '../ui-sample/smart-upload/smart-upload.component';
 import { CONNREFUSED } from 'dns';
 import { Action } from 'rxjs/internal/scheduler/Action';
+import { PageChangedEvent } from 'ngx-bootstrap/pagination';
 declare let $: any;
 @Component({
   selector: 'app-factory',
@@ -54,7 +55,8 @@ export class FactoryComponent implements OnInit {
   invalid: any = { FactoryCodeNull: false, FactoryCodeExist: false, FactoryNameNull: false, FactoryNameExist: false };
   EditRowNumber: number = 0;
   pageIndex = 1;
-  pageSize = 10;
+  pageSize = 12;
+
   ngOnInit() {
     this.resetEntity();
     this.loadInit();
@@ -68,11 +70,19 @@ export class FactoryComponent implements OnInit {
       this.factory = data.result;
       this.factory_showed = data.totalCount;
       this.iboxloading = false;
+
     }, err => {
       this.toastr.error(err.statusText, "Load init failed!");
       this.iboxloading = false;
     })
+
   }
+  pageChanged(event: PageChangedEvent): void {
+    this.pageIndex = event.page;
+    this.loadInit();
+
+  }
+
   searchLoad(){
     this.pageIndex=1;
     this.loadInit();
@@ -137,7 +147,20 @@ export class FactoryComponent implements OnInit {
               this.loadInit();
               $("#myModal4").modal('hide');
             }
-            else this.toastr.warning(operationResult.Message);
+            else{
+              if((operationResult.Message.indexOf("The DELETE statement conflicted with the REFERENCE constraint")) > 0 )
+              {
+                swal.fire(
+                  {
+                    title: this.trans.instant('messg.delete.caption'),
+                    titleText: this.trans.instant('The factory has arisen, cannot be deleted!'),
+                    confirmButtonText: this.trans.instant('Button.OK'),
+                    type: 'error',
+                  }
+                );
+              }
+              else this.toastr.warning(operationResult.Message);
+            }
           }, err => { this.toastr.error(err.statusText) })
         }
       })
@@ -196,7 +219,7 @@ export class FactoryComponent implements OnInit {
       swal.fire("Validate", this.trans.instant('Factory.data.TechnologyDate') + this.trans.instant(' was nested validate'), 'warning');
       return false;
     }
-
+    //&&
     if(this.entity.FactoryTechnology.filter(t=> {
       return  (t.FactoryTechnologyId != itemAdd.FactoryTechnologyId )
               &&

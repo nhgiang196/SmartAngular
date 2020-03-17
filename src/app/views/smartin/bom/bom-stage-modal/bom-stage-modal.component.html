@@ -22,6 +22,7 @@
               <div class="form-group">
                 <label> {{ "BomFactory.FactoryId" | translate }} : *</label>
                 <ng-select
+                autocomplete="off"
                   class="custom"
                   [items]="initComboboxFactories.Factories"
                   bindLabel="FactoryName"
@@ -37,6 +38,7 @@
               <div class="form-group">
                 <label> {{ "BomFactory.Validate" | translate }} :</label>
                 <input
+                autocomplete="off"
                   type="text"
                   name="Validate"
                   id="Validate"
@@ -55,6 +57,7 @@
               <div class="form-group">
                 <label> {{ "BomFactory.Descriptions" | translate }} : </label>
                 <textarea
+                  autocomplete="off"
                   type="text"
                   name="Descriptions"
                   id="Descriptions"
@@ -73,6 +76,7 @@
                 <div class="switch">
                   <div class="onoffswitch">
                     <input
+                      autocomplete="off"
                       type="checkbox"
                       class="onoffswitch-checkbox"
                       name="status"

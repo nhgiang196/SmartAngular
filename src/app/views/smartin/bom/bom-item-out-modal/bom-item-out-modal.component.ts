@@ -108,7 +108,7 @@ export class BomItemOutModalComponent implements OnInit {
         this.units = res.result;
       });
     }
-    
+
   }
 
   fnChangeNewRecordItem(event:any){
@@ -121,7 +121,7 @@ export class BomItemOutModalComponent implements OnInit {
         this.units = res.result;
       });
     }
-   
+
   }
 
   fnEditOutBomItem(index) {
@@ -135,7 +135,7 @@ export class BomItemOutModalComponent implements OnInit {
 
   fnSaveOutBomItem(index) {
     if (this.fnValidateBomItemOut(this.outBomItem,'edit')) {
-      
+
       this.outBomItem.IsNew = true;
       this.entity.BomStage[this.currentStageId].BomItemOut[
         index
@@ -156,8 +156,6 @@ export class BomItemOutModalComponent implements OnInit {
     $("#modalStages").modal("show");
   }
   fnSaveBomItemOut() {
-    // this.entity.BomStage[this.currentStageId].BomItemOut = this.outBomItems;
-    // this.outBomItems = [];
     this.entity.BomStage[this.currentStageId].BomItemOut.forEach(item => {
       item.Status = true;
       item.IsNew = false;
