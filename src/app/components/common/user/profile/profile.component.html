@@ -27,13 +27,18 @@
   <div class="row">
     <div class="ibox-content">
       Smart select
+		<label for="spc">Special ID</label> 
+      <input id="spc" type="text"  [(ngModel)]="myspecialID"> @example: 185 (Factory)
+      <button  (click)="myselect=null" >refresh</button>
+
       <select  [(ngModel)]="myselect" [disabled]="myselect">
-        <option selected value='Item'>Item</option>
+        <option value='Item'>Item</option>
+        <option value='ItemOut'>ItemOut</option>
         <option value='Factory'>Factory</option>
         <option value='Users'>Users</option>
+        <option value='Unit'>Unit</option>
       </select>'
-      <label for="spc">Special ID</label> 
-      <input id="spc" type="text"  [(ngModel)]="myspecialID"> @example: 185 (Factory)
+      
       <app-smart-select *ngIf="myselect" [specialId]="myspecialID"  [listName]="myselect"  (select_ngModel)="T = $event"></app-smart-select>
       <img src="https://i.imgur.com/TSfvHBC.png" style="padding-top: 20px;" >
       </div>

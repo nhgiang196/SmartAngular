@@ -69,6 +69,8 @@ export class SmartSelectComponent implements OnInit ,OnChanges  {
       this.loadInit();
       return;
     }
+    this.chooseItem.id = this.specialId ;
+
     
     
   }
