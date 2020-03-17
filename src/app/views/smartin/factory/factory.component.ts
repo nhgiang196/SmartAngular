@@ -137,7 +137,20 @@ export class FactoryComponent implements OnInit {
               this.loadInit();
               $("#myModal4").modal('hide');
             }
-            else this.toastr.warning(operationResult.Message);
+            else{
+              if((operationResult.Message.indexOf("The DELETE statement conflicted with the REFERENCE constraint")) > 0 )
+              {
+                swal.fire(
+                  {
+                    title: this.trans.instant('messg.delete.caption'),
+                    titleText: this.trans.instant('The factory has arisen, cannot be deleted!'),
+                    confirmButtonText: this.trans.instant('Button.OK'),
+                    type: 'error',
+                  }
+                );
+              }
+              else this.toastr.warning(operationResult.Message);
+            }
           }, err => { this.toastr.error(err.statusText) })
         }
       })
