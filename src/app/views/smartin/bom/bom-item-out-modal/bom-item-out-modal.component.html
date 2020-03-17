@@ -88,7 +88,7 @@
                         name="Quantity"
                         id="Quantity"
                         min="0"
-                        (change)="( $event.target.value < 0 || $event.target.value == '')? (outBomItem.Quantity): outBomItem.Quantity"
+                        (change)="( $event.target.value < 0 || $event.target.value == '')? outBomItem.Quantity=0: outBomItem.Quantity"
                         [(ngModel)]="outBomItem.Quantity"
                       />
                     </td>
@@ -169,7 +169,7 @@
                         name="newQuantity"
                         id="newQuantity"
                         min="0"
-                        (change)="( $event.target.value < 0 || $event.target.value == '')? (newBomItemOut.Quantity): newBomItemOut.Quantity"
+                        (change)="( $event.target.value < 0 || $event.target.value == '')? newBomItemOut.Quantity=0: newBomItemOut.Quantity"
                         [(ngModel)]="newBomItemOut.Quantity"
                       />
                     </td>

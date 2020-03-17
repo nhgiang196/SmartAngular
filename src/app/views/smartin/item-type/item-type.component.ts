@@ -101,6 +101,7 @@ export class ItemTypeComponent implements OnDestroy, OnInit {
   {
     this.ACTION_STATUS = 'update'
     this.entity = current;
+    this.newItemTypeProperty = new ItemTypeProperty();
     this.existName = false;
   }
   fnDelete(id) {
@@ -134,9 +135,20 @@ export class ItemTypeComponent implements OnDestroy, OnInit {
   
   fnEditItem(index){ //press edit item (in modal)
     this.EditRowID = index +1;
-    this.itemTypeProperty = this.entity.ItemTypeProperty[index];
+    this.itemTypeProperty =this.entity.ItemTypeProperty[index] ;
   }
-  fnSaveItem(){
+  fnSaveItem(index){
+    this.itemTypeProperty.ItemTypePropertyName = this.itemTypeProperty.ItemTypePropertyName.trim();
+    let  propertyLengt = this.entity.ItemTypeProperty.filter(x=>x.ItemTypePropertyName.trim().toLocaleLowerCase() == this.itemTypeProperty.ItemTypePropertyName.toLocaleLowerCase());
+    if (propertyLengt.length>1) {
+      swal.fire(
+        "Validate",
+          "Thuộc tính đã tồn tại, vui lòng nhập tên thuộc tính khác",
+        "warning"
+      );
+      return;
+    }
+    this.entity.ItemTypeProperty[index] = this.itemTypeProperty;
     this.EditRowID = 0;
   }
 
@@ -145,6 +157,16 @@ export class ItemTypeComponent implements OnDestroy, OnInit {
       this.toastr.warning("Validate", this.trans.instant('Factory.data.TechnologyName') + this.trans.instant('messg.isnull'))
       return;
     }
+    this.newItemTypeProperty.ItemTypePropertyName =  this.newItemTypeProperty.ItemTypePropertyName.trim();
+    if (this.entity.ItemTypeProperty.find(x=>x.ItemTypePropertyName.toLocaleLowerCase() == this.newItemTypeProperty.ItemTypePropertyName.toLocaleLowerCase())) {
+      swal.fire(
+        "Validate",
+          "Thuộc tính đã tồn tại, vui lòng nhập tên thuộc tính khác",
+        "warning"
+      );
+      return;
+    }
+
     this.entity.ItemTypeProperty.push(this.newItemTypeProperty);
     this.newItemTypeProperty = new ItemTypeProperty();
   }
@@ -174,6 +196,7 @@ export class ItemTypeComponent implements OnDestroy, OnInit {
           var operationResult: any = res
           if (operationResult.Success) {
             this.toastr.success(this.trans.instant("messg.add.success"));
+            $("#myModal4").modal("hide");
           }
           else this.toastr.warning(operationResult.Message);
           this.laddaSubmitLoading = false;
@@ -185,8 +208,15 @@ export class ItemTypeComponent implements OnDestroy, OnInit {
           var operationResult: any = res
           if (operationResult.Success) {
             this.toastr.success(this.trans.instant("messg.update.success"));
+            $("#myModal4").modal("hide");
           }
-          else this.toastr.warning(operationResult.Message);
+          else{
+            swal.fire(
+              "Validate",
+              "Không thể xóa thuộc tính đã phát sinh",
+              "warning"
+            );
+          } 
           this.laddaSubmitLoading = false;
         }, err => { this.toastr.error(err.statusText); this.laddaSubmitLoading = false; })
       }

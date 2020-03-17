@@ -35,6 +35,7 @@ export class FactoryComponent implements OnInit {
     public trans: TranslateService,
     public helper: MyHelperService,
     private auth: AuthService
+
   ) { }
   /** DECLARATION */
   bsConfig = { dateInputFormat: 'YYYY-MM-DD', adaptivePosition: true };
@@ -50,6 +51,8 @@ export class FactoryComponent implements OnInit {
   factory_showed = 0;
   invalid: any = { FactoryCodeNull: false, FactoryCodeExist: false, FactoryNameNull: false, FactoryNameExist: false };
   EditRowNumber: number = 0;
+  pageIndex = 1;
+  pageSize = 10;
   ngOnInit() {
     this.resetEntity();
     this.loadInit();
@@ -58,7 +61,7 @@ export class FactoryComponent implements OnInit {
   loadInit() {
     this.iboxloading = true;
     this.EditRowNumber = 0;
-    this.api.getFactoryPagination(this.keyword).subscribe(res => {
+    this.api.getFactoryPaginationMain(this.keyword,this.pageIndex, this.pageSize).subscribe(res => {
       var data = res as any;
       this.factory = data.result;
       this.factory_showed = data.totalCount;
@@ -67,6 +70,11 @@ export class FactoryComponent implements OnInit {
       this.toastr.error(err.statusText, "Load init failed!");
       this.iboxloading = false;
     })
+  }
+  searchLoad(){
+    this.pageIndex=1;
+    this.loadInit();
+
   }
   private resetEntity() {
     this.entity = new Factory();
@@ -116,7 +124,7 @@ export class FactoryComponent implements OnInit {
             var operationResult: any = res
             if (operationResult.Success) {
               swal.fire(
-                // 'Deleted!', this.trans.instant('messg.delete.success'), 
+                // 'Deleted!', this.trans.instant('messg.delete.success'),
                 {
                   title: this.trans.instant('messg.delete.caption'),
                   titleText: this.trans.instant('messg.delete.success'),
@@ -157,7 +165,7 @@ export class FactoryComponent implements OnInit {
   fnDeleteItem(index) { //press delete item (in modal)
     this.entity.FactoryTechnology.splice(index, 1);
   }
-  async fnSave() { //press save/SUBMIT button 
+  async fnSave() { //press save/SUBMIT button
     this.laddaSubmitLoading = true;
     var e = this.fnConvertFactoryDate(this.entity);
     if (await this.fnValidate(e)) {
@@ -168,7 +176,7 @@ export class FactoryComponent implements OnInit {
           if (operationResult.Success) {
             this.toastr.success(this.trans.instant("messg.add.success"));
             $("#myModal4").modal('hide');
-            
+
             this.loadInit();
             this.fnEditSignal(operationResult.Data);
           }

@@ -32,10 +32,19 @@ export class WaterTreatmentService {
     return this.http.post(`${ApiUrl}/Factory/GetFactoryPagination`, pr);
   }
 
+  getFactoryPaginationMain(keyvalue, pageIndex, pageSize) {
+    let pr = new DataTablePaginationParams();
+    pr.keyFields="FactoryName ,FactoryAddress,FactoryContact,ContactPhone"
+    pr.key = keyvalue;
+    pr.page = pageIndex<1? 1 : pageIndex;
+    pr.pageSize = pageSize;
+    return this.http.post(`${ApiUrl}/Factory/GetFactoryPagination`, pr);
+  }
   getFactoryPagination(keyvalue) {
     let pr = new DataTablePaginationParams();
     pr.keyFields="FactoryName ,FactoryAddress,FactoryContact,ContactPhone"
     pr.key = keyvalue;
+
     pr.pageSize = 9999;
     return this.http.post(`${ApiUrl}/Factory/GetFactoryPagination`, pr);
   }

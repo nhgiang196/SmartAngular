@@ -217,14 +217,14 @@ export class StageFile {
 
 export class BomFactory {
 	BomFactoryId: number = 0
-  FactoryId: number 
-  FactoryName: number 
-	Validate?: Date= new Date()
+  FactoryId: number
+  FactoryName: number
+	Validate?: any
   Descriptions?: string
   CreateBy: string
-  CreateDate?: Date = new Date()
+  CreateDate?: any 
   ModifyBy: string
-  ModifyDate?: Date = new Date()
+  ModifyDate?: any 
   Status?: number = 1
   Factory? : Factory = new Factory();
   BomStage?: BomStage [] = []
@@ -384,7 +384,7 @@ export class ContractFile {
   File: Files = new Files()
 }
 
-//Monitor
+//Monitor standard
 export class MonitorStandard{
   MonitorStandardId: number
   FactoryId: number
