@@ -55,6 +55,8 @@ export class FactoryComponent implements OnInit {
   EditRowNumber: number = 0;
   pageIndex = 1;
   pageSize = 10;
+  isPrivious = false;
+  isNext = false;
   ngOnInit() {
     this.resetEntity();
     this.loadInit();
@@ -68,10 +70,23 @@ export class FactoryComponent implements OnInit {
       this.factory = data.result;
       this.factory_showed = data.totalCount;
       this.iboxloading = false;
+      let pageTotal =  Math.round((this.factory_showed/this.pageSize)+0.4);
+
+      if(this.pageIndex <=1){
+        this.pageIndex = 1;
+        this.isPrivious = true;
+      }else this.isPrivious = false;
+      if(this.pageIndex >= pageTotal)
+      {
+        this.pageIndex = pageTotal;
+        this.isNext = true;
+      } else this.isNext = false;
+
     }, err => {
       this.toastr.error(err.statusText, "Load init failed!");
       this.iboxloading = false;
     })
+
   }
   searchLoad(){
     this.pageIndex=1;
@@ -209,7 +224,7 @@ export class FactoryComponent implements OnInit {
       swal.fire("Validate", this.trans.instant('Factory.data.TechnologyDate') + this.trans.instant(' was nested validate'), 'warning');
       return false;
     }
-
+    //&&
     if(this.entity.FactoryTechnology.filter(t=> {
       return  (t.FactoryTechnologyId != itemAdd.FactoryTechnologyId )
               &&
