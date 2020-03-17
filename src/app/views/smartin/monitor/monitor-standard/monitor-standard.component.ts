@@ -28,7 +28,7 @@ export class MonitorStandardComponent implements OnInit {
   EditRowID: number =0;
   entity: MonitorStandard;
   _monitor: MonitorStandard;
-  isDisable =false;
+  //isDisable =false;
   iboxloading = false;
   keyword: string = '';
   monitorstandard_showed = 0;
@@ -162,14 +162,14 @@ export class MonitorStandardComponent implements OnInit {
   fnAdd() {
     this.ACTION_STATUS = 'add';
     this.existName = false;
-    this.isDisable = false;
+    //this.isDisable = false;
     this.entity = new MonitorStandard();
   }
 
   async fnUpdate(current)
   {
     this.ACTION_STATUS = 'update';
-    this.isDisable = true;
+    //this.isDisable = true;
     this.existName = false;
     this.entity = new MonitorStandard();
     let _factoryAddTag = await this.initCombobox.FullFactories.find(x => x.FactoryId == current.FactoryId);
@@ -184,6 +184,7 @@ export class MonitorStandardComponent implements OnInit {
   async fnSave() {
     this.laddaSubmitLoading = true;
     var e = this.entity;
+    e.Factory = null;
     e.ValidateDateFrom = this.helpper.dateConvertToString(e.ValidateDateFrom);
     e.ValidateDateTo = this.helpper.dateConvertToString(e.ValidateDateTo);
     if(e.ValidateDateFrom <= e.ValidateDateTo)
@@ -191,7 +192,6 @@ export class MonitorStandardComponent implements OnInit {
       if ( await this.fnValidate(e)) {
         if (this.ACTION_STATUS == 'add') {
           e.CreateBy = this.auth.currentUser.Username;
-          e.Factory = null;
           this.api.addMonitorStandard(e).subscribe(res => {
             var operationResult: any = res
             if (operationResult.Success) {
