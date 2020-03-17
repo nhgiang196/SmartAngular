@@ -11,8 +11,7 @@
  (scrollToEnd)="onScrollToEnd()" 
  autofocus 
  [placeholder]="translatePlaceholder || ''"
- name="id" 
- id="id" 
+ [name]="name" 
  required>
  <ng-template ng-header-tmp>
    <small class="form-text text-muted">Loaded {{itemsBuffer.length}} of {{totalCount}}</small>

@@ -12,9 +12,8 @@ import { HttpEventType } from '@angular/common/http';
   styleUrls: ['./smart-upload.component.css']
 })
 export class SmartUploadComponent implements OnInit {
-  @Input('filePath') pathFile: string = 'uploadFileRandom';
-  // @Input('receiveList') receiveList: any;
 
+  @Input('filePath') pathFile: string = 'uploadFileRandom';
   @Output('entityFile') send_entityFile = new EventEmitter<UI_CustomFile[]>();  /*** * example: WarehouseFile[] -> File()    */
 
   constructor(
