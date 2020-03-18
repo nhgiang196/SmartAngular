@@ -359,6 +359,7 @@
   "Customer":{
     "":"Customer",
     "data.CustomerId" : "Customer ID",
+    "data.CustomerCode" : "Customer Code",
     "data.CustomerName" : "Customer Name",
     "data.FactoryId" : "Factory ID" ,
     "data.CustomerAddress" : "Customer Address" ,
@@ -374,6 +375,7 @@
     "data.Status1" : "Status1",
     "data.Status0" : "Status0",
     "data.IsIntergration" : "Is Intergration" ,
+    "placeholder.CustomerCode" : "Enter Customer Code",
     "placeholder.CustomerName" : "Enter Customer name",
     "placeholder.FactoryId" : "Choose Factory" ,
     "placeholder.CustomerAddress" : "Enter Customer Address" ,

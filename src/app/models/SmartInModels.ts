@@ -314,7 +314,8 @@ export class WarehouseLocation {
 }
 
 export class Customer {
-	CustomerId: number = 0
+  CustomerId: number = 0
+  CustomerCode: string
 	CustomerName?: string
 	FactoryId?: number
 	CustomerAddress?: string
