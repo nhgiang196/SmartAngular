@@ -89,11 +89,12 @@ export class SmartSelectComponent implements OnInit ,OnChanges  {
       this.loadInit();
       return;
     }
-    else if (changes.specialId) {
-      this.chooseItem.id = this.specialId ;
-      this.loadInit();
-      return;
-    }
+    // else if (changes.specialId) {
+    //   this.chooseItem.id = this.specialId ;
+    //   this.loadInit();
+    //   return;
+    // }
+    this.chooseItem.id = this.specialId;
   }
 
   /** ACIENT CODES, DON'T CHANGE!! */
