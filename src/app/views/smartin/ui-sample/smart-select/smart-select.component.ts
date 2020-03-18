@@ -89,10 +89,11 @@ export class SmartSelectComponent implements OnInit ,OnChanges  {
       this.loadInit();
       return;
     }
-    this.chooseItem.id = this.specialId ;
-
-    
-    
+    else if (changes.specialId) {
+      this.chooseItem.id = this.specialId ;
+      this.loadInit();
+      return;
+    }
   }
 
   /** ACIENT CODES, DON'T CHANGE!! */
@@ -177,7 +178,7 @@ export class SmartSelectComponent implements OnInit ,OnChanges  {
   
   onSearch(){ 
     this.input$.pipe(
-      debounceTime(200),
+      debounceTime(500),
       distinctUntilChanged(), 
       switchMap(term =>  this.fakeService(term))
     ).subscribe(data => {
