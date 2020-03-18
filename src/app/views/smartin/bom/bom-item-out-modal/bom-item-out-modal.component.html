@@ -19,7 +19,7 @@
           <span aria-hidden="true">&times;</span
           ><span class="sr-only">Close</span>
         </button>
-        <h4 class="modal-title">Danh sách đầu ra</h4>
+        <h4 class="modal-title">{{ "BomFactory.label.ItemOut" | translate }}</h4>
       </div>
       <div class="modal-body">
         
@@ -31,13 +31,13 @@
                   <tr>
                     <th width="5%">#</th>
                     <th width="35%">
-                      {{ "BomFactory.BomItem.ItemId" | translate }} *
+                      {{ "BomFactory.BomItemOut.ItemId" | translate }} *
                     </th>
                     <th width="35%">
-                      {{ "BomFactory.BomItem.UnitId" | translate }} *
+                      {{ "BomFactory.BomItemOut.UnitId" | translate }} *
                     </th>
                     <th width="15%">
-                      {{ "BomFactory.BomItem.Quantity" | translate }} *
+                      {{ "BomFactory.BomItemOut.Quantity" | translate }} *
                     </th>
                     <th width="10%">{{ "Button.Action" | translate }}</th>
                   </tr>
@@ -57,11 +57,11 @@
                       <app-smart-select listName="ItemOut"  name="outBomItem_Item"
                       [specialId]="outBomItem.ItemId"    
                       (select_ngModel)="outBomItem.ItemId = $event.id;outBomItem.ItemName = $event.text"
-                      placeholder="{{'BomFactory.BomItem.ItemId' | translate}}">
+                      >
                       </app-smart-select>
                     </td>
                     <td *ngIf="i + 1 === editRowId">
-                      <app-smart-select name="outBomItem_PackageUnit" listName="Unit"  placeholder="{{'Item.placeholdercolumn.ItemPackageUnitId' | translate }}"    
+                      <app-smart-select name="outBomItem_PackageUnit" listName="Unit"      
                       [specialId]="outBomItem.UnitId"    
                       (select_ngModel)="outBomItem.UnitId = $event.id; outBomItem.UnitName = $event.text;">
                     </app-smart-select>
@@ -129,7 +129,7 @@
                       listName="ItemOut"
                       [specialId]="newBomItemOut.ItemId"    
                       (select_ngModel)="newBomItemOut.ItemId = $event.id;;newBomItemOut.ItemName = $event.text;"
-                      placeholder="{{'BomFactory.BomItem.ItemId' | translate}}"></app-smart-select>
+                      ></app-smart-select>
                     </td>
                     <td>
                       <app-smart-select 
@@ -137,7 +137,7 @@
                        listName="Unit"  
                        [specialId]="newBomItemOut.UnitId"    
                        (select_ngModel)="newBomItemOut.UnitId = $event.id;newBomItemOut.UnitName = $event.text;"
-                       placeholder="{{'Item.placeholdercolumn.ItemPackageUnitId' | translate }}"></app-smart-select>
+                       ></app-smart-select>
                     </td>
                     <td>
                       <input
@@ -174,7 +174,7 @@
           (click)="fnBackStageModal()"
           [disabled]="editRowId!=0"
         >
-          {{ "BomFactory.CloseButton" | translate }}
+          {{ "Button.Close" | translate }}
         </button>
         <button
           type="button"
@@ -186,7 +186,7 @@
           (click)="fnSaveBomItemOut()"
           [disabled]="editRowId!=0"
         >
-          {{ "BomFactory.SaveButton" | translate }}
+          {{ "Button.Save" | translate }}
         </button>
       </div>
     </div>

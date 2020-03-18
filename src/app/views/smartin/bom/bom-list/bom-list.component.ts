@@ -33,8 +33,12 @@ export class BomListComponent implements OnInit {
   @ViewChild(DataTableDirective)
   dtElement: DataTableDirective;
   dtTrigger: Subject<any> = new Subject();
-  initComboboxFactories = { Factories: [], FullFactories: [], FactoriesCopy:[]};
-  initComboboxStages = { Stages: [], FullStages: [], StagesCopy:[]};
+  initComboboxFactories = {
+    Factories: [],
+    FullFactories: [],
+    FactoriesCopy: []
+  };
+  initComboboxStages = { Stages: [], FullStages: [], StagesCopy: [] };
   BomFactorys: BomFactory[];
   // Default load data
   entity: BomFactory;
@@ -68,13 +72,10 @@ export class BomListComponent implements OnInit {
     await this.loadFactories();
     await this.loadStages();
     await this.loadItems();
-    
-   
   }
   private resetEntity() {
     this.entity = new BomFactory();
     this.BomFactorys = [];
-    
   }
 
   loadInit = async () => {
@@ -166,9 +167,14 @@ export class BomListComponent implements OnInit {
       .toPromise()
       .then();
     // this.factories = data.result.filter(x=>x.Status==true);
-    this.initComboboxFactories.Factories = ( data as any).result.filter(x=>x.Status ==1) as Factory[];
-    this.initComboboxFactories.FullFactories = ( data as any).result as Factory[];
-    this.initComboboxFactories.FactoriesCopy =  ( data as any).result.filter(x=>x.Status ==1) as Factory[];
+    this.initComboboxFactories.Factories = (data as any).result.filter(
+      x => x.Status == 1
+    ) as Factory[];
+    this.initComboboxFactories.FullFactories = (data as any)
+      .result as Factory[];
+    this.initComboboxFactories.FactoriesCopy = (data as any).result.filter(
+      x => x.Status == 1
+    ) as Factory[];
   }
   async loadStages() {
     let keySearch = "";
@@ -177,10 +183,13 @@ export class BomListComponent implements OnInit {
       .toPromise()
       .then();
     this.stages = data.result;
-    this.initComboboxStages.Stages = ( data as any).result.filter(x=>x.Status ==1) as Stage[];
-    this.initComboboxStages.FullStages = ( data as any).result as Stage[];
-    this.initComboboxStages.StagesCopy =  ( data as any).result.filter(x=>x.Status ==1) as Stage[];
-
+    this.initComboboxStages.Stages = (data as any).result.filter(
+      x => x.Status == 1
+    ) as Stage[];
+    this.initComboboxStages.FullStages = (data as any).result as Stage[];
+    this.initComboboxStages.StagesCopy = (data as any).result.filter(
+      x => x.Status == 1
+    ) as Stage[];
   }
   async loadItems() {
     let keySearch = "";
@@ -206,8 +215,10 @@ export class BomListComponent implements OnInit {
   fnDelete(id) {
     swal
       .fire({
-        title: this.trans.instant("BomFactory.DeleteAsk_Title"),
-        titleText: this.trans.instant("BomFactory.DeleteAsk_Text"),
+        title: this.trans.instant("BomFactory.mssg.DeleteAsk_Title"),
+        titleText: this.trans.instant("BomFactory.mssg.DeleteAsk_Text"),
+        confirmButtonText: this.trans.instant("Button.Yes"),
+        cancelButtonText: this.trans.instant("Button.Cancel"),
         type: "warning",
         showCancelButton: true,
         reverseButtons: true
@@ -218,11 +229,12 @@ export class BomListComponent implements OnInit {
             res => {
               var operationResult: any = res;
               if (operationResult.Success) {
-                swal.fire(
-                  "Deleted!",
-                  this.trans.instant("messg.delete.success"),
-                  "success"
-                );
+                swal.fire({
+                  title: this.trans.instant("messg.delete.caption"),
+                  titleText: this.trans.instant("messg.delete.success"),
+                  confirmButtonText: this.trans.instant("Button.OK"),
+                  type: "success"
+                });
                 this.rerender();
               } else this.toastr.warning(operationResult.Message);
             },
@@ -244,59 +256,72 @@ export class BomListComponent implements OnInit {
     }
   }
 
-  customEntityUpdated(){
-    this.entity.BomStage.forEach(item=>{
+  customEntityUpdated() {
+    this.entity.BomStage.forEach(item => {
       item.StageName = item.Stage.StageName;
-      item.BomItemOut.forEach(itemBomOut=>{
-        itemBomOut.Status =true;
-        itemBomOut.IsNew =false;
+      item.BomItemOut.forEach(itemBomOut => {
+        itemBomOut.Status = true;
+        itemBomOut.IsNew = false;
         itemBomOut.ItemName = itemBomOut.Item.ItemName;
         itemBomOut.UnitName = itemBomOut.Unit.UnitName;
-        itemBomOut.BomItemIn.forEach(itemBomIn=>{
-          itemBomIn.Status =true;
-          itemBomIn.IsNew =false;
+        itemBomOut.BomItemIn.forEach(itemBomIn => {
+          itemBomIn.Status = true;
+          itemBomIn.IsNew = false;
           itemBomIn.ItemName = itemBomIn.Item.ItemName;
           itemBomIn.UnitName = itemBomIn.Unit.UnitName;
           return itemBomIn;
-        })
+        });
         return itemBomOut;
-      })
+      });
       return item;
-    })
+    });
   }
 
   fnUpdate(id) {
-      //press a link name of entity
-      this.ACTION_STATUS = "update";
-      
-      this.resetEntity();
-      this.ACTION_STATUS = "update";
-      this.iboxloading = true;
-      this.api.findBomFactoryById(id).subscribe(
-        res => {
-          console.log(res);
-          this.entity = res;
-          if(this.initComboboxFactories.Factories.find(x=>x.FactoryId == res.FactoryId&& x.isCopy !=true)==null){
-            let item = this.initComboboxFactories.FullFactories.find(x=>x.FactoryId == res.FactoryId)
-            this.initComboboxFactories.Factories= this.initComboboxFactories.Factories.concat([{FactoryId:item.FactoryId,FactoryName:item.FactoryName,isCopy:true}])
-          }
-          else{
-            this.initComboboxFactories.Factories = this.initComboboxFactories.FactoriesCopy;
-          }
-          console.log(this.initComboboxFactories);
+    //press a link name of entity
+    this.ACTION_STATUS = "update";
 
-          this.customEntityUpdated();
-          //debugger
-          $("#modalStages").modal("show");
-          this.iboxloading = false;
-        },
-        error => {
-          this.iboxloading = false;
-          this.toastr.error(
-            error.statusText,
-            "Load BomFactory information error"
+    this.resetEntity();
+    this.ACTION_STATUS = "update";
+    this.iboxloading = true;
+    this.api.findBomFactoryById(id).subscribe(
+      res => {
+        console.log(res);
+        this.entity = res;
+        if (
+          this.initComboboxFactories.Factories.find(
+            x => x.FactoryId == res.FactoryId && x.isCopy != true
+          ) == null
+        ) {
+          let item = this.initComboboxFactories.FullFactories.find(
+            x => x.FactoryId == res.FactoryId
           );
+          this.initComboboxFactories.Factories = this.initComboboxFactories.Factories.concat(
+            [
+              {
+                FactoryId: item.FactoryId,
+                FactoryName: item.FactoryName,
+                isCopy: true
+              }
+            ]
+          );
+        } else {
+          this.initComboboxFactories.Factories = this.initComboboxFactories.FactoriesCopy;
         }
-      );
+        console.log(this.initComboboxFactories);
+
+        this.customEntityUpdated();
+        //debugger
+        $("#modalStages").modal("show");
+        this.iboxloading = false;
+      },
+      error => {
+        this.iboxloading = false;
+        this.toastr.error(
+          error.statusText,
+          "Load BomFactory information error"
+        );
+      }
+    );
   }
 }

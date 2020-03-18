@@ -74,10 +74,12 @@ export class BomItemOutModalComponent implements OnInit {
       typeAction == "add"
     ) {
       swal.fire(
-        "Validate",
-        this.trans.instant("Factory.data.TechnologyName") +
-          this.trans.instant("messg.isexisted"),
-        "warning"
+        {
+          title: this.trans.instant('messg.validation.caption'),
+          titleText: this.trans.instant('BomFactory.mssg.ErrorExistItemOut'),
+          confirmButtonText: this.trans.instant('Button.OK'),
+          type: 'error',
+        }
       );
       return false;
     }
@@ -86,10 +88,12 @@ export class BomItemOutModalComponent implements OnInit {
       typeAction == "edit"
     ) {
       swal.fire(
-        "Validate",
-        this.trans.instant("Factory.data.TechnologyName") +
-          this.trans.instant("messg.isexisted"),
-        "warning"
+        {
+          title: this.trans.instant('messg.validation.caption'),
+          titleText: this.trans.instant('BomFactory.mssg.ErrorExistItemOut'),
+          confirmButtonText: this.trans.instant('Button.OK'),
+          type: 'error',
+        }
       );
       return false;
     }

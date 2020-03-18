@@ -141,6 +141,14 @@
     "maximumFileSize2000": "Giới hạn file tối đa 2MB, một số file sẽ không được upload lên",
     "maximumFileSize5000": "Giới hạn file tối đa 5MB, một số file sẽ không được upload lên"
   },
+  "Master": {
+    "data.CreateBy": "Người tạo",
+    "data.CreateDate": "Ngày tạo",
+    "data.ModifyBy": "Người sửa",
+    "data.ModifyDate": "Ngày sửa",
+    "data.Status": "Trạng thái",
+    "data.OrderNo": "STT"
+  },
   "Factory": {
     "": "Nhà máy",
     "btn.AddFactory": "Thêm nhà máy",
@@ -439,5 +447,34 @@
     "label.File":"File hợp đồng",
     "label.Information":"CẬP NHẬT HỢP ĐỒNG",
     "invalid.Existed_ContractNo":"Số hợp đồng bị trùng"
+  },
+  "BomFactory": {
+    "Breadcrumb": "ĐỊNH MỨC HÓA CHẤT",
+    "label.Information": "Thông tin định mức hóa chất",
+    "label.ItemOut": "Sản phẩm đầu ra",
+    "label.ItemIn": "Vật tư đầu vào",
+    "data.BomFactoryId": "ID BOM",    
+    "data.FactoryId": "Nhà máy",
+    "data.Validate": "Ngày hiệu lực",
+    "data.Descriptions": "Mô tả",
+    "BomStage.StageId": "Giai đoạn",
+    "BomStage.OrderNumber": "Thứ tự",
+    "BomStage.Sequence": "Liên tục",
+    "BomStage.Descriptions": "Mô tả",
+    "BomItemOut.ItemId": "Sản phẩm",
+    "BomItemOut.UnitId": "ĐVT",
+    "BomItemOut.Quantity": "Số lượng",
+    "BomItemIn.ItemId": "Vật tư",
+    "BomItemIn.UnitId": "ĐVT",
+    "BomItemIn.Quantity": "Số lượng",
+    "placeholder.FactoryId": "Chọn nhà máy",
+    "placeholder.Validate": "Nhập ngày hiệu lực",
+    "placeholder.Descriptions": "Nhập mô tả thêm về định mức hóa chất",
+    "mssg.ErrorExistFactoryAndValidate": "BOM của nhà máy và ngày hiệu lực đã tồn tại",
+    "mssg.ErrorExistStage": "Trùng giai đoạn",
+    "mssg.ErrorExistItemOut": "Trùng sản phẩm",
+    "mssg.ErrorExistItemIn": "Trùng vật tư",
+    "mssg.DeleteAsk_Title": "Xóa định mức hóa chất?",
+    "mssg.DeleteAsk_Text": "Bạn chắc chắn xóa định mức hóa chất này?"
   }
 }

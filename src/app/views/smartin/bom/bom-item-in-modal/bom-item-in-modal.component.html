@@ -6,7 +6,7 @@
         <button type="button" class="close" data-dismiss="modal" (click)="isLoadData.emit(true)">
           <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
         </button>
-        <h4 class="modal-title">Danh sách đầu vào</h4>
+        <h4 class="modal-title">{{ "BomFactory.label.ItemIn" | translate }}</h4>
       </div>
       <div class="modal-body">
 
@@ -18,13 +18,13 @@
                 <tr>
                   <th width="5%">#</th>
                   <th width="35%">
-                    {{ "BomFactory.BomItem.ItemId" | translate }} *
+                    {{ "BomFactory.BomItemIn.ItemId" | translate }} *
                   </th>
                   <th width="35%">
-                    {{ "BomFactory.BomItem.UnitId" | translate }} *
+                    {{ "BomFactory.BomItemIn.UnitId" | translate }} *
                   </th>
                   <th width="15%">
-                    {{ "BomFactory.BomItem.Quantity" | translate }} *
+                    {{ "BomFactory.BomItemIn.Quantity" | translate }} *
                   </th>
                   <th width="10%">{{ "Button.Action" | translate }}</th>
                 </tr>
@@ -44,7 +44,7 @@
                       listName="Item"
                       [specialId]="inBomItem.ItemId"    
                       (select_ngModel)="inBomItem.ItemId = $event.id;;inBomItem.ItemName = $event.text;"
-                      placeholder="{{'BomFactory.BomItem.ItemId' | translate}}"></app-smart-select>
+                      ></app-smart-select>
                     </td>
                     <td *ngIf="i + 1 === editRowId">
                       <app-smart-select 
@@ -52,7 +52,7 @@
                       listName="Unit"  
                       [specialId]="inBomItem.UnitId"    
                       (select_ngModel)="inBomItem.UnitId = $event.id;inBomItem.UnitName = $event.text;"
-                      placeholder="{{'Item.placeholdercolumn.ItemPackageUnitId' | translate }}"></app-smart-select>
+                      ></app-smart-select>
                     </td>
                     <td *ngIf="i + 1 === editRowId">
                       <input type="number" class="form-control" name="Quantity" id="Quantity" min="0"
@@ -89,7 +89,7 @@
                       listName="Item"
                       [specialId]="newBomItem.ItemId"    
                       (select_ngModel)="newBomItem.ItemId = $event.id;;newBomItem.ItemName = $event.text;"
-                      placeholder="{{'BomFactory.BomItem.ItemId' | translate}}"></app-smart-select>
+                      ></app-smart-select>
 
 
                   </td>
@@ -99,7 +99,7 @@
                        listName="Unit"  
                        [specialId]="newBomItem.UnitId"    
                        (select_ngModel)="newBomItem.UnitId = $event.id;newBomItem.UnitName = $event.text;"
-                       placeholder="{{'Item.placeholdercolumn.ItemPackageUnitId' | translate }}"></app-smart-select>
+                       ></app-smart-select>
                   </td>
                   <td>
                     <input type="number" class="form-control" name="newQuantity" id="newQuantity" min="0"
@@ -122,11 +122,11 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-white" (click)="fnBackModalOut()" [disabled]="editRowId!=0">
-          {{ "BomFactory.CloseButton" | translate }}
+          {{ "Button.Close" | translate }}
         </button>
         <button type="button" class="btn btn-primary" [ladda]="laddaSubmitLoading" [disabled]="editRowId!=0"
           (click)="fnSaveBomItem()">
-          {{ "BomFactory.SaveButton" | translate }}
+          {{ "Button.Save" | translate }}
         </button>
       </div>
     </div>

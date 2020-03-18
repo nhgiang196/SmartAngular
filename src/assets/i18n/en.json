@@ -138,6 +138,14 @@
     "maximumFileSize2000": "Maximum attachment size 2MB, some file can't upload",
     "maximumFileSize5000": "Maximum attachment size 5MB, some file can't upload"
   },
+  "Master": {
+    "data.CreateBy": "Create By",
+    "data.CreateDate": "Create Date",
+    "data.ModifyBy": "Modify By",
+    "data.ModifyDate": "Modify Date",
+    "data.Status": "Status",
+    "data.OrderNo": "Order No"
+  },
   "Factory": {
     "": "Factory",
     "btn.AddFactory": "Add Factory",
@@ -435,5 +443,34 @@
     "label.File":"Attached Files",
     "label.Information":"CONTRACT'S INFORMATION",
     "invalid.Existed_ContractNo":"Số hợp đồng bị trùng"
+  },
+  "BomFactory": {
+    "Breadcrumb": "BILL OF MATERIALS",
+    "label.Information": "BOM's Information",
+    "label.ItemOut": "Output Product",
+    "label.ItemIn": "Input Materials",
+    "data.BomFactoryId": "ID BOM",    
+    "data.FactoryId": "Factory",
+    "data.Validate": "Validate",
+    "data.Descriptions": "Descriptions",
+    "BomStage.StageId": "Stage",
+    "BomStage.OrderNumber": "Order Number",
+    "BomStage.Sequence": "Is Sequence",
+    "BomStage.Descriptions": "Descriptions",
+    "BomItemOut.ItemId": "Product",
+    "BomItemOut.UnitId": "UOM",
+    "BomItemOut.Quantity": "Quantity",
+    "BomItemIn.ItemId": "Material",
+    "BomItemIn.UnitId": "UOM",
+    "BomItemIn.Quantity": "Quantity",
+    "placeholder.FactoryId": "Select Factory",
+    "placeholder.Validate": "Enter Validate",
+    "placeholder.Descriptions": "Enter BOM's Descriptions",
+    "mssg.ErrorExistFactoryAndValidate": "BOM of this Factory with this Validate Already Exists",
+    "mssg.ErrorExistStage": "Duplicate Stage",
+    "mssg.ErrorExistItemOut": "Duplicate Product",
+    "mssg.ErrorExistItemIn": "Duplicate Material",
+    "mssg.DeleteAsk_Title": "Delete BOM?",
+    "mssg.DeleteAsk_Text": "Are you sure delete this BOM?"
   }
 }

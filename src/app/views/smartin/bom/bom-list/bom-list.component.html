@@ -27,7 +27,7 @@
             <div class="col-sm-4">
               <!-- hidden this button -->
               <button (click)="fnAdd()" type="button" class="btn btn-primary dim" data-toggle="modal" data-target="#modalStages">
-                <i class="fa fa-plus"></i >{{ "BomFactory.AddButton" | translate }}
+                <i class="fa fa-plus"></i > {{ "Button.Add" | translate }}
               </button>
             </div>
           </div>
@@ -43,18 +43,18 @@
               <thead>
                 <tr>
                   <th>
-                    STT
+                    {{ "Master.data.OrderNo" | translate }}
                   </th>
                   <th>
-                    {{ "BomFactory.BomFactoryId" | translate }}
+                    {{ "BomFactory.data.FactoryId" | translate }}
                   </th>
-                  <th>{{ "BomFactory.Validate" | translate }}</th>
-                  <th>{{ "BomFactory.Descriptions" | translate }}</th>
-                  <th>{{ "BomFactory.CreateBy" | translate }}</th>
-                  <th>{{ "BomFactory.CreateDate" | translate }}</th>
-                  <th>{{ "BomFactory.ModifyBy" | translate }}</th>
-                  <th>{{ "BomFactory.ModifyDate" | translate }}</th>
-                  <th style="width: 150px;">Status</th>
+                  <th>{{ "BomFactory.data.Validate" | translate }}</th>
+                  <th>{{ "BomFactory.data.Descriptions" | translate }}</th>
+                  <th>{{ "Master.data.CreateBy" | translate }}</th>
+                  <th>{{ "Master.data.CreateDate" | translate }}</th>
+                  <th>{{ "Master.data.ModifyBy" | translate }}</th>
+                  <th>{{ "Master.data.ModifyDate" | translate }}</th>
+                  <th style="width: 150px;">{{ "Master.data.Status" | translate }}</th>
                   <th>{{ "Button.Action" | translate }}</th>
                 </tr>
               </thead>
