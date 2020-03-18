@@ -42,9 +42,12 @@
                   </div>
                   <label class="col-sm-2 control-label">{{'Customer.data.FactoryId' | translate }}*:</label>
                   <div class="col-sm-4">
-                    <ng-select [items]="initCombobox.Factories" bindLabel="FactoryName" bindValue="FactoryId" [(ngModel)]="entity.FactoryId"
-                      class="custom" placeholder="{{'Customer.placeholder.FactoryId' | translate }}" name="FactoryId"
-                      required></ng-select>
+                    <app-smart-select 
+                    name="FactoryId" 
+                    listName="Factory"  
+                    [specialId]="entity.FactoryId"    
+                    (select_ngModel)="entity.FactoryId = $event.id"
+                    placeholder="{{'Customer.placeholder.FactoryId' | translate }}"></app-smart-select>
 
                   </div>
                 </div>

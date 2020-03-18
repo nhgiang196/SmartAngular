@@ -47,13 +47,9 @@ export class CustomerDetailComponent implements OnInit {
     this.loadInit();
   }
   async loadInit() {
-    await this.loadFactoryList();
     /**Add Combobox Value: FACTORY */
     let dataResolver = this.route.snapshot.data["dataResolver"] as any;
     if (dataResolver){
-      let _factoryAddTag = await this.initCombobox.FullFactories.find(x => x.FactoryId == dataResolver.FactoryId);
-      if (_factoryAddTag && await !this.initCombobox.Factories.find(x => x.FactoryId == dataResolver.FactoryId))
-        this.initCombobox.Factories = this.initCombobox.Factories.concat([_factoryAddTag]);
       this.entity = dataResolver;
       this.uploadComponent.loadInit(dataResolver.CustomerFile)
     }
@@ -62,12 +58,6 @@ export class CustomerDetailComponent implements OnInit {
     console.log(this.entity);
   }
   /**INIT FUNCTIONS */
-  private async loadFactoryList() {
-    let res = await this.api.getBasicFactory().toPromise().then().catch(err => this.toastr.warning('Get factories Failed, check network')) as any;
-    this.initCombobox.Factories = (res as any).result.filter(x => x.Status == 1) as Factory[];
-    this.initCombobox.FullFactories = (res as any).result as Factory[];
-    console.log(this.initCombobox);
-  }
   private async resetEntity() { //reset entity values
     this.entity = new Customer();
     this.invalid = {};

@@ -52,6 +52,7 @@ export class ContractComponent implements OnInit, AfterViewInit {
   newEntity_ContractPrice: ContractPrice = new ContractPrice();
   subEntity_ContractBreach: ContractBreach = new ContractBreach();
   newEntity_ContractBreach: ContractBreach = new ContractBreach();
+  iboxloading = false;
   ngOnInit() {
   }
   ngOnDestroy() {
@@ -68,12 +69,17 @@ export class ContractComponent implements OnInit, AfterViewInit {
 
 
   loadInit(id){
+    this.iboxloading = true;
     this.uploadComponent.resetEntity();
     if (id && id!=0)
     this.api.findContractById(id).subscribe(res => {
       console.log('findContractById', res);
       this.entity = res;
       this.uploadComponent.loadInit(res.ContractFile);
+      this.iboxloading = false;
+    }, err => {
+      this.toastr.error(err.statusText, "Load contract failed! Check your connection");
+      this.iboxloading = false;
     })
   }
 
