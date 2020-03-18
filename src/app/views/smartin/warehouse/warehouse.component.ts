@@ -28,12 +28,13 @@ declare let $: any;
 export class WarehouseComponent implements OnInit {
   @ViewChild('myInputFile') InputManual: ElementRef;
   @ViewChild(SmartUploadComponent) uploadComponent: SmartUploadComponent;
+  @ViewChild(SmartSelectComponent) selectComponent: SmartSelectComponent;
   constructor(
     private api: WaterTreatmentService,
     private toastr: ToastrService,
     public trans: TranslateService,
     public helper: MyHelperService,
-    private auth: AuthService
+    private auth: AuthService   
   ) { }
   /** INIT / DECLARATION */
   Warehouse: any[] = []; //init data
@@ -72,6 +73,8 @@ export class WarehouseComponent implements OnInit {
     this.iboxloading = true;
     this.api.getWarehousePagination(this.keyword,this.pageIndex, this.pageSize).subscribe(res => {
       var data = res as any;
+      this.selectComponent.specialId = res.FactoryId;
+      this.selectComponent.loadInit();
       this.Warehouse = data.result;
       this.Warehouse_showed = data.totalCount;
       this.iboxloading = false;
