@@ -25,6 +25,8 @@ import { MonitorChartComponent } from './monitor/monitor-chart/monitor-chart.com
 import { UiSampleModule } from './ui-sample/ui-sample.module';
 import { MonitorListComponent } from './monitor/monitor-list/monitor-list.component';
 import { MonitorTrackingComponent } from './monitor/monitor-tracking/monitor-tracking.component';
+import { ProcessLogsComponent } from './process/process-logs/process-logs.component';
+import { ProcessPlanComponent } from './process/process-plan/process-plan.component';
 
 
 
@@ -53,7 +55,7 @@ const COMPONENTS = [
 
 
 @NgModule({
-  declarations: [...COMPONENTS, MonitorListComponent, MonitorTrackingComponent ],
+  declarations: [...COMPONENTS, MonitorListComponent, MonitorTrackingComponent, ProcessLogsComponent, ProcessPlanComponent],
   imports: [
     CommonModule,
     SharedModule,

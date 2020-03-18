@@ -58,6 +58,8 @@ import { MonitorStandardComponent } from './views/smartin/monitor/monitor-standa
 import { MonitorChartComponent } from './views/smartin/monitor/monitor-chart/monitor-chart.component';
 import { MonitorListComponent } from './views/smartin/monitor/monitor-list/monitor-list.component';
 import { MonitorTrackingComponent } from './views/smartin/monitor/monitor-tracking/monitor-tracking.component';
+import { ProcessLogsComponent } from './views/smartin/process/process-logs/process-logs.component';
+import { ProcessPlanComponent } from './views/smartin/process/process-plan/process-plan.component';
 
 
 /**XLNT */
@@ -72,34 +74,34 @@ export const ROUTES: Routes = [
   { //BasicComponent
     path: '', component: BasicComponent,
     children: [
-      { path: 'mainView', component: MainViewComponent, canActivate: [AuthGuard]}, //custom
+      { path: 'mainView', component: MainViewComponent, canActivate: [AuthGuard] }, //custom
 
-      { path: 'workFlowView', component: WorkFlowComponent , canActivate: [AuthGuard]},
-      { path: 'taskManageView', component: TaskManageComponent, canActivate: [AuthGuard]},
-      { path: 'taskCompleteView', component: TaskCompleteComponent , canActivate: [AuthGuard]},
-      { path: 'showDiagram/:id', component: DiagramComponent , canActivate: [AuthGuard]},//Show Diagram
-      { path: 'taskFormView/:formKey/:id/:businessKey', component: TaskFormComponent , canActivate: [AuthGuard]},//Open detail form Approve by Key
-      { path: 'timelineLog/:businessKey', component: TimelineLogComponent , canActivate: [AuthGuard]},//Open detail form TimeLine Log by Key
+      { path: 'workFlowView', component: WorkFlowComponent, canActivate: [AuthGuard] },
+      { path: 'taskManageView', component: TaskManageComponent, canActivate: [AuthGuard] },
+      { path: 'taskCompleteView', component: TaskCompleteComponent, canActivate: [AuthGuard] },
+      { path: 'showDiagram/:id', component: DiagramComponent, canActivate: [AuthGuard] },//Show Diagram
+      { path: 'taskFormView/:formKey/:id/:businessKey', component: TaskFormComponent, canActivate: [AuthGuard] },//Open detail form Approve by Key
+      { path: 'timelineLog/:businessKey', component: TimelineLogComponent, canActivate: [AuthGuard] },//Open detail form TimeLine Log by Key
       /**
        * EMCS ComponentRoutes
        */
-      { path: 'EQManageView', component: EquipmentManageComponent},
-      { path: 'planScheduleView', component: PlanScheduleComponent},
-      { path: 'voucherRequisitionView', component: VoucherRequisitionComponent},
-      { path: 'equipmentReportView/:DeptID', component: EquipmentReportComponent},
+      { path: 'EQManageView', component: EquipmentManageComponent },
+      { path: 'planScheduleView', component: PlanScheduleComponent },
+      { path: 'voucherRequisitionView', component: VoucherRequisitionComponent },
+      { path: 'equipmentReportView/:DeptID', component: EquipmentReportComponent },
       { path: 'EquipmentView/:EQID', component: EquipmentDetailComponent },//Open detail form Approve by Key
       { path: 'VoucherView/:businessKey', component: VoucherDetailComponent },//Open detail form Approve by Key
       { path: 'NonAdjustEQView', component: StandardEquipmentComponent },//Open detail form Approve by Key
-      { path: 'planScheduleReportView/:DeptID/:Year', component: PlanScheduleReportComponent},
+      { path: 'planScheduleReportView/:DeptID/:Year', component: PlanScheduleReportComponent },
 
 
 
       {
-        path: 'admin' , canActivate: [AuthGuard], children: [
+        path: 'admin', canActivate: [AuthGuard], children: [
           { path: 'usersManagment', component: UserMangamentComponent },
           { path: 'role', component: RolesComponent },
-          { path: 'resetPass', component: ResetpasswordComponent},
-          { path: 'factory', component: FactoryComponent},
+          { path: 'resetPass', component: ResetpasswordComponent },
+          { path: 'factory', component: FactoryComponent },
           { path: '', component: AdminNavigationComponent, outlet: 'sidemenu' },
         ]
       },
@@ -117,40 +119,50 @@ export const ROUTES: Routes = [
           { path: 'itemType', component: ItemTypeComponent },
           { path: 'unit', component: UnitMeasurementComponent },
           { path: 'stage', component: StageComponent },
-          { path: 'item',
-            children:[
-              {path:'', component: ItemListComponent},
-              {path:'list', component: ItemListComponent},
-              {path:'grid',component: ItemGridComponent},
-              {path:'detail/:id',component: ItemDetailComponent ,resolve: { item: ItemResolver}},
-              {path:'action',component: ItemActionComponent},
-              {path:'action/:id',component: ItemActionComponent, resolve: { item: ItemResolver}}
+          {
+            path: 'item',
+            children: [
+              { path: '', component: ItemListComponent },
+              { path: 'list', component: ItemListComponent },
+              { path: 'grid', component: ItemGridComponent },
+              { path: 'detail/:id', component: ItemDetailComponent, resolve: { item: ItemResolver } },
+              { path: 'action', component: ItemActionComponent },
+              { path: 'action/:id', component: ItemActionComponent, resolve: { item: ItemResolver } }
             ]
-           },
+          },
           { path: 'item/:id', component: ItemListComponent },
           { path: 'warehouse', component: WarehouseComponent },
           { path: 'customers', component: CustomerComponent },
-          { path: 'newcustomer', component: CustomerDetailComponent},
-          { path: 'customer/:id', component: CustomerDetailComponent, resolve: { dataResolver: CustomerDetailResolverService }},
+          { path: 'newcustomer', component: CustomerDetailComponent },
+          { path: 'customer/:id', component: CustomerDetailComponent, resolve: { dataResolver: CustomerDetailResolverService } },
           { path: '', component: CategoryNavigationComponent, outlet: 'sidemenu' },
         ]
       },
-       //bom
-       {
+      //bom
+      {
         path: 'bom', canActivate: [AuthGuard], children: [
           { path: 'list', component: BomListComponent },
           { path: 'unit', component: UnitMeasurementComponent },
           { path: 'stage', component: StageComponent },
-           { path: 'item/:id', component: ItemListComponent },
+          { path: 'item/:id', component: ItemListComponent },
           { path: 'warehouse', component: WarehouseComponent },
           { path: '', component: CategoryNavigationComponent, outlet: 'sidemenu' },
         ]
       },
-       //monitor
-       {
+      //monitor
+      {
         path: 'monitor', canActivate: [AuthGuard], children: [
           { path: 'tracking', component: MonitorTrackingComponent },
           { path: 'standard', component: MonitorStandardComponent },
+          { path: 'chart', component: MonitorChartComponent },
+          { path: 'factoryData', component: MonitorListComponent }
+        ]
+      },
+       //process
+       {
+        path: 'process', canActivate: [AuthGuard], children: [
+          { path: 'logs', component: ProcessLogsComponent },
+          { path: 'plan', component: ProcessPlanComponent },
           { path: 'chart', component: MonitorChartComponent },
           { path: 'factoryData', component: MonitorListComponent }
         ]
@@ -162,11 +174,11 @@ export const ROUTES: Routes = [
     children: [
       // { path: 'landingView', component: LandingViewComponent },
       { path: 'login', component: LoginComponent },
-      { path: 'register',  component: RegisterComponent },
+      { path: 'register', component: RegisterComponent },
       { path: 'forgotPassword', component: ForgotPasswordComponent },
       { path: 'resetPassword', component: UserResetPasswordComponent },
 
-      { path: 'voucherReportView/:VoucherId', component: VoucherReportComponent},
+      { path: 'voucherReportView/:VoucherId', component: VoucherReportComponent },
       { path: '**', component: NotFoundComponent }
     ]
   },
