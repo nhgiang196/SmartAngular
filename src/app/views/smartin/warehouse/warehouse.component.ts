@@ -36,7 +36,7 @@ export class WarehouseComponent implements OnInit {
     private auth: AuthService
   ) { }
   /** INIT / DECLARATION */
-  Warehouse: Warehouse[] = []; //init data
+  Warehouse: any[] = []; //init data
   entity: Warehouse;
   locationEntity: WarehouseLocation;
   newLocationEntity: WarehouseLocation;
