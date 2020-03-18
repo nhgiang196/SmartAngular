@@ -61,7 +61,7 @@ export class SignalRService {
     this.hubConnection.on('transferchartdata', (data) => {
       console.log(data)
       result = data[0];
-      if (JSON.stringify(currentData) != JSON.stringify(data)) {
+      if (result!=null &&JSON.stringify(currentData) != JSON.stringify(data)) {
         currentData = data;
         this.temperatureData.push(result.temperature)
         this.codData.push(result.cod)
