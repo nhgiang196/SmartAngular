@@ -310,7 +310,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-white" data-dismiss="modal">{{'Button.Close' | translate}}  </button>
-        <button type="button" class="btn btn-primary" (click)="fnSave();" [disabled]="myForm.invalid||EditRowNumber!=0 || entity.WarehouseLength<0 || entity.WarehouseWidth<0 || entity.WarehouseHeight<0" [ladda]="laddaSubmitLoading" ><i class="fa fa-paper-plane-o"></i> {{'Button.Save' | translate}} </button>
+        <button type="button" class="btn btn-primary" (click)="fnSave();" [disabled]="myForm.invalid||EditRowNumber!=0 || entity.WarehouseLength<0 || entity.WarehouseWidth<0 || entity.WarehouseHeight<0 || !entity.FactoryId" [ladda]="laddaSubmitLoading" ><i class="fa fa-paper-plane-o"></i> {{'Button.Save' | translate}} </button>
       </div>
     </div>
   </div>
