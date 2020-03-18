@@ -9,6 +9,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { trigger, transition, animate, style } from '@angular/animations';
 import { HttpEventType } from '@angular/common/http';
 import { SmartUploadComponent } from '../ui-sample/smart-upload/smart-upload.component';
+import { PageChangedEvent } from 'ngx-bootstrap';
 declare let $: any;
 @Component({
   selector: 'app-warehouse',
@@ -22,6 +23,7 @@ declare let $: any;
     ])
   ]
 })
+
 export class WarehouseComponent implements OnInit {
   @ViewChild('myInputFile') InputManual: ElementRef;
   @ViewChild(SmartUploadComponent) uploadComponent: SmartUploadComponent;
@@ -46,8 +48,8 @@ export class WarehouseComponent implements OnInit {
   invalid: any = { Existed_WarehouseCode: false, Existed_WarehouseName: false };
   initCombobox = { Factories: [], FullFactories: [], Users: [] };
   EditRowNumber: number = 0;
-  page = 1;
-  pageSize = 10;
+  pageIndex = 1;
+  pageSize = 12;
   /**INIT FUNCTIONS */
   ngOnInit() { //init functions
     this.resetEntity();
@@ -65,14 +67,14 @@ export class WarehouseComponent implements OnInit {
     }, err => this.toastr.warning('Get users Failed, check network'))
   }
   searchLoad(){
-    this.page=1;
+    this.pageIndex=1;
     this.loadInit();
 
   }
 
   loadInit() { //init loading
     this.iboxloading = true;
-    this.api.getWarehousePagination(this.keyword,this.page, this.pageSize).subscribe(res => {
+    this.api.getWarehousePagination(this.keyword,this.pageIndex, this.pageSize).subscribe(res => {
       var data = res as any;
       this.Warehouse = data.result;
       this.Warehouse_showed = data.totalCount;
@@ -115,6 +117,12 @@ export class WarehouseComponent implements OnInit {
       this.toastr.error(error.statusText, "Load factory information error");
     })
   }
+  pageChanged(event: PageChangedEvent): void {
+    this.pageIndex = event.page;
+    this.loadInit();
+
+  }
+  
   fnDelete(id) { //press Delete Entity
     swal.fire({
       title: this.trans.instant('Warehouse.mssg.DeleteAsk_Title'),
