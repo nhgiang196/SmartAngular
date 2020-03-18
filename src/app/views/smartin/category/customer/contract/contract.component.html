@@ -41,8 +41,8 @@
 
             <div class="col-lg-6">
               <div class="form-group">
-                <label>{{ 'Contract.data.SignDate' | translate }} :</label>
-                <input autocomplete="off"  type="text" name="SignDate" id="SignDate" class="form-control" placeholder="{{ 'Contract.placeholder.SignDate' | translate }}" 
+                <label>{{ 'Contract.data.SignDate' | translate }}* :</label>
+                <input autocomplete="off"  type="text" name="SignDate" id="SignDate" class="form-control" placeholder="{{ 'Contract.placeholder.SignDate' | translate }}"  required
                   bsDatepicker readonly [bsConfig]="bsConfig" [(ngModel)]="entity.SignDate">
               </div>
             </div>
@@ -51,8 +51,8 @@
           <div class="row">
             <div class="col-lg-6">
               <div class="form-group">
-                <label>{{ 'Contract.data.EffectiveDate' | translate }} :</label>
-                <input autocomplete="off"  type="text" name="EffectiveDate" id="EffectiveDate" class="form-control" placeholder="{{ 'Contract.placeholder.EffectiveDate' | translate }}" 
+                <label>{{ 'Contract.data.EffectiveDate' | translate }}* :</label>
+                <input autocomplete="off"  type="text" name="EffectiveDate" id="EffectiveDate" class="form-control" placeholder="{{ 'Contract.placeholder.EffectiveDate' | translate }}" required
                 bsDatepicker readonly [bsConfig]="bsConfig" [(ngModel)]="entity.EffectiveDate">
 
               </div>
@@ -92,7 +92,8 @@
             <div class="col-lg-6">
               <div class="form-group">
                 <label> {{ 'Contract.data.Ratio' | translate }} *: </label>
-                <input autocomplete="off" type="text" name="Ratio" id="Ratio" [(ngModel)]="entity.Ratio" class="form-control" placeholder="{{ 'Contract.placeholder.Ratio' | translate }}" >
+                <input autocomplete="off" type="number" min="0" max="100" name="Ratio" id="Ratio" [(ngModel)]="entity.Ratio" class="form-control" placeholder="{{ 'Contract.placeholder.Ratio' | translate }}" 
+                (keyup)="ratioOnChange($event)">
 
               </div>
               
@@ -134,31 +135,34 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr class="animated fadeInRight" *ngFor="let item of entity.ContractBreach; let i = index"
+                      <tr class="" *ngFor="let item of entity.ContractBreach; let i = index"
                         [@simpleFadeAnimation]="'in'">
                         <td> {{i+1}} </td>
                         <!-- TABLE -->
-                        <td *ngIf="i+1 !== EditRowNumber">{{ 'Contract.data.ContractBreach.BreachType'+item.BreachType | translate }} </td>
                         <td *ngIf="i+1 !== EditRowNumber">{{ 'Contract.data.ContractBreach.ResolveType'+item.ResolveType | translate }} </td>
+                        <td *ngIf="i+1 !== EditRowNumber">{{ 'Contract.data.ContractBreach.BreachType'+item.BreachType | translate }} </td>
                         <td *ngIf="i+1 !== EditRowNumber">{{item.Times}} </td>
                         <!-- FORM -->
-                        <td *ngIf="i+1 === EditRowNumber">
-                          <select autocomplete="off" class="select2_demo_3 form-control"  [(ngModel)]="subEntity_ContractBreach.BreachType" name="BreachType" >
-                            <option selected value=1> {{ 'Contract.data.ContractBreach.BreachType1' | translate }} </option>
-                            <option value=2> {{ 'Contract.data.ContractBreach.BreachType2' | translate }} </option>
-                          </select>
+                        
                         <td *ngIf="i+1 === EditRowNumber">
                           <select autocomplete="off" class="select2_demo_3 form-control"  [(ngModel)]="subEntity_ContractBreach.ResolveType" name="ResolveType" >
                             <option selected value=1> {{ 'Contract.data.ContractBreach.ResolveType1' | translate }} </option>
                             <option value=2> {{ 'Contract.data.ContractBreach.ResolveType2' | translate }} </option>
                           </select>
+                        </td>
                         <td *ngIf="i+1 === EditRowNumber">
-                          <input autocomplete="off" type="number" min="0" class="form-control" name="Times" [(ngModel)]="subEntity_ContractBreach.Times"></td>
+                          <select autocomplete="off" class="select2_demo_3 form-control"  [(ngModel)]="subEntity_ContractBreach.BreachType" name="BreachType" >
+                            <option selected value=1> {{ 'Contract.data.ContractBreach.BreachType1' | translate }} </option>
+                            <option value=2> {{ 'Contract.data.ContractBreach.BreachType2' | translate }} </option>
+                          </select>
+                        </td>
+                        <td *ngIf="i+1 === EditRowNumber">
+                          <input autocomplete="off" type="number" min="0" [(ngModel)]="subEntity_ContractBreach.Times" (keyup)="subEntity_ContractBreach.Times= breachTimesOnChange($event)" class="form-control" name="Times" ></td>
                         <!-- BUTTON -->
                         <td>
                           <div class="btn-group">
                             <button type="button" class="btn btn-sm btn-outline btn-primary"
-                              [disabled]="!subEntity_ContractBreach.BreachType || !subEntity_ContractBreach.ResolveType"
+                              [disabled]="!subEntity_ContractBreach.BreachType || !subEntity_ContractBreach.ResolveType || !subEntity_ContractBreach.Times"
                               (click)="EditRowNumber=0" *ngIf="i+1 === EditRowNumber"><i class="fa fa-check"></i></button>
                             <button type="button" class="btn btn-sm btn-outline btn-success" (click)="fnEditContractBreach(i)" [disabled]="EditRowNumber!=0"
                               *ngIf="i+1 !== EditRowNumber"><i class="fa fa-pencil"></i></button>
@@ -180,9 +184,9 @@
                             <option selected value=1> {{ 'Contract.data.ContractBreach.ResolveType1' | translate }} </option>
                             <option value=2> {{ 'Contract.data.ContractBreach.ResolveType2' | translate }} </option>
                           </select>
-                        <td> <input autocomplete="off" type="number" min="0" class="form-control"  name="newTimes" [(ngModel)]="newEntity_ContractBreach.Times"> </td>
+                        <td> <input autocomplete="off" type="number" min="0" class="form-control"  name="newTimes" [(ngModel)]="newEntity_ContractBreach.Times" (keyup)="newEntity_ContractBreach.Times= breachTimesOnChange($event)"> </td>
                         <td>
-                          <button [disabled]="!newEntity_ContractBreach.BreachType || !newEntity_ContractBreach.ResolveType"
+                          <button [disabled]="!newEntity_ContractBreach.BreachType || !newEntity_ContractBreach.ResolveType || !subEntity_ContractBreach.Times"
                           type="button" class="btn  btn-sm btn-outline btn-info pull-right"  (click)="fnAddContractBreach(newEntity_ContractBreach)"><i class="fa fa-plus"></i> </button>
                         </td>
                       </tr>
@@ -230,7 +234,7 @@
                     </thead>
                     <tbody>
     
-                      <tr class="animated fadeInRight" *ngFor="let item of entity.ContractPrice; let i = index"
+                      <tr class="" *ngFor="let item of entity.ContractPrice; let i = index"
                         [@simpleFadeAnimation]="'in'">
                         <td> {{i+1}} </td>
                         <!-- TABLE -->
@@ -250,8 +254,8 @@
                         <!-- BUTTON -->
                         <td>
                           <div class="btn-group">
-                            <button type="button" class="btn btn-sm btn-outline btn-primary" (click)="EditRowNumber_PRICE=0" *ngIf="i+1 === EditRowNumber_PRICE"
-                            [disabled]="subEntity_ContractPrice.Ratio<0 || subEntity_ContractPrice.Price<0 || subEntity_ContractPrice.Tax<0" ><i class="fa fa-check"></i></button>
+                            <button type="button" class="btn btn-sm btn-outline btn-primary" (click)="validatePrice(subEntity_ContractPrice)" *ngIf="i+1 === EditRowNumber_PRICE"
+                            [disabled]="disabled_ContractPrice()" ><i class="fa fa-check"></i></button>
                             <button type="button" class="btn btn-sm btn-outline btn-success" (click)="fnEditContractPrice(i)"  [disabled]="EditRowNumber_PRICE!=0"
                               *ngIf="i+1 !== EditRowNumber_PRICE"><i class="fa fa-pencil"></i></button>
                             <button type="button" class="btn btn-sm btn-outline btn-danger" (click)="fnDeleteContractPrice(i)"
@@ -268,7 +272,7 @@
                         <td> <input autocomplete="off" type="number" min="0" class="form-control" name="newTax" [(ngModel)]="newEntity_ContractPrice.Tax"> </td>
                         <td>
                           <button type="button" class="btn  btn-sm btn-outline btn-info pull-right" (click)="fnAddContractPrice(newEntity_ContractPrice)" 
-                          [disabled]="newEntity_ContractPrice.Ratio<0 || newEntity_ContractPrice.Price<0 || newEntity_ContractPrice.Tax<0"
+                          [disabled]="disabled_ContractPrice()"
                           ><i class="fa fa-plus" ></i> </button>
                         </td>
                       </tr>

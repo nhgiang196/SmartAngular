@@ -347,12 +347,12 @@ export class Contract {
 	CustomerId?: number = 0
 	ContractNo?: string
 	ContractCode?: string
-	ContractType?: number = 1
+	ContractType?: number = 2
 	SignDate?: any
 	EffectiveDate?: any
 	EndDate?: any
-	StandardType?: number = 1
-	Ratio?: any
+	StandardType?: number = 2
+	Ratio?: any = 0
 	Description?: string
   IsIntergration?: boolean = true
   ContractPrice : ContractPrice[] = []
@@ -364,7 +364,7 @@ export class ContractPrice {
 	ContractPriceId: number = 0
 	ContractId?: number = 0
 	Ratio?: any = 0
-	Currency?: string = '$'
+	Currency?: string = null
 	Price?: any = 0
 	Tax?: any = 0
 }
@@ -374,7 +374,7 @@ export class ContractBreach {
 	ContractId?: number = 0
 	BreachType: number
 	ResolveType?: number
-	Times?: number
+	Times?: number  = 1
 }
 
 
