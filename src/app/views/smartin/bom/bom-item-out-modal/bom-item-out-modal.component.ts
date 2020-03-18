@@ -65,6 +65,7 @@ export class BomItemOutModalComponent implements OnInit {
       this.newBomItemOut
     );
     this.newBomItemOut = new BomItemOut();
+    console.log(this.newBomItemOut);
   }
 
   fnValidateBomItemOut(item: BomItemOut, typeAction) {

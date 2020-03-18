@@ -5,6 +5,7 @@ import { SignalRService } from 'src/app/services/signal-r.service';
 import { Factory, MonitorChartTracking } from 'src/app/models/SmartInModels';
 import { WaterTreatmentService } from 'src/app/services/api-watertreatment.service';
 import { ToastrService } from 'ngx-toastr';
+import { MyHelperService } from 'src/app/services/my-helper.service';
 
 @Component({
   selector: 'app-monitor-tracking',
@@ -62,12 +63,13 @@ export class MonitorTrackingComponent implements OnInit {
 
   constructor(public signalRService: SignalRService, 
               private api: WaterTreatmentService,
+              private helpper: MyHelperService,
               private toastr: ToastrService) { }
 
   ngOnInit() {
     this.signalRService.startConnection();
     this.signalRService.addTransferChartDataListener();
-    this.startRequestLatestChart();
+    //this.startRequestLatestChart();
     this.loadFactoryList();
   }
   private async loadFactoryList() {
@@ -83,9 +85,15 @@ export class MonitorTrackingComponent implements OnInit {
   }
   private startRequestChartbyDate =() =>
   {
-    this.signalRService.getChartByDate('2020-02-10','2020-03-10').subscribe(res => console.log(res))
+    //this.signalRService.getChartByDate('2020-02-10','2020-03-10').subscribe(res => console.log(res))
   }
   public chartClicked = (event) => {
     this.signalRService.broadcastChartData();
+  }
+
+  loadViewChart(){
+    var start = this.helpper.dateConvert(this.entity.StartDate);
+    var end = this.helpper.dateConvert(this.entity.EndDate);
+    this.signalRService.getChartByFactory(this.entity.FactoryId,start,end).subscribe(res => console.log(res));
   }
 }
