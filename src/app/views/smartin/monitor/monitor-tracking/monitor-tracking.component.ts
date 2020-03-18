@@ -29,6 +29,17 @@ export class MonitorTrackingComponent implements OnInit {
     {
       label: "My First dataset",     
       fill: false,
+      legend: {
+        display: false
+      },
+      tooltips: {
+        callbacks: {
+          label: function(tooltipItem) {
+          console.log(tooltipItem)
+            return tooltipItem.yLabel;
+          }
+        }
+      }
     };
   public lineChartColors: Color[] = [
     {
