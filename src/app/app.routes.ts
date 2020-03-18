@@ -58,8 +58,8 @@ import { MonitorStandardComponent } from './views/smartin/monitor/monitor-standa
 import { MonitorChartComponent } from './views/smartin/monitor/monitor-chart/monitor-chart.component';
 import { MonitorListComponent } from './views/smartin/monitor/monitor-list/monitor-list.component';
 import { MonitorTrackingComponent } from './views/smartin/monitor/monitor-tracking/monitor-tracking.component';
-import { OperatingLogsComponent } from './views/smartin/operation/operating-logs/operating-logs.component';
-import { OperatingPlanComponent } from './views/smartin/operation/operating-plan/operating-plan.component';
+import { ProcessLogsComponent } from './views/smartin/process/process-logs/process-logs.component';
+import { ProcessPlanComponent } from './views/smartin/process/process-plan/process-plan.component';
 
 
 /**XLNT */
@@ -158,11 +158,11 @@ export const ROUTES: Routes = [
           { path: 'factoryData', component: MonitorListComponent }
         ]
       },
-       //operation
+       //process
        {
-        path: 'operation', canActivate: [AuthGuard], children: [
-          { path: 'logs', component: OperatingLogsComponent },
-          { path: 'plan', component: OperatingPlanComponent },
+        path: 'process', canActivate: [AuthGuard], children: [
+          { path: 'logs', component: ProcessLogsComponent },
+          { path: 'plan', component: ProcessPlanComponent },
           { path: 'chart', component: MonitorChartComponent },
           { path: 'factoryData', component: MonitorListComponent }
         ]
