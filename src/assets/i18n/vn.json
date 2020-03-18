@@ -362,6 +362,7 @@
   "Customer":{
     "":"Đơn vị xả thải",
     "data.CustomerId" : "Mã đơn vị xả thải (ID)",
+    "data.CustomerCode" : "Mã đơn vị xả thải",
     "data.CustomerName" : "Tên đơn vị xả thải",
     "data.FactoryId" : "Nhà máy" ,
     "data.CustomerAddress" : "Địa chỉ" ,
@@ -377,6 +378,7 @@
     "data.Status1" : "Hoạt động",
     "data.Status0" : "Ngưng hoạt động",
     "data.IsIntergration" : "Tích hợp",
+    "placeholder.CustomerCode" : "Mã đơn vị xả thải",
     "placeholder.CustomerName" : "Nhập tên đơn vị xả thải",
     "placeholder.FactoryId" : "Chọn Nhà máy" ,
     "placeholder.CustomerAddress" : "Nhập địa chỉ" ,
@@ -421,6 +423,7 @@
     "data.ContractPrice.Currency": "Ngoại tệ",
     "data.ContractPrice.Price": "Đơn giá",
     "data.ContractPrice.Tax": "Thuế suất",
+    "placeholder.ContractCode"  : "Nhập mã hợp đồng",       
     "placeholder.ContractType"  : "Chọn loại hợp đồng",       
     "placeholder.ContractNo":"Nhập số hợp đồng",
     "placeholder.SignDate":"Nhập ngày ký",

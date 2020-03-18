@@ -319,6 +319,16 @@ export class WaterTreatmentService {
    validateMonitor =(entity) =>this.http.post(`${ApiUrl}/Monitor/ValidateStage`,entity);
 
 
+  //Process
+  getProcessLogPagination =(entity) => this.http.post<any>(`${ApiUrl}/ProcessLog/GetProcessLogPagination`,entity,{} );
+  getDataTableProcessLogPagination =(entity) => this.http.post<DataTablesResponse>(`${ApiUrl}/Item/DataTableProcessLogPagination`,entity);
+  findProcessLogById =(id) => this.http.get<any>(`${ApiUrl}/ProcessLog/FindProcessLogById?id=${id}` );
+  findProcessLogByFactoryId =(id,endDate) => this.http.get<any>(`${ApiUrl}/ProcessLog/FindProcessLogByFactoryId?id=${id}&endDate=${endDate}` );
+  addProcessLog =(entity) => this.http.post(`${ApiUrl}/ProcessLog/AddProcessLog`,entity);
+  updateProcessLog =(entity) => this.http.put(`${ApiUrl}/ProcessLog/UpdateProcessLog`,entity);
+  deleteProcessLog =(id) => this.http.delete(`${ApiUrl}/ProcessLog/DeleteProcessLog?id=${id}`);
+  validateProcessLog =(entity) => this.http.post(`${ApiUrl}/ProcessLog/ValidateProcessLog?`,entity);
+
    /**UI module */
 
    getItemPagination_Smart=(entity: DataTablePaginationParams)=>{
