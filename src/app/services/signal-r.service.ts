@@ -59,6 +59,7 @@ export class SignalRService {
     var currentData: any = {};
     let result : any;
     this.hubConnection.on('transferchartdata', (data) => {
+      console.log(data)
       result = data[0];
       if (JSON.stringify(currentData) != JSON.stringify(data)) {
         currentData = data;
@@ -117,5 +118,6 @@ export class SignalRService {
   public getMonitorChart = () => this.http.get(`${ApiUrl}/Monitor/GetRealTimeChart`);
   public getLatestMonitorChart = () => this.http.get(`${ApiUrl}/Monitor/Chart`);
   public getChartByDate = (start, end) => this.http.get(`${ApiUrl}/Monitor/GetChartByDate?start=${start}&end=${end}`);
+  public getChartByFactory = (factoryId, start, end) => this.http.get(`${ApiUrl}/Monitor/Chart?factoryId=${factoryId}&start=${start}&end=${end}`);
   public getTableFactory = () => this.http.get(`${ApiUrl}/Monitor/GetTableFactory`);
 }
