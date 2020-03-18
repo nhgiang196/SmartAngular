@@ -7,7 +7,27 @@ import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 @Component({
   selector: 'app-smart-select',
-  templateUrl: './smart-select.component.html',
+  template: `
+  <ng-select class="custom" 
+    [items]="itemsBuffer" 
+    bindValue="id"
+    bindLabel="text"
+    [virtualScroll]="true" 
+    [loading]="loading"
+    (change)="onChange($event)" appendTo="body" 
+    [(ngModel)]="chooseItem.id"
+    (scroll)="onScroll($event)" 
+    [typeahead]="input$"
+    (scrollToEnd)="onScrollToEnd()" 
+    autofocus 
+    [placeholder]="translatePlaceholder || ''"
+    [name]="name" 
+    required>
+    <ng-template ng-header-tmp>
+      <small class="form-text text-muted">Loaded {{itemsBuffer.length}} of {{totalCount}}</small>
+    </ng-template>
+  </ng-select>
+ `,
   styleUrls: ['./smart-select.component.css']
 })
 

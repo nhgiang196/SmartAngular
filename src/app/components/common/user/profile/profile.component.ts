@@ -13,6 +13,8 @@ export class ProfileComponent implements OnInit {
   profile: any = {};
   constructor(private router: ActivatedRoute, private authService: AuthService) { }
   T : any;
+  myselect: any;
+  myspecialID: any;
   ngOnInit() {
     this.router.params.subscribe(params => {
       console.log(params);
