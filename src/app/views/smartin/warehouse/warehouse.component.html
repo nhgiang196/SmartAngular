@@ -36,10 +36,10 @@
                 <label for="choose">
                   <small>{{'Warehouse.label.Showed'| translate}} </small> 
                 </label>
-              <select id='choose' class="form-control" [(ngModel)]="pageSize" (change)="loadInit()" >
-                  <option value=10>10</option>
-                  <option value=25>25</option>
-                  <option value=50>50</option>
+                <select id='choose' class="form-control" [(ngModel)]="pageSize" (change)="loadInit()" >
+                  <option value=12>12</option>
+                  <option value=24>24</option>
+                  <option value=36>36</option>
                   <option value=0>All</option>
               </select>
 
@@ -50,9 +50,8 @@
             </div>
             <div class="col-sm-4 text-center">
               <h2> {{'Warehouse.label.TotalWarehouse' | translate}} {{Warehouse_showed}} {{'Warehouse.' | translate}} </h2>
-              <button type="button" class="btn btn-white" (click)="page=page-1; loadInit()" ><i class="fa fa-chevron-left"></i></button>
-              <small>{{'Warehouse.label.Showed'| translate}} : {{Warehouse.length}}  {{'Warehouse.' |  translate}} </small>
-              <button type="button" class="btn btn-white" (click)="page=page+1; loadInit()"><i class="fa fa-chevron-right"></i> </button>
+              <!-- <small>{{'Warehouse.label.Showed'| translate}} : {{Warehouse.length}}  {{'Warehouse.' |  translate}} </small> -->
+              <pagination [totalItems]="Warehouse_showed"   [itemsPerPage]="pageSize" (pageChanged)="pageChanged($event)"></pagination>
             </div>
 
          

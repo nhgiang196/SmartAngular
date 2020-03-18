@@ -147,18 +147,14 @@ export class ContractComponent implements OnInit, AfterViewInit {
     this.send_entity.emit(_sendParent);
     $('#myContractModal').modal('hide');
   }
-  fnAddContractBreach(itemAdd) {
-    // let _checkValidate = await this.validateItem(itemAdd);
-    //  if (!_checkValidate) return;
-    // let validateResult = await this.api.validateWarehouseLocation(itemAdd).toPromise().then() as any;
-    // if (!validateResult.Success){
-    //   swal.fire("Validate",this.trans.instant('Warehouse.invalid.'+ validateResult.Message),'warning'); return;
-    // }
+  async fnAddContractBreach(itemAdd) {
+    if (!await this.validateBreach(itemAdd)) return;
     itemAdd.ContractID = this.entity.ContractId;
     this.entity.ContractBreach.push(itemAdd);
     this.newEntity_ContractBreach = new ContractBreach();
   }
-  fnAddContractPrice(itemAdd) {
+  async fnAddContractPrice(itemAdd) {
+    if (!await this.validatePrice(itemAdd)) return;
     itemAdd.ContractId = this.entity.ContractId;
     this.entity.ContractPrice.push(itemAdd);
     this.newEntity_ContractPrice = new ContractPrice();
@@ -180,6 +176,51 @@ export class ContractComponent implements OnInit, AfterViewInit {
   fnSaveContractBreach() {
     
   }
-  fnSaveContractPrice() {
+  async validatePrice(itemAdd) {
+    let _validateRatio = await this.entity.ContractPrice.find(t =>t.Ratio  == itemAdd.Ratio )
+    // && t.WarehouseLocationId!=itemAdd.WarehouseLocationId && itemAdd.WarehouseLocationId!=0
+    if (_validateRatio && itemAdd != _validateRatio)
+    {
+      swal.fire("Validate", this.trans.instant('Contract.data.ContractPrice.Ratio') + this.trans.instant('messg.isexisted'), 'warning');
+      return false;
+    } 
+    else {
+      this.EditRowNumber_PRICE=0;
+      return true;
+    }
   }
+  async validateBreach(itemAdd){
+    let _validateBreachTimesType = await this.entity.ContractBreach.find(t =>t.BreachType  == itemAdd.BreachType &&  t.Times  == itemAdd.Times )
+    // && t.WarehouseLocationId!=itemAdd.WarehouseLocationId && itemAdd.WarehouseLocationId!=0
+    if (_validateBreachTimesType && itemAdd != _validateBreachTimesType)
+    {
+      swal.fire("Validate", this.trans.instant('Contract.data.ContractPrice.Ratio') + this.trans.instant('messg.isexisted'), 'warning');
+      return false;
+    } 
+    else {
+      this.EditRowNumber=0;
+      return true;
+    }
+
+  }
+
+  ratioOnChange(event){
+    let _value = event.target.valueAsNumber;
+    if (_value>100) this.entity.Ratio = 100
+    else if (_value<1) this.entity.Ratio = 1
+    else this.entity.Ratio = _value || 1;
+
+
+  }
+
+  breachTimesOnChange(event){
+    let _value = event.target.valueAsNumber;
+    if (_value<1) return 1
+    else return _value || 1;
+  }
+
+  disabled_ContractPrice(){
+    return !this.newEntity_ContractPrice.Currency || this.newEntity_ContractPrice.Ratio<=0 || this.newEntity_ContractPrice.Price<=0 || this.newEntity_ContractPrice.Tax<0;
+  }
+
 }

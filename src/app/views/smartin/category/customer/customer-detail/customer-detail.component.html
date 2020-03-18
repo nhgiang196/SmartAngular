@@ -63,14 +63,15 @@
                 <div class="form-group">
                   <label class="col-sm-2 control-label">{{'Customer.data.ContactEmail' | translate }}:</label>
                   <div class="col-sm-4">
-                    <input autocomplete="off" type="text" [(ngModel)]="entity.ContactEmail" class="form-control"
-                      placeholder="{{'Customer.placeholder.ContactEmail' | translate }}" name="ContactEmail" >
+                    <input autocomplete="off" type="email" [(ngModel)]="entity.ContactEmail" class="form-control" 
+                      placeholder="{{'Customer.placeholder.ContactEmail' | translate }}" name="ContactEmail" #ContactEmail="ngModel" email>
+                      <div *ngIf="ContactEmail.invalid" style="color: red;">{{ 'Customer.invalid.Email' | translate }}</div>
 
                   </div>
                   <label class="col-sm-2 control-label">{{'Customer.data.ContactPhone' | translate }}:</label>
                   <div class="col-sm-4">
                     <input autocomplete="off" type="text" [(ngModel)]="entity.ContactPhone" class="form-control"
-                      placeholder="{{'Customer.placeholder.ContactPhone' | translate }}" name="ContactPhone" >
+                      placeholder="{{'Customer.placeholder.ContactPhone' | translate }}" name="ContactPhone"  mask="(+00) 000 000 0099">
                   </div>
                 </div>
                 <div class="form-group">
@@ -142,10 +143,7 @@
                       </td>
                       <td>
                         <div class="btn-group">
-                          <button type="button" class="btn btn-sm btn-outline btn-primary"
-                            [disabled]="!locationEntity.WarehouseLocationCode || !locationEntity.WarehouseLocationName"
-                            (click)="validateItem(locationEntity)" *ngIf="i+1 === EditRowNumber"><i
-                              class="fa fa-check"></i></button>
+                          <button type="button" class="btn btn-sm btn-outline btn-primary" *ngIf="i+1 === EditRowNumber"><i class="fa fa-check"></i></button>
                           <button type="button" class="btn btn-sm btn-outline btn-success" (click)="fnEditItem(item.ContractId,i)" data-toggle="modal" data-target="#myContractModal"><i class="fa fa-pencil"></i></button>
                           <button type="button" class="btn btn-sm btn-outline btn-danger" (click)="fnDeleteItem(i)"
                             *ngIf="i+1 !== EditRowNumber"><i class="fa fa-trash"></i></button>
@@ -196,7 +194,7 @@
           </div>
           
           <div class="col-sm-6">
-            <button class="btn btn-primary dim pull-right" [ladda]="laddaSubmitLoading" [disabled]="myForm.invalid" (click)="fnSave()"><i class="fa fa-paper-plane-o"></i> {{'Button.Save' | translate}}</button>
+            <button class="btn btn-primary dim pull-right" [ladda]="laddaSubmitLoading" [disabled]="myForm.invalid || ContactEmail.invalid" (click)="fnSave()"><i class="fa fa-paper-plane-o"></i> {{'Button.Save' | translate}}</button>
             <button class="btn btn-outline dim pull-right" [routerLink]="['/category/customers']" ><i class="fa fa-chevron-circle-left"></i> {{'Button.Back' | translate}}  </button>
 
           </div>

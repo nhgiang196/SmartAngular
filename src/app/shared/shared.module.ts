@@ -20,6 +20,7 @@ import { MomentModule } from 'ngx-moment';
 import { NgxDropzoneModule } from 'ngx-dropzone';
 import {AutocompleteLibModule} from 'angular-ng-autocomplete';
 import { SlickCarouselModule } from 'ngx-slick-carousel';
+import { NgxMaskModule, IConfig } from 'ngx-mask'
 
 import { Select2Module } from 'ng2-select2';
 import { ChartsModule } from 'ng2-charts';
@@ -29,6 +30,9 @@ import { ChartsModule } from 'ng2-charts';
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
 }
+
+
+
 @NgModule({
   declarations: [],
   imports: [
@@ -75,7 +79,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     MomentModule.forRoot(),
     SlickCarouselModule,
     ChartsModule,
-    PaginationModule.forRoot()
+    PaginationModule.forRoot(),
+    NgxMaskModule.forRoot(),
 
   ],
   exports: [
@@ -101,7 +106,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     Select2Module,
     SlickCarouselModule,
     ChartsModule,
-    PaginationModule
+    PaginationModule,
+    NgxMaskModule
 
   ]
 
