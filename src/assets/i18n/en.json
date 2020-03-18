@@ -419,6 +419,7 @@
     "data.ContractPrice.Currency": "Currency",
     "data.ContractPrice.Price": "Price",
     "data.ContractPrice.Tax": "Tax",
+    "placeholder.ContractCode"  : "Enter Contract Code",       
     "placeholder.ContractType"  : "Choose Contract Type",            
     "placeholder.ContractNo":"Enter ContractNo",
     "placeholder.SignDate":"Enter  SignDate",

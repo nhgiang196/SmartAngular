@@ -423,6 +423,7 @@
     "data.ContractPrice.Currency": "Ngoại tệ",
     "data.ContractPrice.Price": "Đơn giá",
     "data.ContractPrice.Tax": "Thuế suất",
+    "placeholder.ContractCode"  : "Nhập mã hợp đồng",       
     "placeholder.ContractType"  : "Chọn loại hợp đồng",       
     "placeholder.ContractNo":"Nhập số hợp đồng",
     "placeholder.SignDate":"Nhập ngày ký",
