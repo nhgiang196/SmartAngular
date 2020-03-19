@@ -192,6 +192,7 @@ export class WaterTreatmentService {
    getBomFactoryPagination =(entity) => this.http.post<any>(`${ApiUrl}/BomFactory/GetBomFactoryPagination`,entity,{} );
    getBomFactory =() => this.http.get(`${ApiUrl}/BomFactory/GetBomFactory` );
    findBomFactoryById =(id) => this.http.get<any>(`${ApiUrl}/BomFactory/FindBomFactoryById?id=${id}` );
+   
    validateBomFactory =(entity) =>this.http.post(`${ApiUrl}/BomFactory/ValidateBomFactory`,entity);
    getAllUnitByItemId =(id) => this.http.get<any>(`${ApiUrl}/BomFactory/GetAllUnitByItemId?id=${id}` );
 
@@ -328,6 +329,8 @@ export class WaterTreatmentService {
   updateProcessLog =(entity) => this.http.put(`${ApiUrl}/ProcessLog/UpdateProcessLog`,entity);
   deleteProcessLog =(id) => this.http.delete(`${ApiUrl}/ProcessLog/DeleteProcessLog?id=${id}`);
   validateProcessLog =(entity) => this.http.post(`${ApiUrl}/ProcessLog/ValidateProcessLog?`,entity);
+
+  searchProcessLog =(factoryid,endate) => this.http.get<any>(`${ApiUrl}/ProcessLog/SearchProcessLog`,{ params: { factoryid: factoryid , endate : endate} });
 
    /**UI module */
 

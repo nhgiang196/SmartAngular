@@ -1,0 +1,8 @@
+.tabs-container .tabs-left .panel-body {
+    width: 90%;
+    margin-left: 10%;
+}
+
+.tabs-container .tabs-left>.nav-tabs, .tabs-container .tabs-right>.nav-tabs {
+    width: 10%;
+}

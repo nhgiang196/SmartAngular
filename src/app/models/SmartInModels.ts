@@ -448,4 +448,76 @@ export class SmartItem {
   text: string = null
 }
 
+export class ProcessLog {
+	ProcessLogId: number = 0
+	FactoryId?: number  = 0
+	StageId?: number = 0
+	ItemOutId?: number = 0
+	ShiftId?: number = 0
+	ProcessLogTime?: Date
+	ProcessLogDate?: Date
+	ItemOutIndicator?: any
+	ItemOutUnitId?: number
+	ItemOutQuantity?: any
+	ItemEletricIndicator?: any
+	ItemWaterIndicator?: any
+	CODIn?: any
+	CODOut?: any
+	pHIn?: any
+	pHOut?: any
+	TSSIn?: any
+	TSSOut?: any
+	QIn?: any
+	QOut?: any
+	ColorIn?: any
+	ColorOut?: any
+	AmoniIn?: any
+	AmoniOut?: any
+	TemperatureIn?: any
+	TemperatureOut?: any
+	CreateBy?: string
+	CreateDate?: Date
+	ModifyBy?: string
+	ModifyDate?: Date
+  Status?: number
+  
+  Factory: Factory= new Factory() 
+  ItemOutUnit: Item = new Item() 
+  ItemOut: Unit = new Unit()
+  Shift: Shift = new Shift()
+  Stage: Stage = new Stage()
+
+  ProcessLogItem: ProcessLogItem[] = []
+}
+
+
+
+export class ProcessLogItem {
+	ProcessPlanItemId: number = 0
+	ProcessPlanStageId: number = 0
+	ItemId: number = 0
+	UnitId: number 
+	Quantity?: any
+}
+
+export class Shift {
+	ShiftId: number = 0
+	ShiftName?: string
+	ShiftTimeBegin?: Date
+	ShiftTimeEnd?: Date
+	ShiftDesc?: string
+	CreateBy?: string
+	CreateDate?: Date
+	ModifyBy?: string
+	ModifyDate?: Date
+	Status?: number
+}
+
+
+
+
+
+
+
+
 

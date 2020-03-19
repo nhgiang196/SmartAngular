@@ -70,30 +70,44 @@
             <div class="sk-rect4"></div>
             <div class="sk-rect5"></div>
           </div>
-          <div class="row">
+          <!-- [hidden]="data.ProcessLogs" -->
+          <div class="row" >
             <div class="col-lg-12">
               <div class="tabs-container">
                 <ul class="nav nav-tabs">
                   <!-- <li *ngFor="let item of bomFactory"><a data-toggle="tab" href="#tab-1"> {{item.BomStage}}</a></li> -->
-                  <li class="active"><a data-toggle="tab" href="#tab-1"> Giai đoạn 1</a></li>
-                  <li class=""><a data-toggle="tab" href="#tab-2">Giai đoạn 2</a></li>
+                  <li *ngFor="let stageOut of data.Stages; let i = index"  [class]="currentStage==stageOut.StageId? 'active': ''">
+                    <a data-toggle="tab" [href]="'#tab-'+i" (click)="currentStage=stageOut.StageId"  > {{stageOut.Stage.StageName}} </a>
+                  </li>
+                  <!-- <li class="active"><a data-toggle="tab" href="#tab-"> Giai đoạn 1</a></li>
+                  <li class=""><a data-toggle="tab" href="#tab-2">Giai đoạn 2</a></li> -->
                 </ul>
-                <div class="tab-content">
-                  <div id="tab-1" class="tab-pane active">
+
+
+
+                <div class="tab-content"> 
+                  <!-- sTAGE TAB CONTENT -->
+                  <div   class="tab-pane active"   > 
                     <div class="panel-body">
                       <div class="col-lg-12">
                         <div class="tabs-container">
+                          
                           <div class="tabs-left">
                             <ul class="nav nav-tabs">
-                              <li class="active"><a data-toggle="tab" href="#tab-6"> Sản phẩm 1</a></li>
-                              <li class=""><a data-toggle="tab" href="#tab-7">Sản phẩm 2</a></li>
+                              <!-- <ng-container *ngFor="let stageOut of data.Stages; let i = index"> -->
+                                <li *ngFor="let itemout of data.OutItems; let i = index">
+                                  <a *ngIf="currentStage== itemout.StageId"  data-toggle="tab" [href]="'#tab-'+i+1000"    [class]="currentOutItem==itemout.ItemOutId? 'active': ''"
+                                   (click)="currentOutItem=itemout.ItemOutId" > {{itemout.ItemOut.ItemName}} </a>
+                                </li>
+                              <!-- </ng-container> -->
+                              
                             </ul>
                             <div class="tab-content ">
-                              <div id="tab-6" class="tab-pane active">
+                              <!-- ITEM TAB CONTENT -->
+                              <div id="tab-x" class="tab-pane active">
                                 <div class="panel-body">
                                   <div class="row">
-                                    <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger"
-                                      class="table table-bordered table-hover table-striped" id="myTable2"
+                                    <table class="table table-bordered table-hover table-striped" id="myTable2"
                                       style="width:100%">
                                       <thead>
                                         <tr>
@@ -107,56 +121,34 @@
                                           <th>Nước</th>
                                           <th>Nước cấp</th>
                                           <th>Amoni</th>
-                                          <th>Note</th>
+                                          <th>ModifyBy</th>
                                           <th style="text-align: left">Action</th>
                                         </tr>
                                       </thead>
-                                      <tbody *ngIf="monitors?.length != 0">
-                                        <!-- <tr *ngFor="let monitor of monitors, let i = index">
-                                            <td style="text-align: left"> {{ recordStart+i+1}}</td>
-                                            <td style="text-align: left"> {{monitor.FactoryName | uppercase}}</td>
-                                            <td style="text-align: left">
-                                              {{monitor.ValidateDateFrom | amDateFormat: "YYYY-MM-DD HH:mm"}}</td>
-                                            <td style="text-align: left">
-                                              {{monitor.ValidateDateTo | amDateFormat: "YYYY-MM-DD HH:mm"}}</td>
-                                            <td style="text-align: left">
-                                              {{monitor.TemperatureMin}}-{{monitor.TemperatureMax}}</td>
-                                            <td style="text-align: left"> {{monitor.pHMin}}-{{monitor.pHMax}}</td>
-                                            <td style="text-align: left"> {{monitor.CODMin}}-{{monitor.CODMax}}</td>
-                                            <td style="text-align: left"> {{monitor.TSSMin}}-{{monitor.TSSMax}}</td>
-                                            <td style="text-align: left"> {{monitor.ColorMin}}-{{monitor.ColorMax}}</td>
-                                            <td style="text-align: left"> {{monitor.AmoniMin}}-{{monitor.AmoniMax}}</td>
-                                            <td style="text-align: left"> {{monitor.MonitorStandardDesc}}</td>
+                                      <tbody >
+                                        <ng-container  *ngFor="let item of data.ProcessLogs; let i=index" >
+                                        <tr  *ngIf="currentStage == item.StageId && currentOutItem == item.ItemOutId && currentOutItem " >
+                                            <td style="text-align: left"> {{ i+1}} </td>
+                                            <td style="text-align: left"> {{ item.ProcessLogTime}} </td>
+                                            <td style="text-align: left"> {{ item.ProcessLogDate}} </td>
+                                            <td style="text-align: left"> {{ item.Shift.ShiftName}} </td>
+                                            <td style="text-align: left"> {{ item.ItemOutIndicator}} </td>
+                                            <td style="text-align: left"> {{ item.ItemOut.ItemName}} </td>
+                                            <td style="text-align: left"> {{ item.ItemEletricIndicator}} </td>
+                                            <td style="text-align: left"> {{ item.ItemWaterIndicator}} </td>
+                                            <td style="text-align: left"> {{ item.CODIn}} </td>
+                                            <td style="text-align: left"> {{ item.AmoniIn}} </td>
+                                            <td style="text-align: left"> {{ item.ModifyBy}} </td>
                                             <td>
-                                              <button type="button" class="btn btn-outline btn-danger"
-                                                (click)="fnDelete(monitor.MonitorStandardId)"><i
+                                              <button type="button" class="btn btn-outline btn-danger"><i
                                                   class="fa fa-trash"></i></button>
                                               <button type="button" class="btn btn-outline btn-success"
-                                                (click)="fnUpdate(monitor)" data-toggle="modal"
-                                                data-target="#myModal4"><i class="fa fa-pencil"></i></button>
+                                                (click)="fnUpdate()"><i class="fa fa-pencil"></i></button>
                                             </td>
-                                          </tr> -->
-                                        <tr>
-                                          <td style="text-align: left">1</td>
-                                          <td style="text-align: left"> a</td>
-                                          <td style="text-align: left">Lorem ipsum dolor sit.</td>
-                                          <td style="text-align: left">Lorem ipsum dolor sit.</td>
-                                          <td style="text-align: left">Lorem ipsum dolor sit.</td>
-                                          <td style="text-align: left">Lorem ipsum dolor sit.</td>
-                                          <td style="text-align: left">Lorem ipsum dolor sit.</td>
-                                          <td style="text-align: left">Lorem ipsum dolor sit.</td>
-                                          <td style="text-align: left">Lorem ipsum dolor sit.</td>
-                                          <td style="text-align: left">Lorem ipsum dolor sit.</td>
-                                          <td style="text-align: left">Lorem ipsum dolor sit.</td>
-                                          <td>
-                                            <button type="button" class="btn btn-outline btn-danger"><i
-                                                class="fa fa-trash"></i></button>
-                                            <button type="button" class="btn btn-outline btn-success"
-                                              (click)="fnUpdate()"><i class="fa fa-pencil"></i></button>
-                                          </td>
                                         </tr>
+                                      </ng-container>
                                       </tbody>
-                                      <tbody *ngIf="monitors?.length == 0">
+                                      <tbody *ngIf="data.ProcessLogs?.length == 0 || !currentOutItem">
                                         <tr>
                                           <td colspan="20" class="no-data-available">
                                             {{'messg.datatable.zeroRecords'  | translate}}</td>
@@ -166,44 +158,12 @@
                                   </div>
                                 </div>
                               </div>
-                              <div id="tab-7" class="tab-pane">
-                                <div class="panel-body">
-                                  <strong>Donec quam felis</strong>
-
-                                  <p>Thousand unknown plants are noticed by me: when I hear the buzz of the little
-                                    world among the stalks, and grow familiar with the countless indescribable forms
-                                    of the insects
-                                    and flies, then I feel the presence of the Almighty, who formed us in his own
-                                    image, and the breath </p>
-
-                                  <p>I am alone, and feel the charm of existence in this spot, which was created for
-                                    the bliss of souls like mine. I am so happy, my dear friend, so absorbed in the
-                                    exquisite
-                                    sense of mere tranquil existence, that I neglect my talents. I should be incapable
-                                    of drawing a single stroke at the present moment; and yet.</p>
-                                </div>
-                              </div>
                             </div>
 
                           </div>
 
                         </div>
                       </div>
-                    </div>
-                  </div>
-                  <div id="tab-2" class="tab-pane">
-                    <div class="panel-body">
-                      <strong>Donec quam felis</strong>
-
-                      <p>Thousand unknown plants are noticed by me: when I hear the buzz of the little world among the
-                        stalks, and grow familiar with the countless indescribable forms of the insects
-                        and flies, then I feel the presence of the Almighty, who formed us in his own image, and the
-                        breath </p>
-
-                      <p>I am alone, and feel the charm of existence in this spot, which was created for the bliss of
-                        souls like mine. I am so happy, my dear friend, so absorbed in the exquisite
-                        sense of mere tranquil existence, that I neglect my talents. I should be incapable of drawing a
-                        single stroke at the present moment; and yet.</p>
                     </div>
                   </div>
                 </div>
@@ -228,7 +188,7 @@
   <div class="modal-dialog modal-lg ">
     <div class="modal-content animated fadeIn">
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" (click)="isLoadData.emit(true)">
+        <button type="button" class="close" data-dismiss="modal">
           <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
         </button>
         <h4 class="modal-title">Danh sách đầu vào</h4>
