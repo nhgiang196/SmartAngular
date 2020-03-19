@@ -30,7 +30,7 @@ export class SmartUploadComponent implements OnInit {
   uploadReportProgress: any = { progress: 0, message: null, isError: null };
   /**INIT FUNCTIONS */
   ngOnInit() { //init functions
-    this.resetEntity();
+    // this.resetEntity();
   }
   /**
    *  làm trống file hiển thị
@@ -52,6 +52,7 @@ export class SmartUploadComponent implements OnInit {
       let _tempFile = new File([], item.File.FileLocalName);
       this.files.push(_tempFile);
     })
+    console.log(this.files);
   }
   /** Lệnh upload lên server, thường dùng chờ hàm này trước khi gửi dữ liệu (await) */
   public uploadFile() { //upload file to server
