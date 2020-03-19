@@ -21,7 +21,7 @@
           <li class="active">
             <a data-toggle="tab" href="#tab-1" id="tab1_Home"><i
                 class="fa fa-info-circle"></i>{{'Customer.' | translate }}</a></li>
-          <li><a data-toggle="tab" href="#tab-2" ><i
+          <li *ngIf="entity.CustomerId !=0" ><a data-toggle="tab" href="#tab-2"  ><i
                 class="fa fa-tablet"></i>{{'Contract.' | translate }}</a></li>
           <li><a data-toggle="tab" href="#tab-3" ><i
                 class="fa fa-file"></i>{{ 'Upload.' | translate }}</a></li>
@@ -110,7 +110,7 @@
             </div>
           
           </div>
-          <div id="tab-2" class="tab-pane">
+          <div *ngIf="entity.CustomerId !=0" id="tab-2" class="tab-pane">
             <div class="panel-body">
               <div class="table-reponsive">
                 <table class="table table-bordered">
@@ -180,7 +180,7 @@
           </div>
           <div id="tab-3" class="tab-pane">
             <div class="panel-body">
-              <app-smart-upload  #customerFile [filePath]="pathFile" (entityFile)="this.entity.CustomerFile = $event" ></app-smart-upload>
+              <app-smart-upload  #customerFile [filePath]="pathFile" (entityFile)="this.entity.CustomerFile = $event " ></app-smart-upload>
 
             </div>
           </div>
