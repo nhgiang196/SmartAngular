@@ -64,7 +64,8 @@
     "ShowAllTask": "Hiển Thị Tất Cả Công Việc Của Tôi",
     "Profile": "Thông tin cá nhân",
     "Category": "DANH MỤC",
-    "Administration": "Quản trị",
+    "Monitor": "QUAN TRẮC",
+    "Administration": "QUẢN TRỊ",
     "Language":"Ngôn ngữ"
   },
   "Upload": {
@@ -137,7 +138,7 @@
     "delete.error": "Lỗi khi xóa!",
     "login.failed": "Tên hoặc mật khẩu không đúng",
     "login.caption": "Lỗi đăng nhập",
-    "datatable.zeroRecords": "Không có dữ liệu",
+    "validation.caption": "Xác thực!",
     "maximumFileSize2000": "Giới hạn file tối đa 2MB, một số file sẽ không được upload lên",
     "maximumFileSize5000": "Giới hạn file tối đa 5MB, một số file sẽ không được upload lên"
   },
@@ -198,8 +199,12 @@
     "label.TotalFactory1": "Hiển thị",
     "label.TotalFactory2": "nhà máy",
     "label.Showed": "Hiển thị",
-    "mssg.DeleteAskDeleteAsk_Title_Text": "Bạn có chắc muốn xóa nhà máy này?",
-    "mssg.": "Xóa nhà máy?"
+    "mssg.DeleteAsk_Title": "Xóa nhà máy?",
+    "mssg.DeleteAsk_Text": "Bạn có chắc muốn xóa nhà máy này?",
+    "mssg.ErrorFactoryArised": "Nhà máy đã phát sinh không thể xóa?",
+    "mssg.ErrorTechnologyValidateOverlap": "Công nghệ lồng thời gian hiệu lực",
+    "mssg.ErrorTechnologyDateToLessThanDateFrom": "Ngày hiệu lực đến nhỏ hơn ngày hiệu lực từ",
+    "mssg.ErrorDuplicateTechnology": "Trùng công nghệ"
   },
   "Warehouse": {
     "": "Kho",
@@ -476,5 +481,32 @@
     "mssg.ErrorExistItemIn": "Trùng vật tư",
     "mssg.DeleteAsk_Title": "Xóa định mức hóa chất?",
     "mssg.DeleteAsk_Text": "Bạn chắc chắn xóa định mức hóa chất này?"
+  },
+  "MonitorStandard": {
+    "Breadcrumb": "TIÊU CHUẨN QUAN TRẮC",
+    "label.Information": "Thông tin tiêu chuẩn quan trắc",
+    "data.MonitorStandardId": "ID Tiêu chuẩn",    
+    "data.FactoryId": "Nhà máy",
+    "data.ValidateDateFrom": "Hiệu lực từ",
+    "data.ValidateDateTo": "Hiệu lực đến",
+    "data.ValidateDate": "Hiệu lực",
+    "data.From": "Từ",
+    "data.To": "Đến",
+    "data.Temperature": "Nhiệt độ",
+    "data.pH": "pH",
+    "data.COD": "COD",
+    "data.TSS": "TSS",
+    "data.Color": "Màu",
+    "data.Amoni": "NH3",
+    "data.Q": "Q",
+    "data.MonitorStandardDesc": "Mô tả",    
+    "placeholder.FactoryId": "Chọn nhà máy",
+    "placeholder.ValidateDateFrom": "Nhập ngày hiệu lực từ",
+    "placeholder.ValidateDateTo": "Nhập ngày hiệu lực đến",
+    "placeholder.MonitorStandardDesc": "Nhập mô tả thêm về tiêu chuẩn quan trắc",
+    "mssg.ErrorExistValidateDate": "Tiêu chuẩn quan trắc của nhà máy lồng thời gian hiệu lực",
+    "mssg.ErrorDateToLessThanDateFrom": "Ngày hiệu lực đến nhỏ hơn ngày hiệu lực từ",
+    "mssg.DeleteAsk_Title": "Xóa tiêu chuẩn quan trắc?",
+    "mssg.DeleteAsk_Text": "Bạn chắc chắn xóa tiêu chuẩn quan trắc này?"
   }
 }

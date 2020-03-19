@@ -133,9 +133,8 @@ export class WarehouseComponent implements OnInit {
           var operationResult: any = res
           if (operationResult.Success) {
             swal.fire(
-              // 'Deleted!', this.trans.instant('messg.delete.success'), 
               {
-                title: 'Deleted!',
+                title: this.trans.instant('messg.delete.caption'),
                 titleText: this.trans.instant('messg.delete.success'),
                 confirmButtonText: this.trans.instant('Button.OK'),
                 type: 'success',

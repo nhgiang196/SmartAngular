@@ -1,3 +1,236 @@
-<p>
-  process-plan works!
-</p>
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-sm-4">
+    <h2>{{ 'ProcessPlaneFactory.Breadcrumb' | translate }}</h2>
+    <ol class="breadcrumb">
+      <li>
+        <a href="index.html">{{ 'TopNav.ProcessPlaneFactory' | translate }}</a>
+      </li>
+      <li class="active">
+        <strong>{{ 'ProcessPlaneFactory.Breadcrumb' | translate }}</strong>
+      </li>
+    </ol>
+  </div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="ibox float-e-margins">
+        <div class="ibox-content"  [ngClass]=" {'sk-loading': iboxloading}">
+          <div class="sk-spinner sk-spinner-wave">
+            <div class="sk-rect1"></div>
+            <div class="sk-rect2"></div>
+            <div class="sk-rect3"></div>
+            <div class="sk-rect4"></div>
+            <div class="sk-rect5"></div>
+          </div>
+          <div class="row">
+            <div class="col-sm-4">
+              <!-- hidden this button -->
+              <button type="button" class="btn btn-primary dim" data-toggle="modal"
+
+                data-target="#myModal4" >
+                <i class="fa fa-plus"></i> Add </button>
+            </div>
+            <div class="col-sm-4">
+            </div>
+          </div>
+          <div class="row">
+            <table datatable [dtOptions]="" [dtTrigger]=""
+              class="table table-bordered table-hover table-striped" id="myTable2" style="width:100%">
+              <thead>
+                <tr>
+                  <th>Factory</th>
+                  <th>Month</th>
+                  <th>Year</th>
+                  <th>Descriptions</th>
+                  <th style="text-align: left">Action</th>
+                </tr>
+              </thead>
+              <!-- <tbody *ngIf="monitors?.length != 0">
+                <tr *ngFor="let monitor of monitors, let i = index">
+                  <td style="text-align: left"> {{ recordStart+i+1}}</td>
+                  <td style="text-align: left"> {{monitor.FactoryName | uppercase}}</td>
+                  <td style="text-align: left"> {{monitor.ValidateDateFrom | amDateFormat: "YYYY-MM-DD HH:mm"}}</td>
+                  <td style="text-align: left"> {{monitor.ValidateDateTo | amDateFormat: "YYYY-MM-DD HH:mm"}}</td>
+                  <td style="text-align: left"> {{monitor.TemperatureMin}}-{{monitor.TemperatureMax}}</td>
+                  <td style="text-align: left"> {{monitor.pHMin}}-{{monitor.pHMax}}</td>
+                  <td style="text-align: left"> {{monitor.CODMin}}-{{monitor.CODMax}}</td>
+                  <td style="text-align: left"> {{monitor.TSSMin}}-{{monitor.TSSMax}}</td>
+                  <td style="text-align: left"> {{monitor.ColorMin}}-{{monitor.ColorMax}}</td>
+                  <td style="text-align: left"> {{monitor.AmoniMin}}-{{monitor.AmoniMax}}</td>
+                  <td style="text-align: left"> {{monitor.MonitorStandardDesc}}</td>
+                  <td>
+                    <button type="button" class="btn btn-outline btn-danger"  (click)="fnDelete(monitor.MonitorStandardId)"><i
+                        class="fa fa-trash"></i></button>
+                    <button type="button" class="btn btn-outline btn-success" (click)="fnUpdate(monitor)"
+                     data-toggle="modal" data-target="#myModal4"><i class="fa fa-pencil"></i></button>
+                  </td>
+                </tr>
+              </tbody> -->
+
+              <!-- <tbody *ngIf="monitors?.length == 0">
+                <tr>
+                  <td colspan="20" class="no-data-available">{{'messg.datatable.zeroRecords'  | translate}}</td>
+                </tr>
+              <tbody> -->
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal inmodal" id="myModal4" data-backdrop="static" data-keyboard="true" tabindex="-1" role="dialog"
+  aria-hidden="true">
+  <div class="modal-dialog modal-lg ">
+    <div class="modal-content animated fadeIn">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" >
+          <span
+            aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+          </button>
+        <h4 class="modal-title">ProcessPlanFactory.Model</h4>
+      </div>
+      <div class="modal-body">
+        <form role="form" #myForm="ngForm" name="myForm">
+          <div class="row">
+            <div class="col-lg-4">
+              <div class="form-group" >
+                <label> Factory Code :* </label>
+                <ng-select [items]="initCombobox.Factories" bindLabel="FactoryName" bindValue="FactoryId"
+                    class="custom" placeholder="Input Factory Name" name="FactoryId"
+                    [(ngModel)]="factoryId"
+                    (change)="fnLoadBomByMaster()"
+                    required></ng-select>
+              </div>
+            </div>
+              <div class="col-lg-8">
+                <div class="form-group">
+                  <div class="row">
+                    <div class="col-lg-6">
+                      <label>ProcessPlanFactory.Month</label>
+                    </div>
+                    <div class="col-lg-6">
+                      <label>ProcessPlanFactory.Year</label>
+                    </div>
+                  </div>
+
+                <div class="row">
+                <div class="col-lg-6">
+                  <input
+                    type="number"
+                    name="ProcessPlanMonth"
+                    id="ProcessPlanMonth"
+                    min="1"
+                    max="12"
+                    class="form-control"
+                    placeholder="Month"
+                    [(ngModel)]="month"
+                    (change)="fnLoadBomByMaster()"
+                    required
+                  />
+                </div>
+                <div class="col-lg-6">
+                  <input
+                    type="number"
+                    name="ProcessPlanYear"
+                    id="ProcessPlanYear"
+                    bsDatepicker readonly [bsConfig]="bsConfig"
+                    class="form-control"
+                    placeholder="Year"
+                    [(ngModel)]="year"
+                    (change)="fnLoadBomByMaster()"
+                    required
+                  />
+                </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="form-group">
+                <label> Descriptions</label>
+                <textarea
+                  type="text"
+                  class="form-control"
+                  placeholder="Input Descriptions"
+                  rows="2"
+                ></textarea>
+              </div>
+              </div>
+          </div>
+
+          <!--Panel-->
+          <div class="tabs-container">
+            <ul class="nav nav-tabs">
+                <li *ngFor="let item of bomFactory?.BomStage; let i = index" [class.active]="i==0" [class.disabledTab] ="editRowNumber!=0" >
+                    <a data-toggle="tab" [href]="'#tab-'+i">
+                      <i class="fa fa-info-circle"></i>
+                      {{item.Stage.StageName}}</a></li>
+              </ul>
+          <div class="tab-content">
+            <!--Tab-->
+            <div *ngFor="let itemBomFactory of bomFactory?.BomStage; let i = index" [class.active]="i==0" class="tab-pane" [id]="'tab-'+i" >
+              <!-- <div class="table-responsive"> -->
+                <div class="panel-body">
+                  <fieldset class="form-horizontal">
+                    <table class="table table-bordered animated fadeInRight">
+                      <thead>
+                        <tr>
+                          <th width="3%">#</th>
+                          <th width="47%">Item</th>
+                          <th  width="20%">Unit</th>
+                          <th  width="20%">Quantity</th>
+                          <th  width="10%">Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let itemBomOut of itemBomFactory?.BomItemOut; let index = index" >
+                          <td>{{index+1}}</td>
+                          <td>{{itemBomOut.Item?.ItemName}}</td>
+                          <td *ngIf="index+1+i !== editRowNumber ">{{itemBomOut.Unit?.UnitName}}</td>
+                          <td *ngIf="index+1+i === editRowNumber ">
+                            <ng-select [items]="initComboboxUnit.Units" bindLabel="UnitName" bindValue="UnitId"
+                              class="Unit" placeholder="Select Unit" name="UnitId"
+                              [(ngModel)]="itemBomOut.Unit.UnitId"
+                              required>
+                            </ng-select>
+                          </td>
+                          <td *ngIf="index+1+i !== editRowNumber ">{{itemBomOut.Quantity}}</td>
+                          <td *ngIf="index+1+i === editRowNumber "><input type="number" class="form-control" [name]="'Quantity'+i+index" [id]="'Quantity'+i+index" 
+                              [(ngModel)]="itemBomOut.Quantity" (change)="($event.target.value<0 ||$event.target.value=='') ?itemBomOut.Quantity =0:itemBomOut.Quantity"></td>
+                          <td>
+                            <div class="btn-group">
+                              <button type="button" class="btn btn-sm btn-outline btn-primary" (click)="fnCheckItem()"       
+                                  *ngIf="index+1+i === editRowNumber " [disabled]="itemBomOut.Quantity<0|| itemBomOut.Quantity=='' || itemBomOut.Unit.UnitId=='' " >
+                                    <i class="fa fa-check"></i></button>
+                              <button type="button" [disabled]="editRowNumber != 0" class="btn btn-sm btn-outline btn-success" (click)="fnEditItem(i,index)" 
+                                  *ngIf="index+1+i !== editRowNumber " >
+                                  <i class="fa fa-pencil"></i></button>
+                            </div>
+                          </td>
+                        </tr>
+                        <tr>
+
+                        </tr>
+                      </tbody>
+                    </table>
+                    </fieldset>
+                </div>
+              </div>
+          </div><!--End Tab-->
+
+        </div>
+      <!-- </div> -->
+    </form>
+  </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" [ladda]="laddaSubmitLoading"
+          [disabled]="myForm.invalid || editRowNumber!=0 ">Save</button>
+      </div>
+    </div>
+  </div>

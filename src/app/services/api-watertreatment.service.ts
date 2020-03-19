@@ -153,6 +153,11 @@ export class WaterTreatmentService {
     };
    return this.http.post<any>(`${ApiUrl}/Unit/GetUnitPagination`,model,{} )
   }
+  getBasicUnit(){
+    let pr = new DataTablePaginationParams();
+    pr.selectFields = "UnitId, [UnitName]= IIF(ISNULL(UnitName,'')='',N'[Noname Unit]',UnitName), Status ";
+    return this.http.post(`${ApiUrl}/Unit/GetUnitPagination`, pr);
+  }
   getDataTableUnitPagination =(entity) => this.http.post<DataTablesResponse>(`${ApiUrl}/Unit/DataTableUnitPagination`,entity);
   getUnitSelect2 =(keyword) => this.http.get<any>(`${ApiUrl}/Unit/GetUnitPaginationToSelect2?keyword=`+keyword );
   getUnit =() => this.http.get(`${ApiUrl}/Unit/GetUnit` );
@@ -223,7 +228,7 @@ export class WaterTreatmentService {
     pr.specialCondition = ` EXISTS( SELECT * FROM ItemFile jk WHERE jk.IsImage=1 AND jk.ItemId= q.ItemId) `;
     return this.http.post<any>(`${ApiUrl}/Item/GetItemPagination`,pr );
   }
-  
+
   getSelect2ItemPagination =(params) =>{
     return this.http.get<any>(`${ApiUrl}/Item/GetSelect2ItemPagination`,{ params: params } );
   }
@@ -337,5 +342,8 @@ export class WaterTreatmentService {
    getItemPagination_Smart=(entity: DataTablePaginationParams)=>{
     return this.http.post<any>(`${ApiUrl}/Item/GetSelectItemPagination_Smart`,entity );
   }
+
+  //ProcessPlan
+  getBomFactoryByMaster = (factoryId, month, year) => this.http.get<any>(`${ApiUrl}/ProcessPlan/FindBomFactoryByMaster?factoryId=${factoryId}&month=${month}&year=${year}` );
 
 }

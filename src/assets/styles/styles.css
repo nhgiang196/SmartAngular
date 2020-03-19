@@ -10699,3 +10699,11 @@ bs-datepicker-container, bs-daterangepicker-container { z-index: 3501 !important
 .pagination {
   margin-top: -5px !important;
 }
+.disabledTab{
+    pointer-events: none;
+    cursor: not-allowed;
+}
+
+.btn.disabled, .btn[disabled], fieldset[disabled] .btn {
+    color: #fff !important;
+}
