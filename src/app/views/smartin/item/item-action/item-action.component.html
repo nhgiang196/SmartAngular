@@ -21,8 +21,7 @@
             <div class="tabs-container">
                 <ul class="nav nav-tabs">
                     <li class="active" [class.disabledTab] ="editRowId!=0"><a data-toggle="tab" href="#tab-1"><i class="fa fa-info-circle"></i>
-                            {{'Item.label.Information' | translate }}</a>
-                    </li>
+                            {{'Item.label.Information' | translate }}</a></li>
                     <li [class.disabledTab] ="editRowId!=0"><a data-toggle="tab" href="#tab-2" (click)="editRowId = 0;" class=""><i
                                 class="fa fa-industry"></i> {{'Item.label.Factory' | translate }}</a></li>
                     <li [class.disabledTab] ="editRowId!=0"><a data-toggle="tab" href="#tab-3" (click)="editRowId = 0;"><i
