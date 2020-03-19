@@ -13,21 +13,21 @@
         <button type="button" class="close" data-dismiss="modal" (click)="isLoadData.emit(true)">
           <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
         </button>
-        <h4 class="modal-title">{{ "BomFactory.Information" | translate }}</h4>
+        <h4 class="modal-title">{{ "BomFactory.label.Information" | translate }}</h4>
       </div>
       <div class="modal-body">
         <form role="form" #myForm="ngForm" name="myForm">
           <div class="row">
             <div class="col-lg-6">
               <div class="form-group">
-                <label> {{ "BomFactory.FactoryId" | translate }} : *</label>
+                <label> {{ "BomFactory.data.FactoryId" | translate }} : *</label>
                 <ng-select
                 autocomplete="off"
                   class="custom"
                   [items]="initComboboxFactories.Factories"
                   bindLabel="FactoryName"
                   bindValue="FactoryId"
-                  placeholder="select factory"
+                  placeholder="{{'BomFactory.placeholder.FactoryId' | translate}}"
                   name="FactoryId"
                   [(ngModel)]="entity.FactoryId"
                   required>
@@ -36,7 +36,7 @@
             </div>
             <div class="col-lg-6">
               <div class="form-group">
-                <label> {{ "BomFactory.Validate" | translate }} :</label>
+                <label> {{ "BomFactory.data.Validate" | translate }} :</label>
                 <input
                 autocomplete="off"
                   type="text"
@@ -55,14 +55,14 @@
           <div class="row">
             <div class="col-lg-6">
               <div class="form-group">
-                <label> {{ "BomFactory.Descriptions" | translate }} : </label>
+                <label> {{ "BomFactory.data.Descriptions" | translate }} : </label>
                 <textarea
                   autocomplete="off"
                   type="text"
                   name="Descriptions"
                   id="Descriptions"
                   class="form-control"
-                  placeholder="{{ 'BomFactory.InputDescriptions' | translate }}"
+                  placeholder="{{ 'BomFactory.placeholder.Descriptions' | translate }}"
                   rows="2"
                   [(ngModel)]="entity.Descriptions"
                   [ngClass]="{ 'is-invalid': existName }"
@@ -72,7 +72,7 @@
             </div>
             <div class="col-lg-6">
               <div class="form-group">
-                <label>{{ "BomFactory.data.Status" | translate }} :</label>
+                <label>{{ "Master.data.Status" | translate }} :</label>
                 <div class="switch">
                   <div class="onoffswitch">
                     <input
@@ -102,14 +102,14 @@
                   <tr>
                     <th width="5%">#</th>
                     <th width="35%">
-                      {{ "Stage.data.StageId" | translate }} *
+                      {{ "BomFactory.BomStage.StageId" | translate }} *
                     </th>
                     <th width="15%">
-                      {{ "Stage.data.OrderNumber" | translate }} *
+                      {{ "BomFactory.BomStage.OrderNumber" | translate }} *
                     </th>
-                    <th width="15%">{{ "Stage.data.Sequence" | translate }}</th>
+                    <th width="15%">{{ "BomFactory.BomStage.Sequence" | translate }}</th>
                     <th width="15%">
-                      {{ "Stage.data.Description" | translate }}
+                      {{ "BomFactory.BomStage.Descriptions" | translate }}
                     </th>
                     <th width="10%">{{ "Button.Action" | translate }}</th>
                   </tr>
@@ -147,7 +147,6 @@
                         [items]="initComboboxStages.Stages"
                         bindLabel="StageName"
                         bindValue="StageId"
-                        placeholder="{{'Item.placeholdercolumn.ItemPackageUnitId' | translate}}"
                         name="outBomStageId"
                         (change)="$event != null? (bomStage.StageName = $event.StageName): null"
                         required
@@ -310,7 +309,7 @@
           [disabled]="editRowId != 0"
           (click)="isLoadData.emit(true)"
           >
-          {{ "BomFactory.CloseButton" | translate }}
+          {{ "Button.Close" | translate }}
         </button>
         <button
           type="button"
@@ -319,7 +318,7 @@
           [ladda]="laddaSubmitLoading"
           [disabled]="myForm.invalid || editRowId != 0"
         >
-          {{ "BomFactory.SaveButton" | translate }}
+          {{ "Button.Save" | translate }}
         </button>
       </div>
     </div>

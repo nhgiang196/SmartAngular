@@ -9,6 +9,8 @@ import { AuthService } from 'src/app/services/auth.service';
 import { trigger, transition, animate, style } from '@angular/animations';
 import { HttpEventType } from '@angular/common/http';
 import { SmartUploadComponent } from '../ui-sample/smart-upload/smart-upload.component';
+import { PageChangedEvent } from 'ngx-bootstrap';
+import { SmartSelectComponent } from '../ui-sample/smart-select/smart-select.component';
 declare let $: any;
 @Component({
   selector: 'app-warehouse',
@@ -22,18 +24,20 @@ declare let $: any;
     ])
   ]
 })
+
 export class WarehouseComponent implements OnInit {
   @ViewChild('myInputFile') InputManual: ElementRef;
   @ViewChild(SmartUploadComponent) uploadComponent: SmartUploadComponent;
+  @ViewChild(SmartSelectComponent) selectComponent: SmartSelectComponent;
   constructor(
     private api: WaterTreatmentService,
     private toastr: ToastrService,
     public trans: TranslateService,
     public helper: MyHelperService,
-    private auth: AuthService
+    private auth: AuthService   
   ) { }
   /** INIT / DECLARATION */
-  Warehouse: Warehouse[] = []; //init data
+  Warehouse: any[] = []; //init data
   entity: Warehouse;
   locationEntity: WarehouseLocation;
   newLocationEntity: WarehouseLocation;
@@ -46,18 +50,13 @@ export class WarehouseComponent implements OnInit {
   invalid: any = { Existed_WarehouseCode: false, Existed_WarehouseName: false };
   initCombobox = { Factories: [], FullFactories: [], Users: [] };
   EditRowNumber: number = 0;
-  page = 1;
-  pageSize = 10;
+  pageIndex = 1;
+  pageSize = 12;
   /**INIT FUNCTIONS */
   ngOnInit() { //init functions
     this.resetEntity();
     this.loadUsers();
     this.loadInit();
-  }
-  private async loadFactoryList() {
-    let res = await this.api.getBasicFactory().toPromise().then().catch(err => this.toastr.warning('Get factories Failed, check network')) as any;
-    this.initCombobox.Factories = ( res as any).result.filter(x=>x.Status ==1) as Factory[];
-    this.initCombobox.FullFactories = ( res as any).result as Factory[];
   }
   private loadUsers() {
     this.auth.getUsers().subscribe(res=>{
@@ -65,15 +64,17 @@ export class WarehouseComponent implements OnInit {
     }, err => this.toastr.warning('Get users Failed, check network'))
   }
   searchLoad(){
-    this.page=1;
+    this.pageIndex=1;
     this.loadInit();
 
   }
 
   loadInit() { //init loading
     this.iboxloading = true;
-    this.api.getWarehousePagination(this.keyword,this.page, this.pageSize).subscribe(res => {
+    this.api.getWarehousePagination(this.keyword,this.pageIndex, this.pageSize).subscribe(res => {
       var data = res as any;
+      this.selectComponent.specialId = res.FactoryId;
+      this.selectComponent.loadInit();
       this.Warehouse = data.result;
       this.Warehouse_showed = data.totalCount;
       this.iboxloading = false;
@@ -98,15 +99,11 @@ export class WarehouseComponent implements OnInit {
     if (id == null) { this.toastr.warning('ID is Null, cant show modal'); return; }
     this.ACTION_STATUS = 'update';
     this.iboxloading = true;
-    await this.resetEntity();
-    
     await this.api.findWarehouseById(id).subscribe(res => {
-      let _factoryAddTag = this.initCombobox.FullFactories.find(x=>x.FactoryId== res.FactoryId );
-      if (_factoryAddTag && !this.initCombobox.Factories.find(x=> x.FactoryId== res.FactoryId) )  
-      this.initCombobox.Factories = this.initCombobox.Factories.concat([_factoryAddTag]);
       this.entity = res;
       $("#myModal4").modal('show');
       this.iboxloading = false;
+      
       /**CONTROL FILES */
       this.uploadComponent.loadInit(res.WarehouseFile);
       this.entity.ModifyBy = this.auth.currentUser.Username;
@@ -115,6 +112,12 @@ export class WarehouseComponent implements OnInit {
       this.toastr.error(error.statusText, "Load factory information error");
     })
   }
+  pageChanged(event: PageChangedEvent): void {
+    this.pageIndex = event.page;
+    this.loadInit();
+
+  }
+  
   fnDelete(id) { //press Delete Entity
     swal.fire({
       title: this.trans.instant('Warehouse.mssg.DeleteAsk_Title'),
@@ -130,9 +133,8 @@ export class WarehouseComponent implements OnInit {
           var operationResult: any = res
           if (operationResult.Success) {
             swal.fire(
-              // 'Deleted!', this.trans.instant('messg.delete.success'), 
               {
-                title: 'Deleted!',
+                title: this.trans.instant('messg.delete.caption'),
                 titleText: this.trans.instant('messg.delete.success'),
                 confirmButtonText: this.trans.instant('Button.OK'),
                 type: 'success',
@@ -232,7 +234,6 @@ export class WarehouseComponent implements OnInit {
   }
 
   /** EVENT TRIGGERS */
-
   /** PRIVATES FUNCTIONS */
   private async fnValidate(e: Warehouse) { // validate entity value
     this.invalid = {};
@@ -252,7 +253,7 @@ export class WarehouseComponent implements OnInit {
     this.newLocationEntity = new WarehouseLocation();
     this.invalid = {};
     this.EditRowNumber=0;
-    await this.loadFactoryList();
+    
   }
   private CheckBeforeEdit(id) { //check auth before edit 
     this.toastr.warning("User not dont have permission");

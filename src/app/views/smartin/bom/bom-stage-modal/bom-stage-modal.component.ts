@@ -70,10 +70,12 @@ export class BomStageModalComponent implements OnInit {
   validateStage(itemAdd: BomStage, typeAction) {
     if (itemAdd.StageId == null) {
       swal.fire(
-        "Validate",
-        this.trans.instant("Factory.data.TechnologyName") +
-          this.trans.instant("messg.isnull"),
-        "warning"
+        {
+          title: this.trans.instant('messg.validation.caption'),
+          titleText: this.trans.instant('BomFactory.mssg.ErrorExistStage'),
+          confirmButtonText: this.trans.instant('Button.OK'),
+          type: 'error',
+        }
       );
       return false;
     }
@@ -83,10 +85,12 @@ export class BomStageModalComponent implements OnInit {
       typeAction == "add"
     ) {
       swal.fire(
-        "Validate",
-        this.trans.instant("Factory.data.TechnologyName") +
-          this.trans.instant("messg.isexisted"),
-        "warning"
+        {
+          title: this.trans.instant('messg.validation.caption'),
+          titleText: this.trans.instant('BomFactory.mssg.ErrorExistStage'),
+          confirmButtonText: this.trans.instant('Button.OK'),
+          type: 'error',
+        }
       );
       return false;
     }
@@ -96,10 +100,12 @@ export class BomStageModalComponent implements OnInit {
       typeAction == "edit"
     ) {
       swal.fire(
-        "Validate",
-        this.trans.instant("Factory.data.TechnologyName") +
-          this.trans.instant("messg.isexisted"),
-        "warning"
+        {
+          title: this.trans.instant('messg.validation.caption'),
+          titleText: this.trans.instant('BomFactory.mssg.ErrorExistStage'),
+          confirmButtonText: this.trans.instant('Button.OK'),
+          type: 'error',
+        }
       );
       return false;
     }
@@ -161,13 +167,13 @@ export class BomStageModalComponent implements OnInit {
         this.entity.CreateDate = this.helpper.dateConvertToString(new Date());
         this.api.addBomFactory(this.entity).subscribe(
           res => {
-            this.toastr.success("Validate", "Success");
+            this.toastr.success(this.trans.instant("messg.add.success"));
             this.isLoadData.emit(true);
             $("#modalStages").modal("hide");
           },
           err => {
             this.isLoadData.emit(true);
-            this.toastr.error("Validate", "Error");
+            this.toastr.error(this.trans.instant("messg.add.error"));
           }
         );
       } else {
@@ -178,24 +184,27 @@ export class BomStageModalComponent implements OnInit {
           res => {
             var result = res as any;
             if (result.Success) {
-              this.toastr.success("Validate", "Success");
+              this.toastr.success(this.trans.instant("messg.update.success"));
               $("#modalStages").modal("hide");
               this.isLoadData.emit(true);
             } else {
-              this.toastr.error("Validate", "Error");
+              this.toastr.error(this.trans.instant("messg.update.error"));
             }
           },
           err => {
             this.isLoadData.emit(true);
-            this.toastr.error("Validate", "Error");
+            this.toastr.error(this.trans.instant("messg.update.error"));
           }
         );
       }
     } else {
       swal.fire(
-        "Validate",
-        "Không được trung tên nhà máy và validate",
-        "error"
+        {
+          title: this.trans.instant('messg.validation.caption'),
+          titleText: this.trans.instant('BomFactory.mssg.ErrorExistFactoryAndValidate'),
+          confirmButtonText: this.trans.instant('Button.OK'),
+          type: 'error',
+        }
       );
       return;
     }

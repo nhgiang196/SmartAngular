@@ -42,17 +42,20 @@
                   </div>
                   <label class="col-sm-2 control-label">{{'Customer.data.FactoryId' | translate }}*:</label>
                   <div class="col-sm-4">
-                    <ng-select [items]="initCombobox.Factories" bindLabel="FactoryName" bindValue="FactoryId" [(ngModel)]="entity.FactoryId"
-                      class="custom" placeholder="{{'Customer.placeholder.FactoryId' | translate }}" name="FactoryId"
-                      required></ng-select>
+                    <app-smart-select 
+                    name="FactoryId" 
+                    listName="Factory"  
+                    [specialId]="entity.FactoryId"    
+                    (select_ngModel)="entity.FactoryId = $event.id"
+                    placeholder="{{'Customer.placeholder.FactoryId' | translate }}"></app-smart-select>
 
                   </div>
                 </div>
                 <div class="form-group">
-                  <label class="col-sm-2 control-label">{{'Customer.data.CustomerAddress' | translate }}:</label>
+                  <label class="col-sm-2 control-label">{{'Customer.data.CustomerCode' | translate }}*:</label>
                   <div class="col-sm-4">
-                    <input autocomplete="off" type="text" [(ngModel)]="entity.CustomerAddress" class="form-control"
-                      placeholder="{{'Customer.placeholder.CustomerAddress' | translate }}" name="CustomerAddress">
+                    <input autocomplete="off" type="text" [(ngModel)]="entity.CustomerCode" class="form-control"
+                      placeholder="{{'Customer.placeholder.CustomerCode' | translate }}" name="CustomerCode" required>
                   </div>
                   <label class="col-sm-2 control-label">{{'Customer.data.ContactName' | translate }}:</label>
                   <div class="col-sm-4">
@@ -61,19 +64,24 @@
                   </div>
                 </div>
                 <div class="form-group">
-                  <label class="col-sm-2 control-label">{{'Customer.data.ContactEmail' | translate }}:</label>
+                  <label class="col-sm-2 control-label">{{'Customer.data.CustomerAddress' | translate }}:</label>
                   <div class="col-sm-4">
-                    <input autocomplete="off" type="text" [(ngModel)]="entity.ContactEmail" class="form-control"
-                      placeholder="{{'Customer.placeholder.ContactEmail' | translate }}" name="ContactEmail" >
-
+                    <input autocomplete="off" type="text" [(ngModel)]="entity.CustomerAddress" class="form-control"
+                      placeholder="{{'Customer.placeholder.CustomerAddress' | translate }}" name="CustomerAddress">
                   </div>
                   <label class="col-sm-2 control-label">{{'Customer.data.ContactPhone' | translate }}:</label>
                   <div class="col-sm-4">
                     <input autocomplete="off" type="text" [(ngModel)]="entity.ContactPhone" class="form-control"
-                      placeholder="{{'Customer.placeholder.ContactPhone' | translate }}" name="ContactPhone" >
+                      placeholder="{{'Customer.placeholder.ContactPhone' | translate }}" name="ContactPhone"  mask="(+00) 000 000 0099">
                   </div>
                 </div>
                 <div class="form-group">
+                  <label class="col-sm-2 control-label">{{'Customer.data.ContactEmail' | translate }}:</label>
+                  <div class="col-sm-4">
+                    <input autocomplete="off" type="email" [(ngModel)]="entity.ContactEmail" class="form-control" 
+                      placeholder="{{'Customer.placeholder.ContactEmail' | translate }}" name="ContactEmail" #ContactEmail="ngModel" email>
+                    <div *ngIf="ContactEmail.invalid" style="color: red;">{{ 'Customer.invalid.Email' | translate }}</div>
+                  </div>
                   <label class="col-sm-2 control-label">{{'Customer.data.Description' | translate }}:</label>
                   <div class="col-sm-4">
                     <input autocomplete="off" type="text" [(ngModel)]="entity.Description" class="form-control"
@@ -84,8 +92,6 @@
                   <label class="col-sm-2 control-label">{{'Customer.data.IsIntergration' | translate }}:</label>
                   <div class="col-sm-4">
                     <span (click)="onSwitchStatus('entityIsIntergration')" ><i class="fa fa-lg" [ngClass]="{'fa-check-square-o text-info': entity.IsIntergration==true, 'fa-square-o':entity.IsIntergration==false}" ></i> </span>
-                    
-
                   </div>
                   <label class="col-sm-2 control-label">{{'Customer.data.Status' | translate }}*:</label>
                   <div class="col-sm-4">
@@ -98,8 +104,6 @@
                         </label>
                       </div>
                     </div>
-
-
                   </div>
                 </div>
               </form>
@@ -142,10 +146,7 @@
                       </td>
                       <td>
                         <div class="btn-group">
-                          <button type="button" class="btn btn-sm btn-outline btn-primary"
-                            [disabled]="!locationEntity.WarehouseLocationCode || !locationEntity.WarehouseLocationName"
-                            (click)="validateItem(locationEntity)" *ngIf="i+1 === EditRowNumber"><i
-                              class="fa fa-check"></i></button>
+                          <button type="button" class="btn btn-sm btn-outline btn-primary" *ngIf="i+1 === EditRowNumber"><i class="fa fa-check"></i></button>
                           <button type="button" class="btn btn-sm btn-outline btn-success" (click)="fnEditItem(item.ContractId,i)" data-toggle="modal" data-target="#myContractModal"><i class="fa fa-pencil"></i></button>
                           <button type="button" class="btn btn-sm btn-outline btn-danger" (click)="fnDeleteItem(i)"
                             *ngIf="i+1 !== EditRowNumber"><i class="fa fa-trash"></i></button>
@@ -196,7 +197,7 @@
           </div>
           
           <div class="col-sm-6">
-            <button class="btn btn-primary dim pull-right" [ladda]="laddaSubmitLoading" [disabled]="myForm.invalid" (click)="fnSave()"><i class="fa fa-paper-plane-o"></i> {{'Button.Save' | translate}}</button>
+            <button class="btn btn-primary dim pull-right" [ladda]="laddaSubmitLoading" [disabled]="myForm.invalid || ContactEmail.invalid" (click)="fnSave()"><i class="fa fa-paper-plane-o"></i> {{'Button.Save' | translate}}</button>
             <button class="btn btn-outline dim pull-right" [routerLink]="['/category/customers']" ><i class="fa fa-chevron-circle-left"></i> {{'Button.Back' | translate}}  </button>
 
           </div>

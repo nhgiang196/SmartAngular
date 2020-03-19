@@ -64,7 +64,8 @@
     "ShowAllTask": "Hiển Thị Tất Cả Công Việc Của Tôi",
     "Profile": "Thông tin cá nhân",
     "Category": "DANH MỤC",
-    "Administration": "Quản trị",
+    "Monitor": "QUAN TRẮC",
+    "Administration": "QUẢN TRỊ",
     "Language":"Ngôn ngữ"
   },
   "Upload": {
@@ -137,9 +138,17 @@
     "delete.error": "Lỗi khi xóa!",
     "login.failed": "Tên hoặc mật khẩu không đúng",
     "login.caption": "Lỗi đăng nhập",
-    "datatable.zeroRecords": "Không có dữ liệu",
+    "validation.caption": "Xác thực!",
     "maximumFileSize2000": "Giới hạn file tối đa 2MB, một số file sẽ không được upload lên",
     "maximumFileSize5000": "Giới hạn file tối đa 5MB, một số file sẽ không được upload lên"
+  },
+  "Master": {
+    "data.CreateBy": "Người tạo",
+    "data.CreateDate": "Ngày tạo",
+    "data.ModifyBy": "Người sửa",
+    "data.ModifyDate": "Ngày sửa",
+    "data.Status": "Trạng thái",
+    "data.OrderNo": "STT"
   },
   "Factory": {
     "": "Nhà máy",
@@ -190,8 +199,12 @@
     "label.TotalFactory1": "Hiển thị",
     "label.TotalFactory2": "nhà máy",
     "label.Showed": "Hiển thị",
-    "mssg.DeleteAskDeleteAsk_Title_Text": "Bạn có chắc muốn xóa nhà máy này?",
-    "mssg.": "Xóa nhà máy?"
+    "mssg.DeleteAsk_Title": "Xóa nhà máy?",
+    "mssg.DeleteAsk_Text": "Bạn có chắc muốn xóa nhà máy này?",
+    "mssg.ErrorFactoryArised": "Nhà máy đã phát sinh không thể xóa?",
+    "mssg.ErrorTechnologyValidateOverlap": "Công nghệ lồng thời gian hiệu lực",
+    "mssg.ErrorTechnologyDateToLessThanDateFrom": "Ngày hiệu lực đến nhỏ hơn ngày hiệu lực từ",
+    "mssg.ErrorDuplicateTechnology": "Trùng công nghệ"
   },
   "Warehouse": {
     "": "Kho",
@@ -362,6 +375,7 @@
   "Customer":{
     "":"Đơn vị xả thải",
     "data.CustomerId" : "Mã đơn vị xả thải (ID)",
+    "data.CustomerCode" : "Mã đơn vị xả thải",
     "data.CustomerName" : "Tên đơn vị xả thải",
     "data.FactoryId" : "Nhà máy" ,
     "data.CustomerAddress" : "Địa chỉ" ,
@@ -377,6 +391,7 @@
     "data.Status1" : "Hoạt động",
     "data.Status0" : "Ngưng hoạt động",
     "data.IsIntergration" : "Tích hợp",
+    "placeholder.CustomerCode" : "Mã đơn vị xả thải",
     "placeholder.CustomerName" : "Nhập tên đơn vị xả thải",
     "placeholder.FactoryId" : "Chọn Nhà máy" ,
     "placeholder.CustomerAddress" : "Nhập địa chỉ" ,
@@ -387,6 +402,7 @@
     "label.Breadcrumb":"ĐƠN VỊ XẢ THẢI",
     "invalid.Existed_CustomerName":"Trùng tên đơn vị xả thải",
     "invalid.Null_CustomerName":"Tên đơn vị bị trống",
+    "invalid.Email":"Sai kiểu email",
     "mssg.AskForCreateContractCustomer":"Việc thêm hợp đồng sẽ đồng thời tạo đơn vị xả thải, bạn có đồng ý?",
     "mssg.DeleteAsk_Text":"Bạn có chắc chắc muốn xóa đơn vị xả thải này?"
     
@@ -420,6 +436,7 @@
     "data.ContractPrice.Currency": "Ngoại tệ",
     "data.ContractPrice.Price": "Đơn giá",
     "data.ContractPrice.Tax": "Thuế suất",
+    "placeholder.ContractCode"  : "Nhập mã hợp đồng",       
     "placeholder.ContractType"  : "Chọn loại hợp đồng",       
     "placeholder.ContractNo":"Nhập số hợp đồng",
     "placeholder.SignDate":"Nhập ngày ký",
@@ -435,5 +452,61 @@
     "label.File":"File hợp đồng",
     "label.Information":"CẬP NHẬT HỢP ĐỒNG",
     "invalid.Existed_ContractNo":"Số hợp đồng bị trùng"
+  },
+  "BomFactory": {
+    "Breadcrumb": "ĐỊNH MỨC HÓA CHẤT",
+    "label.Information": "Thông tin định mức hóa chất",
+    "label.ItemOut": "Sản phẩm đầu ra",
+    "label.ItemIn": "Vật tư đầu vào",
+    "data.BomFactoryId": "ID BOM",    
+    "data.FactoryId": "Nhà máy",
+    "data.Validate": "Ngày hiệu lực",
+    "data.Descriptions": "Mô tả",
+    "BomStage.StageId": "Giai đoạn",
+    "BomStage.OrderNumber": "Thứ tự",
+    "BomStage.Sequence": "Liên tục",
+    "BomStage.Descriptions": "Mô tả",
+    "BomItemOut.ItemId": "Sản phẩm",
+    "BomItemOut.UnitId": "ĐVT",
+    "BomItemOut.Quantity": "Số lượng",
+    "BomItemIn.ItemId": "Vật tư",
+    "BomItemIn.UnitId": "ĐVT",
+    "BomItemIn.Quantity": "Số lượng",
+    "placeholder.FactoryId": "Chọn nhà máy",
+    "placeholder.Validate": "Nhập ngày hiệu lực",
+    "placeholder.Descriptions": "Nhập mô tả thêm về định mức hóa chất",
+    "mssg.ErrorExistFactoryAndValidate": "BOM của nhà máy và ngày hiệu lực đã tồn tại",
+    "mssg.ErrorExistStage": "Trùng giai đoạn",
+    "mssg.ErrorExistItemOut": "Trùng sản phẩm",
+    "mssg.ErrorExistItemIn": "Trùng vật tư",
+    "mssg.DeleteAsk_Title": "Xóa định mức hóa chất?",
+    "mssg.DeleteAsk_Text": "Bạn chắc chắn xóa định mức hóa chất này?"
+  },
+  "MonitorStandard": {
+    "Breadcrumb": "TIÊU CHUẨN QUAN TRẮC",
+    "label.Information": "Thông tin tiêu chuẩn quan trắc",
+    "data.MonitorStandardId": "ID Tiêu chuẩn",    
+    "data.FactoryId": "Nhà máy",
+    "data.ValidateDateFrom": "Hiệu lực từ",
+    "data.ValidateDateTo": "Hiệu lực đến",
+    "data.ValidateDate": "Hiệu lực",
+    "data.From": "Từ",
+    "data.To": "Đến",
+    "data.Temperature": "Nhiệt độ",
+    "data.pH": "pH",
+    "data.COD": "COD",
+    "data.TSS": "TSS",
+    "data.Color": "Màu",
+    "data.Amoni": "NH3",
+    "data.Q": "Q",
+    "data.MonitorStandardDesc": "Mô tả",    
+    "placeholder.FactoryId": "Chọn nhà máy",
+    "placeholder.ValidateDateFrom": "Nhập ngày hiệu lực từ",
+    "placeholder.ValidateDateTo": "Nhập ngày hiệu lực đến",
+    "placeholder.MonitorStandardDesc": "Nhập mô tả thêm về tiêu chuẩn quan trắc",
+    "mssg.ErrorExistValidateDate": "Tiêu chuẩn quan trắc của nhà máy lồng thời gian hiệu lực",
+    "mssg.ErrorDateToLessThanDateFrom": "Ngày hiệu lực đến nhỏ hơn ngày hiệu lực từ",
+    "mssg.DeleteAsk_Title": "Xóa tiêu chuẩn quan trắc?",
+    "mssg.DeleteAsk_Text": "Bạn chắc chắn xóa tiêu chuẩn quan trắc này?"
   }
 }

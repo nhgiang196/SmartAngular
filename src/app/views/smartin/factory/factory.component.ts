@@ -152,8 +152,8 @@ export class FactoryComponent implements OnInit {
               {
                 swal.fire(
                   {
-                    title: this.trans.instant('messg.delete.caption'),
-                    titleText: this.trans.instant('The factory has arisen, cannot be deleted!'),
+                    title: this.trans.instant('messg.validation.caption'),
+                    titleText: this.trans.instant('Factory.mssg.ErrorFactoryArised'),
                     confirmButtonText: this.trans.instant('Button.OK'),
                     type: 'error',
                   }
@@ -180,7 +180,14 @@ export class FactoryComponent implements OnInit {
     }
     //Check validate date from biger than date to
     if(Date.parse(this.helper.dateConvertToString(itemAdd.TechnologyFromDate)) > Date.parse(this.helper.dateConvertToString(itemAdd.TechnologyToDate))){
-      swal.fire("Validate", this.trans.instant('Factory.data.TechnologyName') + this.trans.instant(' date from biger than date to!'), 'warning');
+      swal.fire(
+        {
+          title: this.trans.instant('messg.validation.caption'),
+          titleText: this.trans.instant('Factory.mssg.ErrorTechnologyDateToLessThanDateFrom'),
+          confirmButtonText: this.trans.instant('Button.OK'),
+          type: 'error',
+        }
+      );
       return false;
     }
 
@@ -194,14 +201,28 @@ export class FactoryComponent implements OnInit {
     if(itemNew.filter(t=> {
       return t.TechnologyName.toLowerCase() == itemAdd.TechnologyName.toLowerCase();
     }).length>0){
-      swal.fire("Validate", this.trans.instant('Factory.data.TechnologyName') + this.trans.instant('messg.isexisted'), 'warning');
+      swal.fire(
+        {
+          title: this.trans.instant('messg.validation.caption'),
+          titleText: this.trans.instant('Factory.mssg.ErrorDuplicateTechnology'),
+          confirmButtonText: this.trans.instant('Button.OK'),
+          type: 'error',
+        }
+      );
       return false;
     }
     console.log(itemNew);
       if(this.entity.FactoryTechnology.filter(t=> {
         return t.TechnologyName.toLowerCase() == itemAdd.TechnologyName.toLowerCase() && t.FactoryTechnologyId != itemAdd.FactoryTechnologyId ;
       }).length>0){
-        swal.fire("Validate", this.trans.instant('Factory.data.TechnologyName') + this.trans.instant('messg.isexisted'), 'warning');
+        swal.fire(
+          {
+            title: this.trans.instant('messg.validation.caption'),
+            titleText: this.trans.instant('Factory.mssg.ErrorDuplicateTechnology'),
+            confirmButtonText: this.trans.instant('Button.OK'),
+            type: 'error',
+          }
+        );
         return false;
       }
 
@@ -216,7 +237,14 @@ export class FactoryComponent implements OnInit {
               (Date.parse(this.helper.dateConvertToString(itemAdd.TechnologyFromDate)) <= Date.parse(this.helper.dateConvertToString(t.TechnologyFromDate))
               && Date.parse(this.helper.dateConvertToString(itemAdd.TechnologyToDate)) >= Date.parse(this.helper.dateConvertToString(t.TechnologyToDate)))
     }).length>0){
-      swal.fire("Validate", this.trans.instant('Factory.data.TechnologyDate') + this.trans.instant(' was nested validate'), 'warning');
+      swal.fire(
+        {
+          title: this.trans.instant('messg.validation.caption'),
+          titleText: this.trans.instant('Factory.mssg.ErrorTechnologyValidateOverlap'),
+          confirmButtonText: this.trans.instant('Button.OK'),
+          type: 'error',
+        }
+      );
       return false;
     }
     //&&
@@ -232,7 +260,14 @@ export class FactoryComponent implements OnInit {
               (Date.parse(this.helper.dateConvertToString(itemAdd.TechnologyFromDate)) <= Date.parse(this.helper.dateConvertToString(t.TechnologyFromDate))
               && Date.parse(this.helper.dateConvertToString(itemAdd.TechnologyToDate)) >= Date.parse(this.helper.dateConvertToString(t.TechnologyToDate))))
     }).length>0){
-      swal.fire("Validate", this.trans.instant('Factory.data.TechnologyDate') + this.trans.instant(' was nested validate'), 'warning');
+      swal.fire(
+        {
+          title: this.trans.instant('messg.validation.caption'),
+          titleText: this.trans.instant('Factory.mssg.ErrorTechnologyValidateOverlap'),
+          confirmButtonText: this.trans.instant('Button.OK'),
+          type: 'error',
+        }
+      );
       return false;
     }
     this.EditRowNumber = 0;

@@ -7,7 +7,27 @@ import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 @Component({
   selector: 'app-smart-select',
-  templateUrl: './smart-select.component.html',
+  template: `
+  <ng-select class="custom" 
+    [items]="itemsBuffer" 
+    bindValue="id"
+    bindLabel="text"
+    [virtualScroll]="true" 
+    [loading]="loading"
+    (change)="onChange($event)" appendTo="body" 
+    [(ngModel)]="chooseItem.id"
+    (scroll)="onScroll($event)" 
+    [typeahead]="input$"
+    (scrollToEnd)="onScrollToEnd()" 
+    autofocus 
+    [placeholder]="translatePlaceholder || ''"
+    [name]="name" 
+    required>
+    <ng-template ng-header-tmp>
+      <small class="form-text text-muted">Loaded {{itemsBuffer.length}} of {{totalCount}}</small>
+    </ng-template>
+  </ng-select>
+ `,
   styleUrls: ['./smart-select.component.css']
 })
 
@@ -69,10 +89,11 @@ export class SmartSelectComponent implements OnInit ,OnChanges  {
       this.loadInit();
       return;
     }
-    this.chooseItem.id = this.specialId ;
-
-    
-    
+    else if (changes.specialId) {
+      this.chooseItem.id = this.specialId ;
+      this.loadInit();
+      return;
+    }
   }
 
   /** ACIENT CODES, DON'T CHANGE!! */
@@ -91,7 +112,7 @@ export class SmartSelectComponent implements OnInit ,OnChanges  {
         if (keyword) conditionString = ` ItemNo  +' '+ ItemName LIKE N'%${keyword}%'` ;
         if (this.specialId)  {
           specialString =  `ItemId= ${ this.specialId}`;
-          pr.orderBy = `IIF(ItemId=  ${ this.specialId}, ItemNo, ItemID)`;
+          pr.orderBy = `IIF(ItemId=  ${ this.specialId}, 0, ItemID)`;
           pr.orderDir = 'asc';
         } 
         statusString = (keyword? ' AND ' : ' ') +' ItemTypeId=3';
@@ -103,7 +124,7 @@ export class SmartSelectComponent implements OnInit ,OnChanges  {
         if (keyword) conditionString = ` ItemNo  +' '+ ItemName LIKE N'%${keyword}%'` ;
         if (this.specialId) {  
           specialString =  `ItemId= ${ this.specialId}`;
-          pr.orderBy = `IIF(ItemId=  ${ this.specialId}, ItemNo, ItemID)`;
+          pr.orderBy = `IIF(ItemId=  ${ this.specialId}, 0, ItemID)`;
           pr.orderDir = 'asc';
         }
         break;
@@ -114,7 +135,7 @@ export class SmartSelectComponent implements OnInit ,OnChanges  {
         if (keyword) conditionString = `  NormalizedUserName LIKE N'%${keyword}%'` ;
         if (this.specialId) { 
           specialString =  `UserName= ${ this.specialId}`;
-          pr.orderBy = `IIF(UserName=  ${ this.specialId}, UserName, NormalizedUserName)`;
+          pr.orderBy = `IIF(UserName=  ${ this.specialId},0 , UserName)`;
           pr.orderDir = 'asc';
         }
         break;
@@ -126,7 +147,7 @@ export class SmartSelectComponent implements OnInit ,OnChanges  {
         if (keyword) conditionString = `  FactoryName LIKE N'%${keyword}%'` ;
         if (this.specialId) {
           specialString =  `FactoryId= ${ this.specialId}`;
-          pr.orderBy = `IIF(FactoryId=  ${ this.specialId}, FactoryId, FactoryBuiltDate)`;
+          pr.orderBy = `IIF(FactoryId=  ${ this.specialId}, 0, FactoryId)`;
           pr.orderDir = 'asc';
         }
         statusString = (keyword? ' AND ' : ' ') +' Status=1';
@@ -139,7 +160,7 @@ export class SmartSelectComponent implements OnInit ,OnChanges  {
         if (keyword) conditionString = `  UnitName LIKE N'%${keyword}%'` ;
         if (this.specialId) {
           specialString =  `UnitId= ${ this.specialId}`;
-          pr.orderBy = `IIF(UnitId=  ${ this.specialId}, UnitId, CreateDate)`;
+          pr.orderBy = `IIF(UnitId=  ${ this.specialId},0 , UnitId)`;
           pr.orderDir = 'asc';
         }
 
@@ -157,7 +178,7 @@ export class SmartSelectComponent implements OnInit ,OnChanges  {
   
   onSearch(){ 
     this.input$.pipe(
-      debounceTime(200),
+      debounceTime(500),
       distinctUntilChanged(), 
       switchMap(term =>  this.fakeService(term))
     ).subscribe(data => {

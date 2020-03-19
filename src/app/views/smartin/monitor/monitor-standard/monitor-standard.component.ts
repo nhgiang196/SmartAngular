@@ -139,8 +139,10 @@ export class MonitorStandardComponent implements OnInit {
 
   fnDelete(id) {
     swal.fire({
-      title: this.trans.instant('Monitor.DeleteAsk_Title'),
-      titleText: this.trans.instant('Monitor.DeleteAsk_Text'),
+      title: this.trans.instant('MonitorStandard.mssg.DeleteAsk_Title'),
+      titleText: this.trans.instant('MonitorStandard.mssg.DeleteAsk_Text'),
+      confirmButtonText: this.trans.instant('Button.OK'),
+      cancelButtonText: this.trans.instant('Button.Cancel'),
       type: 'warning',
       showCancelButton: true,
       reverseButtons: true
@@ -150,7 +152,14 @@ export class MonitorStandardComponent implements OnInit {
             var operationResult: any = res
             if (operationResult.Success) {
               this.tableRender();
-              swal.fire('Deleted!', this.trans.instant('messg.delete.success'), 'success');
+              swal.fire(
+                {
+                  title: this.trans.instant('messg.delete.caption'),
+                  titleText: this.trans.instant('messg.delete.success'),
+                  confirmButtonText: this.trans.instant('Button.OK'),
+                  type: 'success',
+                }
+              );
               $("#myModal4").modal('hide');
             }
             else this.toastr.warning(operationResult.Message);
@@ -219,13 +228,27 @@ export class MonitorStandardComponent implements OnInit {
         }
         }
         else{
-          swal.fire('Error.', 'Validate Date was nested!', 'error');
+          swal.fire(
+            {
+              title: this.trans.instant('messg.validation.caption'),
+              titleText: this.trans.instant('MonitorStandard.mssg.ErrorExistValidateDate'),
+              confirmButtonText: this.trans.instant('Button.OK'),
+              type: 'error',
+            }
+          );
               this.laddaSubmitLoading = false;
               this.tableRender();
       }
     }
     else{
-      swal.fire('Error.', 'ValidateForm bigger than ValidateTo!', 'error');
+      swal.fire(
+        {
+          title: this.trans.instant('messg.validation.caption'),
+          titleText: this.trans.instant('MonitorStandard.mssg.ErrorDateToLessThanDateFrom'),
+          confirmButtonText: this.trans.instant('Button.OK'),
+          type: 'error',
+        }
+      );
       this.laddaSubmitLoading = false;
       this.existName = true;
         return false;
