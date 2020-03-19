@@ -224,8 +224,7 @@
               </thead>
               <tbody>
 
-                <tr class="animated fadeInRight" *ngFor="let item of entity.FactoryTechnology; let i = index"
-                  [@simpleFadeAnimation]="'in'">
+                <tr  *ngFor="let item of entity.FactoryTechnology; let i = index">
                   <td> {{i+1}} </td>
                   <td *ngIf="i+1 !== EditRowNumber">{{item.TechnologyName}} </td>
                   <td *ngIf="i+1 !== EditRowNumber">{{item.TechnologyDescription}} </td>
@@ -234,12 +233,12 @@
 
                   <td *ngIf="i+1 === EditRowNumber" ><input type="text" class="form-control" name="Technology" id="Technology" [(ngModel)]="tech_entity.TechnologyName"></td>
                   <td *ngIf="i+1 === EditRowNumber"><input type="text" class="form-control" name="Description" id="Description" [(ngModel)]="tech_entity.TechnologyDescription"> </td>
-                  <td *ngIf="i+1 === EditRowNumber"><input bsDatepicker [bsConfig]="bsConfig" type="text" class="form-control"  readonly name="BeginDate" id="BeginDate" [(ngModel)]="tech_entity.TechnologyFromDate" > </td>
+                  <td *ngIf="i+1 === EditRowNumber"><input bsDatepicker [bsConfig]="bsConfig" type="text" class="form-control"  readonly name="BeginDate" id="BeginDate" [(ngModel)]="tech_entity.TechnologyFromDate"  > </td>
                   <td *ngIf="i+1 === EditRowNumber"><input bsDatepicker [bsConfig]="bsConfig" type="text" class="form-control" readonly name="EndDate" id="EndDate" [(ngModel)]="tech_entity.TechnologyToDate" > </td>
                   <td >
                   <div class="btn-group">
-                    <button type="button" class="btn btn-sm btn-outline btn-primary" (click)="validateItem(tech_entity)" *ngIf="i+1 === EditRowNumber" ><i class="fa fa-check"></i></button>
-                    <button type="button" class="btn btn-sm btn-outline btn-success" (click)="fnEditItem(i)"*ngIf="i+1 !== EditRowNumber"><i class="fa fa-pencil"></i></button>
+                    <button type="button" class="btn btn-sm btn-outline btn-primary" (click)="fnSaveItem(tech_entity,i)" *ngIf="i+1 === EditRowNumber" ><i class="fa fa-check"></i></button>
+                    <button type="button" class="btn btn-sm btn-outline btn-success" (click)="fnEditItem(i)" *ngIf="i+1 !== EditRowNumber"><i class="fa fa-pencil"></i></button>
                     <button type="button" class="btn btn-sm btn-outline btn-danger" (click)="fnDeleteItem(i)" *ngIf="i+1 !== EditRowNumber"><i class="fa fa-trash"></i></button>
                   </div>
                   </td>
@@ -252,7 +251,7 @@
                   <td> <input bsDatepicker [bsConfig]="bsConfig" type="text" class="form-control"  readonly name="NewBeginDate" id="NewBeginDate" [(ngModel)]="newTechnology.TechnologyFromDate"></td>
                   <td><input bsDatepicker  [bsConfig]="bsConfig" type="text" class="form-control" readonly name="NewEndDate" id="NewEndDate" [(ngModel)]="newTechnology.TechnologyToDate"></td>
                   <td>
-                    <button type="button" class="btn  btn-sm btn-outline btn-info pull-right" [disabled]="!newTechnology.TechnologyName " (click)="fnAddItem()"><i class="fa fa-plus"></i> </button>
+                    <button type="button" class="btn  btn-sm btn-outline btn-info pull-right" [disabled]="!newTechnology.TechnologyName " (click)="fnAddItem(newTechnology)"><i class="fa fa-plus"></i> </button>
                   </td>
                 </tr>
 

@@ -165,21 +165,29 @@ export class FactoryComponent implements OnInit {
         }
       })
   }
-  async fnAddItem() { //press add item (in modal)
-    let _checkValidate = await this.validateItem(this.newTechnology)
+  async fnAddItem(itemAdd) { //press add item (in modal)
+    let _checkValidate = await this.validateItem(itemAdd,-1)
     if (!_checkValidate) return;
-    this.entity.FactoryTechnology.push(this.newTechnology);
+    else this.entity.FactoryTechnology.push(itemAdd);
     this.newTechnology = new FactoryTechnology();
   }
-  async validateItem(itemAdd: FactoryTechnology) {
+  async fnSaveItem(itemAdd,index) { //press add item (in modal)
+    let _checkValidate = await this.validateItem(itemAdd,index)
+    if (!_checkValidate) return;
+    this.entity.FactoryTechnology.splice(index, 1, itemAdd);
+    this.tech_entity = new FactoryTechnology();
+    
+  }
 
 
-    if (itemAdd.TechnologyName == null) {
-      swal.fire("Validate", this.trans.instant('Factory.data.TechnologyName') + this.trans.instant('messg.isnull'), 'warning');
-      return false;
-    }
+  async validateItem(itemAdd: FactoryTechnology, index) {
+    // if (itemAdd.TechnologyName == null) {
+    //   swal.fire("Validate", this.trans.instant('Factory.data.TechnologyName') + this.trans.instant('messg.isnull'), 'warning');
+    //   return false;
+    // }
+
     //Check validate date from biger than date to
-    if(Date.parse(this.helper.dateConvertToString(itemAdd.TechnologyFromDate)) > Date.parse(this.helper.dateConvertToString(itemAdd.TechnologyToDate))){
+    if(itemAdd.TechnologyFromDate > itemAdd.TechnologyToDate){
       swal.fire(
         {
           title: this.trans.instant('messg.validation.caption'),
@@ -191,91 +199,125 @@ export class FactoryComponent implements OnInit {
       return false;
     }
 
-    //check duplicate technology Name
-    console.log(this.entity.FactoryTechnology);
-    var itemNew = this.entity.FactoryTechnology.filter(n =>{
-      return n.isNew ==true;
-    })
-    console.log(itemNew);
-
-    if(itemNew.filter(t=> {
-      return t.TechnologyName.toLowerCase() == itemAdd.TechnologyName.toLowerCase();
-    }).length>0){
-      swal.fire(
+    for (const i in this.entity.FactoryTechnology) {
+        let t = this.entity.FactoryTechnology[i];
+        if (index.toString() === i ) continue;
+        if (t.TechnologyName.toLowerCase().trim() === itemAdd.TechnologyName.toLowerCase().trim())
         {
-          title: this.trans.instant('messg.validation.caption'),
-          titleText: this.trans.instant('Factory.mssg.ErrorDuplicateTechnology'),
-          confirmButtonText: this.trans.instant('Button.OK'),
-          type: 'error',
+          swal.fire(
+            {
+              title: this.trans.instant('messg.validation.caption'),
+              titleText: this.trans.instant('Factory.mssg.ErrorDuplicateTechnology'),
+              confirmButtonText: this.trans.instant('Button.OK'),
+              type: 'error',
+            }
+          );
+          return false;
         }
-      );
-      return false;
-    }
-    console.log(itemNew);
-      if(this.entity.FactoryTechnology.filter(t=> {
-        return t.TechnologyName.toLowerCase() == itemAdd.TechnologyName.toLowerCase() && t.FactoryTechnologyId != itemAdd.FactoryTechnologyId ;
-      }).length>0){
-        swal.fire(
+
+        if ((itemAdd.TechnologyFromDate >= t.TechnologyFromDate && itemAdd.TechnologyFromDate <= t.TechnologyToDate)
+        || (itemAdd.TechnologyToDate >= t.TechnologyFromDate && itemAdd.TechnologyToDate <= t.TechnologyToDate)
+        || (itemAdd.TechnologyFromDate <= t.TechnologyFromDate && itemAdd.TechnologyToDate >= t.TechnologyToDate)) {
+          swal.fire(
           {
             title: this.trans.instant('messg.validation.caption'),
-            titleText: this.trans.instant('Factory.mssg.ErrorDuplicateTechnology'),
+            titleText: this.trans.instant('Factory.mssg.ErrorTechnologyValidateOverlap'),
             confirmButtonText: this.trans.instant('Button.OK'),
             type: 'error',
-          }
-        );
-        return false;
+          });
+          return false;
+        }
       }
 
-    //check nested validedate Date From To
-    if(itemNew.filter(t=> {
-      return  (Date.parse(this.helper.dateConvertToString(itemAdd.TechnologyFromDate)) >= Date.parse(this.helper.dateConvertToString(t.TechnologyFromDate))
-              && Date.parse(this.helper.dateConvertToString(itemAdd.TechnologyFromDate)) <= Date.parse(this.helper.dateConvertToString(t.TechnologyToDate)))
-              ||
-              (Date.parse(this.helper.dateConvertToString(itemAdd.TechnologyToDate)) >= Date.parse(this.helper.dateConvertToString(t.TechnologyFromDate))
-              && Date.parse(this.helper.dateConvertToString(itemAdd.TechnologyToDate)) <= Date.parse(this.helper.dateConvertToString(t.TechnologyToDate)))
-              ||
-              (Date.parse(this.helper.dateConvertToString(itemAdd.TechnologyFromDate)) <= Date.parse(this.helper.dateConvertToString(t.TechnologyFromDate))
-              && Date.parse(this.helper.dateConvertToString(itemAdd.TechnologyToDate)) >= Date.parse(this.helper.dateConvertToString(t.TechnologyToDate)))
-    }).length>0){
-      swal.fire(
-        {
-          title: this.trans.instant('messg.validation.caption'),
-          titleText: this.trans.instant('Factory.mssg.ErrorTechnologyValidateOverlap'),
-          confirmButtonText: this.trans.instant('Button.OK'),
-          type: 'error',
-        }
-      );
-      return false;
-    }
-    //&&
-    if(this.entity.FactoryTechnology.filter(t=> {
-      return  (t.FactoryTechnologyId != itemAdd.FactoryTechnologyId )
-              &&
-              ((Date.parse(this.helper.dateConvertToString(itemAdd.TechnologyFromDate)) >= Date.parse(this.helper.dateConvertToString(t.TechnologyFromDate))
-              && Date.parse(this.helper.dateConvertToString(itemAdd.TechnologyFromDate)) <= Date.parse(this.helper.dateConvertToString(t.TechnologyToDate)))
-              ||
-              (Date.parse(this.helper.dateConvertToString(itemAdd.TechnologyToDate)) >= Date.parse(this.helper.dateConvertToString(t.TechnologyFromDate))
-              && Date.parse(this.helper.dateConvertToString(itemAdd.TechnologyToDate)) <= Date.parse(this.helper.dateConvertToString(t.TechnologyToDate)))
-              ||
-              (Date.parse(this.helper.dateConvertToString(itemAdd.TechnologyFromDate)) <= Date.parse(this.helper.dateConvertToString(t.TechnologyFromDate))
-              && Date.parse(this.helper.dateConvertToString(itemAdd.TechnologyToDate)) >= Date.parse(this.helper.dateConvertToString(t.TechnologyToDate))))
-    }).length>0){
-      swal.fire(
-        {
-          title: this.trans.instant('messg.validation.caption'),
-          titleText: this.trans.instant('Factory.mssg.ErrorTechnologyValidateOverlap'),
-          confirmButtonText: this.trans.instant('Button.OK'),
-          type: 'error',
-        }
-      );
-      return false;
-    }
+    //check duplicate technology Name
+    // console.log(this.entity.FactoryTechnology);
+    // var itemNew = this.entity.FactoryTechnology.filter(n =>{
+    //   return n.isNew ==true;
+    // })
+    // console.log(itemNew);
+
+    // if(itemNew.filter(t=> {
+    //   return t.TechnologyName.toLowerCase() == itemAdd.TechnologyName.toLowerCase();
+    // }).length>0){
+    //   swal.fire(
+    //     {
+    //       title: this.trans.instant('messg.validation.caption'),
+    //       titleText: this.trans.instant('Factory.mssg.ErrorDuplicateTechnology'),
+    //       confirmButtonText: this.trans.instant('Button.OK'),
+    //       type: 'error',
+    //     }
+    //   );
+    //   return false;
+    // }
+    // console.log(itemNew);
+    //   if(this.entity.FactoryTechnology.filter(t=> {
+    //     return t.TechnologyName.toLowerCase() == itemAdd.TechnologyName.toLowerCase() && t.FactoryTechnologyId != itemAdd.FactoryTechnologyId ;
+    //   }).length>0){
+    //     swal.fire(
+    //       {
+    //         title: this.trans.instant('messg.validation.caption'),
+    //         titleText: this.trans.instant('Factory.mssg.ErrorDuplicateTechnology'),
+    //         confirmButtonText: this.trans.instant('Button.OK'),
+    //         type: 'error',
+    //       }
+    //     );
+    //     return false;
+    //   }
+
+    // //check nested validedate Date From To
+    // if(itemNew.filter(t=> {
+    //   return  (Date.parse(this.helper.dateConvertToString(itemAdd.TechnologyFromDate)) >= Date.parse(this.helper.dateConvertToString(t.TechnologyFromDate))
+    //           && Date.parse(this.helper.dateConvertToString(itemAdd.TechnologyFromDate)) <= Date.parse(this.helper.dateConvertToString(t.TechnologyToDate)))
+    //           ||
+    //           (Date.parse(this.helper.dateConvertToString(itemAdd.TechnologyToDate)) >= Date.parse(this.helper.dateConvertToString(t.TechnologyFromDate))
+    //           && Date.parse(this.helper.dateConvertToString(itemAdd.TechnologyToDate)) <= Date.parse(this.helper.dateConvertToString(t.TechnologyToDate)))
+    //           ||
+    //           (Date.parse(this.helper.dateConvertToString(itemAdd.TechnologyFromDate)) <= Date.parse(this.helper.dateConvertToString(t.TechnologyFromDate))
+    //           && Date.parse(this.helper.dateConvertToString(itemAdd.TechnologyToDate)) >= Date.parse(this.helper.dateConvertToString(t.TechnologyToDate)))
+    // }).length>0){
+    //   swal.fire(
+    //     {
+    //       title: this.trans.instant('messg.validation.caption'),
+    //       titleText: this.trans.instant('Factory.mssg.ErrorTechnologyValidateOverlap'),
+    //       confirmButtonText: this.trans.instant('Button.OK'),
+    //       type: 'error',
+    //     }
+    //   );
+    //   return false;
+    // }
+    // //&&
+    // if(this.entity.FactoryTechnology.filter(t=> {
+    //   return  (t.FactoryTechnologyId != itemAdd.FactoryTechnologyId )
+    //           &&
+    //           (
+    //           (Date.parse(this.helper.dateConvertToString(itemAdd.TechnologyFromDate)) >= Date.parse(this.helper.dateConvertToString(t.TechnologyFromDate))
+    //           && Date.parse(this.helper.dateConvertToString(itemAdd.TechnologyFromDate)) <= Date.parse(this.helper.dateConvertToString(t.TechnologyToDate)))
+    //           ||
+    //           (Date.parse(this.helper.dateConvertToString(itemAdd.TechnologyToDate)) >= Date.parse(this.helper.dateConvertToString(t.TechnologyFromDate))
+    //           && Date.parse(this.helper.dateConvertToString(itemAdd.TechnologyToDate)) <= Date.parse(this.helper.dateConvertToString(t.TechnologyToDate)))
+    //           ||
+    //           (Date.parse(this.helper.dateConvertToString(itemAdd.TechnologyFromDate)) <= Date.parse(this.helper.dateConvertToString(t.TechnologyFromDate))
+    //           && Date.parse(this.helper.dateConvertToString(itemAdd.TechnologyToDate)) >= Date.parse(this.helper.dateConvertToString(t.TechnologyToDate))))
+    // }).length>0){
+    //   swal.fire(
+    //     {
+    //       title: this.trans.instant('messg.validation.caption'),
+    //       titleText: this.trans.instant('Factory.mssg.ErrorTechnologyValidateOverlap'),
+    //       confirmButtonText: this.trans.instant('Button.OK'),
+    //       type: 'error',
+    //     }
+    //   );
+    //   return false;
+    // }
     this.EditRowNumber = 0;
     return true
   }
+
+  
   fnEditItem(index) { //press edit item (in modal)
     this.EditRowNumber = index + 1;
-    this.tech_entity = this.entity.FactoryTechnology[index];
+    this.tech_entity = new FactoryTechnology();
+    this.tech_entity = Object.assign({}, this.entity.FactoryTechnology[index]); //stop binding
   }
   fnDeleteItem(index) { //press delete item (in modal)
     this.entity.FactoryTechnology.splice(index, 1);

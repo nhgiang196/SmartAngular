@@ -96,13 +96,17 @@ export class WarehouseComponent implements OnInit {
     this.entity.CreateBy = this.auth.currentUser.Username;
   }
   async fnEditSignal(id) { //press a link of ENTITY
+    
     if (id == null) { this.toastr.warning('ID is Null, cant show modal'); return; }
+    
     this.ACTION_STATUS = 'update';
     this.iboxloading = true;
     await this.api.findWarehouseById(id).subscribe(res => {
+      this.resetEntity();
       this.entity = res;
       $("#myModal4").modal('show');
       this.iboxloading = false;
+      console.log('getEntity',res);
       
       /**CONTROL FILES */
       this.uploadComponent.loadInit(res.WarehouseFile);
@@ -186,40 +190,34 @@ export class WarehouseComponent implements OnInit {
     }
   }
   
-  async fnAddItem() { //press add item
-    var itemAdd = this.newLocationEntity;
+  async fnAddItem(itemAdd) { //press add item
     let _checkValidate = await this.validateItem(itemAdd);
      if (!_checkValidate) return;
-    // let validateResult = await this.api.validateWarehouseLocation(itemAdd).toPromise().then() as any;
-    // if (!validateResult.Success){
-    //   swal.fire("Validate",this.trans.instant('Warehouse.invalid.'+ validateResult.Message),'warning'); return;
-    // }
     itemAdd.WarehouseId = this.entity.WarehouseId;
     this.entity.WarehouseLocation.push(itemAdd);
     this.newLocationEntity = new WarehouseLocation();
   }
-  async validateItem(itemAdd){
-    
-    if (itemAdd.WarehouseLocationCode == null) {
-      swal.fire("Validate", this.trans.instant('Warehouse.data.WarehouseLocationCode') + this.trans.instant('messg.isnull'), 'warning');
-      return false;
-    }
-    if (itemAdd.WarehouseLocationName == null) {
-      swal.fire("Validate", this.trans.instant('Warehouse.data.WarehouseLocationName') + this.trans.instant('messg.isnull'), 'warning');
-      return false;
-    }
-    let _validateCode = await this.entity.WarehouseLocation.find(t =>t.WarehouseLocationCode.toLowerCase()  == itemAdd.WarehouseLocationCode.toLowerCase() )
-    // && t.WarehouseLocationId!=itemAdd.WarehouseLocationId && itemAdd.WarehouseLocationId!=0
-    if (_validateCode && itemAdd != _validateCode)
-    {
-      swal.fire("Validate", this.trans.instant('Warehouse.data.WarehouseLocationCode') + this.trans.instant('messg.isexisted'), 'warning');
-      return false;
-    } 
-    let _validateName = await this.entity.WarehouseLocation.find(t =>t.WarehouseLocationName.toLowerCase()  == itemAdd.WarehouseLocationName.toLowerCase() )
-    if (_validateName && itemAdd != _validateName)
-    {
-      swal.fire("Validate", this.trans.instant('Warehouse.data.WarehouseLocationName') + this.trans.instant('messg.isexisted'), 'warning');
-      return false;
+  async fnSaveItem(itemAdd,index) { //press add item
+    let _checkValidate = await this.validateItem(itemAdd,index);
+     if (!_checkValidate) return;
+    itemAdd.WarehouseId = this.entity.WarehouseId;
+    this.entity.WarehouseLocation.splice(index,1,itemAdd)
+    this.locationEntity = new WarehouseLocation();
+  }
+  async validateItem(itemAdd, index = -1){
+    for (const i in this.entity.WarehouseLocation) {
+        const t = this.entity.WarehouseLocation[i];
+        if (index.toString() == i) continue;
+        if (t.WarehouseLocationName.toLowerCase().trim()  === itemAdd.WarehouseLocationName.toLowerCase().trim())
+        {
+          swal.fire("Validate", this.trans.instant('Warehouse.data.WarehouseLocationCode') + this.trans.instant('messg.isexisted'), 'warning');
+          return false;
+        } 
+        if (t.WarehouseLocationCode.toLowerCase().trim()  === itemAdd.WarehouseLocationCode.toLowerCase().trim())
+        {
+          swal.fire("Validate", this.trans.instant('Warehouse.data.WarehouseLocationCode') + this.trans.instant('messg.isexisted'), 'warning');
+          return false;
+        } 
     }
     this.EditRowNumber = 0;
     return true;
@@ -227,7 +225,7 @@ export class WarehouseComponent implements OnInit {
 
   fnEditItem(index) { //press a link of Item
     this.EditRowNumber = index + 1;
-    this.locationEntity = this.entity.WarehouseLocation[index];
+    this.locationEntity = Object.assign({}, this.entity.WarehouseLocation[index]); //stop binding
   }
   fnDeleteItem(index) { //PRESS delete button item
     this.entity.WarehouseLocation.splice(index, 1);

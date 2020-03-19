@@ -235,8 +235,7 @@
               </thead>
               <tbody>
 
-                <tr class="animated fadeInRight" *ngFor="let item of entity.WarehouseLocation; let i = index"
-                  [@simpleFadeAnimation]="'in'">
+                <tr *ngFor="let item of entity.WarehouseLocation; let i = index">
                   <td> {{i+1}} </td>
                   <td  *ngIf="i+1 !== EditRowNumber">{{item.WarehouseLocationCode}} </td>
                   <td  *ngIf="i+1 !== EditRowNumber">{{item.WarehouseLocationName}} </td>
@@ -273,7 +272,8 @@
                   </td>
                   <td>
                     <div class="btn-group">
-                      <button type="button" class="btn btn-sm btn-outline btn-primary" [disabled]="!locationEntity.WarehouseLocationCode || !locationEntity.WarehouseLocationName || locationEntity.WarehouseLocationLength<0 || locationEntity.WarehouseLocationWidth<0 || locationEntity.WarehouseLocationHeight<0" (click)="validateItem(locationEntity)" *ngIf="i+1 === EditRowNumber" ><i class="fa fa-check"></i></button>
+                      <button type="button" class="btn btn-sm btn-outline btn-primary" [disabled]="!locationEntity.WarehouseLocationCode || !locationEntity.WarehouseLocationName || locationEntity.WarehouseLocationLength<0 || locationEntity.WarehouseLocationWidth<0 || locationEntity.WarehouseLocationHeight<0" 
+                      (click)="fnSaveItem(locationEntity,i)" *ngIf="i+1 === EditRowNumber" ><i class="fa fa-check"></i></button>
                       <button type="button" class="btn btn-sm btn-outline btn-success" (click)="fnEditItem(i)"*ngIf="i+1 !== EditRowNumber"><i class="fa fa-pencil"></i></button>
                       <button type="button" class="btn btn-sm btn-outline btn-danger" (click)="fnDeleteItem(i)" *ngIf="i+1 !== EditRowNumber"><i class="fa fa-trash"></i></button>
                     </div>                        
@@ -299,7 +299,7 @@
                     </div>
                   </td>
                   <td>
-                    <button type="button" class="btn  btn-sm btn-outline btn-info pull-right" (click)="fnAddItem()" [disabled]="!newLocationEntity.WarehouseLocationCode || !newLocationEntity.WarehouseLocationName || newLocationEntity.WarehouseLocationLength<0 || newLocationEntity.WarehouseLocationHeight<0 || newLocationEntity.WarehouseLocationWidth<0"><i class="fa fa-plus"></i> </button>
+                    <button type="button" class="btn  btn-sm btn-outline btn-info pull-right" (click)="fnAddItem(newLocationEntity)" [disabled]="!newLocationEntity.WarehouseLocationCode || !newLocationEntity.WarehouseLocationName || newLocationEntity.WarehouseLocationLength<0 || newLocationEntity.WarehouseLocationHeight<0 || newLocationEntity.WarehouseLocationWidth<0"><i class="fa fa-plus"></i> </button>
                   </td>
                 </tr>
 
