@@ -2690,6 +2690,11 @@ devexpress-diagram@0.1.53:
   resolved "https://registry.yarnpkg.com/devexpress-diagram/-/devexpress-diagram-0.1.53.tgz#8a2ec759a494ff0750a7275b462926f043a00f2d"
   integrity sha512-1i8VURj/yGERJLYoVb8mtsssrd0Jq64rvNIxc21xpyRkJQukRAXAblG9tpYvC7D2dg5RxE0Q/7IzsVGz7bdcUw==
 
+devexpress-diagram@^0.1.54:
+  version "0.1.54"
+  resolved "https://registry.yarnpkg.com/devexpress-diagram/-/devexpress-diagram-0.1.54.tgz#f1e0a16afb6c6aaba9ea51606cd8a3b6e56a2fa3"
+  integrity sha512-HkGole85zxGFOPm1L8n+Bzk6eOSfcU1k3vERL+GnRpZz3OeRYPq6lHY4Wa53k7rec3cH7vhou+WZVHvHf5Rq5A==
+
 devexpress-gantt@0.0.27:
   version "0.0.27"
   resolved "https://registry.yarnpkg.com/devexpress-gantt/-/devexpress-gantt-0.0.27.tgz#30e945cdd927603f39c2460f55b19b57fc16c72e"
@@ -2703,6 +2708,11 @@ devextreme-angular@^19.2.6:
     "@angular-devkit/schematics" "^7.2.2"
     devextreme-schematics latest
     tslib "^1.9.0"
+
+devextreme-aspnet-data-nojquery@^2.6.1:
+  version "2.6.1"
+  resolved "https://registry.yarnpkg.com/devextreme-aspnet-data-nojquery/-/devextreme-aspnet-data-nojquery-2.6.1.tgz#f12b7934d185418bebd804a27c598c92889d1eeb"
+  integrity sha512-Lc2dqxksBP6qVlefEdCdQpxFIeo8kfAXrIuXiQ77H8iDQPL2WU4Q65ENHIr69xqnm1y3gBdrxPJX7ptuLFeJyg==
 
 devextreme-schematics@^1.1.12, devextreme-schematics@latest:
   version "1.1.12"

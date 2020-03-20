@@ -60,6 +60,9 @@ import { MonitorListComponent } from './views/smartin/monitor/monitor-list/monit
 import { MonitorTrackingComponent } from './views/smartin/monitor/monitor-tracking/monitor-tracking.component';
 import { ProcessLogsComponent } from './views/smartin/process/process-logs/process-logs.component';
 import { ProcessPlanComponent } from './views/smartin/process/process-plan/process-plan.component';
+import { CustomerEditorComponent } from './views/test/customer-editor/customer-editor.component';
+import { FormEditComponent } from './views/test/form-edit/form-edit.component';
+import { TestComponent } from './views/test/test.component';
 
 
 /**XLNT */
@@ -71,6 +74,7 @@ export const ROUTES: Routes = [
   { path: 'admin', redirectTo: '/admin/factory', pathMatch: 'full' },
   { path: 'user', redirectTo: '/user/profile', pathMatch: 'full' },
   // App views
+  
   { //BasicComponent
     path: '', component: BasicComponent,
     children: [
@@ -159,7 +163,7 @@ export const ROUTES: Routes = [
         ]
       },
        //process
-       {
+      {
         path: 'process', canActivate: [AuthGuard], children: [
           { path: 'logs', component: ProcessLogsComponent },
           { path: 'plan', component: ProcessPlanComponent },
@@ -167,6 +171,8 @@ export const ROUTES: Routes = [
           { path: 'factoryData', component: MonitorListComponent }
         ]
       },
+
+      { path: 'test', component: TestComponent },
     ]
   },
   { //BlankComponent
@@ -182,6 +188,7 @@ export const ROUTES: Routes = [
       { path: '**', component: NotFoundComponent }
     ]
   },
+  
 
   // Handle all other routes
 

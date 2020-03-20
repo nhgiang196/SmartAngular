@@ -21,6 +21,8 @@ import { UserModule } from './components/common/user/user.module';
 import { AuthInterceptor } from './helpers/AuthInterceptor';
 import { SmartinModule } from './views/smartin/smartin.module';
 import { ItemResolver } from './resolvers/item.resolver';
+import { TestModule } from './views/test/test.module';
+import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 
 @NgModule({
   declarations: [
@@ -40,6 +42,7 @@ import { ItemResolver } from './resolvers/item.resolver';
     //Views
     LayoutsModule,
     EMCSModule,  
+    TestModule,
     RouterModule.forRoot(ROUTES)
     
   ],
@@ -60,3 +63,5 @@ import { ItemResolver } from './resolvers/item.resolver';
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+platformBrowserDynamic().bootstrapModule(AppModule);
+
