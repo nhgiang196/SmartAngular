@@ -8,7 +8,9 @@
       "sourceRoot": "src",
       "projectType": "application",
       "prefix": "app",
-      "schematics": {},
+      "schematics": {
+        
+      },
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
@@ -23,6 +25,7 @@
               "src/assets"
             ],
             "styles": [              
+              
               "node_modules/bootstrap/dist/css/bootstrap.css",
               "node_modules/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css",
               "node_modules/font-awesome/css/font-awesome.css",
@@ -37,6 +40,10 @@
               "node_modules/@ng-select/ng-select/themes/default.theme.css",
               "node_modules/slick-carousel/slick/slick.css",
               "node_modules/slick-carousel/slick/slick-theme.css",
+              "node_modules/devextreme/dist/css/dx.common.css",
+              "src//assets/styles/theme.base.css",
+              "src//assets/styles/theme.additional.css",
+              "src//assets/styles/dx-styles.scss",
               "src/assets/styles/animate.css",
               "src/assets/styles/styles.css"
 

@@ -22,6 +22,9 @@ import {AutocompleteLibModule} from 'angular-ng-autocomplete';
 import { SlickCarouselModule } from 'ngx-slick-carousel';
 import { NgxMaskModule, IConfig } from 'ngx-mask'
 
+import { DxDataGridModule, DxFormModule } from 'devextreme-angular';
+
+
 import { Select2Module } from 'ng2-select2';
 import { ChartsModule } from 'ng2-charts';
 
@@ -81,6 +84,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     ChartsModule,
     PaginationModule.forRoot(),
     NgxMaskModule.forRoot(),
+    DxDataGridModule, 
+    DxFormModule
 
   ],
   exports: [
@@ -107,7 +112,10 @@ export function HttpLoaderFactory(http: HttpClient) {
     SlickCarouselModule,
     ChartsModule,
     PaginationModule,
-    NgxMaskModule
+    NgxMaskModule,
+    DxDataGridModule, 
+    DxFormModule 
+    
 
   ]
 
