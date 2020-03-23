@@ -60,7 +60,7 @@ import { MonitorListComponent } from './views/smartin/monitor/monitor-list/monit
 import { MonitorTrackingComponent } from './views/smartin/monitor/monitor-tracking/monitor-tracking.component';
 import { ProcessLogsComponent } from './views/smartin/process/process-logs/process-logs.component';
 import { ProcessPlanComponent } from './views/smartin/process/process-plan/process-plan.component';
-import { DemoGridComponent } from './views/smartin/DemoGridDevExpress/DemoGrid/DemoGrid.component';
+// import { DemoGridComponent } from './views/smartin/DemoGridDevExpress/DemoGrid/DemoGrid.component';
 import { TestComponent } from './views/test/test.component';
 
 
@@ -171,11 +171,11 @@ export const ROUTES: Routes = [
         ]
       },
       //Demo
-      {
-        path: 'devexpress', canActivate: [AuthGuard], children: [
-          { path: 'demogrid', component: DemoGridComponent }
-        ]
-      },
+      // {
+      //   path: 'devexpress', canActivate: [AuthGuard], children: [
+      //     { path: 'demogrid', component: DemoGridComponent }
+      //   ]
+      // },
 
       { path: 'test', component: TestComponent },
     ]

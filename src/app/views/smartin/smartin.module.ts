@@ -27,7 +27,7 @@ import { MonitorListComponent } from './monitor/monitor-list/monitor-list.compon
 import { MonitorTrackingComponent } from './monitor/monitor-tracking/monitor-tracking.component';
 import { ProcessLogsComponent } from './process/process-logs/process-logs.component';
 import { ProcessPlanComponent } from './process/process-plan/process-plan.component';
-import { DemoGridComponent } from './DemoGridDevExpress/DemoGrid/DemoGrid.component';
+// import { DemoGridComponent } from './DemoGridDevExpress/DemoGrid/DemoGrid.component';
 
 
 
@@ -52,7 +52,7 @@ const COMPONENTS = [
   BomItemOutModalComponent,
   MonitorStandardComponent,
   MonitorChartComponent,
-  DemoGridComponent
+  // DemoGridComponent
 ];
 
 
