@@ -2,31 +2,37 @@
 {
   "Id": 1,
   "Name": "Danh mục",
-  "image":"/assets/img/images/cate.png"
+  "image":"/assets/img/images/cate.png",
+  "link":"/pages/category/main"
 },
 {
   "Id": 2,
   "Name": "Định mức hóa chất",
-  "image":"/assets/img/images/approved.png"
+  "image":"/assets/img/images/approved.png",
+  "link":"/pages/dinhmuc/main"
 },
 {
   "Id": 3,
   "Name": "Quan trắc",
-  "image":"/assets/img/images/analytic.png"
+  "image":"/assets/img/images/analytic.png",
+  "link":"/pages/quantrac/main"
 },
 {
   "Id": 4,
   "Name": "Vận hành",
-  "image":"/assets/img/images/icon.png"
+  "image":"/assets/img/images/icon.png",
+  "link":"/pages/vanhanh/main"
 },
 {
   "Id": 5,
   "Name": "Tồn kho",
-  "image":"/assets/img/images/area.png"
+  "image":"/assets/img/images/area.png",
+  "link":"/pages/tonkho/main"
 },
 {
   "Id": 6,
   "Name": "Chi phí vận hành",
-  "image":"/assets/img/images/part1.png"
+  "image":"/assets/img/images/part1.png",
+  "link":"/pages/chiphi/main"
 }
 ]

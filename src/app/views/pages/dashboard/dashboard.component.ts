@@ -18,7 +18,6 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit() {
     this.loadData();
-    showSideBar();
   }
 
 
@@ -33,9 +32,9 @@ export class DashboardComponent implements OnInit {
     );
   }
 
-  loadLink(id){
-    this.store.loadMenu(id);
-    this.router.navigate(['/pages/category/demo']);
+  loadLink(item){
+    this.store.loadMenu(item.id);
+    this.router.navigate([item.link]);
   }
 
 

@@ -5,6 +5,7 @@ import { CategoriesRoutingModule } from './categories-routing.module';
 import { DemoComponent } from './demo/demo.component';
 import { SharedModule } from 'src/app/core/shared/shared.module';
 import { LanguageService } from 'src/app/core/services/language.service';
+import { MainViewCategoryComponent } from './main-view-category/main-view-category.component';
 
 @NgModule({
   imports: [
@@ -12,6 +13,6 @@ import { LanguageService } from 'src/app/core/services/language.service';
     CommonModule,
     SharedModule,
   ],
-  declarations: [CategoriesComponent,DemoComponent],
+  declarations: [CategoriesComponent,DemoComponent,MainViewCategoryComponent],
 })
 export class CategoriesModule { }

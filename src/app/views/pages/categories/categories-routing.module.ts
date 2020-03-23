@@ -12,8 +12,12 @@ const routes: Routes = [{
             path: 'demo',
             component: DemoComponent
         },
-        { path: '', redirectTo: 'demo', pathMatch: 'full' },
-        { path: '**', redirectTo: 'demo' },
+        {
+            path: 'main',
+            component: DemoComponent
+        },
+        { path: '', redirectTo: 'main', pathMatch: 'full' },
+        { path: '**', redirectTo: 'main' },
     ]
 }];
 

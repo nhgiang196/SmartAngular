@@ -14,7 +14,6 @@ export class CategoriesComponent implements OnInit {
   }
 
   ngAfterViewInit(): void {
-    hideSideBar();
   }
 
 }

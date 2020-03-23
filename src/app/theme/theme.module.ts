@@ -7,12 +7,14 @@ import {
   SidebarComponent,
 } from './components';
 import { SharedModule } from '../core/shared/shared.module';
+import { NotFoundComponent } from './components/not-found/not-found.component';
 
 const COMPONENTS = [
   HeaderComponent,
   SidebarComponent,
   FooterComponent,
-  LayoutComponent
+  LayoutComponent,
+  NotFoundComponent
 ];
 
 @NgModule({

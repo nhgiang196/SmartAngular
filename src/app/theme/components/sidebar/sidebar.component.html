@@ -1,26 +1,9 @@
 <nav class="navbar-default navbar-static-side" role="navigation">
   <div class="sidebar-collapse">
+      <div class="text-left nav-mini">
+        <a class="navbar-minimalize btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
+      </div>
       <ul class="nav metismenu" id="side-menu">
-          <li class="nav-header">
-              <div class="dropdown profile-element"> <span>
-                      <img alt="image" class="img-circle" src="/assets/img/user.png">
-                       </span>
-                  <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                      <span class="clear"> <span class="block m-t-xs"> <strong class="font-bold">David Williams</strong>
-                       </span> <span class="text-muted text-xs block">Art Director <b class="caret"></b></span> </span> </a>
-                  <ul class="dropdown-menu animated fadeInRight m-t-xs">
-                      <li><a href="profile.html">Profile</a></li>
-                      <li><a href="contacts.html">Contacts</a></li>
-                      <li><a href="mailbox.html">Mailbox</a></li>
-                      <li class="divider"></li>
-                      <li><a href="login.html">Logout</a></li>
-                  </ul>
-              </div>
-              <div class="logo-element">
-                  IN+
-              </div>
-          </li>
-
           <li *ngFor="let item of listMenu; let i = index" [class.active]="i==0" >
               <a ><i [class]="item.image"></i> <span class="nav-label"> {{item.Name}} </span></a>
           </li>
