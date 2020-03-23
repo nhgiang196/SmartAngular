@@ -47,33 +47,9 @@ export class DisplayProfileComponent  {
   myselect: any;
   myspecialID: any;
   ngOnInit() {
-    this.router.params.subscribe(params => {
-      console.log(params);
-    });
-    this.loadInfo();
-    $('body').addClass('top-navigation');
+    
   }
 
-  ngAfterViewInit() {
-    $('#lefNav').hide();
-    $('#homeMenuButton').hide();
-
-  }
-
-  ngOnDestroy() {
-    $('body').removeClass('top-navigation');
-    $('#lefNav').show();
-    $('#homeMenuButton').show();
-
-  }
-  loadInfo() {
-    this.authService.profile().subscribe(res => {
-      if (res[0] != null)
-        this.profile = res[0] as any;
-      else
-        this.profile = {}
-    });
-  }
 }
 
 

@@ -30,6 +30,21 @@ export class TestComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    $('body').addClass('top-navigation');
   }
+
+  ngAfterViewInit() {
+    $('#lefNav').hide();
+    $('#homeMenuButton').hide();
+
+  }
+
+  ngOnDestroy() {
+    $('body').removeClass('top-navigation');
+    $('#lefNav').show();
+    $('#homeMenuButton').show();
+
+  }
+  
 
 }
