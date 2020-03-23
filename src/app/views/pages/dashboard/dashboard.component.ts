@@ -33,8 +33,7 @@ export class DashboardComponent implements OnInit {
   }
 
   loadLink(item){
-    this.store.loadMenu(item.id);
-    this.router.navigate([item.link]);
+    this.router.navigate([item.link+"/"+item.Id]);
   }
 
 

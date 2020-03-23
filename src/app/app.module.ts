@@ -14,6 +14,7 @@ import { PagesModule } from './views/pages/pages.module';
 import { StoreService } from './core/services/store.service';
 import { AuthService,BomService,ContrackService,CustomerService,FactoryService,ItemService,ItemTypePropertyService,ItemTypeService,MonitorService,MonitorStandarService,ProcessService,UnitService,WareHouseService } from  './core/services';
 import { ThemeModule } from './theme/theme.module';
+import { RoutesResolver } from './core/resolvers/routes.resolver';
 
 const SERVICE = [
   AuthService,
@@ -54,6 +55,7 @@ const SERVICE = [
     },
     AuthGuard,
     StoreService,
+    RoutesResolver,
     ...SERVICE
   ],
   bootstrap: [AppComponent]

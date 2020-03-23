@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 
 import { CategoriesComponent } from './categories.component';
 import { DemoComponent } from './demo/demo.component';
+import { RoutesResolver } from 'src/app/core/resolvers/routes.resolver';
 
 const routes: Routes = [{
     path: '',
@@ -13,7 +14,8 @@ const routes: Routes = [{
             component: DemoComponent
         },
         {
-            path: 'main',
+            path: 'main/:id',
+            resolve: { menu: RoutesResolver },
             component: DemoComponent
         },
         { path: '', redirectTo: 'main', pathMatch: 'full' },

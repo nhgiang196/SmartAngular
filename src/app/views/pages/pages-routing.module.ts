@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 import { PagesComponent } from './pages.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { AuthGuard } from 'src/app/core/guards/auth.guard';
+import { RoutesResolver } from 'src/app/core/resolvers/routes.resolver';
 
 const routes: Routes = [{
     path: '',
