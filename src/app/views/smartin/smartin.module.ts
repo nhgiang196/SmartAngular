@@ -27,6 +27,9 @@ import { MonitorListComponent } from './monitor/monitor-list/monitor-list.compon
 import { MonitorTrackingComponent } from './monitor/monitor-tracking/monitor-tracking.component';
 import { ProcessLogsComponent } from './process/process-logs/process-logs.component';
 import { ProcessPlanComponent } from './process/process-plan/process-plan.component';
+import { TestModule } from '../test/test.module';
+import { DxFormModule, DxDataGridModule, DxListModule, DxDropDownBoxModule, DxTagBoxModule, DxSelectBoxModule, DxButtonModule, DxCheckBoxModule } from 'devextreme-angular';
+import { HttpClientModule } from '@angular/common/http';
 // import { DemoGridComponent } from './DemoGridDevExpress/DemoGrid/DemoGrid.component';
 
 
@@ -52,17 +55,28 @@ const COMPONENTS = [
   BomItemOutModalComponent,
   MonitorStandardComponent,
   MonitorChartComponent,
+  MonitorListComponent, MonitorTrackingComponent, ProcessLogsComponent, ProcessPlanComponent
   // DemoGridComponent
 ];
 
 
 @NgModule({
-  declarations: [...COMPONENTS, MonitorListComponent, MonitorTrackingComponent, ProcessLogsComponent, ProcessPlanComponent],
+  declarations: [...COMPONENTS],
   imports: [
     CommonModule,
     SharedModule,
     RouterModule,
-    UiSampleModule
+    UiSampleModule,
+    DxFormModule ,
+    DxDataGridModule,
+    DxListModule,
+    DxDropDownBoxModule,
+    DxTagBoxModule,
+    DxSelectBoxModule,
+    DxButtonModule,
+    DxCheckBoxModule,
+    HttpClientModule,
+    
   ],
   exports:[COMPONENTS]
 })

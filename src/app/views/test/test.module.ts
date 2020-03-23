@@ -12,10 +12,12 @@ import { CustomizeKeyboardNavigationComponent } from './customize-keyboard-navig
 import { InfiniteScrollingComponent } from './infinite-scrolling/infinite-scrolling.component';
 import { DisplayProfileComponent } from './display-profile/display-profile.component';
 import { UiSampleModule } from '../smartin/ui-sample/ui-sample.module';
+import { TestService } from './test.service';
 
 
 @NgModule({
   declarations: [CustomerEditorComponent, FormEditComponent, TestComponent, CrudGenerationComponent, CustomizeKeyboardNavigationComponent, InfiniteScrollingComponent, DisplayProfileComponent ],
+  providers : [TestService],
   imports: [
     BrowserModule,
     RouterModule,

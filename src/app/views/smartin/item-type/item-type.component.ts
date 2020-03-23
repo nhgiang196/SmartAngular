@@ -9,6 +9,7 @@ import { trigger, transition, animate, style } from '@angular/animations';
 import { getDate } from 'ngx-bootstrap/chronos/utils/date-getters';
 import { AuthService } from 'src/app/services/auth.service';
 import swal from 'sweetalert2';
+import { TestService, Employee, State } from '../../test/test.service';
 declare let $: any;
 @Component({
   selector: 'app-item-type',
@@ -20,7 +21,8 @@ declare let $: any;
       transition(':leave',
         animate(300, style({ opacity: 0 })))
     ])
-  ]
+  ],
+  providers: [TestService]
 })
 export class ItemTypeComponent implements OnDestroy, OnInit {
   itemTypes: ItemType[]
@@ -34,13 +36,18 @@ export class ItemTypeComponent implements OnDestroy, OnInit {
   iboxloading = false;
   existName = false;
   EditRowID: number =0;
+  dataSource: any;
+  states: State[];
   constructor(
     private api: WaterTreatmentService,
     private toastr: ToastrService,
     private trans: TranslateService,
-    private auth: AuthService
-  ) { }
-
+    private auth: AuthService,
+    service: TestService
+  ) {
+    this.states = service.getStates();
+   }
+  
   ngOnInit(): void {
     this.loadInit()
     this.resetEntity();
@@ -89,7 +96,8 @@ export class ItemTypeComponent implements OnDestroy, OnInit {
     $('#myTable').DataTable().clear().destroy();
     this.api.getItemType().subscribe(res => {
       console.log(res);
-      this.itemTypes = res as any
+      this.itemTypes = res as any;
+      this.dataSource = res;
       this.dtTrigger.next();
     });
   }

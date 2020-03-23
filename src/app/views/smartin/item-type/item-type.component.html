@@ -3,7 +3,7 @@
     <h2>{{ 'ItemType.Breadcrumb' | translate }}</h2>
     <ol class="breadcrumb">
       <li>
-        <a >{{ 'TopNav.Category' | translate }}</a>
+        <a>{{ 'TopNav.Category' | translate }}</a>
       </li>
       <li class="active">
         <strong>{{ 'ItemType.Breadcrumb' | translate }}</strong>
@@ -32,7 +32,7 @@
             </div>
           </div>
           <div class="row">
-            <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger"
+            <!-- <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger"
               class="table table-bordered table-hover table-striped" id="myTable" style="width:100%">
               <thead>
                 <tr>
@@ -71,7 +71,43 @@
                   <td colspan="3" class="no-data-available">No data!</td>
                 </tr>
               <tbody>
-            </table>
+            </table> -->
+
+            <div id="data-grid-demo">
+              <dx-data-grid id="gridContainer" [dataSource]="dataSource" keyExpr="ItemTypeId" [showBorders]="true">
+                <dxo-paging [enabled]="true" [pageSize]="15"></dxo-paging>
+                <dxo-header-filter [visible]="true"></dxo-header-filter>
+                <dxo-search-panel [visible]="true"></dxo-search-panel>
+                <dxo-editing mode="cell" [allowUpdating]="true" [allowAdding]="true">
+                </dxo-editing>
+                <dxo-editing mode="popup" [allowUpdating]="true">
+                  <dxo-popup title="Employee Info" [showTitle]="true" width="60%" [height]="525"
+                    [position]="{ my: 'top', at: 'top', of: 'window' }">
+                  </dxo-popup>
+                  <dx-form id="form" [colCount]="2" >
+                  </dx-form>
+                </dxo-editing>
+
+                <dxi-column dataField="ItemTypeId" caption="ItemTypeId" [width]="70"></dxi-column>
+                <dxi-column dataField="ItemTypeName"></dxi-column>
+                <dxi-column dataField="ItemTypeCode"></dxi-column>
+
+                <dxi-column dataField="CreateBy">
+                </dxi-column>
+                <dxi-column dataField="CreateDate" dataType="datetime">
+                </dxi-column>
+                <dxi-column dataField="ModifyBy">
+                </dxi-column>
+                <dxi-column dataField="ModifyDate" dataType="datetime">
+                </dxi-column>
+                <dxi-column dataField="Status" caption="State" [width]="125">
+                  <dxo-lookup [dataSource]="states" displayExpr="Name" valueExpr="ID">
+                  </dxo-lookup>
+                </dxi-column>
+              </dx-data-grid>
+            </div>
+
+
           </div>
         </div>
       </div>

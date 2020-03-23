@@ -5,6 +5,8 @@ import { Component, OnInit } from '@angular/core';
   template: `
     <div class="wrapper">
       <div class="ibox-content">
+      <hr> SmartTable work <app-smart-table></app-smart-table>
+      
       <hr>GENERAL APP
       <app-customer-editor></app-customer-editor>
       <hr>EDIT FORM type
@@ -19,7 +21,7 @@ import { Component, OnInit } from '@angular/core';
       
 
 
-      <hr> sMART UPLOAD <app-smart-upload ></app-smart-upload>
+      <hr> sMART UPLOAD <app-smart-upload ></app-smart-upload> 
 
       <!-- Smart select
 		<label for="spc">Special ID</label> 
