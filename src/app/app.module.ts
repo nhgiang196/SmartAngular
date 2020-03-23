@@ -1,67 +1,61 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { RouterModule } from '@angular/router';
-import { LocationStrategy, HashLocationStrategy, CommonModule } from '@angular/common';
 
+import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { ROUTES } from './app.routes';
+import { AuthsModule } from './views/auths/auths.module';
+import { AuthGuard } from './core/guards/auth.guard';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HashLocationStrategy, LocationStrategy } from '@angular/common';
+import { AuthInterceptor } from './core/helpers/AuthInterceptor';
+import { SharedModule } from './core/shared/shared.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { PagesModule } from './views/pages/pages.module';
+import { StoreService } from './core/services/store.service';
+import { AuthService,BomService,ContrackService,CustomerService,FactoryService,ItemService,ItemTypePropertyService,ItemTypeService,MonitorService,MonitorStandarService,ProcessService,UnitService,WareHouseService } from  './core/services';
+import { ThemeModule } from './theme/theme.module';
 
-import { LayoutsModule } from './components/common/layouts/layouts.module';
-import { WorkFlowModule } from './components/common/work-flow/work-flow.module';
-import { FormsModule } from '@angular/forms';
-import { AuthGuard } from './services/auth.guard';
-import { AuthService } from './services/auth.service';
-import { EMCSModule } from './views/emcs/emcs.module';
-import { MainViewModule } from './views/main-view/main-view.module';
-import { SharedModule } from './shared/shared.module';
-import { UserMangamentComponent } from './views/user-mangament/user-mangament.component';
-import { AdminModule } from './components/common/admin/admin.module';
-import { UserModule } from './components/common/user/user.module';
-import { AuthInterceptor } from './helpers/AuthInterceptor';
-import { SmartinModule } from './views/smartin/smartin.module';
-import { ItemResolver } from './resolvers/item.resolver';
-import { TestModule } from './views/test/test.module';
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+const SERVICE = [
+  AuthService,
+  BomService,
+  ContrackService,
+  CustomerService,
+  FactoryService,
+  ItemService,
+  ItemTypePropertyService,
+  ItemTypeService,
+  MonitorService,
+  MonitorStandarService,
+  ProcessService,
+  UnitService,
+  WareHouseService
+];
 
 @NgModule({
   declarations: [
-    AppComponent,
-    UserMangamentComponent,
+    AppComponent
   ],
   imports: [
     BrowserModule,
-    HttpClientModule,  
-    FormsModule,
-    WorkFlowModule,
-    MainViewModule,
-    UserModule,
-    AdminModule, 
+    BrowserAnimationsModule,
+    AppRoutingModule,
+    HttpClientModule,
     SharedModule,
-    SmartinModule,
-    //Views
-    LayoutsModule,
-    EMCSModule,  
-    TestModule,
-    RouterModule.forRoot(ROUTES)
-    
-  ],
-  exports: [
-    CommonModule
+    ThemeModule,
+    PagesModule,
+    AuthsModule
   ],
   providers: [
-    { provide: LocationStrategy, useClass: HashLocationStrategy }, 
-    AuthGuard, 
-    AuthService,
+    { provide: LocationStrategy, useClass: HashLocationStrategy },
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
       multi: true,
     },
-    ItemResolver
+    AuthGuard,
+    StoreService,
+    ...SERVICE
   ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
-// platformBrowserDynamic().bootstrapModule(AppModule);
-

@@ -8,5 +8,5 @@ if (environment.production) {
   enableProdMode();
 }
 
-platformBrowserDynamic().bootstrapModule(AppModule,{preserveWhitespaces: true})//No margine button
+platformBrowserDynamic().bootstrapModule(AppModule)
   .catch(err => console.error(err));

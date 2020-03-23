@@ -63,9 +63,8 @@
     "Dashboard": "Dashboard",
     "ShowAllTask": "Show ALl My Task",
     "Profile": "Profile",
-    "Category": "CATEGORY",
-    "Monitor": "MONITOR",
-    "Administration": "ADMINISTRATION",
+    "Category": "Category",
+    "Administration": "Administration",
     "Language":"Language"
   },
   "Upload": {
@@ -136,7 +135,6 @@
     "delete.caption": "Deleted!",
     "delete.success": "Delete Success!",
     "delete.error": "Erron on Deleteing ",
-    "validation.caption": "Xác thực!",
     "maximumFileSize2000": "Maximum attachment size 2MB, some file can't upload",
     "maximumFileSize5000": "Maximum attachment size 5MB, some file can't upload"
   },
@@ -196,12 +194,8 @@
     "label.TotalFactory": "Total",
     "label.TotalFactory1": "Show",
     "label.TotalFactory2": "factory",
-    "mssg.DeleteAsk_Title": "Delete Factory?",
     "mssg.DeleteAsk_Text": "Are you sure delete this factory?",
-    "mssg.ErrorFactoryArised": "The factory arised, can't delete this factory?",
-    "mssg.ErrorTechnologyValidateOverlap": "Technology overlap Validate Date",
-    "mssg.ErrorTechnologyDateToLessThanDateFrom": "Validate date to less than validate date from",
-    "mssg.ErrorDuplicateTechnology": "Duplicate Technology"
+    "mssg.DeleteAsk_Title": "Delete Factory?"
   },
   "Warehouse": {
     "": "Warehouse",
@@ -478,32 +472,5 @@
     "mssg.ErrorExistItemIn": "Duplicate Material",
     "mssg.DeleteAsk_Title": "Delete BOM?",
     "mssg.DeleteAsk_Text": "Are you sure delete this BOM?"
-  },
-  "MonitorStandard": {
-    "Breadcrumb": "MONITOR STANDARD",
-    "label.Information": "Monitor Standard's Information",
-    "data.MonitorStandardId": "ID Monitor Standard",    
-    "data.FactoryId": "Factory",
-    "data.ValidateDateFrom": "Validate From",
-    "data.ValidateDateTo": "Validate To",
-    "data.ValidateDate": "Validate",
-    "data.From": "From",
-    "data.To": "To",
-    "data.Temperature": "Temperature",
-    "data.pH": "pH",
-    "data.COD": "COD",
-    "data.TSS": "TSS",
-    "data.Color": "Color",
-    "data.Amoni": "NH3",
-    "data.Q": "Q",
-    "data.MonitorStandardDesc": "Descriptions",    
-    "placeholder.FactoryId": "Select Factory",
-    "placeholder.ValidateDateFrom": "Enter Validate Date From",
-    "placeholder.ValidateDateTo": "Enter Validate Date To",
-    "placeholder.MonitorStandardDesc": "Enter Monitor Standard's Descriptions",
-    "mssg.ErrorExistValidateDate": "Monitor Standard of Factory Overlap Validate Date",
-    "mssg.ErrorDateToLessThanDateFrom": "Validate Date To Less Than Validate Date From",
-    "mssg.DeleteAsk_Title": "Delete Monitor Standard?",
-    "mssg.DeleteAsk_Text": "Are you sure delete this Monitor Standard?"
   }
 }

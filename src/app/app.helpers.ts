@@ -39,12 +39,8 @@ export function correctHeight() {
 export function detectBody() {
   if (jQuery(document).width() < 769) {
     jQuery('body').addClass('body-small')
-    jQuery('#navaBarCustom').addClass('navBarCustom')
-    if (!jQuery('#homeMenuButton').is(':visible')) jQuery('#navaBarCustom').removeClass('navBarCustom')
-    
   } else {
     jQuery('body').removeClass('body-small')
-    jQuery('#navaBarCustom').removeClass('navBarCustom')
   }
 }
 // For demo purpose - animation css script
@@ -108,7 +104,7 @@ export function localStorageSupport() {
 export function collapseIboxHelper(){
   $('.ibox-tools').on('click', function () {
     var collapse = $(this).find('.collapse-link');
-    
+
     var ibox = $(this).closest('div.ibox');
     var button = collapse.find('i');
     var content = ibox.children('.ibox-content');
@@ -149,13 +145,43 @@ export function collapseIboxHelper(){
       $(window).trigger('resize');
     }, 100);
   });
-  
+
 }
 
-export function SlimScrollFixSideBar(){
-  if ($('#fixedsidebar').is(':checked')){
-    $('#fixedsidebar').click();
+export function minimalize(){
+   // Minimalize menu
+   $("body").removeClass();
+   $("body").addClass('mini-navbar');
+   $('.navbar-minimalize').on('click', function (event) {
+    event.preventDefault();
+    $("body").toggleClass("mini-navbar");
+});
+}
+
+
+export function hideSideBar(){
+  if( $("body").hasClass('mini-navbar')){
+    $("body").removeClass('mini-navbar');
   }
-
 }
 
+export function showSideBar(){
+    $("body").addClass('mini-navbar');
+}
+
+
+export function changeColorBody(className){
+  $("body").removeClass();
+  $("body").addClass(className);
+}
+
+
+export function metisMenu(){
+  $('#side-menu').metisMenu();
+}
+
+export function metisMenuRender(){
+  // $('#side-menu li').on('click',function(){
+  //   alert("ok");
+  // })
+}

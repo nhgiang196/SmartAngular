@@ -10699,11 +10699,28 @@ bs-datepicker-container, bs-daterangepicker-container { z-index: 3501 !important
 .pagination {
   margin-top: -5px !important;
 }
-.disabledTab{
-    pointer-events: none;
-    cursor: not-allowed;
+
+.logo-element img{
+  width: 50px;
 }
 
-.btn.disabled, .btn[disabled], fieldset[disabled] .btn {
-    color: #fff !important;
+.repo {
+  text-align: center;
+}
+.repo .img-repo{
+  width: 75px;
+  margin-bottom: 15px;
+}
+
+.repo h1{
+ font-size: 25px;
+}
+
+.img-user{
+  width:25px;
+}
+
+.lb-login{
+  color: #888;
+  font-weight: 400;
 }

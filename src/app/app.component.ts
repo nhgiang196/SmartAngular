@@ -1,47 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { UserIdleService } from 'angular-user-idle';
-import { AuthService } from './services/auth.service';
-import { TranslateService } from '@ngx-translate/core';
+import { Component } from '@angular/core';
+
 @Component({
   selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  template: '<router-outlet></router-outlet>',
 })
-export class AppComponent implements OnInit {
-  title = 'BCM';
-  constructor(private userIdle: UserIdleService,
-    private auth: AuthService,
-    public translate: TranslateService) {
-    translate.addLangs(['en', 'vn', 'zh']);
-    // translate.setDefaultLang(localStorage.getItem('locallanguage') || 'en');
-    translate.use(localStorage.getItem('locallanguage') || 'en');
-
-
-  }
-  ngOnInit() {
-
-    //Start watching for user inactivity.
-    this.startWatching();
-
-    // Start watching when user idle is starting.
-    this.userIdle.onTimerStart().subscribe(count => {
-      this.auth.logout();
-      this.restart();
-    });
-  }
-  stop() {
-    this.userIdle.stopTimer();
-  }
-
-  stopWatching() {
-    this.userIdle.stopWatching();
-  }
-
-  startWatching() {
-    this.userIdle.startWatching();
-  }
-
-  restart() {
-    this.userIdle.resetTimer();
-  }
+export class AppComponent {
+  title = 'XLNT-SPA';
 }
