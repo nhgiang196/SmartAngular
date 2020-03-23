@@ -1,0 +1,32 @@
+[
+{
+  "Id": 1,
+  "Name": "Danh mục",
+  "image":"/assets/img/images/cate.png"
+},
+{
+  "Id": 2,
+  "Name": "Định mức hóa chất",
+  "image":"/assets/img/images/approved.png"
+},
+{
+  "Id": 3,
+  "Name": "Quan trắc",
+  "image":"/assets/img/images/analytic.png"
+},
+{
+  "Id": 4,
+  "Name": "Vận hành",
+  "image":"/assets/img/images/icon.png"
+},
+{
+  "Id": 5,
+  "Name": "Tồn kho",
+  "image":"/assets/img/images/area.png"
+},
+{
+  "Id": 6,
+  "Name": "Chi phí vận hành",
+  "image":"/assets/img/images/part1.png"
+}
+]

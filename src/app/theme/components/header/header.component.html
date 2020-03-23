@@ -1,0 +1,81 @@
+<div class="row border-bottom">
+    <nav class="navbar navbar-static-top white-bg" role="navigation" style="margin-bottom: 0">
+    <div class="navbar-header">
+        <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
+        <form role="search" class="navbar-form-custom" action="search_results.html">
+            <div class="form-group">
+                <input type="text" placeholder="Nhập từ khóa tìm kiếm..." class="form-control" name="top-search" id="top-search">
+            </div>
+        </form>
+    </div>
+        <ul class="nav navbar-top-links navbar-right">
+            <li class="dropdown">
+                <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
+                    <img class="img-user" src="/assets/img/images/luser.png" alt="">
+                    <span _ngcontent-rcy-c5="" class="m-t-xs"> <strong _ngcontent-rcy-c5="" class="font-bold">quyen.nv</strong>
+                    <b _ngcontent-rcy-c5="" class="caret"></b> </span>
+                </a>
+                <ul class="dropdown-menu dropdown-alerts">
+                  <li>
+                      <a href="mailbox.html">
+                          <div>
+                              <i class="fa fa-envelope fa-fw"></i> You have 16 messages
+                              <span class="pull-right text-muted small">4 minutes ago</span>
+                          </div>
+                      </a>
+                  </li>
+                  <li class="divider"></li>
+                  <li>
+                      <a href="profile.html">
+                          <div>
+                              <i class="fa fa-twitter fa-fw"></i> 3 New Followers
+                              <span class="pull-right text-muted small">12 minutes ago</span>
+                          </div>
+                      </a>
+                  </li>
+                  <li class="divider"></li>
+                  <li>
+                      <a href="grid_options.html">
+                          <div>
+                              <i class="fa fa-upload fa-fw"></i> Server Rebooted
+                              <span class="pull-right text-muted small">4 minutes ago</span>
+                          </div>
+                      </a>
+                  </li>
+                  <li class="divider"></li>
+                  <li>
+                      <div class="text-center link-block">
+                        <a (click)="logout()">
+                          <i class="fa fa-sign-out"></i> Log out
+                      </a>
+                      </div>
+                  </li>
+              </ul>
+            </li>
+            <li  class="dropdown">
+              <a class="dropdown-toggle count-info" data-toggle="dropdown" >
+                <img *ngIf="getLang()=='en'" src="/assets/img/flags/32/United-States.png">
+                <img *ngIf="getLang()=='vn'" src="/assets/img/flags/32/Vietnam.png">
+              </a>
+              <ul class="dropdown-menu dropdown-alerts">
+                <li>
+                    <a>
+                        <div (click)="languageChange('vn')">
+                          <img src="/assets/img/flags/32/Vietnam.png" alt="">
+                          Tiếng Việt
+                        </div>
+                    </a>
+                </li>
+                <li>
+                  <a >
+                      <div (click)="languageChange('en')">
+                        <img src="/assets/img/flags/32/United-States.png" alt="">
+                        Tiếng Anh
+                      </div>
+                  </a>
+              </li>
+            </ul>
+            </li>
+        </ul>
+    </nav>
+    </div>

@@ -1,0 +1,12 @@
+<div class="wrapper wrapper-content">
+  <div class="row">
+              <a *ngFor="let item of listMenu" class="col-lg-3" (click)="loadLink(item.Id)">
+                  <div class="ibox float-e-margins">
+                      <div class="ibox-content repo">
+                          <img class="img-repo" [src]="item.image" />
+                          <h1 class="no-margins">{{item.Name}}</h1>
+                      </div>
+                  </div>
+              </a>
+  </div>
+</div>

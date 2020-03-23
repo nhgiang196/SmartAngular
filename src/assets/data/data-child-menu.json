@@ -1,0 +1,177 @@
+[
+{
+  "Id": 1,
+  "Name": "Giai đoạn xử lý nước thải",
+  "image": "fa fa-th-large",
+  "moduleId":1,
+  "link":""
+},
+{
+  "Id": 2,
+  "Name": "Đơn vị xã thải",
+  "image": "fa fa-diamond",
+  "moduleId":1,
+  "link":""
+},
+{
+  "Id": 3,
+  "Name": "Kho",
+  "image": "fa fa-globe",
+  "moduleId":1,
+  "link":""
+},
+{
+  "Id": 4,
+  "Name": "Loại vật tư",
+  "image": "fa fa-globe",
+  "moduleId":1,
+  "link":""
+},
+{
+  "Id": 5,
+  "Name": "Đơn vị tính",
+  "image": "fa fa-globe",
+  "moduleId":1,
+  "link":""
+},
+{
+  "Id": 6,
+  "Name": "Vật tư",
+  "image": "fa fa-globe",
+  "moduleId":1,
+  "link":""
+},
+{
+  "Id": 7,
+  "Name": "Định mức hóa chất sử dụng",
+  "image": "fa fa-flask",
+  "moduleId":2,
+  "link":""
+},
+{
+  "Id": 8,
+  "Name": "Gia test điều chỉnh định mức hóa chất sử dụng",
+  "image": "fa fa-sitemap",
+  "moduleId":2,
+  "link":""
+},
+{
+  "Id": 9,
+  "Name": "Tính định mức hóa chất sử dụng theo lịch sử vận hành",
+  "image": "fa fa-star",
+  "moduleId":2,
+  "link":""
+},
+{
+  "Id": 10,
+  "Name": "Quan trắc dầu dò",
+  "image": "fa fa-database",
+  "moduleId":3,
+  "link":""
+},
+{
+  "Id": 11,
+  "Name": "Tiêu chuẩn quan trắc dầu dò",
+  "image": "fa fa-database",
+  "moduleId":3,
+  "link":""
+},
+{
+  "Id": 12,
+  "Name": "Thông báo dữ liệu quan trắc vượt tiêu chuẩn",
+  "image": "fa fa-database",
+  "moduleId":3,
+  "link":""
+},
+{
+  "Id": 13,
+  "Name": "Kế hoạch vận hành",
+  "image": "fa fa-database",
+  "moduleId":4,
+  "link":""
+},
+{
+  "Id": 14,
+  "Name": "Nhật ký vận hành",
+  "image": "fa fa-database",
+  "moduleId":4,
+  "link":""
+},
+{
+  "Id": 15,
+  "Name": "Thống kê xử lý bùn",
+  "image": "fa fa-database",
+  "moduleId":4,
+  "link":""
+},
+{
+  "Id": 16,
+  "Name": "Hoạt động máy móc thiết bị",
+  "image": "fa fa-database",
+  "moduleId":4,
+  "link":""
+},
+{
+  "Id": 17,
+  "Name": "Hiệu suất vận hành",
+  "image": "fa fa-database",
+  "moduleId":4,
+  "link":""
+},
+{
+  "Id": 18,
+  "Name": "Nhập kho",
+  "image": "fa fa-database",
+  "moduleId":5,
+  "link":""
+},
+{
+  "Id": 19,
+  "Name": "Xuất kho",
+  "image": "fa fa-database",
+  "moduleId":5,
+  "link":""
+},
+{
+  "Id": 20,
+  "Name": "Báo cáo xuất nhập to",
+  "image": "fa fa-database",
+  "moduleId":5,
+  "link":""
+},
+{
+  "Id": 21,
+  "Name": "Yêu cầu hóa chất máy móc thiết bị",
+  "image": "fa fa-database",
+  "moduleId":5,
+  "link":""
+},
+{
+  "Id": 22,
+  "Name": "Đơn giá hóa chất",
+  "image": "fa fa-database",
+  "moduleId":6,
+  "link":""
+},
+{
+  "Id": 23,
+  "Name": "Đơn giá điện",
+  "image": "fa fa-database",
+  "moduleId":6,
+  "link":""
+},
+{
+  "Id": 24,
+  "Name": "Kế hoạch chi phí vận hành",
+  "image": "fa fa-database",
+  "moduleId":6,
+  "link":""
+},
+{
+  "Id": 25,
+  "Name": "Báo cáo chi phí vân hành",
+  "image": "fa fa-database",
+  "moduleId":6,
+  "link":""
+}
+]
