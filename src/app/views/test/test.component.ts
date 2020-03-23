@@ -5,11 +5,19 @@ import { Component, OnInit } from '@angular/core';
   template: `
     <div class="wrapper">
       <div class="ibox-content">
+      <hr>GENERAL APP
+      <app-customer-editor></app-customer-editor>
+      <hr>EDIT FORM type 1
       <app-form-edit></app-form-edit>
-      <hr><app-customer-editor></app-customer-editor>
-      <hr><app-crud-generation></app-crud-generation>
-      <hr><app-customize-keyboard-navigation></app-customize-keyboard-navigation>
-
+      <hr>EDIT FORM TYPE 2
+      <app-form-edit></app-form-edit>
+      <hr>CRUD GENERATION
+      <app-crud-generation></app-crud-generation>
+      <hr>CUSTOMERIZE KEYBOARD NAVIGATION
+      <app-customize-keyboard-navigation></app-customize-keyboard-navigation>
+      <hr>INFINITE SCROLLING
+      <app-infinite-scrolling></app-infinite-scrolling>
+      
       <hr>
       </div>
     </div>

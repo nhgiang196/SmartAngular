@@ -1,10 +1,5 @@
-import { NgModule, Component, enableProdMode } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
-import { DxDataGridModule } from 'devextreme-angular';
+import {  Component, enableProdMode } from '@angular/core';
 import { TestService, Employee, State } from '../test.service';
-
-
 
 if(!/localhost/.test(document.location.host)) {
   enableProdMode();
