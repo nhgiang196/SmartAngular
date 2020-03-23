@@ -12,8 +12,8 @@ import { UiSampleModule } from 'src/app/views/smartin/ui-sample/ui-sample.module
 @NgModule({
   declarations: [LoginComponent, ChangePasswordComponent, UpdateProfileComponent, ProfileComponent, UserResetPasswordComponent, ForgotPasswordComponent],
   imports: [
-    SharedModule,
-    UiSampleModule
+    SharedModule
+    
   ]
 })
 export class UserModule { }

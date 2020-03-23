@@ -11,6 +11,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { CustomizeKeyboardNavigationComponent } from './customize-keyboard-navigation/customize-keyboard-navigation.component';
 import { InfiniteScrollingComponent } from './infinite-scrolling/infinite-scrolling.component';
 import { DisplayProfileComponent } from './display-profile/display-profile.component';
+import { UiSampleModule } from '../smartin/ui-sample/ui-sample.module';
 
 
 @NgModule({
@@ -27,7 +28,9 @@ import { DisplayProfileComponent } from './display-profile/display-profile.compo
     DxSelectBoxModule,
     DxButtonModule,
     DxCheckBoxModule,
-    HttpClientModule
+    HttpClientModule,
+    UiSampleModule
+
   ],
   
 
