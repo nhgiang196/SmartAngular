@@ -60,9 +60,13 @@ import { MonitorListComponent } from './views/smartin/monitor/monitor-list/monit
 import { MonitorTrackingComponent } from './views/smartin/monitor/monitor-tracking/monitor-tracking.component';
 import { ProcessLogsComponent } from './views/smartin/process/process-logs/process-logs.component';
 import { ProcessPlanComponent } from './views/smartin/process/process-plan/process-plan.component';
+<<<<<<< HEAD
+import { DemoGridComponent } from './views/smartin/DemoGridDevExpress/DemoGrid/DemoGrid.component';
+=======
 import { CustomerEditorComponent } from './views/test/customer-editor/customer-editor.component';
 import { FormEditComponent } from './views/test/form-edit/form-edit.component';
 import { TestComponent } from './views/test/test.component';
+>>>>>>> 23d2c534577bd5862f6f0ad105d560ca45f6bff8
 
 
 /**XLNT */
@@ -74,7 +78,7 @@ export const ROUTES: Routes = [
   { path: 'admin', redirectTo: '/admin/factory', pathMatch: 'full' },
   { path: 'user', redirectTo: '/user/profile', pathMatch: 'full' },
   // App views
-  
+
   { //BasicComponent
     path: '', component: BasicComponent,
     children: [
@@ -171,6 +175,12 @@ export const ROUTES: Routes = [
           { path: 'factoryData', component: MonitorListComponent }
         ]
       },
+      //Demo
+      {
+        path: 'devexpress', canActivate: [AuthGuard], children: [
+          { path: 'demogrid', component: DemoGridComponent }
+        ]
+      },
 
       { path: 'test', component: TestComponent },
     ]
@@ -188,7 +198,7 @@ export const ROUTES: Routes = [
       { path: '**', component: NotFoundComponent }
     ]
   },
-  
+
 
   // Handle all other routes
 
