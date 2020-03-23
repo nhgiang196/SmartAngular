@@ -10,10 +10,11 @@ import { CrudGenerationComponent } from './crud-generation/crud-generation.compo
 import { HttpClientModule } from '@angular/common/http';
 import { CustomizeKeyboardNavigationComponent } from './customize-keyboard-navigation/customize-keyboard-navigation.component';
 import { InfiniteScrollingComponent } from './infinite-scrolling/infinite-scrolling.component';
+import { DisplayProfileComponent } from './display-profile/display-profile.component';
 
 
 @NgModule({
-  declarations: [CustomerEditorComponent, FormEditComponent, TestComponent, CrudGenerationComponent, CustomizeKeyboardNavigationComponent, InfiniteScrollingComponent ],
+  declarations: [CustomerEditorComponent, FormEditComponent, TestComponent, CrudGenerationComponent, CustomizeKeyboardNavigationComponent, InfiniteScrollingComponent, DisplayProfileComponent ],
   imports: [
     BrowserModule,
     RouterModule,

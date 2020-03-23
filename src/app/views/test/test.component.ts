@@ -17,6 +17,8 @@ import { Component, OnInit } from '@angular/core';
       <app-customize-keyboard-navigation></app-customize-keyboard-navigation>
       <hr>INFINITE SCROLLING
       <app-infinite-scrolling></app-infinite-scrolling>
+      <hr> DISPLAY TEST
+      <app-display-profile></app-display-profile>
       
       <hr>
       </div>
