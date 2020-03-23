@@ -60,6 +60,7 @@ import { MonitorListComponent } from './views/smartin/monitor/monitor-list/monit
 import { MonitorTrackingComponent } from './views/smartin/monitor/monitor-tracking/monitor-tracking.component';
 import { ProcessLogsComponent } from './views/smartin/process/process-logs/process-logs.component';
 import { ProcessPlanComponent } from './views/smartin/process/process-plan/process-plan.component';
+import { DemoGridComponent } from './views/smartin/DemoGridDevExpress/DemoGrid/DemoGrid.component';
 
 
 /**XLNT */
@@ -165,6 +166,12 @@ export const ROUTES: Routes = [
           { path: 'plan', component: ProcessPlanComponent },
           { path: 'chart', component: MonitorChartComponent },
           { path: 'factoryData', component: MonitorListComponent }
+        ]
+      },
+      //Demo
+      {
+        path: 'devexpress', canActivate: [AuthGuard], children: [
+          { path: 'demogrid', component: DemoGridComponent }
         ]
       },
     ]
