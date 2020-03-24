@@ -13,7 +13,6 @@ export class RoutesResolver implements Resolve<void> {
         private toastr: ToastrService) { }
 
     resolve(router: ActivatedRouteSnapshot): void {
-        debugger
         this.store.loadMenu(router.params['id']);
     }
 }

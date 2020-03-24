@@ -3,6 +3,8 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { StoreService } from 'src/app/core/services/store.service';
 import { minimalize, showSideBar } from 'src/app/app.helpers';
+import { ModuleService } from 'src/app/core/services';
+import { LanguageService } from 'src/app/core/services/language.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -12,7 +14,7 @@ import { minimalize, showSideBar } from 'src/app/app.helpers';
 export class DashboardComponent implements OnInit {
   listMenu: [] =[];
 
-  constructor(private store: StoreService, private httpService: HttpClient,private router : Router) {
+  constructor(private store: StoreService, private moduleService :ModuleService,private router : Router,private langService: LanguageService) {
     this.store.loadMenu(null);
    }
 
@@ -22,7 +24,7 @@ export class DashboardComponent implements OnInit {
 
 
   loadData(){
-    this.httpService.get('/assets/data/data-categories-test.json').subscribe(
+    this.moduleService.getAllModule().subscribe(
       data => {
         this.listMenu = data as [];
       },
@@ -33,7 +35,7 @@ export class DashboardComponent implements OnInit {
   }
 
   loadLink(item){
-    this.router.navigate([item.link+"/"+item.Id]);
+    this.router.navigate([item.Link+"/"+item.Id]);
   }
 
 

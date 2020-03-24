@@ -21,6 +21,11 @@ const routes: Routes = [{
             loadChildren: () => import('./categories/categories.module')
                 .then(m => m.CategoriesModule),
         },
+        {
+            path:'norms',
+            loadChildren: () => import('./chemical-norms/chemical-norms.module')
+                .then(m => m.ChemicalNormsModule),
+        },
         { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
         { path: '**', redirectTo: 'dashboard' },
     ]

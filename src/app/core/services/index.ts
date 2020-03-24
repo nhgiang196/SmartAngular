@@ -11,3 +11,5 @@ export * from './monitor.service';
 export * from './process.service';
 export * from './unit.service';
 export * from './warehouse.service';
+export * from './module.service';
+export * from './function.service';

@@ -6,6 +6,7 @@ import { PagesRoutingModule } from './pages-routing.module';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { SharedModule } from 'src/app/core/shared/shared.module';
 import { CategoriesModule } from './categories/categories.module';
+import { ChemicalNormsModule } from './chemical-norms/chemical-norms.module';
 
 @NgModule({
   imports: [
@@ -13,6 +14,8 @@ import { CategoriesModule } from './categories/categories.module';
     SharedModule,
     CommonModule,
     ThemeModule,
+    CategoriesModule,
+    ChemicalNormsModule
   ],
   declarations: [PagesComponent,DashboardComponent]
 })

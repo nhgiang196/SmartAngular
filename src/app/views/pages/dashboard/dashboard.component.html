@@ -3,8 +3,9 @@
               <a *ngFor="let item of listMenu" class="col-lg-3" (click)="loadLink(item)">
                   <div class="ibox float-e-margins">
                       <div class="ibox-content repo">
-                          <img class="img-repo" [src]="item.image" />
-                          <h1 class="no-margins">{{item.Name}}</h1>
+                          <img class="img-repo" [src]="item.Icon" />
+                          <h1 *ngIf="langService.getLanguage() =='vn'" class="no-margins">{{item.NameVi}}</h1>
+                          <h1 *ngIf="langService.getLanguage() =='en'" class="no-margins">{{item.NameEn}}</h1>
                       </div>
                   </div>
               </a>
