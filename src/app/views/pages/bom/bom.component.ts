@@ -4,7 +4,7 @@ import { Component, OnInit } from '@angular/core';
   selector: 'app-chemical-norms',
   template: ` <router-outlet></router-outlet>`
 })
-export class ChemicalNormsComponent implements OnInit {
+export class BomComponent implements OnInit {
 
   constructor() { }
 

@@ -2,17 +2,17 @@ import { RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
 
 import { RoutesResolver } from 'src/app/core/resolvers/routes.resolver';
-import { ChemicalNormsComponent } from './chemical-norms.component';
-import { MainViewChemicalNormComponent } from './main-view-chemical-norm/main-view-chemical-norm.component';
+import { InventoryComponent } from './inventory.component';
+import { MainViewInventoryComponent } from './main-view-inventory/main-view-inventory.component';
 
 const routes: Routes = [{
     path: '',
-    component: ChemicalNormsComponent,
+    component: InventoryComponent,
     children: [
         {
             path: 'main/:id',
             resolve: { menu: RoutesResolver },
-            component: MainViewChemicalNormComponent
+            component: MainViewInventoryComponent
         },
         { path: '', redirectTo: 'main', pathMatch: 'full' },
         { path: '**', redirectTo: 'main' },
@@ -24,5 +24,5 @@ const routes: Routes = [{
     exports: [RouterModule],
 })
 
-export class ChemicalNormsRoutingModule {
+export class InventoryRoutingModule {
 }
