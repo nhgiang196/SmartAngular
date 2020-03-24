@@ -18,6 +18,7 @@ export class StoreService {
      this.functionService.getFuntionByModuleId(id).subscribe(
         data => {
           var result = data as any;
+          localStorage.setItem('listChildMenu',JSON.stringify(result));
           this.listMenu.next(result.filter(x=>x.ModuleId == id));
         },
         (err: HttpErrorResponse) => {

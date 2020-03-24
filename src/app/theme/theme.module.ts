@@ -8,6 +8,7 @@ import {
 } from './components';
 import { SharedModule } from '../core/shared/shared.module';
 import { NotFoundComponent } from './components/not-found/not-found.component';
+import { RouterModule } from '@angular/router';
 
 const COMPONENTS = [
   HeaderComponent,
@@ -20,6 +21,7 @@ const COMPONENTS = [
 @NgModule({
   imports: [
     CommonModule,
+    RouterModule ,
     SharedModule
   ],
   declarations: [...COMPONENTS],
