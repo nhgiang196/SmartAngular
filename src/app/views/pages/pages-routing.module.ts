@@ -22,9 +22,34 @@ const routes: Routes = [{
                 .then(m => m.CategoriesModule),
         },
         {
-            path:'norms',
-            loadChildren: () => import('./chemical-norms/chemical-norms.module')
-                .then(m => m.ChemicalNormsModule),
+            path:'bom',
+            loadChildren: () => import('./bom/bom.module')
+                .then(m => m.BomModule),
+        },
+        {
+            path:'monitor',
+            loadChildren: () => import('./monitor/monitor.module')
+                .then(m => m.MonitorModule),
+        },
+        {
+            path:'process',
+            loadChildren: () => import('./process/process.module')
+                .then(m => m.ProcessModule),
+        },
+        {
+            path:'inventory',
+            loadChildren: () => import('./inventory/inventory.module')
+                .then(m => m.InventoryModule),
+        },
+        {
+            path:'process-cost',
+            loadChildren: () => import('./process-cost/process-cost.module')
+                .then(m => m.ProcessCostModule),
+        },
+        {
+            path:'example',
+            loadChildren: () => import('./example/example.module')
+                .then(m => m.ExampleModule),
         },
         { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
         { path: '**', redirectTo: 'dashboard' },

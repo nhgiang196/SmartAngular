@@ -6,7 +6,11 @@ import { PagesRoutingModule } from './pages-routing.module';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { SharedModule } from 'src/app/core/shared/shared.module';
 import { CategoriesModule } from './categories/categories.module';
-import { ChemicalNormsModule } from './chemical-norms/chemical-norms.module';
+import { BomModule } from './bom/bom.module';
+import { MonitorModule } from './monitor/monitor.module';
+import { ProcessModule } from './process/process.module';
+import { ProcessCostModule } from './process-cost/process-cost.module';
+import { InventoryModule } from './inventory/inventory.module';
 
 @NgModule({
   imports: [
@@ -15,7 +19,11 @@ import { ChemicalNormsModule } from './chemical-norms/chemical-norms.module';
     CommonModule,
     ThemeModule,
     CategoriesModule,
-    ChemicalNormsModule
+    BomModule,
+    MonitorModule,
+    ProcessModule,
+    ProcessCostModule,
+    InventoryModule
   ],
   declarations: [PagesComponent,DashboardComponent]
 })

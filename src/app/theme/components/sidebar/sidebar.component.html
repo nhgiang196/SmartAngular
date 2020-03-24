@@ -4,7 +4,7 @@
         <a class="navbar-minimalize btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
       </div>
       <ul class="nav metismenu" id="side-menu">
-          <li *ngFor="let item of listMenu; let i = index" [class.active]="i==0" >
+          <li *ngFor="let item of listMenu; let i = index">
               <a ><i [class]="item.Icon"></i> <span class="nav-label"> {{item.NameVi}} </span></a>
           </li>
       </ul>
