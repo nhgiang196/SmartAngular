@@ -6,6 +6,7 @@ import { MainViewBomComponent } from './main-view-bom/main-view-bom.component';
 import { SharedModule } from 'src/app/core/shared/shared.module';
 import { BomListComponent } from './bom-list/bom-list.component';
 import { BomStageComponent } from './bom-stage/bom-stage.component';
+import { DxDataGridModule, DxButtonModule } from 'devextreme-angular';
 
 const COMPONENTS =[
   BomComponent,

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { StoreService } from 'src/app/core/services/store.service';
 import { metisMenuRender } from 'src/app/app.helpers';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-sidebar',
@@ -9,7 +10,7 @@ import { metisMenuRender } from 'src/app/app.helpers';
 })
 export class SidebarComponent implements OnInit {
   listMenu = [];
-  constructor(private store: StoreService) { }
+  constructor(private store: StoreService,private router : Router,private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.renderMenu();
@@ -19,6 +20,11 @@ export class SidebarComponent implements OnInit {
     this.store.currentMenus.subscribe(res=>{
       this.listMenu = res;
     })
+  }
+
+  loadLink(link){
+    let cid =  this.route.snapshot.paramMap.get("cid");
+    this.router.navigate([link.replace("{0}",cid)]);
   }
 
 }

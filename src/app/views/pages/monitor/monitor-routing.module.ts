@@ -14,7 +14,7 @@ const routes: Routes = [{
     component: MonitorComponent,
     children: [
         {
-            path: 'main/:id',
+            path: 'main',
             resolve: { menu: RoutesResolver },
             component: MainViewMonitorComponent
         },

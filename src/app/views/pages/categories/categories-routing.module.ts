@@ -16,8 +16,7 @@ const routes: Routes = [{
     component: CategoriesComponent,
     children: [
         {
-            path: 'main/:id',
-            resolve: { menu: RoutesResolver },
+            path: 'main',
             component: MainViewCategoryComponent
         },
         {

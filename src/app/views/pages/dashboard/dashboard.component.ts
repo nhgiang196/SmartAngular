@@ -36,7 +36,8 @@ export class DashboardComponent implements OnInit {
   }
 
   loadLink(item){
-    this.router.navigate([item.Link+"/"+item.Id]);
+    console.log(item.Link.replace("{0}",item.Id))
+    this.router.navigate([item.Link.replace("{0}",item.Id)]);
   }
 
 
