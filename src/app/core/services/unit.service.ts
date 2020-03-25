@@ -37,4 +37,8 @@ export class UnitService {
   validateUnit =(entity) =>{
     return this.http.post(`${ApiUrl}/Unit/ValidateUnit`,entity);
   }
+
+  getUnitTest(param){
+  return  this.http.post<any>(`${ApiUrl}/Unit/GetUnitTest`,param);
+  }
 }
