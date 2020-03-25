@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter, ɵConsole, SimpleChanges, OnChanges } from '@angular/core';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
-import { ItemService } from 'src/app/core/services';
+import { ItemService, FunctionService } from 'src/app/core/services';
 import { DataTablePaginationParams } from 'src/app/core/models/datatable';
 import { HttpClient } from '@angular/common/http';
 
@@ -55,7 +55,7 @@ export class SmartSelectComponent implements OnInit ,OnChanges  {
   @Output('select_ngModel') send_value = new EventEmitter<SmartItem>();
   
 
-  constructor(private api: ItemService, private http: HttpClient) { }
+  constructor(private api: FunctionService, private http: HttpClient) { }
 
   /**Dấu hiệu load */
   loading = false;
@@ -83,19 +83,16 @@ export class SmartSelectComponent implements OnInit ,OnChanges  {
   async loadInit() {
     this.chooseItem = new SmartItem();
     var pr = this.selectParams();
-    let res = await this.getItemPagination_Smart(this.chooseItem);
+    let res = await this.api.getItemPagination_Smart(pr).toPromise().then() as any;
 
-    
-    // this.api.getItemPagination_Smart(pr).toPromise().then() as any; 
+    console.log('load Select',res);
     this.totalCount = res.totalCount;
     this.itemsBuffer =  res.result || [];
     this.chooseItem.id = this.specialId ;
     this.onSearch()
   }
 
-  private async  getItemPagination_Smart(entity) {
-    return await this.http.post<any>(`api/v1/Item/GetSelectItemPagination_Smart`,entity).toPromise().then() as any;
-  }
+
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.specialId.firstChange) {
@@ -205,7 +202,7 @@ export class SmartSelectComponent implements OnInit ,OnChanges  {
     this.keyword = term;
     this.page=1;
     this.loading = true;
-    let data =  await this.getItemPagination_Smart(this.selectParams(term));
+    let data =  await this.api.getItemPagination_Smart(this.selectParams(term)).toPromise().then() as any;
     return data;
   }
 
@@ -222,7 +219,7 @@ export class SmartSelectComponent implements OnInit ,OnChanges  {
       return;
     } 
     this.loading = true;
-    let data =  await this.getItemPagination_Smart(this.selectParams(this.keyword,++this.page));
+    let data =  await this.api.getItemPagination_Smart(this.selectParams(this.keyword,++this.page)).toPromise().then() as any;
     this.loading = false;     
     this.itemsBuffer = this.itemsBuffer.concat(data.result || []);
     // setTimeout(() => { //reduce server performance
