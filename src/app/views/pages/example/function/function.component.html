@@ -17,51 +17,52 @@
 
 <div class="wrapper wrapper-content animated fadeInRight">
   <div class="row">
-    <div class="col-lg-12">
-      <div class="ibox float-e-margins">
-          <div class="ibox-title">
-              <h5>Border Table </h5>
-              <div class="ibox-tools">
-                  <a class="collapse-link">
-                      <i class="fa fa-chevron-up"></i>
-                  </a>
-                  <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                      <i class="fa fa-wrench"></i>
-                  </a>
-                  <ul class="dropdown-menu dropdown-user">
-                      <li><a href="#">Config option 1</a>
-                      </li>
-                      <li><a href="#">Config option 2</a>
-                      </li>
-                  </ul>
-                  <a class="close-link">
-                      <i class="fa fa-times"></i>
-                  </a>
-              </div>
-          </div>
-          <div class="ibox-content">
-
-              <table class="table table-bordered">
-                  <thead>
-                  <tr>
-                      <th>#</th>
-                      <th>Name Vi</th>
-                      <th>Name En</th>
-                      <th>Status</th>
-                  </tr>
-                  </thead>
-                  <tbody>
-                  <tr *ngFor="let item of functions; let i = index">
-                      <td>{{i+1}}</td>
-                      <td>{{item.NameVi}}</td>
-                      <td>{{item.NameEn}}</td>
-                      <td>{{item.Status}}</td>
-                  </tr>
-                  </tbody>
-              </table>
-
-          </div>
+      <div class="col-lg-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>Function list</h5>
+              
+            </div>
+            <div class="ibox-content">
+                <dx-data-grid 
+                id="gridContainer"
+                class="p-2"
+                [dataSource]="functions"
+                keyExpr="Id"
+                [allowColumnReordering]="true"
+                [showBorders]="true"
+                (onEditingStart)="logEvent('EditingStart')"
+                (onInitNewRow)="logEvent('InitNewRow')"
+                (onRowInserting)="logEvent('RowInserting')"
+                (onRowInserted)="logEvent('RowInserted')"
+                (onRowUpdating)="logEvent('RowUpdating')"
+                (onRowUpdated)="logEvent('RowUpdated')"
+                (onRowRemoving)="logEvent('RowRemoving')"
+                (onRowRemoved)="logEvent('RowRemoved')">
+                [showBorders]="true">    
+                <dxo-paging [pageSize]="10"></dxo-paging>
+                <dxo-header-filter [visible]="true"></dxo-header-filter>
+                <dxo-search-panel [visible]="true"></dxo-search-panel>
+                <dxo-editing 
+                     mode="row"
+                     [allowUpdating]="true"
+                     [allowDeleting]="true"
+                     [allowAdding]="true">
+                </dxo-editing>
+                
+                <dxi-column dataField="NameVi" caption="Title">
+                    <dxi-validation-rule type="required"></dxi-validation-rule>
+                </dxi-column>
+                <dxi-column dataField="NameEn">
+                    <dxi-validation-rule type="required"></dxi-validation-rule>
+                </dxi-column>
+                <dxi-column dataField="CreateBy">
+                </dxi-column>
+                <dxi-column dataField="Icon" [width]="130"></dxi-column>
+            </dx-data-grid>
+            </div>
+        </div>
       </div>
-  </div>
+   
   </div>
 </div>
