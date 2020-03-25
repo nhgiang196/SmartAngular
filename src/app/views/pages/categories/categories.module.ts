@@ -40,7 +40,7 @@ const COMPONENTS = [
     FormsModule,
   ],
   declarations: [...COMPONENTS],
-  exports: [...COMPONENTS ],
+  exports: [...COMPONENTS, UISampleModule ],
   providers:[
   ]
 })

@@ -14,7 +14,7 @@ export class SmartItem {
 @Component({
   selector: 'app-smart-select',
   template: `
-  <!-- <ng-select class="custom" 
+  <ng-select class="custom" 
     [items]="itemsBuffer" 
     bindValue="id"
     bindLabel="text"
@@ -32,7 +32,7 @@ export class SmartItem {
     <ng-template ng-header-tmp>
       <small class="form-text text-muted">Loaded {{itemsBuffer.length}} of {{totalCount}}</small>
     </ng-template>
-  </ng-select> -->
+  </ng-select>
  `,
   styleUrls: ['./smart-select.component.css']
 })
@@ -88,18 +88,19 @@ export class SmartSelectComponent implements OnInit ,OnChanges  {
     console.log('load Select',res);
     this.totalCount = res.totalCount;
     this.itemsBuffer =  res.result || [];
-    this.chooseItem.id = this.specialId ;
+    this.chooseItem.id = this.specialId || 0;
     this.onSearch()
   }
 
 
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes.specialId.firstChange) {
-      this.loadInit();
-      return;
-    }
-    else if (changes.specialId) {
+  
+    if (changes.specialId) {
+      if (changes.specialId.firstChange) {
+        this.loadInit();
+        return;
+      }
       this.chooseItem.id = this.specialId ;
       this.loadInit();
       return;

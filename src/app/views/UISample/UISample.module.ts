@@ -5,6 +5,7 @@ import { NgxDropzoneModule } from 'ngx-dropzone';
 import { SharedModule } from 'src/app/core/shared/shared.module';
 import { SmartSelectComponent } from './smart-select/smart-select.component';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { FormsModule } from '@angular/forms';
 
 
 
@@ -13,6 +14,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
   imports: [
     CommonModule,
     SharedModule,
+    FormsModule
   ],
   exports: [SmartUploadComponent, SmartSelectComponent]
 })

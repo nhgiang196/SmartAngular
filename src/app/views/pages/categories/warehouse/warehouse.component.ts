@@ -24,8 +24,8 @@ declare let $: any;
 
 export class WarehouseComponent implements OnInit {
   // @ViewChild('myInputFile') InputManual: ElementRef;
-  @ViewChild(SmartUploadComponent, {static: false}) uploadComponent: SmartUploadComponent;
-  @ViewChild(SmartSelectComponent, {static: false}) selectComponent: SmartSelectComponent;
+  @ViewChild(SmartUploadComponent, {static: true}) uploadComponent: SmartUploadComponent;
+  @ViewChild(SmartSelectComponent, {static: true}) selectComponent: SmartSelectComponent;
   constructor(
     private toastr: ToastrService,
     private api: WareHouseService,
