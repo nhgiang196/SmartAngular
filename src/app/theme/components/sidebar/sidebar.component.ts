@@ -24,7 +24,10 @@ export class SidebarComponent implements OnInit {
 
   loadLink(link){
     let cid =  this.route.snapshot.paramMap.get("cid");
-    this.router.navigate([link.replace("{0}",cid)]);
+
+      this.router.navigate([link.replace("{0}",cid)]);
+  
+    
   }
 
 }
