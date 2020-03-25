@@ -1,17 +1,17 @@
 <div class="row border-bottom">
     <nav class="navbar navbar-static-top white-bg" role="navigation" style="margin-bottom: 0">
-    <div class="navbar-header">
-        <form role="search" class="navbar-form-custom" action="search_results.html">
-            <div class="form-group">
-                <input type="text" placeholder="Nhập từ khóa tìm kiếm..." class="form-control" name="top-search" id="top-search">
-            </div>
-        </form>
+    <div class="navbar-header ">
+        <div class="link-dashboard pull-left" routerLink="/pages">
+            <i class="fa fa-th-large"></i>
+           
+        </div>
+        <h3 class=" pull-left title-project">Hệ thống xử lý nước thải</h3>
     </div>
         <ul class="nav navbar-top-links navbar-right">
             <li class="dropdown">
                 <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
                     <img class="img-user" src="/assets/img/images/luser.png" alt="">
-                    <span _ngcontent-rcy-c5="" class="m-t-xs"> <strong _ngcontent-rcy-c5="" class="font-bold">quyen.nv</strong>
+                    <span _ngcontent-rcy-c5="" class="m-t-xs"> <strong _ngcontent-rcy-c5="" class="font-bold">{{authService.currentUser.Username}}</strong>
                     <b _ngcontent-rcy-c5="" class="caret"></b> </span>
                 </a>
                 <ul class="dropdown-menu dropdown-alerts">

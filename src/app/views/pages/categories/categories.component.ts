@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { hideSideBar } from 'src/app/app.helpers';
+import { hideSideBar, showNavBar } from 'src/app/app.helpers';
 
 @Component({
   selector: 'app-categories',
@@ -10,7 +10,7 @@ export class CategoriesComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-
+    //showNavBar();
   }
 
   ngAfterViewInit(): void {
