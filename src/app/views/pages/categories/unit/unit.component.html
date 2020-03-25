@@ -1,19 +1,44 @@
-<div class="row wrapper border-bottom white-bg page-heading">
-  <div class="col-lg-10">
-      <h2>Chức năng</h2>
-      <ol class="breadcrumb">
-          <li>
-              <a routerLink="/pages">Dashboard</a>
-          </li>
-          <li class="active">
-              <strong>Chức năng</strong>
-          </li>
-      </ol>
-  </div>
-  <div class="col-lg-2">
+<dx-data-grid
+    (onRowInserting)="onRowInserting($event)"
+    (onRowUpdating)="onRowUpdating($event)"
+    (onRowRemoving)="onRowRemoving($event)"
+    [dataSource]="dataSource"  
+    [remoteOperations]="true"
+    height="600"
+    showBorders="true"
+    [masterDetail]="{ enabled: true, template: 'detail' }">
 
-  </div>
-</div>
-<p>
-  unit works!
-</p>
+    <dxo-filter-row [visible]="true"></dxo-filter-row>
+    <dxo-header-filter [visible]="true"></dxo-header-filter>
+    <dxo-group-panel [visible]="true"></dxo-group-panel>
+    <dxo-scrolling mode="virtual"></dxo-scrolling>
+    <dxo-editing
+        mode="row"
+        [allowAdding]="true"
+        [allowUpdating]="true"
+        [allowDeleting]="true">
+    </dxo-editing>
+    <dxo-grouping [autoExpandAll]="false"></dxo-grouping>
+
+    <dxi-column dataField="UnitId">
+        <dxi-validation-rule type="stringLength" max="20" message="The field UnitId must be a string with a maximum length of 20."></dxi-validation-rule>
+    </dxi-column>
+    <dxi-column dataField="UnitName">
+        <dxi-validation-rule type="stringLength" max="20" message="The field UnitName must be a string with a maximum length of 20."></dxi-validation-rule>
+    </dxi-column>
+    <dxi-column dataField="CreateBy">
+        <dxi-validation-rule type="stringLength" max="20" message="The field CreateBy must be a string with a maximum length of 20."></dxi-validation-rule>
+    </dxi-column>
+    <dxi-column dataField="CreateDate" dataType="date">
+        <dxi-validation-rule type="required" message="The CreateDate field is required."></dxi-validation-rule>
+    </dxi-column>
+    <dxi-column dataField="ModifyBy">
+        <dxi-validation-rule type="stringLength" max="20" message="The field ModifyBy must be a string with a maximum length of 20."></dxi-validation-rule>
+    </dxi-column>
+    <dxi-column dataField="ModifyDate" dataType="date">
+        <dxi-validation-rule type="required" message="The ModifyDate field is required."></dxi-validation-rule>
+    </dxi-column>   
+    <dxi-column dataField="Status">
+        <dxi-validation-rule type="required" message="The Status field is required."></dxi-validation-rule>
+    </dxi-column>   
+</dx-data-grid>
