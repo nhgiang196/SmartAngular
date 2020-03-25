@@ -2,16 +2,15 @@
     (onRowInserting)="onRowInserting($event)"
     (onRowUpdating)="onRowUpdating($event)"
     (onRowRemoving)="onRowRemoving($event)"
-    [dataSource]="dataSource"  
-    [remoteOperations]="true"
-    height="600"
+    [dataSource]="dataSource"
+    height="500"
     showBorders="true"
     [masterDetail]="{ enabled: true, template: 'detail' }">
 
     <dxo-filter-row [visible]="true"></dxo-filter-row>
     <dxo-header-filter [visible]="true"></dxo-header-filter>
     <dxo-group-panel [visible]="true"></dxo-group-panel>
-    <dxo-scrolling mode="virtual"></dxo-scrolling>
+
     <dxo-editing
         mode="row"
         [allowAdding]="true"
@@ -37,8 +36,21 @@
     </dxi-column>
     <dxi-column dataField="ModifyDate" dataType="date">
         <dxi-validation-rule type="required" message="The ModifyDate field is required."></dxi-validation-rule>
-    </dxi-column>   
+    </dxi-column>
     <dxi-column dataField="Status">
         <dxi-validation-rule type="required" message="The Status field is required."></dxi-validation-rule>
-    </dxi-column>   
+    </dxi-column>
+    <dxo-remote-operations
+        [filtering]="true"
+        [paging]="true"
+        [sorting]="true"
+        [summary]="true"
+        [grouping]="true"
+        [groupPaging]="true">
+    </dxo-remote-operations>
+    <dxo-paging [pageSize]="12"></dxo-paging>
+    <dxo-pager
+        [showPageSizeSelector]="true"
+        [allowedPageSizes]="[8, 12, 20]"
+    ></dxo-pager>
 </dx-data-grid>

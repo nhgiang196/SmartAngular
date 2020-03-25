@@ -1,10 +1,13 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, enableProdMode, ChangeDetectionStrategy } from '@angular/core';
 
 import * as AspNetData from "devextreme-aspnet-data-nojquery";
 import { UnitService } from 'src/app/core/services';
 import { Unit } from 'src/app/core/models/unit';
 import { DxDataGridComponent } from 'devextreme-angular';
-const API_URL = 'api/v1//Unit/'
+import { environment } from 'src/environments/environment';
+
+
+const API_URL = 'api/v1/Unit'
 @Component({
   selector: 'app-unit',
   templateUrl: './unit.component.html',
@@ -19,16 +22,45 @@ export class UnitComponent implements OnInit {
   url: string;
   masterDetailDataSource: any;
   constructor(private api: UnitService) {
+    this.url = `${environment.apiUrl}`;
+
+        this.dataSource = AspNetData.createStore({
+            key: "UnitId",
+            loadUrl: API_URL+ "/Test",
+            insertUrl: this.url + "/InsertOrder",
+            updateUrl: this.url + "/UpdateOrder",
+            deleteUrl: this.url + "/DeleteOrder",
+            onBeforeSend: function(method, ajaxOptions) {
+                ajaxOptions.xhrFields = { withCredentials: true };
+            }
+        });
+
+      //   this.customersData = AspNetData.createStore({
+      //     key: "Value",
+      //     loadUrl: this.url + "/CustomersLookup",
+      //     onBeforeSend: function(method, ajaxOptions) {
+      //         ajaxOptions.xhrFields = { withCredentials: true };
+      //     }
+      // });
+
+      // this.shippersData = AspNetData.createStore({
+      //     key: "Value",
+      //     loadUrl: this.url + "/ShippersLookup",
+      //     onBeforeSend: function(method, ajaxOptions) {
+      //         ajaxOptions.xhrFields = { withCredentials: true };
+      //     }
+      // });
+
   }
   ngOnInit() {
-    this.loadUnit();
+    //this.loadUnit();
   }
   onRowInserting(e) {
     this.api.addUnit(e.data).subscribe(res =>{
       this.loadUnit();
       this.dataGrid.instance.refresh();
     });
- 
+
   }
   async onRowUpdating(e)
   {

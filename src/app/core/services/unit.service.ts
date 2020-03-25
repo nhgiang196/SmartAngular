@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { DataTablePaginationParams, DataTablesResponse } from '../models/datatable';
 import { environment } from 'src/environments/environment';
-const ApiUrl = environment.apiUrl;;
+const ApiUrl = environment.apiUrl;
 @Injectable({providedIn: 'root'})
 export class UnitService {
   constructor(private http: HttpClient) {
