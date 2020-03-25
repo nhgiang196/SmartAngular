@@ -12,6 +12,8 @@ import { ItemTypeComponent } from './item-type/item-type.component';
 import { StageComponent } from './stage/stage.component';
 import { UnitComponent } from './unit/unit.component';
 import { WarehouseComponent } from './warehouse/warehouse.component';
+import { UISampleModule } from '../../UISample/UISample.module';
+import { FormsModule } from '@angular/forms';
 
 
 const COMPONENTS = [
@@ -22,7 +24,8 @@ const COMPONENTS = [
   ItemTypeComponent,
   StageComponent,
   UnitComponent,
-  WarehouseComponent
+  WarehouseComponent,
+
 ];
 
 @NgModule({
@@ -30,11 +33,14 @@ const COMPONENTS = [
     CategoriesRoutingModule,
     CommonModule,
     SharedModule,
+    UISampleModule,
     DxButtonModule,
     DxDataGridModule,
-    DxButtonModule
+    DxButtonModule,
+    FormsModule,
   ],
   declarations: [...COMPONENTS],
+  exports: [...COMPONENTS ],
   providers:[
   ]
 })

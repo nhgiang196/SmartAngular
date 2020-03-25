@@ -31,6 +31,7 @@ import {
 } from  './core/services';
 import { ThemeModule } from './theme/theme.module';
 import { RoutesResolver } from './core/resolvers/routes.resolver';
+import { UISampleModule } from './views/UISample/UISample.module';
 
 const SERVICE = [
   AuthService,
@@ -62,6 +63,7 @@ const SERVICE = [
     SharedModule,
     ThemeModule,
     PagesModule,
+    UISampleModule,
     AuthsModule
   ],
   providers: [
