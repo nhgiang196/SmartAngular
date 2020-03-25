@@ -1,0 +1,19 @@
+.link-dashboard{
+    padding: 20px;
+    height: 100%;
+    outline: none;
+    cursor: pointer;
+}
+
+.link-dashboard i{
+    font-size: 31px;
+    color: #1ab394;
+}
+
+.title-project{
+    margin: 0;
+    padding: 27px 0px;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: #626563;
+}

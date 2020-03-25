@@ -185,3 +185,12 @@ export function metisMenuRender(){
   //   alert("ok");
   // })
 }
+export function hideNavBar() {
+  $("body.mini-navbar #page-wrapper").attr('style','margin:0');
+  $(".navbar-static-side").hide();
+}
+
+export function showNavBar() {
+  $("body.mini-navbar #page-wrappe").attr('style','margin:0 0 0 70px');
+  $(".navbar-static-side").show();
+}

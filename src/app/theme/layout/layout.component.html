@@ -1,8 +1,13 @@
 
 <div id="wrapper">
+  <div class="container-fluid">
+    
+        <app-header></app-header>
+      
+  </div>
+  
   <app-sidebar></app-sidebar>
   <div id="page-wrapper" class="gray-bg">
-    <app-header></app-header>
     <ng-content select="router-outlet"></ng-content>
     
     <app-footer></app-footer>
