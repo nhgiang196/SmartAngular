@@ -1,15 +1,55 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 
+import * as AspNetData from "devextreme-aspnet-data-nojquery";
+import { UnitService } from 'src/app/core/services';
+import { Unit } from 'src/app/core/models/unit';
+import { DxDataGridComponent } from 'devextreme-angular';
+const API_URL = 'api/v1//Unit/'
 @Component({
   selector: 'app-unit',
   templateUrl: './unit.component.html',
   styleUrls: ['./unit.component.css']
 })
+
 export class UnitComponent implements OnInit {
-
-  constructor() { }
-
+  @ViewChild (DxDataGridComponent, {static :false})  dataGrid: DxDataGridComponent;
+  customersData: any;
+  shippersData: any;
+  dataSource: any;
+  url: string;
+  masterDetailDataSource: any;
+  constructor(private api: UnitService) {
+  }
   ngOnInit() {
+    this.loadUnit();
+  }
+  onRowInserting(e) {
+    this.api.addUnit(e.data).subscribe(res =>{
+      this.loadUnit();
+      this.dataGrid.instance.refresh();
+    });
+ 
+  }
+  async onRowUpdating(e)
+  {
+    let data = await e.oldData; // wait for get New Data Replace for oldData
+    console.log(data);
+    this.api.updateUnit(e.key).subscribe(res =>{
+      this.loadUnit();
+     this.dataGrid.instance.refresh();
+    });
+  }
+  onRowRemoving(e)
+  {
+    console.log(e)
+    this.api.deleteUnit(e.data.UnitId).subscribe(res =>{
+      this.loadUnit();
+      this.dataGrid.instance.refresh();
+    });
   }
 
+ async loadUnit() {
+    this.dataSource = await this.api.getUnit().toPromise().then();
+
+  }
 }
