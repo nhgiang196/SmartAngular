@@ -11,9 +11,16 @@ import { MonitorModule } from './monitor/monitor.module';
 import { ProcessModule } from './process/process.module';
 import { ProcessCostModule } from './process-cost/process-cost.module';
 import { InventoryModule } from './inventory/inventory.module';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { HttpClient } from '@angular/common/http';
+import { TranslateModule } from '@ngx-translate/core';
+import { FormsModule } from '@angular/forms';
+
+const COMPONNENT = [PagesComponent,DashboardComponent]
 
 @NgModule({
   imports: [
+    TranslateModule,
     PagesRoutingModule,
     SharedModule,
     CommonModule,
@@ -23,8 +30,9 @@ import { InventoryModule } from './inventory/inventory.module';
     MonitorModule,
     ProcessModule,
     ProcessCostModule,
-    InventoryModule
+    InventoryModule,
+    
   ],
-  declarations: [PagesComponent,DashboardComponent]
+  declarations: [...COMPONNENT]
 })
 export class PagesModule { }

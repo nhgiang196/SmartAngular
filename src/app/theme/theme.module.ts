@@ -10,6 +10,7 @@ import { SharedModule } from '../core/shared/shared.module';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { RouterModule } from '@angular/router';
 
+
 const COMPONENTS = [
   HeaderComponent,
   SidebarComponent,
