@@ -1,6 +1,6 @@
 export * from './auth.service';
 export * from './bom.service';
-export * from './contrack.service';
+export * from './contract.service';
 export * from './customer.service';
 export * from './factory.service';
 export * from './item-type-property.service';

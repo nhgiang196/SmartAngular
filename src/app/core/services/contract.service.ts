@@ -5,7 +5,7 @@ import { DataTablePaginationParams, DataTablesResponse } from '../models/datatab
 import { environment } from 'src/environments/environment';
 const ApiUrl = environment.apiUrl;;
 @Injectable({providedIn: 'root'})
-export class ContrackService {
+export class ContractService {
   constructor(private http: HttpClient) {
 
   }
