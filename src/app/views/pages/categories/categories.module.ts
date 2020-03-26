@@ -5,7 +5,7 @@ import { CategoriesRoutingModule } from './categories-routing.module';
 import { SharedModule } from 'src/app/core/shared/shared.module';
 import { LanguageService } from 'src/app/core/services/language.service';
 import { MainViewCategoryComponent } from './main-view-category/main-view-category.component';
-import { DxButtonModule, DxDataGridModule } from 'devextreme-angular';
+import { DxButtonModule, DxDataGridModule, DxSpeedDialActionModule, DxSwitchModule } from 'devextreme-angular';
 import { CustomersComponent } from './customers/customers.component';
 import { ItemComponent } from './item/item.component';
 import { ItemTypeComponent } from './item-type/item-type.component';
@@ -38,6 +38,8 @@ const COMPONENTS = [
     DxDataGridModule,
     DxButtonModule,
     FormsModule,
+    DxSpeedDialActionModule,
+    DxSwitchModule
   ],
   declarations: [...COMPONENTS],
   exports: [...COMPONENTS, UISampleModule ],

@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { DataTablePaginationParams, DataTablesResponse } from '../models/datatable';
 import { environment } from 'src/environments/environment';
 import * as AspNetData from "devextreme-aspnet-data-nojquery";
+
 const ApiUrl = environment.apiUrl;
 @Injectable({providedIn: 'root'})
 export class UnitService {
@@ -43,7 +44,11 @@ export class UnitService {
      dataSource = AspNetData.createStore({
       key: key,
       loadUrl:`${ApiUrl}/Unit/Test`,
+      insertUrl: `${ApiUrl}/Unit/NullInsert`,
+      updateUrl: `${ApiUrl}/Unit/NullUpdate`,
+      deleteUrl: `${ApiUrl}/Unit/NullDelete`,
       onBeforeSend: function(method, ajaxOptions) {
+          ajaxOptions.data.key = key;
           ajaxOptions.xhrFields = { withCredentials: true };
       }
     });
