@@ -16,41 +16,12 @@ const API_URL = 'api/v1/Unit'
 export class UnitComponent implements OnInit {
   @ViewChild(DxDataGridComponent, { static: false })
   dataGrid: DxDataGridComponent;
-  customersData: any;
-  shippersData: any;
+
   dataSource: any;
   url: string;
   masterDetailDataSource: any;
   constructor(private api: UnitService) {
-    this.url = `${environment.apiUrl}`;
-
-        this.dataSource = AspNetData.createStore({
-            key: "MonitorId",
-            loadUrl: this.url + "/Unit/Test",
-            insertUrl: this.url + "/InsertOrder",
-            updateUrl: this.url + "/UpdateOrder",
-            deleteUrl: this.url + "/DeleteOrder",
-            onBeforeSend: function(method, ajaxOptions) {
-                ajaxOptions.xhrFields = { withCredentials: true };
-            }
-        });
-
-      //   this.customersData = AspNetData.createStore({
-      //     key: "Value",
-      //     loadUrl: this.url + "/CustomersLookup",
-      //     onBeforeSend: function(method, ajaxOptions) {
-      //         ajaxOptions.xhrFields = { withCredentials: true };
-      //     }
-      // });
-
-      // this.shippersData = AspNetData.createStore({
-      //     key: "Value",
-      //     loadUrl: this.url + "/ShippersLookup",
-      //     onBeforeSend: function(method, ajaxOptions) {
-      //         ajaxOptions.xhrFields = { withCredentials: true };
-      //     }
-      // });
-
+    this.dataSource = this.api.getUnitTest(this.dataSource,"UnitId");
   }
   ngOnInit() {
     //this.loadUnit();

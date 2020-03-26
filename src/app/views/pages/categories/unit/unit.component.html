@@ -5,8 +5,7 @@
     [dataSource]="dataSource"
     [remoteOperations]="true"
     height="500"
-    showBorders="true"
-    [masterDetail]="{ enabled: true, template: 'detail' }">
+    showBorders="true">
 
     <dxo-filter-row [visible]="true"></dxo-filter-row>
     <dxo-header-filter [visible]="true"></dxo-header-filter>
@@ -20,25 +19,14 @@
     </dxo-editing>
     <dxo-grouping [autoExpandAll]="false"></dxo-grouping>
 
-    <dxi-column dataField="MonitorId">
+    <dxi-column dataField="UnitId">
         <dxi-validation-rule type="stringLength" max="20" message="The field UnitId must be a string with a maximum length of 20."></dxi-validation-rule>
     </dxi-column>
-    <dxi-column dataField="FactoryId">
+    <dxi-column dataField="UnitName">
         <dxi-validation-rule type="stringLength" max="20" message="The field UnitName must be a string with a maximum length of 20."></dxi-validation-rule>
     </dxi-column>
-    <dxi-column dataField="ItemId">
-        <dxi-validation-rule type="stringLength" max="20" message="The field CreateBy must be a string with a maximum length of 20."></dxi-validation-rule>
-    </dxi-column>
-     <dxi-column dataField="Cod">
-        <dxi-validation-rule type="stringLength" max="20" message="The field CreateBy must be a string with a maximum length of 20."></dxi-validation-rule>
-    </dxi-column>
-    <dxi-column dataField="PH">
-      <dxi-validation-rule type="stringLength" max="20" message="The field CreateBy must be a string with a maximum length of 20."></dxi-validation-rule>
-  </dxi-column>
-  <dxi-column dataField="Tss">
-    <dxi-validation-rule type="stringLength" max="20" message="The field CreateBy must be a string with a maximum length of 20."></dxi-validation-rule>
-</dxi-column>
-    <!-- <dxi-column dataField="CreateDate" dataType="date">
+
+    <dxi-column dataField="CreateDate" dataType="date">
         <dxi-validation-rule type="required" message="The CreateDate field is required."></dxi-validation-rule>
     </dxi-column>
     <dxi-column dataField="ModifyBy">
@@ -49,7 +37,7 @@
     </dxi-column>
     <dxi-column dataField="Status">
         <dxi-validation-rule type="required" message="The Status field is required."></dxi-validation-rule>
-    </dxi-column> -->
+    </dxi-column>
     <!-- <dxo-remote-operations
         [filtering]="true"
         [paging]="true"

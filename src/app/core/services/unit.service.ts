@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { DataTablePaginationParams, DataTablesResponse } from '../models/datatable';
 import { environment } from 'src/environments/environment';
+import * as AspNetData from "devextreme-aspnet-data-nojquery";
 const ApiUrl = environment.apiUrl;
 @Injectable({providedIn: 'root'})
 export class UnitService {
@@ -38,8 +39,15 @@ export class UnitService {
     return this.http.post(`${ApiUrl}/Unit/ValidateUnit`,entity);
   }
 
-  getUnitTest(param){
-  return  this.http.get<any>(`${ApiUrl}/Unit/Test`,param);
+  getUnitTest(dataSource,key){
+     dataSource = AspNetData.createStore({
+      key: key,
+      loadUrl:`${ApiUrl}/Unit/Test`,
+      onBeforeSend: function(method, ajaxOptions) {
+          ajaxOptions.xhrFields = { withCredentials: true };
+      }
+    });
+    return dataSource;
   }
 
 
