@@ -7,6 +7,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClient } from '@angular/common/http';
 import { LanguageService } from '../services/language.service';
 import { LaddaModule } from 'angular2-ladda';
+import { NgxDropzoneModule } from 'ngx-dropzone';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { BsDatepickerModule, PopoverModule, TimepickerModule, PaginationModule } from 'ngx-bootstrap';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -31,14 +34,26 @@ export function HttpLoaderFactory(http: HttpClient) {
       progressBar: true,
       closeButton: true
     }),
-    LaddaModule.forRoot({
-    }),
+    LaddaModule.forRoot({}),
+    NgxDropzoneModule,
+    NgSelectModule,
+    BsDatepickerModule.forRoot()
+    , PopoverModule.forRoot()
+    , TimepickerModule.forRoot()
+    , PaginationModule .forRoot()
+    
 
   ],
   exports: [
     TranslateModule,
     ToastrModule,
     LaddaModule,
+    NgxDropzoneModule,
+    NgSelectModule,
+    BsDatepickerModule
+    , PopoverModule
+    , TimepickerModule
+    , PaginationModule 
   ],
   providers:[
     LanguageService

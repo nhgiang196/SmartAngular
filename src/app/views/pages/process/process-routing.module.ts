@@ -12,7 +12,7 @@ const routes: Routes = [{
     component: ProcessComponent,
     children: [
         {
-            path: 'main/:id',
+            path: 'main',
             resolve: { menu: RoutesResolver },
             component: MainViewProcessComponent
         },

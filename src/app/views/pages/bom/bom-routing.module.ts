@@ -12,7 +12,7 @@ const routes: Routes = [{
     component: BomComponent,
     children: [
         {
-            path: 'main/:id',
+            path: 'main',
             resolve: { menu: RoutesResolver },
             component: MainViewBomComponent
         },

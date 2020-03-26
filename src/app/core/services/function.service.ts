@@ -12,5 +12,6 @@ constructor(private http: HttpClient) { }
 
 getAllFuntion= ()=> this.http.get<Function[]>(`${ApiUrl}/Function/GetAll`);
 getFuntionByModuleId= (id)=> this.http.get<Function[]>(`${ApiUrl}/Function/GetFunctionByModuleId?Id=${id}`);
+getItemPagination_Smart = (entity)=> this.http.post(`${ApiUrl}/Function/GetSelectItemPagination_Smart`,entity);
 
 }

@@ -10,7 +10,7 @@ const routes: Routes = [{
     component: InventoryComponent,
     children: [
         {
-            path: 'main/:id',
+            path: 'main',
             resolve: { menu: RoutesResolver },
             component: MainViewInventoryComponent
         },

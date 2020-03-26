@@ -9,13 +9,13 @@ import { environment } from 'src/environments/environment';
 
 const API_URL = 'api/v1/Unit'
 @Component({
-  selector: 'app-unit',
-  templateUrl: './unit.component.html',
-  styleUrls: ['./unit.component.css']
+  selector: "app-unit",
+  templateUrl: "./unit.component.html",
+  styleUrls: ["./unit.component.css"]
 })
-
 export class UnitComponent implements OnInit {
-  @ViewChild (DxDataGridComponent, {static :false})  dataGrid: DxDataGridComponent;
+  @ViewChild(DxDataGridComponent, { static: false })
+  dataGrid: DxDataGridComponent;
   customersData: any;
   shippersData: any;
   dataSource: any;
@@ -25,8 +25,8 @@ export class UnitComponent implements OnInit {
     this.url = `${environment.apiUrl}`;
 
         this.dataSource = AspNetData.createStore({
-            key: "UnitId",
-            loadUrl: API_URL+ "/Test",
+            key: "MonitorId",
+            loadUrl: this.url + "/Unit/Test",
             insertUrl: this.url + "/InsertOrder",
             updateUrl: this.url + "/UpdateOrder",
             deleteUrl: this.url + "/DeleteOrder",
@@ -56,32 +56,28 @@ export class UnitComponent implements OnInit {
     //this.loadUnit();
   }
   onRowInserting(e) {
-    this.api.addUnit(e.data).subscribe(res =>{
+    this.api.addUnit(e.data).subscribe(res => {
       this.loadUnit();
       this.dataGrid.instance.refresh();
     });
-
   }
-  async onRowUpdating(e)
-  {
+  async onRowUpdating(e) {
     let data = await e.oldData; // wait for get New Data Replace for oldData
     console.log(data);
-    this.api.updateUnit(e.key).subscribe(res =>{
+    this.api.updateUnit(e.key).subscribe(res => {
       this.loadUnit();
-     this.dataGrid.instance.refresh();
+      this.dataGrid.instance.refresh();
     });
   }
-  onRowRemoving(e)
-  {
-    console.log(e)
-    this.api.deleteUnit(e.data.UnitId).subscribe(res =>{
+  onRowRemoving(e) {
+    console.log(e);
+    this.api.deleteUnit(e.data.UnitId).subscribe(res => {
       this.loadUnit();
       this.dataGrid.instance.refresh();
     });
   }
 
- async loadUnit() {
-    this.dataSource = await this.api.getUnit().toPromise().then();
-
+  async loadUnit() {
+    //this.dataSource = await this.api.getUnit().toPromise().then();
   }
 }
