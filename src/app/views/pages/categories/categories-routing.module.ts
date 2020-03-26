@@ -26,7 +26,7 @@ const routes: Routes = [{
             component: StageComponent
         },
         {
-            path: 'customers',
+            path: 'customer',
             component: CustomerComponent
         },
         {   path: 'customer/:id', 
