@@ -28,7 +28,7 @@ export class WarehouseComponent implements OnInit {
   @ViewChild(SmartSelectComponent, {static: true}) selectComponent: SmartSelectComponent;
   constructor(
     private toastr: ToastrService,
-    private api: WareHouseService,
+    private warehouseService: WareHouseService,
     public trans: TranslateService,
     private auth: AuthService
   ) { }
@@ -67,7 +67,7 @@ export class WarehouseComponent implements OnInit {
 
   loadInit() { //init loading
     this.iboxloading = true;
-    this.api.getWarehousePagination(this.keyword,this.pageIndex, this.pageSize).subscribe(res => {
+    this.warehouseService.getPagination(this.keyword,this.pageIndex, this.pageSize).subscribe(res => {
       var data = res as any;
       // this.selectComponent.specialId = res.FactoryId;
       // this.selectComponent.loadInit();
@@ -97,7 +97,7 @@ export class WarehouseComponent implements OnInit {
     
     this.ACTION_STATUS = 'update';
     this.iboxloading = true;
-    await this.api.findWarehouseById(id).subscribe(res => {
+    await this.warehouseService.findById(id).subscribe(res => {
       this.resetEntity();
       this.entity = res;
       $("#myModal4").modal('show');
@@ -129,7 +129,7 @@ export class WarehouseComponent implements OnInit {
       reverseButtons: true
     }).then((result) => {
       if (result.value) {
-        this.api.deleteWarehouse(id).subscribe(res => {
+        this.warehouseService.delete(id).subscribe(res => {
           var operationResult: any = res
           if (operationResult.Success) {
             swal.fire(
@@ -157,7 +157,7 @@ export class WarehouseComponent implements OnInit {
       await this.uploadComponent.uploadFile();
       if (this.ACTION_STATUS == 'add') {
         e.CreateBy = this.auth.currentUser.Username;
-        this.api.addWarehouse(e).subscribe(res => {
+        this.warehouseService.add(e).subscribe(res => {
           var operationResult: any = res
           if (operationResult.Success) {
             this.toastr.success(this.trans.instant("messg.add.success"));
@@ -172,7 +172,7 @@ export class WarehouseComponent implements OnInit {
       }
       if (this.ACTION_STATUS == 'update') {
         e.ModifyBy = this.auth.currentUser.Username;
-        this.api.updateWarehouse(e).subscribe(res => {
+        this.warehouseService.update(e).subscribe(res => {
           var operationResult: any = res
           if (operationResult.Success) {
             this.loadInit();
@@ -231,7 +231,7 @@ export class WarehouseComponent implements OnInit {
   /** PRIVATES FUNCTIONS */
   private async fnValidate(e: Warehouse) { // validate entity value
     this.invalid = {};
-    let result = await this.api.validateWarehouse(e).toPromise().then() as any;
+    let result = await this.warehouseService.validate(e).toPromise().then() as any;
     if (!result.Success)
     {
       this.laddaSubmitLoading = false;
