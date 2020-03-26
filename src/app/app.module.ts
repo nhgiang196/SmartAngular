@@ -15,7 +15,6 @@ import { StoreService } from './core/services/store.service';
 import { 
   AuthService,
   BomService,
-  ContrackService,
   CustomerService,
   FactoryService,
   ItemService,
@@ -27,7 +26,8 @@ import {
   UnitService,
   WareHouseService,
   ModuleService,
-  FunctionService
+  FunctionService,
+  ContractService
 } from  './core/services';
 import { ThemeModule } from './theme/theme.module';
 import { RoutesResolver } from './core/resolvers/routes.resolver';
@@ -36,7 +36,7 @@ import { UISampleModule } from './views/UISample/UISample.module';
 const SERVICE = [
   AuthService,
   BomService,
-  ContrackService,
+  ContractService,
   CustomerService,
   FactoryService,
   ItemService,

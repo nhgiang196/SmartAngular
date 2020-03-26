@@ -84,6 +84,7 @@ export class SmartUploadComponent implements OnInit {
     let index = this.files.indexOf(event);
     this.files.splice(index, 1); //UI del
     this.entityFile.splice(index, 1);
+    this.send_entityFile.emit(this.entityFile);
   }
   /** EVENT TRIGGERS */
    async onSelect(event) { //drag file(s) or choose file(s) in ngFileZone
