@@ -46,7 +46,7 @@ const COMPONENTS = [
     DxSwitchModule
   ],
   declarations: [...COMPONENTS],
-  exports: [...COMPONENTS, UISampleModule ],
+  exports: [...COMPONENTS],
   providers:[
   ]
 })

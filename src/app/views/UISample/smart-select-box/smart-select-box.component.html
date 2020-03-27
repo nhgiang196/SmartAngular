@@ -1,7 +1,7 @@
-select box 
 <dx-select-box [dataSource]="dataSource"
-displayExpr="WarehouseName"
-valueExpr="WarehouseId"
+displayExpr="text"
+valueExpr="id"
 (onValueChanged)="onValueChanged($event)"
 [(value)]="selectData"
-[searchEnabled]="true"></dx-select-box>
+[searchEnabled]="true"
+></dx-select-box>
