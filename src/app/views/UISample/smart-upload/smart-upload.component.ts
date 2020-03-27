@@ -30,7 +30,8 @@ export class SmartUploadComponent implements OnInit {
   uploadReportProgress: any = { progress: 0, message: null, isError: null };
   /**INIT FUNCTIONS */
   ngOnInit() { //init functions
-    // this.resetEntity();
+    this.addFiles = { FileList: [], FileLocalNameList: [] }
+    this.uploadReportProgress =  { progress : 0, message: null , isError: null };
   }
   /**
    *  làm trống file hiển thị
