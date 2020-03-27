@@ -55,5 +55,8 @@ export class UnitService {
     return dataSource;
   }
 
+    getUnitSelectbox(){
+      this.http.get(`${ApiUrl}/Unit/TestSelect`).toPromise();
+    }
 
 }
