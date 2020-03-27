@@ -1,40 +1,45 @@
-<dx-data-grid (onRowInserting)="onRowInserting($event)" (onRowUpdating)="onRowUpdating($event)"
-  (onRowRemoving)="onRowRemoving($event)" (onSelectionChanged)="selectedChanged($event)" [dataSource]="dataSource"
-  [remoteOperations]="true" height="500" showBorders="true">
+<dx-data-grid (onRowInserting)="onRowInserting($event)" 
+    (onRowUpdating)="onRowUpdating($event)"
+    (onInitNewRow)="onInitNewRow($event)"
+    (onRowRemoving)="onRowRemoving($event)" 
+    (onSelectionChanged)="selectedChanged($event)" 
+    [dataSource]="dataSource"
+    [remoteOperations]="true" height="500" showBorders="true">
 
-  <dxo-selection mode="single"></dxo-selection>
-  <dxo-filter-row [visible]="true"></dxo-filter-row>
-  <dxo-header-filter [visible]="true"></dxo-header-filter>
-  <dxo-group-panel [visible]="true"></dxo-group-panel>
+    <dxo-selection mode="single"></dxo-selection>
+    <dxo-filter-row [visible]="true"></dxo-filter-row>
+    <dxo-header-filter [visible]="true"></dxo-header-filter>
+    <dxo-group-panel [visible]="true"></dxo-group-panel>
 
-  <dxo-editing mode="popup">
-    <dxo-popup title="Unit Info" [showTitle]="true" [width]="500" [height]="250"
-      [position]="{ my: 'top', at: 'top', of: 'window' }">
-    </dxo-popup>
-    <dxo-texts confirmDeleteMessage="Are you sure Delete?"></dxo-texts>
-    <dxo-form>
-      <dxi-item dataField="UnitName"></dxi-item>
-      <dxi-item dataField="Status"></dxi-item>
-    </dxo-form>
-  </dxo-editing>
+    <dxo-editing mode="popup">
+        <dxo-popup title="Unit Info" [showTitle]="true" [width]="500" [height]="250"
+            [position]="{ my: 'top', at: 'top', of: 'window' }">
+        </dxo-popup>
+        <dxo-texts confirmDeleteMessage="Are you sure Delete?"></dxo-texts>
+        <dxo-form>
+            <dxi-item dataField="UnitName"></dxi-item>
+            <dxi-item dataField="Status"></dxi-item>
+        </dxo-form>
+    </dxo-editing>
 
-  <dxi-column dataField="UnitId" width="70" [allowEditing]="false"></dxi-column>
-  <dxi-column dataField="UnitName">
-    <dxi-validation-rule type="required" max="20"
-      message="The field UnitName must be a string with a maximum length of 20."></dxi-validation-rule>
-  </dxi-column>
-  <dxi-column dataField="CreateDate" dataType="date"></dxi-column>
-  <dxi-column dataField="ModifyBy"></dxi-column>
-  <dxi-column dataField="ModifyDate" dataType="date"></dxi-column>
-  <dxi-column dataField="Status" dataType="boolean" caption="Active"></dxi-column>
-  <dxo-paging [pageSize]="25"></dxo-paging>
-  <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[25, 50, 100]"></dxo-pager>
+    <dxi-column dataField="UnitId" width="70" [allowEditing]="false"></dxi-column>
+    <dxi-column dataField="UnitName">
+        <dxi-validation-rule type="required" max="20"
+            message="The field UnitName must be a string with a maximum length of 20."></dxi-validation-rule>
+    </dxi-column>
+    <dxi-column dataField="CreateDate" dataType="date"></dxi-column>
+    <dxi-column dataField="CreateBy"></dxi-column>
+    <dxi-column dataField="ModifyBy"></dxi-column>
+    <dxi-column dataField="ModifyDate" dataType="date"></dxi-column>
+    <dxi-column dataField="Status" dataType="boolean" caption="Active"></dxi-column>
+    <dxo-paging [pageSize]="25"></dxo-paging>
+    <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[25, 50, 100]"></dxo-pager>
 </dx-data-grid>
 <dx-speed-dial-action icon="add" label="Add row" [index]="1" (onClick)="addRow()">
 </dx-speed-dial-action>
 <dx-speed-dial-action icon="trash" label="Delete row" [index]="2" [visible]="selectedRowIndex !== -1"
-  (onClick)="deleteRow()">
+    (onClick)="deleteRow()">
 </dx-speed-dial-action>
 <dx-speed-dial-action icon="edit" label="Edit row" [index]="3" [visible]="selectedRowIndex !== -1"
-  (onClick)="editRow()">
+    (onClick)="editRow()">
 </dx-speed-dial-action>

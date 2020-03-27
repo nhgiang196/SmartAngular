@@ -4,6 +4,6 @@ export class Unit {
     CreateBy: string
     CreateDate: Date = new Date()
     ModifyBy: string
-    ModifyDate: Date
+    ModifyDate: Date = new Date()
     Status: number = 1
   }
