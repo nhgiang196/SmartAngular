@@ -1,3 +1,4 @@
+import { element } from 'protractor';
 import {
   Component,
   OnInit,
@@ -46,6 +47,12 @@ export class UnitComponent implements OnInit {
     });
   }
   ngOnInit() {}
+  onInitNewRow(e){
+    //console.log(document.getElementById( "status" ));
+    console.log(e.component);
+    console.log(e);
+
+  }
   onRowInserting(e) {
     this.api.addUnit(e.data).subscribe(res => {
       let result = res as any;
