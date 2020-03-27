@@ -1,25 +1,14 @@
 import {
   Component,
   OnInit,
-  ViewChild,
-  enableProdMode,
-  ChangeDetectionStrategy
-} from '@angular/core';
+  ViewChild} from '@angular/core';
 
-import * as AspNetData from 'devextreme-aspnet-data-nojquery';
 import { UnitService, AuthService } from 'src/app/core/services';
-import { Unit } from 'src/app/core/models/unit';
 import { DxDataGridComponent } from 'devextreme-angular';
-import { environment } from 'src/environments/environment';
 import config from 'devextreme/core/config';
-
-import { from } from 'rxjs';
 import { directions } from 'src/app/core/helpers/DevExtremeExtention';
 import { ToastrService } from 'ngx-toastr';
-import { findReadVarNames } from '@angular/compiler/src/output/output_ast';
 import Swal from 'sweetalert2';
-import { add } from 'ngx-bootstrap/chronos/public_api';
-const API_URL = 'api/v1/Unit';
 @Component({
   selector: 'app-unit',
   templateUrl: './unit.component.html',
@@ -28,10 +17,7 @@ const API_URL = 'api/v1/Unit';
 export class UnitComponent implements OnInit {
   @ViewChild(DxDataGridComponent, { static: false })
   dataGrid: DxDataGridComponent;
-
   dataSource: any;
-  url: string;
-  masterDetailDataSource: any;
   selectedRowIndex = -1;
   constructor(
     private api: UnitService,
