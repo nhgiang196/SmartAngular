@@ -7,10 +7,10 @@
   (onInitNewRow)="onInitNewRow($event)"
   (onSelectionChanged)="selectedChanged($event)" >
 
-  <dxo-selection mode="single"></dxo-selection>
-  <dxo-filter-row [visible]="true"></dxo-filter-row>
-  <dxo-header-filter [visible]="true"></dxo-header-filter>
-  <dxo-group-panel [visible]="true"></dxo-group-panel>
+    <dxo-selection mode="single"></dxo-selection>
+    <dxo-filter-row [visible]="true"></dxo-filter-row>
+    <dxo-header-filter [visible]="true"></dxo-header-filter>
+    <dxo-group-panel [visible]="true"></dxo-group-panel>
 
   <dxo-editing mode="popup">
     <dxo-popup title="Unit Info" [showTitle]="true" [width]="600" [height]="230"
@@ -40,8 +40,8 @@
 <dx-speed-dial-action icon="add" label="Add row" [index]="1" (onClick)="addRow()">
 </dx-speed-dial-action>
 <dx-speed-dial-action icon="trash" label="Delete row" [index]="2" [visible]="selectedRowIndex !== -1"
-  (onClick)="deleteRow()">
+    (onClick)="deleteRow()">
 </dx-speed-dial-action>
 <dx-speed-dial-action icon="edit" label="Edit row" [index]="3" [visible]="selectedRowIndex !== -1"
-  (onClick)="editRow()">
+    (onClick)="editRow()">
 </dx-speed-dial-action>
