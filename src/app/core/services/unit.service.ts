@@ -43,7 +43,7 @@ export class UnitService {
   getUnitTest(dataSource,key){
      dataSource = AspNetData.createStore({
       key: key,
-      loadUrl:`${ApiUrl}/Unit/Test`,
+      loadUrl:`${ApiUrl}/Unit/DataGridUnitPagination`,
       insertUrl: `${ApiUrl}/Unit/NullInsert`,
       updateUrl: `${ApiUrl}/Unit/NullUpdate`,
       deleteUrl: `${ApiUrl}/Unit/NullDelete`,
