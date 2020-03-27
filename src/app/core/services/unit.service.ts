@@ -41,7 +41,7 @@ export class UnitService {
     return this.http.post(`${ApiUrl}/Unit/ValidateUnit`,entity);
   }
 
-  getUnitTest(dataSource,key){
+  getDataGridUnit(dataSource,key){
      dataSource = AspNetData.createStore({
       key: key,
       loadUrl:`${ApiUrl}/Unit/DataGridUnitPagination`,
