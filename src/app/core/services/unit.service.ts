@@ -6,6 +6,7 @@ import { environment } from 'src/environments/environment';
 import * as AspNetData from "devextreme-aspnet-data-nojquery";
 
 const ApiUrl = environment.apiUrl;
+const NULL_ROUTES = `${environment.apiUrl}/DevExtreme/NullRoutes`
 @Injectable({providedIn: 'root'})
 export class UnitService {
   constructor(private http: HttpClient) {
@@ -43,10 +44,10 @@ export class UnitService {
   getUnitTest(dataSource,key){
      dataSource = AspNetData.createStore({
       key: key,
-      loadUrl:`${ApiUrl}/Unit/Test`,
-      insertUrl: `${ApiUrl}/Unit/NullInsert`,
-      updateUrl: `${ApiUrl}/Unit/NullUpdate`,
-      deleteUrl: `${ApiUrl}/Unit/NullDelete`,
+      loadUrl:`${ApiUrl}/Unit/DataGridUnitPagination`,
+      insertUrl: NULL_ROUTES,
+      updateUrl: NULL_ROUTES,
+      deleteUrl: NULL_ROUTES,
       onBeforeSend: function(method, ajaxOptions) {
           ajaxOptions.data.key = key;
           ajaxOptions.xhrFields = { withCredentials: true };
