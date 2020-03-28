@@ -6,12 +6,13 @@ import {
     CanActivateChild
 } from '@angular/router';
 import { AuthService } from '../services/auth.service';
+import { StoreService } from '../services/store.service';
 
 @Injectable({
     providedIn: 'root',
 })
 export class AuthGuard implements CanActivate {
-    constructor(private authService: AuthService, private router: Router) { }
+    constructor(private authService: AuthService, private router: Router,private store: StoreService,) { }
 
     // canActivate(
     //     next: ActivatedRouteSnapshot,
@@ -34,10 +35,17 @@ export class AuthGuard implements CanActivate {
     //     // Navigate to the login page with extras
     //     this.router.navigate(['login']);
     //     return false;
-        
+
     // }
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+
         if (this.authService.isLoggedIn()) {
+          //get menu child
+          let arrayPath = state.url.split('/');
+          if(arrayPath.length>2){
+            let code =arrayPath[2];
+            this.store.loadMenu(code);
+          }
           return true;
         } else {
           this.router.navigate(['/auth'], {

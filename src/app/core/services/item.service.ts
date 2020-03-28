@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { DataTablePaginationParams, DataTablesResponse } from '../models/datatable';
 import { environment } from 'src/environments/environment';
+import * as AspNetData from "devextreme-aspnet-data-nojquery";
 const ApiUrl = environment.apiUrl;;
 @Injectable({providedIn: 'root'})
 export class ItemService {
@@ -49,4 +50,16 @@ export class ItemService {
   // getItemByItemType =(itemTypeId) => this.http.get(`${ApiUrl}/Item/GetItemByItemType/`,{ params: { itemTypeId: itemTypeId } } );
   findItemById =(id) => this.http.get<any>(`${ApiUrl}/Item/FindItemById?id=${id}` );
   checkItemNameExist =(itemName) => this.http.get<any>(`${ApiUrl}/Item/CheckItemNameExist?ItemName=${itemName}` );
+  getDataGridItem(dataSource,key){
+
+    dataSource = AspNetData.createStore({
+     key: key,
+     loadUrl:`${ApiUrl}/Item/DataGridItemPagination`,
+     onBeforeSend: function(method, ajaxOptions) {
+         ajaxOptions.data.key = key;
+         ajaxOptions.xhrFields = { withCredentials: true };
+     }
+   });
+   return dataSource;
+ }
 }

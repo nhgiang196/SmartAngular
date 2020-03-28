@@ -12,6 +12,7 @@ import { ItemComponent } from './item/item.component';
 import { CustomerComponent } from './customers/customer.component';
 import { CustomerDetailComponent } from './customers/customer-detail/customer-detail.component';
 import { CustomerDetailResolverService } from 'src/app/core/resolvers/customer-detail.resolver';
+import { ItemActionComponent } from './item/item-action/item-action.component';
 
 const routes: Routes = [{
     path: '',
@@ -29,11 +30,11 @@ const routes: Routes = [{
             path: 'customer',
             component: CustomerComponent
         },
-        {   path: 'customer/:id', 
-            component: CustomerDetailComponent, 
-            resolve: { dataResolver: CustomerDetailResolverService } 
+        {   path: 'customer/:id',
+            component: CustomerDetailComponent,
+            resolve: { dataResolver: CustomerDetailResolverService }
         },
-        {   path: 'newcustomer', 
+        {   path: 'newcustomer',
             component: CustomerDetailComponent },
         {
             path: 'warehouse',
@@ -49,7 +50,13 @@ const routes: Routes = [{
         },
         {
             path: 'item',
-            component: ItemComponent
+            component: ItemComponent,
+            children:[
+              {
+                path:'action',
+              component:ItemActionComponent
+              }
+            ]
         },
         { path: '', redirectTo: 'main', pathMatch: 'full' },
         { path: '**', redirectTo: 'main' },

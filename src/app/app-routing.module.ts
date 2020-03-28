@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule, ExtraOptions } from '@angular/router';
 import { RoutesResolver } from './core/resolvers/routes.resolver';
+import { PagesComponent } from './views/pages/pages.component';
 
 
 const routes: Routes = [
   {
-    path: 'pages/:cid',
-    resolve: { menu: RoutesResolver },
+    path: 'pages',
     loadChildren: () => import('./views/pages/pages.module')
       .then(m => m.PagesModule),
   },

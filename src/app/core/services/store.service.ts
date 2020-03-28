@@ -11,15 +11,14 @@ export class StoreService {
 
   constructor(private functionService: FunctionService) { }
 
-   loadMenu(id) {
-     if(id==null){
+   loadMenu(code) {
+     if(code==null){
        this.listMenu.next([]);
      }
-     this.functionService.getFuntionByModuleId(id).subscribe(
+     this.functionService.getFuntionByModuleCode(code).subscribe(
         data => {
           var result = data as any;
-          localStorage.setItem('listChildMenu',JSON.stringify(result));
-          this.listMenu.next(result.filter(x=>x.ModuleId == id));
+          this.listMenu.next(result);
         },
         (err: HttpErrorResponse) => {
           console.log (err.message);

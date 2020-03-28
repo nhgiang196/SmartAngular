@@ -18,6 +18,7 @@ import { CustomerComponent } from './customers/customer.component';
 import { CustomerListComponent } from './customers/customer-list/customer-list.component';
 import { CustomerDetailComponent } from './customers/customer-detail/customer-detail.component';
 import { ContractComponent } from './customers/contract/contract.component';
+import { ItemActionComponent } from './item/item-action/item-action.component';
 
 
 const COMPONENTS = [
@@ -32,6 +33,7 @@ const COMPONENTS = [
   StageComponent,
   UnitComponent,
   WarehouseComponent,
+  ItemActionComponent
 
 ];
 

@@ -10,11 +10,13 @@ import { StoreService } from '../services/store.service';
 @Injectable()
 export class RoutesResolver implements Resolve<void> {
     constructor(private store: StoreService,
-        private toastr: ToastrService) { }
+        private toastr: ToastrService,private route: Router) {
+         }
 
     resolve(router: ActivatedRouteSnapshot): void {
-       let cid =  router.params['cid'];
-        if(cid!=null && cid!='')
-        this.store.loadMenu(cid);
+      //  let code =  router.routeConfig.path;
+      //  console.log(code);
+      //   if(code!=null && code!='')
+      //     this.store.loadMenu(code);
     }
 }

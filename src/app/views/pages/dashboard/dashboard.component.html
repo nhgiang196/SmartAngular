@@ -1,6 +1,6 @@
 <div class="wrapper wrapper-content" >
   <div class="row">
-              <a *ngFor="let item of listMenu" class="col-lg-3" (click)="loadLink(item)">
+              <a *ngFor="let item of listMenu" class="col-lg-3" [routerLink]="item.Link">
                   <div class="ibox float-e-margins">
                       <div class="ibox-content repo">
                           <img class="img-repo" [src]="item.Icon" />
