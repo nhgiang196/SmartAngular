@@ -21,7 +21,8 @@ export class MainViewCategoryComponent implements OnInit {
     this.selectBoxData = new DataSource({
       store: createStore({
           key: "UnitId",
-          loadUrl: serviceUrl
+          loadUrl: serviceUrl,
+          loadParams:{key:"UnitId"}
       }) ,
       paginate: true,
       pageSize: 2

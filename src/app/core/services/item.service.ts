@@ -50,13 +50,15 @@ export class ItemService {
   // getItemByItemType =(itemTypeId) => this.http.get(`${ApiUrl}/Item/GetItemByItemType/`,{ params: { itemTypeId: itemTypeId } } );
   findItemById =(id) => this.http.get<any>(`${ApiUrl}/Item/FindItemById?id=${id}` );
   checkItemNameExist =(itemName) => this.http.get<any>(`${ApiUrl}/Item/CheckItemNameExist?ItemName=${itemName}` );
-  getDataGridItem(dataSource,key){
+  getDataGridItem(dataSource,key,filler=''){
 
     dataSource = AspNetData.createStore({
      key: key,
      loadUrl:`${ApiUrl}/Item/DataGridItemPagination`,
      onBeforeSend: function(method, ajaxOptions) {
          ajaxOptions.data.key = key;
+         console.log(ajaxOptions.data);
+         //ajaxOptions.data.filter= filler;
          ajaxOptions.xhrFields = { withCredentials: true };
      }
    });

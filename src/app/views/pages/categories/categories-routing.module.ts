@@ -50,11 +50,18 @@ const routes: Routes = [{
         },
         {
             path: 'item',
-            component: ItemComponent,
             children:[
               {
+                path:'',
+                component: ItemComponent,
+              },
+              {
                 path:'action',
-              component:ItemActionComponent
+                component:ItemActionComponent
+              },
+              {
+                path:'action/:id',
+                component:ItemActionComponent
               }
             ]
         },

@@ -1,10 +1,12 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { DxDataGridComponent } from 'devextreme-angular';
-import { ItemService, AuthService } from 'src/app/core/services';
+import { ItemService, AuthService, ItemTypeService } from 'src/app/core/services';
 import { ToastrService } from 'ngx-toastr';
 import config from 'devextreme/core/config';
 import { directions } from 'src/app/core/helpers/DevExtremeExtention';
 import { Router, ActivatedRoute } from '@angular/router';
+import { ItemType } from 'src/app/core/models/item';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-item',
@@ -16,19 +18,19 @@ export class ItemComponent implements OnInit {
   dataGrid: DxDataGridComponent;
 
   dataSource: any;
-  url: string;
-  masterDetailDataSource: any;
-  selectedRowIndex = -1;
+  listItemType: Array<ItemType> = new Array<ItemType>();
   constructor(
-    private api: ItemService,
+    private itemService: ItemService,
+    private itemTypeService: ItemTypeService,
     private auth: AuthService,
     private toastr: ToastrService,
     private router: Router,
     private route: ActivatedRoute
   ) {
-    this.dataSource = this.api.getDataGridItem(this.dataSource, 'ItemId');
+    this.dataSource = this.itemService.getDataGridItem(this.dataSource, 'ItemId');
   }
-  ngOnInit() {
+  async ngOnInit() {
+    await this.getAllItemType();
   }
 
   onRowUpdating(event){
@@ -38,9 +40,18 @@ export class ItemComponent implements OnInit {
     console.log(event);
   }
   onEditingStart(event){
-    console.log(this.route.snapshot);
-    let cid =  this.route.snapshot.paramMap.get("cid");
-    this.router.navigate(['/pages/'+cid+'/category/item/action'])
+    this.router.navigate(['/pages/category/item/action/'+event.data.ItemId])
     console.log(event);
+  }
+
+  async getAllItemType() {
+    this.listItemType = await this.itemTypeService.getItemType().pipe(map(res => {
+      return res as Array<ItemType>;
+    })).toPromise().then();
+  }
+
+  searchItemByItemType(id){
+    let fillter = id!=0?'["ItemTypeId", "=",'+id+']':'';
+    this.dataSource= this.itemService.getDataGridItem(this.dataSource, 'ItemId',fillter)
   }
 }

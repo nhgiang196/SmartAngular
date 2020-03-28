@@ -2,7 +2,7 @@
   <div class="col-lg-10">
     <h2>{{ 'Item.Breadcrumb' | translate }}</h2>
     <ol class="breadcrumb">
-      <li>
+      <li routerLink="/pages/category">
         <a >{{ 'TopNav.Category' | translate }}</a>
       </li>
       <li class="active">
@@ -17,13 +17,44 @@
 
 <div class="wrapper wrapper-content animated fadeInRight">
   <div class="row">
-      <div class="col-lg-12">
-        <div class="ibox float-e-margins">
-            <div class="ibox-title">
-                <h5>Item list</h5>
+    <div class="col-lg-12">
+      <div class="ibox float-e-margins">
+        <div class="ibox-content" [ngClass]=" {'sk-loading': iboxloading}">
+          <div class="sk-spinner sk-spinner-wave">
+            <div class="sk-rect1"></div>
+            <div class="sk-rect2"></div>
+            <div class="sk-rect3"></div>
+            <div class="sk-rect4"></div>
+            <div class="sk-rect5"></div>
+          </div>
+          <div class="row">
+            <div class="col-sm-4">
+              <!-- hidden this button -->
+              <button routerLink="/pages/category/item/action" type="button" class="btn btn-primary dim" >
+                <i class="fa fa-plus"></i> {{'Button.Add' | translate}}</button>
 
             </div>
-            <div class="ibox-content">
+            <div class="col-sm-4">
+
+            </div>
+            <div class="col-sm-4">
+              <div class="row">
+                <label class="col-sm-3">{{'Item.label.ItemTypeSearch' | translate}}</label>
+                <div class="col-sm-9">
+                  <select class="form-control" [(ngModel)]="itemTypeId" (change)="searchItemByItemType($event.target.value)" placeholder="Vui lòng chọn loại vật tư">
+                    <option value="0">{{'Item.label.ItemTypeSearchValue0' | translate}}</option>
+                    <option *ngFor="let item of listItemType" [value]="item.ItemTypeId">{{item.ItemTypeName}}</option>
+                </select>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <hr>
+
+          <div class="row">
+            <div class="col-lg-12">
               <dx-data-grid (onRowInserting)="onRowInserting($event)"
               (onEditingStart)="onEditingStart($event)"
               (onRowUpdating)="onRowUpdating($event)"
@@ -44,7 +75,7 @@
                 <dxo-texts confirmDeleteMessage="Are you sure Delete?"></dxo-texts>
               </dxo-editing>
 
-              <dxi-column dataField="ItemNo" width="70" [allowEditing]="false"></dxi-column>
+              <dxi-column dataField="ItemCode" width="70" [allowEditing]="false"></dxi-column>
               <dxi-column dataField="ItemName"></dxi-column>
               <dxi-column dataField="ItemPrintName"></dxi-column>
               <dxi-column dataField="ItemModel"></dxi-column>
@@ -59,8 +90,13 @@
               <dxo-paging [pageSize]="25"></dxo-paging>
               <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[25, 50, 100]"></dxo-pager>
           </dx-data-grid>
+            </div>
+          </div>
         </div>
       </div>
-
+    </div>
   </div>
+
 </div>
+
+
