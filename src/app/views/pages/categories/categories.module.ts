@@ -49,7 +49,7 @@ const COMPONENTS = [
     DxSelectBoxModule
   ],
   declarations: [...COMPONENTS],
-  exports: [...COMPONENTS, UISampleModule ],
+  exports: [...COMPONENTS],
   providers:[
   ]
 })
