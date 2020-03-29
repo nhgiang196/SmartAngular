@@ -17,8 +17,9 @@ export class ItemTypeComponent implements OnInit {
 
   @ViewChild(DxDataGridComponent, { static: false })
   dataGrid: DxDataGridComponent;
-  dataSource: any;
-  dataSourceItemProperty: any;
+  dataSourceItemTypes: any;
+  itemTypeId : number =0;
+  dataSourceProperties: any;
   selectedRowIndex = -1;
   
   constructor(
@@ -27,8 +28,7 @@ export class ItemTypeComponent implements OnInit {
     private auth: AuthService,
     private toastr: ToastrService
   ) {
-    this.dataSource = this.itemTypeService.getDataGridItemType(this.dataSource, 'ItemTypeId');    
-    this.dataSourceItemProperty = this.itemTypePropertyService.getDataGridItemTypeProperty(this.dataSourceItemProperty, "ItemTypePropertyId", '');
+    this.dataSourceItemTypes = this.itemTypeService.getDataGridItemType(this.dataSourceItemTypes, 'ItemTypeId'); // default load
     config({
       floatingActionButtonConfig: directions.down
     });
@@ -37,11 +37,12 @@ export class ItemTypeComponent implements OnInit {
   /**
    * Function Insert
    * @param e with e is params in DevExtreme
+   * all Field in ItemProperty
+   * with ItemPropertyName
    */
-
-  onRowInsertingItemTypeProperty(e) {
+  onRowInsertingProperty(e) {
     console.log(e);
-    e.data.ItemTypeId = 1;
+    e.data.ItemTypeId = this.itemTypeId;
     this.itemTypePropertyService.addItemTypeProperty(e.data).subscribe(res => {
       const result = res as any;
       if (result.Success) {
@@ -53,9 +54,17 @@ export class ItemTypeComponent implements OnInit {
       this.dataGrid.instance.refresh();
     });
   }
+  /**
+   * Validate ItemTypeName have to not exist
+   * @param e validate 2 params with ItemTypeName and ItemTypeCode
+   */
   async onValidateItemTypeName(e) {
     return await this.itemTypeService.validateItemType(e).toPromise();
   }
+  /**
+   * Update ItemType
+   * @param e Update with ItemType parames
+   */
   async onRowUpdatingItemType(e) {
     // Modify entity olddata to newdata;
     const data = Object.assign(e.oldData, e.newData);
@@ -79,7 +88,12 @@ export class ItemTypeComponent implements OnInit {
     }
 
   }
-  onRowUpdatingItemTypeProperty(e) {
+  /**
+   * Update ItemTypeProperty
+   * @param e params for Property Detail DataGrid
+   * Only ItemTypePropetyName
+   */
+  onRowUpdatingProperty(e) {
     // Modify entity olddata to newdata;
     const data = Object.assign(e.oldData, e.newData);
     this.itemTypePropertyService.updateItemTypeProperty(data).subscribe(res => {
@@ -92,7 +106,11 @@ export class ItemTypeComponent implements OnInit {
       }
     });
   }
-  onRowRemovingItemTypeProperty(e) {
+  /**
+   * Remove ItemTypePropertyId
+   * @param e with ItemTypePropertyId
+   */
+  onRowRemovingProperty(e) {
     this.itemTypePropertyService.deleteItemTypeProperty(e.data.ItemTypeId).subscribe(res => {
       const result = res as any;
       if (result.Success) {
@@ -103,49 +121,25 @@ export class ItemTypeComponent implements OnInit {
       }
     });
   }
-  getDataSourceItemProperty(key)
-  {
-    console.log(key);
-    this.dataSourceItemProperty = 
-        this.itemTypePropertyService.getDataGridItemTypeProperty(this.dataSourceItemProperty, "ItemTypePropertyId", '');
-        return this.dataSourceItemProperty;
+  /**
+   * filter all itemTypeProperties with ItemTypeId in row selected
+   * @param e itemTypeId
+   */
+  filterByItemTypeId(e){
+    this.itemTypeId = e.data.ItemTypeId;
+     this.dataSourceProperties = 
+        this.itemTypePropertyService.getDataGridItemTypePropertyByItemTypeId(this.dataSourceProperties, "ItemTypePropertyId", this.itemTypeId);
   }
-  editRow() { 
-    this.dataGrid.instance.editRow(this.selectedRowIndex);
-    this.dataGrid.instance.deselectAll();
-   // this.getDataSourceItemTypePropertyId();
-  }
-  // getDataSourceItemTypePropertyId()
-  // {
-  //   this.dataSourceItemProperty = this.itemTypePropertyService.getDataGridItemTypeProperty(this.dataSourceItemProperty, "ItemTypePropertyId")
-  // }
+
   /**
    * Init Function
-   * @param e fd
+   * @param e some fields default value
    */
   onInitNewRow(e) {
     e.data.Status = 1;
     e.data.CreateBy = this.auth.currentUser.Username;
   }
-  selectedChanged(e) {
-    console.log(e);
-    this.dataSourceItemProperty = this.itemTypePropertyService.getDataGridItemTypeProperty(this.dataSourceItemProperty, "ItemTypePropertyId", '');  
-    this.selectedRowIndex = e.component.getRowIndexByKey(e.selectedRowKeys[0]);
-  }
-////////////////////////master detail
-  // update(e){
-  //   console.log(e);
-  // }
 
-  // dataSourceItemTypeProperty(e){
-  //   console.log(e);
-  //   return this.itemTypePropertyService.getDataGridItemTypeProperty(this.dataSourceItemProperty, "ItemTypePropertyId")
-  // }
-  // buttonClick(e, key) {
-  //   let detailGridId = `detailGrid${key}`;
-  //   let element = document.getElementById(detailGridId);
-  //   let instance = DataGrid.getInstance(element) as DataGrid;
-  //   instance.option("focusedRowIndex", 0);
-  // }
+
 
 }
