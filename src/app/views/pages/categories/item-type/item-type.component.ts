@@ -27,9 +27,8 @@ export class ItemTypeComponent implements OnInit {
     private auth: AuthService,
     private toastr: ToastrService
   ) {
-    this.dataSource = this.itemTypeService.getDataGridItemType(this.dataSource, 'ItemTypeId');
-    this.dataSourceItemProperty = this.itemTypePropertyService.getDataGridItemTypeProperty(this.dataSourceItemProperty, "ItemTypePropertyId")
-    
+    this.dataSource = this.itemTypeService.getDataGridItemType(this.dataSource, 'ItemTypeId');    
+    this.dataSourceItemProperty = this.itemTypePropertyService.getDataGridItemTypeProperty(this.dataSourceItemProperty, "ItemTypePropertyId", '');
     config({
       floatingActionButtonConfig: directions.down
     });
@@ -104,16 +103,22 @@ export class ItemTypeComponent implements OnInit {
       }
     });
   }
-
+  getDataSourceItemProperty(key)
+  {
+    console.log(key);
+    this.dataSourceItemProperty = 
+        this.itemTypePropertyService.getDataGridItemTypeProperty(this.dataSourceItemProperty, "ItemTypePropertyId", '');
+        return this.dataSourceItemProperty;
+  }
   editRow() { 
     this.dataGrid.instance.editRow(this.selectedRowIndex);
     this.dataGrid.instance.deselectAll();
-    this.getDataSourceItemTypePropertyId();
+   // this.getDataSourceItemTypePropertyId();
   }
-  getDataSourceItemTypePropertyId()
-  {
-    this.dataSourceItemProperty = this.itemTypePropertyService.getDataGridItemTypeProperty(this.dataSourceItemProperty, "ItemTypePropertyId")
-  }
+  // getDataSourceItemTypePropertyId()
+  // {
+  //   this.dataSourceItemProperty = this.itemTypePropertyService.getDataGridItemTypeProperty(this.dataSourceItemProperty, "ItemTypePropertyId")
+  // }
   /**
    * Init Function
    * @param e fd
@@ -123,22 +128,24 @@ export class ItemTypeComponent implements OnInit {
     e.data.CreateBy = this.auth.currentUser.Username;
   }
   selectedChanged(e) {
+    console.log(e);
+    this.dataSourceItemProperty = this.itemTypePropertyService.getDataGridItemTypeProperty(this.dataSourceItemProperty, "ItemTypePropertyId", '');  
     this.selectedRowIndex = e.component.getRowIndexByKey(e.selectedRowKeys[0]);
   }
 ////////////////////////master detail
-  update(e){
-    console.log(e);
-  }
+  // update(e){
+  //   console.log(e);
+  // }
 
-  dataSourceItemTypeProperty(e){
-    console.log(e);
-    return this.itemTypePropertyService.getDataGridItemTypeProperty(this.dataSourceItemProperty, "ItemTypePropertyId")
-  }
-  buttonClick(e, key) {
-    let detailGridId = `detailGrid${key}`;
-    let element = document.getElementById(detailGridId);
-    let instance = DataGrid.getInstance(element) as DataGrid;
-    instance.option("focusedRowIndex", 0);
-  }
+  // dataSourceItemTypeProperty(e){
+  //   console.log(e);
+  //   return this.itemTypePropertyService.getDataGridItemTypeProperty(this.dataSourceItemProperty, "ItemTypePropertyId")
+  // }
+  // buttonClick(e, key) {
+  //   let detailGridId = `detailGrid${key}`;
+  //   let element = document.getElementById(detailGridId);
+  //   let instance = DataGrid.getInstance(element) as DataGrid;
+  //   instance.option("focusedRowIndex", 0);
+  // }
 
 }

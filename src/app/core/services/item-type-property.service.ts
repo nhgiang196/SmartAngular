@@ -22,7 +22,7 @@ export class ItemTypePropertyService {
   getItemTypePropertyPaginationByCode = (entity, code) => this.http.post<any>(`${ApiUrl}/ItemTypeProperty/GetItemTypePropertyPaginationByCode/${code}`, entity, {});
   validateItemTypeProperty = (entity) => this.http.post(`${ApiUrl}/ItemTypeProperty/ValidateItemTypeProperty`, entity);
 
-  getDataGridItemTypeProperty(dataSource, key) {
+  getDataGridItemTypeProperty(dataSource, key, masterKey) {
     dataSource = AspNetData.createStore({
       key: key,
       loadUrl: `${ApiUrl}/ItemTypeProperty/DataGridItemTypePropertyPagination`,
@@ -31,6 +31,7 @@ export class ItemTypePropertyService {
       deleteUrl: NULL_ROUTES,
       onBeforeSend: (method, ajaxOptions) => {
         ajaxOptions.data.key = key;
+        ajaxOptions.data.masterKey = masterKey;
         ajaxOptions.xhrFields = { withCredentials: true };
       }
     });
