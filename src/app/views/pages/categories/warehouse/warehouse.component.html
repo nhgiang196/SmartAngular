@@ -127,12 +127,7 @@
             </div>
             <div class="col-lg-6">
               <label>{{ 'Warehouse.data.FactoryId' | translate }} *:</label>
-              <app-smart-select 
-              name="FactoryId2" 
-              listName="Factory"  
-              [specialId]="entity.FactoryId"    
-              (select_ngModel)="entity.FactoryId = $event.id"
-              placeholder="{{'Warehouse.placeholder.FactoryId' | translate }}" required></app-smart-select>
+              <smart-select-box entitykey="Factory" checkstatus="true" [(selectData)]="entity.FactoryId" ></smart-select-box>
 
               
             </div>

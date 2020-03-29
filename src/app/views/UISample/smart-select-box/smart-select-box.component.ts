@@ -14,7 +14,7 @@ export class SmartSelectBoxComponent implements OnInit {
   @Input('checkstatus')  checkStatus : boolean = false ;
  
   @Input()  selectData : number ; //binding  : D
-  @Output() selectDataChange: EventEmitter<any> = new EventEmitter<any>();
+  @Output() selectDataChange: EventEmitter<number> = new EventEmitter<number>();
 
 
   constructor() { 
@@ -45,7 +45,8 @@ export class SmartSelectBoxComponent implements OnInit {
   }
 
   onValueChanged(event){
-    this.selectDataChange.emit(this.selectData);
+    console.log('Got event',event)
+    this.selectDataChange.emit(event.value.id || event.value);
   }
 
  
