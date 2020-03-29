@@ -23,11 +23,12 @@ export class SmartSelectBoxComponent implements OnInit {
   }
 
   ngOnInit() {
-    let serviceUrl = `${environment.apiUrl}/${this.entityKey}/UI_SelectBox`;
+    let serviceUrl = `${environment.apiUrl}/${this.entityKey}/${this.entityKey}SelectBox`;
     this.dataSource =  new DataSource({
       store: createStore({
           key: this.entityKey + "Id",
           loadUrl: serviceUrl,
+          loadParams: {key: this.entityKey + "Id"}
       }) ,
       paginate: true,
       pageSize: 10,
@@ -36,7 +37,7 @@ export class SmartSelectBoxComponent implements OnInit {
         dataItem.id =  dataItem[Object.keys(dataItem)[0]];
         dataItem.text =  dataItem[Object.keys(dataItem)[1]];
         return dataItem;
-    }
+      }
 
     });
     this.dataSource.load();
