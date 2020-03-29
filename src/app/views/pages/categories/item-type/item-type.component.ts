@@ -6,6 +6,7 @@ import { DxDataGridComponent } from 'devextreme-angular';
 import config from 'devextreme/core/config';
 import { directions } from 'src/app/core/helpers/DevExtremeExtention';
 import { ToastrService } from 'ngx-toastr';
+import DataGrid from "devextreme/ui/data_grid";
 import Swal from 'sweetalert2';
 @Component({
   selector: 'app-item-type',
@@ -19,6 +20,7 @@ export class ItemTypeComponent implements OnInit {
   dataSource: any;
   dataSourceItemProperty: any;
   selectedRowIndex = -1;
+  
   constructor(
     private itemTypeService: ItemTypeService,
     private itemTypePropertyService: ItemTypePropertyService,
@@ -26,6 +28,7 @@ export class ItemTypeComponent implements OnInit {
     private toastr: ToastrService
   ) {
     this.dataSource = this.itemTypeService.getDataGridItemType(this.dataSource, 'ItemTypeId');
+    this.dataSourceItemProperty = this.itemTypePropertyService.getDataGridItemTypeProperty(this.dataSourceItemProperty, "ItemTypePropertyId")
     
     config({
       floatingActionButtonConfig: directions.down
@@ -36,6 +39,7 @@ export class ItemTypeComponent implements OnInit {
    * Function Insert
    * @param e with e is params in DevExtreme
    */
+
   onRowInsertingItemTypeProperty(e) {
     console.log(e);
     e.data.ItemTypeId = 1;
@@ -101,7 +105,7 @@ export class ItemTypeComponent implements OnInit {
     });
   }
 
-  editRow() {
+  editRow() { 
     this.dataGrid.instance.editRow(this.selectedRowIndex);
     this.dataGrid.instance.deselectAll();
     this.getDataSourceItemTypePropertyId();
@@ -120,6 +124,21 @@ export class ItemTypeComponent implements OnInit {
   }
   selectedChanged(e) {
     this.selectedRowIndex = e.component.getRowIndexByKey(e.selectedRowKeys[0]);
+  }
+////////////////////////master detail
+  update(e){
+    console.log(e);
+  }
+
+  dataSourceItemTypeProperty(e){
+    console.log(e);
+    return this.itemTypePropertyService.getDataGridItemTypeProperty(this.dataSourceItemProperty, "ItemTypePropertyId")
+  }
+  buttonClick(e, key) {
+    let detailGridId = `detailGrid${key}`;
+    let element = document.getElementById(detailGridId);
+    let instance = DataGrid.getInstance(element) as DataGrid;
+    instance.option("focusedRowIndex", 0);
   }
 
 }

@@ -1,4 +1,4 @@
-<div class="row wrapper border-bottom white-bg page-heading">
+<!-- <div class="row wrapper border-bottom white-bg page-heading">
   <div class="col-lg-10">
     <h2>Chức năng</h2>
     <ol class="breadcrumb">
@@ -75,4 +75,42 @@
       (onClick)="editRow()">
     </dx-speed-dial-action>
   </div>
-</div>
+</div> -->
+<dx-data-grid
+  id="gridContainer"
+  [dataSource]="dataSource"
+  keyExpr="ItemTypeId"
+  [showBorders]="true"
+  [columns]="['ItemTypeId', 'ItemTypeName', 'ItemTypeCode']">
+  <dxo-editing mode="popup" 
+    [allowAdding]="true" 
+    [allowUpdating]="true" 
+    [allowDeleting]="true">
+    <dxo-popup title="Unit Info" [showTitle]="true" [width]="600" [height]="500"
+      [position]="{ my: 'top', at: 'top', of: 'window' }">
+    </dxo-popup>
+    <dxo-form >
+      <dxi-item dataField="ItemTypeId"></dxi-item>
+      <dxi-item dataField="ItemTypeName"></dxi-item>
+      <dxi-item [colSpan]="2" itemTemplate="detail">
+      <div *dxTemplate="let ItemType of 'detail'">
+        <dx-data-grid
+          id="detailGrid{{ItemType.ItemTypeId}}"
+          [dataSource]="dataSourceItemProperty"
+          [showBorders]="true"
+          [focusedRowEnabled]="true"
+          [columns]="['ItemTypePropertyId', 'ItemTypePropertyName', 'ItemTypeCode']">
+          
+          <dxo-editing mode="row" 
+            [allowAdding]="true" 
+            [allowUpdating]="true" 
+            [allowDeleting]="true">
+          </dxo-editing>
+        </dx-data-grid>
+      </div>
+    </dxi-item>
+    </dxo-form>
+  </dxo-editing>
+ 
+  
+</dx-data-grid>

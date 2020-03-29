@@ -36,4 +36,5 @@ export class ItemTypePropertyService {
     });
     return dataSource;
   }
+  
 }
