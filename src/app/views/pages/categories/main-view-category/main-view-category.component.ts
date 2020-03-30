@@ -15,9 +15,10 @@ const ApiUrl = environment.apiUrl;
 export class MainViewCategoryComponent implements OnInit {
 
   selectBoxData:any;
-  selected:any =1113820;
+  selected:any =17;
+  
   constructor(private unitService:UnitService, httpClient: HttpClient) {
-    let serviceUrl = `${ApiUrl}/Unit/TestSelect`;
+    let serviceUrl = `${ApiUrl}/Unit/UnitSelectBox`;
     this.selectBoxData = new DataSource({
       store: createStore({
           key: "UnitId",

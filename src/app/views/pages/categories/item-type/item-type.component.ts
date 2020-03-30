@@ -6,6 +6,7 @@ import { DxDataGridComponent } from 'devextreme-angular';
 import config from 'devextreme/core/config';
 import { directions } from 'src/app/core/helpers/DevExtremeExtention';
 import { ToastrService } from 'ngx-toastr';
+import DataGrid from "devextreme/ui/data_grid";
 import Swal from 'sweetalert2';
 @Component({
   selector: 'app-item-type',
@@ -16,17 +17,18 @@ export class ItemTypeComponent implements OnInit {
 
   @ViewChild(DxDataGridComponent, { static: false })
   dataGrid: DxDataGridComponent;
-  dataSource: any;
-  dataSourceItemProperty: any;
+  dataSourceItemTypes: any;
+  itemTypeId : number =0;
+  dataSourceProperties: any;
   selectedRowIndex = -1;
+  
   constructor(
     private itemTypeService: ItemTypeService,
     private itemTypePropertyService: ItemTypePropertyService,
     private auth: AuthService,
     private toastr: ToastrService
   ) {
-    this.dataSource = this.itemTypeService.getDataGridItemType(this.dataSource, 'ItemTypeId');
-    
+    this.dataSourceItemTypes = this.itemTypeService.getDataGridItemType(this.dataSourceItemTypes, 'ItemTypeId'); // default load
     config({
       floatingActionButtonConfig: directions.down
     });
@@ -35,24 +37,43 @@ export class ItemTypeComponent implements OnInit {
   /**
    * Function Insert
    * @param e with e is params in DevExtreme
+   * all Field in ItemProperty
+   * with ItemPropertyName
    */
-  onRowInsertingItemTypeProperty(e) {
+  async onRowInsertingProperty(e) {
     console.log(e);
-    e.data.ItemTypeId = 1;
-    this.itemTypePropertyService.addItemTypeProperty(e.data).subscribe(res => {
-      const result = res as any;
-      if (result.Success) {
-        this.toastr.success('Insert success!', 'Success!');
+    e.data.ItemTypeId = this.itemTypeId;
+    let validateResult: any = await this.onValidateItemTypeProperty( e.data)
+    if (!validateResult.Success)
+      this.toastr.error('ItemTypePropertyName already exsited!', 'Error!');
+    else {
+      this.itemTypePropertyService.addItemTypeProperty(e.data).subscribe(res => {
+        const result = res as any;
+        if (result.Success) {
+          this.toastr.success('Insert success!', 'Success!');
+          this.dataGrid.instance.refresh();
+        } else {
+          Swal.fire('Error!', result.Message, 'error');
+        }
         this.dataGrid.instance.refresh();
-      } else {
-        Swal.fire('Error!', result.Message, 'error');
-      }
-      this.dataGrid.instance.refresh();
-    });
+      });
+    }
+    
   }
+  /**
+   * Validate ItemTypeName have to not exist
+   * @param e validate 2 params with ItemTypeName and ItemTypeCode
+   */
   async onValidateItemTypeName(e) {
     return await this.itemTypeService.validateItemType(e).toPromise();
   }
+  async onValidateItemTypeProperty(e) {
+    return await this.itemTypePropertyService.validateItemTypeProperty(e).toPromise();
+  }
+  /**
+   * Update ItemType
+   * @param e Update with ItemType parames
+   */
   async onRowUpdatingItemType(e) {
     // Modify entity olddata to newdata;
     const data = Object.assign(e.oldData, e.newData);
@@ -76,7 +97,12 @@ export class ItemTypeComponent implements OnInit {
     }
 
   }
-  onRowUpdatingItemTypeProperty(e) {
+  /**
+   * Update ItemTypeProperty
+   * @param e params for Property Detail DataGrid
+   * Only ItemTypePropetyName
+   */
+  onRowUpdatingProperty(e) {
     // Modify entity olddata to newdata;
     const data = Object.assign(e.oldData, e.newData);
     this.itemTypePropertyService.updateItemTypeProperty(data).subscribe(res => {
@@ -89,7 +115,11 @@ export class ItemTypeComponent implements OnInit {
       }
     });
   }
-  onRowRemovingItemTypeProperty(e) {
+  /**
+   * Remove ItemTypePropertyId
+   * @param e with ItemTypePropertyId
+   */
+  onRowRemovingProperty(e) {
     this.itemTypePropertyService.deleteItemTypeProperty(e.data.ItemTypeId).subscribe(res => {
       const result = res as any;
       if (result.Success) {
@@ -100,26 +130,25 @@ export class ItemTypeComponent implements OnInit {
       }
     });
   }
+  /**
+   * filter all itemTypeProperties with ItemTypeId in row selected
+   * @param e itemTypeId
+   */
+  filterByItemTypeId(e){
+    this.itemTypeId = e.data.ItemTypeId;
+     this.dataSourceProperties = 
+        this.itemTypePropertyService.getDataGridItemTypePropertyByItemTypeId(this.dataSourceProperties, "ItemTypePropertyId", this.itemTypeId);
+  }
 
-  editRow() {
-    this.dataGrid.instance.editRow(this.selectedRowIndex);
-    this.dataGrid.instance.deselectAll();
-    this.getDataSourceItemTypePropertyId();
-  }
-  getDataSourceItemTypePropertyId()
-  {
-    this.dataSourceItemProperty = this.itemTypePropertyService.getDataGridItemTypeProperty(this.dataSourceItemProperty, "ItemTypePropertyId")
-  }
   /**
    * Init Function
-   * @param e fd
+   * @param e some fields default value
    */
   onInitNewRow(e) {
     e.data.Status = 1;
     e.data.CreateBy = this.auth.currentUser.Username;
   }
-  selectedChanged(e) {
-    this.selectedRowIndex = e.component.getRowIndexByKey(e.selectedRowKeys[0]);
-  }
+
+
 
 }

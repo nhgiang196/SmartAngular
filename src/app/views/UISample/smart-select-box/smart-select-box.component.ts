@@ -14,29 +14,36 @@ export class SmartSelectBoxComponent implements OnInit {
   @Input('checkstatus')  checkStatus : boolean = false ;
 
   @Input()  selectData : number ; //binding  : D
-  @Output() selectDataChange: EventEmitter<any> = new EventEmitter<any>();
+  @Output() selectDataChange: EventEmitter<number> = new EventEmitter<number>();
+  searchExpr: any;
 
-
+<<<<<<< HEAD
   constructor() {
 
 
+=======
+  constructor() { 
+    
+>>>>>>> f8225ddba2e008f1f38c5188ed26351c713a1da3
   }
 
   ngOnInit() {
-    let serviceUrl = `${environment.apiUrl}/${this.entityKey}/UI_SelectBox`;
+    this.searchExpr = [this.entityKey + "Code", this.entityKey + "Name"]
+    let serviceUrl = `${environment.apiUrl}/${this.entityKey}/${this.entityKey}SelectBox`;
     this.dataSource =  new DataSource({
       store: createStore({
           key: this.entityKey + "Id",
           loadUrl: serviceUrl,
+          loadParams: {key: this.entityKey + "Id"}
       }) ,
       paginate: true,
       pageSize: 10,
       filter: this.checkStatus? ["Status", "=", 1] : [],
       map: (dataItem) => {
         dataItem.id =  dataItem[Object.keys(dataItem)[0]];
-        dataItem.text =  dataItem[Object.keys(dataItem)[1]];
+        dataItem.text =  (dataItem[this.entityKey+'Code']? dataItem[this.entityKey+'Code']+' - ': '' ) +  dataItem[Object.keys(dataItem)[1]];
         return dataItem;
-    }
+      }
 
     });
     this.dataSource.load();
@@ -44,7 +51,8 @@ export class SmartSelectBoxComponent implements OnInit {
   }
 
   onValueChanged(event){
-    this.selectDataChange.emit(this.selectData);
+    console.log('Got event',event)
+    this.selectDataChange.emit(event.value.id || event.value || 0);
   }
 
 

@@ -12,7 +12,7 @@ import swal from 'sweetalert2';
 })
 export class CustomerComponent implements  OnInit {
   iboxloading = false;
-  selectData = 185;
+  selectData = 2;
   constructor(
 
   ) { 
