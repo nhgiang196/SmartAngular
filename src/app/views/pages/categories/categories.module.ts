@@ -34,7 +34,6 @@ const COMPONENTS = [
   UnitComponent,
   WarehouseComponent,
   ItemActionComponent
-
 ];
 
 @NgModule({

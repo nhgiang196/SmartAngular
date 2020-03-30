@@ -32,7 +32,10 @@ export class ItemComponent implements OnInit {
   }
   async ngOnInit() {
     await this.getAllItemType();
-    this.itemTypeId = 0;
+    this.itemTypeId = this.route.snapshot.params.id || 0
+    if(this.itemTypeId!=0){
+      this.searchItemByItemType(this.itemTypeId);
+    }
   }
 
   onEditingStart(event){

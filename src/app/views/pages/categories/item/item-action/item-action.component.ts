@@ -11,9 +11,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 import swal from "sweetalert2";
 import { DxDataGridComponent } from 'devextreme-angular';
 import { MyHelperService } from 'src/app/core/services/my-helper.service';
-import { async } from 'rxjs/internal/scheduler/async';
+import { HttpEventType } from "@angular/common/http";
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
+import { SmartUploadComponent } from 'src/app/views/UISample/smart-upload/smart-upload.component';
+import { FileService } from 'src/app/core/services/file.service';
 
 @Component({
   selector: 'app-item-action',
@@ -30,11 +32,9 @@ export class ItemActionComponent implements OnInit {
   dataSourceUnit:any;
   minMode: BsDatepickerViewMode = "year";
   bsConfig: Partial<BsDatepickerConfig>;
-  //parten
-  numberPattern:'^\\d+$' ;
   //set rowEdit
   editRowId: number = 0;
-
+  pathFile = "uploadFileItems";
   uploadReportProgress: any = { progress: 0, message: null, isError: null };
   laddaSubmitLoading = false;
   files: File[] = [];
@@ -46,30 +46,28 @@ export class ItemActionComponent implements OnInit {
   addFiles: { FileList: File[]; FileLocalNameList: string[] };
 
   constructor(private itemService: ItemService, private route: ActivatedRoute,private auth: AuthService,public helper: MyHelperService,private toastr: ToastrService,
-    private trans: TranslateService,  private router: Router) { }
+    private trans: TranslateService,  private router: Router,private fileService:FileService) { }
 
   ngOnInit() {
-    this.bsConfig = Object.assign(
-      {},
-      {
-        minMode: this.minMode,
-        dateInputFormat: "YYYY",
-        adaptivePosition: true
-      }
-    );
     var item = this.route.snapshot.data["item"] as Item;
     if (item != null) {
       this.entity = item;
       this.loadItemPropertySelectBox(item.ItemTypeId);
+      this.customFile();
     }
+    this.addFiles = { FileList: [], FileLocalNameList: [] };
     this.loadFactorySelectBox();
     this.loadUnitSelectbox();
-
+    this.bsConfig = Object.assign({},{
+      minMode: this.minMode,
+      dateInputFormat: "YYYY",
+      adaptivePosition: true
+    }
+  );
   }
 
  async fnSave() {
     console.log(this.entity);
-
     this.laddaSubmitLoading = true;
     let e = this.entity;
     if(e.ItemManufactureYear!=0 && e.ItemManufactureYear!=null ){
@@ -98,8 +96,8 @@ export class ItemActionComponent implements OnInit {
               return;
             }
             this.laddaSubmitLoading = false;
-            //this.uploadFile(this.addFiles.FileList);
-            this.router.navigate(["/category/item/" + this.entity.ItemTypeId]);
+            this.uploadFile(this.addFiles.FileList);
+            this.router.navigate(["/pages/category/item/" + this.entity.ItemTypeId]);
           },
           err => {
             this.toastr.error(err.statusText);
@@ -122,8 +120,8 @@ export class ItemActionComponent implements OnInit {
             return;
           }
           this.laddaSubmitLoading = false;
-          //this.uploadFile(this.addFiles.FileList);
-          this.router.navigate(["/pages/category/item"]);
+          this.uploadFile(this.addFiles.FileList);
+          this.router.navigate(["/pages/category/item/" + this.entity.ItemTypeId]);
         },
         err => {
           this.toastr.error(err.statusText);
@@ -131,6 +129,11 @@ export class ItemActionComponent implements OnInit {
         }
       );
     }
+  }
+
+  onSwitchStatus() {
+    //modal switch on change
+    this.entity.Status = this.entity.Status == 0 ? 1 : 0;
   }
 
   private async fnValidate(e) {
@@ -305,6 +308,167 @@ export class ItemActionComponent implements OnInit {
     console.log(this.listImages);
     console.log(this.listFiles);
     this.entity.ModifyBy = this.auth.currentUser.Username;
+  }
+
+  ////////////////File ////////////
+  onRemove(event, isImage) {
+    const file = event as ItemFile;
+    //press x to delte file (in modal)
+    console.log(event);
+    if (isImage) {
+      let indexListImage = this.listImages.findIndex(
+        x => x.File.FileOriginalName == file.File.FileOriginalName
+      );
+      let indexListEntity = this.entity.ItemFile.findIndex(
+        x =>
+          x.IsImage == true &&
+          x.File.FileOriginalName == file.File.FileOriginalName
+      );
+      this.listImages.splice(indexListImage, 1); //UI del
+      this.entity.ItemFile.splice(indexListEntity, 1);
+    } else {
+      let indexListImage = this.listFiles.findIndex(
+        x => x.File.FileOriginalName == file.File.FileOriginalName
+      );
+      let indexListEntity = this.entity.ItemFile.findIndex(
+        x =>
+          x.IsImage == false &&
+          x.File.FileOriginalName == file.File.FileOriginalName
+      );
+      this.listFiles.splice(indexListImage, 1); //UI del
+      this.entity.ItemFile.splice(indexListEntity, 1);
+    }
+
+    // this.removeFile(event);
+  }
+  downloadFile(filename) {
+    this.fileService.downloadFile(this.pathFile + "/" + filename);
+  }
+
+   uploadFile(files: File[]) {
+    //upload file to server
+    let formData = new FormData();
+    for (let index = 0; index < files.length; index++) {
+      let _file = files[index];
+      formData.append("files", _file, this.addFiles.FileLocalNameList[index]);
+    }
+    this.fileService.uploadFile(formData, this.pathFile).subscribe(
+      event => {
+        if (event.type === HttpEventType.UploadProgress) {
+          this.uploadReportProgress.progress = Math.round(
+            (100 * event.loaded) / event.total
+          );
+        } else if (event.type === HttpEventType.Response) {
+          this.uploadReportProgress.message = "Upload success";
+          // this.onUploadFinished.emit(event.body);
+        }
+      },
+      err => {
+        this.toastr.warning(err.statusText, "Upload file bị lỗi");
+        this.uploadReportProgress = {
+          progress: 0,
+          message: "Error",
+          isError: true
+        };
+      }
+    );
+  }
+
+  isFileImage(file) {
+    return file && file["type"].split("/")[0] === "image";
+  }
+  async onSelect(event, isImage) {
+    //drag file(s) or choose file(s) in ngFileZone
+    var askBeforeUpload = false;
+    if (event.rejectedFiles.length > 0)
+      this.toastr.warning(this.trans.instant("messg.maximumFileSize5000"));
+    var _addFiles = event.addedFiles;
+    for (var index in _addFiles) {
+      let item = event.addedFiles[index];
+      let convertName = this.helper.getFileNameWithExtension(item);
+      let currentFile = this.entity.ItemFile;
+      console.log(this.listImages);
+      let findElement: ItemFile = null;
+      if (isImage)
+        findElement = this.listImages.find(
+          x => x.File.FileOriginalName == item.name
+        );
+      else {
+        findElement = this.listFiles.find(
+          x => x.File.FileOriginalName == item.name
+        );
+      }
+      //ASK THEN GET RESULT
+      if (findElement != null) {
+        if (!askBeforeUpload) {
+          askBeforeUpload = true;
+          var allowUpload = true;
+          await swal
+            .fire({
+              title: "File trùng",
+              titleText:
+                "Một số file bị trùng, bạn có muốn đè các file này lên bản gốc?",
+              type: "warning",
+              showCancelButton: true,
+              reverseButtons: true
+            })
+            .then(result => {
+              if (result.dismiss === swal.DismissReason.cancel)
+                allowUpload = false;
+            });
+        }
+        if (!allowUpload) return;
+
+        console.log(findElement);
+        //ghi đè file
+        if (isImage) {
+          let _indextFileEntity = this.entity.ItemFile.findIndex(
+            x =>
+              x.IsImage == true &&
+              x.File.FileOriginalName == findElement.File.FileOriginalName
+          );
+          let _indextFileList = this.entity.ItemFile.filter(
+            x => x.IsImage == true
+          ).findIndex(
+            x => x.File.FileOriginalName == findElement.File.FileOriginalName
+          );
+          //change file in entity
+          this.listImages.splice(_indextFileList, 1);
+          //  this.listImages =this.listImages.splice(1,1);
+          this.addFiles.FileList.splice(_indextFileEntity, 1);
+        } else {
+          let _indextFileEntity = this.entity.ItemFile.findIndex(
+            x =>
+              x.IsImage == false &&
+              x.File.FileOriginalName == findElement.File.FileOriginalName
+          );
+          let _indextFileList = this.entity.ItemFile.filter(
+            x => x.IsImage == false
+          ).findIndex(
+            x => x.File.FileOriginalName == findElement.File.FileOriginalName
+          );
+          //change file in entity
+          this.listFiles.splice(_indextFileList, 1);
+          //  this.listImages =this.listImages.splice(1,1);
+          this.addFiles.FileList.splice(_indextFileEntity, 1);
+        }
+      } else {
+        let _itemFile = new ItemFile();
+        _itemFile.File.FileOriginalName = item.name;
+        _itemFile.File.FileLocalName = convertName;
+        _itemFile.File.Path = this.pathFile + "/" + convertName;
+        _itemFile.File.FileType = item.type;
+        if (isImage) _itemFile.IsImage = true;
+        this.entity.ItemFile.push(_itemFile);
+        this.addFiles.FileLocalNameList.push(convertName);
+      }
+    }
+    if (isImage) {
+      this.listImages = this.entity.ItemFile.filter(x => x.IsImage == true);
+    } else {
+      this.listFiles = this.entity.ItemFile.filter(x => x.IsImage == false);
+    }
+    this.addFiles.FileList.push(...event.addedFiles);
   }
 
 

@@ -67,6 +67,10 @@ const routes: Routes = [{
               }
             ]
         },
+        {
+          path: 'item/:id',
+          component: ItemComponent
+        },
         { path: '', redirectTo: 'main', pathMatch: 'full' },
         { path: '**', redirectTo: 'main' },
     ]
