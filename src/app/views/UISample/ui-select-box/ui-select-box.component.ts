@@ -16,7 +16,7 @@ export class UISelectBoxComponent implements OnInit {
   @Input('checkstatus')  checkStatus : boolean = false ;
 
   @Output() ngModelCustomChange: EventEmitter<any> = new EventEmitter<any>();
-
+  @Output() valueChange: EventEmitter<any> = new EventEmitter<any>();
 
   constructor() {
   }
@@ -39,6 +39,7 @@ export class UISelectBoxComponent implements OnInit {
 
   onValueChanged(event){
     this.ngModelCustomChange.emit(event.value);
+    this.valueChange.emit(event.value);
   }
 
 

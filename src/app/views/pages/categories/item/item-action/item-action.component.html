@@ -166,7 +166,7 @@
                                         <label
                                              class="col-sm-2 control-label">{{'Item.data.ItemTypeId' | translate }} *:</label>
                                             <div class="col-sm-4">
-                                              <ui-select-box entitykey="ItemType" [pageSize]="5" [checkstatus]="true" [(ngModelCustom)]="entity.ItemTypeId"></ui-select-box>
+                                              <ui-select-box entitykey="ItemType" [pageSize]="5" [checkstatus]="true" [(ngModelCustom)]="entity.ItemTypeId" (valueChange)="itemTypeChange($event)"></ui-select-box>
                                             </div>
                                     </div>
                                     <div class="form-group">
@@ -198,11 +198,13 @@
                                       <div class="col-sm-8">
                                           <div class="row">
                                               <div class="form-group">
-                                                  <div class="col-sm-12">
+                                                  <div class="col-sm-12 pl-2">
+                                                    <!-- (onRowUpdating)="onRowUpdating($event)"
+                                                    (onCellPrepared)="onCellPrepared($event)" -->
                                                     <dx-data-grid
                                                     [dataSource]="entity.ItemFactory"
                                                     keyExpr="ItemFactoryId"
-                                                    (onRowUpdating)="onRowUpdating($event)"
+                                                    (onRowValidating)="onRowValidatingFactory($event)"
                                                     [remoteOperations]="true" height="auto"  showBorders="true">
 
                                                     <dxo-editing
@@ -213,7 +215,7 @@
                                                       >
                                                       <dxo-texts confirmDeleteMessage="Are you sure Delete?"></dxo-texts>
                                                     </dxo-editing>
-                                                    <dxi-column dataField="FactoryId" caption="Factory Name" >
+                                                    <dxi-column dataField="FactoryId" caption="{{'Item.datacolumn.FactoryId' | translate }} (*)" >
                                                       <dxo-lookup
                                                           [dataSource]="dataSourceFactory"
                                                           displayExpr="FactoryName"
@@ -221,7 +223,7 @@
                                                       </dxo-lookup>
                                                       <dxi-validation-rule type="required"></dxi-validation-rule>
                                                     </dxi-column>
-                                                    <dxi-column dataField="IntergrationCode">
+                                                    <dxi-column dataField="IntergrationCode" caption="{{'Item.datacolumn.IntergrationCode' | translate }}">
                                                     </dxi-column>
                                                 </dx-data-grid>
                                                   </div>
@@ -235,7 +237,53 @@
 
                           </div>
                       </div>
+                      <div id="tab-3" class="tab-pane">
+                        <div class="panel-body">
+                            <fieldset class="form-horizontal">
+                                <div class="form-group">
+                                    <div class="col-sm-8">
+                                        <div class="row">
+                                            <div class="form-group">
+                                                <div class="col-sm-12 pl-2">
+                                                  <!-- (onRowUpdating)="onRowUpdating($event)"
+                                                  (onCellPrepared)="onCellPrepared($event)" -->
+                                                  <dx-data-grid
+                                                  [dataSource]="entity.ItemProperty"
+                                                  keyExpr="ItemPropertyId"
+                                                  (onRowValidating)="onRowValidatingFactory($event)"
+                                                  [remoteOperations]="true" height="auto"  showBorders="true">
 
+                                                  <dxo-editing
+                                                    [allowAdding]="true"
+                                                    [allowUpdating]="true"
+                                                    [allowDeleting]="true"
+                                                    [useIcons] ="true"
+                                                    >
+                                                    <dxo-texts confirmDeleteMessage="Are you sure Delete?"></dxo-texts>
+                                                  </dxo-editing>
+                                                  <dxi-column dataField="ItemTypePropertyId" caption="{{'Item.datacolumn.ItemTypePropertyId' | translate }} (*)" >
+                                                    <dxo-lookup
+                                                        [dataSource]="dataSourceItemTypeProperty"
+                                                        displayExpr="ItemTypePropertyName"
+                                                        valueExpr="ItemTypePropertyId">
+                                                    </dxo-lookup>
+                                                    <dxi-validation-rule type="required"></dxi-validation-rule>
+                                                  </dxi-column>
+                                                  <dxi-column dataField="ItemTypePropertyValue" caption="{{'Item.datacolumn.ItemTypePropertyValue' | translate }} (*)">
+                                                    <dxi-validation-rule type="required"></dxi-validation-rule>
+                                                  </dxi-column>
+                                              </dx-data-grid>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                            </fieldset>
+
+                        </div>
+                    </div>
 
 
 
