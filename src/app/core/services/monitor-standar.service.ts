@@ -37,10 +37,10 @@ export class MonitorStandarService {
     return this.http.post<any>(`${ApiUrl}/MonitorStandard/DataTableMonitorStandardPagination`,entity);
   };
 
-  getDataGridUnit(dataSource, key) {
+  getDataGridMonitorStandard(dataSource, key) {
     dataSource = AspNetData.createStore({
       key: key,
-      loadUrl: `${ApiUrl}/Unit/DataGridUnitPagination`,
+      loadUrl: `${ApiUrl}/MonitorStandard/DataGridMonitorStandardPagination`,
       insertUrl: NULL_ROUTES,
       updateUrl: NULL_ROUTES,
       deleteUrl: NULL_ROUTES,

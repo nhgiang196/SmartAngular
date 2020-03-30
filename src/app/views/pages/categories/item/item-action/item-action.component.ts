@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ViewChild, OnInit } from '@angular/core';
 import { BsDatepickerViewMode } from 'ngx-bootstrap/datepicker/models';
 import { BsDatepickerConfig } from 'ngx-bootstrap';
 import { Item, ItemFactory, ItemProperty, ItemPackage, ItemFile, ItemType } from 'src/app/core/models/item';
@@ -8,6 +8,7 @@ import DataSource from 'devextreme/data/data_source';
 import { createStore } from 'devextreme-aspnet-data-nojquery';
 import { environment } from 'src/environments/environment';
 import { ActivatedRoute } from '@angular/router';
+import { DxDataGridComponent } from 'devextreme-angular';
 import swal from "sweetalert2";
 
 @Component({
@@ -16,6 +17,7 @@ import swal from "sweetalert2";
   styleUrls: ['./item-action.component.css']
 })
 export class ItemActionComponent implements OnInit {
+  @ViewChild(DxDataGridComponent, { static: false }) dataGrid: DxDataGridComponent;
   entity: Item = new Item();
   dataSourceItemFactory:any;
   dataSourceFactory:any;
@@ -43,6 +45,7 @@ export class ItemActionComponent implements OnInit {
     if(this.entity.ItemFactory.find(x=>x.FactoryId == event.newData.FactoryId)){
       swal.fire("Validate", "Dữ liệu đã bị trùng", "warning");
       this.dataSourceFactory.load();
+      
       return false;
     }
   }

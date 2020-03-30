@@ -20,6 +20,9 @@ export class ItemTypeComponent implements OnInit {
   dataSourceItemTypes: any;
   itemTypeId : number =0;
   dataSourceProperties: any;
+  entity: any
+  detailDelete: any;
+
   selectedRowIndex = -1;
   
   constructor(
@@ -86,6 +89,7 @@ export class ItemTypeComponent implements OnInit {
       this.toastr.error('ItemTypeName already exsited!', 'Error!');
     else {
       this.itemTypeService.updateItemType(data).subscribe(res => {
+
         const result = res as any;
         if (result.Success) {
           this.toastr.success('Update success!', 'Success!');
@@ -105,15 +109,19 @@ export class ItemTypeComponent implements OnInit {
   onRowUpdatingProperty(e) {
     // Modify entity olddata to newdata;
     const data = Object.assign(e.oldData, e.newData);
-    this.itemTypePropertyService.updateItemTypeProperty(data).subscribe(res => {
-      const result = res as any;
-      if (result.Success) {
-        this.toastr.success('Update success!', 'Success!');
-        this.dataGrid.instance.refresh();
-      } else {
-        Swal.fire('Error!', result.Message, 'error');
-      }
-    });
+    this.entity.itemTypeProperties.push(data);
+    console.log(this.entity);
+    // this.detailEntity.push (data);
+    // console.log(this.detailEntity);
+    // this.itemTypePropertyService.updateItemTypeProperty(data).subscribe(res => {
+    //   const result = res as any;
+    //   if (result.Success) {
+    //     this.toastr.success('Update success!', 'Success!');
+    //     this.dataGrid.instance.refresh();
+    //   } else {
+    //     Swal.fire('Error!', result.Message, 'error');
+    //   }
+    // });
   }
   /**
    * Remove ItemTypePropertyId
@@ -135,9 +143,12 @@ export class ItemTypeComponent implements OnInit {
    * @param e itemTypeId
    */
   filterByItemTypeId(e){
+    
     this.itemTypeId = e.data.ItemTypeId;
-     this.dataSourceProperties = 
+    this.dataSourceProperties = 
         this.itemTypePropertyService.getDataGridItemTypePropertyByItemTypeId(this.dataSourceProperties, "ItemTypePropertyId", this.itemTypeId);
+    this.entity = e.data;
+        console.log( this.entity);  
   }
 
   /**
