@@ -21,7 +21,7 @@ export class ItemTypePropertyService {
   findItemTypePropertyById = (id) => this.http.get(`${ApiUrl}/ItemTypeProperty/FindItemTypePropertyById?id=${id}`);
   getItemTypePropertyPaginationByCode = (entity, code) => this.http.post<any>(`${ApiUrl}/ItemTypeProperty/GetItemTypePropertyPaginationByCode/${code}`, entity, {});
   validateItemTypeProperty = (entity) => this.http.post(`${ApiUrl}/ItemTypeProperty/ValidateItemTypeProperty`, entity);
-
+  
   getDataGridItemTypeProperty(dataSource, key) {
     dataSource = AspNetData.createStore({
       key: key,
@@ -31,6 +31,21 @@ export class ItemTypePropertyService {
       deleteUrl: NULL_ROUTES,
       onBeforeSend: (method, ajaxOptions) => {
         ajaxOptions.data.key = key;
+        ajaxOptions.xhrFields = { withCredentials: true };
+      }
+    });
+    return dataSource;
+  }
+  getDataGridItemTypePropertyByItemTypeId(dataSource, key, itemTypeId) {
+    dataSource = AspNetData.createStore({
+      key: key,
+      loadUrl: `${ApiUrl}/ItemTypeProperty/GetItemTypePropertyDataGridPaginationByItemTypeId`,
+      insertUrl: NULL_ROUTES,
+      updateUrl: NULL_ROUTES,
+      deleteUrl: NULL_ROUTES,
+      onBeforeSend: (method, ajaxOptions) => {
+        ajaxOptions.data.key = key;
+        ajaxOptions.data.itemTypeId = itemTypeId,
         ajaxOptions.xhrFields = { withCredentials: true };
       }
     });
