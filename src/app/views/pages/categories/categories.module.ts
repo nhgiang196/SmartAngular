@@ -19,6 +19,7 @@ import { CustomerListComponent } from './customers/customer-list/customer-list.c
 import { CustomerDetailComponent } from './customers/customer-detail/customer-detail.component';
 import { ContractComponent } from './customers/contract/contract.component';
 import { ItemActionComponent } from './item/item-action/item-action.component';
+import { ModalModule } from 'ngx-bootstrap';
 
 
 const COMPONENTS = [
@@ -46,7 +47,8 @@ const COMPONENTS = [
     FormsModule,
     DxSpeedDialActionModule,
     DxSwitchModule,
-    DxSelectBoxModule
+    DxSelectBoxModule,
+    ModalModule.forRoot()
   ],
   declarations: [...COMPONENTS],
   exports: [...COMPONENTS],

@@ -3,21 +3,21 @@ import { Files } from './file'
 
 export class Customer {
     CustomerId: number = 0
+    FactoryId: number = 0
     CustomerCode: string
-      CustomerName?: string
-      CustomerType?: number = 0
-      FactoryId?: number
-      CustomerAddress?: string
-      CustomerContact?: string
-      CustomerContactEmail?: string
-      CustomerContactPhone?: string
-      CustomerDescription?: string
-      CreateBy?: string
-      CreateDate?: Date
-      ModifyBy?: string
-      ModifyDate?: Date
-      Status?: number = 1
-      IsIntergration?: boolean = false
+    CustomerName: string
+    CustomerType: number = 1
+    CustomerAddress?: string
+    CustomerContact?: string
+    CustomerContactEmail?: string
+    CustomerContactPhone?: string
+    CustomerDescription?: string
+    CreateBy?: string
+    CreateDate?: Date
+    ModifyBy?: string
+    ModifyDate?: Date
+    Status: number = 1
+    IsIntergration: boolean = true
     Contract : Contract[] = []
     CustomerFile: CustomerFile[] = []
   }

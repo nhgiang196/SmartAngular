@@ -24,6 +24,7 @@ import { Contract, ContractPrice, ContractBreach } from 'src/app/core/models/con
 })
 export class ContractComponent implements OnInit, AfterViewInit {
   @ViewChild('contractFile', {static: true}) uploadComponent: SmartUploadComponent;
+  
   @Input('contractid') contractId: number;
   @Output('contract') send_entity = new EventEmitter<Contract>();
   constructor(
@@ -51,9 +52,7 @@ export class ContractComponent implements OnInit, AfterViewInit {
   iboxloading = false;
   ngOnInit() {
   }
-  ngOnDestroy() {
-    $('.modal').modal('hide');
-  }
+  
    async resetEntity() { //reset entity values
     
     this.entity = new Contract();
@@ -83,26 +82,7 @@ export class ContractComponent implements OnInit, AfterViewInit {
     
   }
 
-  // ngOnChanges(changes: SimpleChanges) {
-  //   console.log('changes', changes);
-  //   this.resetEntity();
-  //   if (changes.contractId.firstChange || changes.contractId.currentValue == null || changes.contractId.currentValue == 0) return;
-  //   else {
-  //     this.loadContractDetail(changes.contractId.currentValue);
-  //   }
-  // }
-  private loadContractDetail(id) {
-    this.uploadComponent.resetEntity();
-    this.api.findContractById(id).subscribe(res => {
-      console.log('findContractById', res);
-      this.entity = res;
-      
-      this.uploadComponent.loadInit(res.ContractFile);
-    })
-  }
-  ngAfterViewInit() {
-    collapseIboxHelper();
-  }
+
   /**Button Functions */
   async fnSave() {
     this.invalid = {};
@@ -182,6 +162,7 @@ export class ContractComponent implements OnInit, AfterViewInit {
   fnSaveContractBreach() {
     
   }
+
   async validatePrice(itemAdd) {
     let _validateRatio = await this.entity.ContractPrice.find(t =>t.Ratio  == itemAdd.Ratio )
     // && t.WarehouseLocationId!=itemAdd.WarehouseLocationId && itemAdd.WarehouseLocationId!=0
@@ -215,8 +196,6 @@ export class ContractComponent implements OnInit, AfterViewInit {
     if (_value>100) this.entity.Ratio = 100
     else if (_value<1) this.entity.Ratio = 1
     else this.entity.Ratio = _value || 1;
-
-
   }
 
   breachTimesOnChange(event){
@@ -228,5 +207,14 @@ export class ContractComponent implements OnInit, AfterViewInit {
   disabled_ContractPrice(){
     return !this.newEntity_ContractPrice.Currency || this.newEntity_ContractPrice.Ratio<=0 || this.newEntity_ContractPrice.Price<=0 || this.newEntity_ContractPrice.Tax<0;
   }
+
+  ngOnDestroy() {
+    $('.modal').modal('hide');
+  }
+  ngAfterViewInit() {
+    collapseIboxHelper();
+  }
+  
+
 
 }
