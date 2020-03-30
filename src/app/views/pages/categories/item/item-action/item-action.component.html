@@ -203,7 +203,6 @@
                                                     (onCellPrepared)="onCellPrepared($event)" -->
                                                     <dx-data-grid
                                                     [dataSource]="entity.ItemFactory"
-                                                    keyExpr="ItemFactoryId"
                                                     (onRowValidating)="onRowValidatingFactory($event)"
                                                     [remoteOperations]="true" height="auto"  showBorders="true">
 
@@ -249,7 +248,6 @@
                                                   (onCellPrepared)="onCellPrepared($event)" -->
                                                   <dx-data-grid
                                                   [dataSource]="entity.ItemProperty"
-                                                  keyExpr="ItemPropertyId"
                                                   (onRowValidating)="onRowValidatingItemProperty($event)"
                                                   [remoteOperations]="true" height="auto"  showBorders="true">
 
@@ -290,7 +288,6 @@
                               <div class="col-sm-12">
                                 <dx-data-grid
                                 [dataSource]="entity.ItemPackage"
-                                keyExpr="ItemPackageId"
                                 (onRowValidating)="onRowValidatingUnit($event)"
                                 [remoteOperations]="true" height="auto"  showBorders="true">
 
@@ -328,8 +325,11 @@
 
                       </div>
                   </div>
-
-
+                  <div id="tab-5" class="tab-pane">
+                    <div class="panel-body">
+                      <app-smart-upload [filePath]="pathFile" (entityFile)="this.entity.ItemFile = $event" ></app-smart-upload>
+                    </div>
+                </div>
 
                     </div>
 
