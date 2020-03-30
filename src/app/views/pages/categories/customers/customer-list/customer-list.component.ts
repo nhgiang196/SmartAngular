@@ -40,7 +40,7 @@ export class CustomerListComponent  implements  OnInit {
   ngOnInit() {
   }
   
-  fnDelete(id){
+  fnDelete(rowValue){
     swal.fire({
       titleText: this.trans.instant('Customer.mssg.DeleteAsk_Text'),
       confirmButtonText: this.trans.instant('Button.OK'),
@@ -50,7 +50,7 @@ export class CustomerListComponent  implements  OnInit {
       reverseButtons: true
     }).then((result) => {
       if (result.value) {
-        this.api.deleteCustomer(id).subscribe(res => {
+        this.api.deleteCustomer(rowValue.CustomerId).subscribe(res => {
           var operationResult: any = res
           if (operationResult.Success) {
             swal.fire(
@@ -63,11 +63,17 @@ export class CustomerListComponent  implements  OnInit {
               }
             );
             // this.tableRender();
+            this.dataSource.reload();
           }
           else this.toastr.warning(operationResult.Message);
         }, err => { this.toastr.error(err.statusText) })
       }
     })
+
+  }
+
+  routerToDetail(rowValue){
+    this.router.navigateByUrl('pages/category/customer/'+rowValue.CustomerId);
 
   }
 

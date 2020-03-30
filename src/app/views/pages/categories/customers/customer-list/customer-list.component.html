@@ -11,14 +11,6 @@
             <div class="sk-rect 5"></div>
           </div>
           <div class="row">
-            <div class="col-sm-4">
-              <!-- hidden this button -->
-              <button type="button" class="btn btn-primary dim" [routerLink]="['../newcustomer']">
-                <i class="fa fa-plus"></i>{{'Button.Add' | translate}}
-              </button>
-            </div>
-          </div>
-          <div class="row">
 
 
 
@@ -27,14 +19,16 @@
             <div class="table-responsive">
 
 
-              <dx-data-grid [dataSource]="dataSource" [remoteOperations]="true" height="500" showBorders="true">
+              <dx-data-grid #grid [dataSource]="dataSource" [remoteOperations]="true" height="500" showBorders="true"
+                [selectedRowKeys]="[]">
 
-              <dxo-selection mode="single"></dxo-selection>
-              <dxo-filter-row [visible]="true"></dxo-filter-row>
-              <dxo-header-filter [visible]="true"></dxo-header-filter>
-              <!-- <dxo-group-panel [visible]="true"></dxo-group-panel> -->
+                <dxo-selection mode="single"></dxo-selection>
+                <dxo-filter-row [visible]="true"></dxo-filter-row>
+                <dxo-header-filter [visible]="true"></dxo-header-filter>
+                <dxo-state-storing [enabled]="true" type="localStorage" storageKey="storage"></dxo-state-storing>
+                <!-- <dxo-group-panel [visible]="true"></dxo-group-panel> -->
 
-              <!-- <dxo-editing mode="popup">
+                <!-- <dxo-editing mode="popup">
                 <dxo-popup title="Unit Info" [showTitle]="true" [width]="600" [height]="230"
                   [position]="{ my: 'top', at: 'top', of: 'window' }">
                 </dxo-popup>
@@ -45,32 +39,41 @@
                 </dxo-form>
               </dxo-editing> -->
 
-              <dxi-column dataField="CustomerCode" caption="{{ 'Customer.data.CustomerCode' | translate}}"></dxi-column>
-              <dxi-column dataField="CustomerName" caption="{{ 'Customer.data.CustomerName' | translate}}" ></dxi-column>
-              <dxi-column dataField="FactoryFactoryName" caption="{{ 'Customer.data.FactoryId' | translate}}" ></dxi-column>
-              <dxi-column dataField="CustomerType" caption="{{ 'Customer.data.CustomerType' | translate}}" ></dxi-column>
-              <dxi-column dataField="CustomerContact" caption="{{ 'Customer.data.ContactName' | translate}}"></dxi-column>
-              <dxi-column dataField="CustomerContactPhone" caption="{{ 'Customer.data.ContactPhone' | translate}}"></dxi-column>
-              <dxi-column dataField="CustomerContactEmail" caption="{{ 'Customer.data.ContactEmail' | translate}}"></dxi-column>
-              <dxi-column dataField="CreateDate" dataType="date" caption="{{ 'Customer.data.CreateDate' | translate}}"></dxi-column>
-              <dxi-column dataField="CreateBy" caption="{{ 'Customer.data.CreateBy' | translate}}"></dxi-column>
-              <dxi-column dataField="ModifyDate" dataType="date" caption="{{ 'Customer.data.ModifyDate' | translate}}"></dxi-column>
-              <dxi-column dataField="ModifyBy" caption="{{ 'Customer.data.ModifyBy' | translate}}"></dxi-column>
-              <dxi-column dataField="Status" #status dataType="boolean"  caption="{{ 'Customer.data.Status' | translate}}" ></dxi-column>
-              <dxi-column dataField="IsIntergration" #status dataType="boolean"  caption="{{ 'Customer.data.IsIntergration' | translate}}" ></dxi-column>
+                <dxi-column dataField="CustomerCode" caption="{{ 'Customer.data.CustomerCode' | translate}}">
+                </dxi-column>
+                <dxi-column dataField="CustomerName" caption="{{ 'Customer.data.CustomerName' | translate}}">
+                </dxi-column>
+                <dxi-column dataField="FactoryFactoryName" caption="{{ 'Customer.data.FactoryId' | translate}}">
+                </dxi-column>
+                <dxi-column width="120px" dataField="CustomerType"
+                  caption="{{ 'Customer.data.CustomerType' | translate}}"></dxi-column>
+                <dxi-column dataField="CustomerContact" caption="{{ 'Customer.data.ContactName' | translate}}">
+                </dxi-column>
+                <dxi-column dataField="CustomerContactPhone" caption="{{ 'Customer.data.ContactPhone' | translate}}">
+                </dxi-column>
+                <dxi-column dataField="CustomerContactEmail" caption="{{ 'Customer.data.ContactEmail' | translate}}">
+                </dxi-column>
+                <dxi-column dataField="CreateDate" dataType="date"
+                  caption="{{ 'Customer.data.CreateDate' | translate}}"></dxi-column>
+                <dxi-column dataField="CreateBy" caption="{{ 'Customer.data.CreateBy' | translate}}"></dxi-column>
+                <dxi-column dataField="ModifyDate" dataType="date"
+                  caption="{{ 'Customer.data.ModifyDate' | translate}}"></dxi-column>
+                <dxi-column dataField="ModifyBy" caption="{{ 'Customer.data.ModifyBy' | translate}}"></dxi-column>
+                <dxi-column dataField="Status" #status dataType="boolean"
+                  caption="{{ 'Customer.data.Status' | translate}}"></dxi-column>
+                <dxi-column dataField="IsIntergration" #status dataType="boolean"
+                  caption="{{ 'Customer.data.IsIntergration' | translate}}"></dxi-column>
 
-              <dxo-paging [pageSize]="25"></dxo-paging>
-              <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[25, 50, 100]"></dxo-pager>
-            </dx-data-grid>
-            <!-- <dx-speed-dial-action icon="add" label="Add row" [index]="1" (onClick)="addRow()">
-            </dx-speed-dial-action>
-            <dx-speed-dial-action icon="trash" label="Delete row" [index]="2" [visible]="selectedRowIndex !== -1"
-                (onClick)="deleteRow()">
-            </dx-speed-dial-action>
-            <dx-speed-dial-action icon="edit" label="Edit row" [index]="3" [visible]="selectedRowIndex !== -1"
-                (onClick)="editRow()">
-            </dx-speed-dial-action>
-            </div> -->
+                <dxo-paging [pageSize]="25"></dxo-paging>
+                <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[25, 50, 100]"></dxo-pager>
+              </dx-data-grid>
+
+              <dx-speed-dial-action icon="add" label="{{'Button.Add' | translate}}" [index]="1" visible="true" (onClick)="router.navigateByUrl('pages/category/newcustomer')">
+              </dx-speed-dial-action>
+              <dx-speed-dial-action icon="trash" label="{{'Button.Delete' | translate}}" [index]="2" [visible]="grid.selectedRowKeys.length" (onClick)="fnDelete(grid.selectedRowKeys[0])">
+              </dx-speed-dial-action>
+              <dx-speed-dial-action icon="edit" label="{{'Button.Edit' | translate}}" [index]="3" [visible]="grid.selectedRowKeys.length" (onClick)="routerToDetail(grid.selectedRowKeys[0])">
+              </dx-speed-dial-action>
 
 
               <!-- <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger"
