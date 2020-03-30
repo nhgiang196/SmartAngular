@@ -17,14 +17,8 @@ export class SmartSelectBoxComponent implements OnInit {
   @Output() selectDataChange: EventEmitter<number> = new EventEmitter<number>();
   searchExpr: any;
 
-<<<<<<< HEAD
   constructor() {
 
-
-=======
-  constructor() { 
-    
->>>>>>> f8225ddba2e008f1f38c5188ed26351c713a1da3
   }
 
   ngOnInit() {
