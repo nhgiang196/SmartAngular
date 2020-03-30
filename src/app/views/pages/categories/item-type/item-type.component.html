@@ -32,7 +32,7 @@
                 (onRowUpdating)="onRowUpdatingProperty($event)" (onRowRemoving)="onRowRemovingProperty($event)"
                 [dataSource]="dataSourceProperties" [showBorders]="true" [focusedRowEnabled]="true"
                 [remoteOperations]="true" height="500" showBorders="true">
-                <dxo-editing mode="row" [allowAdding]="true" [allowUpdating]="true" [allowDeleting]="true">
+                <dxo-editing mode="cell" [allowAdding]="true" [allowUpdating]="true" [allowDeleting]="true">
                   <dxo-texts confirmDeleteMessage="Are you sure Delete?"></dxo-texts>
                 </dxo-editing>
                 <dxo-filter-row [visible]="true"></dxo-filter-row>
