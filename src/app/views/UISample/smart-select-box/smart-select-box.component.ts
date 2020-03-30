@@ -23,7 +23,7 @@ export class SmartSelectBoxComponent implements OnInit {
 
   ngOnInit() {
     this.searchExpr = [this.entityKey + "Name"]
-    let serviceUrl = `${environment.apiUrl}/${this.entityKey}/${this.entityKey}SelectBox`;
+    let serviceUrl = `${environment.apiUrl}/${this.entityKey}/UI_SelectBox`;
     this.dataSource =  new DataSource({
       store: createStore({
           key: this.entityKey + "Id",
