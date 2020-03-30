@@ -4,7 +4,9 @@ import { HttpClient } from '@angular/common/http';
 import { MonitorStandard } from '../models/monitor';
 import { DataTablePaginationParams } from '../models/datatable';
 import { environment } from 'src/environments/environment';
-const ApiUrl = environment.apiUrl;;
+import * as AspNetData from "devextreme-aspnet-data-nojquery";
+const ApiUrl = environment.apiUrl;
+const NULL_ROUTES = `${environment.apiUrl}/DevExtreme/NullRoutes`;
 @Injectable({providedIn: 'root'})
 export class MonitorStandarService {
   constructor(private http: HttpClient) {
@@ -34,4 +36,20 @@ export class MonitorStandarService {
   getDataTableMonitorStandardPagination =(entity) => {
     return this.http.post<any>(`${ApiUrl}/MonitorStandard/DataTableMonitorStandardPagination`,entity);
   };
+
+  getDataGridUnit(dataSource, key) {
+    dataSource = AspNetData.createStore({
+      key: key,
+      loadUrl: `${ApiUrl}/Unit/DataGridUnitPagination`,
+      insertUrl: NULL_ROUTES,
+      updateUrl: NULL_ROUTES,
+      deleteUrl: NULL_ROUTES,
+      onBeforeSend: (method, ajaxOptions) => {
+        ajaxOptions.data.key = key;
+        ajaxOptions.xhrFields = { withCredentials: true };
+      }
+    });
+    return dataSource;
+  }
+
 }
