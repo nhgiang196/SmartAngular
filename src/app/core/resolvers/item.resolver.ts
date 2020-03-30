@@ -15,15 +15,15 @@ export class ItemResolver implements Resolve<Item> {
     resolve(router: ActivatedRouteSnapshot): Observable<Item> {
         return  this.api.findItemById(router.params['id']).pipe(
             map(item=>{
-                item.ItemFactory.forEach(e => {
-                    e.FactoryName = e.Factory.FactoryName
-                });
-                item.ItemPackage.forEach(e => {
-                    e.UnitName = e.ItemPackageUnit.UnitName
-                });
-                item.ItemProperty.forEach(e => {
-                    e.ItemTypePropertyName = e.ItemTypeProperty.ItemTypePropertyName
-                });
+                // item.ItemFactory.forEach(e => {
+                //     e.FactoryName = e.Factory.FactoryName
+                // });
+                // item.ItemPackage.forEach(e => {
+                //     e.UnitName = e.ItemPackageUnit.UnitName
+                // });
+                // item.ItemProperty.forEach(e => {
+                //     e.ItemTypePropertyName = e.ItemTypeProperty.ItemTypePropertyName
+                // });
                 return item;
             }),
             catchError(error => {

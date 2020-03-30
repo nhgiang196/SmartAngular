@@ -1,3 +1,267 @@
-<p>
-  item-action works!
-</p>
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-lg-10">
+      <h2>{{ 'Item.Breadcrumb' | translate }}</h2>
+      <ol class="breadcrumb">
+          <li>
+              <a href="index.html">{{ 'TopNav.Category' | translate }}</a>
+          </li>
+          <li class="active">
+              <a [routerLink]="['/pages/category/item']">{{ 'Item.Breadcrumb' | translate }}</a>
+          </li>
+          <li class="active">
+              <strong>{{ 'Item.Information' | translate }}</strong>
+          </li>
+      </ol>
+  </div>
+</div>
+
+<div class="wrapper wrapper-content animated fadeInRight ecommerce">
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="tabs-container">
+                <ul class="nav nav-tabs">
+                    <li class="active" [class.disabledTab] ="editRowId!=0"><a data-toggle="tab" href="#tab-1"><i class="fa fa-info-circle"></i>
+                            {{'Item.label.Information' | translate }}</a></li>
+                    <li [class.disabledTab] ="editRowId!=0"><a data-toggle="tab" href="#tab-2" (click)="editRowId = 0;" class=""><i
+                                class="fa fa-industry"></i> {{'Item.label.Factory' | translate }}</a></li>
+                    <li [class.disabledTab] ="editRowId!=0"><a data-toggle="tab" href="#tab-3" (click)="editRowId = 0;"><i
+                                class="fa fa-list-ul" ></i> {{'Item.label.Property' | translate }}</a></li>
+                    <li [class.disabledTab] ="editRowId!=0"><a data-toggle="tab" href="#tab-4" (click)="editRowId = 0;"><i
+                                class="fa fa-cube" ></i>{{'Item.label.Package' | translate }}</a></li>
+                    <li [class.disabledTab] ="editRowId!=0"><a data-toggle="tab"  href="#tab-5" (click)="editRowId = 0;"><i class="fa fa-file"></i>
+                            {{ 'Upload.' | translate }}</a></li>
+                    <li [class.disabledTab] ="editRowId!=0"><a data-toggle="tab" href="#tab-6" (click)="editRowId = 0;"><i class="fa fa-file"></i>
+                            {{ 'Upload.Image' | translate }}</a></li>
+                </ul>
+
+
+                    <div class="tab-content">
+
+                        <div id="tab-1" class="tab-pane active">
+                            <form role="form" #myForm="ngForm">
+                            <div class="panel-body">
+                                <fieldset class="form-horizontal">
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">{{'Item.data.ItemNo' | translate }}
+                                            *:</label>
+                                        <div class="col-sm-4">
+                                            <input autocomplete="off" type="text" [(ngModel)]="entity.ItemCode"
+                                                class="form-control"
+                                                placeholder="{{'Item.placeholder.ItemNo' | translate }}" name="ItemNo"
+                                                required>
+                                        </div>
+                                        <label class="col-sm-2 control-label">{{'Item.data.ItemName' | translate }}
+                                            *:</label>
+                                        <div class="col-sm-4">
+                                            <input autocomplete="off" type="text" [(ngModel)]="entity.ItemName"
+                                                class="form-control"
+                                                placeholder="{{'Item.placeholder.ItemName' | translate }}"
+                                                name="ItemName" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">{{'Item.data.ItemUnitId' | translate }}
+                                            *:</label>
+                                        <div class="col-sm-4">
+                                             <ui-select-box entitykey="Unit" [pageSize]="5" [checkstatus]="true" [(ngModelCustom)]="entity.ItemUnitId"></ui-select-box>
+                                        </div>
+                                        <label class="col-sm-2 control-label">{{'Item.data.ItemPrintName' | translate }}
+                                            *:</label>
+                                        <div class="col-sm-4">
+                                            <input autocomplete="off" type="text" [(ngModel)]="entity.ItemPrintName"
+                                                class="form-control"
+                                                placeholder="{{'Item.placeholder.ItemPrintName' | translate }}"
+                                                name="printName" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label
+                                            class="col-sm-2 control-label">{{'Item.data.ItemManufactureCountry' | translate }}:</label>
+                                        <div class="col-sm-4">
+                                            <input autocomplete="off" type="text"
+                                                [(ngModel)]="entity.ItemManufactureCountry" class="form-control"
+                                                placeholder="{{'Item.placeholder.ItemManufactureCountry' | translate }}"
+                                                name="manufactureCountry">
+                                        </div>
+                                        <label
+                                            class="col-sm-2 control-label">{{'Item.data.ItemManufactureYear' | translate }}:</label>
+                                        <div class="col-sm-4">
+                                            <input type="text" [(ngModel)]="entity.ItemManufactureYear" bsDatepicker  readonly
+                                            [bsConfig]="bsConfig"
+                                                class="form-control" placeholder="{{'Item.placeholder.ItemManufactureYear' | translate }}" name="ItemManufactureYear">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label
+                                            class="col-sm-2 control-label">{{'Item.data.ItemModel' | translate }}:</label>
+                                        <div class="col-sm-4">
+                                            <input autocomplete="off" type="text" [(ngModel)]="entity.ItemModel"
+                                                class="form-control"
+                                                placeholder="{{'Item.placeholder.ItemModel' | translate }}"
+                                                name="model">
+                                        </div>
+                                        <label
+                                            class="col-sm-2 control-label">{{'Item.data.ItemSerial' | translate }}:</label>
+                                        <div class="col-sm-4">
+                                            <input autocomplete="off" type="text" [(ngModel)]="entity.ItemSerial"
+                                                class="form-control"
+                                                placeholder="{{'Item.placeholder.ItemSerial' | translate }}"
+                                                name="serial">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label
+                                            class="col-sm-2 control-label">{{'Item.data.ItemLength' | translate }}:</label>
+                                        <div class="col-sm-4">
+                                            <input autocomplete="off" type="number" [(ngModel)]="entity.ItemLength"
+                                                class="form-control"
+                                                placeholder="{{'Item.placeholder.ItemLength' | translate }}"
+                                                min="0"
+                                                (change)="($event.target.value<0 ||$event.target.value=='' ) ?entity.ItemLength =0:entity.ItemLength"
+                                                name="length">
+                                        </div>
+                                        <label
+                                            class="col-sm-2 control-label">{{'Item.data.ItemWidth' | translate }}:</label>
+                                        <div class="col-sm-4">
+                                            <input autocomplete="off" type="number" [(ngModel)]="entity.ItemWidth"
+                                                class="form-control"
+                                                placeholder="{{'Item.placeholder.ItemWidth' | translate }}"
+                                                min="0"
+                                                (change)="($event.target.value<0 ||$event.target.value=='' ) ?entity.ItemWidth =0:entity.ItemWidth"
+                                                name="width">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label
+                                            class="col-sm-2 control-label">{{'Item.data.ItemHeight' | translate }}:</label>
+                                        <div class="col-sm-4">
+                                            <input autocomplete="off" type="number" [(ngModel)]="entity.ItemHeight"
+                                                class="form-control"
+                                                placeholder="{{'Item.placeholder.ItemHeight' | translate }}"
+                                                min="0"
+                                                (change)="($event.target.value<0 ||$event.target.value=='' ) ?entity.ItemHeight =0:entity.ItemHeight"
+                                                name="height">
+                                        </div>
+                                        <label
+                                            class="col-sm-2 control-label">{{'Item.data.ItemWeight' | translate }}:</label>
+                                        <div class="col-sm-4">
+                                            <input autocomplete="off" type="number" [(ngModel)]="entity.ItemWeight"
+                                                class="form-control"
+                                                placeholder="{{'Item.placeholder.ItemWeight' | translate }}"
+                                                min="0"
+                                                (change)="($event.target.value<0 ||$event.target.value=='' ) ?entity.ItemWeight =0:entity.ItemWeight"
+                                                name="weight">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label
+                                            class="col-sm-2 control-label">{{'Item.data.ItemDescription' | translate }}:</label>
+                                        <div class="col-sm-4">
+                                            <textarea autocomplete="off" type="text"
+                                                [(ngModel)]="entity.ItemDescription" rows="4" class="form-control"
+                                                placeholder="{{'Item.placeholder.ItemDescription' | translate }}"
+                                                name="ItemDescription"></textarea>
+                                        </div>
+                                        <label
+                                             class="col-sm-2 control-label">{{'Item.data.ItemTypeId' | translate }} *:</label>
+                                            <div class="col-sm-4">
+                                              <ui-select-box entitykey="ItemType" [pageSize]="5" [checkstatus]="true" [(ngModelCustom)]="entity.ItemTypeId"></ui-select-box>
+                                            </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label
+                                            class="col-sm-2 control-label"></label>
+                                        <div class="col-sm-4">
+                                        </div>
+                                        <label class="col-sm-2 control-label p-0">{{ 'Factory.data.Status' | translate }} :</label>
+
+                                        <div class="switch col-sm-4">
+                                        <div class="onoffswitch">
+                                            <input type="checkbox" class="onoffswitch-checkbox" name="status" id="status"  (click)="onSwitchStatus()" [checked]="entity.Status==1 ? true : null" >
+                                            <label class="onoffswitch-label" for="status">
+                                            <span class="onoffswitch-inner"></span>
+                                            <span class="onoffswitch-switch"></span>
+                                            </label>
+                                        </div>
+                                        </div>
+                                    </div>
+
+                                </fieldset>
+                            </div>
+                        </form>
+                        </div>
+                        <div id="tab-2" class="tab-pane">
+                          <div class="panel-body">
+                              <fieldset class="form-horizontal">
+                                  <div class="form-group">
+                                      <div class="col-sm-8">
+                                          <div class="row">
+                                              <div class="form-group">
+                                                  <div class="col-sm-12">
+                                                    <dx-data-grid
+                                                    [dataSource]="entity.ItemFactory"
+                                                    keyExpr="ItemFactoryId"
+                                                    (onRowUpdating)="onRowUpdating($event)"
+                                                    [remoteOperations]="true" height="auto"  showBorders="true">
+
+                                                    <dxo-editing
+                                                      [allowAdding]="true"
+                                                      [allowUpdating]="true"
+                                                      [allowDeleting]="true"
+                                                      [useIcons] ="true"
+                                                      >
+                                                      <dxo-texts confirmDeleteMessage="Are you sure Delete?"></dxo-texts>
+                                                    </dxo-editing>
+                                                    <dxi-column dataField="FactoryId" caption="Factory Name" >
+                                                      <dxo-lookup
+                                                          [dataSource]="dataSourceFactory"
+                                                          displayExpr="FactoryName"
+                                                          valueExpr="FactoryId">
+                                                      </dxo-lookup>
+                                                      <dxi-validation-rule type="required"></dxi-validation-rule>
+                                                    </dxi-column>
+                                                    <dxi-column dataField="IntergrationCode">
+                                                    </dxi-column>
+                                                </dx-data-grid>
+                                                  </div>
+                                              </div>
+                                          </div>
+
+                                      </div>
+                                  </div>
+
+                              </fieldset>
+
+                          </div>
+                      </div>
+
+
+
+
+                    </div>
+
+
+            </div>
+        </div>
+        <div class="col-sm-12">
+            <div class="ibox-content m-b-sm border-bottom">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <button class="btn btn-primary pull-right" [ladda]="laddaSubmitLoading"
+
+                            [disabled]="myForm.invalid ||entity.ItemUnitId==null" (click)="fnSave()">
+                            <i class="fa fa-plus"></i>
+                            {{'Button.Save' | translate}}
+                        </button>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+

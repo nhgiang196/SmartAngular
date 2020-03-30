@@ -4,22 +4,21 @@ import DataSource from 'devextreme/data/data_source';
 import { environment } from 'src/environments/environment';
 
 @Component({
-  selector: 'smart-select-box',
-  templateUrl: './smart-select-box.component.html',
-  styleUrls: ['./smart-select-box.component.css']
+  selector: 'ui-select-box',
+  templateUrl: './ui-select-box.component.html',
+  styleUrls: ['./ui-select-box.component.css']
 })
-export class SmartSelectBoxComponent implements OnInit {
+export class UISelectBoxComponent implements OnInit {
   dataSource: any;
   @Input('entitykey')  entityKey : string ;
+  @Input('pageSize')  pageSize : number = 10 ;
+  @Input('ngModelCustom')  ngModelCustom : any =null;
   @Input('checkstatus')  checkStatus : boolean = false ;
 
-  @Input()  selectData : number ; //binding  : D
-  @Output() selectDataChange: EventEmitter<any> = new EventEmitter<any>();
+  @Output() ngModelCustomChange: EventEmitter<any> = new EventEmitter<any>();
 
 
   constructor() {
-
-
   }
 
   ngOnInit() {
@@ -30,21 +29,16 @@ export class SmartSelectBoxComponent implements OnInit {
           loadUrl: serviceUrl,
       }) ,
       paginate: true,
-      pageSize: 10,
+      pageSize: this.pageSize,
       filter: this.checkStatus? ["Status", "=", 1] : [],
-      map: (dataItem) => {
-        dataItem.id =  dataItem[Object.keys(dataItem)[0]];
-        dataItem.text =  dataItem[Object.keys(dataItem)[1]];
-        return dataItem;
-    }
-
     });
-    this.dataSource.load();
+  }
 
+  getFilter(){
   }
 
   onValueChanged(event){
-    this.selectDataChange.emit(this.selectData);
+    this.ngModelCustomChange.emit(event.value);
   }
 
 

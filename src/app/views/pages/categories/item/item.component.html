@@ -19,14 +19,7 @@
   <div class="row">
     <div class="col-lg-12">
       <div class="ibox float-e-margins">
-        <div class="ibox-content" [ngClass]=" {'sk-loading': iboxloading}">
-          <div class="sk-spinner sk-spinner-wave">
-            <div class="sk-rect1"></div>
-            <div class="sk-rect2"></div>
-            <div class="sk-rect3"></div>
-            <div class="sk-rect4"></div>
-            <div class="sk-rect5"></div>
-          </div>
+        <div class="ibox-content">
           <div class="row">
             <div class="col-sm-4">
               <!-- hidden this button -->
@@ -55,12 +48,8 @@
 
           <div class="row">
             <div class="col-lg-12">
-              <dx-data-grid (onRowInserting)="onRowInserting($event)"
+              <dx-data-grid
               (onEditingStart)="onEditingStart($event)"
-              (onRowUpdating)="onRowUpdating($event)"
-              (onInitNewRow)="onInitNewRow($event)"
-              (onRowRemoving)="onRowRemoving($event)"
-              (onSelectionChanged)="selectedChanged($event)"
               [dataSource]="dataSource"
               [remoteOperations]="true" height="500" showBorders="true">
 
