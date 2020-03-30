@@ -370,6 +370,7 @@
     "data.CustomerCode" : "Customer Code",
     "data.CustomerName" : "Customer Name",
     "data.FactoryId" : "Factory ID" ,
+    "data.CustomerType" : "Customer Type" ,
     "data.CustomerAddress" : "Customer Address" ,
     "data.ContactName" : "Contact Name",
     "data.ContactEmail" : "Contact Email",

@@ -373,6 +373,7 @@
     "data.CustomerCode" : "Mã đơn vị xả thải",
     "data.CustomerName" : "Tên đơn vị xả thải",
     "data.FactoryId" : "Nhà máy" ,
+    "data.CustomerType" : "Kiểu đơn vị" ,
     "data.CustomerAddress" : "Địa chỉ" ,
     "data.ContactName" : "Người liên hệ",
     "data.ContactEmail" : "Email",
