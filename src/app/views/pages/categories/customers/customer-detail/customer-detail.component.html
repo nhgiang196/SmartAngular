@@ -42,12 +42,13 @@
                   </div>
                   <label class="col-sm-2 control-label">{{'Customer.data.FactoryId' | translate }}*:</label>
                   <div class="col-sm-4">
-                    <app-smart-select 
+                    <!-- <app-smart-select 
                     name="FactoryId" 
                     listName="Factory"  
                     [specialId]="entity.FactoryId"    
                     (select_ngModel)="entity.FactoryId = $event.id"
-                    placeholder="{{'Customer.placeholder.FactoryId' | translate }}"></app-smart-select>
+                    placeholder="{{'Customer.placeholder.FactoryId' | translate }}"></app-smart-select> -->
+                    <smart-select-box [(selectData)]="entity.FactoryId" entitykey="Factory" checkstatus="true"></smart-select-box>
 
                   </div>
                 </div>
