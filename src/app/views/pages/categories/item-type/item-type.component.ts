@@ -40,19 +40,25 @@ export class ItemTypeComponent implements OnInit {
    * all Field in ItemProperty
    * with ItemPropertyName
    */
-  onRowInsertingProperty(e) {
+  async onRowInsertingProperty(e) {
     console.log(e);
     e.data.ItemTypeId = this.itemTypeId;
-    this.itemTypePropertyService.addItemTypeProperty(e.data).subscribe(res => {
-      const result = res as any;
-      if (result.Success) {
-        this.toastr.success('Insert success!', 'Success!');
+    let validateResult: any = await this.onValidateItemTypeProperty( e.data)
+    if (!validateResult.Success)
+      this.toastr.error('ItemTypePropertyName already exsited!', 'Error!');
+    else {
+      this.itemTypePropertyService.addItemTypeProperty(e.data).subscribe(res => {
+        const result = res as any;
+        if (result.Success) {
+          this.toastr.success('Insert success!', 'Success!');
+          this.dataGrid.instance.refresh();
+        } else {
+          Swal.fire('Error!', result.Message, 'error');
+        }
         this.dataGrid.instance.refresh();
-      } else {
-        Swal.fire('Error!', result.Message, 'error');
-      }
-      this.dataGrid.instance.refresh();
-    });
+      });
+    }
+    
   }
   /**
    * Validate ItemTypeName have to not exist
@@ -60,6 +66,9 @@ export class ItemTypeComponent implements OnInit {
    */
   async onValidateItemTypeName(e) {
     return await this.itemTypeService.validateItemType(e).toPromise();
+  }
+  async onValidateItemTypeProperty(e) {
+    return await this.itemTypePropertyService.validateItemTypeProperty(e).toPromise();
   }
   /**
    * Update ItemType
