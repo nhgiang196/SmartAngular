@@ -23,7 +23,11 @@ export class ItemActionComponent implements OnInit {
   dataSourceItemFactory: any;
   dataSourceItemTypeProperty: any;
   dataSourceFactory: any;
+  dataSourceUnit:any;
 
+
+  //parten
+  numberPattern:'^\\d+$' ;
   //set rowEdit
   editRowId: number = 0;
   constructor(private unitService: UnitService, private route: ActivatedRoute) { }
@@ -32,9 +36,11 @@ export class ItemActionComponent implements OnInit {
     var item = this.route.snapshot.data["item"] as Item;
     if (item != null) {
       this.entity = item;
+      this.loadItemPropertySelectBox(item.ItemTypeId);
     }
     this.loadFactorySelectBox();
-    this.loadItemPropertySelectBox(2);
+    this.loadUnitSelectbox();
+
   }
 
   fnSave() {
@@ -96,6 +102,27 @@ export class ItemActionComponent implements OnInit {
   }
 
   ///Area Item Property////
+  onRowValidatingItemProperty(e) {
+    console.log("validate item property", e);
+    console.log(this.entity)
+    if (e.oldData == null) {
+      //thêm mới
+      if (this.entity.ItemProperty.find(x => x.ItemTypePropertyId == e.newData.ItemTypePropertyId)) {
+        // swal.fire("Validate", "Dữ liệu đã bị trùng", "warning");
+        e.isValid = false;
+        e.errorText = "Dữ liệu đã bị trùng";
+      }
+    }
+    else {
+      //chỉnh sửa
+      if (this.entity.ItemProperty.find(x => x.ItemTypePropertyId == e.newData.ItemTypePropertyId) && e.newData.ItemTypePropertyId != e.oldData.ItemTypePropertyId) {
+        // swal.fire("Validate", "Dữ liệu đã bị trùng", "warning");
+        e.isValid = false;
+        e.errorText = "Dữ liệu đã bị trùng";
+      }
+    }
+
+  }
   loadItemPropertySelectBox(itemTypeId) {
     let keyId = "ItemTypePropertyId";
 
@@ -116,6 +143,52 @@ export class ItemActionComponent implements OnInit {
         }
         else {
           ajaxOptions.data.filter = JSON.stringify(["ItemTypeId", "=", itemTypeId]);
+        }
+        ajaxOptions.xhrFields = { withCredentials: true };
+      },
+    });
+  }
+
+  ///Area Item Package////
+  onRowValidatingUnit(e){
+    if (e.oldData == null) {
+      //thêm mới
+      if (this.entity.ItemPackage.find(x => x.ItemPackageUnitId == e.newData.ItemPackageUnitId)) {
+        // swal.fire("Validate", "Dữ liệu đã bị trùng", "warning");
+        e.isValid = false;
+        e.errorText = "Dữ liệu đã bị trùng";
+      }
+    }
+    else {
+      //chỉnh sửa
+      if (this.entity.ItemPackage.find(x => x.ItemPackageUnitId == e.newData.ItemPackageUnitId) && e.newData.ItemPackageUnitId != e.oldData.ItemPackageUnitId) {
+        // swal.fire("Validate", "Dữ liệu đã bị trùng", "warning");
+        e.isValid = false;
+        e.errorText = "Dữ liệu đã bị trùng";
+      }
+    }
+  }
+
+  loadUnitSelectbox(){
+    let keyId = "UnitId";
+
+    this.dataSourceUnit = createStore({
+      key: keyId,
+      loadUrl: `${environment.apiUrl}/Unit/UI_SelectBox`,
+      loadParams: { keyId: keyId },
+      onBeforeSend: function (method, ajaxOptions) {
+        ajaxOptions.data.keyId = keyId;
+        if (ajaxOptions.data.filter != null) {
+
+          let dataParse = JSON.parse(ajaxOptions.data.filter);
+          if (dataParse.length == 2)
+            dataParse = JSON.parse(JSON.stringify([dataParse]));
+          dataParse.push('and');
+          dataParse.push(["Status", "=", 1]);
+          ajaxOptions.data.filter = JSON.stringify(dataParse);
+        }
+        else {
+          ajaxOptions.data.filter = JSON.stringify(["Status", "=", 1]);
         }
         ajaxOptions.xhrFields = { withCredentials: true };
       },
