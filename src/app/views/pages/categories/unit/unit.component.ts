@@ -31,7 +31,7 @@ export class UnitComponent implements OnInit {
     });
   }
   ngOnInit() {}
-  
+
   onRowInserting(e) {
     console.log(e);
     this.api.addUnit(e.data).subscribe(res => {

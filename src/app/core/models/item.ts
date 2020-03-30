@@ -5,7 +5,7 @@ import { Unit } from './unit'
 export class Item {
     ItemId?: number = 0
     ItemTypeId?: number = null
-    ItemNo?: string
+    ItemCode?: string
     ItemName?: string
     ItemPrintName?: string
     ItemDescription?: string
@@ -23,14 +23,14 @@ export class Item {
     ModifyBy?: string
     ModifyDate?: Date
     Status?: number = 0
-  
+
     ItemUnit?: Unit
     ItemPackage?: ItemPackage[] = []
     ItemProperty?: ItemProperty[] = []
     ItemFactory?: ItemFactory[] = []
     ItemFile?: ItemFile[] = []
   }
-  
+
   export class ItemFile {
     ItemFileId: number = 0
     ItemId: number = 0
@@ -38,7 +38,7 @@ export class Item {
     IsImage: boolean = false
     File: Files = new Files()
   }
-  
+
   export class ItemType {
     ItemTypeId?: number = 0
     ItemTypeName?: string
@@ -50,7 +50,7 @@ export class Item {
     Status?: number = 1
     ItemTypeProperty: ItemTypeProperty[] = []
   }
-  
+
   export class ItemFactory {
     ItemFactoryId: number = 0;
     ItemId: number = 0;
@@ -60,7 +60,7 @@ export class Item {
     Factory: Factory = new Factory();
   }
   export class ItemPackage {
-  
+
     ItemPackageId: number = 0
     ItemId: number = 0
     ItemPackageUnitId?: number = null
@@ -72,9 +72,9 @@ export class Item {
     UnitName?: string
     ItemPackageUnit: ItemPackageUnit = new ItemPackageUnit()
   }
-  
+
   export class ItemPackageUnit {
-  
+
     UnitId?: number = 0
     UnitName: string
     CreateBy: string
@@ -84,7 +84,7 @@ export class Item {
     ModifyDate: Date
     Status: boolean
   }
-  
+
   export class ItemProperty {
     ItemPropertyId?: number = 0
     ItemId?: number = 0
@@ -93,7 +93,7 @@ export class Item {
     ItemTypePropertyName?: string
     ItemTypeProperty:ItemTypeProperty = new ItemTypeProperty()
   }
-  
+
   export class ItemTypeProperty {
     ItemTypePropertyId?: number = 0
     ItemTypeId?: number = 0

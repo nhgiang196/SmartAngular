@@ -19,6 +19,7 @@ export class ItemComponent implements OnInit {
 
   dataSource: any;
   listItemType: Array<ItemType> = new Array<ItemType>();
+  itemTypeId:number;
   constructor(
     private itemService: ItemService,
     private itemTypeService: ItemTypeService,
@@ -31,14 +32,9 @@ export class ItemComponent implements OnInit {
   }
   async ngOnInit() {
     await this.getAllItemType();
+    this.itemTypeId = 0;
   }
 
-  onRowUpdating(event){
-    console.log(event)
-  }
-  onRowRemoving(event){
-    console.log(event);
-  }
   onEditingStart(event){
     this.router.navigate(['/pages/category/item/action/'+event.data.ItemId])
     console.log(event);
@@ -51,7 +47,7 @@ export class ItemComponent implements OnInit {
   }
 
   searchItemByItemType(id){
-    let fillter = id!=0?'["ItemTypeId", "=",'+id+']':'';
+    let fillter = id!=0?["ItemTypeId", "=",id]:[];
     this.dataSource= this.itemService.getDataGridItem(this.dataSource, 'ItemId',fillter)
   }
 }

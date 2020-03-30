@@ -12,7 +12,7 @@ import { SharedModule } from './core/shared/shared.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { PagesModule } from './views/pages/pages.module';
 import { StoreService } from './core/services/store.service';
-import { 
+import {
   AuthService,
   BomService,
   CustomerService,
@@ -32,6 +32,7 @@ import {
 import { ThemeModule } from './theme/theme.module';
 import { RoutesResolver } from './core/resolvers/routes.resolver';
 import { UISampleModule } from './views/UISample/UISample.module';
+import { ItemResolver } from './core/resolvers/item.resolver';
 
 const SERVICE = [
   AuthService,
@@ -76,6 +77,7 @@ const SERVICE = [
     AuthGuard,
     StoreService,
     RoutesResolver,
+    ItemResolver,
     ...SERVICE
   ],
   bootstrap: [AppComponent]

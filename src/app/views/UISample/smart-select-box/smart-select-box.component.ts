@@ -12,13 +12,13 @@ export class SmartSelectBoxComponent implements OnInit {
   dataSource: any;
   @Input('entitykey')  entityKey : string ;
   @Input('checkstatus')  checkStatus : boolean = false ;
- 
+
   @Input()  selectData : number ; //binding  : D
   @Output() selectDataChange: EventEmitter<number> = new EventEmitter<number>();
   searchExpr: any;
 
-  constructor() { 
-    
+  constructor() {
+
   }
 
   ngOnInit() {
@@ -41,7 +41,7 @@ export class SmartSelectBoxComponent implements OnInit {
 
     });
     this.dataSource.load();
-    
+
   }
 
   onValueChanged(event){
@@ -49,6 +49,6 @@ export class SmartSelectBoxComponent implements OnInit {
     this.selectDataChange.emit(event.value.id || event.value || 0);
   }
 
- 
-   
+
+
 }

@@ -13,6 +13,7 @@ import { CustomerComponent } from './customers/customer.component';
 import { CustomerDetailComponent } from './customers/customer-detail/customer-detail.component';
 import { CustomerDetailResolverService } from 'src/app/core/resolvers/customer-detail.resolver';
 import { ItemActionComponent } from './item/item-action/item-action.component';
+import { ItemResolver } from 'src/app/core/resolvers/item.resolver';
 
 const routes: Routes = [{
     path: '',
@@ -61,7 +62,8 @@ const routes: Routes = [{
               },
               {
                 path:'action/:id',
-                component:ItemActionComponent
+                component:ItemActionComponent,
+                resolve: { item: ItemResolver }
               }
             ]
         },

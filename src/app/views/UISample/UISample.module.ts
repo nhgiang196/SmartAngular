@@ -8,11 +8,12 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule } from '@angular/forms';
 import { SmartSelectBoxComponent } from './smart-select-box/smart-select-box.component';
 import { DxSelectBoxModule } from 'devextreme-angular';
+import { UISelectBoxComponent } from './ui-select-box/ui-select-box.component';
 
 
 
 @NgModule({
-  declarations: [SmartUploadComponent, SmartSelectComponent, SmartSelectBoxComponent],
+  declarations: [SmartUploadComponent, SmartSelectComponent, SmartSelectBoxComponent,UISelectBoxComponent],
   imports: [
     CommonModule,
     SharedModule,
@@ -20,6 +21,6 @@ import { DxSelectBoxModule } from 'devextreme-angular';
     DxSelectBoxModule
   ],
   exports: [DxSelectBoxModule,
-    SmartUploadComponent, SmartSelectComponent, SmartSelectBoxComponent, ]
+    SmartUploadComponent, SmartSelectComponent, SmartSelectBoxComponent, UISelectBoxComponent]
 })
 export class UISampleModule { }

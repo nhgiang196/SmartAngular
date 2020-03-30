@@ -1,0 +1,7 @@
+<dx-select-box [dataSource]="dataSource"
+[displayExpr]="entityKey+'Name'"
+[valueExpr]="entityKey+'Id'"
+(onValueChanged)="onValueChanged($event)"
+[value]="ngModelCustom"
+[searchEnabled]="true"
+></dx-select-box>
