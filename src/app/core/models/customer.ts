@@ -5,12 +5,13 @@ export class Customer {
     CustomerId: number = 0
     CustomerCode: string
       CustomerName?: string
+      CustomerType?: number = 0
       FactoryId?: number
       CustomerAddress?: string
-      ContactName?: string
-      ContactEmail?: string
-      ContactPhone?: string
-      Description?: string
+      CustomerContact?: string
+      CustomerContactEmail?: string
+      CustomerContactPhone?: string
+      CustomerDescription?: string
       CreateBy?: string
       CreateDate?: Date
       ModifyBy?: string

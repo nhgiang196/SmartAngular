@@ -21,17 +21,17 @@
         <div class="col-lg-12">
             <div class="tabs-container">
                 <ul class="nav nav-tabs">
-                    <li class="active" [class.disabledTab] ="editRowId!=0"><a data-toggle="tab" href="#tab-1"><i class="fa fa-info-circle"></i>
+                    <li class="active" [class.disabledTab] ="isEditRow==true"><a data-toggle="tab" href="#tab-1"><i class="fa fa-info-circle"></i>
                             {{'Item.label.Information' | translate }}</a></li>
-                    <li [class.disabledTab] ="editRowId!=0"><a data-toggle="tab" href="#tab-2" (click)="editRowId = 0;" class=""><i
+                    <li [class.disabledTab] ="isEditRow==true"><a data-toggle="tab" href="#tab-2" (click)="isEditRow = false;" class=""><i
                                 class="fa fa-industry"></i> {{'Item.label.Factory' | translate }}</a></li>
-                    <li [class.disabledTab] ="editRowId!=0"><a data-toggle="tab" href="#tab-3" (click)="editRowId = 0;"><i
+                    <li [class.disabledTab] ="isEditRow==true"><a data-toggle="tab" href="#tab-3" (click)="isEditRow = false"><i
                                 class="fa fa-list-ul" ></i> {{'Item.label.Property' | translate }}</a></li>
-                    <li [class.disabledTab] ="editRowId!=0"><a data-toggle="tab" href="#tab-4" (click)="editRowId = 0;"><i
+                    <li [class.disabledTab] ="isEditRow==true"><a data-toggle="tab" href="#tab-4" (click)="isEditRow = false"><i
                                 class="fa fa-cube" ></i>{{'Item.label.Package' | translate }}</a></li>
-                    <li [class.disabledTab] ="editRowId!=0"><a data-toggle="tab"  href="#tab-5" (click)="editRowId = 0;"><i class="fa fa-file"></i>
+                    <li [class.disabledTab] ="isEditRow==true"><a data-toggle="tab"  href="#tab-5" (click)="isEditRow = false"><i class="fa fa-file"></i>
                             {{ 'Upload.' | translate }}</a></li>
-                    <li [class.disabledTab] ="editRowId!=0"><a data-toggle="tab" href="#tab-6" (click)="editRowId = 0;"><i class="fa fa-file"></i>
+                    <li [class.disabledTab] ="isEditRow==true"><a data-toggle="tab" href="#tab-6" (click)="isEditRow = false"><i class="fa fa-file"></i>
                             {{ 'Upload.Image' | translate }}</a></li>
                 </ul>
 
@@ -203,7 +203,9 @@
                                                     (onCellPrepared)="onCellPrepared($event)" -->
                                                     <dx-data-grid
                                                     [dataSource]="entity.ItemFactory"
-                                                    keyExpr="ItemFactoryId"
+                                                    (onEditingStart)="isEditRow =true"
+                                                    (onRowUpdating)="isEditRow =false"
+                                                    (onContentReady) ="enableActiveTab($event)"
                                                     (onRowValidating)="onRowValidatingFactory($event)"
                                                     [remoteOperations]="true" height="auto"  showBorders="true">
 
@@ -249,7 +251,8 @@
                                                   (onCellPrepared)="onCellPrepared($event)" -->
                                                   <dx-data-grid
                                                   [dataSource]="entity.ItemProperty"
-                                                  keyExpr="ItemPropertyId"
+                                                  (onEditingStart)="isEditRow =true"
+                                                  (onContentReady) ="enableActiveTab($event)"
                                                   (onRowValidating)="onRowValidatingItemProperty($event)"
                                                   [remoteOperations]="true" height="auto"  showBorders="true">
 
@@ -290,7 +293,8 @@
                               <div class="col-sm-12">
                                 <dx-data-grid
                                 [dataSource]="entity.ItemPackage"
-                                keyExpr="ItemPackageId"
+                                (onEditingStart)="isEditRow =true"
+                                (onContentReady) ="enableActiveTab($event)"
                                 (onRowValidating)="onRowValidatingUnit($event)"
                                 [remoteOperations]="true" height="auto"  showBorders="true">
 
@@ -328,10 +332,72 @@
 
                       </div>
                   </div>
-
-
+                  <div id="tab-5" class="tab-pane">
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <ngx-dropzone (change)="onSelect($event,false)" [expandable]="true"
+                                [maxFileSize]="5000*1024" [id]="'files'">
+                                <ngx-dropzone-label>{{ 'Upload.UploadFileCaption' | translate }}</ngx-dropzone-label>
+                                <ngx-dropzone-preview class="animated fadeInUp"
+                                    ngProjectAs="ngx-dropzone-preview"
+                                    *ngFor="let f of listFiles ;let i = index" [removable]="true"
+                                    (removed)="onRemove(f,false)" (click)="downloadFile(f.File.FileLocalName)">
+                                    <ngx-dropzone-label style="font-size:11px;"> {{f.File.FileOriginalName}}
+                                    </ngx-dropzone-label>
+                                </ngx-dropzone-preview>
+                            </ngx-dropzone>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <span class="badge"
+                                    [ngClass]="{'badge-primary': uploadReportProgress.progress==100, 'badge-danger':uploadReportProgress.isError}">{{uploadReportProgress.message}}</span>
+                                <div *ngIf="uploadReportProgress.progress!=100"
+                                    class="progress progress-striped active">
+                                    <div class="progress-bar progress-bar-success" role="progressbar"
+                                        [style.width.%]="uploadReportProgress.progress">
+                                        {{uploadReportProgress.progress}}%
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
                     </div>
+                  </div>
+                  <div id="tab-6" class="tab-pane">
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <ngx-dropzone (change)="onSelect($event,true)" [expandable]="true"
+                                [maxFileSize]="5000*1024" [accept]="'image/*'" [id]="'images'">
+                                <ngx-dropzone-label>{{ 'Upload.UploadImageCaption' | translate }}</ngx-dropzone-label>
+                                <ngx-dropzone-preview class="animated fadeInUp"
+                                    ngProjectAs="ngx-dropzone-preview"
+                                    *ngFor="let f of listImages ;let i = index" [file]="f" [removable]="true"
+                                    (removed)="onRemove(f,true)" (click)="downloadFile(f.File.FileLocalName)">
+                                    <ngx-dropzone-label style="font-size:11px;"> {{f.File.FileOriginalName}}
+                                    </ngx-dropzone-label>
+                                </ngx-dropzone-preview>
+                            </ngx-dropzone>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <span class="badge"
+                                    [ngClass]="{'badge-primary': uploadReportProgress.progress==100, 'badge-danger':uploadReportProgress.isError}">{{uploadReportProgress.message}}</span>
+                                <div *ngIf="uploadReportProgress.progress!=100"
+                                    class="progress progress-striped active">
+                                    <div class="progress-bar progress-bar-success" role="progressbar"
+                                        [style.width.%]="uploadReportProgress.progress">
+                                        {{uploadReportProgress.progress}}%
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                  </div>
+
+
+
+                  </div>
 
 
             </div>
@@ -340,8 +406,8 @@
             <div class="ibox-content m-b-sm border-bottom">
                 <div class="row">
                     <div class="col-sm-12">
-                        <button class="btn btn-primary pull-right" [ladda]="laddaSubmitLoading"
-
+                        <button class="btn btn-primary pull-right"
+                            [ladda]="laddaSubmitLoading"
                             [disabled]="myForm.invalid ||entity.ItemUnitId==null" (click)="fnSave()">
                             <i class="fa fa-plus"></i>
                             {{'Button.Save' | translate}}

@@ -84,7 +84,7 @@ export class CustomerDetailComponent implements OnInit {
           var operationResult: any = res
           if (operationResult.Success) {
             this.toastr.success(this.trans.instant("messg.add.success"));
-            this.router.navigate(["/category/customer/" + operationResult.Data]);
+            this.router.navigate(["pages/category/customer/" + operationResult.Data]);
           }
           else this.toastr.warning(operationResult.Message);
           this.laddaSubmitLoading = false;
@@ -96,7 +96,7 @@ export class CustomerDetailComponent implements OnInit {
           var operationResult: any = res
           if (operationResult.Success) {
             this.toastr.success(this.trans.instant("messg.update.success"));
-            this.router.navigate(["/category/customer/" + this.entity.CustomerId]);
+            this.router.navigate(["pages/category/customer/" + this.entity.CustomerId]);
           }
           else this.toastr.warning(operationResult.Message);
           this.laddaSubmitLoading = false;

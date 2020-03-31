@@ -42,12 +42,13 @@
                   </div>
                   <label class="col-sm-2 control-label">{{'Customer.data.FactoryId' | translate }}*:</label>
                   <div class="col-sm-4">
-                    <app-smart-select 
+                    <!-- <app-smart-select 
                     name="FactoryId" 
                     listName="Factory"  
                     [specialId]="entity.FactoryId"    
                     (select_ngModel)="entity.FactoryId = $event.id"
-                    placeholder="{{'Customer.placeholder.FactoryId' | translate }}"></app-smart-select>
+                    placeholder="{{'Customer.placeholder.FactoryId' | translate }}"></app-smart-select> -->
+                    <smart-select-box [(selectData)]="entity.FactoryId" entitykey="Factory" checkstatus="true"></smart-select-box>
 
                   </div>
                 </div>
@@ -59,7 +60,7 @@
                   </div>
                   <label class="col-sm-2 control-label">{{'Customer.data.ContactName' | translate }}:</label>
                   <div class="col-sm-4">
-                    <input autocomplete="off" type="text" [(ngModel)]="entity.ContactName" class="form-control"
+                    <input autocomplete="off" type="text" [(ngModel)]="entity.CustomerContact" class="form-control"
                       placeholder="{{'Customer.placeholder.ContactName' | translate }}" name="ContactName">
                   </div>
                 </div>
@@ -71,20 +72,20 @@
                   </div>
                   <label class="col-sm-2 control-label">{{'Customer.data.ContactPhone' | translate }}:</label>
                   <div class="col-sm-4">
-                    <input autocomplete="off" type="text" [(ngModel)]="entity.ContactPhone" class="form-control"
+                    <input autocomplete="off" type="text" [(ngModel)]="entity.CustomerContactPhone" class="form-control"
                       placeholder="{{'Customer.placeholder.ContactPhone' | translate }}" name="ContactPhone"  mask="(+00) 000 000 0099">
                   </div>
                 </div>
                 <div class="form-group">
                   <label class="col-sm-2 control-label">{{'Customer.data.ContactEmail' | translate }}:</label>
                   <div class="col-sm-4">
-                    <input autocomplete="off" type="email" [(ngModel)]="entity.ContactEmail" class="form-control" 
+                    <input autocomplete="off" type="email" [(ngModel)]="entity.CustomerContactEmail" class="form-control" 
                       placeholder="{{'Customer.placeholder.ContactEmail' | translate }}" name="ContactEmail" #ContactEmail="ngModel" email>
                     <div *ngIf="ContactEmail.invalid" style="color: red;">{{ 'Customer.invalid.Email' | translate }}</div>
                   </div>
                   <label class="col-sm-2 control-label">{{'Customer.data.Description' | translate }}:</label>
                   <div class="col-sm-4">
-                    <input autocomplete="off" type="text" [(ngModel)]="entity.Description" class="form-control"
+                    <input autocomplete="off" type="text" [(ngModel)]="entity.CustomerDescription" class="form-control"
                       placeholder="{{'Customer.placeholder.Description' | translate }}" name="Description" >
                   </div>
                 </div>
@@ -198,7 +199,7 @@
           
           <div class="col-sm-6">
             <button class="btn btn-primary dim pull-right" [ladda]="laddaSubmitLoading" [disabled]="myForm.invalid || ContactEmail.invalid" (click)="fnSave()"><i class="fa fa-paper-plane-o"></i> {{'Button.Save' | translate}}</button>
-            <button class="btn btn-outline dim pull-right" [routerLink]="['/category/customers']" ><i class="fa fa-chevron-circle-left"></i> {{'Button.Back' | translate}}  </button>
+            <button class="btn btn-outline dim pull-right" [routerLink]="['/pages/category/customer']" ><i class="fa fa-chevron-circle-left"></i> {{'Button.Back' | translate}}  </button>
 
           </div>
         </div>

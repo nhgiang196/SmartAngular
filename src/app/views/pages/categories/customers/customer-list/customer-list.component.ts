@@ -6,6 +6,7 @@ import swal from "sweetalert2";
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { CustomerService } from 'src/app/core/services';
+import { DxDataGridComponent } from 'devextreme-angular';
 declare let $: any;
 
 @Component({
@@ -16,111 +17,30 @@ declare let $: any;
 export class CustomerListComponent  implements  OnInit {
   // @ViewChild(DataTableDirective)  datatableElement: DataTableDirective;
   // dtOptions: DataTables.Settings = {};
+
+  @ViewChild(DxDataGridComponent, { static: false }) dataGrid: DxDataGridComponent;
+
   dtTrigger: Subject<any> = new Subject();
   public ACTION_STATUS: string;
   iboxloading = false;
   laddaSubmitLoading = false;
   lsData: any = [];
+
+  dataSource: any 
   constructor(
     private api: CustomerService,
     private trans: TranslateService,
     public router: Router,
     private toastr: ToastrService
   ) { 
+    this.dataSource = this.api.getDataGrid();
   }
 
   lsDatatable : any= []; //return datatable
   ngOnInit() {
-    // this.dtOptions = {
-    //   autoWidth: true,
-    //   responsive: true,
-    //   dom: ` <"row"<"col-sm-4 m-b-xs"l><"#myid.col-sm-4 m-b-xs"f><"col-sm-4"p>><t><"row"<"col-sm-4 m-b-xs"i><"#myid2.col-sm-4 m-b-xs"f><"col-sm-4"p>>`, //recommend Dom --nhgiang
-    //   serverSide: true,
-    //   processing: true,
-    //   deferRender: true,
-    //   stateSave: true,
-    //   paging: true,
-    //   pageLength: 10,    
-    //   pagingType: 'full_numbers',
-    //   search: { regex: true },
-    //   columns: [
-    //       { data: 'CustomerId' }
-    //      , { data: 'CustomerName'}
-    //      , { data: 'FactoryName'}
-    //      , { data: 'CustomerAddress'}
-    //      , { data: 'ContactName'}
-    //      , { data: 'ContactEmail'}
-    //      , { data: 'ContactPhone'}
-    //      , { data: 'Description'}
-    //      , { data: 'CreateBy'}
-    //      , { data: 'CreateDate'}
-    //      , { data: 'ModifyBy'}
-    //      , { data: 'ModifyDate'}
-    //      , { data: 'Status'}
-    //      , { data: 'IsIntergration'}
-    //      , { data : null}
-    //   ],
-    //   ajax: (dataTablesParameters: any, callback) => {
-    //     this.dtOptions.ajax= (dataTablesParameters: any, callback) => { //chèn lại ajax ở một vị trí duy nhất khi định nghĩa
-    //       this.iboxloading = true;
-    //       this.api.getDataTableCustomerPagination(dataTablesParameters).subscribe(res => {
-    //         this.iboxloading = false;
-    //         this.lsData = res.data;
-    //         console.log("DATATABLE:",this.lsData);
-    //         callback({
-    //           recordsTotal: res.recordsTotal,
-    //           recordsFiltered: res.recordsFiltered,
-    //           data: []
-    //         });
-    //       })
-    //     }
-    //   },
-    //   language:
-    //   {
-    //     searchPlaceholder: this.trans.instant('DefaultTable.searchPlaceholder'),
-    //     emptyTable: this.trans.instant('DefaultTable.emptyTable'),
-    //     info: this.trans.instant('DefaultTable.info'),
-    //     infoEmpty: this.trans.instant('DefaultTable.infoEmpty'),
-    //     infoFiltered: this.trans.instant('DefaultTable.infoFiltered'),
-    //     infoPostFix: this.trans.instant('DefaultTable.infoPostFix'),
-    //     thousands: this.trans.instant('DefaultTable.thousands'),
-    //     lengthMenu: this.trans.instant('DefaultTable.lengthMenu'),
-    //     loadingRecords: this.trans.instant('DefaultTable.loadingRecords'),
-    //     processing: this.trans.instant('DefaultTable.processing'),
-    //     search: this.trans.instant('DefaultTable.search'),
-    //     zeroRecords: this.trans.instant('DefaultTable.zeroRecords'),
-    //     //url: this.trans.instant('DefaultTable.url'),
-    //     paginate: {
-    //       first: '<<',
-    //       last: ">>",
-    //       next: ">",
-    //       previous: "<"
-    //     }
-    //   }
-    // };
   }
-
-  // ngOnDestroy(): void {
-  //   this.dtTrigger.unsubscribe(); 
-    
-  // }
-
-  // tableRender(){
-  //   this.datatableElement.dtInstance.then((dtInstance: DataTables.Api) => {
-  //     dtInstance.destroy();
-  //     this.dtTrigger.next();
-  //   });
-  // }
   
-  // ngAfterViewInit(): void {
-  //   this.dtTrigger.next();
-  //   this.tableRender();
-  // }
-
-
-  
-  fnDelete(id){
-
+  fnDelete(rowValue){
     swal.fire({
       titleText: this.trans.instant('Customer.mssg.DeleteAsk_Text'),
       confirmButtonText: this.trans.instant('Button.OK'),
@@ -130,7 +50,7 @@ export class CustomerListComponent  implements  OnInit {
       reverseButtons: true
     }).then((result) => {
       if (result.value) {
-        this.api.deleteCustomer(id).subscribe(res => {
+        this.api.deleteCustomer(rowValue.CustomerId).subscribe(res => {
           var operationResult: any = res
           if (operationResult.Success) {
             swal.fire(
@@ -143,15 +63,17 @@ export class CustomerListComponent  implements  OnInit {
               }
             );
             // this.tableRender();
+            this.dataSource.reload();
           }
           else this.toastr.warning(operationResult.Message);
         }, err => { this.toastr.error(err.statusText) })
       }
     })
 
+  }
 
-
-
+  routerToDetail(rowValue){
+    this.router.navigateByUrl('pages/category/customer/'+rowValue.CustomerId);
 
   }
 
