@@ -25,17 +25,16 @@ import { ModalModule } from 'ngx-bootstrap';
 const COMPONENTS = [
   CategoriesComponent,
   MainViewCategoryComponent,
-  CustomerComponent,
-  CustomerListComponent,
-  CustomerDetailComponent,
   ContractComponent,
+  CustomerListComponent,
+  CustomerComponent,
+  CustomerDetailComponent,
   ItemComponent,
   ItemTypeComponent,
   StageComponent,
   UnitComponent,
   WarehouseComponent,
   ItemActionComponent
-
 ];
 
 @NgModule({

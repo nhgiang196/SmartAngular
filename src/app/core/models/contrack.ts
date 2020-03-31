@@ -1,21 +1,21 @@
 import { Files } from './file'
 
 export class Contract {
-	ContractId: number
-	CustomerId: number
+	ContractId: number = 0
+	CustomerId: number = 0
 	ContractNo: string
 	ContractCode: string
-	ContractType: number
-	ContractDescription?: string
-	ContractSignDate?: Date
-	ContractEffectiveDate?: Date
-	ContractEndDate?: Date
-	StandardType: number
-	WasteWaterRatio: any
-	CreateBy?: string
-	CreateDate?: Date
-	ModifyBy?: string
-	ModifyDate?: Date
+	ContractType: number = 1
+	ContractDescription?: string = null
+	ContractSignDate?: any= null
+	ContractEffectiveDate?: any= null
+	ContractEndDate?: any = null
+	StandardType: number =1 
+	WasteWaterRatio: any = 1
+	CreateBy?: string = null
+	ModifyBy?: string = null 
+	CreateDate?: Date = null
+	ModifyDate?: Date = null
 	IsIntergration?: boolean = true
 	ContractPrice : ContractPrice[] = []
 	ContractBreach : ContractBreach[] = []

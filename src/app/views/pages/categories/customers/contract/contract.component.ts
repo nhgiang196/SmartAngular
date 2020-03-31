@@ -86,17 +86,17 @@ export class ContractComponent implements OnInit, AfterViewInit {
   /**Button Functions */
   async fnSave() {
     this.invalid = {};
-    let e = this.entity;
+    let e = this.entity as Contract;
     let valid = await this.api.validateContract(e).toPromise().then() as any
     if (valid.Success) {
       this.sendToApi(e);
     }
     else this.invalid[valid.Message] = true;
   }
-  private async sendToApi(e) {
-    e.SignDate = this.helper.dateConvertToString(e.SignDate);
-    e.EffectiveDate = this.helper.dateConvertToString(e.EffectiveDate);
-    e.EndDate = this.helper.dateConvertToString(e.EndDate);
+  private async sendToApi(e: Contract) {
+    e.ContractSignDate = this.helper.dateConvertToString(e.ContractSignDate);
+    e.ContractEffectiveDate = this.helper.dateConvertToString(e.ContractEffectiveDate);
+    e.ContractEndDate = this.helper.dateConvertToString(e.ContractEndDate);
     await this.uploadComponent.uploadFile();
     if (e.CustomerId == 0) { //New customer, just send to parrent
       let _sendParent = Object.assign({}, e); //stop binding
@@ -105,17 +105,18 @@ export class ContractComponent implements OnInit, AfterViewInit {
     }
     else if (e.ContractId == 0) //add
     {
+      e.CreateBy = this.auth.currentUser.Username;
       console.log('create_contract', e);
       let operationResult = await this.api.addContract(e).toPromise().then().catch(err => this.toastr.error(err.statusText, 'Network')) as any;
       if (operationResult.Success) {
         this.toastr.success(this.trans.instant("messg.add.success"));
         this.entity.ContractId = operationResult.Data; //ID return;
         this.sendtoParentView(this.entity);
-        ;
       }
       else this.toastr.warning(operationResult.Message);
     }
     else { //update
+      e.ModifyBy = this.auth.currentUser.Username;
       console.log('update_Contract', e);
       let operationResult = await this.api.updateContract(e).toPromise().then().catch(err => this.toastr.error(err.statusText, 'Network')) as any;
       if (operationResult.Success) {
@@ -164,7 +165,7 @@ export class ContractComponent implements OnInit, AfterViewInit {
   }
 
   async validatePrice(itemAdd) {
-    let _validateRatio = await this.entity.ContractPrice.find(t =>t.Ratio  == itemAdd.Ratio )
+    let _validateRatio = await this.entity.ContractPrice.find(t =>t.WaterFlow  == itemAdd.WaterFlow )
     // && t.WarehouseLocationId!=itemAdd.WarehouseLocationId && itemAdd.WarehouseLocationId!=0
     if (_validateRatio && itemAdd != _validateRatio)
     {
@@ -193,9 +194,9 @@ export class ContractComponent implements OnInit, AfterViewInit {
 
   ratioOnChange(event){
     let _value = event.target.valueAsNumber;
-    if (_value>100) this.entity.Ratio = 100
-    else if (_value<1) this.entity.Ratio = 1
-    else this.entity.Ratio = _value || 1;
+    if (_value>100) this.entity.WasteWaterRatio = 100
+    else if (_value<1) this.entity.WasteWaterRatio = 1
+    else this.entity.WasteWaterRatio = _value || 1;
   }
 
   breachTimesOnChange(event){
@@ -205,7 +206,7 @@ export class ContractComponent implements OnInit, AfterViewInit {
   }
 
   disabled_ContractPrice(){
-    return !this.newEntity_ContractPrice.Currency || this.newEntity_ContractPrice.Ratio<=0 || this.newEntity_ContractPrice.Price<=0 || this.newEntity_ContractPrice.Tax<0;
+    return !this.newEntity_ContractPrice.Currency || this.newEntity_ContractPrice.WaterFlow<=0 || this.newEntity_ContractPrice.Price<=0 || this.newEntity_ContractPrice.Tax<0;
   }
 
   ngOnDestroy() {
