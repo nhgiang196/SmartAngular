@@ -2035,10 +2035,10 @@ angular-ng-autocomplete@^1.1.17:
   dependencies:
     tslib "^1.9.0"
 
-angular-user-idle@^2.1.2:
-  version "2.2.1"
-  resolved "https://registry.yarnpkg.com/angular-user-idle/-/angular-user-idle-2.2.1.tgz#afb0a8c6ddbca986d13c4af700056e8c1ef1c942"
-  integrity sha512-O+5uutEzKuyBd7z4iZZuvZjr+WNrhzdWApGFOzwlGvvOXwV8X0+G336k5Nq6Z92EwvqQ9p2cEdm2GruoDuNnsw==
+angular-user-idle@^2.2.2:
+  version "2.2.2"
+  resolved "https://registry.yarnpkg.com/angular-user-idle/-/angular-user-idle-2.2.2.tgz#2f96a32779a1c0c0fca1783ba4a98db9a56aeed0"
+  integrity sha512-l++SN4/tRgISAIRPSbopkHkl1Lf1uFtsKfM4ieAC5/UkXAgIXP+oXkrM9gUd9xcLI38OXwJfDNVUUs5qv4REfw==
   dependencies:
     tslib "^1.9.0"
 
