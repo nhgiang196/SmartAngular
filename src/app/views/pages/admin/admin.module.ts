@@ -6,6 +6,8 @@ import { SharedModule } from 'src/app/core/shared/shared.module';
 
 import { RouterModule, Routes } from '@angular/router';
 import { MainViewAdminComponent } from './main-view-admin/main-view-admin.component';
+import { UISampleModule } from '../../UISample/UISample.module';
+import { FormsModule } from '@angular/forms';
 
 
 const routes: Routes = [{
@@ -30,7 +32,10 @@ const routes: Routes = [{
   imports: [
     RouterModule.forChild(routes),
     CommonModule,
-    SharedModule
+    SharedModule,
+    UISampleModule,
+    FormsModule,
+    
   ],
   exports: [RouterModule, FactoryComponent, AdminComponent, MainViewAdminComponent],
   

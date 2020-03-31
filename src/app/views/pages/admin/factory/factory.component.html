@@ -1,1 +1,271 @@
-<p>factory works!</p>
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-sm-4">
+      <h2>{{ 'Factory.label.Breadcrumb' | translate }}</h2>
+      <ol class="breadcrumb">
+        <li>
+          <a >{{ 'TopNav.Administration' | translate }}</a>
+        </li>
+        <li class="active">
+          <strong>{{ 'Factory.label.Breadcrumb' | translate }}</strong>
+        </li>
+      </ol>
+    </div>
+  </div>
+  <div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="ibox float-e-margins">
+          <div class="ibox-content" [ngClass]=" {'sk-loading': iboxloading}">
+            <div class="sk-spinner sk-spinner-wave">
+              <div class="sk-rect1"></div>
+              <div class="sk-rect2"></div>
+              <div class="sk-rect3"></div>
+              <div class="sk-rect4"></div>
+              <div class="sk-rect5"></div>
+            </div>
+            <div class="row">
+              <div class="col-sm-2">
+                <button (click)="fnAdd()" type="button" class="btn btn-primary dim" data-toggle="modal"
+                  data-target="#myModal4">
+                  <i class="fa fa-plus"></i> {{ 'Factory.btn.AddFactory' | translate}} </button>
+  
+              </div>
+              <!-- <div class="col-sm-4 text-center">
+                <h2> {{'Factory.label.TotalFactory' | translate}} {{factory_showed}} {{'Factory.' | translate}} </h2>
+                <small>{{'Factory.label.TotalFactory1' | translate}} {{factory.length}} {{'Factory.label.TotalFactory2' | translate}}</small>
+              </div> -->
+  
+              <!-- <div class="col-sm-4">
+                <div class="pull-right">
+                 <label for="">{{ 'Factory.label.SearchTitle' | translate}}</label>
+                  <div class="input-group">
+                      <input type="text"  class="form-control input-lg" placeholder="{{ 'Factory.label.SearchText' | translate}}" name="search"  [(ngModel)]="keyword"  (keyup)="$event.keyCode === 13 && loadInit()" >
+                      <div class="input-group-btn">
+                          <button class="btn btn-lg btn-primary" type="submit" (click)="loadInit()">
+                              <i class="fa fa-search"></i>
+                          </button>
+                      </div>
+                  </div>
+                </div>
+  
+              </div> -->
+              <div class="col-sm-2 text-center">
+                <div class="form-group">
+                  <label for="choose">
+                    <small>{{'Factory.label.Showed'| translate}} </small>
+                  </label>
+                <select id='choose' class="form-control" [(ngModel)]="pageSize" (change)="loadInit()" >
+                    <option value=12>12</option>
+                    <option value=24>24</option>
+                    <option value=36>36</option>
+                    <option value=0>All</option>
+                </select>
+                </div>
+              </div>
+              <div class="col-sm-4 text-center">
+                <h2 class="total-factory"> {{'Factory.label.TotalFactory' | translate}} {{factory_showed}} {{'Factory.' | translate}} </h2>
+                <pagination [totalItems]="factory_showed"   [itemsPerPage]="pageSize" (pageChanged)="pageChanged($event)"></pagination>
+              </div>
+  
+              <div class="col-sm-4">
+                <div class="pull-right">
+                 <label for="">{{ 'Factory.label.SearchTitle' | translate}}</label>
+                  <div class="input-group">
+                      <input type="text"  class="form-control input-lg" placeholder="{{ 'Factory.label.SearchText' | translate}}" name="search"  [(ngModel)]="keyword"  (keyup)="$event.keyCode === 13  && searchLoad()" >
+                      <div class="input-group-btn">
+                          <button class="btn btn-lg btn-primary" type="submit" (click)="searchLoad()">
+                              <i class="fa fa-search"></i>
+                          </button>
+                      </div>
+                  </div>
+                </div>
+  
+              </div>
+            </div>
+            <hr>
+            <!-- Detail Factories  -->
+            <div class="row">
+              <div class="col-lg-3" *ngFor="let item of factory">
+                <div class="panel panel-info">
+                  <div class="panel-heading text-center" >
+                    <a (click)="fnEditSignal(item.FactoryId)"><i class="fa fa-info-circle"></i> {{item.FactoryName}}
+                    </a>
+                    <button class="btn btn-sm btn-outline pull-right css_btnDel" (click)="fnDelete(item.FactoryId)" ><i class="fa fa-times-circle"></i> </button>
+                  </div>
+                  <div class="panel-body" >
+                    <p> <strong>{{ 'Factory.data.FactoryAddress' | translate}}:</strong>  {{item.FactoryAddress}}</p>
+                    <p> <strong>{{ 'Factory.data.FactoryContact' | translate}}:</strong> {{item.FactoryContact}}</p>
+                    <p> <strong>{{ 'Factory.data.ContactPhone' | translate }}:</strong> {{item.ContactPhone }}</p>
+                    <p> <strong>{{ 'Factory.data.FactoryType' | translate}}:</strong> {{'Factory.data.FactoryType'+item.FactoryType | translate}}</p>
+                    <p> <strong>{{ 'Factory.data.Status' | translate}}:</strong> <span class="label" [ngClass]="{'label-primary': item.Status==1, 'label-danger': item.Status==0}"> {{'Factory.data.Status'+item.Status | translate}}</span></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+  </div>
+  <div class="modal inmodal" id="myModal4" data-backdrop="static" data-keyboard="true" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg " >
+      <div class="modal-content animated fadeIn">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
+              class="sr-only">Close</span></button>
+  
+          <h4 class="modal-title"> {{'Factory.label.Information' | translate }}</h4>
+  
+        </div>
+        <div class="modal-body">
+          <form role="form" #myForm="ngForm">
+            <div class="row">
+              <div class="col-lg-6">
+                <div class="form-group">
+                  <label> {{ 'Factory.data.FactoryCode' | translate }} *: </label>
+                  <input type="text" name="Numcode" id="Numcode" class="form-control" placeholder="{{ 'Factory.placeholder.FactoryCode' | translate }}"
+                    [(ngModel)]="entity.FactoryCode" [ngClass]="{ 'is-invalid':  invalid.FactoryCodeExist  }" required>
+                    <div *ngIf="invalid.FactoryCodeExist" style="color: red;">{{ 'Factory.invalid.FactoryCodeExist' | translate }}</div>
+                </div>
+              </div>
+              <div class="col-lg-6">
+                <label>{{ 'Factory.data.FactoryBuiltDate' | translate }} :</label>
+                <input type="text" name="DateBuild" id="DateBuild" class="form-control" placeholder="{{ 'Factory.placeholder.FactoryBuiltDate' | translate }}"
+                  bsDatepicker readonly [bsConfig]="bsConfig" [(ngModel)]="entity.FactoryBuiltDate">
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-6">
+                <div class="form-group">
+                  <label>{{ 'Factory.data.FactoryName' | translate }} *:</label>
+                  <input type="text" name="Name" id="Name" class="form-control" placeholder="{{ 'Factory.placeholder.FactoryName' | translate }}"
+                    [(ngModel)]="entity.FactoryName" [ngClass]="{ 'is-invalid': invalid.FactoryNameExist }" required>
+                    <div *ngIf="invalid.FactoryNameExist" style="color: red;">{{ 'Factory.invalid.FactoryNameExist' | translate }}</div>
+                </div>
+              </div>
+              <div class="col-lg-6">
+                <label>{{ 'Factory.data.FactoryStartDate' | translate }} :</label>
+                <input readonly type="text" name="DateStart" id="DateStart" class="form-control" bsDatepicker readonly  placeholder="{{ 'Factory.placeholder.FactoryStartDate' | translate }}"
+                  [bsConfig]="bsConfig" [(ngModel)]="entity.FactoryStartDate">
+  
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-6">
+                <div class="form-group">
+                  <label>{{ 'Factory.data.FactoryAddress' | translate }} :</label>
+                  <input type="text" name="Address" id="Address" class="form-control" placeholder="{{ 'Factory.placeholder.FactoryAddress' | translate }}"
+                    [(ngModel)]="entity.FactoryAddress">
+                </div>
+              </div>
+              <div class="col-lg-6">
+                <label>{{ 'Factory.data.FactoryEndDate' | translate }} :</label>
+                <input  type="text" name="DateEnd" id="DateEnd" class="form-control"  [ngClass]="entity.Status==0? 'animated pulse' : '' " bsDatepicker  readonly
+                  [bsConfig]="bsConfig" [disabled]="entity.Status==1"   [(ngModel)]="entity.FactoryEndDate"  placeholder="{{ 'Factory.placeholder.FactoryEndDate' | translate }}">
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-6">
+                <div class="form-group">
+                  <label>{{ 'Factory.data.FactoryContact' | translate }} :</label>
+                  <input type="text" name="FactoryContact" id="FactoryContact" class="form-control" placeholder="{{ 'Factory.placeholder.FactoryContact' | translate }}"
+                    [(ngModel)]="entity.FactoryContact">
+                </div>
+              </div>
+              <div class="col-lg-6">
+                <div class="form-group">
+                  <label>{{ 'Factory.data.ContactPhone' | translate }} :</label>
+                  <input type="text" name="ContactPhone" id="ContactPhone" class="form-control" placeholder="{{ 'Factory.placeholder.ContactPhone' | translate }}"
+                    [(ngModel)]="entity.ContactPhone" mask="(+00) 000 000 0099">
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-6">
+                <div class="form-group">
+                  <label>{{ 'Factory.data.FactoryType' | translate }}:</label>
+                  <select class="select2_demo_3 form-control" [(ngModel)]="entity.FactoryType" name="FactoryType" >
+                    <option selected value=1> {{ 'Factory.data.FactoryType1' | translate }} </option>
+                    <option value=2> {{ 'Factory.data.FactoryType2' | translate }} </option>
+                    <option value=3> {{ 'Factory.data.FactoryType3' | translate }} </option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-lg-6">
+                <div class="form-group">
+                  <label>{{ 'Factory.data.Status' | translate }} :</label>
+                  <div class="switch">
+                    <div class="onoffswitch">
+                      <input type="checkbox" class="onoffswitch-checkbox" name="status" id="status"  (click)="onSwitchStatus()" [checked]="entity.Status==1 ? true : null" >
+                      <label class="onoffswitch-label" for="status">
+                        <span class="onoffswitch-inner"></span>
+                        <span class="onoffswitch-switch"></span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Upload file -->
+            <app-smart-upload [filePath]="pathFile" (entityFile)="this.entity.FactoryFile = $event" ></app-smart-upload>
+            <hr>
+            <div class="table-responsive">
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th  width="5%"  >#</th>
+                    <th  width="20%" >{{ 'Factory.data.TechnologyName' | translate }}</th>
+                    <th  width="35%" >{{ 'Factory.data.TechnologyDescription' | translate }}</th>
+                    <th  width="15%" >{{ 'Factory.data.TechnologyFromDate' | translate }}</th>
+                    <th  width="15%" >{{ 'Factory.data.TechnologyToDate' | translate }}</th>
+                    <th  width="10%" >{{ 'Button.Action' | translate }}</th>
+                  </tr>
+                </thead>
+                <tbody>
+  
+                  <tr  *ngFor="let item of entity.FactoryTechnology; let i = index">
+                    <td> {{i+1}} </td>
+                    <td *ngIf="i+1 !== EditRowNumber">{{item.TechnologyName}} </td>
+                    <td *ngIf="i+1 !== EditRowNumber">{{item.TechnologyDescription}} </td>
+                    <td *ngIf="i+1 !== EditRowNumber">{{item.TechnologyFromDate  }} </td>
+                    <td *ngIf="i+1 !== EditRowNumber">{{item.TechnologyToDate  }} </td>
+  
+                    <td *ngIf="i+1 === EditRowNumber" ><input type="text" class="form-control" name="Technology" id="Technology" [(ngModel)]="tech_entity.TechnologyName"></td>
+                    <td *ngIf="i+1 === EditRowNumber"><input type="text" class="form-control" name="Description" id="Description" [(ngModel)]="tech_entity.TechnologyDescription"> </td>
+                    <td *ngIf="i+1 === EditRowNumber"><input bsDatepicker [bsConfig]="bsConfig" type="text" class="form-control"  readonly name="BeginDate" id="BeginDate" [(ngModel)]="tech_entity.TechnologyFromDate"  > </td>
+                    <td *ngIf="i+1 === EditRowNumber"><input bsDatepicker [bsConfig]="bsConfig" type="text" class="form-control" readonly name="EndDate" id="EndDate" [(ngModel)]="tech_entity.TechnologyToDate" > </td>
+                    <td >
+                    <div class="btn-group">
+                      <button type="button" class="btn btn-sm btn-outline btn-primary" (click)="fnSaveItem(tech_entity,i)" *ngIf="i+1 === EditRowNumber" ><i class="fa fa-check"></i></button>
+                      <button type="button" class="btn btn-sm btn-outline btn-success" (click)="fnEditItem(i)" *ngIf="i+1 !== EditRowNumber"><i class="fa fa-pencil"></i></button>
+                      <button type="button" class="btn btn-sm btn-outline btn-danger" (click)="fnDeleteItem(i)" *ngIf="i+1 !== EditRowNumber"><i class="fa fa-trash"></i></button>
+                    </div>
+                    </td>
+                  </tr>
+                  <!-- new record -->
+                  <tr >
+                    <td> {{entity.FactoryTechnology.length +1}} </td>
+                    <td><input type="text" class="form-control" name="NewTechnology" id="NewTechnology" [(ngModel)]="newTechnology.TechnologyName"></td>
+                    <td><input type="text" class="form-control" name="NewDescription" id="NewDescription" [(ngModel)]="newTechnology.TechnologyDescription"></td>
+                    <td> <input bsDatepicker [bsConfig]="bsConfig" type="text" class="form-control"  readonly name="NewBeginDate" id="NewBeginDate" [(ngModel)]="newTechnology.TechnologyFromDate"></td>
+                    <td><input bsDatepicker  [bsConfig]="bsConfig" type="text" class="form-control" readonly name="NewEndDate" id="NewEndDate" [(ngModel)]="newTechnology.TechnologyToDate"></td>
+                    <td>
+                      <button type="button" class="btn  btn-sm btn-outline btn-info pull-right" [disabled]="!newTechnology.TechnologyName " (click)="fnAddItem(newTechnology)"><i class="fa fa-plus"></i> </button>
+                    </td>
+                  </tr>
+  
+                </tbody>
+              </table>
+  
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-white" data-dismiss="modal">{{'Button.Close' | translate}}  </button>
+          <button type="button" class="btn btn-primary" (click)="fnSave();" [ladda]="laddaSubmitLoading" [disabled]="myForm.invalid||EditRowNumber!=0"><i class="fa fa-paper-plane-o"></i> {{'Button.Save' | translate}} </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
