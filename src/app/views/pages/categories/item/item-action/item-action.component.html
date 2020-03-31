@@ -21,17 +21,17 @@
         <div class="col-lg-12">
             <div class="tabs-container">
                 <ul class="nav nav-tabs">
-                    <li class="active" [class.disabledTab] ="editRowId!=0"><a data-toggle="tab" href="#tab-1"><i class="fa fa-info-circle"></i>
+                    <li class="active" [class.disabledTab] ="isEditRow==true"><a data-toggle="tab" href="#tab-1"><i class="fa fa-info-circle"></i>
                             {{'Item.label.Information' | translate }}</a></li>
-                    <li [class.disabledTab] ="editRowId!=0"><a data-toggle="tab" href="#tab-2" (click)="editRowId = 0;" class=""><i
+                    <li [class.disabledTab] ="isEditRow==true"><a data-toggle="tab" href="#tab-2" (click)="isEditRow = false;" class=""><i
                                 class="fa fa-industry"></i> {{'Item.label.Factory' | translate }}</a></li>
-                    <li [class.disabledTab] ="editRowId!=0"><a data-toggle="tab" href="#tab-3" (click)="editRowId = 0;"><i
+                    <li [class.disabledTab] ="isEditRow==true"><a data-toggle="tab" href="#tab-3" (click)="isEditRow = false"><i
                                 class="fa fa-list-ul" ></i> {{'Item.label.Property' | translate }}</a></li>
-                    <li [class.disabledTab] ="editRowId!=0"><a data-toggle="tab" href="#tab-4" (click)="editRowId = 0;"><i
+                    <li [class.disabledTab] ="isEditRow==true"><a data-toggle="tab" href="#tab-4" (click)="isEditRow = false"><i
                                 class="fa fa-cube" ></i>{{'Item.label.Package' | translate }}</a></li>
-                    <li [class.disabledTab] ="editRowId!=0"><a data-toggle="tab"  href="#tab-5" (click)="editRowId = 0;"><i class="fa fa-file"></i>
+                    <li [class.disabledTab] ="isEditRow==true"><a data-toggle="tab"  href="#tab-5" (click)="isEditRow = false"><i class="fa fa-file"></i>
                             {{ 'Upload.' | translate }}</a></li>
-                    <li [class.disabledTab] ="editRowId!=0"><a data-toggle="tab" href="#tab-6" (click)="editRowId = 0;"><i class="fa fa-file"></i>
+                    <li [class.disabledTab] ="isEditRow==true"><a data-toggle="tab" href="#tab-6" (click)="isEditRow = false"><i class="fa fa-file"></i>
                             {{ 'Upload.Image' | translate }}</a></li>
                 </ul>
 
@@ -203,6 +203,9 @@
                                                     (onCellPrepared)="onCellPrepared($event)" -->
                                                     <dx-data-grid
                                                     [dataSource]="entity.ItemFactory"
+                                                    (onEditingStart)="isEditRow =true"
+                                                    (onRowUpdating)="isEditRow =false"
+                                                    (onContentReady) ="enableActiveTab($event)"
                                                     (onRowValidating)="onRowValidatingFactory($event)"
                                                     [remoteOperations]="true" height="auto"  showBorders="true">
 
@@ -248,6 +251,8 @@
                                                   (onCellPrepared)="onCellPrepared($event)" -->
                                                   <dx-data-grid
                                                   [dataSource]="entity.ItemProperty"
+                                                  (onEditingStart)="isEditRow =true"
+                                                  (onContentReady) ="enableActiveTab($event)"
                                                   (onRowValidating)="onRowValidatingItemProperty($event)"
                                                   [remoteOperations]="true" height="auto"  showBorders="true">
 
@@ -288,6 +293,8 @@
                               <div class="col-sm-12">
                                 <dx-data-grid
                                 [dataSource]="entity.ItemPackage"
+                                (onEditingStart)="isEditRow =true"
+                                (onContentReady) ="enableActiveTab($event)"
                                 (onRowValidating)="onRowValidatingUnit($event)"
                                 [remoteOperations]="true" height="auto"  showBorders="true">
 
@@ -400,7 +407,7 @@
                 <div class="row">
                     <div class="col-sm-12">
                         <button class="btn btn-primary pull-right"
-
+                            [ladda]="laddaSubmitLoading"
                             [disabled]="myForm.invalid ||entity.ItemUnitId==null" (click)="fnSave()">
                             <i class="fa fa-plus"></i>
                             {{'Button.Save' | translate}}

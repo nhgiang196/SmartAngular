@@ -16,7 +16,7 @@ import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 import { SmartUploadComponent } from 'src/app/views/UISample/smart-upload/smart-upload.component';
 import { FileService } from 'src/app/core/services/file.service';
-
+declare var $ :any;
 @Component({
   selector: 'app-item-action',
   templateUrl: './item-action.component.html',
@@ -33,7 +33,7 @@ export class ItemActionComponent implements OnInit {
   minMode: BsDatepickerViewMode = "year";
   bsConfig: Partial<BsDatepickerConfig>;
   //set rowEdit
-  editRowId: number = 0;
+  isEditRow: boolean  = false;
   pathFile = "uploadFileItems";
   uploadReportProgress: any = { progress: 0, message: null, isError: null };
   laddaSubmitLoading = false;
@@ -131,6 +131,17 @@ export class ItemActionComponent implements OnInit {
     }
   }
 
+
+  enableActiveTab(e){
+    let self = this;
+    $(".dx-link-save[aria-label='Save']").click(function (event) {
+      self.isEditRow =false;
+    });
+    $(".dx-link-cancel[aria-label='Cancel']").click(function (event) {
+      self.isEditRow =false;
+    });
+  }
+
   onSwitchStatus() {
     //modal switch on change
     this.entity.Status = this.entity.Status == 0 ? 1 : 0;
@@ -169,7 +180,6 @@ export class ItemActionComponent implements OnInit {
         e.isValid = false;
       }
     }
-
   }
 
   loadFactorySelectBox() {
@@ -216,7 +226,6 @@ export class ItemActionComponent implements OnInit {
         e.isValid = false;
       }
     }
-
   }
   loadItemPropertySelectBox(itemTypeId) {
     let keyId = "ItemTypePropertyId";
