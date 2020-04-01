@@ -8,20 +8,7 @@ import { Warehouse, WarehouseLocation } from 'src/app/core/models/warehouse';
 import { WareHouseService, AuthService } from 'src/app/core/services';
 import { SmartUploadComponent } from 'src/app/views/UISample/smart-upload/smart-upload.component';
 import { SmartSelectComponent } from 'src/app/views/UISample/smart-select/smart-select.component';
-import notify from 'devextreme/ui/notify';
 declare let $: any;
-
-
-const sendRequest = function (value) {
-  const validEmail = "test@dx-email.com";
-  return new Promise((resolve) => {
-    setTimeout(function () {
-      resolve(value === validEmail);
-    }, 1000);
-  });
-}
-
-
 @Component({
   selector: 'app-warehouse',
   templateUrl: './warehouse.component.html',
@@ -35,55 +22,16 @@ const sendRequest = function (value) {
   ]
 })
 
-
-
 export class WarehouseComponent implements OnInit {
   // @ViewChild('myInputFile') InputManual: ElementRef;
-  @ViewChild(SmartUploadComponent, { static: true }) uploadComponent: SmartUploadComponent;
-  @ViewChild(SmartSelectComponent, { static: true }) selectComponent: SmartSelectComponent;
+  @ViewChild(SmartUploadComponent, {static: true}) uploadComponent: SmartUploadComponent;
+  @ViewChild(SmartSelectComponent, {static: true}) selectComponent: SmartSelectComponent;
   constructor(
     private toastr: ToastrService,
     private warehouseService: WareHouseService,
     public trans: TranslateService,
     private auth: AuthService
-  ) {
-    this.maxDate = new Date(this.maxDate.setFullYear(this.maxDate.getFullYear() - 21));
-    this.countries = ['Afghanistan', 'Albania', 'Algeria', 'Andorra', 'Angola', 'Antigua and Barbuda', 'Argentina', 'Armenia', 'Australia', 'Austria', 'Azerbaijan', 'The   Bahamas', 'Bahrain', 'Bangladesh', 'Barbados', 'Belarus', 'Belgium', 'Belize', 'Benin', 'Bhutan', 'Bolivia', 'Bosnia and Herzegovina', 'Botswana', 'Brazil', 'Brunei', 'Bulgaria', 'Burkina Faso', 'Burma', 'Burundi', 'Cambodia', 'Cameroon', 'Canada', 'Cape Verde', 'Central African Republic', 'Chad', 'Chile', 'China', 'Colombia', 'Comoros', 'Democratic Republic of the Congo', 'Republic of the Congo', 'Costa Rica', 'Ivory Coast', 'Croatia', 'Cuba', 'Cyprus', 'Czech Republic', 'Denmark', 'Djibouti', 'Dominica', 'Dominican Republic', 'East Timor', 'Ecuador', 'Egypt', 'El Salvador', 'Equatorial Guinea', 'Eritrea', 'Estonia', 'Ethiopia', 'Fiji', 'Finland', 'France', 'Gabon', 'The Gambia', 'Georgia', 'Germany', 'Ghana', 'Greece', 'Grenada', 'Guatemala', 'Guinea', 'Guinea-Bissau', 'Guyana', 'Haiti', 'Honduras', 'Hungary', 'Iceland', 'India', 'Indonesia', 'Iran', 'Iraq', 'Republic of Ireland', 'Israel', 'Italy', 'Jamaica', 'Japan', 'Jordan', 'Kazakhstan', 'Kenya', 'Kiribati', 'North Korea', 'South Korea', 'Kuwait', 'Kyrgyzstan', 'Laos', 'Latvia', 'Lebanon', 'Lesotho', 'Liberia', 'Libya', 'Liechtenstein', 'Lithuania', 'Luxembourg', 'Republic of Macedonia', 'Madagascar', 'Malawi', 'Malaysia', 'Maldives', 'Mali', 'Malta', 'Marshall Islands', 'Mauritania', 'Mauritius', 'Mexico', 'Federated States of Micronesia', 'Moldova', 'Monaco', 'Mongolia', 'Montenegro', 'Morocco', 'Mozambique', 'Namibia', 'Nauru', 'Nepal', 'Kingdom of the Netherlands', 'New Zealand', 'Nicaragua', 'Niger', 'Nigeria', 'Norway', 'Oman', 'Pakistan', 'Palau', 'State of Palestine', 'Panama', 'Papua New Guinea', 'Paraguay', 'Peru', 'Philippines', 'Poland', 'Portugal', 'Qatar', 'Romania', 'Russia', 'Rwanda', 'Saint Kitts and Nevis', 'Saint Lucia', 'Saint Vincent and the Grenadines', 'Samoa', 'San Marino', 'São Tomé and Príncipe', 'Saudi Arabia', 'Senegal', 'Serbia', 'Seychelles', 'Sierra Leone', 'Singapore', 'Slovakia', 'Slovenia', 'Solomon Islands', 'Somalia', 'South Africa', 'South Sudan', 'Spain', 'Sri Lanka', 'Sudan', 'Suriname', 'Swaziland', 'Sweden', 'Switzerland', 'Syria', 'Tajikistan', 'Tanzania', 'Thailand', 'Togo', 'Tonga', 'Trinidad and Tobago', 'Tunisia', 'Turkey', 'Turkmenistan', 'Tuvalu', 'Uganda', 'Ukraine', 'United Arab Emirates', 'United Kingdom', 'United States', 'Uruguay', 'Uzbekistan', 'Vanuatu', 'Vatican City', 'Venezuela', 'Vietnam', 'Yemen', 'Zambia', 'Zimbabwe'];
-
-  }
-
-  password = "";
-  maxDate: Date = new Date();
-  cityPattern = "^[^0-9]+$";
-  namePattern: any = /^[^0-9]+$/;
-  phonePattern: any = /^\+\s*1\s*\(\s*[02-9]\d{2}\)\s*\d{3}\s*-\s*\d{4}$/;
-  countries: string[];
-  phoneRules: any = {
-    X: /[02-9]/
-  }
-
-  passwordComparison = () => {
-    return this.password;
-  };
-  checkComparison() {
-    return true;
-  }
-  asyncValidation(params) {
-    return sendRequest(params.value);
-  }
-  onFormSubmit = function (e) {
-    notify({
-      message: "You have submitted the form",
-      position: {
-        my: "center top",
-        at: "center top"
-      }
-    }, "success", 3000);
-
-    e.preventDefault();
-  }
-
-
+  ) { }
   /** INIT / DECLARATION */
   Warehouse: any[] = []; //init data
   entity: Warehouse;
@@ -107,19 +55,19 @@ export class WarehouseComponent implements OnInit {
     this.loadInit();
   }
   private loadUsers() {
-    this.auth.getUsers().subscribe(res => {
-      this.initCombobox.Users = res;
+    this.auth.getUsers().subscribe(res=>{
+      this.initCombobox.Users= res;
     }, err => this.toastr.warning('Get users Failed, check network'))
   }
-  searchLoad() {
-    this.pageIndex = 1;
+  searchLoad(){
+    this.pageIndex=1;
     this.loadInit();
 
   }
 
   loadInit() { //init loading
     this.iboxloading = true;
-    this.warehouseService.getPagination(this.keyword, this.pageIndex, this.pageSize).subscribe(res => {
+    this.warehouseService.getPagination(this.keyword,this.pageIndex, this.pageSize).subscribe(res => {
       var data = res as any;
       // this.selectComponent.specialId = res.FactoryId;
       // this.selectComponent.loadInit();
@@ -131,10 +79,10 @@ export class WarehouseComponent implements OnInit {
       this.iboxloading = false;
     });
   }
-  onSwitchStatus(_TYPE) { //modal switch on change
-    if (_TYPE == 'newLocationEntity') this.newLocationEntity.Status = this.newLocationEntity.Status == 0 ? 1 : 0;
-    if (_TYPE == 'locationEntity') this.locationEntity.Status = this.locationEntity.Status == 0 ? 1 : 0;
-    if (_TYPE == 'entity') this.entity.Status = this.entity.Status == 0 ? 1 : 0;
+  onSwitchStatus (_TYPE){ //modal switch on change
+    if (_TYPE == 'newLocationEntity') this.newLocationEntity.Status=  this.newLocationEntity.Status==0 ? 1: 0;
+    if (_TYPE == 'locationEntity') this.locationEntity.Status =  this.locationEntity.Status==0 ? 1: 0;
+    if (_TYPE == 'entity') this.entity.Status = this.entity.Status==0? 1: 0;
   }
   /** BUTTON ACTIONS */
   fnAdd() { //press new button
@@ -144,9 +92,9 @@ export class WarehouseComponent implements OnInit {
     this.entity.CreateBy = this.auth.currentUser.Username;
   }
   async fnEditSignal(id) { //press a link of ENTITY
-
+    
     if (id == null) { this.toastr.warning('ID is Null, cant show modal'); return; }
-
+    
     this.ACTION_STATUS = 'update';
     this.iboxloading = true;
     await this.warehouseService.findById(id).subscribe(res => {
@@ -154,8 +102,8 @@ export class WarehouseComponent implements OnInit {
       this.entity = res;
       $("#myModal4").modal('show');
       this.iboxloading = false;
-      console.log('getEntity', res);
-
+      console.log('getEntity',res);
+      
       /**CONTROL FILES */
       this.uploadComponent.loadInit(res.WarehouseFile);
       this.entity.ModifyBy = this.auth.currentUser.Username;
@@ -169,7 +117,7 @@ export class WarehouseComponent implements OnInit {
     this.loadInit();
 
   }
-
+  
   fnDelete(id) { //press Delete Entity
     swal.fire({
       title: this.trans.instant('Warehouse.mssg.DeleteAsk_Title'),
@@ -204,7 +152,7 @@ export class WarehouseComponent implements OnInit {
   async fnSave() { // press save butotn
     this.laddaSubmitLoading = true;
     var e = this.entity;
-
+    
     if (await this.fnValidate(e)) {
       await this.uploadComponent.uploadFile();
       if (this.ACTION_STATUS == 'add') {
@@ -228,7 +176,7 @@ export class WarehouseComponent implements OnInit {
           var operationResult: any = res
           if (operationResult.Success) {
             this.loadInit();
-
+            
             this.toastr.success(this.trans.instant("messg.update.success"));
           }
           else this.toastr.warning(operationResult.Message);
@@ -237,33 +185,35 @@ export class WarehouseComponent implements OnInit {
       }
     }
   }
-
+  
   async fnAddItem(itemAdd) { //press add item
     let _checkValidate = await this.validateItem(itemAdd);
-    if (!_checkValidate) return;
+     if (!_checkValidate) return;
     itemAdd.WarehouseId = this.entity.WarehouseId;
     this.entity.WarehouseLocation.push(itemAdd);
     this.newLocationEntity = new WarehouseLocation();
   }
-  async fnSaveItem(itemAdd, index) { //press add item
-    let _checkValidate = await this.validateItem(itemAdd, index);
-    if (!_checkValidate) return;
+  async fnSaveItem(itemAdd,index) { //press add item
+    let _checkValidate = await this.validateItem(itemAdd,index);
+     if (!_checkValidate) return;
     itemAdd.WarehouseId = this.entity.WarehouseId;
-    this.entity.WarehouseLocation.splice(index, 1, itemAdd)
+    this.entity.WarehouseLocation.splice(index,1,itemAdd)
     this.locationEntity = new WarehouseLocation();
   }
-  async validateItem(itemAdd, index = -1) {
+  async validateItem(itemAdd, index = -1){
     for (const i in this.entity.WarehouseLocation) {
-      const t = this.entity.WarehouseLocation[i];
-      if (index.toString() == i) continue;
-      if (t.WarehouseLocationName.toLowerCase().trim() === itemAdd.WarehouseLocationName.toLowerCase().trim()) {
-        swal.fire("Validate", this.trans.instant('Warehouse.data.WarehouseLocationCode') + this.trans.instant('messg.isexisted'), 'warning');
-        return false;
-      }
-      if (t.WarehouseLocationCode.toLowerCase().trim() === itemAdd.WarehouseLocationCode.toLowerCase().trim()) {
-        swal.fire("Validate", this.trans.instant('Warehouse.data.WarehouseLocationCode') + this.trans.instant('messg.isexisted'), 'warning');
-        return false;
-      }
+        const t = this.entity.WarehouseLocation[i];
+        if (index.toString() == i) continue;
+        if (t.WarehouseLocationName.toLowerCase().trim()  === itemAdd.WarehouseLocationName.toLowerCase().trim())
+        {
+          swal.fire("Validate", this.trans.instant('Warehouse.data.WarehouseLocationCode') + this.trans.instant('messg.isexisted'), 'warning');
+          return false;
+        } 
+        if (t.WarehouseLocationCode.toLowerCase().trim()  === itemAdd.WarehouseLocationCode.toLowerCase().trim())
+        {
+          swal.fire("Validate", this.trans.instant('Warehouse.data.WarehouseLocationCode') + this.trans.instant('messg.isexisted'), 'warning');
+          return false;
+        } 
     }
     this.EditRowNumber = 0;
     return true;
@@ -282,7 +232,8 @@ export class WarehouseComponent implements OnInit {
   private async fnValidate(e: Warehouse) { // validate entity value
     this.invalid = {};
     let result = await this.warehouseService.validate(e).toPromise().then() as any;
-    if (!result.Success) {
+    if (!result.Success)
+    {
       this.laddaSubmitLoading = false;
       this.invalid[result.Message] = true;
       return false;
@@ -290,19 +241,19 @@ export class WarehouseComponent implements OnInit {
     return true;
   }
   private async resetEntity() { //reset entity values
-
+    
     this.entity = new Warehouse();
     this.locationEntity = new WarehouseLocation();
     this.newLocationEntity = new WarehouseLocation();
     this.invalid = {};
-    this.EditRowNumber = 0;
-
+    this.EditRowNumber=0;
+    
   }
   private CheckBeforeEdit(id) { //check auth before edit 
     this.toastr.warning("User not dont have permission");
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(){
     $('.modal').modal('hide');
   }
 
