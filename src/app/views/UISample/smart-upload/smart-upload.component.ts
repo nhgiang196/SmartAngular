@@ -5,6 +5,8 @@ import swal from 'sweetalert2';
 import { ItemService } from 'src/app/core/services';
 import { UI_CustomFile } from 'src/app/core/models/file';
 import { MyHelperService } from 'src/app/core/services/my-helper.service';
+import { HttpEventType } from '@angular/common/http';
+import { UploadService } from 'src/app/core/services/general/upload.service';
 
 @Component({
   selector: 'app-smart-upload',
@@ -17,7 +19,7 @@ export class SmartUploadComponent implements OnInit {
   @Output('entityFile') send_entityFile = new EventEmitter<UI_CustomFile[]>();  /*** * example: WarehouseFile[] -> File()    */
 
   constructor(
-    private api: ItemService,
+    private api: UploadService,
     private toastr: ToastrService,
     public trans: TranslateService,
     private helper: MyHelperService,
@@ -64,17 +66,17 @@ export class SmartUploadComponent implements OnInit {
       let _file = this.addFiles.FileList[index];
       formData.append("files", _file, this.addFiles.FileLocalNameList[index]);
     }
-    // this.api.uploadFile(formData, this.pathFile).subscribe(event => {
-    //   if (event.type === HttpEventType.UploadProgress)
-    //     this.uploadReportProgress.progress = Math.round(100 * event.loaded / event.total);
-    //   else if (event.type === HttpEventType.Response) {
-    //     this.uploadReportProgress.message = this.trans.instant('Upload.UploadFileSuccess');
-    //     // this.onUploadFinished.emit(event.body);
-    //   }
-    // }, err => {
-    //   this.toastr.warning(err.statusText, this.trans.instant('Upload.UploadFileError'));
-    //   this.uploadReportProgress = { progress: 0, message: 'Error: '+ err.statusText, isError: true };
-    // });
+    this.api.uploadFile(formData, this.pathFile).subscribe(event => {
+      if (event.type === HttpEventType.UploadProgress)
+        this.uploadReportProgress.progress = Math.round(100 * event.loaded / event.total);
+      else if (event.type === HttpEventType.Response) {
+        this.uploadReportProgress.message = this.trans.instant('Upload.UploadFileSuccess');
+        // this.onUploadFinished.emit(event.body);
+      }
+    }, err => {
+      this.toastr.warning(err.statusText, this.trans.instant('Upload.UploadFileError'));
+      this.uploadReportProgress = { progress: 0, message: 'Error: '+ err.statusText, isError: true };
+    });
   }
 
    fnDownloadFile(filename) { //press FILES preview

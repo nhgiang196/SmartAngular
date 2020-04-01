@@ -137,10 +137,10 @@
                       <td *ngIf="i+1 !== EditRowNumber">{{item.ContractNo}} </td>
                       <td *ngIf="i+1 !== EditRowNumber">{{item.ContractCode}} </td>
                       <td *ngIf="i+1 !== EditRowNumber">{{'Contract.data.ContractType'+item.ContractType | translate}} </td>
-                      <td *ngIf="i+1 !== EditRowNumber">{{item.EffectiveDate | date: 'DD-MM-YYYY'}} </td>
+                      <td *ngIf="i+1 !== EditRowNumber">{{item.ContractEffectiveDate | date: 'DD-MM-YYYY'}} </td>
                       <td *ngIf="i+1 !== EditRowNumber">{{'Contract.data.StandardType'+ item.StandardType | translate}} </td>
-                      <td *ngIf="i+1 !== EditRowNumber">{{item.Ratio}} </td>
-                      <td *ngIf="i+1 !== EditRowNumber">{{item.Description}} </td>
+                      <td *ngIf="i+1 !== EditRowNumber">{{item.WasteWaterRatio}} </td>
+                      <td *ngIf="i+1 !== EditRowNumber">{{item.ContractDescription}} </td>
                       <td *ngIf="i+1 !== EditRowNumber">
                         <span><i class="fa fa-lg" [ngClass]="{'fa-check-square-o text-info': item.IsIntergration==true, 'fa-square-o':item.IsIntergration==false}" ></i> </span>
   
