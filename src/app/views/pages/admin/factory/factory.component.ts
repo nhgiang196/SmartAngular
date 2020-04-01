@@ -1,22 +1,16 @@
 import { Component, OnInit, ElementRef, ViewChild, Output } from '@angular/core';
-
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
-import swal from 'sweetalert2';
 import { trigger, transition, style, animate } from '@angular/animations';
-import { MomentModule } from 'ngx-moment';
-import { HttpEventType } from '@angular/common/http';
-import { EventEmitter } from 'protractor';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
-import { CONNREFUSED } from 'dns';
-import { Action } from 'rxjs/internal/scheduler/Action';
 import { PageChangedEvent } from 'ngx-bootstrap/pagination';
 import { SmartUploadComponent } from 'src/app/views/UISample/smart-upload/smart-upload.component';
 import { FactoryService, AuthService } from 'src/app/core/services';
 import { MyHelperService } from 'src/app/core/services/my-helper.service';
 import { Factory, FactoryTechnology } from 'src/app/core/models/factory';
 import { UI_CustomFile } from 'src/app/core/models/file';
+import swal from 'sweetalert2';
 declare let $: any;
+
 @Component({
   selector: 'app-factory',
   templateUrl: './factory.component.html',
@@ -30,8 +24,8 @@ declare let $: any;
   ]
 })
 export class FactoryComponent implements OnInit {
-  @ViewChild('myInputFile',{static: true}) InputManual: ElementRef; // set for emtpy file after Close or Reload
-  @ViewChild(SmartUploadComponent,{static: true}) uploadComponent: SmartUploadComponent;
+  @ViewChild('myInputFile', { static: true }) InputManual: ElementRef; // set for emtpy file after Close or Reload
+  @ViewChild(SmartUploadComponent, { static: true }) uploadComponent: SmartUploadComponent;
   constructor(
     private api: FactoryService,
     private toastr: ToastrService,
@@ -65,12 +59,11 @@ export class FactoryComponent implements OnInit {
   loadInit() {
     this.iboxloading = true;
     this.EditRowNumber = 0;
-    this.api.getFactoryPaginationMain(this.keyword,this.pageIndex, this.pageSize).subscribe(res => {
+    this.api.getFactoryPaginationMain(this.keyword, this.pageIndex, this.pageSize).subscribe(res => {
       var data = res as any;
       this.factory = data.result;
       this.factory_showed = data.totalCount;
       this.iboxloading = false;
-
     }, err => {
       this.toastr.error(err.statusText, "Load init failed!");
       this.iboxloading = false;
@@ -83,8 +76,8 @@ export class FactoryComponent implements OnInit {
 
   }
 
-  searchLoad(){
-    this.pageIndex=1;
+  searchLoad() {
+    this.pageIndex = 1;
     this.loadInit();
 
   }
@@ -147,9 +140,8 @@ export class FactoryComponent implements OnInit {
               this.loadInit();
               $("#myModal4").modal('hide');
             }
-            else{
-              if((operationResult.Message.indexOf("The DELETE statement conflicted with the REFERENCE constraint")) > 0 )
-              {
+            else {
+              if ((operationResult.Message.indexOf("The DELETE statement conflicted with the REFERENCE constraint")) > 0) {
                 swal.fire(
                   {
                     title: this.trans.instant('messg.validation.caption'),
@@ -166,17 +158,17 @@ export class FactoryComponent implements OnInit {
       })
   }
   async fnAddItem(itemAdd) { //press add item (in modal)
-    let _checkValidate = await this.validateItem(itemAdd,-1)
+    let _checkValidate = await this.validateItem(itemAdd, -1)
     if (!_checkValidate) return;
     else this.entity.FactoryTechnology.push(itemAdd);
     this.newTechnology = new FactoryTechnology();
   }
-  async fnSaveItem(itemAdd,index) { //press add item (in modal)
-    let _checkValidate = await this.validateItem(itemAdd,index)
+  async fnSaveItem(itemAdd, index) { //press add item (in modal)
+    let _checkValidate = await this.validateItem(itemAdd, index)
     if (!_checkValidate) return;
     this.entity.FactoryTechnology.splice(index, 1, itemAdd);
     this.tech_entity = new FactoryTechnology();
-    
+
   }
 
 
@@ -187,7 +179,7 @@ export class FactoryComponent implements OnInit {
     // }
 
     //Check validate date from biger than date to
-    if(itemAdd.TechnologyFromDate > itemAdd.TechnologyToDate){
+    if (itemAdd.TechnologyFromDate > itemAdd.TechnologyToDate) {
       swal.fire(
         {
           title: this.trans.instant('messg.validation.caption'),
@@ -200,34 +192,33 @@ export class FactoryComponent implements OnInit {
     }
 
     for (const i in this.entity.FactoryTechnology) {
-        let t = this.entity.FactoryTechnology[i];
-        if (index.toString() === i ) continue;
-        if (t.TechnologyName.toLowerCase().trim() === itemAdd.TechnologyName.toLowerCase().trim())
-        {
-          swal.fire(
-            {
-              title: this.trans.instant('messg.validation.caption'),
-              titleText: this.trans.instant('Factory.mssg.ErrorDuplicateTechnology'),
-              confirmButtonText: this.trans.instant('Button.OK'),
-              type: 'error',
-            }
-          );
-          return false;
-        }
+      let t = this.entity.FactoryTechnology[i];
+      if (index.toString() === i) continue;
+      if (t.TechnologyName.toLowerCase().trim() === itemAdd.TechnologyName.toLowerCase().trim()) {
+        swal.fire(
+          {
+            title: this.trans.instant('messg.validation.caption'),
+            titleText: this.trans.instant('Factory.mssg.ErrorDuplicateTechnology'),
+            confirmButtonText: this.trans.instant('Button.OK'),
+            type: 'error',
+          }
+        );
+        return false;
+      }
 
-        if ((itemAdd.TechnologyFromDate >= t.TechnologyFromDate && itemAdd.TechnologyFromDate <= t.TechnologyToDate)
+      if ((itemAdd.TechnologyFromDate >= t.TechnologyFromDate && itemAdd.TechnologyFromDate <= t.TechnologyToDate)
         || (itemAdd.TechnologyToDate >= t.TechnologyFromDate && itemAdd.TechnologyToDate <= t.TechnologyToDate)
         || (itemAdd.TechnologyFromDate <= t.TechnologyFromDate && itemAdd.TechnologyToDate >= t.TechnologyToDate)) {
-          swal.fire(
+        swal.fire(
           {
             title: this.trans.instant('messg.validation.caption'),
             titleText: this.trans.instant('Factory.mssg.ErrorTechnologyValidateOverlap'),
             confirmButtonText: this.trans.instant('Button.OK'),
             type: 'error',
           });
-          return false;
-        }
+        return false;
       }
+    }
 
     //check duplicate technology Name
     // console.log(this.entity.FactoryTechnology);
@@ -313,7 +304,7 @@ export class FactoryComponent implements OnInit {
     return true
   }
 
-  
+
   fnEditItem(index) { //press edit item (in modal)
     this.EditRowNumber = index + 1;
     this.tech_entity = new FactoryTechnology();

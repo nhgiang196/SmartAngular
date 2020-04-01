@@ -95,7 +95,7 @@
                   <div class="panel-body" >
                     <p> <strong>{{ 'Factory.data.FactoryAddress' | translate}}:</strong>  {{item.FactoryAddress}}</p>
                     <p> <strong>{{ 'Factory.data.FactoryContact' | translate}}:</strong> {{item.FactoryContact}}</p>
-                    <p> <strong>{{ 'Factory.data.ContactPhone' | translate }}:</strong> {{item.ContactPhone }}</p>
+                    <p> <strong>{{ 'Factory.data.ContactPhone' | translate }}:</strong> {{item.FactoryContactPhone }}</p>
                     <p> <strong>{{ 'Factory.data.FactoryType' | translate}}:</strong> {{'Factory.data.FactoryType'+item.FactoryType | translate}}</p>
                     <p> <strong>{{ 'Factory.data.Status' | translate}}:</strong> <span class="label" [ngClass]="{'label-primary': item.Status==1, 'label-danger': item.Status==0}"> {{'Factory.data.Status'+item.Status | translate}}</span></p>
                   </div>
@@ -177,7 +177,7 @@
                 <div class="form-group">
                   <label>{{ 'Factory.data.ContactPhone' | translate }} :</label>
                   <input type="text" name="ContactPhone" id="ContactPhone" class="form-control" placeholder="{{ 'Factory.placeholder.ContactPhone' | translate }}"
-                    [(ngModel)]="entity.ContactPhone" mask="(+00) 000 000 0099">
+                    [(ngModel)]="entity.FactoryContactPhone" mask="(+00) 000 000 0099">
                 </div>
               </div>
             </div>
