@@ -28,7 +28,7 @@ export class ItemComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute
   ) {
-    this.dataSource = this.itemService.getDataGridItem(this.dataSource, 'ItemId');
+    this.dataSource = this.itemService.getDataGridItem('ItemId');
   }
   async ngOnInit() {
     await this.getAllItemType();
@@ -51,7 +51,7 @@ export class ItemComponent implements OnInit {
 
   searchItemByItemType(id){
     let filter = id!=0?["ItemTypeId", "=",id]:[];
-    this.dataSource= this.itemService.getDataGridItem(this.dataSource, 'ItemId');
+    this.dataSource= this.itemService.getDataGridItem('ItemId');
     this.dataSource.filter(filter);
   }
 }

@@ -89,8 +89,8 @@ export class ItemService {
   //   return dataSource;
   // }
 
-  getDataGridItem(dataSource, key) {
-    dataSource  = new DataSource({
+  getDataGridItem(key) {
+   return  new DataSource({
       store:AspNetData.createStore({
         key: key,
         loadUrl: `${ApiUrl}/Item/GetItemDataGridPagination`,
@@ -100,7 +100,6 @@ export class ItemService {
        }
       })
     });
-    return dataSource;
   }
 
 
