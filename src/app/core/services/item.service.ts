@@ -98,8 +98,7 @@ export class ItemService {
         onBeforeSend: function (method, ajaxOptions) {
           ajaxOptions.data.keyId = key;
        }
-      }),
-      filter:[]
+      })
     });
     return dataSource;
   }
