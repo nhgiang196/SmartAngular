@@ -89,8 +89,8 @@ export class ItemService {
   //   return dataSource;
   // }
 
-  getDataGridItem(dataSource, key) {
-    dataSource  = new DataSource({
+  getDataGridItem( key) {
+   let dataSource  = new DataSource({
       store:AspNetData.createStore({
         key: key,
         loadUrl: `${ApiUrl}/Item/GetItemDataGridPagination`,
