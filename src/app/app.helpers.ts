@@ -194,3 +194,17 @@ export function showNavBar() {
   $("body.mini-navbar #page-wrappe").attr('style','margin:0 0 0 70px');
   $(".navbar-static-side").show();
 }
+
+export function checkActiveTab(){
+  let isEditRow= false;
+  if($(".dx-datagrid-content .dx-command-edit").find("a").hasClass('dx-link-save')){
+    $(".nav-tabs li").each(function(){
+      $(this).addClass("disabledTab")
+    })
+  }
+  else{
+    $(".nav-tabs li").each(function(){
+      $(this).removeClass("disabledTab")
+    })
+  }
+}
