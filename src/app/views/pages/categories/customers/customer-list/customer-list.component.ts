@@ -38,6 +38,7 @@ export class CustomerListComponent  implements  OnInit {
 
   lsDatatable : any= []; //return datatable
   ngOnInit() {
+    // this.dataSource.filter(["Status", "=", 1]);
   }
   
   fnDelete(rowValue){

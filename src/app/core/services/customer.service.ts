@@ -29,7 +29,6 @@ export class CustomerService {
       }) ,
       paginate: true,
       pageSize: 10,
-      filter: [],
       })
       return dataSource;
   }
