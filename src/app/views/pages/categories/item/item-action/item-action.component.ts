@@ -62,8 +62,9 @@ export class ItemActionComponent implements OnInit {
       minMode: this.minMode,
       dateInputFormat: "YYYY",
       adaptivePosition: true
-    }
-  );
+    });
+
+    this.enableActiveTab();
   }
 
  async fnSave() {
@@ -132,7 +133,7 @@ export class ItemActionComponent implements OnInit {
   }
 
 
-  enableActiveTab(e){
+  enableActiveTab(){
     let self = this;
     $(".dx-link-save[aria-label='Save']").click(function (event) {
       self.isEditRow =false;

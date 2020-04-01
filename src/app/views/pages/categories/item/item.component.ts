@@ -50,7 +50,8 @@ export class ItemComponent implements OnInit {
   }
 
   searchItemByItemType(id){
-    let fillter = id!=0?["ItemTypeId", "=",id]:[];
-    this.dataSource= this.itemService.getDataGridItem(this.dataSource, 'ItemId',fillter)
+    let filter = id!=0?["ItemTypeId", "=",id]:[];
+    this.dataSource= this.itemService.getDataGridItem(this.dataSource, 'ItemId');
+    this.dataSource.filter(filter);
   }
 }

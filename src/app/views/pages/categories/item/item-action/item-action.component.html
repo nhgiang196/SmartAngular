@@ -201,12 +201,12 @@
                                                   <div class="col-sm-12 pl-2">
                                                     <!-- (onRowUpdating)="onRowUpdating($event)"
                                                     (onCellPrepared)="onCellPrepared($event)" -->
+                                                    <!-- (onRowValidating)="onRowValidatingFactory($event)" -->
                                                     <dx-data-grid
                                                     [dataSource]="entity.ItemFactory"
                                                     (onEditingStart)="isEditRow =true"
                                                     (onRowUpdating)="isEditRow =false"
                                                     (onContentReady) ="enableActiveTab($event)"
-                                                    (onRowValidating)="onRowValidatingFactory($event)"
                                                     [remoteOperations]="true" height="auto"  showBorders="true">
 
                                                     <dxo-editing
@@ -249,10 +249,10 @@
                                                 <div class="col-sm-12 pl-2">
                                                   <!-- (onRowUpdating)="onRowUpdating($event)"
                                                   (onCellPrepared)="onCellPrepared($event)" -->
+                                                  <!-- (onContentReady) ="enableActiveTab($event)" -->
                                                   <dx-data-grid
                                                   [dataSource]="entity.ItemProperty"
                                                   (onEditingStart)="isEditRow =true"
-                                                  (onContentReady) ="enableActiveTab($event)"
                                                   (onRowValidating)="onRowValidatingItemProperty($event)"
                                                   [remoteOperations]="true" height="auto"  showBorders="true">
 
@@ -294,7 +294,6 @@
                                 <dx-data-grid
                                 [dataSource]="entity.ItemPackage"
                                 (onEditingStart)="isEditRow =true"
-                                (onContentReady) ="enableActiveTab($event)"
                                 (onRowValidating)="onRowValidatingUnit($event)"
                                 [remoteOperations]="true" height="auto"  showBorders="true">
 
