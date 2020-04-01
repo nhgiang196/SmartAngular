@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { DataTablePaginationParams, DataTablesResponse } from '../models/datatable';
 import { environment } from 'src/environments/environment';
 import * as AspNetData from "devextreme-aspnet-data-nojquery";
+import DataSource from 'devextreme/data/data_source';
 const ApiUrl = environment.apiUrl;;
 @Injectable({ providedIn: 'root' })
 export class ItemService {
@@ -50,41 +51,57 @@ export class ItemService {
   // getItemByItemType =(itemTypeId) => this.http.get(`${ApiUrl}/Item/GetItemByItemType/`,{ params: { itemTypeId: itemTypeId } } );
   findItemById = (id) => this.http.get<any>(`${ApiUrl}/Item/FindItemById?id=${id}`);
   checkItemNameExist = (itemName) => this.http.get<any>(`${ApiUrl}/Item/CheckItemNameExist?ItemName=${itemName}`);
-  getDataGridItem(dataSource, key, filter = []) {
+  // getDataGridItem(dataSource, key, filter = []) {
 
-    dataSource = AspNetData.createStore({
-      key: key,
-      loadUrl: `${ApiUrl}/Item/GetItemDataGridPagination`,
-      deleteUrl:`${ApiUrl}/Item/DeleteItem`,
-      onBeforeSend: function (method, ajaxOptions) {
-        ajaxOptions.data.keyId = key;
+  //   dataSource = AspNetData.createStore({
+  //     key: key,
+  //     loadUrl: `${ApiUrl}/Item/GetItemDataGridPagination`,
+  //     deleteUrl:`${ApiUrl}/Item/DeleteItem`,
+  //     onBeforeSend: function (method, ajaxOptions) {
+  //       ajaxOptions.data.keyId = key;
 
-        let filterAll = '';
-        if (filter.length > 0) {
-          if (ajaxOptions.data.filter != null) {
-            let dataParse = JSON.parse(ajaxOptions.data.filter);
-            if (dataParse.length == 3)
-              dataParse =JSON.parse(JSON.stringify([dataParse]));
-            dataParse.push('and');
-            dataParse.push(filter);
-            filterAll = JSON.stringify(dataParse);
-          }
-          else {
-            filterAll = JSON.stringify(filter);
-          }
-        }
-        else {
-          filterAll = ajaxOptions.data.filter;
-        }
-        if (filterAll != '')
-          ajaxOptions.data.filter = filterAll;
-        ajaxOptions.xhrFields = { withCredentials: true };
-      },
-      onRemoved(res){
-        console.log("affter remove");
-        console.log(res);
-      }
+  //       let filterAll = '';
+  //       if (filter.length > 0) {
+  //         if (ajaxOptions.data.filter != null) {
+  //           let dataParse = JSON.parse(ajaxOptions.data.filter);
+  //           if (dataParse.length == 3)
+  //             dataParse =JSON.parse(JSON.stringify([dataParse]));
+  //           dataParse.push('and');
+  //           dataParse.push(filter);
+  //           filterAll = JSON.stringify(dataParse);
+  //         }
+  //         else {
+  //           filterAll = JSON.stringify(filter);
+  //         }
+  //       }
+  //       else {
+  //         filterAll = ajaxOptions.data.filter;
+  //       }
+  //       if (filterAll != '')
+  //         ajaxOptions.data.filter = filterAll;
+  //       ajaxOptions.xhrFields = { withCredentials: true };
+  //     },
+  //     onRemoved(res){
+  //       console.log("affter remove");
+  //       console.log(res);
+  //     }
+  //   });
+  //   return dataSource;
+  // }
+
+  getDataGridItem(dataSource, key) {
+    dataSource  = new DataSource({
+      store:AspNetData.createStore({
+        key: key,
+        loadUrl: `${ApiUrl}/Item/GetItemDataGridPagination`,
+        deleteUrl:`${ApiUrl}/Item/DeleteItem`,
+        onBeforeSend: function (method, ajaxOptions) {
+          ajaxOptions.data.keyId = key;
+       }
+      })
     });
     return dataSource;
   }
+
+
 }

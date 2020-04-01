@@ -130,16 +130,16 @@ export class ItemTypeComponent implements OnInit {
       }
     });
   }
-  /**
-   * filter all itemTypeProperties with ItemTypeId in row selected
-   * @param e itemTypeId
-   */
-  filterByItemTypeId(e){
-    this.itemTypeId = e.data.ItemTypeId;
-     this.dataSourceProperties = 
-        this.itemTypePropertyService.getDataGridItemTypePropertyByItemTypeId(this.dataSourceProperties, "ItemTypePropertyId", this.itemTypeId);
+  contentReady(e) {
+    if (!e.component.getSelectedRowKeys().length)
+        e.component.selectRowsByIndexes(0);
+}
+  selectionChanged(e) {
+      e.component.collapseAll(-1);
+      e.component.expandRow(e.currentSelectedRowKeys[0]);
+      this.itemTypeId = e.currentSelectedRowKeys[0]
+      this.dataSourceProperties =  this.itemTypePropertyService.getDataGridItemTypePropertyByItemTypeId(this.dataSourceProperties, "ItemTypePropertyId", this.itemTypeId);
   }
-
   /**
    * Init Function
    * @param e some fields default value

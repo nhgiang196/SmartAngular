@@ -32,6 +32,8 @@ export class Files {
     FactoryFileId: number = 0
     FactoryId: number = 0
     Url: string = null
+    ItemFileId: number=0;
+    ItemId:number = 0;
   
     File : Files = new Files()
   }

@@ -22,11 +22,10 @@ export class FactoryService {
 
   getFactoryPaginationMain(keyvalue, pageIndex, pageSize) {
     let pr = new DataTablePaginationParams();
-    pr.keyFields="FactoryName ,FactoryAddress,FactoryContact,ContactPhone"
     pr.key = keyvalue;
     pr.page = pageIndex<1? 1 : pageIndex;
     pr.pageSize = pageSize;
-    return this.http.post(`${ApiUrl}/Factory/GetFactoryPagination`, pr);
+    return this.http.post(`${ApiUrl}/Factory/GetFactoryPaginationPageIndex`, pr);
   }
   getFactoryPagination(keyvalue) {
     let pr = new DataTablePaginationParams();

@@ -19,6 +19,7 @@ export class ItemTypePropertyService {
     this.http.get<any>(`${ApiUrl}/ItemTypeProperty/GetItemTypePropertyPaginationByCodeToSelect2/${code}?keyword=` + keyword);
   getItemTypeProperty = () => this.http.get(`${ApiUrl}/ItemTypeProperty/GetItemTypeProperty`);
   findItemTypePropertyById = (id) => this.http.get(`${ApiUrl}/ItemTypeProperty/FindItemTypePropertyById?id=${id}`);
+  getItemTypePropertyByItemTypeId = (id) => this.http.get(`${ApiUrl}//ItemTypeProperty/GetItemTypePropertyByItemTypeId?id=${id}`);
   getItemTypePropertyPaginationByCode = (entity, code) => this.http.post<any>(`${ApiUrl}/ItemTypeProperty/GetItemTypePropertyPaginationByCode/${code}`, entity, {});
   validateItemTypeProperty = (entity) => this.http.post(`${ApiUrl}/ItemTypeProperty/ValidateItemTypeProperty`, entity);
   

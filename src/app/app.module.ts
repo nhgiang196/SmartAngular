@@ -33,6 +33,7 @@ import { ThemeModule } from './theme/theme.module';
 import { RoutesResolver } from './core/resolvers/routes.resolver';
 import { UISampleModule } from './views/UISample/UISample.module';
 import { ItemResolver } from './core/resolvers/item.resolver';
+import { FileService } from './core/services/file.service';
 
 const SERVICE = [
   AuthService,
@@ -49,7 +50,8 @@ const SERVICE = [
   UnitService,
   WareHouseService,
   ModuleService,
-  FunctionService
+  FunctionService,
+  FileService
 ];
 
 @NgModule({
