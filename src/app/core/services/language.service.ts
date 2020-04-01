@@ -19,7 +19,7 @@ export class LanguageService {
     localStorage.setItem('locallanguage', value);
     this.translate.use(value);
     this.router.onSameUrlNavigation = 'reload';
-   window.location.reload();
+  //  window.location.reload();
   }
 
   getLanguage(){
