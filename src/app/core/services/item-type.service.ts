@@ -42,7 +42,7 @@ export class ItemTypeService {
       key: "ItemTypeId",
       load: () => this.stageService.sendRequest(ApiUrl + "/ItemType/DataGridItemTypePagination"),
       insert: (values) => this.addItemType(values).toPromise().then(),
-      update: (key, values) =>  this.updateItemType(values).toPromise().then(),
+      update: (key, values) =>  this.updateItemType(values).toPromise().then(), // no need key here
       remove: (key) =>  this.deleteItemType(key).toPromise().then()
     });
   }

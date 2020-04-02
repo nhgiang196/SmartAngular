@@ -18,8 +18,7 @@
                   (onEditingStart)="filterByItemTypeId($event)"
                   (onEditorPreparing)="onEditorPreparing($event)"
                   (onInitNewRow)="onInitNewRow($event)"
-                  [dataSource]="dataSourceItemTypes" 
-                 
+                  [dataSource]="dataSourceItemTypes"                  
                   height="500"
                   showBorders="true">
 
@@ -37,7 +36,7 @@
         <dxo-form >
           <dxi-item itemType="group" [colCount]="2" [colSpan]="2">
             <dxi-item dataField="ItemTypeName" ></dxi-item>
-            <dxi-item dataField="ItemTypeCode" [editorOptions]="{ disabled: isDisable }"></dxi-item>
+            <dxi-item dataField="ItemTypeCode" [editorOptions]="{ disabled: !isUpdate }"></dxi-item>
           </dxi-item >
           <!-- Begin Detail DataGrid ItemTypeProperty -->
           <dxi-item [colSpan]="2" caption="Properties" >

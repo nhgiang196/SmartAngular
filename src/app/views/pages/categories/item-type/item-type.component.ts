@@ -23,9 +23,8 @@ export class ItemTypeComponent implements OnInit {
   dataSourceProperties: ItemTypeProperty[] = []//any = {};
   itemTypeId: number = 0;
   detail: ItemTypeProperty[] = [];
-  selectedRowIndex = -1;
   index = 999;
-  isDisable: boolean;
+  isUpdate: boolean;
   constructor(
     private itemTypeService: ItemTypeService,
     private itemTypePropertyService: ItemTypePropertyService,
@@ -33,7 +32,7 @@ export class ItemTypeComponent implements OnInit {
     private toastr: ToastrService
   ) {
     //LOAD MSTER GRID
-    this.dataSourceItemTypes = this.itemTypeService.getDataGridItemType(); // default load
+    this.dataSourceItemTypes = this.itemTypeService.getDataGridItemType(); // default load with new Customer Store
 
     config({
       floatingActionButtonConfig: directions.down
@@ -47,7 +46,7 @@ export class ItemTypeComponent implements OnInit {
       .findItemTypePropertyByItemTypeId(e.data.ItemTypeId)
       .toPromise()
       .then());
-    this.isDisable = true;
+    this.isUpdate = false;
     this.itemTypeId = e.data.ItemTypeId
 
     return this.dataSourceProperties;
@@ -65,10 +64,11 @@ export class ItemTypeComponent implements OnInit {
    */
   onInitNewRow(e) {
     this.dataSourceProperties = [];
-    this.isDisable = false;
+    this.isUpdate = true;
   }
   /**
-   * prepare ItemType dataSource Add
+   * Prepare ItemType dataSource to Add
+   * It will be execute in ItemTypeService
    * @param e params as ItemType with dataSourcePropeties
    */
   onRowInsertingItemType(e) {
@@ -81,7 +81,7 @@ export class ItemTypeComponent implements OnInit {
   }
   /**
    * reset itemTypePropertyId = 0 
-   * Although use for instead of forEach. But I used forEach for easier to read.
+   * Although use for instead of forEach. But I used forEach to read easier.
    * @param dataSource 
    */
   resetItemTypePropertyId(dataSource) {
@@ -94,7 +94,8 @@ export class ItemTypeComponent implements OnInit {
     return dataSource;
   }
   /**
-   * prepare ItemType dataSource Update
+   * Prepare ItemType dataSource to Update
+   * It will be execute in ItemTypeService
    * @param e params as ItemType with dataSourcePropeties
    */
   onRowUpdatingItemType(e) {
@@ -123,7 +124,7 @@ export class ItemTypeComponent implements OnInit {
   ////DETAIL/////////////////
   //Insert Detail
   onInitNewRowDetail(e) {
-    e.data.ItemTypePropertyId = this.index++;
+    e.data.ItemTypePropertyId = this.index++; // create with not exist id
     e.data.ItemTypeId = this.itemTypeId;
   }
 
