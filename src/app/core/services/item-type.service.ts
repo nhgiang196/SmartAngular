@@ -5,12 +5,13 @@ import { environment } from 'src/environments/environment';
 import * as AspNetData from "devextreme-aspnet-data-nojquery";
 import CustomStore from 'devextreme/data/custom_store';
 import { StageService } from './stage.service';
+import { createStore } from 'devextreme-aspnet-data-nojquery';
 
 const ApiUrl = environment.apiUrl;
 const NULL_ROUTES = `${environment.apiUrl}/DevExtreme/NullRoutes`
 @Injectable({ providedIn: 'root' })
 export class ItemTypeService {
-  constructor(private http: HttpClient, private stageService : StageService) {}
+  constructor(private http: HttpClient, private stageService: StageService) { }
   addItemType = (entity) => this.http.post(`${ApiUrl}/ItemType/AddItemType`, entity);
   updateItemType = (entity) => this.http.put(`${ApiUrl}/ItemType/UpdateItemType`, entity);
   deleteItemType = (id) => this.http.delete(`${ApiUrl}/ItemType/DeleteItemType`, { params: { id: id } });
@@ -21,26 +22,27 @@ export class ItemTypeService {
   findItemTypeById = (id) => this.http.get(`${ApiUrl}/ItemType/FindItemTypeById?id=${id}`);
   getItemTypePaginationByCode = (entity, code) => this.http.post<any>(`${ApiUrl}/ItemType/GetItemTypePaginationByCode/${code}`, entity, {});
   validateItemType = (entity) => this.http.post(`${ApiUrl}/ItemType/ValidateItemType`, entity);
+  dataGridItemType = () => this.http.get(`${ApiUrl}/ItemType/DataGridItemTypePagination`);
 
-  // getDataGridItemType(dataSource, key) {
-  //   dataSource = AspNetData.createStore({
-  //     key: key,
+  // cách 1 Unsport mediaType phải gửi format Application/json
+  // getDataGridItemType() {
+  //   return createStore({
+  //     key: "ItemTypeId",
   //     loadUrl: `${ApiUrl}/ItemType/DataGridItemTypePagination`,
-  //     insertUrl: NULL_ROUTES,
-  //     updateUrl: NULL_ROUTES,
-  //     deleteUrl: NULL_ROUTES,
+  //     insertUrl: `${ApiUrl}/ItemType/AddItemType`,
+  //     updateUrl: `${ApiUrl}/ItemType/UpdateItemType`,
+  //     deleteUrl: `${ApiUrl}/ItemType/DeleteItemType`,
   //     onBeforeSend: (method, ajaxOptions) => {
-  //       ajaxOptions.data.key = key;
   //       ajaxOptions.xhrFields = { withCredentials: true };
   //     }
   //   });
-  //   return dataSource;
   // }
 
+  // cách 2
   getDataGridItemType() {
     return new CustomStore({
       key: "ItemTypeId",
-      load: () => this.stageService.sendRequest(ApiUrl + "/ItemType/DataGridItemTypePagination"),
+      load: () => this.dataGridItemType().toPromise().then(),//this.stageService.sendRequest(ApiUrl + "/ItemType/DataGridItemTypePagination"),
       insert: (values) => this.addItemType(values).toPromise().then(),
       update: (key, values) =>  this.updateItemType(values).toPromise().then(), // no need key here
       remove: (key) =>  this.deleteItemType(key).toPromise().then()

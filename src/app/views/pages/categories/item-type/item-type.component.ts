@@ -108,19 +108,6 @@ export class ItemTypeComponent implements OnInit {
     e.newData = data;//set object
   }
 
-  //Delete Master
-  onRowRemovingItemType(e) {
-    this.itemTypeService.deleteItemType(e.data.ItemTypeId).subscribe(res => {
-      const result = res as any;
-      if (result.Success) {
-        this.toastr.success('Delete success!', 'Success!');
-        this.dataGrid.instance.refresh();
-      } else {
-        Swal.fire('Error!', result.Message, 'error');
-      }
-    });
-  }
-
   ////DETAIL/////////////////
   //Insert Detail
   onInitNewRowDetail(e) {
