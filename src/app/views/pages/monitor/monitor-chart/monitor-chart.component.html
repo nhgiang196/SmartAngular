@@ -1,14 +1,14 @@
 <div class="row wrapper border-bottom white-bg page-heading">
   <div class="col-lg-10">
-      <h2>Chức năng</h2>
-      <ol class="breadcrumb">
-          <li>
-              <!-- <a routerLink="/pages">Dashboard</a> -->
-          </li>
-          <li class="active">
-              <strong>Chức năng</strong>
-          </li>
-      </ol>
+    <h2>Chức năng</h2>
+    <ol class="breadcrumb">
+      <li>
+        <!-- <a routerLink="/pages">Dashboard</a> -->
+      </li>
+      <li class="active">
+        <strong>Chức năng</strong>
+      </li>
+    </ol>
   </div>
   <div class="col-lg-2">
 
@@ -16,25 +16,16 @@
 </div>
 <div id="form-demo">
   <div class="widget-container">
-      <div>Select company:</div>
-      <dx-select-box #company
-          displayExpr="FactoryName"
-          [(dataSource)]="factories"
-          [value]="factories[0]"></dx-select-box>
-      <dx-form  id="form"
-          [(formData)]="chartFactory"
-          [readOnly]="readOnly"
-          [showColonAfterLabel]="showColon"
-          [labelLocation]="labelLocation"
-          [minColWidth]="minColWidth"
-          [colCount]="colCount"
-          [width]="width">
-          <dxi-item itemType="group" cssClass="second-group" [colCount]="2">
-            <dxi-item itemType="group">
-              <dxi-item dataField="DateFrom" editorType="dxDateBox" [editorOptions]="{ width: '100%'}"></dxi-item>
-              <dxi-item dataField="DateTo" editorType="dxDateBox" [editorOptions]="{ width: '100%'}"></dxi-item>
-            </dxi-item>
-          </dxi-item>
-        </dx-form>
+    <div>Select company:</div>
+    <dx-select-box #company displayExpr="FactoryName" [(dataSource)]="factories" [value]="factories[0]"></dx-select-box>
+    <dx-form id="form" [(formData)]="chartFactory" [readOnly]="readOnly" [showColonAfterLabel]="showColon"
+      [labelLocation]="labelLocation" [minColWidth]="minColWidth" [colCount]="colCount" [width]="width">
+      <dxi-item itemType="group" cssClass="second-group" [colCount]="2">
+        <dxi-item itemType="group">
+          <dxi-item dataField="DateFrom" editorType="dxDateBox" [editorOptions]="{ width: '100%'}"></dxi-item>
+          <dxi-item dataField="DateTo" editorType="dxDateBox" [editorOptions]="{ width: '100%'}"></dxi-item>
+        </dxi-item>
+      </dxi-item>
+    </dx-form>
   </div>
 </div>
