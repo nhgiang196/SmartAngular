@@ -9,7 +9,7 @@ import { MyHelperService } from 'src/app/core/services/my-helper.service';
 import { Factory, FactoryTechnology } from 'src/app/core/models/factory';
 import { UI_CustomFile } from 'src/app/core/models/file';
 import swal from 'sweetalert2';
-import { DxValidationGroupComponent, DxFormComponent } from 'devextreme-angular';
+import { DxValidationGroupComponent, DxFormComponent, DxValidatorComponent } from 'devextreme-angular';
 declare let $: any;
 
 @Component({
@@ -28,6 +28,7 @@ export class FactoryComponent implements OnInit {
   @ViewChild('myInputFile', { static: true }) InputManual: ElementRef; // set for emtpy file after Close or Reload
   @ViewChild(SmartUploadComponent, { static: true }) uploadComponent: SmartUploadComponent;
   @ViewChild('targetForm', {static: true}) targetForm : DxFormComponent;
+  @ViewChild('targetValidate', {static: true}) targetValidate : DxValidatorComponent;
   constructor(
     private api: FactoryService,
     private toastr: ToastrService,
@@ -52,6 +53,14 @@ export class FactoryComponent implements OnInit {
   EditRowNumber: number = 0;
   pageIndex = 1;
   pageSize = 12;
+  isFormValid = true;
+
+  buttonOptions: any = {
+    text: "Register",
+    type: "success",
+    useSubmitBehavior: true
+}
+
 
   ngOnInit() {
     this.resetEntity();
@@ -90,6 +99,7 @@ export class FactoryComponent implements OnInit {
     this.newTechnology = new FactoryTechnology();
     this.invalid = {};
     this.EditRowNumber = 0;
+    this.isFormValid = true;
   }
   /** BUTTON ACTIONS */
   fnAdd() { //press add buton
@@ -100,10 +110,9 @@ export class FactoryComponent implements OnInit {
     this.entity.CreateBy = this.auth.currentUser.Username;
   }
   fnEditSignal(id) { //press a link name of entity
-    this.targetForm.instance.resetValues();
+    this.isFormValid = true;
     $("#myModal4").modal('hide');
     if (id == null) { this.toastr.warning('Factory ID is Null, cant show modal'); return; }
-    this.resetEntity();
     this.ACTION_STATUS = 'update';
     this.iboxloading = true;
     this.api.getFactoryById(id).subscribe(res => {
@@ -307,17 +316,19 @@ export class FactoryComponent implements OnInit {
   }
 
   validateFunction =  (e) => {
+    
     switch (e.formItem.dataField) {
       case "FactoryEndDate": return  this.entity.FactoryStartDate<= e.value
       default: return true;
     }
+    
   };
 
-  checkValid(){
-    let validateRes = this.targetForm.instance.validate();  
-    if (!validateRes.isValid) return true
-    else return false;  
-  }
+  // checkValidate(e = null){
+  //   let validateRes = this.targetForm.instance.validate();  
+  //   this.isFormValid =  validateRes.isValid;
+  //   // return !validateRes.isValid;
+  // }
 
   ngAfterViewInit() { //CSS
   }
