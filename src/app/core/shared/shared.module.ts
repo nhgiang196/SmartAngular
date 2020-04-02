@@ -10,7 +10,7 @@ import { LaddaModule } from 'angular2-ladda';
 import { NgxDropzoneModule } from 'ngx-dropzone';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { BsDatepickerModule, PopoverModule, TimepickerModule, PaginationModule } from 'ngx-bootstrap';
-import { DxButtonModule, DxDataGridModule } from 'devextreme-angular';
+import { DxButtonModule, DxDataGridModule, DxPopupModule } from 'devextreme-angular';
 import { UserIdleModule } from 'angular-user-idle';
 
 // AoT requires an exported function for factories
@@ -62,6 +62,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     DxButtonModule,
     DxDataGridModule,
     UserIdleModule
+    DxPopupModule
   ],
   providers: [
     LanguageService
