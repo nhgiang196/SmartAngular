@@ -9,6 +9,7 @@ import { MyHelperService } from 'src/app/core/services/my-helper.service';
 import { Factory, FactoryTechnology } from 'src/app/core/models/factory';
 import { UI_CustomFile } from 'src/app/core/models/file';
 import swal from 'sweetalert2';
+import { DxValidationGroupComponent, DxFormComponent } from 'devextreme-angular';
 declare let $: any;
 
 @Component({
@@ -26,6 +27,7 @@ declare let $: any;
 export class FactoryComponent implements OnInit {
   @ViewChild('myInputFile', { static: true }) InputManual: ElementRef; // set for emtpy file after Close or Reload
   @ViewChild(SmartUploadComponent, { static: true }) uploadComponent: SmartUploadComponent;
+  @ViewChild('targetForm', {static: true}) targetForm : DxFormComponent;
   constructor(
     private api: FactoryService,
     private toastr: ToastrService,
@@ -59,6 +61,7 @@ export class FactoryComponent implements OnInit {
   loadInit() {
     this.iboxloading = true;
     this.EditRowNumber = 0;
+    
     this.api.getFactoryPaginationMain(this.keyword, this.pageIndex, this.pageSize).subscribe(res => {
       var data = res as any;
       this.factory = data.data;
@@ -91,11 +94,13 @@ export class FactoryComponent implements OnInit {
   /** BUTTON ACTIONS */
   fnAdd() { //press add buton
     this.ACTION_STATUS = 'add';
+    this.targetForm.instance.resetValues();
     this.resetEntity();
     this.uploadComponent.resetEntity();
     this.entity.CreateBy = this.auth.currentUser.Username;
   }
   fnEditSignal(id) { //press a link name of entity
+    this.targetForm.instance.resetValues();
     $("#myModal4").modal('hide');
     if (id == null) { this.toastr.warning('Factory ID is Null, cant show modal'); return; }
     this.resetEntity();
@@ -220,86 +225,6 @@ export class FactoryComponent implements OnInit {
       }
     }
 
-    //check duplicate technology Name
-    // console.log(this.entity.FactoryTechnology);
-    // var itemNew = this.entity.FactoryTechnology.filter(n =>{
-    //   return n.isNew ==true;
-    // })
-    // console.log(itemNew);
-
-    // if(itemNew.filter(t=> {
-    //   return t.TechnologyName.toLowerCase() == itemAdd.TechnologyName.toLowerCase();
-    // }).length>0){
-    //   swal.fire(
-    //     {
-    //       title: this.trans.instant('messg.validation.caption'),
-    //       titleText: this.trans.instant('Factory.mssg.ErrorDuplicateTechnology'),
-    //       confirmButtonText: this.trans.instant('Button.OK'),
-    //       type: 'error',
-    //     }
-    //   );
-    //   return false;
-    // }
-    // console.log(itemNew);
-    //   if(this.entity.FactoryTechnology.filter(t=> {
-    //     return t.TechnologyName.toLowerCase() == itemAdd.TechnologyName.toLowerCase() && t.FactoryTechnologyId != itemAdd.FactoryTechnologyId ;
-    //   }).length>0){
-    //     swal.fire(
-    //       {
-    //         title: this.trans.instant('messg.validation.caption'),
-    //         titleText: this.trans.instant('Factory.mssg.ErrorDuplicateTechnology'),
-    //         confirmButtonText: this.trans.instant('Button.OK'),
-    //         type: 'error',
-    //       }
-    //     );
-    //     return false;
-    //   }
-
-    // //check nested validedate Date From To
-    // if(itemNew.filter(t=> {
-    //   return  (Date.parse(this.helper.dateConvertToString(itemAdd.TechnologyFromDate)) >= Date.parse(this.helper.dateConvertToString(t.TechnologyFromDate))
-    //           && Date.parse(this.helper.dateConvertToString(itemAdd.TechnologyFromDate)) <= Date.parse(this.helper.dateConvertToString(t.TechnologyToDate)))
-    //           ||
-    //           (Date.parse(this.helper.dateConvertToString(itemAdd.TechnologyToDate)) >= Date.parse(this.helper.dateConvertToString(t.TechnologyFromDate))
-    //           && Date.parse(this.helper.dateConvertToString(itemAdd.TechnologyToDate)) <= Date.parse(this.helper.dateConvertToString(t.TechnologyToDate)))
-    //           ||
-    //           (Date.parse(this.helper.dateConvertToString(itemAdd.TechnologyFromDate)) <= Date.parse(this.helper.dateConvertToString(t.TechnologyFromDate))
-    //           && Date.parse(this.helper.dateConvertToString(itemAdd.TechnologyToDate)) >= Date.parse(this.helper.dateConvertToString(t.TechnologyToDate)))
-    // }).length>0){
-    //   swal.fire(
-    //     {
-    //       title: this.trans.instant('messg.validation.caption'),
-    //       titleText: this.trans.instant('Factory.mssg.ErrorTechnologyValidateOverlap'),
-    //       confirmButtonText: this.trans.instant('Button.OK'),
-    //       type: 'error',
-    //     }
-    //   );
-    //   return false;
-    // }
-    // //&&
-    // if(this.entity.FactoryTechnology.filter(t=> {
-    //   return  (t.FactoryTechnologyId != itemAdd.FactoryTechnologyId )
-    //           &&
-    //           (
-    //           (Date.parse(this.helper.dateConvertToString(itemAdd.TechnologyFromDate)) >= Date.parse(this.helper.dateConvertToString(t.TechnologyFromDate))
-    //           && Date.parse(this.helper.dateConvertToString(itemAdd.TechnologyFromDate)) <= Date.parse(this.helper.dateConvertToString(t.TechnologyToDate)))
-    //           ||
-    //           (Date.parse(this.helper.dateConvertToString(itemAdd.TechnologyToDate)) >= Date.parse(this.helper.dateConvertToString(t.TechnologyFromDate))
-    //           && Date.parse(this.helper.dateConvertToString(itemAdd.TechnologyToDate)) <= Date.parse(this.helper.dateConvertToString(t.TechnologyToDate)))
-    //           ||
-    //           (Date.parse(this.helper.dateConvertToString(itemAdd.TechnologyFromDate)) <= Date.parse(this.helper.dateConvertToString(t.TechnologyFromDate))
-    //           && Date.parse(this.helper.dateConvertToString(itemAdd.TechnologyToDate)) >= Date.parse(this.helper.dateConvertToString(t.TechnologyToDate))))
-    // }).length>0){
-    //   swal.fire(
-    //     {
-    //       title: this.trans.instant('messg.validation.caption'),
-    //       titleText: this.trans.instant('Factory.mssg.ErrorTechnologyValidateOverlap'),
-    //       confirmButtonText: this.trans.instant('Button.OK'),
-    //       type: 'error',
-    //     }
-    //   );
-    //   return false;
-    // }
     this.EditRowNumber = 0;
     return true
   }
@@ -380,9 +305,28 @@ export class FactoryComponent implements OnInit {
     this.entity.FactoryFile = event;
     console.log('after Map', this.entity.FactoryFile);
   }
+
+  validateFunction =  (e) => {
+    switch (e.formItem.dataField) {
+      case "FactoryEndDate": return  this.entity.FactoryStartDate<= e.value
+      default: return true;
+    }
+  };
+
   ngAfterViewInit() { //CSS
   }
   ngOnDestroy() {
     $('.modal').modal('hide');
   }
+
+  /*
+  FactoryAddress
+  FactoryContact
+  FactoryContactPhone
+  FactoryType
+  Status
+ 
+  'required' | 'numeric' | 'range' | 'stringLength' | 'custom' | 'compare' | 'pattern' | 'email' | 'async'
+
+  */
 }

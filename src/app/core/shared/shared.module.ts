@@ -10,7 +10,7 @@ import { LaddaModule } from 'angular2-ladda';
 import { NgxDropzoneModule } from 'ngx-dropzone';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { BsDatepickerModule, PopoverModule, TimepickerModule, PaginationModule } from 'ngx-bootstrap';
-import { DxButtonModule, DxDataGridModule, DxPopupModule, DxCheckBoxModule } from 'devextreme-angular';
+import { DxButtonModule, DxDataGridModule, DxPopupModule, DxCheckBoxModule, DxValidationGroupModule } from 'devextreme-angular';
 
 import { UserIdleModule } from 'angular-user-idle';
 
@@ -47,6 +47,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     DxButtonModule,
     DxDataGridModule,
     DxCheckBoxModule,
+    DxValidationGroupModule,
     UserIdleModule.forRoot({ idle: 600, timeout: 5, ping: 300 }),
 
 
@@ -66,6 +67,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     UserIdleModule,
     DxPopupModule,
     DxCheckBoxModule,
+    DxValidationGroupModule
   ],
   providers: [
     LanguageService
