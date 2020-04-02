@@ -30,6 +30,26 @@ export class MonitorStandardComponent implements OnInit {
   ngOnInit() {
     
   }
+  onInitNewRow()
+  {
+    
+  }
+  onRowRemoving()
+  {
+
+  }
+  onRowInserting()
+  {
+
+  }
+  onRowUpdating()
+  {
+
+  }
+  selectedChanged()
+  {
+    
+  }
 
 
 }
