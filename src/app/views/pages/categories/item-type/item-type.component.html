@@ -12,41 +12,53 @@
   </div>
   <div class="col-lg-12">
     <!-- Begin Master DataGrid ItemType -->
-    <dx-data-grid (onRowUpdating)="onRowUpdatingItemType($event)" (onRowInserting)="onRowInsertingItemType($event)"
-      (onRowRemoving)="onRowRemovingItemType($event)" (onEditingStart)="filterByItemTypeId($event)"
-      (onEditorPreparing)="onEditorPreparing($event)" (onInitNewRow)="onInitNewRow($event)"
-      [dataSource]="dataSourceItemTypes" [remoteOperations]="true" height="500" showBorders="true">
+    <dx-data-grid (onRowUpdating)="onRowUpdatingItemType($event)"
+                  (onRowInserting)="onRowInsertingItemType($event)"
+                  (onRowRemoving)="onRowRemovingItemType($event)"
+                  (onEditingStart)="filterByItemTypeId($event)"
+                  (onEditorPreparing)="onEditorPreparing($event)"
+                  (onInitNewRow)="onInitNewRow($event)"
+                  [dataSource]="dataSourceItemTypes" 
+                  [remoteOperations]="true" 
+                  height="500"
+                  showBorders="true">
 
       <dxo-selection mode="single"></dxo-selection>
       <dxo-filter-row [visible]="true"></dxo-filter-row>
       <dxo-header-filter [visible]="true"></dxo-header-filter>
       <dxo-group-panel [visible]="true"></dxo-group-panel>
 
-      <dxo-editing mode="popup" [allowUpdating]="true" [allowAdding]="true" [allowDeleting]="true" [useIcons]="true">
-
+      <dxo-editing mode="popup" [allowUpdating]="true" 
+                                [allowAdding]="true" 
+                                [allowDeleting]="true" 
+                                [useIcons]="true"> 
+                              
         <dxo-texts confirmDeleteMessage="Are you sure Delete?"></dxo-texts>
-        <dxo-form>
+        <dxo-form >
           <dxi-item itemType="group" [colCount]="2" [colSpan]="2">
-            <dxi-item dataField="ItemTypeName"></dxi-item>
+            <dxi-item dataField="ItemTypeName" ></dxi-item>
             <dxi-item dataField="ItemTypeCode" [editorOptions]="{ disabled: isDisable }"></dxi-item>
-          </dxi-item>
+          </dxi-item >
           <!-- Begin Detail DataGrid ItemTypeProperty -->
-          <dxi-item [colSpan]="2" dataField="ItemTypeProperty" contentTemplate="detail">
+          <dxi-item [colSpan]="2" caption="Propertys" contentTemplate="detail">
             <div *dxTemplate="let ItemType of 'detail'" dataField="detail">
               <dx-data-grid (onRowInserting)="onRowInsertingProperty($event)"
-                (onRowUpdating)="onRowUpdatingProperty($event)" (onInitNewRow)="onInitNewRowDetail($event)"
-                [dataSource]="detail" [showBorders]="true" [focusedRowEnabled]="true" keyExpr="ItemTypePropertyId"
-                [remoteOperations]="true" height="350" showBorders="true">
-                <dxo-editing mode="cell" [allowAdding]="true" [allowUpdating]="true" [allowDeleting]="true">
+                            (onRowUpdating)="onRowUpdatingProperty($event)" 
+                            (onInitNewRow)="onInitNewRowDetail($event)"
+                            [dataSource]="detail" [showBorders]="true" [focusedRowEnabled]="true"
+                            keyExpr="ItemTypePropertyId"
+                            [remoteOperations]="true" 
+                            height="350" showBorders="true">
+                <dxo-editing mode="cell" 
+                            [allowAdding]="true" 
+                            [allowUpdating]="true" 
+                            [allowDeleting]="true">
                   <dxo-texts confirmDeleteMessage="Are you sure Delete?"></dxo-texts>
                 </dxo-editing>
-
-                <dxi-column dataField="ItemTypePropertyName">
-                  <dxi-validation-rule type="required" max="20"
-                    message="The field ItemTypePropertyName must be a string with a maximum length of 20.">
-                  </dxi-validation-rule>
+              
+                <dxi-column dataField="ItemTypePropertyName" >
                 </dxi-column>
-              </dx-data-grid>
+               </dx-data-grid>
             </div>
           </dxi-item>
           <!-- End Detail DataGrid ItemTypeProperty -->
@@ -71,3 +83,4 @@
     <!-- End Master DataGrid ItemType -->
   </div>
 </div>
+

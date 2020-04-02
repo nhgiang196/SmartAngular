@@ -7,7 +7,7 @@ import { MonitorChartComponent } from './monitor-chart/monitor-chart.component';
 import { MonitorFactoryDataComponent } from './monitor-factory-data/monitor-factory-data.component';
 import { MonitorStandardComponent } from './monitor-standard/monitor-standard.component';
 import { MonitorTrackingComponent } from './monitor-tracking/monitor-tracking.component';
-import { DxDataGridModule,DxSelectBoxModule, DxSwitchModule, DxSpeedDialActionModule } from 'devextreme-angular';
+import { DxDataGridModule,DxSelectBoxModule, DxSwitchModule, DxSpeedDialActionModule, DxFormModule } from 'devextreme-angular';
 import { SharedModule } from 'src/app/core/shared/shared.module';
 const COMPONENTS =[
   MonitorComponent,
@@ -24,6 +24,7 @@ const COMPONENTS =[
     CommonModule,
     DxSpeedDialActionModule,
     DxSwitchModule,
+    DxFormModule,
     DxSelectBoxModule
   ],
   declarations: [...COMPONENTS]
