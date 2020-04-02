@@ -61,7 +61,7 @@ export class FactoryComponent implements OnInit {
     this.EditRowNumber = 0;
     this.api.getFactoryPaginationMain(this.keyword, this.pageIndex, this.pageSize).subscribe(res => {
       var data = res as any;
-      this.factory = data.result;
+      this.factory = data.data;
       this.factory_showed = data.totalCount;
       this.iboxloading = false;
     }, err => {

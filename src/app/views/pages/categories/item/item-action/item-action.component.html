@@ -21,17 +21,17 @@
         <div class="col-lg-12">
             <div class="tabs-container">
                 <ul class="nav nav-tabs">
-                    <li class="active" [class.disabledTab] ="isEditRow==true"><a data-toggle="tab" href="#tab-1"><i class="fa fa-info-circle"></i>
+                    <li class="active"><a data-toggle="tab" href="#tab-1"><i class="fa fa-info-circle"></i>
                             {{'Item.label.Information' | translate }}</a></li>
-                    <li [class.disabledTab] ="isEditRow==true"><a data-toggle="tab" href="#tab-2" (click)="isEditRow = false;" class=""><i
+                    <li><a data-toggle="tab" href="#tab-2"  class=""><i
                                 class="fa fa-industry"></i> {{'Item.label.Factory' | translate }}</a></li>
-                    <li [class.disabledTab] ="isEditRow==true"><a data-toggle="tab" href="#tab-3" (click)="isEditRow = false"><i
+                    <li><a data-toggle="tab" href="#tab-3" ><i
                                 class="fa fa-list-ul" ></i> {{'Item.label.Property' | translate }}</a></li>
-                    <li [class.disabledTab] ="isEditRow==true"><a data-toggle="tab" href="#tab-4" (click)="isEditRow = false"><i
+                    <li><a data-toggle="tab" href="#tab-4"><i
                                 class="fa fa-cube" ></i>{{'Item.label.Package' | translate }}</a></li>
-                    <li [class.disabledTab] ="isEditRow==true"><a data-toggle="tab"  href="#tab-5" (click)="isEditRow = false"><i class="fa fa-file"></i>
+                    <li><a data-toggle="tab"  href="#tab-5"><i class="fa fa-file"></i>
                             {{ 'Upload.' | translate }}</a></li>
-                    <li [class.disabledTab] ="isEditRow==true"><a data-toggle="tab" href="#tab-6" (click)="isEditRow = false"><i class="fa fa-file"></i>
+                    <li><a data-toggle="tab" href="#tab-6"><i class="fa fa-file"></i>
                             {{ 'Upload.Image' | translate }}</a></li>
                 </ul>
 
@@ -254,6 +254,7 @@
                                                   [dataSource]="entity.ItemProperty"
                                                   (onEditingStart)="isEditRow =true"
                                                   (onRowValidating)="onRowValidatingItemProperty($event)"
+                                                  (onContentReady) ="enableActiveTab($event)"
                                                   [remoteOperations]="true" height="auto"  showBorders="true">
 
                                                   <dxo-editing
@@ -295,6 +296,7 @@
                                 [dataSource]="entity.ItemPackage"
                                 (onEditingStart)="isEditRow =true"
                                 (onRowValidating)="onRowValidatingUnit($event)"
+                                (onContentReady) ="enableActiveTab($event)"
                                 [remoteOperations]="true" height="auto"  showBorders="true">
 
                                 <dxo-editing
