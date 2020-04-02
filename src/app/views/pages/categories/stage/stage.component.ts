@@ -33,7 +33,7 @@ export class StageComponent implements OnInit {
     //  this.dataSource = new CustomStore({
     //    load: ()=> this.stageService.ge
     //  })
-    this.dataSource = this.stageService.getDataItemType();
+    //this.dataSource = this.stageService.getDataItemType();
   }
 
 

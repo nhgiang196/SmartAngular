@@ -38,8 +38,9 @@ export class ItemTypeComponent implements OnInit {
     private auth: AuthService,
     private toastr: ToastrService
   ) {
-    this.dataSourceItemTypes = this.itemTypePropertyService.getTest(this.dataSourceItemTypes, 'ItemTypeId'); // default load
-    console.log(this.dataSourceItemTypes);
+    //LOAD MSTER GRID
+    this.dataSourceItemTypes = this.itemTypeService.getDataGridItemType(this.dataSourceItemTypes, 'ItemTypeId'); // default load
+    
     config({
       floatingActionButtonConfig: directions.down
     });
@@ -48,8 +49,6 @@ export class ItemTypeComponent implements OnInit {
 
 //Load popup by propertyId
   async filterByItemTypeId(e){
-    this.action = "UPDATE";
-    //console.log(e);
     this.detail = (await this.itemTypePropertyService
       .findItemTypePropertyByItemTypeId(e.data.ItemTypeId)
       .toPromise()
@@ -72,21 +71,20 @@ export class ItemTypeComponent implements OnInit {
 //Init
 onInitNewRow(e) {
   this.detail = [];
-  this.action="NEW";
-  e.data.Status = 1;
-  e.data.CreateBy = this.auth.currentUser.Username;
-  e.data.ItemTypeId = 0;
-  e.data.ItemTypeProperty=[];
   this.isDisable = false;
 }
 //Insert Master
  async onRowInsertingItemType(e){
-   //this.detail.ItemTypePropertyId = null
-  e.data.ItemTypeProperty = this.detail;// đây là khi lưu cha con nó lưu luôn
+   //Set struct for master
+  e.data.Status = 1;
+  e.data.CreateBy = this.auth.currentUser.Username;
+  e.data.CreateDate = new Date();
+  e.data.ItemTypeId = 0;
+  e.data.ItemTypeProperty=[];
+  e.data.ItemTypeProperty = this.detail;
   e.data.ItemTypeProperty.forEach(element => {
     element.ItemTypePropertyId=0;
   });
-  console.log(e.data);
   
   //let validateResult: any = await this.onValidateItemTypeName(e.data)
  // if (!validateResult.Success)
@@ -121,8 +119,9 @@ onRowRemovingItemType(e) {
 async onRowUpdatingItemType(e) {
   
   const data = Object.assign(e.oldData, e.newData);
-
+  //Set struct for Master
   data.ModifyBy = this.auth.currentUser.Username;
+  data.ModifyDate = new Date(); 
   data.Status = data.Status ? 1 : 0; //tenary operation if (data.status == true) return 1 else return 0
   data.ItemTypeProperty = this.detail;// đây là khi lưu cha con nó lưu luôn
   data.ItemTypeProperty.forEach(element => {
@@ -131,11 +130,11 @@ async onRowUpdatingItemType(e) {
 
   console.log('Save Master detail')
   console.log(data);
-  let validateResult: any = await this.onValidateItemTypeName(data)
+  //let validateResult: any = await this.onValidateItemTypeName(data)
 
-  if (!validateResult.Success)
-    this.toastr.error('ItemTypeName already exsited!', 'Error!');
-  else {
+ // if (!validateResult.Success)
+    //this.toastr.error('ItemTypeName already exsited!', 'Error!');
+  //else {
     this.itemTypeService.updateItemType(data).subscribe(res => {
       const result = res as any;
       if (result.Success) {
@@ -145,7 +144,7 @@ async onRowUpdatingItemType(e) {
         Swal.fire('Error!', result.Message, 'error');
       }
     });
-  }
+  //}
 }
 
 ////DETAIL/////////////////
@@ -169,10 +168,6 @@ async onRowUpdatingItemType(e) {
     console.log(this.detail)
   }
 
-///Validate
-async onValidateItemTypeName(e) {
-  //return await this.itemTypeService.validateItemType(e).toPromise();
-}
 //Detail validata
 detailValidation(property) {
   let isExsit = 0;
@@ -182,7 +177,8 @@ detailValidation(property) {
      isExsit ++
     }
   });
-  //if()
+  if(isExsit>0) return false;
+  else return true;
 }
 
 ItemTypePropertyValidata(property)
