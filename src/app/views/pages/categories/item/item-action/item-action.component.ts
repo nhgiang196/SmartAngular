@@ -16,6 +16,7 @@ import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 import { SmartUploadComponent } from 'src/app/views/UISample/smart-upload/smart-upload.component';
 import { FileService } from 'src/app/core/services/file.service';
+import { checkActiveTab } from 'src/app/app.helpers';
 declare var $ :any;
 @Component({
   selector: 'app-item-action',
@@ -33,7 +34,6 @@ export class ItemActionComponent implements OnInit {
   minMode: BsDatepickerViewMode = "year";
   bsConfig: Partial<BsDatepickerConfig>;
   //set rowEdit
-  isEditRow: boolean  = false;
   pathFile = "uploadFileItems";
   uploadReportProgress: any = { progress: 0, message: null, isError: null };
   laddaSubmitLoading = false;
@@ -62,8 +62,8 @@ export class ItemActionComponent implements OnInit {
       minMode: this.minMode,
       dateInputFormat: "YYYY",
       adaptivePosition: true
-    }
-  );
+    });
+
   }
 
  async fnSave() {
@@ -132,14 +132,8 @@ export class ItemActionComponent implements OnInit {
   }
 
 
-  enableActiveTab(e){
-    let self = this;
-    $(".dx-link-save[aria-label='Save']").click(function (event) {
-      self.isEditRow =false;
-    });
-    $(".dx-link-cancel[aria-label='Cancel']").click(function (event) {
-      self.isEditRow =false;
-    });
+  enableActiveTab(){
+    checkActiveTab();
   }
 
   onSwitchStatus() {

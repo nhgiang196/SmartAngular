@@ -1,5 +1,5 @@
 
-<div class="modal inmodal" id="myContractModal" data-backdrop="static" data-keyboard="true" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal inmodal"  id="myContractModal" data-backdrop="static" data-keyboard="true" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-lg "  style="width: 65%;">
     <div class="modal-content animated fadeIn" >
       <div class="modal-header">
@@ -52,7 +52,7 @@
                 <div class="form-group">
                   <label>{{ 'Contract.data.SignDate' | translate }}* :</label>
                   <input autocomplete="off"  type="text" name="SignDate" id="SignDate" class="form-control" placeholder="{{ 'Contract.placeholder.SignDate' | translate }}"  required
-                    bsDatepicker readonly [bsConfig]="bsConfig" [(ngModel)]="entity.SignDate">
+                    bsDatepicker readonly [bsConfig]="bsConfig" [(ngModel)]="entity.ContractSignDate">
                 </div>
               </div>
              
@@ -62,7 +62,7 @@
                 <div class="form-group">
                   <label>{{ 'Contract.data.EffectiveDate' | translate }}* :</label>
                   <input autocomplete="off"  type="text" name="EffectiveDate" id="EffectiveDate" class="form-control" placeholder="{{ 'Contract.placeholder.EffectiveDate' | translate }}" required
-                  bsDatepicker readonly [bsConfig]="bsConfig" [(ngModel)]="entity.EffectiveDate">
+                  bsDatepicker readonly [bsConfig]="bsConfig" [(ngModel)]="entity.ContractEffectiveDate">
   
                 </div>
   
@@ -71,7 +71,7 @@
               <div class="col-lg-6">
                 <label>{{ 'Contract.data.EndDate' | translate }} :</label>
                 <input autocomplete="off" type="text" name="EndDate" id="EndDate" class="form-control" placeholder="{{ 'Contract.placeholder.EndDate' | translate }}" 
-                  bsDatepicker readonly [bsConfig]="bsConfig" [(ngModel)]="entity.EndDate">
+                  bsDatepicker readonly [bsConfig]="bsConfig" [(ngModel)]="entity.ContractEndDate">
                 
               </div>
             </div>
@@ -90,7 +90,7 @@
               <div class="col-lg-6">
                 <div class="form-group">
                   <label>{{ 'Contract.data.Description' | translate }} :</label>
-                  <input autocomplete="off" type="text" name="Description" id="Description" [(ngModel)]="entity.Description" class="form-control" placeholder="{{ 'Contract.placeholder.Description' | translate }}" >
+                  <input autocomplete="off" type="text" name="Description" id="Description" [(ngModel)]="entity.ContractDescription" class="form-control" placeholder="{{ 'Contract.placeholder.Description' | translate }}" >
                 </div>
                 
                 
@@ -101,7 +101,7 @@
               <div class="col-lg-6">
                 <div class="form-group">
                   <label> {{ 'Contract.data.Ratio' | translate }} *: </label>
-                  <input autocomplete="off" type="number" min="0" max="100" name="Ratio" id="Ratio" [(ngModel)]="entity.Ratio" class="form-control" placeholder="{{ 'Contract.placeholder.Ratio' | translate }}" 
+                  <input autocomplete="off" type="number" min="0" max="100" name="Ratio" id="Ratio" [(ngModel)]="entity.WasteWaterRatio" class="form-control" placeholder="{{ 'Contract.placeholder.Ratio' | translate }}" 
                   (keyup)="ratioOnChange($event)">
   
                 </div>
@@ -247,13 +247,13 @@
                           [@simpleFadeAnimation]="'in'">
                           <td> {{i+1}} </td>
                           <!-- TABLE -->
-                          <td *ngIf="i+1 !== EditRowNumber_PRICE">{{item.Ratio}} </td>
+                          <td *ngIf="i+1 !== EditRowNumber_PRICE">{{item.WaterFlow}} </td>
                           <td *ngIf="i+1 !== EditRowNumber_PRICE">{{item.Currency}} </td>
                           <td *ngIf="i+1 !== EditRowNumber_PRICE">{{item.Price}} </td>
                           <td *ngIf="i+1 !== EditRowNumber_PRICE">{{item.Tax}} </td>
                           <!-- FORM -->
                           <td *ngIf="i+1 === EditRowNumber_PRICE">
-                            <input autocomplete="off" type="number" min="0" class="form-control" name="Ratio" [(ngModel)]="subEntity_ContractPrice.Ratio"></td>
+                            <input autocomplete="off" type="number" min="0" class="form-control" name="Ratio" [(ngModel)]="subEntity_ContractPrice.WaterFlow"></td>
                           <td *ngIf="i+1 === EditRowNumber_PRICE">
                             <input autocomplete="off" type="text" class="form-control" name="Currency" [(ngModel)]="subEntity_ContractPrice.Currency"></td>
                           <td *ngIf="i+1 === EditRowNumber_PRICE">
@@ -275,7 +275,7 @@
                         
                         <tr>
                           <td> {{entity.ContractPrice.length+1}} </td>
-                          <td> <input autocomplete="off" type="number" min="0" class="form-control" name="newRatio" [(ngModel)]="newEntity_ContractPrice.Ratio"> </td>
+                          <td> <input autocomplete="off" type="number" min="0" class="form-control" name="newRatio" [(ngModel)]="newEntity_ContractPrice.WaterFlow"> </td>
                           <td> <input autocomplete="off" type="text" class="form-control" name="newCurrency" [(ngModel)]="newEntity_ContractPrice.Currency"> </td>
                           <td> <input autocomplete="off" type="number" min="0" class="form-control" name="newPrice" [(ngModel)]="newEntity_ContractPrice.Price"> </td>
                           <td> <input autocomplete="off" type="number" min="0" class="form-control" name="newTax" [(ngModel)]="newEntity_ContractPrice.Tax"> </td>

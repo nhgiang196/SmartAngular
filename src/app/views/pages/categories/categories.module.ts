@@ -5,7 +5,7 @@ import { CategoriesRoutingModule } from './categories-routing.module';
 import { SharedModule } from 'src/app/core/shared/shared.module';
 import { LanguageService } from 'src/app/core/services/language.service';
 import { MainViewCategoryComponent } from './main-view-category/main-view-category.component';
-import { DxButtonModule, DxDataGridModule, DxPopupModule, DxSpeedDialActionModule, DxSwitchModule, DxSelectBoxModule } from 'devextreme-angular';
+import { DxButtonModule, DxDataGridModule, DxSpeedDialActionModule, DxSwitchModule, DxSelectBoxModule, DxTextBoxModule, DxCheckBoxModule, DxDateBoxModule, DxValidatorModule, DxValidationSummaryModule, DxFormModule } from 'devextreme-angular';
 
 import { ItemComponent } from './item/item.component';
 import { ItemTypeComponent } from './item-type/item-type.component';
@@ -19,15 +19,16 @@ import { CustomerListComponent } from './customers/customer-list/customer-list.c
 import { CustomerDetailComponent } from './customers/customer-detail/customer-detail.component';
 import { ContractComponent } from './customers/contract/contract.component';
 import { ItemActionComponent } from './item/item-action/item-action.component';
+import { ModalModule } from 'ngx-bootstrap';
 
 
 const COMPONENTS = [
   CategoriesComponent,
   MainViewCategoryComponent,
-  CustomerComponent,
-  CustomerListComponent,
-  CustomerDetailComponent,
   ContractComponent,
+  CustomerListComponent,
+  CustomerComponent,
+  CustomerDetailComponent,
   ItemComponent,
   ItemTypeComponent,
   StageComponent,
@@ -45,7 +46,16 @@ const COMPONENTS = [
     FormsModule,
     DxSpeedDialActionModule,
     DxSwitchModule,
-    DxSelectBoxModule
+    DxSelectBoxModule,
+    DxSelectBoxModule,
+    DxCheckBoxModule,
+    DxTextBoxModule,
+    DxDateBoxModule,
+    DxButtonModule,
+    DxValidatorModule,
+    DxFormModule,
+    DxValidationSummaryModule,
+    ModalModule.forRoot()
   ],
   declarations: [...COMPONENTS],
   exports: [...COMPONENTS],

@@ -113,6 +113,7 @@ export class CustomerDetailComponent implements OnInit {
     console.log('edit index', index)
     this.editIndex = index;
     this.app_contractId = contractId;
+    this.childView.resetEntity();
     this.childView.loadInit(contractId)
   }
   fnDeleteItem(index) {

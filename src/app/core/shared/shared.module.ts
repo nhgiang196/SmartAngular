@@ -12,6 +12,8 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { BsDatepickerModule, PopoverModule, TimepickerModule, PaginationModule } from 'ngx-bootstrap';
 import { DxButtonModule, DxDataGridModule, DxPopupModule } from 'devextreme-angular';
 
+import { UserIdleModule } from 'angular-user-idle';
+
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -44,6 +46,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     PaginationModule.forRoot(),
     DxButtonModule,
     DxDataGridModule,
+    UserIdleModule.forRoot({ idle: 600, timeout: 5, ping: 300 }),
 
 
   ],
@@ -59,7 +62,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     PaginationModule,
     DxButtonModule,
     DxDataGridModule,
-    DxPopupModule
+    DxPopupModule,
+    UserIdleModule
   ],
   providers: [
     LanguageService

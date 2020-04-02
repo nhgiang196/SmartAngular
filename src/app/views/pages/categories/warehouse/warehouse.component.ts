@@ -92,9 +92,9 @@ export class WarehouseComponent implements OnInit {
     this.entity.CreateBy = this.auth.currentUser.Username;
   }
   async fnEditSignal(id) { //press a link of ENTITY
-
+    
     if (id == null) { this.toastr.warning('ID is Null, cant show modal'); return; }
-
+    
     this.ACTION_STATUS = 'update';
     this.iboxloading = true;
     await this.warehouseService.findById(id).subscribe(res => {
@@ -103,7 +103,7 @@ export class WarehouseComponent implements OnInit {
       $("#myModal4").modal('show');
       this.iboxloading = false;
       console.log('getEntity',res);
-
+      
       /**CONTROL FILES */
       this.uploadComponent.loadInit(res.WarehouseFile);
       this.entity.ModifyBy = this.auth.currentUser.Username;
@@ -117,7 +117,7 @@ export class WarehouseComponent implements OnInit {
     this.loadInit();
 
   }
-
+  
   fnDelete(id) { //press Delete Entity
     swal.fire({
       title: this.trans.instant('Warehouse.mssg.DeleteAsk_Title'),
@@ -152,7 +152,7 @@ export class WarehouseComponent implements OnInit {
   async fnSave() { // press save butotn
     this.laddaSubmitLoading = true;
     var e = this.entity;
-    console.log(e);
+    
     if (await this.fnValidate(e)) {
       await this.uploadComponent.uploadFile();
       if (this.ACTION_STATUS == 'add') {
@@ -176,7 +176,7 @@ export class WarehouseComponent implements OnInit {
           var operationResult: any = res
           if (operationResult.Success) {
             this.loadInit();
-
+            
             this.toastr.success(this.trans.instant("messg.update.success"));
           }
           else this.toastr.warning(operationResult.Message);
@@ -185,7 +185,7 @@ export class WarehouseComponent implements OnInit {
       }
     }
   }
-
+  
   async fnAddItem(itemAdd) { //press add item
     let _checkValidate = await this.validateItem(itemAdd);
      if (!_checkValidate) return;
@@ -208,12 +208,12 @@ export class WarehouseComponent implements OnInit {
         {
           swal.fire("Validate", this.trans.instant('Warehouse.data.WarehouseLocationCode') + this.trans.instant('messg.isexisted'), 'warning');
           return false;
-        }
+        } 
         if (t.WarehouseLocationCode.toLowerCase().trim()  === itemAdd.WarehouseLocationCode.toLowerCase().trim())
         {
           swal.fire("Validate", this.trans.instant('Warehouse.data.WarehouseLocationCode') + this.trans.instant('messg.isexisted'), 'warning');
           return false;
-        }
+        } 
     }
     this.EditRowNumber = 0;
     return true;
@@ -241,15 +241,15 @@ export class WarehouseComponent implements OnInit {
     return true;
   }
   private async resetEntity() { //reset entity values
-
+    
     this.entity = new Warehouse();
     this.locationEntity = new WarehouseLocation();
     this.newLocationEntity = new WarehouseLocation();
     this.invalid = {};
     this.EditRowNumber=0;
-
+    
   }
-  private CheckBeforeEdit(id) { //check auth before edit
+  private CheckBeforeEdit(id) { //check auth before edit 
     this.toastr.warning("User not dont have permission");
   }
 

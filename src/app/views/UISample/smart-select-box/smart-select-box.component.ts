@@ -5,8 +5,13 @@ import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'smart-select-box',
-  templateUrl: './smart-select-box.component.html',
-  styleUrls: ['./smart-select-box.component.css']
+  template: `<dx-select-box [dataSource]="dataSource"
+              displayExpr="text"
+              (onValueChanged)="onValueChanged($event)"
+              [(value)]="selectData"
+              [searchEnabled]="true"
+              [searchExpr]="searchExpr"
+              ></dx-select-box>`,
 })
 export class SmartSelectBoxComponent implements OnInit {
   dataSource: any;
@@ -18,12 +23,11 @@ export class SmartSelectBoxComponent implements OnInit {
   searchExpr: any;
 
   constructor() {
-
   }
 
   ngOnInit() {
     this.searchExpr = [this.entityKey + "Name"]
-    let serviceUrl = `${environment.apiUrl}/${this.entityKey}/${this.entityKey}SelectBox`;
+    let serviceUrl = `${environment.apiUrl}/${this.entityKey}/UI_SelectBox`;
     this.dataSource =  new DataSource({
       store: createStore({
           key: this.entityKey + "Id",
@@ -45,7 +49,6 @@ export class SmartSelectBoxComponent implements OnInit {
   }
 
   onValueChanged(event){
-    console.log('Got event',event)
     this.selectDataChange.emit(event.value.id || event.value || 0);
   }
 
