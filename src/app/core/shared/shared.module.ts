@@ -11,6 +11,7 @@ import { NgxDropzoneModule } from 'ngx-dropzone';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { BsDatepickerModule, PopoverModule, TimepickerModule, PaginationModule } from 'ngx-bootstrap';
 import { DxButtonModule, DxDataGridModule, DxPopupModule, DxCheckBoxModule } from 'devextreme-angular';
+
 import { UserIdleModule } from 'angular-user-idle';
 
 // AoT requires an exported function for factories

@@ -10,6 +10,7 @@ import { ItemTypeProperty, ItemType } from 'src/app/core/models/item';
 import { HttpParams } from '@angular/common/http';
 import DataSource from 'devextreme/data/data_source';
 import { async } from '@angular/core/testing';
+import { element } from 'protractor';
 @Component({
   selector: 'app-item-type',
   templateUrl: './item-type.component.html',
@@ -80,8 +81,13 @@ onInitNewRow(e) {
 }
 //Insert Master
  async onRowInsertingItemType(e){
+   //this.detail.ItemTypePropertyId = null
   e.data.ItemTypeProperty = this.detail;// đây là khi lưu cha con nó lưu luôn
-  console.log(e);
+  e.data.ItemTypeProperty.forEach(element => {
+    element.ItemTypePropertyId=0;
+  });
+  console.log(e.data);
+  
   //let validateResult: any = await this.onValidateItemTypeName(e.data)
  // if (!validateResult.Success)
    // this.toastr.error('ItemTypeName already exsited!', 'Error!');
@@ -119,6 +125,10 @@ async onRowUpdatingItemType(e) {
   data.ModifyBy = this.auth.currentUser.Username;
   data.Status = data.Status ? 1 : 0; //tenary operation if (data.status == true) return 1 else return 0
   data.ItemTypeProperty = this.detail;// đây là khi lưu cha con nó lưu luôn
+  data.ItemTypeProperty.forEach(element => {
+    element.ItemTypePropertyId=0;
+  });
+
   console.log('Save Master detail')
   console.log(data);
   let validateResult: any = await this.onValidateItemTypeName(data)
@@ -143,12 +153,13 @@ async onRowUpdatingItemType(e) {
   onInitNewRowDetail(e){
     e.data.ItemTypePropertyId = this.index++;
     e.data.ItemTypeId = this.itemTypeId;
+    console.log(this.detail)
   }
 
   async onRowInsertingProperty(e)
   {
-    e.ItemTypePropertyId = 0;
-    this.detail = e.data as any;
+    //e.ItemTypePropertyId = 0;
+    //this.detail = e.data as any;
     console.log(this.detail)
   }
 //Update Detail
@@ -160,6 +171,17 @@ async onRowUpdatingItemType(e) {
 ///Validate
 async onValidateItemTypeName(e) {
   return await this.itemTypeService.validateItemType(e).toPromise();
+}
+//Detail validata
+ItemTypePropertyValidata(property)
+{ 
+  let exist = 0
+  this.detail.forEach(element =>{
+    if(element.ItemTypePropertyName == property.ItemTypePropertyName){
+      Swal.fire('Error!', "ItemTypeProperty Existed", 'error');
+      return false
+    }
+  });
 }
 async onValidateItemTypeProperty(e) {
   return await this.itemTypePropertyService.validateItemTypeProperty(e).toPromise();
