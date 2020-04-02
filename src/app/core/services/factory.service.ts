@@ -3,9 +3,17 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { DataTablePaginationParams } from '../models/datatable';
 import { environment } from 'src/environments/environment';
+import { createStore } from 'devextreme-aspnet-data-nojquery';
+// import * as AspNetData from "devextreme-aspnet-data-nojquery";
+import DataSource from 'devextreme/data/data_source';
 const ApiUrl = environment.apiUrl;;
 
-@Injectable({providedIn: 'root'})
+export class ChartFactory {
+	FactoryID: number;
+	DateFrom: string;
+	DateTo: string;
+}
+@Injectable({ providedIn: 'root' })
 export class FactoryService {
   constructor(private http: HttpClient) {
 
@@ -14,7 +22,7 @@ export class FactoryService {
   getFactory() {
     return this.http.get<any>(`${ApiUrl}/Factory/GetFactory`);
   }
-  getBasicFactory(){
+  getBasicFactory() {
     let pr = new DataTablePaginationParams();
     pr.selectFields = "FactoryId, [FactoryName]= IIF(ISNULL(FactoryName,'')='',N'[Noname factory]',FactoryName), Status ";
     return this.http.post(`${ApiUrl}/Factory/GetFactoryPagination`, pr);
@@ -23,25 +31,36 @@ export class FactoryService {
   getFactoryPaginationMain(keyvalue, pageIndex, pageSize) {
     let pr = new DataTablePaginationParams();
     pr.key = keyvalue;
-    pr.page = pageIndex<1? 1 : pageIndex;
+    pr.page = pageIndex < 1 ? 1 : pageIndex;
     pr.pageSize = pageSize;
     return this.http.post(`${ApiUrl}/Factory/GetFactoryPaginationPageIndex`, pr);
   }
   getFactoryPagination(keyvalue) {
     let pr = new DataTablePaginationParams();
-    pr.keyFields="FactoryName ,FactoryAddress,FactoryContact,ContactPhone"
+    pr.keyFields = "FactoryName ,FactoryAddress,FactoryContact,ContactPhone"
     pr.key = keyvalue;
 
     pr.pageSize = 9999;
     return this.http.post(`${ApiUrl}/Factory/GetFactoryPagination`, pr);
   }
 
+  loadFactorySelectBox(key) {
+    return  new DataSource({
+      store:createStore({
+        key: key,
+        loadUrl: `${ApiUrl}/Factory/GetFactoryDataGridPagination`,
+        onBeforeSend: function (method, ajaxOptions) {
+          ajaxOptions.data.keyId = key;
+       }
+      })
+    });
+  }
 
   getAllFactoryPagination(model) {
     return this.http.post(`${ApiUrl}/Factory/GetFactoryPagination`, model);
   }
 
-  getFactoryToSelect2 =(keyword) => this.http.get<any>(`${ApiUrl}/Factory/GetFactoryPaginationToSelect2?keyword=`+keyword );
+  getFactoryToSelect2 = (keyword) => this.http.get<any>(`${ApiUrl}/Factory/GetFactoryPaginationToSelect2?keyword=` + keyword);
 
   getFactoryById(id) {
     return this.http.get<any>(`${ApiUrl}/Factory/FindFactoryById`, { params: { id: id } });
@@ -56,8 +75,8 @@ export class FactoryService {
   deleteFactory(id) {
     return this.http.delete(`${ApiUrl}/Factory/DeleteFactory`, { params: { id: id } });
   }
-  validateFactory(e){
-    return this.http.post(`${ApiUrl}/Factory/ValidateFactory`,e);
+  validateFactory(e) {
+    return this.http.post(`${ApiUrl}/Factory/ValidateFactory`, e);
   }
 
 }
