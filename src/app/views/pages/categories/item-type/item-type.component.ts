@@ -141,7 +141,7 @@ async onRowUpdatingItemType(e) {
 ////DETAIL/////////////////
 //Insert Detail
   onInitNewRowDetail(e){
-    // e.data.ItemTypePropertyId = this.index++;
+    e.data.ItemTypePropertyId = this.index++;
     e.data.ItemTypeId = this.itemTypeId;
   }
 
