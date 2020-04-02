@@ -313,6 +313,12 @@ export class FactoryComponent implements OnInit {
     }
   };
 
+  checkValid(){
+    let validateRes = this.targetForm.instance.validate();  
+    if (!validateRes.isValid) return true
+    else return false;  
+  }
+
   ngAfterViewInit() { //CSS
   }
   ngOnDestroy() {
