@@ -40,7 +40,7 @@
             <dxi-item dataField="ItemTypeCode" [editorOptions]="{ disabled: isDisable }"></dxi-item>
           </dxi-item >
           <!-- Begin Detail DataGrid ItemTypeProperty -->
-          <dxi-item [colSpan]="2" dataField="ItemTypeProperty" contentTemplate="detail">
+          <dxi-item [colSpan]="2" caption="Propertys" contentTemplate="detail">
             <div *dxTemplate="let ItemType of 'detail'" dataField="detail">
               <dx-data-grid (onRowInserting)="onRowInsertingProperty($event)"
                             (onRowUpdating)="onRowUpdatingProperty($event)" 
@@ -57,7 +57,7 @@
                 </dxo-editing>
               
                 <dxi-column dataField="ItemTypePropertyName" >
-                  <dxi-validation-rule type="required" max="20"
+                  <dxi-validation-rule type="custom" max="20"  [validationCallback]="DetailValidation"
                     message="The field ItemTypePropertyName must be a string with a maximum length of 20.">
                   </dxi-validation-rule>
                 </dxi-column>
