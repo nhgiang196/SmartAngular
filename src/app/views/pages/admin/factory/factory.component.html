@@ -172,9 +172,8 @@
             </dxi-item>
 
 
-            <dxi-item itemType="button" horizontalAlignment="left" [buttonOptions]="buttonOptions">
-            </dxi-item>
-            <!-- <dxi-item contentTemplate="smart-upload">
+
+            <dxi-item contentTemplate="smart-upload">
               <div *dxTemplate="let data of 'smart-upload'">
                 <app-smart-upload [filePath]="pathFile" (entityFile)="this.entity.FactoryFile = $event">
                 </app-smart-upload>
@@ -246,31 +245,27 @@
                       </tr>
                     </tbody>
                   </table>
+                  <div class="modal-footer"></div>
                 </div>
 
 
 
               </div>
-            </dxi-item> -->
+            </dxi-item>
 
-           
+            <dxi-item itemType="button" horizontalAlignment="right" [buttonOptions]="buttonOptions">
+            </dxi-item>
            
 
           </dx-form>
+          <button type="button" class="btn btn-white" data-dismiss="modal">{{'Button.Close' | translate}}
+          </button>
+          <button type="button" class="btn btn-primary" (click)="fnSave();" [ladda]="laddaSubmitLoading"
+            [disabled]="!isFormValid"><i class="fa fa-paper-plane-o"></i> {{'Button.Save' | translate}}
+          </button>
 
 
-              <div class="modal-footer">
-                <button type="button" class="btn btn-white" data-dismiss="modal">{{'Button.Close' | translate}}
-                </button>
-                <!-- <button type="button" class="btn btn-primary" (click)="fnSave();" [ladda]="laddaSubmitLoading"
-          [disabled]="myForm.invalid||EditRowNumber!=0"><i class="fa fa-paper-plane-o"></i>
-          {{'Button.Save' | translate}} </button> -->
-                <button type="button" class="btn btn-primary" (click)="fnSave();" [ladda]="laddaSubmitLoading"
-                  [disabled]="!isFormValid"><i class="fa fa-paper-plane-o"></i> {{'Button.Save' | translate}}
-                </button>
-                
-
-              </div>
+            
 
         </form>
       </div>
