@@ -19,7 +19,7 @@
                   (onEditorPreparing)="onEditorPreparing($event)"
                   (onInitNewRow)="onInitNewRow($event)"
                   [dataSource]="dataSourceItemTypes" 
-                  [remoteOperations]="true" 
+                 
                   height="500"
                   showBorders="true">
 
@@ -40,19 +40,20 @@
             <dxi-item dataField="ItemTypeCode" [editorOptions]="{ disabled: isDisable }"></dxi-item>
           </dxi-item >
           <!-- Begin Detail DataGrid ItemTypeProperty -->
-          <dxi-item [colSpan]="2" caption="Propertys" contentTemplate="detail">
-            <div *dxTemplate="let ItemType of 'detail'" dataField="detail">
-              <dx-data-grid (onRowInserting)="onRowInsertingProperty($event)"
-                            (onRowUpdating)="onRowUpdatingProperty($event)" 
+          <dxi-item [colSpan]="2" caption="Properties" >
+            <div *dxTemplate="let ItemType of 'dataSourceProperties'" >
+              <dx-data-grid
                             (onInitNewRow)="onInitNewRowDetail($event)"
-                            [dataSource]="detail" [showBorders]="true" [focusedRowEnabled]="true"
+                            [dataSource]="dataSourceProperties" [showBorders]="true" 
+                            [focusedRowEnabled]="true"
                             keyExpr="ItemTypePropertyId"
                             [remoteOperations]="true" 
                             height="350" showBorders="true">
-                <dxo-editing mode="cell" 
+                <dxo-editing mode="row" 
                             [allowAdding]="true" 
                             [allowUpdating]="true" 
-                            [allowDeleting]="true">
+                            [allowDeleting]="true"
+                            [useIcons]="true">
                   <dxo-texts confirmDeleteMessage="Are you sure Delete?"></dxo-texts>
                 </dxo-editing>
               
