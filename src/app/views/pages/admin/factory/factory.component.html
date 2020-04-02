@@ -123,6 +123,21 @@
       <div class="modal-body">
         <dx-form #targetForm id="form" [(formData)]="entity">
           <dxi-item itemType="group" [colCount]="2">
+            <dxi-item dataField="FactoryType" [label]="{text: trans.instant('Factory.data.FactoryType')}"
+              editorType="dxSelectBox" [editorOptions]="{ displayExpr: 'text' ,valueExpr:'id' ,
+                items: [
+                { id: 1, text: trans.instant('Factory.data.FactoryType1')}
+                ,{ id: 2, text: trans.instant('Factory.data.FactoryType2')}
+                ,{ id: 3, text: trans.instant('Factory.data.FactoryType3')}
+                ]}"></dxi-item>
+            <dxi-item dataField="Status" [label]="{text: trans.instant('Factory.data.Status')}" editorType="dxSelectBox"
+              [editorOptions]="{ displayExpr: 'text' ,valueExpr:'id' ,
+                items: [{id: 0, text: trans.instant('Factory.data.Status0')}
+                ,{ id: 1, text: trans.instant('Factory.data.Status1')}]}">
+            </dxi-item>
+          </dxi-item>
+
+          <dxi-item itemType="group" [colCount]="2">
             <dxi-item dataField="FactoryCode" [label]="{text: trans.instant('Factory.data.FactoryCode')}">
               <dxi-validation-rule type="required"></dxi-validation-rule>
             </dxi-item>
@@ -132,18 +147,20 @@
           </dxi-item>
           <dxi-item itemType="group" [colCount]="2">
             <dxi-item dataField="FactoryBuiltDate" [label]="{text: trans.instant('Factory.data.FactoryBuiltDate')}"
-              editorType="dxDateBox" >
+              editorType="dxDateBox">
             </dxi-item>
             <dxi-item dataField="FactoryStartDate" [label]="{text: trans.instant('Factory.data.FactoryStartDate')}"
-              editorType="dxDateBox" >
+              editorType="dxDateBox">
             </dxi-item>
           </dxi-item>
           <dxi-item itemType="group" [colCount]="2">
             <dxi-item dataField="FactoryAddress" [label]="{text: trans.instant('Factory.data.FactoryAddress')}">
             </dxi-item>
             <dxi-item dataField="FactoryEndDate" [label]="{text: trans.instant('Factory.data.FactoryEndDate')}"
-              editorType="dxDateBox" >
-              <dxi-validation-rule type="custom" ignoreEmptyValue="true" reevaluate="true" [validationCallback]="validateFunction" message="Factory End Date Compare Validate"></dxi-validation-rule>
+              editorType="dxDateBox">
+              <dxi-validation-rule type="custom" ignoreEmptyValue="true" reevaluate="true"
+                [validationCallback]="validateFunction" message="Factory End Date Compare Validate">
+              </dxi-validation-rule>
             </dxi-item>
           </dxi-item>
           <dxi-item itemType="group" [colCount]="2">
@@ -152,12 +169,7 @@
             <dxi-item dataField="FactoryContactPhone" [label]="{text: trans.instant('Factory.data.ContactPhone')}"
               [editorOptions]="{ mask: '(+00) 000 000 0099'}"></dxi-item>
           </dxi-item>
-          <dxi-item itemType="group" [colCount]="2">
-            <dxi-item dataField="FactoryType" [label]="{text: trans.instant('Factory.data.FactoryType')}"
-              editorType="dxSelectBox" [editorOptions]="{ items: null ,value: ''  }"></dxi-item>
-            <dxi-item dataField="Status" [label]="{text: trans.instant('Factory.data.Status')}" editorType="dxSelectBox"
-              [editorOptions]="{ items: null ,value: '' }"></dxi-item>
-          </dxi-item>
+
         </dx-form>
         <app-smart-upload [filePath]="pathFile" (entityFile)="this.entity.FactoryFile = $event"></app-smart-upload>
         <hr>
