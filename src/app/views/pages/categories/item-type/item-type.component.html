@@ -21,7 +21,8 @@
                   [dataSource]="dataSourceItemTypes" 
                   [remoteOperations]="true" 
                   height="500"
-                  showBorders="true">
+                  [showBorders]="true"
+                  [showRowLines]="true" >
 
       <dxo-selection mode="single"></dxo-selection>
       <dxo-filter-row [visible]="true"></dxo-filter-row>
@@ -32,7 +33,9 @@
                                 [allowAdding]="true" 
                                 [allowDeleting]="true" 
                                 [useIcons]="true"> 
-                              
+        <dxo-popup title="ItemType Info" [showTitle]="true" [width]="600" [height]="520"
+            [position]="{ my: 'top', at: 'top', of: 'window' }">
+        </dxo-popup>                    
         <dxo-texts confirmDeleteMessage="Are you sure Delete?"></dxo-texts>
         <dxo-form >
           <dxi-item itemType="group" [colCount]="2" [colSpan]="2">
@@ -45,18 +48,24 @@
               <dx-data-grid (onRowInserting)="onRowInsertingProperty($event)"
                             (onRowUpdating)="onRowUpdatingProperty($event)" 
                             (onInitNewRow)="onInitNewRowDetail($event)"
-                            [dataSource]="detail" [showBorders]="true" [focusedRowEnabled]="true"
+                            [dataSource]="detail" 
                             keyExpr="ItemTypePropertyId"
-                            [remoteOperations]="true" 
-                            height="350" showBorders="true">
-                <dxo-editing mode="cell" 
+                            [showBorders]="true" 
+                            [showRowLines]="true" 
+                            [focusedRowEnabled]="true"
+                            height="300" >
+                <dxo-editing mode="row"  
+                            [useIcons]="true"
                             [allowAdding]="true" 
                             [allowUpdating]="true" 
                             [allowDeleting]="true">
                   <dxo-texts confirmDeleteMessage="Are you sure Delete?"></dxo-texts>
                 </dxo-editing>
               
-                <dxi-column dataField="ItemTypePropertyName" >
+                <dxi-column dataField="ItemTypePropertyName">
+                  
+                  <dxi-validation-rule type="custom" [validationCallback]="detailValidation" 
+                    message="Invalid!"></dxi-validation-rule>
                 </dxi-column>
                </dx-data-grid>
             </div>
