@@ -80,7 +80,8 @@
               [dataSource]="entity.BomStage"
               (onEditingStart)="isEditRow =true"
               (onRowUpdating)="isEditRow =false"
-              [remoteOperations]="true" height="auto"  showBorders="true">
+              [masterDetail]="{ enabled: true, template: 'detail' }"
+              [remoteOperations]="true" height="auto"  showBorders="true" [showRowLines]="true">
 
               <dxo-editing
                 [allowAdding]="true"
@@ -104,6 +105,39 @@
               </dxi-column>
               <dxi-column dataField="BomStageDescription" caption="{{'BomFactory.BomStage.Descriptions' | translate }}">
               </dxi-column>
+
+              <div *dxTemplate="let item of 'detail'">
+                <div class="master-detail-caption">Danh sách đầu ra của {{item.data.StageName | lowercase}}</div>
+                <dx-data-grid
+                    [dataSource]="getBomOut(item.key)"
+                    [showBorders]="true"
+                    [columnAutoWidth]="true">
+                      <dxo-editing
+                      [allowAdding]="true"
+                      [allowUpdating]="true"
+                      [allowDeleting]="true"
+                      [useIcons] ="true"
+                      >
+                      <dxo-texts confirmDeleteMessage="Are you sure Delete?"></dxo-texts>
+                    </dxo-editing>
+                        <dxi-column dataField="ItemId"  caption="{{'BomFactory.BomItem.ItemId' | translate}}">
+                          <dxo-lookup
+                              [dataSource]="dataSourceItem"
+                              (onValueChanged)="onValueChanged($event)"
+                              displayExpr="ItemName"
+                              valueExpr="ItemId">
+                          </dxo-lookup>
+                        </dxi-column>
+                        <dxi-column dataField="UnitId" caption="{{'BomFactory.BomItem.UnitId ' | translate}}">
+                          <dxo-lookup
+                            [dataSource]="dataSourceUnit"
+                            displayExpr="UnitName"
+                            valueExpr="UnitId">
+                        </dxo-lookup>
+                        </dxi-column>
+                        <dxi-column dataField="Quantity" caption="{{'BomFactory.BomItem.Quantity' | translate}}"></dxi-column>
+                </dx-data-grid>
+            </div>
           </dx-data-grid>
             </div>
           </div>
