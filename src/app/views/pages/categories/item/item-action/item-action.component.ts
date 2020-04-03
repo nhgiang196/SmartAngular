@@ -17,6 +17,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { SmartUploadComponent } from 'src/app/views/UISample/smart-upload/smart-upload.component';
 import { FileService } from 'src/app/core/services/file.service';
 import { checkActiveTab } from 'src/app/app.helpers';
+import { DevextremeService } from 'src/app/core/services/general/devextreme.service';
 declare var $ :any;
 @Component({
   selector: 'app-item-action',
@@ -45,8 +46,15 @@ export class ItemActionComponent implements OnInit {
 
   addFiles: { FileList: File[]; FileLocalNameList: string[] };
 
-  constructor(private itemService: ItemService, private route: ActivatedRoute,private auth: AuthService,public helper: MyHelperService,private toastr: ToastrService,
-    private trans: TranslateService,  private router: Router,private fileService:FileService) { }
+  constructor(private itemService: ItemService,
+     private route: ActivatedRoute,
+     private auth: AuthService,
+     public helper: MyHelperService,
+     private toastr: ToastrService,
+    private trans: TranslateService,
+    private router: Router,
+    private devExtremeService:DevextremeService,
+    private fileService:FileService) { }
 
   ngOnInit() {
     var item = this.route.snapshot.data["item"] as Item;
@@ -158,8 +166,6 @@ export class ItemActionComponent implements OnInit {
 
   ///Area Item Factory////
   onRowValidatingFactory(e) {
-    console.log("validate", e);
-    console.log(this.entity)
     if (e.oldData == null) {
       //thêm mới
       if (this.entity.ItemFactory.find(x => x.FactoryId == e.newData.FactoryId)) {
@@ -177,29 +183,7 @@ export class ItemActionComponent implements OnInit {
   }
 
   loadFactorySelectBox() {
-    let keyId = "FactoryId";
-
-    this.dataSourceFactory = createStore({
-      key: keyId,
-      loadUrl: `${environment.apiUrl}/Factory/UI_SelectBox`,
-      loadParams: { keyId: keyId },
-      onBeforeSend: function (method, ajaxOptions) {
-        ajaxOptions.data.keyId = keyId;
-        if (ajaxOptions.data.filter != null) {
-
-          let dataParse = JSON.parse(ajaxOptions.data.filter);
-          if (dataParse.length == 2)
-            dataParse = JSON.parse(JSON.stringify([dataParse]));
-          dataParse.push('and');
-          dataParse.push(["Status", "=", 1]);
-          ajaxOptions.data.filter = JSON.stringify(dataParse);
-        }
-        else {
-          ajaxOptions.data.filter = JSON.stringify(["Status", "=", 1]);
-        }
-        ajaxOptions.xhrFields = { withCredentials: true };
-      },
-    });
+    this.dataSourceFactory =  this.devExtremeService.loadDxoLookup("Factory");
   }
 
   ///Area Item Property////
@@ -222,29 +206,7 @@ export class ItemActionComponent implements OnInit {
     }
   }
   loadItemPropertySelectBox(itemTypeId) {
-    let keyId = "ItemTypePropertyId";
-
-    this.dataSourceItemTypeProperty = createStore({
-      key: keyId,
-      loadUrl: `${environment.apiUrl}/ItemTypeProperty/UI_SelectBox`,
-      loadParams: { keyId: keyId },
-      onBeforeSend: function (method, ajaxOptions) {
-        ajaxOptions.data.keyId = keyId;
-        if (ajaxOptions.data.filter != null) {
-
-          let dataParse = JSON.parse(ajaxOptions.data.filter);
-          if (dataParse.length == 2)
-            dataParse = JSON.parse(JSON.stringify([dataParse]));
-          dataParse.push('and');
-          dataParse.push(["ItemTypeId", "=", itemTypeId]);
-          ajaxOptions.data.filter = JSON.stringify(dataParse);
-        }
-        else {
-          ajaxOptions.data.filter = JSON.stringify(["ItemTypeId", "=", itemTypeId]);
-        }
-        ajaxOptions.xhrFields = { withCredentials: true };
-      },
-    });
+    this.dataSourceItemTypeProperty = this.devExtremeService.loadDxoLookup("ItemTypeProperty",false);
   }
 
   ///Area Item Package////
@@ -272,29 +234,7 @@ export class ItemActionComponent implements OnInit {
   }
 
   loadUnitSelectbox(){
-    let keyId = "UnitId";
-
-    this.dataSourceUnit = createStore({
-      key: keyId,
-      loadUrl: `${environment.apiUrl}/Unit/UI_SelectBox`,
-      loadParams: { keyId: keyId },
-      onBeforeSend: function (method, ajaxOptions) {
-        ajaxOptions.data.keyId = keyId;
-        if (ajaxOptions.data.filter != null) {
-
-          let dataParse = JSON.parse(ajaxOptions.data.filter);
-          if (dataParse.length == 2)
-            dataParse = JSON.parse(JSON.stringify([dataParse]));
-          dataParse.push('and');
-          dataParse.push(["Status", "=", 1]);
-          ajaxOptions.data.filter = JSON.stringify(dataParse);
-        }
-        else {
-          ajaxOptions.data.filter = JSON.stringify(["Status", "=", 1]);
-        }
-        ajaxOptions.xhrFields = { withCredentials: true };
-      },
-    });
+   this.dataSourceUnit =  this.devExtremeService.loadDxoLookup("Unit");
   }
 
   ///FILE////

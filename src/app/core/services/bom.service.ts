@@ -5,7 +5,7 @@ import { DataTablesResponse } from '../models/datatable';
 import { environment } from 'src/environments/environment';
 import DataSource from 'devextreme/data/data_source';
 import * as AspNetData from "devextreme-aspnet-data-nojquery";
-const ApiUrl = environment.apiUrl;;
+const ApiUrl = environment.apiUrl;
 @Injectable({providedIn: 'root'})
 export class BomService {
   constructor(private http: HttpClient) {
@@ -34,5 +34,7 @@ export class BomService {
        })
      });
    }
+
+   getLookupDataSource =(params) => this.http.get<any>(`${ApiUrl}/Stage/UI_SelectBox`, { params: params } );
 
 }

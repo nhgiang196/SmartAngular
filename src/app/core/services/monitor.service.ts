@@ -3,7 +3,16 @@ import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { DataTablesResponse, DataTablePaginationParams } from '../models/datatable';
 import { environment } from 'src/environments/environment';
-const ApiUrl = environment.apiUrl;;
+import { MonitorDescription } from '../models/monitor';
+const ApiUrl = environment.apiUrl;
+let monitorSources: MonitorDescription[] = [
+  { value: "PH", name: "pH" },
+  { value: "Tss", name: "TSS" },
+  { value: "Q", name: "Q" },
+  { value: "Color", name: "Color" },
+  { value: "Amoni", name: "Amoni" }
+];
+
 @Injectable({providedIn: 'root'})
 export class MonitorService {
   constructor(private http: HttpClient) {
@@ -31,4 +40,8 @@ export class MonitorService {
    getMonitor =() => this.http.get(`${ApiUrl}/Monitor/GetMonitor` );
    findMonitorById =(id) => this.http.get<any>(`${ApiUrl}/Monitor/FindMonitorById?id=${id}` );
    validateMonitor =(entity) =>this.http.post(`${ApiUrl}/Monitor/ValidateStage`,entity);
+   getChartByDate =(entity) => this.http.get(`${ApiUrl}/Monitor/QueryChartByDate?factoryId=${entity.factoryId}&dateFrom=${entity.dateFrom}&dateTo=${entity.dateTo}`)
+   getMonitorSources(): MonitorDescription[] {
+    return monitorSources;
+}
 }

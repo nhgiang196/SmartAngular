@@ -16,16 +16,185 @@
 </div>
 <div id="form-demo">
   <div class="widget-container">
-    <div>Select company:</div>
-    <dx-select-box #company displayExpr="FactoryName" [(dataSource)]="factories" [value]="factories[0]"></dx-select-box>
     <dx-form id="form" [(formData)]="chartFactory" [readOnly]="readOnly" [showColonAfterLabel]="showColon"
       [labelLocation]="labelLocation" [minColWidth]="minColWidth" [colCount]="colCount" [width]="width">
-      <dxi-item itemType="group" cssClass="second-group" [colCount]="2">
-        <dxi-item itemType="group">
-          <dxi-item dataField="DateFrom" editorType="dxDateBox" [editorOptions]="{ width: '100%'}"></dxi-item>
-          <dxi-item dataField="DateTo" editorType="dxDateBox" [editorOptions]="{ width: '100%'}"></dxi-item>
+      <dxi-item itemType="group" cssClass="first-group" dataField="factoryId" [colCount]="2" [colSpan]="1">
+        <dx-select-box #factory displayExpr="FactoryName" valueExpr="FactoryId"
+          (onValueChanged)="onValueChanged($event)" [(dataSource)]="factories" [value]="factories[0]">
+        </dx-select-box>
+        <div class="options">
+          <div class="option">
+            <span>Series Type</span>
+            <dx-select-box [dataSource]="types" [(value)]="seriesSettings.type">
+            </dx-select-box>
+          </div>
+        </div>
+      </dxi-item>
+      <dxi-item itemType="group" cssClass="second-group" [colCount]="2" [colSpan]="2">
+        <dxi-item dataField="dateFrom" editorType="dxDateBox"
+          [editorOptions]="{ type: 'datetime',displayFormat:'d/M/yyyy HH:mm',width: '100%'}"></dxi-item>
+        <dxi-item dataField="dateTo" editorType="dxDateBox"
+          [editorOptions]="{ type: 'datetime',displayFormat:'d/M/yyyy HH:mm',width: '100%'}"></dxi-item>
+        <dxi-item [colSpan]="1">
+          <dx-button stylingMode="contained" text="Query" type="normal" [width]="120" (onClick)="chartQuery($event)">
+          </dx-button>
         </dxi-item>
       </dxi-item>
     </dx-form>
   </div>
 </div>
+
+<!-- chartpH -->
+<dx-chart id="chart-pHChart" palette="Violet" [dataSource]="monitorsInfo">
+  <dxi-series type= "{{seriesSettings.type}}" color = "#F05A5E" valueField="PH" name="pH">
+  </dxi-series>
+  <dxo-common-series-settings  argumentField="MonitorDate" selectionMode="allArgumentPoints">
+  </dxo-common-series-settings>
+  <dxo-margin [bottom]="20"></dxo-margin>
+  <dxo-argument-axis [valueMarginsEnabled]="false" discreteAxisDivisionMode="crossLabels">
+    <dxo-grid [visible]="true"></dxo-grid>
+  </dxo-argument-axis>
+  <dxo-legend verticalAlignment="bottom" horizontalAlignment="center" itemTextPosition="bottom">
+  </dxo-legend>
+  <dxo-title text="pH Chart ">
+    <dxo-subtitle text="(Millions of Tons, Oil Equivalent)">
+    </dxo-subtitle>
+  </dxo-title>
+  <dxo-export [enabled]="true"></dxo-export>
+  <dxo-tooltip [enabled]="true"></dxo-tooltip>
+</dx-chart>
+<!-- COD chart -->
+<dx-chart id="codChart" palette="Violet" [dataSource]="monitorsInfo">
+  <dxi-series type= "{{seriesSettings.type}}" color = "#CBC83E" valueField="Cod" name="COD">
+  </dxi-series>
+  <dxo-common-series-settings  argumentField="MonitorDate" >
+  </dxo-common-series-settings>
+  <dxo-margin [bottom]="20"></dxo-margin>
+  <dxo-argument-axis [valueMarginsEnabled]="false" discreteAxisDivisionMode="crossLabels">
+    <dxo-grid [visible]="true"></dxo-grid>
+  </dxo-argument-axis>
+  <dxo-legend verticalAlignment="bottom" horizontalAlignment="center" itemTextPosition="bottom">
+  </dxo-legend>
+  <dxo-title text="COD Chart ">
+    <dxo-subtitle text="(Millions of Tons, Oil Equivalent)">
+    </dxo-subtitle>
+  </dxo-title>
+  <dxo-export [enabled]="true"></dxo-export>
+  <dxo-tooltip [enabled]="true"></dxo-tooltip>
+</dx-chart>
+<!-- TSS Chart -->
+<dx-chart id="tssChart" palette="Violet" [dataSource]="monitorsInfo">
+  <dxi-series type= "{{seriesSettings.type}}" valueField="Tss" name="TSS">
+  </dxi-series>
+  <dxo-common-series-settings  argumentField="MonitorDate" >
+  </dxo-common-series-settings>
+  <dxo-margin [bottom]="20"></dxo-margin>
+  <dxo-argument-axis [valueMarginsEnabled]="false" discreteAxisDivisionMode="crossLabels">
+    <dxo-grid [visible]="true"></dxo-grid>
+  </dxo-argument-axis>
+  <dxo-legend verticalAlignment="bottom" horizontalAlignment="center" itemTextPosition="bottom">
+  </dxo-legend>
+  <dxo-title text="TSS Chart ">
+    <dxo-subtitle text="(Millions of Tons, Oil Equivalent)">
+    </dxo-subtitle>
+  </dxo-title>
+  <dxo-export [enabled]="true"></dxo-export>
+  <dxo-tooltip [enabled]="true"></dxo-tooltip>
+</dx-chart>
+<!-- Q Chart -->
+<dx-chart id="QChart" palette="Violet" [dataSource]="monitorsInfo">
+  <dxi-series type= "{{seriesSettings.type}}" color = "#6593BC" valueField="Q" name="Q">
+  </dxi-series>
+  <dxo-common-series-settings  argumentField="MonitorDate" >
+  </dxo-common-series-settings>
+  <dxo-margin [bottom]="20"></dxo-margin>
+  <dxo-argument-axis [valueMarginsEnabled]="false" discreteAxisDivisionMode="crossLabels">
+    <dxo-grid [visible]="true"></dxo-grid>
+  </dxo-argument-axis>
+  <dxo-legend verticalAlignment="bottom" horizontalAlignment="center" itemTextPosition="bottom">
+  </dxo-legend>
+  <dxo-title text="Q Chart ">
+    <dxo-subtitle text="(Millions of Tons, Oil Equivalent)">
+    </dxo-subtitle>
+  </dxo-title>
+  <dxo-export [enabled]="true"></dxo-export>
+  <dxo-tooltip [enabled]="true"></dxo-tooltip>
+</dx-chart>
+<!-- Color Chart -->
+<dx-chart id="colorChart" palette="Violet" [dataSource]="monitorsInfo">
+  <dxi-series type= "{{seriesSettings.type}}" color = "#F5564A" valueField="Color" name="Color">
+  </dxi-series>
+  <dxo-common-series-settings  argumentField="MonitorDate" >
+  </dxo-common-series-settings>
+  <dxo-margin [bottom]="20"></dxo-margin>
+  <dxo-argument-axis [valueMarginsEnabled]="false" discreteAxisDivisionMode="crossLabels">
+    <dxo-grid [visible]="true"></dxo-grid>
+  </dxo-argument-axis>
+  <dxo-legend verticalAlignment="bottom" horizontalAlignment="center" itemTextPosition="bottom">
+  </dxo-legend>
+  <dxo-title text="Color Chart ">
+    <dxo-subtitle text="(Millions of Tons, Oil Equivalent)">
+    </dxo-subtitle>
+  </dxo-title>
+  <dxo-export [enabled]="true"></dxo-export>
+  <dxo-tooltip [enabled]="true"></dxo-tooltip>
+</dx-chart>
+<!-- Amoni Chart -->
+<dx-chart id="amoniChart" palette="Violet" [dataSource]="monitorsInfo">
+  <dxi-series type= "{{seriesSettings.type}}" color = "#1DB2F5" valueField="Amoni" name="Amoni">
+  </dxi-series>
+  <dxo-common-series-settings  argumentField="MonitorDate" >
+  </dxo-common-series-settings>
+  <dxo-margin [bottom]="20"></dxo-margin>
+  <dxo-argument-axis [valueMarginsEnabled]="false" discreteAxisDivisionMode="crossLabels">
+    <dxo-grid [visible]="true"></dxo-grid>
+  </dxo-argument-axis>
+  <dxo-legend verticalAlignment="bottom" horizontalAlignment="center" itemTextPosition="bottom">
+  </dxo-legend>
+  <dxo-title text="Amoni Chart ">
+    <dxo-subtitle text="(Millions of Tons, Oil Equivalent)">
+    </dxo-subtitle>
+  </dxo-title>
+  <dxo-export [enabled]="true"></dxo-export>
+  <dxo-tooltip [enabled]="true"></dxo-tooltip>
+</dx-chart>
+<!-- Temperature Chart -->
+<dx-chart id="temperatureChart"  [dataSource]="monitorsInfo" (onLegendClick)="legendClick($event)">
+  <dxi-series type= "{{seriesSettings.type}}" color = "#6278D7" valueField="Temperature" name="Temperature">
+  </dxi-series>
+  <dxo-common-series-settings argumentField="MonitorDate" selectionMode="allArgumentPoints">
+  </dxo-common-series-settings>
+  <dxo-margin [bottom]="20"></dxo-margin>
+  <dxo-argument-axis [valueMarginsEnabled]="false" discreteAxisDivisionMode="crossLabels">
+    <dxo-grid [visible]="true"></dxo-grid>
+  </dxo-argument-axis>
+  <dxo-legend verticalAlignment="bottom" horizontalAlignment="center" itemTextPosition="bottom">
+  </dxo-legend>
+  <dxo-title text="Temperature Chart ">
+    <dxo-subtitle text="(Millions of Tons, Oil Equivalent)">
+    </dxo-subtitle>
+  </dxo-title>
+  <dxo-export [enabled]="true"></dxo-export>
+  <dxo-tooltip [enabled]="true"></dxo-tooltip>
+</dx-chart>
+<!-- chart Demo -->
+<dx-chart id="fullChart" palette="Violet" [dataSource]="monitorsInfo" (onLegendClick)="legendClick($event)">
+  <dxi-series *ngFor="let monitor of monitorSources" [valueField]="monitor.value" [name]="monitor.name">
+  </dxi-series>
+  <dxo-common-series-settings #seriesSettings argumentField="MonitorDate" selectionMode="allArgumentPoints">
+  </dxo-common-series-settings>
+  <dxo-margin [bottom]="20"></dxo-margin>
+  <dxo-argument-axis [valueMarginsEnabled]="false" discreteAxisDivisionMode="crossLabels">
+    <dxo-grid [visible]="true"></dxo-grid>
+  </dxo-argument-axis>
+  <dxo-legend verticalAlignment="bottom" horizontalAlignment="center" itemTextPosition="bottom">
+  </dxo-legend>
+  <dxo-title text="Full Chart">
+    <dxo-subtitle text="(Millions of Tons, Oil Equivalent)">
+    </dxo-subtitle>
+  </dxo-title>
+  <dxo-export [enabled]="true"></dxo-export>
+  <dxo-tooltip [enabled]="true"></dxo-tooltip>
+</dx-chart>
+
+<hr>

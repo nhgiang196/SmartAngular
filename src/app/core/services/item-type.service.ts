@@ -10,6 +10,7 @@ import { createStore } from 'devextreme-aspnet-data-nojquery';
 const ApiUrl = environment.apiUrl;
 const NULL_ROUTES = `${environment.apiUrl}/DevExtreme/NullRoutes`
 @Injectable({ providedIn: 'root' })
+
 export class ItemTypeService {
   constructor(private http: HttpClient, private stageService: StageService) { }
   addItemType = (entity) => this.http.post(`${ApiUrl}/ItemType/AddItemType`, entity);

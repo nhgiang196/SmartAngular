@@ -36,29 +36,45 @@
           <div class="row">
             <div class="col-lg-12">
               <dx-data-grid
-              (onEditingStart)="onEditingStart($event)"
               [dataSource]="dataSource"
-              [remoteOperations]="true" height="500" showBorders="true">
+              [remoteOperations]="true" max-height="500" [showBorders]="true" [showRowLines]="true">
 
               <dxo-selection mode="single"></dxo-selection>
               <dxo-filter-row [visible]="true"></dxo-filter-row>
-              <dxo-header-filter [visible]="true"></dxo-header-filter>
               <dxo-editing
-                [allowUpdating]="true"
+                mode="popup"
+                [allowUpdating]="false"
                 [allowDeleting]="true"
                 [useIcons] ="true"
                 >
+               <dxo-popup title="Định mức hóa chất" [showTitle]="true" [width]="700" [height]="600"
+                [position]="{ my: 'top', at: 'top', of: 'window' }">
+                </dxo-popup>
                 <dxo-texts confirmDeleteMessage="Are you sure Delete?"></dxo-texts>
+
               </dxo-editing>
 
-              <dxi-column [allowEditing]="false" [allowEditing]="false" dataField="FactoryName" caption="{{'BomFactory.data.FactoryId' | translate}}"></dxi-column>
-              <dxi-column [allowEditing]="false" dataField="BomFactoryValidateDate" caption="{{'BomFactory.data.Validate' | translate}}" dataType="date"></dxi-column>
-              <dxi-column [allowEditing]="false" dataField="BomFactoryDescription" caption="{{'BomFactory.data.Descriptions' | translate}}"></dxi-column>
-              <dxi-column [allowEditing]="false" dataField="CreateDate" dataType="date" caption="{{'Item.data.CreateDate' | translate}}"></dxi-column>
-              <dxi-column [allowEditing]="false" dataField="CreateBy" caption="{{'Item.data.CreateBy' | translate}}"></dxi-column>
-              <dxi-column [allowEditing]="false" dataField="ModifyBy" caption="{{'Item.data.ModifyBy' | translate}}"></dxi-column>
-              <dxi-column [allowEditing]="false" dataField="ModifyDate" caption="{{'Item.data.ModifyDate' | translate}}" dataType="date"></dxi-column>
-              <dxi-column [allowEditing]="false" dataField="Status" caption="{{'Master.data.Status' | translate}}"></dxi-column>
+              <dxi-column dataField="FactoryId" caption="{{'BomFactory.data.FactoryId' | translate}}">
+                <dxo-lookup
+                  [dataSource]="dataSourceFactory"
+                                      displayExpr="FactoryName"
+                                      valueExpr="FactoryId">
+                   </dxo-lookup>
+              </dxi-column>
+              <dxi-column  dataField="BomFactoryValidateDate" caption="{{'BomFactory.data.Validate' | translate}}" dataType="date"></dxi-column>
+              <dxi-column  dataField="BomFactoryDescription" caption="{{'BomFactory.data.Descriptions' | translate}}"></dxi-column>
+              <dxi-column  dataField="CreateDate" dataType="date" caption="{{'Item.data.CreateDate' | translate}}"></dxi-column>
+              <dxi-column  dataField="CreateBy" caption="{{'Item.data.CreateBy' | translate}}"></dxi-column>
+              <dxi-column  dataField="ModifyBy" caption="{{'Item.data.ModifyBy' | translate}}"></dxi-column>
+              <dxi-column  dataField="ModifyDate" caption="{{'Item.data.ModifyDate' | translate}}" dataType="date"></dxi-column>
+              <dxi-column  dataField="Status" dataType="boolean" caption="{{'Master.data.Status' | translate}}"></dxi-column>
+              <dxi-column type="buttons" [width]="110">
+                <dxi-button
+                    icon="edit"
+                    [visible]="1"
+                    [onClick]="showModalBomStage"></dxi-button>
+                  <dxi-button name="delete"></dxi-button>
+            </dxi-column>
               <dxo-paging [pageSize]="25"></dxo-paging>
               <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[25, 50, 100]"></dxo-pager>
           </dx-data-grid>
@@ -72,4 +88,4 @@
 </div>
 
 
-
+<app-bom-stage #modalChild></app-bom-stage>

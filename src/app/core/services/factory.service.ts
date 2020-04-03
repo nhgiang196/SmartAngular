@@ -8,11 +8,6 @@ import { createStore } from 'devextreme-aspnet-data-nojquery';
 import DataSource from 'devextreme/data/data_source';
 const ApiUrl = environment.apiUrl;;
 
-export class ChartFactory {
-	FactoryID: number;
-	DateFrom: string;
-	DateTo: string;
-}
 @Injectable({ providedIn: 'root' })
 export class FactoryService {
   constructor(private http: HttpClient) {

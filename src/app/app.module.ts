@@ -34,6 +34,7 @@ import { RoutesResolver } from './core/resolvers/routes.resolver';
 import { UISampleModule } from './views/UISample/UISample.module';
 import { ItemResolver } from './core/resolvers/item.resolver';
 import { FileService } from './core/services/file.service';
+import { DevextremeService } from './core/services/general/devextreme.service';
 
 const SERVICE = [
   AuthService,
@@ -51,7 +52,8 @@ const SERVICE = [
   WareHouseService,
   ModuleService,
   FunctionService,
-  FileService
+  FileService,
+  DevextremeService
 ];
 
 @NgModule({
