@@ -21,11 +21,10 @@ declare let $: any;
     ])
   ]
 })
-
 export class WarehouseComponent implements OnInit {
   // @ViewChild('myInputFile') InputManual: ElementRef;
-  @ViewChild(SmartUploadComponent, {static: true}) uploadComponent: SmartUploadComponent;
-  @ViewChild(SmartSelectComponent, {static: true}) selectComponent: SmartSelectComponent;
+  @ViewChild(SmartUploadComponent, { static: true }) uploadComponent: SmartUploadComponent;
+  @ViewChild(SmartSelectComponent, { static: true }) selectComponent: SmartSelectComponent;
   constructor(
     private toastr: ToastrService,
     private warehouseService: WareHouseService,
@@ -55,19 +54,17 @@ export class WarehouseComponent implements OnInit {
     this.loadInit();
   }
   private loadUsers() {
-    this.auth.getUsers().subscribe(res=>{
-      this.initCombobox.Users= res;
+    this.auth.getUsers().subscribe(res => {
+      this.initCombobox.Users = res;
     }, err => this.toastr.warning('Get users Failed, check network'))
   }
-  searchLoad(){
-    this.pageIndex=1;
+  searchLoad() {
+    this.pageIndex = 1;
     this.loadInit();
-
   }
-
   loadInit() { //init loading
     this.iboxloading = true;
-    this.warehouseService.getPagination(this.keyword,this.pageIndex, this.pageSize).subscribe(res => {
+    this.warehouseService.getPagination(this.keyword, this.pageIndex, this.pageSize).subscribe(res => {
       var data = res as any;
       // this.selectComponent.specialId = res.FactoryId;
       // this.selectComponent.loadInit();
@@ -79,10 +76,10 @@ export class WarehouseComponent implements OnInit {
       this.iboxloading = false;
     });
   }
-  onSwitchStatus (_TYPE){ //modal switch on change
-    if (_TYPE == 'newLocationEntity') this.newLocationEntity.Status=  this.newLocationEntity.Status==0 ? 1: 0;
-    if (_TYPE == 'locationEntity') this.locationEntity.Status =  this.locationEntity.Status==0 ? 1: 0;
-    if (_TYPE == 'entity') this.entity.Status = this.entity.Status==0? 1: 0;
+  onSwitchStatus(_TYPE) { //modal switch on change
+    if (_TYPE == 'newLocationEntity') this.newLocationEntity.Status = this.newLocationEntity.Status == 0 ? 1 : 0;
+    if (_TYPE == 'locationEntity') this.locationEntity.Status = this.locationEntity.Status == 0 ? 1 : 0;
+    if (_TYPE == 'entity') this.entity.Status = this.entity.Status == 0 ? 1 : 0;
   }
   /** BUTTON ACTIONS */
   fnAdd() { //press new button
@@ -92,9 +89,7 @@ export class WarehouseComponent implements OnInit {
     this.entity.CreateBy = this.auth.currentUser.Username;
   }
   async fnEditSignal(id) { //press a link of ENTITY
-    
     if (id == null) { this.toastr.warning('ID is Null, cant show modal'); return; }
-    
     this.ACTION_STATUS = 'update';
     this.iboxloading = true;
     await this.warehouseService.findById(id).subscribe(res => {
@@ -102,8 +97,7 @@ export class WarehouseComponent implements OnInit {
       this.entity = res;
       $("#myModal4").modal('show');
       this.iboxloading = false;
-      console.log('getEntity',res);
-      
+      console.log('getEntity', res);
       /**CONTROL FILES */
       this.uploadComponent.loadInit(res.WarehouseFile);
       this.entity.ModifyBy = this.auth.currentUser.Username;
@@ -115,9 +109,7 @@ export class WarehouseComponent implements OnInit {
   pageChanged(event: PageChangedEvent): void {
     this.pageIndex = event.page;
     this.loadInit();
-
   }
-  
   fnDelete(id) { //press Delete Entity
     swal.fire({
       title: this.trans.instant('Warehouse.mssg.DeleteAsk_Title'),
@@ -148,11 +140,9 @@ export class WarehouseComponent implements OnInit {
       }
     })
   }
-
   async fnSave() { // press save butotn
     this.laddaSubmitLoading = true;
     var e = this.entity;
-    
     if (await this.fnValidate(e)) {
       await this.uploadComponent.uploadFile();
       if (this.ACTION_STATUS == 'add') {
@@ -166,7 +156,6 @@ export class WarehouseComponent implements OnInit {
           }
           else this.toastr.warning(operationResult.Message);
           this.laddaSubmitLoading = false;
-
         }, err => { this.toastr.error(err.statusText); this.laddaSubmitLoading = false; })
       }
       if (this.ACTION_STATUS == 'update') {
@@ -175,7 +164,6 @@ export class WarehouseComponent implements OnInit {
           var operationResult: any = res
           if (operationResult.Success) {
             this.loadInit();
-            
             this.toastr.success(this.trans.instant("messg.update.success"));
           }
           else this.toastr.warning(operationResult.Message);
@@ -184,40 +172,36 @@ export class WarehouseComponent implements OnInit {
       }
     }
   }
-  
   async fnAddItem(itemAdd) { //press add item
     let _checkValidate = await this.validateItem(itemAdd);
-     if (!_checkValidate) return;
+    if (!_checkValidate) return;
     itemAdd.WarehouseId = this.entity.WarehouseId;
     this.entity.WarehouseLocation.push(itemAdd);
     this.newLocationEntity = new WarehouseLocation();
   }
-  async fnSaveItem(itemAdd,index) { //press add item
-    let _checkValidate = await this.validateItem(itemAdd,index);
-     if (!_checkValidate) return;
+  async fnSaveItem(itemAdd, index) { //press add item
+    let _checkValidate = await this.validateItem(itemAdd, index);
+    if (!_checkValidate) return;
     itemAdd.WarehouseId = this.entity.WarehouseId;
-    this.entity.WarehouseLocation.splice(index,1,itemAdd)
+    this.entity.WarehouseLocation.splice(index, 1, itemAdd)
     this.locationEntity = new WarehouseLocation();
   }
-  async validateItem(itemAdd, index = -1){
+  async validateItem(itemAdd, index = -1) {
     for (const i in this.entity.WarehouseLocation) {
-        const t = this.entity.WarehouseLocation[i];
-        if (index.toString() == i) continue;
-        if (t.WarehouseLocationName.toLowerCase().trim()  === itemAdd.WarehouseLocationName.toLowerCase().trim())
-        {
-          swal.fire("Validate", this.trans.instant('Warehouse.data.WarehouseLocationCode') + this.trans.instant('messg.isexisted'), 'warning');
-          return false;
-        } 
-        if (t.WarehouseLocationCode.toLowerCase().trim()  === itemAdd.WarehouseLocationCode.toLowerCase().trim())
-        {
-          swal.fire("Validate", this.trans.instant('Warehouse.data.WarehouseLocationCode') + this.trans.instant('messg.isexisted'), 'warning');
-          return false;
-        } 
+      const t = this.entity.WarehouseLocation[i];
+      if (index.toString() == i) continue;
+      if (t.WarehouseLocationName.toLowerCase().trim() === itemAdd.WarehouseLocationName.toLowerCase().trim()) {
+        swal.fire("Validate", this.trans.instant('Warehouse.data.WarehouseLocationCode') + this.trans.instant('messg.isexisted'), 'warning');
+        return false;
+      }
+      if (t.WarehouseLocationCode.toLowerCase().trim() === itemAdd.WarehouseLocationCode.toLowerCase().trim()) {
+        swal.fire("Validate", this.trans.instant('Warehouse.data.WarehouseLocationCode') + this.trans.instant('messg.isexisted'), 'warning');
+        return false;
+      }
     }
     this.EditRowNumber = 0;
     return true;
   }
-
   fnEditItem(index) { //press a link of Item
     this.EditRowNumber = index + 1;
     this.locationEntity = Object.assign({}, this.entity.WarehouseLocation[index]); //stop binding
@@ -225,14 +209,12 @@ export class WarehouseComponent implements OnInit {
   fnDeleteItem(index) { //PRESS delete button item
     this.entity.WarehouseLocation.splice(index, 1);
   }
-
   /** EVENT TRIGGERS */
   /** PRIVATES FUNCTIONS */
   private async fnValidate(e: Warehouse) { // validate entity value
     this.invalid = {};
     let result = await this.warehouseService.validate(e).toPromise().then() as any;
-    if (!result.Success)
-    {
+    if (!result.Success) {
       this.laddaSubmitLoading = false;
       this.invalid[result.Message] = true;
       return false;
@@ -240,20 +222,16 @@ export class WarehouseComponent implements OnInit {
     return true;
   }
   private async resetEntity() { //reset entity values
-    
     this.entity = new Warehouse();
     this.locationEntity = new WarehouseLocation();
     this.newLocationEntity = new WarehouseLocation();
     this.invalid = {};
-    this.EditRowNumber=0;
-    
+    this.EditRowNumber = 0;
   }
   private CheckBeforeEdit(id) { //check auth before edit 
     this.toastr.warning("User not dont have permission");
   }
-
-  ngOnDestroy(){
+  ngOnDestroy() {
     $('.modal').modal('hide');
   }
-
 }
