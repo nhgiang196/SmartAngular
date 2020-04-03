@@ -37,22 +37,15 @@ export class FactoryComponent implements OnInit {
     private auth: AuthService
   ) { }
   /** DECLARATION */
-  bsConfig = { dateInputFormat: 'YYYY-MM-DD', adaptivePosition: true };
   factory: Factory[] = []; //init data
   entity: Factory;
-  tech_entity: FactoryTechnology;
-  laddaSubmitLoading = false;
   iboxloading = false;
-  newTechnology: FactoryTechnology;
   keyword: string = '';
   pathFile = "uploadFilesFactory";
   ACTION_STATUS: string;
   factory_showed = 0;
-  invalid: any = { FactoryCodeNull: false, FactoryCodeExist: false, FactoryNameNull: false, FactoryNameExist: false };
-  EditRowNumber: number = 0;
   pageIndex = 1;
   pageSize = 12;
-  isFormValid = true;
   buttonOptions: any = {
     stylingMode: 'text', // để tắt đường viền container
     template: `<button type="button" class="btn btn-primary"><i class="fa fa-paper-plane-o"></i>${this.trans.instant('Button.Save')}</button>`, //template hoạt động cho Ispinia
@@ -65,7 +58,6 @@ export class FactoryComponent implements OnInit {
   /**INIT FUNCTIONS */
   loadInit() {
     this.iboxloading = true;
-    this.EditRowNumber = 0;
     this.api.getFactoryPaginationMain(this.keyword, this.pageIndex, this.pageSize).subscribe(res => {
       var data = res as any;
       this.factory = data.data;
@@ -86,11 +78,6 @@ export class FactoryComponent implements OnInit {
   }
   private resetEntity() {
     this.entity = new Factory();
-    this.tech_entity = new FactoryTechnology();
-    this.newTechnology = new FactoryTechnology();
-    this.invalid = {};
-    this.EditRowNumber = 0;
-    this.isFormValid = true;
   }
   /** BUTTON ACTIONS */
   fnAdd() { //press add buton
@@ -101,7 +88,6 @@ export class FactoryComponent implements OnInit {
     this.entity.CreateBy = this.auth.currentUser.Username;
   }
   fnEditSignal(id) { //press a link name of entity
-    this.isFormValid = true;
     $("#myModal4").modal('hide');
     if (id == null) { this.toastr.warning('Factory ID is Null, cant show modal'); return; }
     this.ACTION_STATUS = 'update';
@@ -110,7 +96,6 @@ export class FactoryComponent implements OnInit {
       this.entity = res;
       $("#myModal4").modal('show');
       this.iboxloading = false;
-      /**CONTROL FILES */
       this.uploadComponent.loadInit(res.FactoryFile);
       this.entity.ModifyBy = this.auth.currentUser.Username;
     }, error => {
@@ -163,7 +148,6 @@ export class FactoryComponent implements OnInit {
       })
   }
   async fnSave() { //press save/SUBMIT button
-    this.laddaSubmitLoading = true;
     var e = this.fnConvertFactoryDate(this.entity);
     await this.uploadComponent.uploadFile();
     if (this.ACTION_STATUS == 'add') {
@@ -175,8 +159,8 @@ export class FactoryComponent implements OnInit {
           this.loadInit();
         }
         else this.toastr.warning(operationResult.Message);
-        this.laddaSubmitLoading = false;
-      }, err => { this.toastr.error(err.statusText); this.laddaSubmitLoading = false; })
+        
+      }, err => { this.toastr.error(err.statusText);  })
     }
     if (this.ACTION_STATUS == 'update') {
       this.api.updateFactory(e).subscribe(res => {
@@ -186,8 +170,8 @@ export class FactoryComponent implements OnInit {
           this.toastr.success(this.trans.instant("messg.update.success"));
         }
         else this.toastr.warning(operationResult.Message);
-        this.laddaSubmitLoading = false;
-      }, err => { this.toastr.error(err.statusText); this.laddaSubmitLoading = false; })
+        
+      }, err => { this.toastr.error(err.statusText);  })
     }
     
   }
