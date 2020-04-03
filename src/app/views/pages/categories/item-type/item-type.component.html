@@ -17,7 +17,9 @@
                   (onEditingStart)="filterByItemTypeId($event)"
                   (onEditorPreparing)="onEditorPreparing($event)"
                   (onInitNewRow)="onInitNewRow($event)"
-                  [dataSource]="dataSourceItemTypes"                  
+                  (onRowValidating)= "masterValidation($event)"
+                  [dataSource]="dataSourceItemTypes"    
+                  [focusedRowEnabled]="true"             
                   height="500"
                   [showBorders]="true"
                   [showRowLines]="true" >
@@ -30,7 +32,7 @@
                                 [allowAdding]="true" 
                                 [allowDeleting]="true" 
                                 [useIcons]="true"> 
-        <dxo-popup title="ItemType Info" [showTitle]="true" [width]="600" [height]="620"
+        <dxo-popup title="ItemType Info" [showTitle]="true" [width]="600" [height]="600"
             [position]="{ my: 'top', at: 'top', of: 'window' }">
         </dxo-popup>                    
         <dxo-texts confirmDeleteMessage="Are you sure Delete?"></dxo-texts>
@@ -40,15 +42,17 @@
             <dxi-item dataField="ItemTypeCode" [editorOptions]="{ disabled: !isUpdate }"></dxi-item>
           </dxi-item >
           <!-- Begin Detail DataGrid ItemTypeProperty -->
-          <dxi-item [colSpan]="2" caption="Properties" >
+          <dxi-item [colSpan]="2" >
             <div *dxTemplate="let ItemType of 'dataSourceProperties'" >
               <dx-data-grid
                             (onInitNewRow)="onInitNewRowDetail($event)"
+                            (onRowValidating)= "detailValidation($event)"
                             [dataSource]="dataSourceProperties"
                             keyExpr="ItemTypePropertyId"
                             [focusedRowEnabled]="true"
                             [remoteOperations]="true" 
-                            height="380" [showBorders]="true"
+                            height="380" 
+                            [showBorders]="true"
                             [showRowLines]="true">
                 <dxo-editing mode="row" 
                             [allowAdding]="true" 
@@ -58,9 +62,12 @@
                   <dxo-texts confirmDeleteMessage="Are you sure Delete?"></dxo-texts>
                 </dxo-editing>
               
-                <dxi-column dataField="ItemTypePropertyName">
-                  
-                 
+                <dxi-column dataField="ItemTypePropertyName" [editorOptions]="{ placeholder: 'Input ItemTypePropertyName' }">
+                  <!-- <dxi-validation-rule type="custom"  max="256" 
+                      [validationCallback]="detailValidation1" 
+                      message="ItemTypeName is empty"></dxi-validation-rule> -->
+                  <dxi-validation-rule type="required"  max="256"
+                      message="ItemTypeName is empty"></dxi-validation-rule>
                 </dxi-column>
                 <dxo-paging [pageSize]="7"></dxo-paging>
                 <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[7,25, 50, 100]"></dxo-pager>
@@ -70,12 +77,12 @@
           <!-- End Detail DataGrid ItemTypeProperty -->
         </dxo-form>
       </dxo-editing>
-      <dxi-column dataField="ItemTypeName">
-        <dxi-validation-rule type="required" max="20"
-          message="The field ItemTypeName must be a string with a maximum length of 20."></dxi-validation-rule>
+      <dxi-column dataField="ItemTypeName" [editorOptions]="{ placeholder: 'Input ItemTypeName' }">
+        <dxi-validation-rule type="required" max="256"
+          message="The field ItemTypeName must be a string with a maximum length of 256."></dxi-validation-rule>
       </dxi-column>
-      <dxi-column dataField="ItemTypeCode">
-        <dxi-validation-rule type="required" max="20"
+      <dxi-column dataField="ItemTypeCode" [editorOptions]="{ placeholder: 'Input ItemTypeCode' }">
+        <dxi-validation-rule type="required" max="50"
           message="The field ItemTypeName must be a string with a maximum length of 20."></dxi-validation-rule>
       </dxi-column>
       <dxi-column dataField="CreateDate" dataType="date"></dxi-column>

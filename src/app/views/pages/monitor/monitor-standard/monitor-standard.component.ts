@@ -24,7 +24,8 @@ export class MonitorStandardComponent implements OnInit {
     private auth: AuthService,
     private toastr: ToastrService
   ) { 
-    this.dataSource = this.api.getDataGridMonitorStandard(this.dataSource, 'MonitorStandardId');
+    //LOAD DATAGRID MONITOR
+    this.dataSource = this.api.getDataGridMonitorStandard(this.dataSource, "MonitorStandardId");
   }
 
   ngOnInit() {
