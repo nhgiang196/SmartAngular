@@ -17,6 +17,13 @@ import { UserIdleModule } from 'angular-user-idle';
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
 }
+
+export function getLanguage(){
+  let lang = localStorage.getItem('locallanguage');
+  if(lang==null || lang =='')
+    lang ='vn'
+  return  lang;
+}
 @NgModule({
   declarations: [],
   imports: [
@@ -27,7 +34,7 @@ export function HttpLoaderFactory(http: HttpClient) {
         useFactory: HttpLoaderFactory,
         deps: [HttpClient]
       },
-      defaultLanguage: localStorage.getItem('locallanguage')
+      defaultLanguage: getLanguage()
     }),
     ToastrModule.forRoot({
       timeOut: 3000,

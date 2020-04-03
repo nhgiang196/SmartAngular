@@ -40,8 +40,9 @@ const COMPONENTS = [
 @NgModule({
   imports: [
     CategoriesRoutingModule,
-    CommonModule,
+
     SharedModule,
+    CommonModule,
     UISampleModule,
     FormsModule,
     DxSpeedDialActionModule,
@@ -58,7 +59,7 @@ const COMPONENTS = [
     ModalModule.forRoot()
   ],
   declarations: [...COMPONENTS],
-  exports: [...COMPONENTS],
+  exports: [],
   providers:[
   ]
 })
