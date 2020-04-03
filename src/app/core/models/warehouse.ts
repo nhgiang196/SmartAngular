@@ -18,6 +18,7 @@ export class Warehouse {
     Status: number = 1
     WarehouseFile: WarehouseFile[] = []
     WarehouseLocation: WarehouseLocation[] = []
+    FactoryName: string = null;
   }
   
   

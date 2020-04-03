@@ -8,6 +8,7 @@ import { Warehouse, WarehouseLocation } from 'src/app/core/models/warehouse';
 import { WareHouseService, AuthService } from 'src/app/core/services';
 import { SmartUploadComponent } from 'src/app/views/UISample/smart-upload/smart-upload.component';
 import { SmartSelectComponent } from 'src/app/views/UISample/smart-select/smart-select.component';
+import { DxFormComponent } from 'devextreme-angular';
 declare let $: any;
 @Component({
   selector: 'app-warehouse',
@@ -23,8 +24,8 @@ declare let $: any;
 })
 export class WarehouseComponent implements OnInit {
   // @ViewChild('myInputFile') InputManual: ElementRef;
-  @ViewChild(SmartUploadComponent, { static: true }) uploadComponent: SmartUploadComponent;
-  @ViewChild(SmartSelectComponent, { static: true }) selectComponent: SmartSelectComponent;
+  @ViewChild('targetSmartUpload', { static: false }) uploadComponent: SmartUploadComponent;
+  @ViewChild('targetForm', { static: true }) targetForm: DxFormComponent;
   constructor(
     private toastr: ToastrService,
     private warehouseService: WareHouseService,
@@ -47,6 +48,12 @@ export class WarehouseComponent implements OnInit {
   EditRowNumber: number = 0;
   pageIndex = 1;
   pageSize = 12;
+
+  buttonOptions: any = {
+    stylingMode: 'text', // để tắt đường viền container
+    template: `<button type="button" class="btn btn-primary"><i class="fa fa-paper-plane-o"></i>${this.trans.instant('Button.Save')}</button>`, //template hoạt động cho Ispinia
+    useSubmitBehavior: true, //submit = validate + save
+  }
   /**INIT FUNCTIONS */
   ngOnInit() { //init functions
     this.resetEntity();
@@ -57,6 +64,15 @@ export class WarehouseComponent implements OnInit {
     this.auth.getUsers().subscribe(res => {
       this.initCombobox.Users = res;
     }, err => this.toastr.warning('Get users Failed, check network'))
+  }
+  initWarehouseLocation(e){
+    e.data.WarehouseLocationId = 0;
+    e.data.WarehouseId = this.entity.WarehouseId;
+    e.data.Status = true;
+  }
+
+  changeWarehouseLocationStatus(event){
+    event.data.Status = event.data.Status? 1: 0;
   }
   searchLoad() {
     this.pageIndex = 1;
@@ -78,11 +94,12 @@ export class WarehouseComponent implements OnInit {
   }
   onSwitchStatus(_TYPE) { //modal switch on change
     if (_TYPE == 'newLocationEntity') this.newLocationEntity.Status = this.newLocationEntity.Status == 0 ? 1 : 0;
-    if (_TYPE == 'locationEntity') this.locationEntity.Status = this.locationEntity.Status == 0 ? 1 : 0;
+    if (_TYPE == 'locationEntity') this.locationEntity.Status = this. locationEntity.Status == 0 ? 1 : 0;
     if (_TYPE == 'entity') this.entity.Status = this.entity.Status == 0 ? 1 : 0;
   }
   /** BUTTON ACTIONS */
   fnAdd() { //press new button
+    this.targetForm.instance.resetValues();
     this.ACTION_STATUS = 'add';
     this.resetEntity();
     this.uploadComponent.resetEntity();
@@ -141,35 +158,34 @@ export class WarehouseComponent implements OnInit {
     })
   }
   async fnSave() { // press save butotn
+    if (!this.targetForm.instance.validate().isValid) return;
     this.laddaSubmitLoading = true;
     var e = this.entity;
-    if (await this.fnValidate(e)) {
-      await this.uploadComponent.uploadFile();
-      if (this.ACTION_STATUS == 'add') {
-        e.CreateBy = this.auth.currentUser.Username;
-        this.warehouseService.add(e).subscribe(res => {
-          var operationResult: any = res
-          if (operationResult.Success) {
-            this.toastr.success(this.trans.instant("messg.add.success"));
-            $("#myModal4").modal('hide');
-            this.loadInit();
-          }
-          else this.toastr.warning(operationResult.Message);
-          this.laddaSubmitLoading = false;
-        }, err => { this.toastr.error(err.statusText); this.laddaSubmitLoading = false; })
-      }
-      if (this.ACTION_STATUS == 'update') {
-        e.ModifyBy = this.auth.currentUser.Username;
-        this.warehouseService.update(e).subscribe(res => {
-          var operationResult: any = res
-          if (operationResult.Success) {
-            this.loadInit();
-            this.toastr.success(this.trans.instant("messg.update.success"));
-          }
-          else this.toastr.warning(operationResult.Message);
-          this.laddaSubmitLoading = false;
-        }, err => { this.toastr.error(err.statusText); this.laddaSubmitLoading = false; })
-      }
+    await this.uploadComponent.uploadFile();
+    if (this.ACTION_STATUS == 'add') {
+      e.CreateBy = this.auth.currentUser.Username;
+      this.warehouseService.add(e).subscribe(res => {
+        var operationResult: any = res
+        if (operationResult.Success) {
+          this.toastr.success(this.trans.instant("messg.add.success"));
+          $("#myModal4").modal('hide');
+          this.loadInit();
+        }
+        else this.toastr.warning(operationResult.Message);
+        this.laddaSubmitLoading = false;
+      }, err => { this.toastr.error(err.statusText); this.laddaSubmitLoading = false; })
+    }
+    if (this.ACTION_STATUS == 'update') {
+      e.ModifyBy = this.auth.currentUser.Username;
+      this.warehouseService.update(e).subscribe(res => {
+        var operationResult: any = res
+        if (operationResult.Success) {
+          this.loadInit();
+          this.toastr.success(this.trans.instant("messg.update.success"));
+        }
+        else this.toastr.warning(operationResult.Message);
+        this.laddaSubmitLoading = false;
+      }, err => { this.toastr.error(err.statusText); this.laddaSubmitLoading = false; })
     }
   }
   async fnAddItem(itemAdd) { //press add item
