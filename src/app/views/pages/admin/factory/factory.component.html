@@ -178,69 +178,37 @@
                 <hr>
               </div>
             </dxi-item>
-            <dxi-item contentTemplate="table-resposive">
+            <dxi-item caption="{{'Factory.data.FactoryTechnologyId' | translate}}" contentTemplate="table-resposive">
               <div *dxTemplate="let data of 'table-resposive'">
-                <div class="table-responsive">
-                  <table class="table table-bordered">
-                    <thead>
-                      <tr>
-                        <th width="5%">#</th>
-                        <th width="20%">{{ 'Factory.data.TechnologyName' | translate }}</th>
-                        <th width="35%">{{ 'Factory.data.TechnologyDescription' | translate }}</th>
-                        <th width="15%">{{ 'Factory.data.TechnologyFromDate' | translate }}</th>
-                        <th width="15%">{{ 'Factory.data.TechnologyToDate' | translate }}</th>
-                        <th width="10%">{{ 'Button.Action' | translate }}</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr *ngFor="let item of entity.FactoryTechnology; let i = index">
-                        <td> {{i+1}} </td>
-                        <td *ngIf="i+1 !== EditRowNumber">{{item.TechnologyName}} </td>
-                        <td *ngIf="i+1 !== EditRowNumber">{{item.TechnologyDescription}} </td>
-                        <td *ngIf="i+1 !== EditRowNumber">{{item.TechnologyFromDate  }} </td>
-                        <td *ngIf="i+1 !== EditRowNumber">{{item.TechnologyToDate  }} </td>
-                        <td *ngIf="i+1 === EditRowNumber"><input type="text" class="form-control" name="Technology"
-                            id="Technology" [(ngModel)]="tech_entity.TechnologyName"></td>
-                        <td *ngIf="i+1 === EditRowNumber"><input type="text" class="form-control" name="Description"
-                            id="Description" [(ngModel)]="tech_entity.TechnologyDescription"> </td>
-                        <td *ngIf="i+1 === EditRowNumber"><input bsDatepicker [bsConfig]="bsConfig" type="text"
-                            class="form-control" readonly name="BeginDate" id="BeginDate"
-                            [(ngModel)]="tech_entity.TechnologyFromDate"> </td>
-                        <td *ngIf="i+1 === EditRowNumber"><input bsDatepicker [bsConfig]="bsConfig" type="text"
-                            class="form-control" readonly name="EndDate" id="EndDate"
-                            [(ngModel)]="tech_entity.TechnologyToDate"> </td>
-                        <td>
-                          <div class="btn-group">
-                            <button type="button" class="btn btn-sm btn-outline btn-primary"
-                              (click)="fnSaveItem(tech_entity,i)" *ngIf="i+1 === EditRowNumber"><i
-                                class="fa fa-check"></i></button>
-                            <button type="button" class="btn btn-sm btn-outline btn-success" (click)="fnEditItem(i)"
-                              *ngIf="i+1 !== EditRowNumber"><i class="fa fa-pencil"></i></button>
-                            <button type="button" class="btn btn-sm btn-outline btn-danger" (click)="fnDeleteItem(i)"
-                              *ngIf="i+1 !== EditRowNumber"><i class="fa fa-trash"></i></button>
-                          </div>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td> {{entity.FactoryTechnology.length +1}} </td>
-                        <td><input type="text" class="form-control" name="NewTechnology" id="NewTechnology"
-                            [(ngModel)]="newTechnology.TechnologyName"></td>
-                        <td><input type="text" class="form-control" name="NewDescription" id="NewDescription"
-                            [(ngModel)]="newTechnology.TechnologyDescription"></td>
-                        <td> <input bsDatepicker [bsConfig]="bsConfig" type="text" class="form-control" readonly
-                            name="NewBeginDate" id="NewBeginDate" [(ngModel)]="newTechnology.TechnologyFromDate"></td>
-                        <td><input bsDatepicker [bsConfig]="bsConfig" type="text" class="form-control" readonly
-                            name="NewEndDate" id="NewEndDate" [(ngModel)]="newTechnology.TechnologyToDate"></td>
-                        <td>
-                          <button type="button" class="btn  btn-sm btn-outline btn-info pull-right"
-                            [disabled]="!newTechnology.TechnologyName " (click)="fnAddItem(newTechnology)"><i
-                              class="fa fa-plus"></i> </button>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                  <div class="modal-footer"></div>
-                </div>
+                <dx-data-grid
+                  [dataSource]="entity.FactoryTechnology"
+                  allowColumnResizing="true"
+                  [showBorders]="true">
+                  <dxo-editing 
+                    mode="row"
+                    [allowUpdating]="true"
+                    [allowDeleting]="true"
+                    [allowAdding]="true"
+                    [useIcons] ="true">
+                  </dxo-editing>
+                  <dxi-column width="20%" dataField="TechnologyName" caption="{{ 'Factory.data.TechnologyName' | translate }}">
+                    <dxi-validation-rule type="required"></dxi-validation-rule>
+                    <dxi-validation-rule type="custom" ignoreEmptyValue="true" reevaluate="true" [validationCallback]="validateFunction" message="Existed Technology Name"></dxi-validation-rule>
+                  </dxi-column>
+                  <dxi-column width="30%" dataField="TechnologyDescription" caption="{{ 'Factory.data.TechnologyDescription' | translate }}">
+                    <dxi-validation-rule type="required"></dxi-validation-rule>
+                  </dxi-column>
+                  <dxi-column width="20%" dataField="TechnologyFromDate"  caption="{{ 'Factory.data.TechnologyFromDate' | translate }}" dataType="date">
+                    <dxi-validation-rule type="custom" ignoreEmptyValue="true" reevaluate="true"
+                      [validationCallback]="validateFunction" message="TechnologyFromDate Compare Validate">
+                    </dxi-validation-rule>
+                  </dxi-column>
+                  <dxi-column width="20%" dataField="TechnologyToDate"  caption="{{ 'Factory.data.TechnologyToDate' | translate }}" dataType="date">
+                    <dxi-validation-rule type="custom" ignoreEmptyValue="true" reevaluate="true"
+                      [validationCallback]="validateFunction" message="TechnologyToDate Compare Validate">
+                    </dxi-validation-rule>
+                  </dxi-column>
+                </dx-data-grid>
               </div>
             </dxi-item>
             <dxi-item itemType="group" [colCount]="1" [colSpan]="1">

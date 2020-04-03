@@ -162,107 +162,34 @@ export class FactoryComponent implements OnInit {
         }
       })
   }
-  async fnAddItem(itemAdd) { //press add item (in modal)
-    let _checkValidate = await this.validateItem(itemAdd, -1)
-    if (!_checkValidate) return;
-    else this.entity.FactoryTechnology.push(itemAdd);
-    this.newTechnology = new FactoryTechnology();
-  }
-  async fnSaveItem(itemAdd, index) { //press add item (in modal)
-    let _checkValidate = await this.validateItem(itemAdd, index)
-    if (!_checkValidate) return;
-    this.entity.FactoryTechnology.splice(index, 1, itemAdd);
-    this.tech_entity = new FactoryTechnology();
-  }
-  async validateItem(itemAdd: FactoryTechnology, index) {
-    // if (itemAdd.TechnologyName == null) {
-    //   swal.fire("Validate", this.trans.instant('Factory.data.TechnologyName') + this.trans.instant('messg.isnull'), 'warning');
-    //   return false;
-    // }
-    //Check validate date from biger than date to
-    if (itemAdd.TechnologyFromDate > itemAdd.TechnologyToDate) {
-      swal.fire(
-        {
-          title: this.trans.instant('messg.validation.caption'),
-          titleText: this.trans.instant('Factory.mssg.ErrorTechnologyDateToLessThanDateFrom'),
-          confirmButtonText: this.trans.instant('Button.OK'),
-          type: 'error',
-        }
-      );
-      return false;
-    }
-    for (const i in this.entity.FactoryTechnology) {
-      let t = this.entity.FactoryTechnology[i];
-      if (index.toString() === i) continue;
-      if (t.TechnologyName.toLowerCase().trim() === itemAdd.TechnologyName.toLowerCase().trim()) {
-        swal.fire(
-          {
-            title: this.trans.instant('messg.validation.caption'),
-            titleText: this.trans.instant('Factory.mssg.ErrorDuplicateTechnology'),
-            confirmButtonText: this.trans.instant('Button.OK'),
-            type: 'error',
-          }
-        );
-        return false;
-      }
-      if ((itemAdd.TechnologyFromDate >= t.TechnologyFromDate && itemAdd.TechnologyFromDate <= t.TechnologyToDate)
-        || (itemAdd.TechnologyToDate >= t.TechnologyFromDate && itemAdd.TechnologyToDate <= t.TechnologyToDate)
-        || (itemAdd.TechnologyFromDate <= t.TechnologyFromDate && itemAdd.TechnologyToDate >= t.TechnologyToDate)) {
-        swal.fire(
-          {
-            title: this.trans.instant('messg.validation.caption'),
-            titleText: this.trans.instant('Factory.mssg.ErrorTechnologyValidateOverlap'),
-            confirmButtonText: this.trans.instant('Button.OK'),
-            type: 'error',
-          });
-        return false;
-      }
-    }
-    this.EditRowNumber = 0;
-    return true
-  }
-  fnEditItem(index) { //press edit item (in modal)
-    this.EditRowNumber = index + 1;
-    this.tech_entity = new FactoryTechnology();
-    this.tech_entity = Object.assign({}, this.entity.FactoryTechnology[index]); //stop binding
-  }
-  fnDeleteItem(index) { //press delete item (in modal)
-    this.entity.FactoryTechnology.splice(index, 1);
-  }
   async fnSave() { //press save/SUBMIT button
     this.laddaSubmitLoading = true;
     var e = this.fnConvertFactoryDate(this.entity);
-    if (await this.fnValidate(e)) {
-      await this.uploadComponent.uploadFile();
-      if (this.ACTION_STATUS == 'add') {
-        this.api.addFactory(e).subscribe(res => {
-          var operationResult: any = res
-          if (operationResult.Success) {
-            this.toastr.success(this.trans.instant("messg.add.success"));
-            $("#myModal4").modal('hide');
-            this.loadInit();
-          }
-          else this.toastr.warning(operationResult.Message);
-          this.laddaSubmitLoading = false;
-        }, err => { this.toastr.error(err.statusText); this.laddaSubmitLoading = false; })
-      }
-      if (this.ACTION_STATUS == 'update') {
-        this.api.updateFactory(e).subscribe(res => {
-          var operationResult: any = res
-          if (operationResult.Success) {
-            this.loadInit();
-            this.toastr.success(this.trans.instant("messg.update.success"));
-          }
-          else this.toastr.warning(operationResult.Message);
-          this.laddaSubmitLoading = false;
-        }, err => { this.toastr.error(err.statusText); this.laddaSubmitLoading = false; })
-      }
+    await this.uploadComponent.uploadFile();
+    if (this.ACTION_STATUS == 'add') {
+      this.api.addFactory(e).subscribe(res => {
+        var operationResult: any = res
+        if (operationResult.Success) {
+          this.toastr.success(this.trans.instant("messg.add.success"));
+          $("#myModal4").modal('hide');
+          this.loadInit();
+        }
+        else this.toastr.warning(operationResult.Message);
+        this.laddaSubmitLoading = false;
+      }, err => { this.toastr.error(err.statusText); this.laddaSubmitLoading = false; })
     }
-  }
-  /** EVENT TRIGGERS */
-  onSwitchStatus() { //modal switch on change
-    this.entity.Status = this.entity.Status == 0 ? 1 : 0;
-    if (this.entity.Status == 1) this.entity.FactoryEndDate = null;
+    if (this.ACTION_STATUS == 'update') {
+      this.api.updateFactory(e).subscribe(res => {
+        var operationResult: any = res
+        if (operationResult.Success) {
+          this.loadInit();
+          this.toastr.success(this.trans.instant("messg.update.success"));
+        }
+        else this.toastr.warning(operationResult.Message);
+        this.laddaSubmitLoading = false;
+      }, err => { this.toastr.error(err.statusText); this.laddaSubmitLoading = false; })
+    }
+    
   }
   /** PRIVATES FUNCTIONS */
   private fnConvertFactoryDate(e: Factory) {
@@ -275,35 +202,24 @@ export class FactoryComponent implements OnInit {
     }
     return e;
   }
-  private async fnValidate(e: Factory) { //validate entity
-    this.invalid = {};
-    let result = await this.api.validateFactory(e).toPromise().then().catch(err => {
-      this.laddaSubmitLoading = false;
-      this.toastr.warning(err.statusText, 'Validate Got Error');
-    }) as any;
-    if (!result.Success) {
-      this.laddaSubmitLoading = false;
-      this.invalid[result.Message] = true;
-      return false;
+  validateFunction = (e) => {
+    if (e.formItem)
+    switch (e.formItem.dataField) {
+      case "FactoryStartDate": return e.value <=  this.entity.FactoryEndDate
+      case "FactoryEndDate": return this.entity.FactoryStartDate <= e.value
+      // case "TechnologyFromDate": return e.value <=  this.entity.FactoryTechnology.TechnologyToDate
+      // case "TechnologyToDate": return this.entity.FactoryTechnology.TechnologyFromDate <= e.value
+    }
+    if (e.column){}
+    switch (e.column.dataField) {
+      case "TechnologyName": return this.entity.FactoryTechnology.filter(x=>x.TechnologyName==e.data.TechnologyName && x.FactoryTechnologyId != e.data.FactoryTechnologyId).length==0
+      case "TechnologyFromDate": return e.data.TechnologyFromDate <=  e.data.TechnologyToDate
+      case "TechnologyToDate": return e.data.TechnologyFromDate  <= e.data.TechnologyFromDate
     }
     return true;
-  }
-  private fnCheckBeforeEdit(id) { //un done
-    this.toastr.warning("User not dont have permission");
-  }
-  receiveElementFile(event: UI_CustomFile[]) {
-    console.log('receiveComponent', event);
-    this.entity.FactoryFile = event;
-    console.log('after Map', this.entity.FactoryFile);
-  }
-  validateFunction = (e) => {
-    switch (e.formItem.dataField) {
-      case "FactoryEndDate": return this.entity.FactoryStartDate <= e.value
-      default: return true;
-    }
   };
 
-  validateAsync = (e) =>{
+  validateAsync = (e) =>{ 
     console.log('Validate Async', e)
     // return true;
     return new Promise(async (resolve) => { 
