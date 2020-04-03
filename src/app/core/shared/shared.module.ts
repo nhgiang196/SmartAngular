@@ -10,7 +10,7 @@ import { LaddaModule } from 'angular2-ladda';
 import { NgxDropzoneModule } from 'ngx-dropzone';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { BsDatepickerModule, PopoverModule, TimepickerModule, PaginationModule } from 'ngx-bootstrap';
-import { DxButtonModule, DxDataGridModule, DxPopupModule } from 'devextreme-angular';
+import { DxButtonModule, DxDataGridModule, DxPopupModule, DxCheckBoxModule, DxValidationGroupModule, DxFormModule } from 'devextreme-angular';
 
 import { UserIdleModule } from 'angular-user-idle';
 
@@ -53,6 +53,9 @@ export function getLanguage(){
     PaginationModule.forRoot(),
     DxButtonModule,
     DxDataGridModule,
+    DxCheckBoxModule,
+    DxValidationGroupModule,
+    DxFormModule,
     UserIdleModule.forRoot({ idle: 600, timeout: 5, ping: 300 }),
 
 
@@ -69,8 +72,11 @@ export function getLanguage(){
     PaginationModule,
     DxButtonModule,
     DxDataGridModule,
+    UserIdleModule,
     DxPopupModule,
-    UserIdleModule
+    DxCheckBoxModule,
+    DxValidationGroupModule,
+    DxFormModule,
   ],
   providers: [
     LanguageService

@@ -7,12 +7,12 @@ export class BomFactory {
 	BomFactoryId: number = 0
   FactoryId: number
   FactoryName: number
-	Validate?: any
-  Descriptions?: string
+	BomFactoryValidateDate?: any
+  BomFactoryDescription?: string
   CreateBy: string
-  CreateDate?: any 
+  CreateDate?: any
   ModifyBy: string
-  ModifyDate?: any 
+  ModifyDate?: any
   Status?: number = 1
   Factory? : Factory = new Factory();
   BomStage?: BomStage [] = []
@@ -53,8 +53,8 @@ export class BomStage {
   StageId?: number = 0
   StageName: string
 	OrderNumber?: number
-	Sequence?: boolean = false
-  Description?: string
+	IsSequence?: boolean = false
+  BomStageDescription?: string
   BomItemOut?: BomItemOut[] =[]
   Stage?: Stage = new Stage();
 }

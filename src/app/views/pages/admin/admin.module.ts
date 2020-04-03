@@ -8,6 +8,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { MainViewAdminComponent } from './main-view-admin/main-view-admin.component';
 import { UISampleModule } from '../../UISample/UISample.module';
 import { FormsModule } from '@angular/forms';
+import { DxiItemModule } from 'devextreme-angular/ui/nested';
+import { DxFormModule } from 'devextreme-angular';
 
 
 const routes: Routes = [{
@@ -35,6 +37,8 @@ const routes: Routes = [{
     SharedModule,
     UISampleModule,
     FormsModule,
+    DxiItemModule,
+    DxFormModule,
     
   ],
   exports: [RouterModule, FactoryComponent, AdminComponent, MainViewAdminComponent],

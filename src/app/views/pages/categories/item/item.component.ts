@@ -28,6 +28,7 @@ export class ItemComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute
   ) {
+    this.rediactToAction = this.rediactToAction.bind(this);
   }
   async ngOnInit() {
     await this.getAllItemType();
@@ -39,10 +40,6 @@ export class ItemComponent implements OnInit {
     this.dataSource = this.itemService.getDataGridItem('ItemId');
   }
 
-  onEditingStart(event){
-    this.router.navigate(['/pages/category/item/action/'+event.data.ItemId])
-    console.log(event);
-  }
 
   async getAllItemType() {
     this.listItemType = await this.itemTypeService.getItemType().pipe(map(res => {
@@ -55,5 +52,9 @@ export class ItemComponent implements OnInit {
     //this.dataSource= this.itemService.getDataGridItem('ItemId');
     this.dataSource.filter(filter);
     this.dataSource.reload();
+  }
+
+  rediactToAction(event){
+    this.router.navigate(['/pages/category/item/action/'+event.row.data.ItemId])
   }
 }

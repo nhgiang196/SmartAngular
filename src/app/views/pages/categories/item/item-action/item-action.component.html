@@ -204,8 +204,6 @@
                                                     <!-- (onRowValidating)="onRowValidatingFactory($event)" -->
                                                     <dx-data-grid
                                                     [dataSource]="entity.ItemFactory"
-                                                    (onEditingStart)="isEditRow =true"
-                                                    (onRowUpdating)="isEditRow =false"
                                                     (onContentReady) ="enableActiveTab($event)"
                                                     [remoteOperations]="true" height="auto"  showBorders="true">
 
@@ -407,8 +405,9 @@
             <div class="ibox-content m-b-sm border-bottom">
                 <div class="row">
                     <div class="col-sm-12">
+                      <!-- [ladda]="laddaSubmitLoading" -->
                         <button class="btn btn-primary pull-right"
-                            [ladda]="laddaSubmitLoading"
+
                             [disabled]="myForm.invalid ||entity.ItemUnitId==null" (click)="fnSave()">
                             <i class="fa fa-plus"></i>
                             {{'Button.Save' | translate}}
