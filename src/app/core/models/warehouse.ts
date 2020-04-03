@@ -3,17 +3,17 @@ import { Files } from './file'
 export class Warehouse {
     WarehouseId: number = 0
     WarehouseCode: string
-    WarehouseName: string
+    WarehouseName: string 
     FactoryId: number = 0
     WarehouseType: number = 1
-    WarehouseAddress: string
-    WarehouseUserName: string
+    WarehouseAddress: string = null
+    WarehouseUserName: string = null
     WarehouseLength: number = 0
     WarehouseWidth: number = 0
     WarehouseHeight: number = 0
-    CreateBy: string
+    CreateBy: string = null
     CreateDate: Date = null
-    ModifyBy: string
+    ModifyBy: string = null
     ModifyDate: Date = null
     Status: number = 1
     WarehouseFile: WarehouseFile[] = []

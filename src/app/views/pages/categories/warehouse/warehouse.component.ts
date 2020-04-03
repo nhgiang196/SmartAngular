@@ -5,7 +5,7 @@ import swal from 'sweetalert2';
 import { trigger, transition, animate, style } from '@angular/animations';
 import { PageChangedEvent } from 'ngx-bootstrap';
 import { Warehouse, WarehouseLocation } from 'src/app/core/models/warehouse';
-import { WareHouseService, AuthService } from 'src/app/core/services';
+import { WareHouseService, AuthService, FactoryService } from 'src/app/core/services';
 import { SmartUploadComponent } from 'src/app/views/UISample/smart-upload/smart-upload.component';
 import { SmartSelectComponent } from 'src/app/views/UISample/smart-select/smart-select.component';
 import { DxFormComponent } from 'devextreme-angular';
@@ -30,20 +30,20 @@ export class WarehouseComponent implements OnInit {
     private toastr: ToastrService,
     private warehouseService: WareHouseService,
     public trans: TranslateService,
-    private auth: AuthService
-  ) { }
+    private auth: AuthService,
+    private factoryService: FactoryService
+  ) { 
+    
+  }
   /** INIT / DECLARATION */
   Warehouse: any[] = []; //init data
   entity: Warehouse;
-  locationEntity: WarehouseLocation;
-  newLocationEntity: WarehouseLocation;
   laddaSubmitLoading = false;
   iboxloading = false;
   keyword: string = '';
   pathFile = "uploadFileWarehouse";
   ACTION_STATUS: string;
   Warehouse_showed = 0;
-  invalid: any = { Existed_WarehouseCode: false, Existed_WarehouseName: false };
   initCombobox = { Factories: [], FullFactories: [], Users: [] };
   EditRowNumber: number = 0;
   pageIndex = 1;
@@ -94,16 +94,12 @@ export class WarehouseComponent implements OnInit {
       this.iboxloading = false;
     });
   }
-  onSwitchStatus(_TYPE) { //modal switch on change
-    if (_TYPE == 'newLocationEntity') this.newLocationEntity.Status = this.newLocationEntity.Status == 0 ? 1 : 0;
-    if (_TYPE == 'locationEntity') this.locationEntity.Status = this. locationEntity.Status == 0 ? 1 : 0;
-    if (_TYPE == 'entity') this.entity.Status = this.entity.Status == 0 ? 1 : 0;
-  }
   /** BUTTON ACTIONS */
   fnAdd() { //press new button
+    this.resetEntity();
     this.targetForm.instance.resetValues();
     this.ACTION_STATUS = 'add';
-    this.resetEntity();
+    
     this.uploadComponent.resetEntity();
     this.entity.CreateBy = this.auth.currentUser.Username;
   }
@@ -190,60 +186,10 @@ export class WarehouseComponent implements OnInit {
       }, err => { this.toastr.error(err.statusText); this.laddaSubmitLoading = false; })
     }
   }
-  async fnAddItem(itemAdd) { //press add item
-    let _checkValidate = await this.validateItem(itemAdd);
-    if (!_checkValidate) return;
-    itemAdd.WarehouseId = this.entity.WarehouseId;
-    this.entity.WarehouseLocation.push(itemAdd);
-    this.newLocationEntity = new WarehouseLocation();
-  }
-  async fnSaveItem(itemAdd, index) { //press add item
-    let _checkValidate = await this.validateItem(itemAdd, index);
-    if (!_checkValidate) return;
-    itemAdd.WarehouseId = this.entity.WarehouseId;
-    this.entity.WarehouseLocation.splice(index, 1, itemAdd)
-    this.locationEntity = new WarehouseLocation();
-  }
-  async validateItem(itemAdd, index = -1) {
-    for (const i in this.entity.WarehouseLocation) {
-      const t = this.entity.WarehouseLocation[i];
-      if (index.toString() == i) continue;
-      if (t.WarehouseLocationName.toLowerCase().trim() === itemAdd.WarehouseLocationName.toLowerCase().trim()) {
-        swal.fire("Validate", this.trans.instant('Warehouse.data.WarehouseLocationCode') + this.trans.instant('messg.isexisted'), 'warning');
-        return false;
-      }
-      if (t.WarehouseLocationCode.toLowerCase().trim() === itemAdd.WarehouseLocationCode.toLowerCase().trim()) {
-        swal.fire("Validate", this.trans.instant('Warehouse.data.WarehouseLocationCode') + this.trans.instant('messg.isexisted'), 'warning');
-        return false;
-      }
-    }
-    this.EditRowNumber = 0;
-    return true;
-  }
-  fnEditItem(index) { //press a link of Item
-    this.EditRowNumber = index + 1;
-    this.locationEntity = Object.assign({}, this.entity.WarehouseLocation[index]); //stop binding
-  }
-  fnDeleteItem(index) { //PRESS delete button item
-    this.entity.WarehouseLocation.splice(index, 1);
-  }
   /** EVENT TRIGGERS */
   /** PRIVATES FUNCTIONS */
-  private async fnValidate(e: Warehouse) { // validate entity value
-    this.invalid = {};
-    let result = await this.warehouseService.validate(e).toPromise().then() as any;
-    if (!result.Success) {
-      this.laddaSubmitLoading = false;
-      this.invalid[result.Message] = true;
-      return false;
-    }
-    return true;
-  }
   private async resetEntity() { //reset entity values
     this.entity = new Warehouse();
-    this.locationEntity = new WarehouseLocation();
-    this.newLocationEntity = new WarehouseLocation();
-    this.invalid = {};
     this.EditRowNumber = 0;
   }
   private CheckBeforeEdit(id) { //check auth before edit 
