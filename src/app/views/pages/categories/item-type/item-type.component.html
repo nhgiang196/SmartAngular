@@ -14,17 +14,14 @@
     <!-- Begin Master DataGrid ItemType -->
     <dx-data-grid (onRowUpdating)="onRowUpdatingItemType($event)"
                   (onRowInserting)="onRowInsertingItemType($event)"
-                  (onRowRemoving)="onRowRemovingItemType($event)"
                   (onEditingStart)="filterByItemTypeId($event)"
                   (onEditorPreparing)="onEditorPreparing($event)"
                   (onInitNewRow)="onInitNewRow($event)"
-                  [dataSource]="dataSourceItemTypes" 
-                  [remoteOperations]="true" 
+                  [dataSource]="dataSourceItemTypes"                  
                   height="500"
                   [showBorders]="true"
                   [showRowLines]="true" >
 
-      <dxo-selection mode="single"></dxo-selection>
       <dxo-filter-row [visible]="true"></dxo-filter-row>
       <dxo-header-filter [visible]="true"></dxo-header-filter>
       <dxo-group-panel [visible]="true"></dxo-group-panel>
@@ -40,25 +37,23 @@
         <dxo-form >
           <dxi-item itemType="group" [colCount]="2" [colSpan]="2">
             <dxi-item dataField="ItemTypeName" ></dxi-item>
-            <dxi-item dataField="ItemTypeCode" [editorOptions]="{ disabled: isDisable }"></dxi-item>
+            <dxi-item dataField="ItemTypeCode" [editorOptions]="{ disabled: !isUpdate }"></dxi-item>
           </dxi-item >
           <!-- Begin Detail DataGrid ItemTypeProperty -->
-          <dxi-item [colSpan]="2" caption="Propertys" contentTemplate="detail">
-            <div *dxTemplate="let ItemType of 'detail'" dataField="detail">
-              <dx-data-grid (onRowInserting)="onRowInsertingProperty($event)"
-                            (onRowUpdating)="onRowUpdatingProperty($event)" 
+          <dxi-item [colSpan]="2" caption="Properties" >
+            <div *dxTemplate="let ItemType of 'dataSourceProperties'" >
+              <dx-data-grid
                             (onInitNewRow)="onInitNewRowDetail($event)"
-                            [dataSource]="detail" 
-                            keyExpr="ItemTypePropertyId"
-                            [showBorders]="true" 
-                            [showRowLines]="true" 
+                            [dataSource]="dataSourceProperties" [showBorders]="true" 
                             [focusedRowEnabled]="true"
-                            height="300" >
-                <dxo-editing mode="row"  
-                            [useIcons]="true"
+                            keyExpr="ItemTypePropertyId"
+                            [remoteOperations]="true" 
+                            height="380" showBorders="true">
+                <dxo-editing mode="row" 
                             [allowAdding]="true" 
                             [allowUpdating]="true" 
-                            [allowDeleting]="true">
+                            [allowDeleting]="true"
+                            [useIcons]="true">                           
                   <dxo-texts confirmDeleteMessage="Are you sure Delete?"></dxo-texts>
                 </dxo-editing>
               
@@ -67,6 +62,8 @@
                   <dxi-validation-rule type="custom" [validationCallback]="detailValidation" 
                     message="Invalid!"></dxi-validation-rule>
                 </dxi-column>
+                <dxo-paging [pageSize]="7"></dxo-paging>
+                <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[7,25, 50, 100]"></dxo-pager>
                </dx-data-grid>
             </div>
           </dxi-item>

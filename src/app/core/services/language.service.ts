@@ -18,12 +18,17 @@ export class LanguageService {
   langChanged(value) {
     localStorage.setItem('locallanguage', value);
     this.translate.use(value);
-    this.router.onSameUrlNavigation = 'reload';
+    // this.router.onSameUrlNavigation = 'reload';
+    // console.log('reload');
   //  window.location.reload();
   }
 
+
   getLanguage(){
-    return  localStorage.getItem('locallanguage');
+    let lang = localStorage.getItem('locallanguage');
+    if(lang==null || lang =='')
+      lang ='vn'
+    return  lang;
   }
 
 }
