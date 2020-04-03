@@ -106,17 +106,17 @@
       </div>
       <div class="modal-body">
         <form role="form" #myForm="ngForm" (submit)="fnSave($event)">
-          <dx-form #targetForm id="form" [(formData)]="entity">
+          <dx-form #targetForm id="form" [(formData)]="entity" >
             <dxi-item itemType="group" [colCount]="2">
               <dxi-item dataField="WarehouseCode" [label]="{text: trans.instant('Warehouse.data.WarehouseCode')}">
                 <dxi-validation-rule type="required"></dxi-validation-rule>
                 <dxi-validation-rule type="async" message="Exist Warehouse Code"  [validationCallback]="validateAsync"></dxi-validation-rule>
               </dxi-item>
-              <dxi-item dataField="FactoryId" [label]="{text: trans.instant('Warehouse.data.FactoryId')}" >
-                <dxi-validation-rule type="required"></dxi-validation-rule>
-                <div *dxTemplate=''>
-                  <smart-select-box entitykey="Factory" checkstatus="true" [(selectData)]="entity.FactoryId"></smart-select-box>
-                </div>
+              <dxi-item dataField="FactoryId" editorType="dxSelectBox"  [label]="{text: trans.instant('Warehouse.data.FactoryId')}">
+                  <dxi-validation-rule type="required"></dxi-validation-rule>
+                  <div *dxTemplate>
+                    <smart-select-box entitykey="Factory" checkstatus="true" [(selectData)]="entity.FactoryId"></smart-select-box>
+                  </div>
               </dxi-item>
             </dxi-item>
            
@@ -128,7 +128,7 @@
               <dxi-item dataField="WarehouseType" [label]="{text: trans.instant('Warehouse.data.WarehouseType')}"  editorType="dxSelectBox" 
               [editorOptions]="{ displayExpr: 'text' ,valueExpr:'id' ,
                 items: [
-                {id: 1, text: trans.instant('Warehouse.data.WarehouseType1')}
+                 { id: 1, text: trans.instant('Warehouse.data.WarehouseType1')}
                 ,{ id: 2, text: trans.instant('Warehouse.data.WarehouseType2')}
                 ,{ id: 3, text: trans.instant('Warehouse.data.WarehouseType3')}
                 ,{ id: 4, text: trans.instant('Warehouse.data.WarehouseType4')}
@@ -189,9 +189,11 @@
                   </dxo-editing>
                 <dxi-column dataField="WarehouseLocationCode" caption="{{ 'Warehouse.data.WarehouseLocationCode' | translate }}">
                   <dxi-validation-rule type="required"></dxi-validation-rule>
+                  <dxi-validation-rule type="custom" ignoreEmptyValue="true" reevaluate="true" [validationCallback]="validateFunction" message="Existed Technology Name"></dxi-validation-rule>
                 </dxi-column>
                 <dxi-column dataField="WarehouseLocationName" caption="{{ 'Warehouse.data.WarehouseLocationName' | translate }}">
                   <dxi-validation-rule type="required"></dxi-validation-rule>
+                  <dxi-validation-rule type="custom" ignoreEmptyValue="true" reevaluate="true" [validationCallback]="validateFunction" message="Existed Technology Name"></dxi-validation-rule>
                 </dxi-column>
                 <dxi-column dataField="WarehouseLocationLength" caption="{{ 'Warehouse.data.WarehouseLocationLength' | translate }}">
                   <dxi-validation-rule type="range" [min]="0"  [max]="100" message="Range 0-100"></dxi-validation-rule>

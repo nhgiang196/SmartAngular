@@ -60,6 +60,8 @@ export class WarehouseComponent implements OnInit {
     this.loadUsers();
     this.loadInit();
   }
+
+  
   private loadUsers() {
     this.auth.getUsers().subscribe(res => {
       this.initCombobox.Users = res;
@@ -247,6 +249,16 @@ export class WarehouseComponent implements OnInit {
   private CheckBeforeEdit(id) { //check auth before edit 
     this.toastr.warning("User not dont have permission");
   }
+
+
+  validateFunction = (e) => {
+    if (e.column){}
+    switch (e.column.dataField) {
+      case "WarehouseLocationCode": return this.entity.WarehouseLocation.filter(x=>x.WarehouseLocationCode==e.data.WarehouseLocationCode && x.WarehouseLocationId != e.data.WarehouseLocationId).length==0
+      case "WarehouseLocationName": return this.entity.WarehouseLocation.filter(x=>x.WarehouseLocationName==e.data.WarehouseLocationName && x.WarehouseLocationId != e.data.WarehouseLocationId).length==0
+    }
+    return true;
+  };
 
   validateAsync = (e) =>{ 
     console.log('Validate Async', e)
