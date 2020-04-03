@@ -1,4 +1,4 @@
-<!-- <div class="row wrapper border-bottom white-bg page-heading">
+<div class="row wrapper border-bottom white-bg page-heading">
   <div class="col-lg-10">
     <h2>Chức năng</h2>
     <ol class="breadcrumb">
@@ -26,8 +26,9 @@
     <dxo-header-filter [visible]="true"></dxo-header-filter>
     <dxo-group-panel [visible]="true"></dxo-group-panel>
 
-  <dxo-editing mode="popup">
-    <dxo-popup title="Unit Info" [showTitle]="true" [width]="600" [height]="230"
+  <dxo-editing mode="popup" 
+    [allowUpdating]="true">
+    <dxo-popup title="Monitor Standard Info" [showTitle]="true" [width]="600" [height]="230"
       [position]="{ my: 'top', at: 'top', of: 'window' }">
     </dxo-popup>
     <dxo-texts confirmDeleteMessage="Are you sure Delete?"></dxo-texts>
@@ -37,8 +38,8 @@
     </dxo-form>
   </dxo-editing>
 
-  <dxi-column dataField="UnitId" width="120" [allowEditing]="false"></dxi-column>
-  <dxi-column dataField="UnitName">
+  <dxi-column dataField="MonitorStandardId" width="120" [allowEditing]="false"></dxi-column>
+  <dxi-column dataField="MonitorStandardName">
     <dxi-validation-rule type="required" max="20"
       message="The field UnitName must be a string with a maximum length of 20."></dxi-validation-rule>
   </dxi-column>
@@ -51,13 +52,6 @@
   <dxo-paging [pageSize]="25"></dxo-paging>
   <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[25, 50, 100]"></dxo-pager>
 </dx-data-grid>
-<dx-speed-dial-action icon="add" label="Add row" [index]="1" (onClick)="addRow()">
-</dx-speed-dial-action>
-<dx-speed-dial-action icon="trash" label="Delete row" [index]="2" [visible]="selectedRowIndex !== -1"
-    (onClick)="deleteRow()">
-</dx-speed-dial-action>
-<dx-speed-dial-action icon="edit" label="Edit row" [index]="3" [visible]="selectedRowIndex !== -1"
-    (onClick)="editRow()">
-</dx-speed-dial-action>
+
 </div>
-</div> -->
+</div>

@@ -28,7 +28,6 @@ export class ItemComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute
   ) {
-
   }
   async ngOnInit() {
     await this.getAllItemType();
@@ -37,6 +36,7 @@ export class ItemComponent implements OnInit {
     if(this.itemTypeId!=0){
       this.searchItemByItemType(this.itemTypeId);
     }
+    this.dataSource = this.itemService.getDataGridItem('ItemId');
   }
 
   onEditingStart(event){

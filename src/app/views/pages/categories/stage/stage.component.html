@@ -1,19 +1,162 @@
-<div class="row wrapper border-bottom white-bg page-heading">
-  <div class="col-lg-10">
-      <h2>Chức năng</h2>
-      <ol class="breadcrumb">
-          <li>
-              <a routerLink="/pages">Dashboard</a>
-          </li>
-          <li class="active">
-              <strong>Chức năng</strong>
-          </li>
-      </ol>
-  </div>
-  <div class="col-lg-2">
+<dx-data-grid id="grid" 
+[dataSource]="dataSource" 
+[repaintChangesOnly]="true" [showBorders]="true">
 
+  <dxo-scrolling mode="virtual"></dxo-scrolling>
+  <dxo-editing mode="popup" [refreshMode]="refreshMode" [allowAdding]="true" [allowUpdating]="true"
+    [allowDeleting]="true">
+    <dxo-texts confirmDeleteMessage="Are you sure Delete?"></dxo-texts>
+    <dxo-form>
+      <dxi-item itemType="group" [colCount]="2" [colSpan]="2">
+        <dxi-item dataField="StageCode"></dxi-item>
+        <dxi-item dataField="StageName"></dxi-item>
+        <dxi-item dataField="StageDescription" editorType="dxTextArea" [colSpan]="2" [editorOptions]="{ height: 100 }">
+        </dxi-item>
+        <dxi-item [colSpan]="2">
+          <dx-file-uploader #fileUploader uploadUrl="http://localhost:3333/api/v1/File/UploadFileDevExtreme"
+            name="myFile" [multiple]="true" uploadMode="useButtons" [maxFileSize]="4000000" accept="*"
+            [(value)]="stageFiles"></dx-file-uploader>
+          <!-- <div class="content">
+            <div *ngIf="value.length > 0">
+              <h4>Selected Files</h4>
+            </div>
+            <div *ngFor="let file of value">
+              <div class="selected-item">
+                Name:
+                <span>{{file.name}}</span><br /> Size:
+                <span>{{file.size}}</span>bytes<br /> Type:
+                <span>{{file.type}}</span><br /> Last Modified Date:
+                <span>{{file.lastModifiedDate}}</span>
+              </div>
+            </div>
+          </div> -->
+        </dxi-item>
+      </dxi-item>
+
+    </dxo-form>
+  </dxo-editing>
+
+  <dxi-column dataField="StageId" caption="Customer">
+    <!-- <dxo-lookup [dataSource]="customersData" valueExpr="Value" displayExpr="Text"></dxo-lookup> -->
+  </dxi-column>
+  <dxi-column dataField="CreateDate" dataType="date"></dxi-column>
+  <dxi-column dataField="StageCode"></dxi-column>
+  <dxi-column dataField="StageName"></dxi-column>
+  <!-- <dxi-column dataField="ShipVia" caption="Shipping Company" dataType="number">
+    <dxo-lookup [dataSource]="shippersData" valueExpr="Value" displayExpr="Text"></dxo-lookup>
+  </dxi-column> -->
+
+  <dxo-summary>
+    <dxi-total-item column="StageId" summaryType="count">
+    </dxi-total-item>
+    <!-- <dxi-total-item column="Freight" summaryType="sum" valueFormat="#0.00">
+    </dxi-total-item> -->
+  </dxo-summary>
+</dx-data-grid>
+<div class="options">
+  <div class="caption">Options</div>
+  <div class="option">
+    <span>Refresh Mode:</span>
+    <dx-select-box [(value)]="refreshMode" [items]="refreshModes">
+    </dx-select-box>
+  </div>
+  <div id="requests">
+    <div>
+      <div class="caption">Network Requests</div>
+      <dx-button id="clear" text="Clear" (onClick)="clearRequests()">
+      </dx-button>
+    </div>
+    <ul>
+      <li *ngFor="let request of requests">{{request}}</li>
+    </ul>
   </div>
 </div>
-<p>
-  stage works!
-</p>
+
+
+
+<!-- 
+Gốc
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-lg-10">
+    <h2>Chức năng</h2>
+    <ol class="breadcrumb">
+      <li>
+        <a routerLink="/pages">Dashboard</a>
+      </li>
+      <li class="active">
+        <strong>Chức năng</strong>
+      </li>
+    </ol>
+  </div>
+  <div class="col-lg-12">
+    <div class="wrapper wrapper-content animated fadeInRight">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="ibox float-e-margins">
+            <div class="ibox-content" [ngClass]=" {'sk-loading': iboxloading}">
+              <div class="sk-spinner sk-spinner-wave">
+                <div class="sk-rect1"></div>
+                <div class="sk-rect2"></div>
+                <div class="sk-rect3"></div>
+                <div class="sk-rect4"></div>
+                <div class="sk-rect 5"></div>
+              </div>
+              <div class="row">
+                <div class="table-responsive">
+                  <dx-data-grid #grid [dataSource]="dataSource" [remoteOperations]="true" height="500"
+                    showBorders="true" [selectedRowKeys]="[]">
+                    <dxo-filter-row [visible]="true"></dxo-filter-row>
+                    <dxo-header-filter [visible]="true"></dxo-header-filter>
+                    <dxo-state-storing [enabled]="true" type="localStorage" storageKey="storage"></dxo-state-storing>
+                    <dxo-editing mode="popup" [allowAdding]="true" [allowUpdating]="true" [allowDeleting]="true">
+                      <dxo-popup title="Stage Info" [showTitle]="true" [width]="700" [height]="525"
+                        [position]="{ my: 'top', at: 'top', of: window }">
+                      </dxo-popup>
+                      <dxo-texts confirmDeleteMessage="Are you sure Delete?"></dxo-texts>
+                      <dxo-form>
+                        <dxi-item itemType="group" [colCount]="2" [colSpan]="2">
+                          <dxi-item dataField="StageCode"></dxi-item>
+                          <dxi-item dataField="StageName"></dxi-item>
+                          <dxi-item dataField="StageDescription" editorType="dxTextArea" [colSpan]="2"
+                            [editorOptions]="{ height: 100 }"></dxi-item>
+                          <dxi-item [colSpan]="2">
+                            <dx-file-uploader #fileUploader
+                              uploadUrl="http://localhost:3333/api/v1/File/UploadFileDevExtreme" 
+                              name ="myFile"
+                              [multiple]="true"
+                              uploadMode = "useButtons"
+                              [maxFileSize]="4000000"
+                              accept="*" [(value)]="stageFiles"></dx-file-uploader>
+                      
+                          </dxi-item>
+                        </dxi-item>
+
+                      </dxo-form>
+                    </dxo-editing>
+
+                    <dxi-column dataField="StageCode" caption="{{ 'Stage.data.StageCode' | translate}}">
+                    </dxi-column>
+                    <dxi-column dataField="StageName" caption="{{ 'Stage.data.StageName' | translate}}">
+                    </dxi-column>
+                    <dxi-column dataField="StageDescription" caption="{{ 'Stage.data.Description' | translate}}">
+                    </dxi-column>
+                    <dxi-column dataField="CreateDate" dataType="date"
+                      caption="{{ 'Stage.data.CreateDate' | translate}}"></dxi-column>
+                    <dxi-column dataField="CreateBy" caption="{{ 'Stage.data.CreateBy' | translate}}"></dxi-column>
+                    <dxi-column dataField="ModifyDate" dataType="date"
+                      caption="{{ 'Stage.data.ModifyDate' | translate}}"></dxi-column>
+                    <dxi-column dataField="ModifyBy" caption="{{ 'Stage.data.ModifyBy' | translate}}"></dxi-column>
+                    <dxi-column dataField="Status" #status dataType="boolean"
+                      caption="{{ 'Stage.data.Status' | translate}}"></dxi-column>
+                    <dxo-paging [pageSize]="25"></dxo-paging>
+                    <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[25, 50, 100]"></dxo-pager>
+                  </dx-data-grid>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> -->
