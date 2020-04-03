@@ -247,6 +247,20 @@ export class WarehouseComponent implements OnInit {
   private CheckBeforeEdit(id) { //check auth before edit 
     this.toastr.warning("User not dont have permission");
   }
+
+  validateAsync = (e) =>{ 
+    console.log('Validate Async', e)
+    // return true;
+    return new Promise(async (resolve) => { 
+      let obj = Object.assign({}, this.entity); //stop binding
+      obj[e.formItem.dataField] = e.value;
+      let _res =await this.warehouseService.validate(obj).toPromise().then() as any;
+      let _validate = _res.Success? _res.Success : _res.ValidateData.indexOf(e.formItem.dataField)<0;
+      resolve(_validate);
+    });   
+
+  }
+  
   ngOnDestroy() {
     $('.modal').modal('hide');
   }

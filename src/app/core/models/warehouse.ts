@@ -4,7 +4,7 @@ export class Warehouse {
     WarehouseId: number = 0
     WarehouseCode: string
     WarehouseName: string
-    FactoryId: number = null
+    FactoryId: number = 0
     WarehouseType: number = 1
     WarehouseAddress: string
     WarehouseUserName: string

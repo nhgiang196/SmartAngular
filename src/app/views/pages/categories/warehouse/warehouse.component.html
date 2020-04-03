@@ -110,17 +110,20 @@
             <dxi-item itemType="group" [colCount]="2">
               <dxi-item dataField="WarehouseCode" [label]="{text: trans.instant('Warehouse.data.WarehouseCode')}">
                 <dxi-validation-rule type="required"></dxi-validation-rule>
+                <dxi-validation-rule type="async" message="Exist Warehouse Code"  [validationCallback]="validateAsync"></dxi-validation-rule>
               </dxi-item>
               <dxi-item dataField="FactoryId" [label]="{text: trans.instant('Warehouse.data.FactoryId')}" >
                 <dxi-validation-rule type="required"></dxi-validation-rule>
-                <div *dxTemplate>
+                <div *dxTemplate=''>
                   <smart-select-box entitykey="Factory" checkstatus="true" [(selectData)]="entity.FactoryId"></smart-select-box>
                 </div>
               </dxi-item>
             </dxi-item>
+           
             <dxi-item itemType="group" [colCount]="2">
               <dxi-item dataField="WarehouseName" [label]="{text: trans.instant('Warehouse.data.WarehouseName')}">
                 <dxi-validation-rule type="required"></dxi-validation-rule>
+                <dxi-validation-rule type="async" message="Exist Warehouse Name"  [validationCallback]="validateAsync"></dxi-validation-rule>
               </dxi-item>
               <dxi-item dataField="WarehouseType" [label]="{text: trans.instant('Warehouse.data.WarehouseType')}"  editorType="dxSelectBox" 
               [editorOptions]="{ displayExpr: 'text' ,valueExpr:'id' ,
@@ -135,7 +138,7 @@
 
               
             </dxi-item>
-
+ 
             <dxi-item itemType="group" [colCount]="2">
               <dxi-item dataField="WarehouseAddress" [label]="{text: trans.instant('Warehouse.data.WarehouseAddress')}"></dxi-item>
               <dxi-item dataField="WarehouseUserName" [label]="{text: trans.instant('Warehouse.data.WarehouseUserName')}"
@@ -145,9 +148,11 @@
             </dxi-item>
 
             <dxi-item itemType="group" [colCount]="2">
-              <dxi-item visible="false"></dxi-item>
+              <dxi-item itemType="empty" visible="false"></dxi-item>
               <dxi-item dataField="Status"  editorType="dxSwitch" [label]="{text: trans.instant('Warehouse.data.Status')}"></dxi-item>
             </dxi-item>
+            
+            
 
             <dxi-item itemType="group" [colCount]="3" caption="Size (cm)">
               <dxi-item dataField="WarehouseLength" [label]="{text: trans.instant('Warehouse.data.WarehouseLength')}" editorType="dxNumberBox" >
@@ -204,6 +209,9 @@
 
               </div>
             </dxi-item>
+
+            
+
           </dx-form>
           
         </form>
