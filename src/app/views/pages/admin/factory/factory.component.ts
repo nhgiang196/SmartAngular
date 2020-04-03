@@ -9,8 +9,9 @@ import { MyHelperService } from 'src/app/core/services/my-helper.service';
 import { Factory, FactoryTechnology } from 'src/app/core/models/factory';
 import { UI_CustomFile } from 'src/app/core/models/file';
 import swal from 'sweetalert2';
+import { DxValidationGroupComponent, DxFormComponent, DxValidatorComponent } from 'devextreme-angular';
+import { async } from '@angular/core/testing';
 declare let $: any;
-
 @Component({
   selector: 'app-factory',
   templateUrl: './factory.component.html',
@@ -25,14 +26,15 @@ declare let $: any;
 })
 export class FactoryComponent implements OnInit {
   @ViewChild('myInputFile', { static: true }) InputManual: ElementRef; // set for emtpy file after Close or Reload
-  @ViewChild(SmartUploadComponent, { static: true }) uploadComponent: SmartUploadComponent;
+  @ViewChild('targetSmartUpload', { static: false }) uploadComponent: SmartUploadComponent;
+  @ViewChild('targetForm', { static: true }) targetForm: DxFormComponent;
+  @ViewChild('targetValidate', { static: true }) targetValidate: DxValidatorComponent;
   constructor(
     private api: FactoryService,
     private toastr: ToastrService,
     public trans: TranslateService,
     public helper: MyHelperService,
     private auth: AuthService
-
   ) { }
   /** DECLARATION */
   bsConfig = { dateInputFormat: 'YYYY-MM-DD', adaptivePosition: true };
@@ -50,7 +52,12 @@ export class FactoryComponent implements OnInit {
   EditRowNumber: number = 0;
   pageIndex = 1;
   pageSize = 12;
-
+  isFormValid = true;
+  buttonOptions: any = {
+    stylingMode: 'text', // để tắt đường viền container
+    template: `<button type="button" class="btn btn-primary"><i class="fa fa-paper-plane-o"></i>${this.trans.instant('Button.Save')}</button>`, //template hoạt động cho Ispinia
+    useSubmitBehavior: true, //submit = validate + save
+  }
   ngOnInit() {
     this.resetEntity();
     this.loadInit();
@@ -68,18 +75,14 @@ export class FactoryComponent implements OnInit {
       this.toastr.error(err.statusText, "Load init failed!");
       this.iboxloading = false;
     })
-
   }
   pageChanged(event: PageChangedEvent): void {
     this.pageIndex = event.page;
     this.loadInit();
-
   }
-
   searchLoad() {
     this.pageIndex = 1;
     this.loadInit();
-
   }
   private resetEntity() {
     this.entity = new Factory();
@@ -87,18 +90,20 @@ export class FactoryComponent implements OnInit {
     this.newTechnology = new FactoryTechnology();
     this.invalid = {};
     this.EditRowNumber = 0;
+    this.isFormValid = true;
   }
   /** BUTTON ACTIONS */
   fnAdd() { //press add buton
     this.ACTION_STATUS = 'add';
+    this.targetForm.instance.resetValues();
     this.resetEntity();
     this.uploadComponent.resetEntity();
     this.entity.CreateBy = this.auth.currentUser.Username;
   }
   fnEditSignal(id) { //press a link name of entity
+    this.isFormValid = true;
     $("#myModal4").modal('hide');
     if (id == null) { this.toastr.warning('Factory ID is Null, cant show modal'); return; }
-    this.resetEntity();
     this.ACTION_STATUS = 'update';
     this.iboxloading = true;
     this.api.getFactoryById(id).subscribe(res => {
@@ -168,16 +173,12 @@ export class FactoryComponent implements OnInit {
     if (!_checkValidate) return;
     this.entity.FactoryTechnology.splice(index, 1, itemAdd);
     this.tech_entity = new FactoryTechnology();
-
   }
-
-
   async validateItem(itemAdd: FactoryTechnology, index) {
     // if (itemAdd.TechnologyName == null) {
     //   swal.fire("Validate", this.trans.instant('Factory.data.TechnologyName') + this.trans.instant('messg.isnull'), 'warning');
     //   return false;
     // }
-
     //Check validate date from biger than date to
     if (itemAdd.TechnologyFromDate > itemAdd.TechnologyToDate) {
       swal.fire(
@@ -190,7 +191,6 @@ export class FactoryComponent implements OnInit {
       );
       return false;
     }
-
     for (const i in this.entity.FactoryTechnology) {
       let t = this.entity.FactoryTechnology[i];
       if (index.toString() === i) continue;
@@ -205,7 +205,6 @@ export class FactoryComponent implements OnInit {
         );
         return false;
       }
-
       if ((itemAdd.TechnologyFromDate >= t.TechnologyFromDate && itemAdd.TechnologyFromDate <= t.TechnologyToDate)
         || (itemAdd.TechnologyToDate >= t.TechnologyFromDate && itemAdd.TechnologyToDate <= t.TechnologyToDate)
         || (itemAdd.TechnologyFromDate <= t.TechnologyFromDate && itemAdd.TechnologyToDate >= t.TechnologyToDate)) {
@@ -219,92 +218,9 @@ export class FactoryComponent implements OnInit {
         return false;
       }
     }
-
-    //check duplicate technology Name
-    // console.log(this.entity.FactoryTechnology);
-    // var itemNew = this.entity.FactoryTechnology.filter(n =>{
-    //   return n.isNew ==true;
-    // })
-    // console.log(itemNew);
-
-    // if(itemNew.filter(t=> {
-    //   return t.TechnologyName.toLowerCase() == itemAdd.TechnologyName.toLowerCase();
-    // }).length>0){
-    //   swal.fire(
-    //     {
-    //       title: this.trans.instant('messg.validation.caption'),
-    //       titleText: this.trans.instant('Factory.mssg.ErrorDuplicateTechnology'),
-    //       confirmButtonText: this.trans.instant('Button.OK'),
-    //       type: 'error',
-    //     }
-    //   );
-    //   return false;
-    // }
-    // console.log(itemNew);
-    //   if(this.entity.FactoryTechnology.filter(t=> {
-    //     return t.TechnologyName.toLowerCase() == itemAdd.TechnologyName.toLowerCase() && t.FactoryTechnologyId != itemAdd.FactoryTechnologyId ;
-    //   }).length>0){
-    //     swal.fire(
-    //       {
-    //         title: this.trans.instant('messg.validation.caption'),
-    //         titleText: this.trans.instant('Factory.mssg.ErrorDuplicateTechnology'),
-    //         confirmButtonText: this.trans.instant('Button.OK'),
-    //         type: 'error',
-    //       }
-    //     );
-    //     return false;
-    //   }
-
-    // //check nested validedate Date From To
-    // if(itemNew.filter(t=> {
-    //   return  (Date.parse(this.helper.dateConvertToString(itemAdd.TechnologyFromDate)) >= Date.parse(this.helper.dateConvertToString(t.TechnologyFromDate))
-    //           && Date.parse(this.helper.dateConvertToString(itemAdd.TechnologyFromDate)) <= Date.parse(this.helper.dateConvertToString(t.TechnologyToDate)))
-    //           ||
-    //           (Date.parse(this.helper.dateConvertToString(itemAdd.TechnologyToDate)) >= Date.parse(this.helper.dateConvertToString(t.TechnologyFromDate))
-    //           && Date.parse(this.helper.dateConvertToString(itemAdd.TechnologyToDate)) <= Date.parse(this.helper.dateConvertToString(t.TechnologyToDate)))
-    //           ||
-    //           (Date.parse(this.helper.dateConvertToString(itemAdd.TechnologyFromDate)) <= Date.parse(this.helper.dateConvertToString(t.TechnologyFromDate))
-    //           && Date.parse(this.helper.dateConvertToString(itemAdd.TechnologyToDate)) >= Date.parse(this.helper.dateConvertToString(t.TechnologyToDate)))
-    // }).length>0){
-    //   swal.fire(
-    //     {
-    //       title: this.trans.instant('messg.validation.caption'),
-    //       titleText: this.trans.instant('Factory.mssg.ErrorTechnologyValidateOverlap'),
-    //       confirmButtonText: this.trans.instant('Button.OK'),
-    //       type: 'error',
-    //     }
-    //   );
-    //   return false;
-    // }
-    // //&&
-    // if(this.entity.FactoryTechnology.filter(t=> {
-    //   return  (t.FactoryTechnologyId != itemAdd.FactoryTechnologyId )
-    //           &&
-    //           (
-    //           (Date.parse(this.helper.dateConvertToString(itemAdd.TechnologyFromDate)) >= Date.parse(this.helper.dateConvertToString(t.TechnologyFromDate))
-    //           && Date.parse(this.helper.dateConvertToString(itemAdd.TechnologyFromDate)) <= Date.parse(this.helper.dateConvertToString(t.TechnologyToDate)))
-    //           ||
-    //           (Date.parse(this.helper.dateConvertToString(itemAdd.TechnologyToDate)) >= Date.parse(this.helper.dateConvertToString(t.TechnologyFromDate))
-    //           && Date.parse(this.helper.dateConvertToString(itemAdd.TechnologyToDate)) <= Date.parse(this.helper.dateConvertToString(t.TechnologyToDate)))
-    //           ||
-    //           (Date.parse(this.helper.dateConvertToString(itemAdd.TechnologyFromDate)) <= Date.parse(this.helper.dateConvertToString(t.TechnologyFromDate))
-    //           && Date.parse(this.helper.dateConvertToString(itemAdd.TechnologyToDate)) >= Date.parse(this.helper.dateConvertToString(t.TechnologyToDate))))
-    // }).length>0){
-    //   swal.fire(
-    //     {
-    //       title: this.trans.instant('messg.validation.caption'),
-    //       titleText: this.trans.instant('Factory.mssg.ErrorTechnologyValidateOverlap'),
-    //       confirmButtonText: this.trans.instant('Button.OK'),
-    //       type: 'error',
-    //     }
-    //   );
-    //   return false;
-    // }
     this.EditRowNumber = 0;
     return true
   }
-
-
   fnEditItem(index) { //press edit item (in modal)
     this.EditRowNumber = index + 1;
     this.tech_entity = new FactoryTechnology();
@@ -324,9 +240,7 @@ export class FactoryComponent implements OnInit {
           if (operationResult.Success) {
             this.toastr.success(this.trans.instant("messg.add.success"));
             $("#myModal4").modal('hide');
-
             this.loadInit();
-            this.fnEditSignal(operationResult.Data);
           }
           else this.toastr.warning(operationResult.Message);
           this.laddaSubmitLoading = false;
@@ -382,9 +296,32 @@ export class FactoryComponent implements OnInit {
     this.entity.FactoryFile = event;
     console.log('after Map', this.entity.FactoryFile);
   }
+  validateFunction = (e) => {
+    switch (e.formItem.dataField) {
+      case "FactoryEndDate": return this.entity.FactoryStartDate <= e.value
+      default: return true;
+    }
+  };
+
+  validateAsync = (e) =>{
+    console.log('Validate Async', e)
+    // return true;
+    return new Promise(async (resolve) => { 
+      let obj = Object.assign({}, this.entity); //stop binding
+      obj[e.formItem.dataField] = e.value;
+      let _res =await this.api.validateFactory(obj).toPromise().then() as any;
+      let _validate = _res.Success? _res.Success : _res.ValidateData.indexOf(e.formItem.dataField)<0;
+      resolve(_validate);
+    });   
+
+  }
   ngAfterViewInit() { //CSS
   }
   ngOnDestroy() {
     $('.modal').modal('hide');
   }
+  /*
+  Validate type:
+  'required' | 'numeric' | 'range' | 'stringLength' | 'custom' | 'compare' | 'pattern' | 'email' | 'async'
+  */
 }

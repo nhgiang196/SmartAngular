@@ -163,7 +163,6 @@ export class WarehouseComponent implements OnInit {
             this.toastr.success(this.trans.instant("messg.add.success"));
             $("#myModal4").modal('hide');
             this.loadInit();
-            this.fnEditSignal(operationResult.Data);
           }
           else this.toastr.warning(operationResult.Message);
           this.laddaSubmitLoading = false;

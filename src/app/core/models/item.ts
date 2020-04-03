@@ -1,6 +1,7 @@
 import { Factory } from './factory'
 import { Files } from './file'
 import { Unit } from './unit'
+import { Input } from '@angular/core'
 
 export class Item {
     ItemId?: number = 0
@@ -95,8 +96,18 @@ export class Item {
   }
 
   export class ItemTypeProperty {
+    
+    
     ItemTypePropertyId?: number = 0
     ItemTypeId?: number = 0
     ItemTypePropertyName?: string
     ItemProperty?: ItemProperty[] = []
+    
+    constructor(obj: any = {}) {
+      this.ItemTypePropertyId = obj.ItemTypePropertyId || 0;
+      this.ItemTypeId = obj.ItemTypeId || 0;
+      this.ItemTypePropertyName = obj.ItemTypePropertyName || 0;
+    }
+
+
   }

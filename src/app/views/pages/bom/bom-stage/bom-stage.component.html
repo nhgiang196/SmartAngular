@@ -1,19 +1,126 @@
-<div class="row wrapper border-bottom white-bg page-heading">
-  <div class="col-lg-10">
-      <h2>Chức năng</h2>
-      <ol class="breadcrumb">
-          <li>
-              <a routerLink="/pages">Dashboard</a>
-          </li>
-          <li class="active">
-              <strong>Chức năng</strong>
-          </li>
-      </ol>
-  </div>
-  <div class="col-lg-2">
+<div
+  bsModal
+  #childModal="bs-modal"
+  class="modal fade"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="dialog-child-name"
+>
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 id="dialog-child-name" class="modal-title pull-left">
+          {{ "BomFactory.label.Information" | translate }}
+        </h4>
+        <button
+          type="button"
+          class="close pull-right"
+          aria-label="Close"
+          (click)="childModal.hide()"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form role="form">
+          <div class="row">
+            <div class="col-lg-6">
+              <div class="form-group">
+                <label> {{ "BomFactory.data.FactoryId" | translate }} : *</label>
+                <ui-select-box entitykey="Factory" [pageSize]="5" [checkstatus]="true" [(ngModelCustom)]="entity.FactoryId"></ui-select-box>
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="form-group">
+                <label> {{ "BomFactory.data.Validate" | translate }} :</label>
+                <input
+                autocomplete="off"
+                  type="text"
+                  name="Validate"
+                  id="Validate"
+                  class="form-control"
+                  bsDatepicker
+                  readonly
+                  [bsConfig]="bsConfig"
+                  [(ngModel)]="entity.BomFactoryValidateDate"
+                  placeholder="{{'BomFactory.placeholder.Validate' | translate}}"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-6">
+              <div class="form-group">
+                <label> {{ "BomFactory.data.Descriptions" | translate }} : </label>
+                <textarea
+                  autocomplete="off"
+                  type="text"
+                  name="Descriptions"
+                  id="Descriptions"
+                  class="form-control"
+                  placeholder="{{ 'BomFactory.placeholder.Descriptions' | translate }}"
+                  rows="2"
+                  [(ngModel)]="entity.BomFactoryDescription"
+                ></textarea>
+                <!-- <div *ngIf="existName" style="color: red;">{{ 'BomFactory.ErrorExistDescriptions' | translate }}</div> -->
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="form-group">
+                <label>{{ "Master.data.Status" | translate }} :</label> &nbsp;&nbsp;
+                <dx-switch  [value]="entity.Status"  (onValueChanged)="onSwitchStatus()" ></dx-switch>
+              </div>
+            </div>
+          </div>
+          <hr />
+          <!-- table Stage -->
+          <div class="row">
+            <div class="col-lg-12">
+              <dx-data-grid
+              [dataSource]="entity.BomStage"
+              (onEditingStart)="isEditRow =true"
+              (onRowUpdating)="isEditRow =false"
+              [remoteOperations]="true" height="auto"  showBorders="true">
 
+              <dxo-editing
+                [allowAdding]="true"
+                [allowUpdating]="true"
+                [allowDeleting]="true"
+                [useIcons] ="true"
+                >
+                <dxo-texts confirmDeleteMessage="Are you sure Delete?"></dxo-texts>
+              </dxo-editing>
+              <dxi-column dataField="StageId" caption="{{'BomFactory.BomStage.StageId' | translate }} (*)" >
+                <dxo-lookup
+                    [dataSource]="dataSourceStage"
+                    displayExpr="StageName"
+                    valueExpr="StageId">
+                </dxo-lookup>
+                <dxi-validation-rule type="required"></dxi-validation-rule>
+              </dxi-column>
+              <dxi-column dataField="OrderNumber" caption="{{'BomFactory.BomStage.OrderNumber' | translate }}">
+              </dxi-column>
+              <dxi-column dataField="IsSequence"  dataType="boolean"  caption="{{'BomFactory.BomStage.Sequence' | translate }}">
+              </dxi-column>
+              <dxi-column dataField="BomStageDescription" caption="{{'BomFactory.BomStage.Descriptions' | translate }}">
+              </dxi-column>
+          </dx-data-grid>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-info waves-effect" form="ngForm" (click)="fnSave()">
+          Save
+        </button>
+        <button
+          type="button"
+          class="btn btn-default waves-effect"
+          (click)="childModal.hide()"
+        >
+          Cancel
+        </button>
+      </div>
+    </div>
   </div>
 </div>
-<p>
-  bom-stage works!
-</p>

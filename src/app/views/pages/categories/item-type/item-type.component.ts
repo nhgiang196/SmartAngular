@@ -22,7 +22,7 @@ export class ItemTypeComponent implements OnInit {
   dataSourceItemTypes: any;
   dataSourceProperties: ItemTypeProperty[] = []//any = {};
   itemTypeId: number = 0;
-  detail: ItemTypeProperty[] = [];
+  detail: any
   index = 999;
   isUpdate: boolean;
   constructor(
@@ -48,7 +48,7 @@ export class ItemTypeComponent implements OnInit {
       .then());
     this.isUpdate = false;
     this.itemTypeId = e.data.ItemTypeId
-
+    this.detail = this.dataSourceProperties;
     return this.dataSourceProperties;
   }
 
@@ -71,7 +71,9 @@ export class ItemTypeComponent implements OnInit {
    * It will be execute in ItemTypeService
    * @param e params as ItemType with dataSourcePropeties
    */
-  onRowInsertingItemType(e) {
+  async onRowInsertingItemType(e) {
+    console.log(e);
+   
     e.data.Status = 1;
     e.data.CreateBy = this.auth.currentUser.Username;
     e.data.CreateDate = new Date();
@@ -85,9 +87,6 @@ export class ItemTypeComponent implements OnInit {
    * @param dataSource 
    */
   resetItemTypePropertyId(dataSource) {
-    // for (let item = 0; item < dataSource.length; item++) {
-    //   dataSource[item].ItemTypePropertyId = 0
-    // }
     dataSource.forEach(item=>{
       item.ItemTypePropertyId = 0
     })
@@ -115,27 +114,41 @@ export class ItemTypeComponent implements OnInit {
     e.data.ItemTypeId = this.itemTypeId;
   }
 
-  ///Validate
-  async onValidateItemTypeName(e) {
-    //return await this.itemTypeService.validateItemType(e).toPromise();
+  //Validate Master
+  masterValidation(item){
+    console.log(item)
+    let data;
+    if(item.oldData !=null){
+      data = Object.assign(item.oldData, item.newData);
+    } else data = item.newData;
+    item.promise  =  this.itemTypeService.validateItemType(data).toPromise()
+      .then((result: any)=>{
+        if(!result.Success){
+          item.isValid = false;
+          item.errorText = "ItemType Name already exists! ";
+        }
+      })
   }
-  //Detail validata
+
+
+  ///Validata Detail
   detailValidation(property) {
+    let data;
     let isExsit = 0;
+    if(property.oldData !=null){
+      data = Object.assign(property.oldData, property.newData);
+    } else data = property.newData;
     this.dataSourceProperties.forEach(element => {
-      if (element.ItemTypePropertyName == property.data.ItemTypePropertyName
-        && element.ItemTypePropertyId != property.data.ItemTypePropertyId) {
+      if (element.ItemTypePropertyName == data.ItemTypePropertyName
+        && element.ItemTypePropertyId != data.ItemTypePropertyId) {
         isExsit++
+        return
       }
     });
-    if (isExsit > 0) return false;
-    else return true;
+    if (isExsit > 0)  { 
+      property.isValid = false;
+      property.errorText = "Property Name already exists! ";
+    }
   }
 
-  ItemTypePropertyValidata(property) {
-
-  }
-  async onValidateItemTypeProperty(e) {
-    return await this.itemTypePropertyService.validateItemTypeProperty(e).toPromise();
-  }
 }

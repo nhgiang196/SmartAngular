@@ -35,4 +35,6 @@ export class BomService {
      });
    }
 
+   getLookupDataSource =(params) => this.http.get<any>(`${ApiUrl}/Stage/UI_SelectBox`, { params: params } );
+
 }
