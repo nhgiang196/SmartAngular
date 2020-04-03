@@ -40,7 +40,7 @@
           </dxi-item >
           <!-- Begin Detail DataGrid ItemTypeProperty -->
           <dxi-item [colSpan]="2" caption="Properties" >
-            <div *dxTemplate="let ItemType of 'dataSourceProperties'" >
+            <div *dxTemplate >
               <dx-data-grid
                             (onInitNewRow)="onInitNewRowDetail($event)"
                             [dataSource]="dataSourceProperties" [showBorders]="true" 
