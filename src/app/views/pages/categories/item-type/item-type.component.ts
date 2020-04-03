@@ -85,9 +85,6 @@ export class ItemTypeComponent implements OnInit {
    * @param dataSource 
    */
   resetItemTypePropertyId(dataSource) {
-    // for (let item = 0; item < dataSource.length; item++) {
-    //   dataSource[item].ItemTypePropertyId = 0
-    // }
     dataSource.forEach(item=>{
       item.ItemTypePropertyId = 0
     })
