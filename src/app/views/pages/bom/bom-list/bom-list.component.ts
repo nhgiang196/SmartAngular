@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { BomService } from 'src/app/core/services';
 
 @Component({
   selector: 'app-bom-list',
@@ -6,10 +7,13 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./bom-list.component.css']
 })
 export class BomListComponent implements OnInit {
-
-  constructor() { }
+  dataSource:any;
+  constructor(private bomService:BomService) { }
 
   ngOnInit() {
+    this.dataSource = this.bomService.getDataGridBomFactory("BomFactoryId");
   }
+
+
 
 }

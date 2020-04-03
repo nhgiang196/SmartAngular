@@ -31,7 +31,7 @@ const COMPONNENT = [PagesComponent,DashboardComponent]
     ProcessModule,
     ProcessCostModule,
     InventoryModule,
-    
+
   ],
   declarations: [...COMPONNENT]
 })
