@@ -4,12 +4,13 @@ import {
   OnInit,
   ViewChild} from '@angular/core';
 
-import { MonitorStandarService, AuthService } from 'src/app/core/services';
+import { MonitorStandarService, AuthService, FactoryService } from 'src/app/core/services';
 import { DxDataGridComponent } from 'devextreme-angular';
 import config from 'devextreme/core/config';
 import { directions } from 'src/app/core/helpers/DevExtremeExtention';
 import { ToastrService } from 'ngx-toastr';
 import Swal from 'sweetalert2';
+import { DevextremeService } from 'src/app/core/services/general/devextreme.service';
 
 @Component({
   selector: 'app-monitor-standard',
@@ -19,17 +20,24 @@ import Swal from 'sweetalert2';
 export class MonitorStandardComponent implements OnInit {
   @ViewChild(DxDataGridComponent, { static: false }) dataGrid: DxDataGridComponent;
   dataSource: any;
+  lkDataSourceFactory: any;
   constructor(
-    private api: MonitorStandarService,
+    private monitorStandarService: MonitorStandarService,
+    private factoryService: FactoryService,
+    private devExtremeService:DevextremeService,
     private auth: AuthService,
     private toastr: ToastrService
   ) { 
     //LOAD DATAGRID MONITOR
-    this.dataSource = this.api.getDataGridMonitorStandard();
+    this.dataSource = this.monitorStandarService.getDataGridMonitorStandard();
+    this.loadFactorySelectBox();
   }
 
   ngOnInit() {
     
+  }
+  loadFactorySelectBox() {
+    this.lkDataSourceFactory =  this.devExtremeService.loadDxoLookup("Factory");
   }
   onInitNewRow()
   {
@@ -43,9 +51,9 @@ export class MonitorStandardComponent implements OnInit {
   {
 
   }
-  onRowUpdating()
+  onRowUpdating(e)
   {
-
+debugger;
   }
   selectedChanged()
   {
