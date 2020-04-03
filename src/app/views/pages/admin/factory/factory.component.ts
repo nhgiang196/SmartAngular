@@ -10,8 +10,8 @@ import { Factory, FactoryTechnology } from 'src/app/core/models/factory';
 import { UI_CustomFile } from 'src/app/core/models/file';
 import swal from 'sweetalert2';
 import { DxValidationGroupComponent, DxFormComponent, DxValidatorComponent } from 'devextreme-angular';
+import { async } from '@angular/core/testing';
 declare let $: any;
-
 @Component({
   selector: 'app-factory',
   templateUrl: './factory.component.html',
@@ -26,16 +26,15 @@ declare let $: any;
 })
 export class FactoryComponent implements OnInit {
   @ViewChild('myInputFile', { static: true }) InputManual: ElementRef; // set for emtpy file after Close or Reload
-  @ViewChild(SmartUploadComponent, { static: true }) uploadComponent: SmartUploadComponent;
-  @ViewChild('targetForm', {static: true}) targetForm : DxFormComponent;
-  @ViewChild('targetValidate', {static: true}) targetValidate : DxValidatorComponent;
+  @ViewChild('targetSmartUpload', { static: false }) uploadComponent: SmartUploadComponent;
+  @ViewChild('targetForm', { static: true }) targetForm: DxFormComponent;
+  @ViewChild('targetValidate', { static: true }) targetValidate: DxValidatorComponent;
   constructor(
     private api: FactoryService,
     private toastr: ToastrService,
     public trans: TranslateService,
     public helper: MyHelperService,
     private auth: AuthService
-
   ) { }
   /** DECLARATION */
   bsConfig = { dateInputFormat: 'YYYY-MM-DD', adaptivePosition: true };
@@ -54,14 +53,11 @@ export class FactoryComponent implements OnInit {
   pageIndex = 1;
   pageSize = 12;
   isFormValid = true;
-
   buttonOptions: any = {
-    text: "Register",
-    type: "success",
-    useSubmitBehavior: true
-}
-
-
+    stylingMode: 'text', // để tắt đường viền container
+    template: `<button type="button" class="btn btn-primary"><i class="fa fa-paper-plane-o"></i>${this.trans.instant('Button.Save')}</button>`, //template hoạt động cho Ispinia
+    useSubmitBehavior: true, //submit = validate + save
+  }
   ngOnInit() {
     this.resetEntity();
     this.loadInit();
@@ -70,7 +66,6 @@ export class FactoryComponent implements OnInit {
   loadInit() {
     this.iboxloading = true;
     this.EditRowNumber = 0;
-    
     this.api.getFactoryPaginationMain(this.keyword, this.pageIndex, this.pageSize).subscribe(res => {
       var data = res as any;
       this.factory = data.data;
@@ -80,18 +75,14 @@ export class FactoryComponent implements OnInit {
       this.toastr.error(err.statusText, "Load init failed!");
       this.iboxloading = false;
     })
-
   }
   pageChanged(event: PageChangedEvent): void {
     this.pageIndex = event.page;
     this.loadInit();
-
   }
-
   searchLoad() {
     this.pageIndex = 1;
     this.loadInit();
-
   }
   private resetEntity() {
     this.entity = new Factory();
@@ -182,16 +173,12 @@ export class FactoryComponent implements OnInit {
     if (!_checkValidate) return;
     this.entity.FactoryTechnology.splice(index, 1, itemAdd);
     this.tech_entity = new FactoryTechnology();
-
   }
-
-
   async validateItem(itemAdd: FactoryTechnology, index) {
     // if (itemAdd.TechnologyName == null) {
     //   swal.fire("Validate", this.trans.instant('Factory.data.TechnologyName') + this.trans.instant('messg.isnull'), 'warning');
     //   return false;
     // }
-
     //Check validate date from biger than date to
     if (itemAdd.TechnologyFromDate > itemAdd.TechnologyToDate) {
       swal.fire(
@@ -204,7 +191,6 @@ export class FactoryComponent implements OnInit {
       );
       return false;
     }
-
     for (const i in this.entity.FactoryTechnology) {
       let t = this.entity.FactoryTechnology[i];
       if (index.toString() === i) continue;
@@ -219,7 +205,6 @@ export class FactoryComponent implements OnInit {
         );
         return false;
       }
-
       if ((itemAdd.TechnologyFromDate >= t.TechnologyFromDate && itemAdd.TechnologyFromDate <= t.TechnologyToDate)
         || (itemAdd.TechnologyToDate >= t.TechnologyFromDate && itemAdd.TechnologyToDate <= t.TechnologyToDate)
         || (itemAdd.TechnologyFromDate <= t.TechnologyFromDate && itemAdd.TechnologyToDate >= t.TechnologyToDate)) {
@@ -233,12 +218,9 @@ export class FactoryComponent implements OnInit {
         return false;
       }
     }
-
     this.EditRowNumber = 0;
     return true
   }
-
-
   fnEditItem(index) { //press edit item (in modal)
     this.EditRowNumber = index + 1;
     this.tech_entity = new FactoryTechnology();
@@ -314,36 +296,32 @@ export class FactoryComponent implements OnInit {
     this.entity.FactoryFile = event;
     console.log('after Map', this.entity.FactoryFile);
   }
-
-  validateFunction =  (e) => {
-    
+  validateFunction = (e) => {
     switch (e.formItem.dataField) {
-      case "FactoryEndDate": return  this.entity.FactoryStartDate<= e.value
+      case "FactoryEndDate": return this.entity.FactoryStartDate <= e.value
       default: return true;
     }
-    
   };
 
-  // checkValidate(e = null){
-  //   let validateRes = this.targetForm.instance.validate();  
-  //   this.isFormValid =  validateRes.isValid;
-  //   // return !validateRes.isValid;
-  // }
+  validateAsync = (e) =>{
+    console.log('Validate Async', e)
+    // return true;
+    return new Promise(async (resolve) => { 
+      let obj = Object.assign({}, this.entity); //stop binding
+      obj[e.formItem.dataField] = e.value;
+      let _res =await this.api.validateFactory(obj).toPromise().then() as any;
+      let _validate = _res.Success? _res.Success : _res.ValidateData.indexOf(e.formItem.dataField)<0;
+      resolve(_validate);
+    });   
 
+  }
   ngAfterViewInit() { //CSS
   }
   ngOnDestroy() {
     $('.modal').modal('hide');
   }
-
   /*
-  FactoryAddress
-  FactoryContact
-  FactoryContactPhone
-  FactoryType
-  Status
- 
+  Validate type:
   'required' | 'numeric' | 'range' | 'stringLength' | 'custom' | 'compare' | 'pattern' | 'email' | 'async'
-
   */
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, ViewChild, Input, Output ,EventEmitter, OnChanges, SimpleChange, SimpleChanges} from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild, Input, Output ,EventEmitter, OnChanges, SimpleChange, SimpleChanges, TemplateRef} from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 import swal from 'sweetalert2';
@@ -14,7 +14,7 @@ import { UploadService } from 'src/app/core/services/general/upload.service';
   styleUrls: ['./smart-upload.component.css']
 })
 export class SmartUploadComponent implements OnInit {
-
+  @Input() externalItemTemplate: TemplateRef<any>
   @Input('filePath') pathFile: string = 'uploadFileRandom';
   @Output('entityFile') send_entityFile = new EventEmitter<UI_CustomFile[]>();  /*** * example: WarehouseFile[] -> File()    */
 

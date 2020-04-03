@@ -137,13 +137,14 @@
                 ,{ id: 1, text: trans.instant('Factory.data.Status1')}]}">
               </dxi-item>
             </dxi-item>
-
             <dxi-item itemType="group" [colCount]="2">
               <dxi-item dataField="FactoryCode" [label]="{text: trans.instant('Factory.data.FactoryCode')}">
                 <dxi-validation-rule type="required"></dxi-validation-rule>
+                <dxi-validation-rule type="async" ignoreEmptyValue="true" message="Exist Factory Code"  [validationCallback]="validateAsync"></dxi-validation-rule>
               </dxi-item>
               <dxi-item dataField="FactoryName" [label]="{text: trans.instant('Factory.data.FactoryName')}">
                 <dxi-validation-rule type="required"></dxi-validation-rule>
+                <dxi-validation-rule type="async" ignoreEmptyValue="true" message="Exist Factory Name"  [validationCallback]="validateAsync"></dxi-validation-rule>
               </dxi-item>
             </dxi-item>
             <dxi-item itemType="group" [colCount]="2">
@@ -170,22 +171,15 @@
               <dxi-item dataField="FactoryContactPhone" [label]="{text: trans.instant('Factory.data.ContactPhone')}"
                 [editorOptions]="{ mask: '(+00) 000 000 0099'}"></dxi-item>
             </dxi-item>
-
-
-
-            <dxi-item contentTemplate="smart-upload">
-              <div *dxTemplate="let data of 'smart-upload'">
-                <app-smart-upload [filePath]="pathFile" (entityFile)="this.entity.FactoryFile = $event">
-                </app-smart-upload>
+            <dxi-item>
+              <div *dxTemplate>
+                <app-smart-upload #targetSmartUpload [filePath]="pathFile"
+                  (entityFile)="this.entity.FactoryFile = $event"></app-smart-upload>
                 <hr>
-
-
-
               </div>
             </dxi-item>
             <dxi-item contentTemplate="table-resposive">
               <div *dxTemplate="let data of 'table-resposive'">
-
                 <div class="table-responsive">
                   <table class="table table-bordered">
                     <thead>
@@ -247,29 +241,21 @@
                   </table>
                   <div class="modal-footer"></div>
                 </div>
-
-
-
               </div>
             </dxi-item>
-
-            <dxi-item itemType="button" horizontalAlignment="right" [buttonOptions]="buttonOptions">
+            <dxi-item itemType="group" [colCount]="1" [colSpan]="1">
+              <dxi-item horizontalAlignment="right">
+                <div *dxTemplate>
+                  <button type="button" class="btn btn-white pull-right"
+                    data-dismiss="modal">{{'Button.Close' | translate}}
+                  </button>
+                </div>
+              </dxi-item>
+              <dxi-item itemType="button" horizontalAlignment="right" [buttonOptions]="buttonOptions"></dxi-item>
             </dxi-item>
-           
-
           </dx-form>
-          <button type="button" class="btn btn-white" data-dismiss="modal">{{'Button.Close' | translate}}
-          </button>
-          <button type="button" class="btn btn-primary" (click)="fnSave();" [ladda]="laddaSubmitLoading"
-            [disabled]="!isFormValid"><i class="fa fa-paper-plane-o"></i> {{'Button.Save' | translate}}
-          </button>
-
-
-            
-
         </form>
       </div>
-
     </div>
   </div>
 </div>
