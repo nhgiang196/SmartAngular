@@ -1,8 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ModalDirective } from 'ngx-bootstrap';
-import { BomStage, BomFactory } from 'src/app/core/models/bom';
+import { BomStage, BomFactory, BomItemOut } from 'src/app/core/models/bom';
 import { createStore } from 'devextreme-aspnet-data-nojquery';
 import { environment } from 'src/environments/environment';
+import { DevextremeService } from 'src/app/core/services/general/devextreme.service';
 
 @Component({
   selector: 'app-bom-stage',
@@ -13,42 +14,39 @@ export class BomStageComponent implements OnInit {
   @ViewChild("childModal", { static: false }) childModal: ModalDirective;
   entity: BomFactory;
   dataSourceStage:any;
+  dataSourceUnit:any;
+  dataSourceItem:any;
    //config
    bsConfig = { dateInputFormat: "YYYY-MM-DD", adaptivePosition: true };
-  constructor() { }
+  constructor(private devExtreme: DevextremeService) { }
 
   ngOnInit() {
     this.entity = new BomFactory();
     this.loadDataSourceStage();
+    this.loadDataSourceItem();
+    this.loadDataSourceUnit();
   }
   fnSave(){
     console.log(this.entity);
   }
 
   loadDataSourceStage(){
-    let keyId = "StageId";
+    this.dataSourceStage = this.devExtreme.loadDxoLookup("Stage");
+  }
 
-    this.dataSourceStage = createStore({
-      key: keyId,
-      loadUrl: `${environment.apiUrl}/Stage/UI_SelectBox`,
-      loadParams: { keyId: keyId },
-      onBeforeSend: function (method, ajaxOptions) {
-        ajaxOptions.data.keyId = keyId;
-        if (ajaxOptions.data.filter != null) {
+  loadDataSourceItem(){
+    this.dataSourceItem = this.devExtreme.loadDxoLookup("Item");
+  }
 
-          let dataParse = JSON.parse(ajaxOptions.data.filter);
-          if (dataParse.length == 2)
-            dataParse = JSON.parse(JSON.stringify([dataParse]));
-          dataParse.push('and');
-          dataParse.push(["Status", "=", 1]);
-          ajaxOptions.data.filter = JSON.stringify(dataParse);
-        }
-        else {
-          ajaxOptions.data.filter = JSON.stringify(["Status", "=", 1]);
-        }
-        ajaxOptions.xhrFields = { withCredentials: true };
-      },
-    });
+  loadDataSourceUnit(){
+    this.dataSourceUnit = this.devExtreme.loadDxoLookup("Unit");
+  }
+
+  getBomOut(key: BomStage){
+    if(key.BomItemOut==null){
+      key.BomItemOut = new Array<BomItemOut>();
+    }
+     return key.BomItemOut;
   }
 
   onSwitchStatus() {
@@ -59,6 +57,9 @@ export class BomStageComponent implements OnInit {
     this.entity =JSON.parse(JSON.stringify(item));
     this.childModal.show();
   }
-
+  //Bom Out
+  onValueChanged(event){
+    console.log(event);
+  }
 
 }
