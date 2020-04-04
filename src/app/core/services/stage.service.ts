@@ -37,49 +37,32 @@ export class StageService {
   findStageById = (id) => this.http.get<any>(`${ApiUrl}/Stage/FindStageById?id=${id}`);
   validateStage = (entity) => this.http.post(`${ApiUrl}/Stage/ValidateStage`, entity);
 
-  getDataGridStage(key, stageFiles) {
-    console.log(stageFiles);
-    return new DataSource({
-      store: AspNetData.createStore({
-        key: key,
-        loadUrl: `${ApiUrl}/Stage/GetStageDataGridPagination`,
-        updateUrl: `${ApiUrl}/Stage/UpdateStage`,
-        deleteUrl: `${ApiUrl}/Stage/DeleteStage`,
-        onBeforeSend: function (method, ajaxOptions) {
-          ajaxOptions.data.keyId = key;
-        }
-      })
-    });
-  }
-  getData() {
+  // getDataGridStage(key, stageFiles) {
+  //   console.log(stageFiles);
+  //   return new DataSource({
+  //     store: AspNetData.createStore({
+  //       key: key,
+  //       loadUrl: `${ApiUrl}/Stage/GetStageDataGridPagination`,
+  //       updateUrl: `${ApiUrl}/Stage/UpdateStage`,
+  //       deleteUrl: `${ApiUrl}/Stage/DeleteStage`,
+  //       onBeforeSend: function (method, ajaxOptions) {
+  //         ajaxOptions.data.keyId = key;
+  //       }
+  //     })
+  //   });
+  // }
+  getDataGridStage() {
     return new CustomStore({
       key: "StageId",
       load: () => this.sendRequest(ApiUrl + "/Stage/GetStageDataGridPagination"),
-      insert: (values) => this.addStage(values).toPromise().then(),
-      update: (key, values) => this.sendRequest(ApiUrl + "/Stage/UpdateStage", "PUT", {
-        key: key,
-        values: JSON.stringify(values)
-      }),
-      remove: (key) => this.sendRequest(ApiUrl + "/DeleteOrder", "DELETE", {
-        key: key
-      })
+      insert: (values) => this.addStage(values).toPromise(),
+      update: (key, values) => {
+        console.log(values);
+        return this.updateStage(values).toPromise()
+      },
+      remove: (key) => this.deleteStage(key).toPromise().then()
     });
   }
-  getDataItemType() {
-    return new CustomStore({
-      key: "ItemTypeId",
-      load: () => this.sendRequest(ApiUrl + "/ItemType/GetItemTypeDataGridPagination"),
-      insert: (values) => this.addStage(values).toPromise().then(),
-      update: (key, values) => this.sendRequest(ApiUrl + "/Stage/UpdateStage", "PUT", {
-        key: key,
-        values: JSON.stringify(values)
-      }),
-      remove: (key) => this.sendRequest(ApiUrl + "/DeleteOrder", "DELETE", {
-        key: key
-      })
-    });
-  }
-
   sendRequest(url: string, method: string = "GET", data: any = {}): any {
     this.logRequest(method, url, data);
 

@@ -20,6 +20,7 @@ import { CustomerDetailComponent } from './customers/customer-detail/customer-de
 import { ContractComponent } from './customers/contract/contract.component';
 import { ItemActionComponent } from './item/item-action/item-action.component';
 import { ModalModule } from 'ngx-bootstrap';
+import { NgxDropzoneModule } from 'ngx-dropzone';
 
 
 const COMPONENTS = [
@@ -45,6 +46,7 @@ const COMPONENTS = [
     CommonModule,
     UISampleModule,
     FormsModule,
+    NgxDropzoneModule,
     DxSpeedDialActionModule,
     DxSwitchModule,
     DxSelectBoxModule,
