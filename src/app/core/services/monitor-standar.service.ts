@@ -19,7 +19,7 @@ export class MonitorStandarService {
   findMonitorStandardById =(id) => this.http.get<any>(`${ApiUrl}/MonitorStandard/FindMonitorStandardById?id=${id}` );
   deleteMonitorStandard =(id) => this.http.delete(`${ApiUrl}/MonitorStandard/DeleteMonitorStandard?id=${id}`);
   updateMonitorStandard =(entity) => this.http.put(`${ApiUrl}/MonitorStandard/UpdateMonitorStandard`,entity);
-  validateMonitorStandard =(entity) => this.http.post(`${ApiUrl}/MonitorStandard/ValidateMonitorStandardByDate`,entity);
+  validateMonitorStandard =(entity) => this.http.post(`${ApiUrl}/MonitorStandard/ValidateMonitorStandard`,entity);
 
   getMonitorStandardPagination =(keyvalue) => {
     let pr = new DataTablePaginationParams();
@@ -48,6 +48,7 @@ export class MonitorStandarService {
       update: (key, values) =>  this.updateMonitorStandard(values).toPromise().then(), // no need key here
       remove: (key) =>  this.deleteMonitorStandard(key).toPromise().then()
     });
+    
   }
   
   // getDataGridMonitorStandard(dataSource, key) {

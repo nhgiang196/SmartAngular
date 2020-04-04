@@ -3,3 +3,7 @@
   font-size: 14px;
   font-weight: bold;
 }
+
+.dx-grid-child .dx-datagrid{
+  padding: 20px;
+}

@@ -27,7 +27,7 @@ export class BomService {
        store: AspNetData.createStore({
          key: key,
          loadUrl: `${ApiUrl}/BomFactory/GetBomFactoryDataGridPagination`,
-         deleteUrl:`${ApiUrl}/BomFactory/DeleteItem`,
+         deleteUrl:`${ApiUrl}/BomFactory/DeleteBomFactory`,
          onBeforeSend: function (method, ajaxOptions) {
            ajaxOptions.data.keyId = key;
         }
