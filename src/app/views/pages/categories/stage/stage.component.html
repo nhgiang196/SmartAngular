@@ -1,81 +1,3 @@
-<dx-data-grid id="grid" 
-[dataSource]="dataSource" 
-[repaintChangesOnly]="true" [showBorders]="true">
-
-  <dxo-scrolling mode="virtual"></dxo-scrolling>
-  <dxo-editing mode="popup" [refreshMode]="refreshMode" [allowAdding]="true" [allowUpdating]="true"
-    [allowDeleting]="true">
-    <dxo-texts confirmDeleteMessage="Are you sure Delete?"></dxo-texts>
-    <dxo-form>
-      <dxi-item itemType="group" [colCount]="2" [colSpan]="2">
-        <dxi-item dataField="StageCode"></dxi-item>
-        <dxi-item dataField="StageName"></dxi-item>
-        <dxi-item dataField="StageDescription" editorType="dxTextArea" [colSpan]="2" [editorOptions]="{ height: 100 }">
-        </dxi-item>
-        <dxi-item [colSpan]="2">
-          <dx-file-uploader #fileUploader uploadUrl="http://localhost:3333/api/v1/File/UploadFileDevExtreme"
-            name="myFile" [multiple]="true" uploadMode="useButtons" [maxFileSize]="4000000" accept="*"
-            [(value)]="stageFiles"></dx-file-uploader>
-          <!-- <div class="content">
-            <div *ngIf="value.length > 0">
-              <h4>Selected Files</h4>
-            </div>
-            <div *ngFor="let file of value">
-              <div class="selected-item">
-                Name:
-                <span>{{file.name}}</span><br /> Size:
-                <span>{{file.size}}</span>bytes<br /> Type:
-                <span>{{file.type}}</span><br /> Last Modified Date:
-                <span>{{file.lastModifiedDate}}</span>
-              </div>
-            </div>
-          </div> -->
-        </dxi-item>
-      </dxi-item>
-
-    </dxo-form>
-  </dxo-editing>
-
-  <dxi-column dataField="StageId" caption="Customer">
-    <!-- <dxo-lookup [dataSource]="customersData" valueExpr="Value" displayExpr="Text"></dxo-lookup> -->
-  </dxi-column>
-  <dxi-column dataField="CreateDate" dataType="date"></dxi-column>
-  <dxi-column dataField="StageCode"></dxi-column>
-  <dxi-column dataField="StageName"></dxi-column>
-  <!-- <dxi-column dataField="ShipVia" caption="Shipping Company" dataType="number">
-    <dxo-lookup [dataSource]="shippersData" valueExpr="Value" displayExpr="Text"></dxo-lookup>
-  </dxi-column> -->
-
-  <dxo-summary>
-    <dxi-total-item column="StageId" summaryType="count">
-    </dxi-total-item>
-    <!-- <dxi-total-item column="Freight" summaryType="sum" valueFormat="#0.00">
-    </dxi-total-item> -->
-  </dxo-summary>
-</dx-data-grid>
-<div class="options">
-  <div class="caption">Options</div>
-  <div class="option">
-    <span>Refresh Mode:</span>
-    <dx-select-box [(value)]="refreshMode" [items]="refreshModes">
-    </dx-select-box>
-  </div>
-  <div id="requests">
-    <div>
-      <div class="caption">Network Requests</div>
-      <dx-button id="clear" text="Clear" (onClick)="clearRequests()">
-      </dx-button>
-    </div>
-    <ul>
-      <li *ngFor="let request of requests">{{request}}</li>
-    </ul>
-  </div>
-</div>
-
-
-
-<!-- 
-Gốc
 <div class="row wrapper border-bottom white-bg page-heading">
   <div class="col-lg-10">
     <h2>Chức năng</h2>
@@ -103,8 +25,13 @@ Gốc
               </div>
               <div class="row">
                 <div class="table-responsive">
-                  <dx-data-grid #grid [dataSource]="dataSource" [remoteOperations]="true" height="500"
-                    showBorders="true" [selectedRowKeys]="[]">
+                  <dx-data-grid #grid 
+                    [dataSource]="dataSource" 
+                    (onEditingStart)="filterByStageId($event)"
+                    (onRowUpdating)="onRowUpdatingStage($event)" 
+                    (onEditorPreparing)="onEditorPreparing($event)"
+                    (onRowInserting)="onRowInsertingStage($event)"
+                    (onInitNewRow)="onInitNewRow($event)" height="500" showBorders="true">
                     <dxo-filter-row [visible]="true"></dxo-filter-row>
                     <dxo-header-filter [visible]="true"></dxo-header-filter>
                     <dxo-state-storing [enabled]="true" type="localStorage" storageKey="storage"></dxo-state-storing>
@@ -120,17 +47,49 @@ Gốc
                           <dxi-item dataField="StageDescription" editorType="dxTextArea" [colSpan]="2"
                             [editorOptions]="{ height: 100 }"></dxi-item>
                           <dxi-item [colSpan]="2">
-                            <dx-file-uploader #fileUploader
-                              uploadUrl="http://localhost:3333/api/v1/File/UploadFileDevExtreme" 
-                              name ="myFile"
-                              [multiple]="true"
-                              uploadMode = "useButtons"
-                              [maxFileSize]="4000000"
-                              accept="*" [(value)]="stageFiles"></dx-file-uploader>
-                      
+                            <div *dxTemplate>
+                              <!-- <dx-file-uploader #fileUploader
+                                uploadUrl="http://localhost:3333/api/v1/File/UploadFileDevExtreme" name="myFile"
+                                [multiple]="true" uploadMode="useButtons" [maxFileSize]="4000000" accept="*"
+                                [(value)]="stageFiles"></dx-file-uploader>
+                              <div class="content">
+                                <div *ngIf="stageFiles.length > 0">
+                                  <h4>Selected Files</h4>
+                                </div>
+                                <div *ngFor="let file of stageFiles">
+                                  <div class="selected-item">
+                                    Name:
+                                    <span>{{file.name}}</span><br /> Size:
+                                    <span>{{file.size}}</span>bytes<br /> Type:
+                                    <span>{{file.type}}</span><br /> Last Modified Date:
+                                    <span>{{file.lastModifiedDate}}</span>
+                                  </div>
+                                </div>
+                              </div> -->
+                              <div class="row">
+                                <div class="col-lg-12">
+                                  <div class="form-group">
+                                    <label>{{ "Upload." | translate }} </label>
+                                    <ngx-dropzone style="min-height: auto;" (change)="onSelect($event)"
+                                      [expandable]="true" [maxFileSize]="5000 * 1024">
+                                      <ngx-dropzone-label><i class="fa fa-upload"></i>
+                                        {{ "Upload.UploadFileCaption" | translate }}
+                                      </ngx-dropzone-label>
+                                      <ngx-dropzone-preview class="dropDownCustomClass animated fadeInUp"
+                                        ngProjectAs="ngx-dropzone-preview" *ngFor="let f of files; let i = index"
+                                        [file]="f" [removable]="true" (removed)="onRemove(f)"
+                                        (click)="downloadFile(entity.StageFile[i].File.FileLocalName)">
+                                        <ngx-dropzone-label><i class="fa fa-download"></i>
+                                          {{ entity.StageFile[i].File.FileOriginalName }}
+                                        </ngx-dropzone-label>
+                                      </ngx-dropzone-preview>
+                                    </ngx-dropzone>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
                           </dxi-item>
                         </dxi-item>
-
                       </dxo-form>
                     </dxo-editing>
 
@@ -159,4 +118,4 @@ Gốc
       </div>
     </div>
   </div>
-</div> -->
+</div>

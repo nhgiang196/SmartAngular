@@ -4,12 +4,14 @@ import { HttpClient } from '@angular/common/http';
 import { DataTablePaginationParams, DataTablesResponse } from '../models/datatable';
 import { environment } from 'src/environments/environment';
 import * as AspNetData from "devextreme-aspnet-data-nojquery";
+import CustomStore from 'devextreme/data/custom_store';
+import { MyHelperService } from './my-helper.service';
 
 const ApiUrl = environment.apiUrl;
 const NULL_ROUTES = `${environment.apiUrl}/DevExtreme/NullRoutes`
 @Injectable({ providedIn: 'root' })
 export class UnitService {
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private helper: MyHelperService) {
 
   }
   addUnit = (entity) => this.http.post(`${ApiUrl}/Unit/AddUnit`, entity);
@@ -41,20 +43,29 @@ export class UnitService {
     return this.http.post(`${ApiUrl}/Unit/ValidateUnit`, entity);
   }
 
-  getDataGridUnit(dataSource, key) {
-    dataSource = AspNetData.createStore({
-      key: key,
-      loadUrl: `${ApiUrl}/Unit/DataGridUnitPagination`,
-      insertUrl: NULL_ROUTES,
-      updateUrl: NULL_ROUTES,
-      deleteUrl: NULL_ROUTES,
-      onBeforeSend: (method, ajaxOptions) => {
-        ajaxOptions.data.key = key;
-        ajaxOptions.xhrFields = { withCredentials: true };
-      }
+  // getDataGridUnit(dataSource, key) {
+  //   dataSource = AspNetData.createStore({
+  //     key: key,
+  //     loadUrl: `${ApiUrl}/Unit/DataGridUnitPagination`,
+  //     insertUrl: NULL_ROUTES,
+  //     updateUrl: NULL_ROUTES,
+  //     deleteUrl: NULL_ROUTES,
+  //     onBeforeSend: (method, ajaxOptions) => {
+  //       ajaxOptions.data.key = key;
+  //       ajaxOptions.xhrFields = { withCredentials: true };
+  //     }
+  //   });
+  //   console.log(dataSource);
+  //   return dataSource;
+  // }
+  getDataGridUnit() {
+    return new CustomStore({
+      key: "UnitId",
+      load: () => this.helper.sendRequest(ApiUrl + "/Unit/DataGridUnitPagination"),
+      insert: (values) => this.addUnit(values).toPromise(),
+      update: (key, values) => this.updateUnit(values).toPromise(),
+      remove: (key) => this.deleteUnit(key).toPromise().then()
     });
-    console.log(dataSource);
-    return dataSource;
   }
 
   getUnitSelectbox(){
