@@ -49,6 +49,13 @@ export class MonitorStandardComponent implements OnInit {
     e.data.Status = 1;
     e.data.ValidateDateFrom = new Date();
     e.data.ValidateDateTo = new Date();
+    e.data.TemperatureMin = e.data.TemperatureMax
+    = e.data.PHmin =  e.data.PHmax
+    = e.data.Codmin = e.data.Codmax
+    = e.data.Tssmin = e.data.Tssmax
+    = e.data.ColorMin = e.data.ColorMax
+    = e.data.Qmin = e.data.Qmax
+    = e.data.AmoniMin =e.data.AmoniMax = 0;
   }
   
   onRowInserting(e){
@@ -88,30 +95,30 @@ export class MonitorStandardComponent implements OnInit {
       });
     }
   }
-//   validateMSId(e){
-//     console.log(e);
-//   }
-//   validateDateFrom(e){
-//     let date;
-//     if(typeof(e.data.ValidateDateTo)==='string'){
-//       date = new Date(e.data.ValidateDateTo);
-//     } else date =e.data.ValidateDateTo
-//     console.log(date);
-//     if(e.value > date){
-//       e.rule.message="DateFrom greater than dateTo!";
-//       return false
-//     } else return true;
-//   }
-//   validateDateTo(e){
-   
-//     let date;
-//     if(typeof(e.data.ValidateDateFrom)==='string'){
-//       date = new Date(e.data.ValidateDateFrom);
-//     } else date =e.data.ValidateDateFrom
-//  console.log(date);
-//     if(e.value < date){
-//       e.rule.message="DateTo smaller than dateFrom!";
-//       return false
-//     } else return true;
-//   }
+  validateMSId(e){
+    console.log(e);
+  }
+
+  validateDateFrom(e){
+    let date;
+    if(typeof(e.data.ValidateDateTo)==='string'){
+      date = new Date(e.data.ValidateDateTo);
+    } else date =e.data.ValidateDateTo
+
+    if(e.value > date){ 
+      e.rule.message="DateFrom greater than dateTo!";
+      return false
+    } else return true;
+  }
+  validateDateTo(e){
+    let date;
+    if(typeof(e.data.ValidateDateFrom)==='string'){
+      date = new Date(e.data.ValidateDateFrom);
+    } else date =e.data.ValidateDateFrom
+
+    if(e.value < date){
+      e.rule.message="DateTo smaller than dateFrom!";
+      return false
+    } else return true;
+  }
 }

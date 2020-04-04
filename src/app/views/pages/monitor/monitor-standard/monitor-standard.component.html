@@ -34,7 +34,7 @@
                 [allowDeleting]="true"
                 [useIcons] = "true">
     <dxo-popup title="Monitor Standard Info" [showTitle]="true" 
-      [position]="{ my: 'top', at: 'top', of: 'window' }"  [height]="520">
+      [position]="{ my: 'top', at: 'top', of: 'window' }"  [height]="570">
     </dxo-popup>
     <dxo-texts confirmDeleteMessage="Are you sure Delete?"></dxo-texts>
     <!--Begin Form-->
@@ -42,27 +42,45 @@
       <dxi-item itemType="group" [colCount]="2" [colSpan]="2">
         <dxi-item dataField="FactoryId" ></dxi-item>
         <dxi-item itemType="group" [colCount]="2" [colSpan]="2">
-          <dxi-item dataField="ValidateDateFrom"></dxi-item>
+          <dxi-item dataField="ValidateDateFrom">
+            <dxo-label text="Date-From"></dxo-label>
+          </dxi-item>
           <dxi-item dataField="ValidateDateTo"></dxi-item>
         </dxi-item>
+        <dxi-item dataField="MonitorStandardDescription" [colSpan]="2">
+          <dxo-label text="Descriptions"></dxo-label></dxi-item>
       </dxi-item >
      
       <dxi-item itemType="group" caption="Standard Info" [colCount]="4" [colSpan]="2">
-        <dxi-item dataField="TemperatureMin" caption ="Temperature -Min" ></dxi-item>
+        <dxi-item dataField="TemperatureMin" caption ="Temperature -Min">
+          <dxo-label text="Temperature-Min"></dxo-label>
+        </dxi-item>
         <dxi-item dataField="TemperatureMax"></dxi-item>
-        <dxi-item dataField="PHmin" ></dxi-item>
+        <dxi-item dataField="PHmin" >
+          <dxo-label text="PH-Min"></dxo-label>
+        </dxi-item>
         <dxi-item dataField="PHmax"></dxi-item>
 
-        <dxi-item dataField="Codmin" ></dxi-item>
+        <dxi-item dataField="Codmin" >
+          <dxo-label text="COD-Min"></dxo-label>
+        </dxi-item>
         <dxi-item dataField="Codmax"></dxi-item>
-        <dxi-item dataField="Tssmin" ></dxi-item>
+        <dxi-item dataField="Tssmin" >
+          <dxo-label text="TSS-Min"></dxo-label>
+        </dxi-item>
         <dxi-item dataField="Tssmax"></dxi-item>
         
-        <dxi-item dataField="ColorMin" ></dxi-item>
+        <dxi-item dataField="ColorMin" >
+          <dxo-label text="Color-Min"></dxo-label>
+        </dxi-item>
         <dxi-item dataField="ColorMax"></dxi-item>
-        <dxi-item dataField="Qmin" ></dxi-item>
+        <dxi-item dataField="Qmin" >
+          <dxo-label text="Q-Min"></dxo-label>
+        </dxi-item>
         <dxi-item dataField="Qmax"></dxi-item>
-        <dxi-item dataField="AmoniMin" ></dxi-item>
+        <dxi-item dataField="AmoniMin" >
+          <dxo-label text="Amoni-Min"></dxo-label>
+        </dxi-item>
         <dxi-item dataField="AmoniMax"></dxi-item>
         
         <dxi-item dataField="Status"></dxi-item>
@@ -76,8 +94,8 @@
     <dxi-button name="delete"></dxi-button>
   </dxi-column>
   <dxi-column dataField="MonitorStandardId" width="120">
-    <!-- <dxi-validation-rule type="custom" [validationCallback] = "validateMSId"
-          message=""></dxi-validation-rule> -->
+    <dxi-validation-rule type="custom" [validationCallback] = "validateMSId"
+          message=""></dxi-validation-rule>
   </dxi-column>
   <dxi-column dataField="FactoryId" caption = "FactoryName" width="200">
     <dxo-lookup
@@ -88,12 +106,12 @@
   </dxi-column>
   <dxi-column caption="ValidateDate">
     <dxi-column dataField="ValidateDateFrom" caption="From" width="120"  dataType="date" >
-      <!-- <dxi-validation-rule type="custom" [validationCallback] = "validateDateFrom">
-      </dxi-validation-rule> -->
+      <dxi-validation-rule type="custom" [validationCallback] = "validateDateFrom">
+      </dxi-validation-rule>
     </dxi-column>
     <dxi-column dataField="ValidateDateTo" caption="To" width="120"   dataType="date">
-      <!-- <dxi-validation-rule type="custom" [validationCallback] = "validateDateTo">
-      </dxi-validation-rule> -->
+      <dxi-validation-rule type="custom" [validationCallback] = "validateDateTo">
+      </dxi-validation-rule>
     </dxi-column>
   </dxi-column>
   <dxi-column caption="Temperature" >
@@ -101,30 +119,66 @@
     <dxi-column dataField="TemperatureMax" caption="Max" width="70" dataType="number"></dxi-column>
   </dxi-column>
   <dxi-column caption="PH">
-    <dxi-column dataField="PHmin" caption="Min" width="70" dataType="number"></dxi-column>
-    <dxi-column dataField="PHmax" caption="Max" width="70" dataType="number"></dxi-column>
+    <dxi-column dataField="PHmin" caption="Min" width="70" dataType="number">
+      <dxi-validation-rule type="range" [min]="0">
+      </dxi-validation-rule>
+    </dxi-column>
+    <dxi-column dataField="PHmax" caption="Max" width="70" dataType="number">
+      <dxi-validation-rule type="range" [min]="0">
+      </dxi-validation-rule>
+    </dxi-column>
   </dxi-column>
   <dxi-column caption="COD">
-    <dxi-column dataField="Codmin" caption="Min" width="70" dataType="number"></dxi-column>
-    <dxi-column dataField="Codmax" caption="Max" width="70" dataType="number"></dxi-column>
+    <dxi-column dataField="Codmin" caption="Min" width="70" dataType="number">
+      <dxi-validation-rule type="range" [min]="0">
+      </dxi-validation-rule>
+    </dxi-column>
+    <dxi-column dataField="Codmax" caption="Max" width="70" dataType="number">
+      <dxi-validation-rule type="range" [min]="0">
+      </dxi-validation-rule>
+    </dxi-column>
   </dxi-column>
   <dxi-column caption="TSS">
-    <dxi-column dataField="Tssmin" caption="Min" width="70" dataType="number"></dxi-column>
-    <dxi-column dataField="Tssmax" caption="Max" width="70" dataType="number"></dxi-column>
+    <dxi-column dataField="Tssmin" caption="Min" width="70" dataType="number">
+      <dxi-validation-rule type="range" [min]="0">
+      </dxi-validation-rule>
+    </dxi-column>
+    <dxi-column dataField="Tssmax" caption="Max" width="70" dataType="number">
+      <dxi-validation-rule type="range" [min]="0">
+      </dxi-validation-rule>
+    </dxi-column>
   </dxi-column>
   <dxi-column caption="TSS">
-    <dxi-column dataField="ColorMin" caption="Min" width="70" dataType="number"></dxi-column>
-    <dxi-column dataField="ColorMax" caption="Max" width="70" dataType="number"></dxi-column>
+    <dxi-column dataField="ColorMin" caption="Min" width="70" dataType="number">
+      <dxi-validation-rule type="range" [min]="0">
+      </dxi-validation-rule>
+    </dxi-column>
+    <dxi-column dataField="ColorMax" caption="Max" width="70" dataType="number">
+      <dxi-validation-rule type="range" [min]="0">
+      </dxi-validation-rule>
+    </dxi-column>
   </dxi-column>
   <dxi-column caption="Q">
-    <dxi-column dataField="Qmin" caption="Min" width="70" dataType="number"></dxi-column>
-    <dxi-column dataField="Qmax" caption="Max" width="70" dataType="number"></dxi-column>
+    <dxi-column dataField="Qmin" caption="Min" width="70" dataType="number">
+      <dxi-validation-rule type="range" [min]="0">
+      </dxi-validation-rule>
+    </dxi-column>
+    <dxi-column dataField="Qmax" caption="Max" width="70" dataType="number">
+      <dxi-validation-rule type="range" [min]="0">
+      </dxi-validation-rule>
+    </dxi-column>
   </dxi-column>
   <dxi-column caption="Amoni">
-    <dxi-column dataField="AmoniMin" caption="Min" width="70" dataType="number"></dxi-column>
-    <dxi-column dataField="AmoniMax" caption="Max" width="70" dataType="number"></dxi-column>
+    <dxi-column dataField="AmoniMin" caption="Min" width="70" dataType="number">
+      <dxi-validation-rule type="range" [min]="0">
+      </dxi-validation-rule>
+    </dxi-column>
+    <dxi-column dataField="AmoniMax" caption="Max" width="70" dataType="number">
+      <dxi-validation-rule type="range" [min]="0">
+      </dxi-validation-rule>
+    </dxi-column>
   </dxi-column>
-
+  <dxi-column dataField="MonitorStandardDescription" dataType="string" caption="Descriptions" width="200"></dxi-column>
   <dxi-column dataField="Status" dataType="boolean" caption="Active" width="120"></dxi-column>
   <dxi-column dataField="CreateDate" dataType="date"  width="120"></dxi-column>
   <dxi-column dataField="CreateBy"  width="120"></dxi-column>
