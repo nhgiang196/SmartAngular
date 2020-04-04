@@ -10,6 +10,7 @@ import config from 'devextreme/core/config';
 import { directions } from 'src/app/core/helpers/DevExtremeExtention';
 import { ToastrService } from 'ngx-toastr';
 import Swal from 'sweetalert2';
+import { Unit } from 'src/app/core/models/unit';
 @Component({
   selector: 'app-unit',
   templateUrl: './unit.component.html',
@@ -19,70 +20,36 @@ export class UnitComponent implements OnInit {
   @ViewChild(DxDataGridComponent, { static: false })
   dataGrid: DxDataGridComponent;
   dataSource: any;
-  selectedRowIndex = -1;
+  entity: Unit = new Unit()
   constructor(
     private api: UnitService,
     private auth: AuthService,
     private toastr: ToastrService
   ) {
-    this.dataSource = this.api.getDataGridUnit(this.dataSource, 'UnitId');
+    this.dataSource = this.api.getDataGridUnit();
     config({
       floatingActionButtonConfig: directions.down
     });
   }
   ngOnInit() {}
-
+  onSwitchStatus(e) {
+   this.entity.Status = e.value;//this.entity.Status == 0 ? 1 : 0;
+  }
   onRowInserting(e) {
-    console.log(e);
-    this.api.addUnit(e.data).subscribe(res => {
-      const result = res as any;
-      if (result.Success) {
-        this.toastr.success('Insert success!', 'Success!');
-        this.dataGrid.instance.refresh();
-      } else {
-        Swal.fire('Error!', result.Message, 'error');
-      }
-      this.dataGrid.instance.refresh();
-    });
+    e.data.Status = 1;
+    e.data.CreateBy = this.auth.currentUser.Username;
+    e.data.CreateDate = new Date();
+    e.data.UnitId = 0;
   }
   onRowUpdating(e) {
     // Modify entity olddata to newdata;
     const data = Object.assign(e.oldData, e.newData);
     data.ModifyBy = this.auth.currentUser.Username;
-    data.Status = data.Status ? 1 : 0; //tenary operation if (data.status == true) return 1 else return 0
-    console.log(e);
-    console.log(data);
-    this.api.updateUnit(data).subscribe(res => {
-      const result = res as any;
-      if (result.Success) {
-        this.toastr.success('Update success!', 'Success!');
-        this.dataGrid.instance.refresh();
-      } else {
-        Swal.fire('Error!', result.Message, 'error');
-      }
-    });
-  }
-  onRowRemoving(e) {
-    this.api.deleteUnit(e.data.UnitId).subscribe(res => {
-      const result = res as any;
-      if (result.Success) {
-        this.toastr.success('Delete success!', 'Success!');
-        this.dataGrid.instance.refresh();
-      } else {
-        Swal.fire('Error!', result.Message, 'error');
-      }
-    });
+    // data.Status = data.Status ? 1 : 0; //tenary operation if (data.status == true) return 1 else return 0
+    data.Status = this.entity.Status;
+    e.newData = data;
   }
 
-  editRow() {
-    this.dataGrid.instance.editRow(this.selectedRowIndex);
-    this.dataGrid.instance.deselectAll();
-  }
-
-  deleteRow() {
-    this.dataGrid.instance.deleteRow(this.selectedRowIndex);
-    this.dataGrid.instance.deselectAll();
-  }
   /**
    * Init Function
    * @param e fd
@@ -92,11 +59,4 @@ export class UnitComponent implements OnInit {
     e.data.CreateBy = this.auth.currentUser.Username;
   }
 
-  addRow() {
-    this.dataGrid.instance.addRow();
-    this.dataGrid.instance.deselectAll();
-  }
-  selectedChanged(e) {
-    this.selectedRowIndex = e.component.getRowIndexByKey(e.selectedRowKeys[0]);
-  }
 }
