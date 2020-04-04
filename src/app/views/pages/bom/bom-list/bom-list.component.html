@@ -24,7 +24,7 @@
           <div class="row">
             <div class="col-sm-4">
               <!-- hidden this button -->
-              <button routerLink="/pages/category/item/action" type="button" class="btn btn-primary dim" >
+              <button  type="button" class="btn btn-primary dim" (click)="showAdd()">
                 <i class="fa fa-plus"></i> {{'Button.Add' | translate}}</button>
 
             </div>
@@ -88,4 +88,4 @@
 </div>
 
 
-<app-bom-stage #modalChild></app-bom-stage>
+<app-bom-stage #modalChild (loadInit)="loadInit()"></app-bom-stage>
