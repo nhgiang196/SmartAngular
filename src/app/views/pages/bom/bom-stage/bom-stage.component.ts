@@ -17,20 +17,21 @@ import swal from "sweetalert2";
 })
 export class BomStageComponent implements OnInit {
   @ViewChild("childModal", { static: false }) childModal: ModalDirective;
-  @Output() loadInit= new EventEmitter<void>();
+  @Output() loadInit = new EventEmitter<void>();
   entity: BomFactory;
-  dataSourceStage:any;
-  dataSourceUnitOut:any;
-  dataSourceUnitIn:any;
-  dataSourceItem:any;
-   //config
-   bsConfig = { dateInputFormat: "YYYY-MM-DD", adaptivePosition: true };
-  constructor(private devExtreme: DevextremeService,private bomService : BomService,private toastr: ToastrService,
+  dataSourceStage: any;
+  dataSourceUnitOut: any;
+  dataSourceUnitIn: any;
+  dataSourceItem: any;
+  //config
+  laddaSubmitLoading = false;
+  bsConfig = { dateInputFormat: "YYYY-MM-DD", adaptivePosition: true };
+  constructor(private devExtreme: DevextremeService, private bomService: BomService, private toastr: ToastrService,
     private trans: TranslateService, private auth: AuthService,
     private helpper: MyHelperService) {
     this.setItemValueOut = this.setItemValueOut.bind(this);
     this.setItemValueIn = this.setItemValueIn.bind(this);
-   }
+  }
 
   ngOnInit() {
     this.entity = new BomFactory();
@@ -43,10 +44,10 @@ export class BomStageComponent implements OnInit {
   async fnSave() {
     //Custom remove entity child
     //this.removeEntityChild();
-    this.entity.BomFactoryValidateDate =  this.helpper.dateConvertToString(this.entity.BomFactoryValidateDate);
-
+    this.entity.BomFactoryValidateDate = this.helpper.dateConvertToString(this.entity.BomFactoryValidateDate);
+    this.laddaSubmitLoading = true;
     if (!(await this.fnValidateBomServer())) {
-      if (this.entity.BomFactoryId==0) {
+      if (this.entity.BomFactoryId == 0) {
         this.entity.CreateBy = this.auth.currentUser.Username;
         this.entity.CreateDate = this.helpper.dateConvertToString(new Date());
         this.bomService.addBomFactory(this.entity).subscribe(
@@ -59,15 +60,20 @@ export class BomStageComponent implements OnInit {
             } else {
               this.toastr.error(this.trans.instant("messg.update.error"));
             }
+
+            this.laddaSubmitLoading = false;
           },
           err => {
             this.toastr.error(this.trans.instant("messg.add.error"));
+            this.laddaSubmitLoading = false;
           }
         );
       } else {
-        this.entity.ModifyBy =this.auth.currentUser.Username;
+        this.entity.ModifyBy = this.auth.currentUser.Username;
         this.entity.ModifyDate = this.helpper.dateConvertToString(new Date());
+        this.removeIdChild();
         console.log("a", this.entity);
+
         this.bomService.updateBomFactory(this.entity).subscribe(
           res => {
             var result = res as any;
@@ -78,13 +84,16 @@ export class BomStageComponent implements OnInit {
             } else {
               this.toastr.error(this.trans.instant("messg.update.error"));
             }
+            this.laddaSubmitLoading = false;
           },
           err => {
             this.toastr.error(this.trans.instant("messg.update.error"));
+            this.laddaSubmitLoading = false;
           }
         );
       }
     } else {
+      this.laddaSubmitLoading = false;
       swal.fire(
         {
           title: this.trans.instant('messg.validation.caption'),
@@ -98,83 +107,140 @@ export class BomStageComponent implements OnInit {
   }
   async fnValidateBomServer() {
     console.log(this.entity);
+    let model: BomFactory = JSON.parse(JSON.stringify(this.entity));
+    model.BomStage = null;
     var data = (await this.bomService
-      .validateBomFactory(this.entity)
+      .validateBomFactory(model)
       .toPromise()
       .then()) as any;
-    console.log(data.result);
-    return data.result;
+    console.log(data);
+    return data;
   }
-  removeEntityChild(){
-    this.entity.BomStage.forEach(itemBomStage => {
-      itemBomStage.Stage = null;
-      itemBomStage.BomItemOut.forEach(itemBomOut => {
-        itemBomOut.Item = null;
-        itemBomOut.Unit = null;
-        itemBomOut.BomItemIn.forEach(itemBomIn => {
-          itemBomIn.Unit = null;
-          itemBomIn.Item = null;
-        });
+  removeIdChild() {
+    if (this.entity.BomStage.length > 0)
+      this.entity.BomStage.forEach(itemBomStage => {
+        itemBomStage.BomStageId = 0;
+        itemBomStage.BomFactoryId =0;
+        if (itemBomStage.BomItemOut!=null &&itemBomStage.BomItemOut.length > 0)
+          itemBomStage.BomItemOut.forEach(itemBomOut => {
+            itemBomOut.BomItemOutId = 0;
+            itemBomOut.BomStageId =0;
+            if (itemBomOut.BomItemIn!=null &&itemBomOut.BomItemIn.length > 0)
+              itemBomOut.BomItemIn.forEach(itemBomIn => {
+                itemBomIn.BomItemInId = 0;
+                itemBomIn.BomStageId =0;
+              });
+          });
       });
-    });
   }
 
 
-  loadDataSourceStage(){
+  loadDataSourceStage() {
     this.dataSourceStage = this.devExtreme.loadDxoLookup("Stage");
   }
 
-  loadDataSourceItem(){
+  loadDataSourceItem() {
     this.dataSourceItem = this.devExtreme.loadDxoLookup("Item");
   }
 
-   loaddataSourceUnitOut(){
-     this.dataSourceUnitOut =  this.devExtreme.loadDxoLookup("Unit");
+  loaddataSourceUnitOut() {
+    this.dataSourceUnitOut = this.devExtreme.loadDxoLookup("Unit");
   }
 
-  loaddataSourceUnitIn(){
-    this.dataSourceUnitIn =  this.devExtreme.loadDxoLookup("Unit");
- }
+  loaddataSourceUnitIn() {
+    this.dataSourceUnitIn = this.devExtreme.loadDxoLookup("Unit");
+  }
 
-  getBomOut(key: BomStage){
-    if(key.BomItemOut==null){
+  getBomOut(key: BomStage) {
+    if (key.BomItemOut == null) {
       key.BomItemOut = new Array<BomItemOut>();
     }
-     return key.BomItemOut;
+    return key.BomItemOut;
   }
 
-  getBomIn(key:BomItemOut){
-    if(key.BomItemIn==null){
+  getBomIn(key: BomItemOut) {
+    if (key.BomItemIn == null) {
       key.BomItemIn = new Array<BomItemIn>();
     }
-     return key.BomItemIn;
+    return key.BomItemIn;
   }
 
   onSwitchStatus() {
     this.entity.Status = this.entity.Status == 0 ? 1 : 0;
   }
-  showChildModal(item){
-    if (item!=null){
+  showChildModal(item) {
+    if (item != null) {
       console.log(item);
-    this.entity =JSON.parse(JSON.stringify(item));
+      this.entity = JSON.parse(JSON.stringify(item));
     }
-    else{
+    else {
       this.entity = new BomFactory();
     }
     this.childModal.show();
   }
 
- async setItemValueOut(rowData: any, value: any) {
+  async setItemValueOut(rowData: any, value: any) {
     rowData.UnitId = null;
     rowData.ItemId = value;
     this.dataSourceUnitOut = await this.bomService.getAllUnitByItemId(value).toPromise().then();
-   //(<any>this).defaultSetCellValue(rowData, value);
- }
+    //(<any>this).defaultSetCellValue(rowData, value);
+  }
 
- async setItemValueIn(rowData: any, value: any) {
-  rowData.UnitId = null;
-  rowData.ItemId = value;
-  this.dataSourceUnitIn = await this.bomService.getAllUnitByItemId(value).toPromise().then();
- //(<any>this).defaultSetCellValue(rowData, value);
-}
+  async setItemValueIn(rowData: any, value: any) {
+    rowData.UnitId = null;
+    rowData.ItemId = value;
+    this.dataSourceUnitIn = await this.bomService.getAllUnitByItemId(value).toPromise().then();
+    //(<any>this).defaultSetCellValue(rowData, value);
+  }
+
+  onRowValidatingBomStage(e) {
+    if (e.oldData == null) {
+      //thêm mới
+      if (this.entity.BomStage.find(x => x.StageId == e.newData.StageId)) {
+        swal.fire("Validate", "Dữ liệu đã bị trùng", "warning");
+        e.isValid = false;
+      }
+    }
+    else {
+      //chỉnh sửa
+      if (this.entity.BomStage.find(x => x.StageId == e.newData.StageId) && e.newData.StageId != e.oldData.StageId) {
+        swal.fire("Validate", "Dữ liệu đã bị trùng", "warning");
+        e.isValid = false;
+      }
+    }
+  }
+
+  onRowValidatingBomOut(e, item: BomStage) {
+    if (e.oldData == null) {
+      //thêm mới
+      if (item.BomItemOut.find(x => x.ItemId == e.newData.ItemId)) {
+        swal.fire("Validate", "Dữ liệu đã bị trùng", "warning");
+        e.isValid = false;
+      }
+    }
+    else {
+      //chỉnh sửa
+      if (item.BomItemOut.find(x => x.ItemId == e.newData.ItemId) && e.newData.ItemId != e.oldData.ItemId) {
+        swal.fire("Validate", "Dữ liệu đã bị trùng", "warning");
+        e.isValid = false;
+      }
+    }
+  }
+
+  onRowValidatingBomIn(e, item: BomItemOut) {
+    if (e.oldData == null) {
+      //thêm mới
+      if (item.BomItemIn.find(x => x.ItemId == e.newData.ItemId)) {
+        swal.fire("Validate", "Dữ liệu đã bị trùng", "warning");
+        e.isValid = false;
+      }
+    }
+    else {
+      //chỉnh sửa
+      if (item.BomItemIn.find(x => x.ItemId == e.newData.ItemId) && e.newData.ItemId != e.oldData.ItemId) {
+        swal.fire("Validate", "Dữ liệu đã bị trùng", "warning");
+        e.isValid = false;
+      }
+    }
+  }
 }
