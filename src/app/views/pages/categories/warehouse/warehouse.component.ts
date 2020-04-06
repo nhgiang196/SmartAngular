@@ -9,6 +9,7 @@ import { WareHouseService, AuthService, FactoryService } from 'src/app/core/serv
 import { SmartUploadComponent } from 'src/app/views/UISample/smart-upload/smart-upload.component';
 import { SmartSelectComponent } from 'src/app/views/UISample/smart-select/smart-select.component';
 import { DxFormComponent } from 'devextreme-angular';
+import { DevextremeService } from 'src/app/core/services/general/devextreme.service';
 declare let $: any;
 @Component({
   selector: 'app-warehouse',
@@ -32,11 +33,14 @@ export class WarehouseComponent implements OnInit {
     private warehouseService: WareHouseService,
     public trans: TranslateService,
     private auth: AuthService,
-    private factoryService: FactoryService
+    private factoryService: FactoryService,
+    private devService: DevextremeService,
   ) { 
+    this.factoryList = devService.loadDxoLookup("Factory");
     
   }
   /** INIT / DECLARATION */
+  factoryList: any;
   Warehouse: any[] = []; //init data
   entity: Warehouse;
   laddaSubmitLoading = false;
@@ -199,6 +203,10 @@ export class WarehouseComponent implements OnInit {
 
 
   validateFunction = (e) => {
+    if (e.formItem)
+    switch (e.formItem.dataField) {
+      case "FactoryId": return !(e.value==null || e.value==0)
+    }
     if (e.column){}
     switch (e.column.dataField) {
       case "WarehouseLocationCode": return this.entity.WarehouseLocation.filter(x=>x.WarehouseLocationCode==e.data.WarehouseLocationCode && x.WarehouseLocationId != e.data.WarehouseLocationId).length==0
