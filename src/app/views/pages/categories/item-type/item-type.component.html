@@ -45,6 +45,7 @@
           <dxi-item itemType="group" [colCount]="2" [colSpan]="2">
             <dxi-item dataField="ItemTypeName" ></dxi-item>
             <dxi-item dataField="ItemTypeCode" [editorOptions]="{ disabled: !isUpdate }"></dxi-item>
+            <dxi-item dataField = "Status" ></dxi-item>
           </dxi-item >
           <!-- Begin Detail DataGrid ItemTypeProperty -->
           <dxi-item [colSpan]="2" >
@@ -56,7 +57,7 @@
                             keyExpr="ItemTypePropertyId"
                             [focusedRowEnabled]="true"
                             [remoteOperations]="true" 
-                            height="380" 
+                            height="340" 
                             [showBorders]="true"
                             [showRowLines]="true">
                 <dxo-editing mode="row" 

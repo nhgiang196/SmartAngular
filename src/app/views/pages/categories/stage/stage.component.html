@@ -14,15 +14,11 @@
     <div class="wrapper wrapper-content animated fadeInRight">
       <div class="row">
         <div class="col-lg-12">
+          <div style="text-align: right;">
+            <button type="button" class="btn btn-primary dim"  (click)="addRow()">
+              <i class="fa fa-plus"></i>{{'Button.Add' | translate}}</button>
+          </div>
           <div class="ibox float-e-margins">
-            <div class="ibox-content" [ngClass]=" {'sk-loading': iboxloading}">
-              <div class="sk-spinner sk-spinner-wave">
-                <div class="sk-rect1"></div>
-                <div class="sk-rect2"></div>
-                <div class="sk-rect3"></div>
-                <div class="sk-rect4"></div>
-                <div class="sk-rect 5"></div>
-              </div>
               <div class="row">
                 <div class="table-responsive">
                   <dx-data-grid #grid 
@@ -35,9 +31,9 @@
                     <dxo-filter-row [visible]="true"></dxo-filter-row>
                     <dxo-header-filter [visible]="true"></dxo-header-filter>
                     <dxo-state-storing [enabled]="true" type="localStorage" storageKey="storage"></dxo-state-storing>
-                    <dxo-editing mode="popup" [allowAdding]="true" [allowUpdating]="true" [allowDeleting]="true" [useIcons]="true">
+                    <dxo-editing mode="popup" [allowUpdating]="true" [allowDeleting]="true" [useIcons]="true">
                       <dxo-popup title="Stage Info" [showTitle]="true" [width]="700" [height]="525"
-                        [position]="{ my: 'top', at: 'top', of: window }">
+                        [position]="{ my: 'top', at: 'top', of: 'window' }">
                       </dxo-popup>
                       <dxo-texts confirmDeleteMessage="Are you sure Delete?"></dxo-texts>
                       <dxo-form>
@@ -46,10 +42,10 @@
                           <dxi-item dataField="StageName"></dxi-item>
                           <dxi-item dataField="StageDescription" editorType="dxTextArea" [colSpan]="1"
                             [editorOptions]="{ height: 100 }"></dxi-item>
-                          <dxi-item>
-                            <div *dxTemplate>
+                          <dxi-item dataField="Status">
+                            <!-- <div *dxTemplate>
                               <dx-switch  [value]="entity.Status"  (onValueChanged)="onSwitchStatus($event)" ></dx-switch>
-                            </div>
+                            </div> -->
                           </dxi-item>
                           <dxi-item [colSpan]="2">
                             <div *dxTemplate>
@@ -101,6 +97,8 @@
                     <dxi-column dataField="StageCode" caption="{{ 'Stage.data.StageCode' | translate}}">
                     </dxi-column>
                     <dxi-column dataField="StageName" caption="{{ 'Stage.data.StageName' | translate}}">
+                      <dxi-validation-rule type="async" max="256" [reevaluate]=true [validationCallback]="stageValidation" message="">
+                      </dxi-validation-rule>
                     </dxi-column>
                     <dxi-column dataField="StageDescription" caption="{{ 'Stage.data.Description' | translate}}">
                     </dxi-column>
@@ -111,13 +109,13 @@
                       caption="{{ 'Stage.data.ModifyDate' | translate}}"></dxi-column>
                     <dxi-column dataField="ModifyBy" caption="{{ 'Stage.data.ModifyBy' | translate}}"></dxi-column>
                     <dxi-column dataField="Status" #status dataType="boolean"
-                      caption="{{ 'Stage.data.Status' | translate}}"></dxi-column>
+                      caption="{{ 'Stage.data.Status' | translate}}">
+                    </dxi-column>
                     <dxo-paging [pageSize]="25"></dxo-paging>
                     <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[25, 50, 100]"></dxo-pager>
                   </dx-data-grid>
                 </div>
               </div>
-            </div>
           </div>
         </div>
       </div>

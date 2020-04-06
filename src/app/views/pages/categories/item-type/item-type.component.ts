@@ -64,6 +64,10 @@ export class ItemTypeComponent implements OnInit {
     if (e.dataField == "ItemTypeName" && e.parentType === "dataRow") {
       e.setValue((e.value == null) ? "" : (e.value + "")); // Updates the cell value
     }
+    //Prepare Status editor to dxSwitch 
+    if (e.dataField == "Status" && e.parentType === "dataRow") {
+      e.editorName = "dxSwitch"; 
+    }
   }
   /**
    * Init new Row for ItemType
@@ -122,6 +126,8 @@ export class ItemTypeComponent implements OnInit {
   }
 
   masterValidation(e) {
+    if(e.newData==null)
+    {
     if (e.value == "" || e.value == null) {
       return new Promise((resolve, reject) => {
         reject("Field is empty!");
@@ -134,11 +140,11 @@ export class ItemTypeComponent implements OnInit {
             result.Success ? resolve() : reject("ItemType already exist!");
             resolve(result);
           }) .catch(error => {
-            console.error("Server-side validation error", error);
-            reject("Cannot contact validation server");
+            resolve();
         });
       });
     }
+  }
   }
 
   detailValidation(e){

@@ -22,6 +22,7 @@
   (onRowInserting)="onRowInserting($event)"
   (onRowUpdating)="onRowUpdating($event)"
   (onInitNewRow)="onInitNewRow($event)"
+  (onEditorPreparing)="onEditorPreparing($event)"
   (onRowValidating)= "validation($event)"
   [focusedRowEnabled]="true"     
   [showBorders]="true"
@@ -30,7 +31,6 @@
   <dxo-selection mode="single"></dxo-selection>
   <dxo-filter-row [visible]="true"></dxo-filter-row>
   <dxo-header-filter [visible]="true"></dxo-header-filter>
-  <dxo-group-panel [visible]="true"></dxo-group-panel>
 
   <dxo-editing mode="popup" 
                 [allowUpdating]="true" 

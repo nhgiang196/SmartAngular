@@ -46,6 +46,13 @@ export class MonitorStandardComponent implements OnInit {
     this.dataGrid.instance.addRow();
     this.dataGrid.instance.deselectAll();
   }
+  onEditorPreparing(e) {
+    //Prepare Status editor to dxSwitch 
+    if (e.dataField == "Status" && e.parentType === "dataRow") {
+      e.editorName = "dxSwitch"; 
+    }
+  }
+
   loadFactorySelectBox() {
     this.lkDataSourceFactory = this.devExtremeService.loadDxoLookup("Factory");
   }
@@ -68,6 +75,7 @@ export class MonitorStandardComponent implements OnInit {
     e.data.MonitorStandardId = 0;
     e.data.CreateBy = this.auth.currentUser.Username;
     e.data.CreateDate = new Date();
+    e.data.Status = e.data.Status ? 1 : 0;
   }
 
   onRowUpdating(e) {
