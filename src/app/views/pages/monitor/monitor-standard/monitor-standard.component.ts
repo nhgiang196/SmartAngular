@@ -2,7 +2,8 @@ import { element } from 'protractor';
 import {
   Component,
   OnInit,
-  ViewChild} from '@angular/core';
+  ViewChild
+} from '@angular/core';
 
 import { MonitorStandarService, AuthService, FactoryService } from 'src/app/core/services';
 import { DxDataGridComponent } from 'devextreme-angular';
@@ -25,11 +26,11 @@ export class MonitorStandardComponent implements OnInit {
   constructor(
     private monitorStandarService: MonitorStandarService,
     private factoryService: FactoryService,
-    private devExtremeService:DevextremeService,
+    private devExtremeService: DevextremeService,
     private auth: AuthService,
     private toastr: ToastrService,
     private helper: MyHelperService
-  ) { 
+  ) {
     //LOAD DATAGRID MONITOR
     this.dataSource = this.monitorStandarService.getDataGridMonitorStandard();
     this.loadFactorySelectBox();
@@ -39,32 +40,38 @@ export class MonitorStandardComponent implements OnInit {
   }
 
   ngOnInit() {
-    
+
+  }
+  addRow() {
+    debugger;
+    this.dataGrid.instance.addRow();
+    this.dataGrid.instance.deselectAll();
   }
   loadFactorySelectBox() {
-    this.lkDataSourceFactory =  this.devExtremeService.loadDxoLookup("Factory");
+    this.lkDataSourceFactory = this.devExtremeService.loadDxoLookup("Factory");
   }
 
-  onInitNewRow(e){
+  onInitNewRow(e) {
     e.data.Status = 1;
     e.data.ValidateDateFrom = new Date();
     e.data.ValidateDateTo = new Date();
     e.data.TemperatureMin = e.data.TemperatureMax
-    = e.data.PHmin =  e.data.PHmax
-    = e.data.Codmin = e.data.Codmax
-    = e.data.Tssmin = e.data.Tssmax
-    = e.data.ColorMin = e.data.ColorMax
-    = e.data.Qmin = e.data.Qmax
-    = e.data.AmoniMin =e.data.AmoniMax = 0;
+      = e.data.PHmin = e.data.PHmax
+      = e.data.Codmin = e.data.Codmax
+      = e.data.Tssmin = e.data.Tssmax
+      = e.data.ColorMin = e.data.ColorMax
+      = e.data.Qmin = e.data.Qmax
+      = e.data.AmoniMin = e.data.AmoniMax 
+      = 0;
   }
-  
-  onRowInserting(e){
+
+  onRowInserting(e) {
     e.data.MonitorStandardId = 0;
     e.data.CreateBy = this.auth.currentUser.Username;
     e.data.CreateDate = new Date();
   }
 
-  onRowUpdating(e){
+  onRowUpdating(e) {
     const data = Object.assign(e.oldData, e.newData);
     data.ModifyBy = this.auth.currentUser.Username;
     data.ModifyDate = new Date();
@@ -72,52 +79,52 @@ export class MonitorStandardComponent implements OnInit {
     e.newData = data;//set object
   }
 
-  validation(e){
+  validation(e) {
     let data;
-    if(e.oldData !=null){
+    if (e.oldData != null) {
       data = Object.assign(e.oldData, e.newData);
     } else data = e.newData;
 
-    if(data.FactoryId ==null){
+    if (data.FactoryId == null) {
       e.isValid = false;
       e.errorText = "Factory is empty!";
     }
-    if(data.ValidateDateFrom>data.ValidateDateTo){
+    if (data.ValidateDateFrom > data.ValidateDateTo) {
       e.isValid = false;
       e.errorText = "Date From greater than date To ";
-    } else{
-    e.promise  =  this.monitorStandarService.validateMonitorStandard(data).toPromise()
-      .then((result: any)=>{
-        if(!result.Success){
-          e.isValid = false;
-          e.errorText = result.Message;
-        }
-      });
+    } else {
+      e.promise = this.monitorStandarService.validateMonitorStandard(data).toPromise()
+        .then((result: any) => {
+          if (!result.Success) {
+            e.isValid = false;
+            e.errorText = result.Message;
+          }
+        });
     }
   }
-  validateMSId(e){
+  validateMSId(e) {
     console.log(e);
   }
 
-  validateDateFrom(e){
+  validateDateFrom(e) {
     let date;
-    if(typeof(e.data.ValidateDateTo)==='string'){
+    if (typeof (e.data.ValidateDateTo) === 'string') {
       date = new Date(e.data.ValidateDateTo);
-    } else date =e.data.ValidateDateTo
+    } else date = e.data.ValidateDateTo
 
-    if(e.value > date){ 
-      e.rule.message="DateFrom greater than dateTo!";
+    if (e.value > date) {
+      e.rule.message = "DateFrom greater than dateTo!";
       return false
     } else return true;
   }
-  validateDateTo(e){
+  validateDateTo(e) {
     let date;
-    if(typeof(e.data.ValidateDateFrom)==='string'){
+    if (typeof (e.data.ValidateDateFrom) === 'string') {
       date = new Date(e.data.ValidateDateFrom);
-    } else date =e.data.ValidateDateFrom
+    } else date = e.data.ValidateDateFrom
 
-    if(e.value < date){
-      e.rule.message="DateTo smaller than dateFrom!";
+    if (e.value < date) {
+      e.rule.message = "DateTo smaller than dateFrom!";
       return false
     } else return true;
   }
