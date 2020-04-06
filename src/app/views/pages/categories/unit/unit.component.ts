@@ -32,12 +32,6 @@ export class UnitComponent implements OnInit {
       floatingActionButtonConfig: directions.down
     });
   }
-<<<<<<< HEAD
-
-  ngOnInit() {}
-  onSwitchStatus(e) {
-   this.entity.Status = e.value; //this.entity.Status == 0 ? 1 : 0;
-=======
   ngOnInit() {
     this.resetEntity();
   }
@@ -47,7 +41,6 @@ export class UnitComponent implements OnInit {
   }
   onSwitchStatus(e) {
    this.entity.Status = e.value;
->>>>>>> d77224615e513f4c9aff9f24eb03bd4b8bd9e599
   }
 
   addRow() {
@@ -69,7 +62,7 @@ export class UnitComponent implements OnInit {
     data.Status = this.entity.Status ? 1 : 0; //tenary operation if (data.status == true) return 1 else return 0
     e.newData = data;
   }
-  
+
   //Trigger for raise event update
   onEditorPreparing(e) {
     if (e.dataField == "UnitName" && e.parentType === "dataRow") {
