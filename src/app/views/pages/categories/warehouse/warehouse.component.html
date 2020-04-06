@@ -115,10 +115,7 @@
               <dxi-item dataField="FactoryId" editorType="dxSelectBox"  [label]="{text: trans.instant('Warehouse.data.FactoryId')}"
               [editorOptions]="{ displayExpr: 'FactoryName' ,valueExpr:'FactoryId' , dataSource: factoryList}">
                   <dxi-validation-rule type="required"></dxi-validation-rule>
-                  <dxi-validation-rule type="custom" ignoreEmptyValue="true" reevaluate="true" [validationCallback]="validateFunction" message="Required Choose"></dxi-validation-rule>
-                  <!-- <div *dxTemplate>
-                    <smart-select-box entitykey="Factory" checkstatus="true" [(selectData)]="entity.FactoryId"></smart-select-box>
-                  </div> -->
+                  <dxi-validation-rule type="custom" ignoreEmptyValue="true" [validationCallback]="validateFunction" message="Required Choose"></dxi-validation-rule>
               </dxi-item>
             </dxi-item>
            

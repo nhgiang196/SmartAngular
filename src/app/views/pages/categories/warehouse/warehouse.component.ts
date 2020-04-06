@@ -161,7 +161,7 @@ export class WarehouseComponent implements OnInit {
     })
   }
   async fnSave() { // press save butotn
-    if (!this.targetForm.instance.validate().isValid) return;
+    if (! await this.targetForm.instance.validate().isValid) return;
     this.laddaSubmitLoading = true;
     var e = this.entity;
     await this.uploadComponent.uploadFile();
