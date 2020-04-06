@@ -11,7 +11,6 @@
     </ol>
   </div>
 </div>
-
 <div class="wrapper wrapper-content animated fadeInRight">
   <div class="row">
     <div class="col-lg-12">
@@ -29,68 +28,64 @@
               <button (click)="fnAdd()" type="button" class="btn btn-primary dim" data-toggle="modal"
                 data-target="#myModal4">
                 <i class="fa fa-plus"></i> {{ 'Warehouse.btn.Add' | translate}} </button>
-
             </div>
             <div class="col-sm-2 text-center">
               <div class="form-group">
                 <label for="choose">
-                  <small>{{'Warehouse.label.Showed'| translate}} </small> 
+                  <small>{{'Warehouse.label.Showed'| translate}} </small>
                 </label>
-                <select id='choose' class="form-control" [(ngModel)]="pageSize" (change)="loadInit()" >
-                  <option value=12>12</option>
-                  <option value=24>24</option>
-                  <option value=36>36</option>
+                <select id='choose' class="form-control" [(ngModel)]="pageSize" (change)="loadInit()">
+                  <option value=4>1 {{'Factory.label.Rows' | translate}} </option>
+                  <option value=8>2 {{'Factory.label.Rows' | translate}}</option>
+                  <option value=12>3 {{'Factory.label.Rows' | translate}}</option>
                   <option value=0>All</option>
-              </select>
-
-
+                </select>
               </div>
-              
-
             </div>
             <div class="col-sm-4 text-center">
-              <h2> {{'Warehouse.label.TotalWarehouse' | translate}} {{Warehouse_showed}} {{'Warehouse.' | translate}} </h2>
+              <h2> {{'Warehouse.label.TotalWarehouse' | translate}} {{Warehouse_showed}} {{'Warehouse.' | translate}}
+              </h2>
               <!-- <small>{{'Warehouse.label.Showed'| translate}} : {{Warehouse.length}}  {{'Warehouse.' |  translate}} </small> -->
-              <pagination [totalItems]="Warehouse_showed"   [itemsPerPage]="pageSize" (pageChanged)="pageChanged($event)"></pagination>
+              <pagination [totalItems]="Warehouse_showed" [itemsPerPage]="pageSize" (pageChanged)="pageChanged($event)">
+              </pagination>
             </div>
-
-         
-
-
             <div class="col-sm-4">
               <div class="pull-right">
-               <label for="">{{ 'Warehouse.label.SearchTitle' | translate}}</label> 
+                <label for="">{{ 'Warehouse.label.SearchTitle' | translate}}</label>
                 <div class="input-group">
-                    <input type="text"  class="form-control input-lg" placeholder="{{ 'Warehouse.label.SearchText' | translate}}" name="search"  [(ngModel)]="keyword"  (keyup)="$event.keyCode === 13  && searchLoad()" >
-                    <div class="input-group-btn">
-                        <button class="btn btn-lg btn-primary" type="submit" (click)="searchLoad()">
-                            <i class="fa fa-search"></i>
-                        </button>
-                    </div>
+                  <input type="text" class="form-control input-lg"
+                    placeholder="{{ 'Warehouse.label.SearchText' | translate}}" name="search" [(ngModel)]="keyword"
+                    (keyup)="$event.keyCode === 13  && searchLoad()">
+                  <div class="input-group-btn">
+                    <button class="btn btn-lg btn-primary" type="submit" (click)="searchLoad()">
+                      <i class="fa fa-search"></i>
+                    </button>
+                  </div>
                 </div>
               </div>
-
             </div>
           </div>
-          
           <hr>
-          
           <div class="row">
             <div class="col-lg-3" *ngFor="let item of Warehouse">
               <div class="panel panel-info">
                 <div class="panel-heading text-center">
                   <a (click)="fnEditSignal(item.WarehouseId)"><i class="fa fa-info-circle"></i> {{item.WarehouseName}}
                   </a>
-                  <button class="btn btn-sm btn-outline pull-right css_btnDel" (click)="fnDelete(item.WarehouseId)" ><i class="fa fa-times-circle"></i> </button>
+                  <button class="btn btn-sm btn-outline pull-right css_btnDel" (click)="fnDelete(item.WarehouseId)"><i
+                      class="fa fa-times-circle"></i> </button>
                 </div>
                 <div class="panel-body">
-                  <p> <strong>{{ 'Warehouse.data.WarehouseCode' | translate}}:</strong>  {{item.WarehouseCode}}</p>
+                  <p> <strong>{{ 'Warehouse.data.WarehouseCode' | translate}}:</strong> {{item.WarehouseCode}}</p>
                   <p> <strong>{{ 'Factory.' | translate}}:</strong> {{item.FactoryName}}</p>
-                  <p> <strong>{{ 'Warehouse.data.WarehouseUserName' | translate}}:</strong> {{item.NormalizedUserName | translate}}</p>
-                  <p> <strong>{{ 'Warehouse.data.WarehouseType' | translate }}:</strong> {{'Warehouse.data.WarehouseType'+item.WarehouseType | translate}}</p>
+                  <p> <strong>{{ 'Warehouse.data.WarehouseUserName' | translate}}:</strong>
+                    {{item.NormalizedUserName | translate}}</p>
+                  <p> <strong>{{ 'Warehouse.data.WarehouseType' | translate }}:</strong>
+                    {{'Warehouse.data.WarehouseType'+item.WarehouseType | translate}}</p>
                   <p> <strong>{{ 'Warehouse.data.WarehouseAddress' | translate}}:</strong> {{item.WarehouseAddress}}</p>
-                  <p> <strong>{{ 'Warehouse.data.Status' | translate}}:</strong> 
-                    <span class="label" [ngClass]="{'label-primary': item.Status==1, 'label-danger': item.Status==0}"> {{'Warehouse.data.Status'+item.Status | translate}}</span></p>
+                  <p> <strong>{{ 'Warehouse.data.Status' | translate}}:</strong>
+                    <span class="label" [ngClass]="{'label-primary': item.Status==1, 'label-danger': item.Status==0}">
+                      {{'Warehouse.data.Status'+item.Status | translate}}</span></p>
                 </div>
               </div>
             </div>
@@ -99,15 +94,10 @@
       </div>
     </div>
   </div>
-
 </div>
-
-
-
-
-
-<div class="modal inmodal" id="myModal4" data-backdrop="static" data-keyboard="true" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog modal-lg " >
+<div class="modal inmodal" bsModal #childModal="bs-modal" id="myModal4" data-backdrop="static" data-keyboard="true" tabindex="-1" role="dialog"
+  aria-hidden="true">
+  <div class="modal-dialog modal-lg ">
     <div class="modal-content animated fadeIn">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
@@ -115,197 +105,125 @@
         <h4 class="modal-title"> {{'Warehouse.label.Information' | translate }}</h4>
       </div>
       <div class="modal-body">
-        <form role="form" #myForm="ngForm">
-          <div class="row">
-            <div class="col-lg-6">
-              <div class="form-group">
-                <label> {{ 'Warehouse.data.WarehouseCode' | translate }} *: </label>
-                <input autocomplete="off" type="text" name="WarehouseCode" id="WarehouseCode" [(ngModel)]="entity.WarehouseCode" class="form-control" placeholder="{{ 'Warehouse.placeholder.WarehouseCode' | translate }}" 
-                 [ngClass]="{ 'is-invalid':  invalid.Existed_WarehouseCode }" required>
-                  <div *ngIf="invalid.Existed_WarehouseCode" style="color: red;">{{ 'Warehouse.invalid.Existed_WarehouseCode' | translate }}</div>
-              </div>
-            </div>
-            <div class="col-lg-6">
-              <label>{{ 'Warehouse.data.FactoryId' | translate }} *:</label>
-              <smart-select-box entitykey="Factory" checkstatus="true" [(selectData)]="entity.FactoryId" ></smart-select-box>
-            </div>
-          </div>         
-          <div class="row">
-            <div class="col-lg-6">
-              <div class="form-group">
-                <label> {{ 'Warehouse.data.WarehouseName' | translate }} *: </label>
-                <input autocomplete="off" type="text" name="WarehouseName" id="WarehouseName" [(ngModel)]="entity.WarehouseName" class="form-control" placeholder="{{ 'Warehouse.placeholder.WarehouseName' | translate }}" 
-                 [ngClass]="{ 'is-invalid':  invalid.Existed_WarehouseName }" required>
-                  <div *ngIf="invalid.Existed_WarehouseName" style="color: red;">{{ 'Warehouse.invalid.Existed_WarehouseName' | translate }}</div>
-              </div>
-            </div>
-            <div class="col-lg-6">
-              <label>{{ 'Warehouse.data.WarehouseType' | translate }} *:</label>
-              <select autocomplete="off" class="select2_demo_3 form-control" [(ngModel)]="entity.WarehouseType" name="WarehouseType" id="WarehouseType"  placeholder="Select" required>
-                <option value=1> {{ 'Warehouse.data.WarehouseType1' | translate }} </option>
-                <option value=2> {{ 'Warehouse.data.WarehouseType2' | translate }} </option>
-                <option value=3> {{ 'Warehouse.data.WarehouseType3' | translate }} </option>
-                <option value=4> {{ 'Warehouse.data.WarehouseType4' | translate }} </option>
-              </select>
-              
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-lg-6">
-              <label>{{ 'Warehouse.data.WarehouseAddress' | translate }}:</label>
-              <input autocomplete="off" type="text" name="WarehouseAddress" id="WarehouseAddress" [(ngModel)]="entity.WarehouseAddress" class="form-control" placeholder="{{ 'Warehouse.placeholder.WarehouseAddress' | translate }}" >
-            </div>  
-            <div class="col-lg-6">
-              <div class="form-group">
-                <label> {{ 'Warehouse.data.WarehouseUserName' | translate }} *: </label>
-                <ng-select autocomplete="off" [items]="initCombobox.Users" placeholder="{{ 'Warehouse.placeholder.WarehouseUserName' | translate }}"  id="WarehouseUserName" name="WarehouseUserName"  [(ngModel)]="entity.WarehouseUserName"  bindLabel="NormalizedUserName" bindValue="UserName" required> </ng-select>
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-lg-6"></div>  
-            <div class="col-lg-6">
-              <div class="form-group">
-                <label>{{ 'Warehouse.data.Status' | translate }} :</label>
-                <div class="switch">
-                  <div class="onoffswitch">
-                    <input type="checkbox" class="onoffswitch-checkbox" name="status" id="status"  (click)="onSwitchStatus('entity')" [checked]="entity.Status==1 ? true : null" >
-                    <label class="onoffswitch-label" for="status">
-                      <span class="onoffswitch-inner"></span>
-                      <span class="onoffswitch-switch"></span>
-                    </label>
+        <form role="form" #myForm="ngForm" (submit)="fnSave($event)">
+          <dx-form #targetForm id="form" [(formData)]="entity" >
+            <dxi-item itemType="group" [colCount]="2">
+              <dxi-item dataField="WarehouseCode" [label]="{text: trans.instant('Warehouse.data.WarehouseCode')}">
+                <dxi-validation-rule type="required"></dxi-validation-rule>
+                <dxi-validation-rule type="async" message="Exist Warehouse Code"  [validationCallback]="validateAsync"></dxi-validation-rule>
+              </dxi-item>
+              <dxi-item dataField="FactoryId" editorType="dxSelectBox"  [label]="{text: trans.instant('Warehouse.data.FactoryId')}">
+                  <dxi-validation-rule type="required"></dxi-validation-rule>
+                  <div *dxTemplate>
+                    <smart-select-box entitykey="Factory" checkstatus="true" [(selectData)]="entity.FactoryId"></smart-select-box>
                   </div>
-                </div>
+              </dxi-item>
+            </dxi-item>
+           
+            <dxi-item itemType="group" [colCount]="2">
+              <dxi-item dataField="WarehouseName" [label]="{text: trans.instant('Warehouse.data.WarehouseName')}">
+                <dxi-validation-rule type="required"></dxi-validation-rule>
+                <dxi-validation-rule type="async" message="Exist Warehouse Name"  [validationCallback]="validateAsync"></dxi-validation-rule>
+              </dxi-item>
+              <dxi-item dataField="WarehouseType" [label]="{text: trans.instant('Warehouse.data.WarehouseType')}"  editorType="dxSelectBox" 
+              [editorOptions]="{ displayExpr: 'text' ,valueExpr:'id' ,
+                items: [
+                 { id: 1, text: trans.instant('Warehouse.data.WarehouseType1')}
+                ,{ id: 2, text: trans.instant('Warehouse.data.WarehouseType2')}
+                ,{ id: 3, text: trans.instant('Warehouse.data.WarehouseType3')}
+                ,{ id: 4, text: trans.instant('Warehouse.data.WarehouseType4')}
+                ]}">
+                <dxi-validation-rule type="required"></dxi-validation-rule>
+              </dxi-item>
+
+              
+            </dxi-item>
+ 
+            <dxi-item itemType="group" [colCount]="2">
+              <dxi-item dataField="WarehouseAddress" [label]="{text: trans.instant('Warehouse.data.WarehouseAddress')}"></dxi-item>
+              <dxi-item dataField="WarehouseUserName" [label]="{text: trans.instant('Warehouse.data.WarehouseUserName')}"
+              editorType="dxSelectBox"  [editorOptions]="{displayExpr: 'NormalizedUserName' ,valueExpr:'UserName' ,items: initCombobox.Users}" >
+                <dxi-validation-rule type="required"></dxi-validation-rule>
+              </dxi-item>
+            </dxi-item>
+
+            <dxi-item itemType="group" [colCount]="2">
+              <dxi-item itemType="empty" visible="false"></dxi-item>
+              <dxi-item dataField="Status"  editorType="dxSwitch" [label]="{text: trans.instant('Warehouse.data.Status')}"></dxi-item>
+            </dxi-item>
+            
+            
+
+            <dxi-item itemType="group" [colCount]="3" caption="Size (cm)">
+              <dxi-item dataField="WarehouseLength" [label]="{text: trans.instant('Warehouse.data.WarehouseLength')}" editorType="dxNumberBox" >
+                <dxi-validation-rule type="range" [min]="0"  [max]="100" message="Range 0-100"></dxi-validation-rule>
+              </dxi-item>
+              <dxi-item dataField="WarehouseWidth" [label]="{text: trans.instant('Warehouse.data.WarehouseWidth')}" editorType="dxNumberBox" >
+                <dxi-validation-rule type="range" [min]="0"  [max]="100" message="Range 0-100"></dxi-validation-rule>
+              </dxi-item>
+              <dxi-item dataField="WarehouseHeight" [label]="{text: trans.instant('Warehouse.data.WarehouseHeight')}" editorType="dxNumberBox" >
+                <dxi-validation-rule type="range" [min]="0"  [max]="100" message="Range 0-100"></dxi-validation-rule>
+              </dxi-item>
+            </dxi-item>
+            <dxi-item  itemType="group" caption="{{'Upload.' | translate}}">
+              <div *dxTemplate>
+                <app-smart-upload #targetSmartUpload [filePath]="pathFile"
+                  (entityFile)="this.entity.WarehouseFile = $event"></app-smart-upload>
               </div>
-            </div>
-          </div>
-          <hr>
-          <h3>{{'Warehouse.label.Size' | translate}} </h3> (cm)
-          <div class="row">
-            <div class="col-lg-4">
-              <div class="form-group">
-                <label> {{ 'Warehouse.data.WarehouseLength' | translate }}*: </label>
-                <input  autocomplete="off" type="number" min="0" name="WarehouseLength" id="WarehouseLength" [(ngModel)]="entity.WarehouseLength" class="form-control"   min="0" required
-                [ngClass]="{ 'is-invalid': entity.WarehouseLength<0}">
+            </dxi-item>
+            <dxi-item  itemType="group" caption="{{'Warehouse.label.Location' | translate}}">
+              <div *dxTemplate>
+                <dx-data-grid
+                  [dataSource]="entity.WarehouseLocation"
+                  allowColumnResizing="true"
+                  (onInitNewRow)="initWarehouseLocation($event)"
+                  (onRowInserted)="changeWarehouseLocationStatus($event)"
+                  (onRowUpdated)="changeWarehouseLocationStatus($event)"
+                  [showBorders]="true">
+                  <dxo-editing 
+                    mode="row"
+                    [allowUpdating]="true"
+                    [allowDeleting]="true"
+                    [allowAdding]="true"
+                    [useIcons] ="true">
+                  </dxo-editing>
+                <dxi-column dataField="WarehouseLocationCode" caption="{{ 'Warehouse.data.WarehouseLocationCode' | translate }}">
+                  <dxi-validation-rule type="required"></dxi-validation-rule>
+                  <dxi-validation-rule type="custom" ignoreEmptyValue="true" reevaluate="true" [validationCallback]="validateFunction" message="Existed Technology Name"></dxi-validation-rule>
+                </dxi-column>
+                <dxi-column dataField="WarehouseLocationName" caption="{{ 'Warehouse.data.WarehouseLocationName' | translate }}">
+                  <dxi-validation-rule type="required"></dxi-validation-rule>
+                  <dxi-validation-rule type="custom" ignoreEmptyValue="true" reevaluate="true" [validationCallback]="validateFunction" message="Existed Technology Name"></dxi-validation-rule>
+                </dxi-column>
+                <dxi-column dataField="WarehouseLocationLength" caption="{{ 'Warehouse.data.WarehouseLocationLength' | translate }}">
+                  <dxi-validation-rule type="range" [min]="0"  [max]="100" message="Range 0-100"></dxi-validation-rule>
+                </dxi-column>
+                <dxi-column dataField="WarehouseLocationWidth" caption="{{ 'Warehouse.data.WarehouseLocationWidth' | translate }}">
+                  <dxi-validation-rule type="range" [min]="0"  [max]="100" message="Range 0-100"></dxi-validation-rule>
+                </dxi-column>
+                <dxi-column dataField="WarehouseLocationHeight" caption="{{ 'Warehouse.data.WarehouseLocationHeight' | translate }}">
+                  <dxi-validation-rule type="range" [min]="0"  [max]="100" message="Range 0-100"></dxi-validation-rule>
+                </dxi-column>
+                <dxi-column dataField="Status" caption="{{ 'Warehouse.data.Status' | translate }}"  dataType="boolean">
+                </dxi-column>
                 
+                </dx-data-grid>
+
               </div>
-            </div>
-            <div class="col-lg-4">
-              <div class="form-group">
-                <label> {{ 'Warehouse.data.WarehouseWidth' | translate }}*: </label>
-                <input autocomplete="off" type="number" min="0" name="WarehouseWidth" id="WarehouseWidth" [(ngModel)]="entity.WarehouseWidth" 
-                class="form-control"  min="0"  required [ngClass]="{ 'is-invalid': entity.WarehouseWidth<0}">
-                
-              </div>
-            </div>
-            <div class="col-lg-4">
-              <div class="form-group">
-                <label> {{ 'Warehouse.data.WarehouseHeight' | translate }}*: </label>
-                <input autocomplete="off" type="number" min="0" name="WarehouseHeight" id="WarehouseHeight" [(ngModel)]="entity.WarehouseHeight" class="form-control"
-                [ngClass]="{ 'is-invalid': entity.WarehouseHeight<0}"   min="0" required>
-              </div>
-            </div>
-          </div>
-          <hr>
-          <!-- upload File -->
-          <app-smart-upload [filePath]="pathFile" (entityFile)="this.entity.WarehouseFile = $event" ></app-smart-upload>
+            </dxi-item>
+            
 
-          <hr>
-          <h3>{{'Warehouse.label.Location' | translate}} </h3>
-          <div class="table-responsive">
-            <table class="table table-bordered">
-              <thead>
-                <tr>
-                  <th width="3%">#</th>
-                  <th width="20%">{{ 'Warehouse.data.WarehouseLocationCode' | translate }} *</th>
-                  <th width="27%">{{ 'Warehouse.data.WarehouseLocationName' | translate }} *</th>
-                  <th width="10%">{{ 'Warehouse.data.WarehouseLocationLength' | translate }}</th>
-                  <th width="10%">{{ 'Warehouse.data.WarehouseLocationWidth' | translate }}</th>
-                  <th width="10%">{{ 'Warehouse.data.WarehouseLocationHeight' | translate }}</th>
-                  <th  width="10%">{{ 'Warehouse.data.WarehouseLocationStatus' | translate }}</th>
-                  <th  width="10%">{{ 'Button.Action' | translate }}</th>
-                </tr>
-              </thead>
-              <tbody>
+            
 
-                <tr *ngFor="let item of entity.WarehouseLocation; let i = index">
-                  <td> {{i+1}} </td>
-                  <td  *ngIf="i+1 !== EditRowNumber">{{item.WarehouseLocationCode}} </td>
-                  <td  *ngIf="i+1 !== EditRowNumber">{{item.WarehouseLocationName}} </td>
-                  <td  *ngIf="i+1 !== EditRowNumber">{{item.WarehouseLocationLength}} </td>
-                  <td  *ngIf="i+1 !== EditRowNumber">{{item.WarehouseLocationWidth}} </td>
-                  <td  *ngIf="i+1 !== EditRowNumber">{{item.WarehouseLocationHeight}} </td>
-
-                  <td  *ngIf="i+1 === EditRowNumber"><input type="text" class="form-control" name="WarehouseLocationCode" id="WarehouseLocationCode" [(ngModel)]="locationEntity.WarehouseLocationCode"></td>
-                  <td  *ngIf="i+1 === EditRowNumber"><input type="text" class="form-control" name="WarehouseLocationName" id="WarehouseLocationName" [(ngModel)]="locationEntity.WarehouseLocationName"></td>
-                  <td  *ngIf="i+1 === EditRowNumber"><input type="number" min="0" class="form-control" name="WarehouseLocationLength" id="WarehouseLocationLength" [(ngModel)]="locationEntity.WarehouseLocationLength"  [ngClass]="{ 'is-invalid': locationEntity.WarehouseLocationLength<0}"></td>
-                  <td  *ngIf="i+1 === EditRowNumber"><input type="number" min="0" class="form-control" name="WarehouseLocationWidth" id="WarehouseLocationWidth" [(ngModel)]="locationEntity.WarehouseLocationWidth"  [ngClass]="{ 'is-invalid': locationEntity.WarehouseLocationWidth<0}"></td>
-                  <td  *ngIf="i+1 === EditRowNumber"><input type="number" min="0" class="form-control" name="WarehouseLocationHeight" id="WarehouseLocationHeight" [(ngModel)]="locationEntity.WarehouseLocationHeight"  [ngClass]="{ 'is-invalid': locationEntity.WarehouseLocationHeight<0}"></td>
-                  <td  *ngIf="i+1 !== EditRowNumber"> 
-                    <div class="switch">
-                      <div class="onoffswitch">
-                        <input type="checkbox" class="onoffswitch-checkbox" [name]="'showed_status' +(i+1)" [id]="'showed_status'+(i+1)" disabled [checked]="item.Status ==1 ? true : null" >
-                        <label class="onoffswitch-label" [for]="'showed_status' +(i+1)">
-                          <span class="onoffswitch-inner"></span>
-                          <span class="onoffswitch-switch"></span>
-                        </label>
-                      </div>
-                    </div>
-                  </td>
-                  <td  *ngIf="i+1 === EditRowNumber">                    
-                    <div class="switch">
-                      <div class="onoffswitch">
-                        <input type="checkbox" class="onoffswitch-checkbox" [name]="'status' +(i+1)" [id]="'status'+(i+1)" (click)="onSwitchStatus('locationEntity')" [checked]="locationEntity.Status==1 ? true : null" >
-                        <label class="onoffswitch-label" [for]="'status' +(i+1)">
-                          <span class="onoffswitch-inner"></span>
-                          <span class="onoffswitch-switch"></span>
-                        </label>
-                      </div>
-                    </div>
-                  </td>
-                  <td>
-                    <div class="btn-group">
-                      <button type="button" class="btn btn-sm btn-outline btn-primary" [disabled]="!locationEntity.WarehouseLocationCode || !locationEntity.WarehouseLocationName || locationEntity.WarehouseLocationLength<0 || locationEntity.WarehouseLocationWidth<0 || locationEntity.WarehouseLocationHeight<0" 
-                      (click)="fnSaveItem(locationEntity,i)" *ngIf="i+1 === EditRowNumber" ><i class="fa fa-check"></i></button>
-                      <button type="button" class="btn btn-sm btn-outline btn-success" (click)="fnEditItem(i)"*ngIf="i+1 !== EditRowNumber"><i class="fa fa-pencil"></i></button>
-                      <button type="button" class="btn btn-sm btn-outline btn-danger" (click)="fnDeleteItem(i)" *ngIf="i+1 !== EditRowNumber"><i class="fa fa-trash"></i></button>
-                    </div>                        
-                  </td>
-                </tr>
-                <tr>
-                  
-                  <td> {{entity.WarehouseLocation.length+1}} </td>
-                  <td> <input autocomplete="off" type="text" class="form-control" name="newWarehouseLocationCode" id="newWarehouseLocationCode" [(ngModel)]="newLocationEntity.WarehouseLocationCode"> </td>
-                  <td> <input autocomplete="off" type="text" class="form-control" name="newWarehouseLocationName" id="newWarehouseLocationName" [(ngModel)]="newLocationEntity.WarehouseLocationName"> </td>
-                  <td> <input autocomplete="off" type="number" min="0" class="form-control" name="newWarehouseLocationLength" id="newWarehouseLocationLength" [(ngModel)]="newLocationEntity.WarehouseLocationLength" [ngClass]="{ 'is-invalid': newLocationEntity.WarehouseLocationLength<0}"> </td>
-                  <td> <input autocomplete="off" type="number" min="0" class="form-control" name="newWarehouseLocationWidth" id="newWarehouseLocationWidth" [(ngModel)]="newLocationEntity.WarehouseLocationWidth" [ngClass]="{ 'is-invalid': newLocationEntity.WarehouseLocationWidth<0}"> </td>
-                  <td> <input autocomplete="off" type="number" min="0" class="form-control" name="newWarehouseLocationHeight" id="newWarehouseLocationHeight" [(ngModel)]="newLocationEntity.WarehouseLocationHeight" [ngClass]="{ 'is-invalid': newLocationEntity.WarehouseLocationHeight<0}"> </td>
-                  <td>
-                    <div class="switch">
-                      <div class="onoffswitch">
-                        <input type="checkbox" class="onoffswitch-checkbox" name="newstatus +(i+1)" id="newstatus +(i+1)"   (click)="onSwitchStatus('newLocationEntity')" [checked]="newLocationEntity.Status==1 ? true : null" >
-                        <label class="onoffswitch-label" for="newstatus +(i+1)">
-                          <span class="onoffswitch-inner"></span>
-                          <span class="onoffswitch-switch"></span>
-                        </label>
-                      </div>
-                    </div>
-                  </td>
-                  <td>
-                    <button type="button" class="btn  btn-sm btn-outline btn-info pull-right" (click)="fnAddItem(newLocationEntity)" [disabled]="!newLocationEntity.WarehouseLocationCode || !newLocationEntity.WarehouseLocationName || newLocationEntity.WarehouseLocationLength<0 || newLocationEntity.WarehouseLocationHeight<0 || newLocationEntity.WarehouseLocationWidth<0"><i class="fa fa-plus"></i> </button>
-                  </td>
-                </tr>
-
-              </tbody>
-            </table>
-          </div>
+          </dx-form>
+          
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-white" data-dismiss="modal">{{'Button.Close' | translate}}  </button>
-        <button type="button" class="btn btn-primary" (click)="fnSave();" [disabled]="myForm.invalid||EditRowNumber!=0 || entity.WarehouseLength<0 || entity.WarehouseWidth<0 || entity.WarehouseHeight<0 || !entity.FactoryId" [ladda]="laddaSubmitLoading" ><i class="fa fa-paper-plane-o"></i> {{'Button.Save' | translate}} </button>
+        <button type="button" class="btn btn-white" data-dismiss="modal">{{'Button.Close' | translate}} </button>
+        <button type="button" class="btn btn-primary" (click)="fnSave()" [ladda]="laddaSubmitLoading"><i class="fa fa-paper-plane-o"></i> {{'Button.Save' | translate}} </button>
       </div>
+
     </div>
   </div>
 </div>
-

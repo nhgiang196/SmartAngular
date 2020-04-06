@@ -1,10 +1,9 @@
-
 <div class="row wrapper border-bottom white-bg page-heading">
   <div class="col-sm-4">
     <h2>{{ 'Customer.label.Breadcrumb' | translate }}</h2>
     <ol class="breadcrumb">
       <li>
-        <a >{{ 'TopNav.Category' | translate }}</a>
+        <a>{{ 'TopNav.Category' | translate }}</a>
       </li>
       <li class="active">
         <strong>{{ 'Customer.label.Breadcrumb' | translate }}</strong>
@@ -12,104 +11,99 @@
     </ol>
   </div>
 </div>
-
 <div class="wrapper wrapper-content animated fadeInRight">
   <div class="row">
     <div class="col-lg-12">
+      <form  id="myform" action="your-action" (submit)="fnSave()">
       <div class="tabs-container">
         <ul class="nav nav-tabs">
           <li class="active">
             <a data-toggle="tab" href="#tab-1" id="tab1_Home"><i
                 class="fa fa-info-circle"></i>{{'Customer.' | translate }}</a></li>
-          <li *ngIf="entity.CustomerId !=0" ><a data-toggle="tab" href="#tab-2"  ><i
+          <li *ngIf="entity.CustomerId !=0"><a data-toggle="tab" href="#tab-2"><i
                 class="fa fa-tablet"></i>{{'Contract.' | translate }}</a></li>
-          <li><a data-toggle="tab" href="#tab-3" ><i
-                class="fa fa-file"></i>{{ 'Upload.' | translate }}</a></li>
+          <li><a data-toggle="tab" href="#tab-3"><i class="fa fa-file"></i>{{ 'Upload.' | translate }}</a></li>
         </ul>
         <div class="tab-content">
           <div id="tab-1" class="tab-pane active">
-            
             <div class="panel-body">
-              <form class="form-horizontal"  role="form" #myForm="ngForm">
-                <div class="form-group">
-                  <label class="col-sm-2 control-label">{{'Customer.data.CustomerName' | translate }}*:</label>
-                  <div class="col-sm-4">
-                    <input autocomplete="off" type="text" [(ngModel)]="entity.CustomerName" class="form-control"
-                      placeholder="{{'Customer.placeholder.CustomerName' | translate }}" name="CustomerName" 
-                      [ngClass]="{ 'is-invalid':  invalid.Existed_CustomerName || invalid.Null_CustomerName }" required>
-                      <div *ngIf="invalid.Existed_CustomerName" style="color: red;">{{ 'Customer.invalid.Existed_CustomerName' | translate }}</div>
-                      <div *ngIf="invalid.Null_CustomerName" style="color: red;">{{ 'Customer.invalid.Null_CustomerName' | translate }}</div>
-                  </div>
-                  <label class="col-sm-2 control-label">{{'Customer.data.FactoryId' | translate }}*:</label>
-                  <div class="col-sm-4">
-                    <!-- <app-smart-select 
-                    name="FactoryId" 
-                    listName="Factory"  
-                    [specialId]="entity.FactoryId"    
-                    (select_ngModel)="entity.FactoryId = $event.id"
-                    placeholder="{{'Customer.placeholder.FactoryId' | translate }}"></app-smart-select> -->
-                    <smart-select-box [(selectData)]="entity.FactoryId" entitykey="Factory" checkstatus="true"></smart-select-box>
+              
+
+                <div class="dx-fieldset">
+                  <div class="dx-fieldset-column">
+                    <div class="dx-field">
+                      <div class="dx-field-label">{{'Customer.data.CustomerName' | translate }}*</div>
+                      <div class="dx-field-value">
+                        <dx-text-box mode="text" [(value)]="entity.CustomerName">
+                          <dx-validator>
+                            <dxi-validation-rule type="required"></dxi-validation-rule>
+                            <dxi-validation-rule type="async" ignoreEmptyValue="true" message="Exist Customer Name"  [validationCallback]="validateAsync_CustomerName"></dxi-validation-rule>
+                          </dx-validator>
+                        </dx-text-box>
+                      </div>
+                    </div>
+                    <div class="dx-field">
+                      <div class="dx-field-label">{{'Customer.data.CustomerCode' | translate }}*</div>
+                      <div class="dx-field-value">
+                        <dx-text-box name="FactoryCode" mode="text" [(value)]="entity.CustomerCode"  placeholder="{{'Customer.placeholder.CustomerCode' | translate }}">
+                          <dx-validator name="FactoryCode">
+                            <dxi-validation-rule type="required"></dxi-validation-rule>
+                            <dxi-validation-rule type="async" ignoreEmptyValue="true" message="Exist Customer Code"  [validationCallback]="validateAsync_CustomerCode"></dxi-validation-rule>
+                          </dx-validator>
+                        </dx-text-box>
+                      </div>
+                    </div>
+                    <div class="dx-field">
+                      <div class="dx-field-label">{{'Customer.data.CustomerAddress' | translate }}</div>
+                      <div class="dx-field-value"> <dx-text-box mode="text" [(value)]="entity.CustomerAddress"  placeholder="{{'Customer.placeholder.CustomerAddress' | translate }}"> </dx-text-box></div>
+                    </div>
+                    <div class="dx-field">
+                      <div class="dx-field-label">{{'Customer.data.ContactEmail' | translate }}</div>
+                      <div class="dx-field-value"> <dx-text-box mode="email" [(value)]="entity.CustomerContactEmail"  placeholder="{{'Customer.placeholder.ContactEmail' | translate }}"> \
+                        <dx-validator>
+                          <dxi-validation-rule type="email"></dxi-validation-rule>
+                        </dx-validator>
+                      </dx-text-box></div>
+                    </div>
+                    <div class="dx-field">
+                      <div class="dx-field-label">{{'Customer.data.IsIntergration' | translate }}</div>
+                      <div class="dx-field-value"> <dx-switch [(value)]="entity.IsIntergration"></dx-switch>
+                      </div>
+                    </div>
+
 
                   </div>
-                </div>
-                <div class="form-group">
-                  <label class="col-sm-2 control-label">{{'Customer.data.CustomerCode' | translate }}*:</label>
-                  <div class="col-sm-4">
-                    <input autocomplete="off" type="text" [(ngModel)]="entity.CustomerCode" class="form-control"
-                      placeholder="{{'Customer.placeholder.CustomerCode' | translate }}" name="CustomerCode" required>
-                  </div>
-                  <label class="col-sm-2 control-label">{{'Customer.data.ContactName' | translate }}:</label>
-                  <div class="col-sm-4">
-                    <input autocomplete="off" type="text" [(ngModel)]="entity.CustomerContact" class="form-control"
-                      placeholder="{{'Customer.placeholder.ContactName' | translate }}" name="ContactName">
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label class="col-sm-2 control-label">{{'Customer.data.CustomerAddress' | translate }}:</label>
-                  <div class="col-sm-4">
-                    <input autocomplete="off" type="text" [(ngModel)]="entity.CustomerAddress" class="form-control"
-                      placeholder="{{'Customer.placeholder.CustomerAddress' | translate }}" name="CustomerAddress">
-                  </div>
-                  <label class="col-sm-2 control-label">{{'Customer.data.ContactPhone' | translate }}:</label>
-                  <div class="col-sm-4">
-                    <input autocomplete="off" type="text" [(ngModel)]="entity.CustomerContactPhone" class="form-control"
-                      placeholder="{{'Customer.placeholder.ContactPhone' | translate }}" name="ContactPhone"  mask="(+00) 000 000 0099">
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label class="col-sm-2 control-label">{{'Customer.data.ContactEmail' | translate }}:</label>
-                  <div class="col-sm-4">
-                    <input autocomplete="off" type="email" [(ngModel)]="entity.CustomerContactEmail" class="form-control" 
-                      placeholder="{{'Customer.placeholder.ContactEmail' | translate }}" name="ContactEmail" #ContactEmail="ngModel" email>
-                    <div *ngIf="ContactEmail.invalid" style="color: red;">{{ 'Customer.invalid.Email' | translate }}</div>
-                  </div>
-                  <label class="col-sm-2 control-label">{{'Customer.data.Description' | translate }}:</label>
-                  <div class="col-sm-4">
-                    <input autocomplete="off" type="text" [(ngModel)]="entity.CustomerDescription" class="form-control"
-                      placeholder="{{'Customer.placeholder.Description' | translate }}" name="Description" >
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label class="col-sm-2 control-label">{{'Customer.data.IsIntergration' | translate }}:</label>
-                  <div class="col-sm-4">
-                    <span (click)="onSwitchStatus('entityIsIntergration')" ><i class="fa fa-lg" [ngClass]="{'fa-check-square-o text-info': entity.IsIntergration==true, 'fa-square-o':entity.IsIntergration==false}" ></i> </span>
-                  </div>
-                  <label class="col-sm-2 control-label">{{'Customer.data.Status' | translate }}*:</label>
-                  <div class="col-sm-4">
-                    <div class="switch">
-                      <div class="onoffswitch">
-                        <input type="checkbox" class="onoffswitch-checkbox" name="status" id="status"  (click)="onSwitchStatus('entity')" [checked]="entity.Status==1 ? true : null" >
-                        <label class="onoffswitch-label" for="status">
-                          <span class="onoffswitch-inner"></span>
-                          <span class="onoffswitch-switch"></span>
-                        </label>
+                  <div class="dx-fieldset-column">
+                    <div class="dx-field">
+                      <div class="dx-field-label">{{'Customer.data.FactoryId' | translate }}*</div>
+                      <div class="dx-field-value">
+                        <dx-select-box [(value)]="entity.FactoryId"  [dataSource]="factoryList" displayExpr="FactoryName" valueExpr="FactoryId">
+                          <dx-validator>
+                            <dxi-validation-rule type="required"></dxi-validation-rule>
+                          </dx-validator>
+                        </dx-select-box>
+                      </div>
+                    </div>
+                    <div class="dx-field">
+                      <div class="dx-field-label">{{'Customer.data.ContactName' | translate }}</div>
+                      <div class="dx-field-value"> <dx-text-box mode="text" [(value)]="entity.CustomerContact" placeholder="{{'Customer.placeholder.ContactName' | translate }}"></dx-text-box></div>
+                    </div>
+                    <div class="dx-field">
+                      <div class="dx-field-label">{{'Customer.data.ContactPhone' | translate }}</div>
+                      <div class="dx-field-value"> <dx-text-box showMaskMode="onFocus" mask="(+00) 000 000 0099" mode="tel" [(value)]="entity.CustomerContactPhone" placeholder="{{'Customer.placeholder.ContactPhone' | translate }}"></dx-text-box></div>
+                    </div>
+                    <div class="dx-field">
+                      <div class="dx-field-label">{{'Customer.data.Description' | translate }}</div>
+                      <div class="dx-field-value"> <dx-text-area   [(value)]="entity.CustomerDescription" placeholder="{{'Customer.placeholder.Description' | translate }}"></dx-text-area></div>
+                    </div>
+                    <div class="dx-field">
+                      <div class="dx-field-label">{{'Customer.data.Status' | translate }}</div>
+                      <div class="dx-field-value"> <dx-switch [value]="entity.Status==1" (onValueChanged)="entity.Status= entity.Status==1? 0: 1"></dx-switch>
                       </div>
                     </div>
                   </div>
                 </div>
-              </form>
             </div>
-          
           </div>
           <div *ngIf="entity.CustomerId !=0" id="tab-2" class="tab-pane">
             <div class="panel-body">
@@ -130,25 +124,30 @@
                     </tr>
                   </thead>
                   <tbody>
-  
                     <tr class="animated fadeInRight" *ngFor="let item of entity.Contract; let i = index">
                       <td> {{i+1}} </td>
                       <!-- TABLE -->
                       <td *ngIf="i+1 !== EditRowNumber">{{item.ContractNo}} </td>
                       <td *ngIf="i+1 !== EditRowNumber">{{item.ContractCode}} </td>
-                      <td *ngIf="i+1 !== EditRowNumber">{{'Contract.data.ContractType'+item.ContractType | translate}} </td>
+                      <td *ngIf="i+1 !== EditRowNumber">{{'Contract.data.ContractType'+item.ContractType | translate}}
+                      </td>
                       <td *ngIf="i+1 !== EditRowNumber">{{item.ContractEffectiveDate | date: 'DD-MM-YYYY'}} </td>
-                      <td *ngIf="i+1 !== EditRowNumber">{{'Contract.data.StandardType'+ item.StandardType | translate}} </td>
+                      <td *ngIf="i+1 !== EditRowNumber">{{'Contract.data.StandardType'+ item.StandardType | translate}}
+                      </td>
                       <td *ngIf="i+1 !== EditRowNumber">{{item.WasteWaterRatio}} </td>
                       <td *ngIf="i+1 !== EditRowNumber">{{item.ContractDescription}} </td>
                       <td *ngIf="i+1 !== EditRowNumber">
-                        <span><i class="fa fa-lg" [ngClass]="{'fa-check-square-o text-info': item.IsIntergration==true, 'fa-square-o':item.IsIntergration==false}" ></i> </span>
-  
+                        <span><i class="fa fa-lg"
+                            [ngClass]="{'fa-check-square-o text-info': item.IsIntergration==true, 'fa-square-o':item.IsIntergration==false}"></i>
+                        </span>
                       </td>
                       <td>
                         <div class="btn-group">
-                          <button type="button" class="btn btn-sm btn-outline btn-primary" *ngIf="i+1 === EditRowNumber"><i class="fa fa-check"></i></button>
-                          <button type="button" class="btn btn-sm btn-outline btn-success" (click)="fnEditItem(item.ContractId,i)" data-toggle="modal" data-target="#myContractModal"><i class="fa fa-pencil"></i></button>
+                          <button type="button" class="btn btn-sm btn-outline btn-primary"
+                            *ngIf="i+1 === EditRowNumber"><i class="fa fa-check"></i></button>
+                          <button type="button" class="btn btn-sm btn-outline btn-success"
+                            (click)="fnEditItem(item.ContractId,i)" data-toggle="modal"
+                            data-target="#myContractModal"><i class="fa fa-pencil"></i></button>
                           <button type="button" class="btn btn-sm btn-outline btn-danger" (click)="fnDeleteItem(i)"
                             *ngIf="i+1 !== EditRowNumber"><i class="fa fa-trash"></i></button>
                         </div>
@@ -165,51 +164,44 @@
                       <td></td>
                       <td></td>
                       <td>
-                        <button type="button" class="btn  btn-sm btn-outline btn-info pull-right"  (click)="fnEditItem(0,entity.Contract.length)"   data-toggle="modal" data-target="#myContractModal"><i class="fa fa-plus" ></i> </button>
+                        <button type="button" class="btn  btn-sm btn-outline btn-info pull-right"
+                          (click)="fnEditItem(0,entity.Contract.length)" data-toggle="modal"
+                          data-target="#myContractModal"><i class="fa fa-plus"></i> </button>
                       </td>
                     </tr>
-  
                   </tbody>
                 </table>
-  
-
               </div>
-             
-              
-
             </div>
           </div>
           <div id="tab-3" class="tab-pane">
             <div class="panel-body">
-              <app-smart-upload  #customerFile [filePath]="pathFile" (entityFile)="this.entity.CustomerFile = $event " ></app-smart-upload>
-
+              <app-smart-upload #customerFile [filePath]="pathFile" (entityFile)="this.entity.CustomerFile = $event ">
+              </app-smart-upload>
             </div>
           </div>
-
-
         </div>
-
-
       </div>
       <div class="ibox-content">
-        
         <div class="row">
           <div class="col-sm-6">
+            <dx-validation-summary [elementAttr]="{ form: 'myform'  }" id="summary"></dx-validation-summary>
           </div>
-          
           <div class="col-sm-6">
-            <button class="btn btn-primary dim pull-right" [ladda]="laddaSubmitLoading" [disabled]="myForm.invalid || ContactEmail.invalid" (click)="fnSave()"><i class="fa fa-paper-plane-o"></i> {{'Button.Save' | translate}}</button>
-            <button class="btn btn-outline dim pull-right" [routerLink]="['/pages/category/customer']" ><i class="fa fa-chevron-circle-left"></i> {{'Button.Back' | translate}}  </button>
-
+            <dx-button [elementAttr]="{ form: 'myform'  , type:'submit'}" class="btn btn-primary dim pull-right" icon="fa fa-paper-plane-o"  text="{{'Button.Save' | translate}}" [useSubmitBehavior]="true" >
+            </dx-button>
+            <!-- <button class="btn btn-primary dim pull-right" [ladda]="laddaSubmitLoading"
+              [disabled]="myForm.invalid || ContactEmail.invalid" (click)="fnSave()"><i class="fa fa-paper-plane-o"></i>
+              {{'Button.Save' | translate}}</button> -->
+         
+            <button class="btn btn-outline dim pull-right" [routerLink]="['/pages/category/customer']"><i
+                class="fa fa-chevron-circle-left"></i> {{'Button.Back' | translate}} </button>
           </div>
         </div>
       </div>
-
-
-
-    </div>
+    
+    </form>
+  </div>
   </div>
 </div>
-
-<app-contract  (contract)="onChangeAdd($event)"></app-contract>
-
+<app-contract (contract)="onChangeAdd($event)"></app-contract>

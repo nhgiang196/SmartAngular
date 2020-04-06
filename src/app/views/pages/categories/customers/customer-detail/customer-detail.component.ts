@@ -13,6 +13,7 @@ import { SmartUploadComponent } from 'src/app/views/UISample/smart-upload/smart-
 import { MyHelperService } from 'src/app/core/services/my-helper.service';
 import { Customer } from 'src/app/core/models/customer';
 import { Contract } from 'src/app/core/models/contrack';
+import { DevextremeService } from 'src/app/core/services/general/devextreme.service';
 declare let $: any;
 @Component({
   selector: 'app-customer-detail',
@@ -30,8 +31,13 @@ export class CustomerDetailComponent implements OnInit {
     private toastr: ToastrService,
     private helper: MyHelperService,
     private trans: TranslateService,
-    private auth: AuthService
-  ) { }
+    private auth: AuthService,
+    private devService: DevextremeService,
+  ) { 
+    this.factoryList = devService.loadDxoLookup("Factory");
+
+  }
+  factoryList : any;
   pathFile = "uploadFileCustomer";
   entity: Customer;
   invalid: any = { Existed_CustomerName: false, Null_CustomerName: false };
@@ -68,16 +74,17 @@ export class CustomerDetailComponent implements OnInit {
   async fnSave() { // press save button 
     this.invalid = {};
     this.laddaSubmitLoading = true;
-    let _valid = await this.api.validateCustomer(this.entity).toPromise().then() as any;
-    if (!_valid.Success) {
-      $('#tab1_Home').click();
-      this.laddaSubmitLoading = false;
-      this.invalid[_valid.Message] = true;
-      return false;
-    }
-    else {
+    // let _valid = await this.api.validateCustomer(this.entity).toPromise().then() as any;
+    // if (!_valid.Success) {
+    //   $('#tab1_Home').click();
+    //   this.laddaSubmitLoading = false;
+    //   this.invalid[_valid.Message] = true;
+    //   return false;
+    // }
+    // else {
       var e = this.entity;
       await this.uploadComponent.uploadFile();
+      e.Status = e.Status? 1 : 0; 
       if (this.route.snapshot.params.id == null) { //add
         e.CreateBy = this.auth.currentUser.Username;
         this.api.addCustomer(e).subscribe(res => {
@@ -103,7 +110,7 @@ export class CustomerDetailComponent implements OnInit {
         }, err => { this.toastr.error(err.statusText); this.laddaSubmitLoading = false; })
       }
       return true;
-    }
+    // }
     
     
   }
@@ -159,6 +166,27 @@ export class CustomerDetailComponent implements OnInit {
     }
     
   }
+
+  
+  validateAsync_CustomerCode = (e) =>{ 
+    return new Promise(async (resolve) => { 
+      let obj = Object.assign({}, this.entity); //stop binding
+      obj['CustomerCode'] = e.value;
+      let _res =await this.api.validateCustomer(obj).toPromise().then() as any;
+      let _validate = _res.Success? _res.Success : _res.ValidateData.indexOf('CustomerCode')<0;
+      resolve(_validate);
+    });  
+  }
+  validateAsync_CustomerName = (e) =>{ 
+    return new Promise(async (resolve) => { 
+      let obj = Object.assign({}, this.entity); //stop binding
+      obj['CustomerName'] = e.value;
+      let _res =await this.api.validateCustomer(obj).toPromise().then() as any;
+      let _validate = _res.Success? _res.Success : _res.ValidateData.indexOf('CustomerName')<0;
+      resolve(_validate);
+    });  
+  }
+
   ngAfterViewInit() {
   }
 }

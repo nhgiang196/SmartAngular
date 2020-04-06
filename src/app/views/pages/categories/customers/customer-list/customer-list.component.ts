@@ -1,13 +1,14 @@
 
 import { Component, OnInit, ViewChild, AfterViewInit, OnDestroy, Renderer, Input } from "@angular/core";
-import { Subject } from "rxjs";
 import { TranslateService } from "@ngx-translate/core";
-import swal from "sweetalert2";
+
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { CustomerService } from 'src/app/core/services';
 import { DxDataGridComponent } from 'devextreme-angular';
 declare let $: any;
+import swal from "sweetalert2";
+import { DevextremeService } from 'src/app/core/services/general/devextreme.service';
 
 @Component({
   selector: 'app-customer-list',
@@ -20,7 +21,6 @@ export class CustomerListComponent  implements  OnInit {
 
   @ViewChild(DxDataGridComponent, { static: false }) dataGrid: DxDataGridComponent;
 
-  dtTrigger: Subject<any> = new Subject();
   public ACTION_STATUS: string;
   iboxloading = false;
   laddaSubmitLoading = false;
@@ -31,11 +31,15 @@ export class CustomerListComponent  implements  OnInit {
     private api: CustomerService,
     private trans: TranslateService,
     public router: Router,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private devService: DevextremeService,
   ) { 
     this.dataSource = this.api.getDataGrid();
+    this.dataSourceFactory = devService.loadDxoLookup("Factory");
+    this.routerToDetail = this.routerToDetail.bind(this);
+    this.fnDelete = this.fnDelete.bind(this);
   }
-
+  dataSourceFactory: any;
   lsDatatable : any= []; //return datatable
   ngOnInit() {
     // this.dataSource.filter(["Status", "=", 1]);
@@ -51,7 +55,7 @@ export class CustomerListComponent  implements  OnInit {
       reverseButtons: true
     }).then((result) => {
       if (result.value) {
-        this.api.deleteCustomer(rowValue.CustomerId).subscribe(res => {
+        this.api.deleteCustomer(rowValue.row.data.CustomerId).subscribe(res => {
           var operationResult: any = res
           if (operationResult.Success) {
             swal.fire(
@@ -74,14 +78,9 @@ export class CustomerListComponent  implements  OnInit {
   }
 
   routerToDetail(rowValue){
-    this.router.navigateByUrl('pages/category/customer/'+rowValue.CustomerId);
+    this.router.navigateByUrl('pages/category/customer/'+rowValue.row.data.CustomerId);
 
   }
-
-
-
-  
-
 
 
 
