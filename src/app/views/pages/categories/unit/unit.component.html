@@ -42,7 +42,7 @@
       <dxi-item dataField="UnitName"></dxi-item>
       <dxi-item dataField="Status">
         <div *dxTemplate>
-          <dx-switch  [value]="entity.Status"  (onValueChanged)="onSwitchStatus($event)" ></dx-switch>
+          <dx-switch (onValueChanged)="onSwitchStatus($event)" ></dx-switch>
         </div>
       </dxi-item>
       <!-- <dxi-item dataField="Status"></dxi-item> -->

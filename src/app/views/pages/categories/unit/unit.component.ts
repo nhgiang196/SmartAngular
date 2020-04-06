@@ -34,7 +34,7 @@ export class UnitComponent implements OnInit {
   }
   ngOnInit() {}
   onSwitchStatus(e) {
-   this.entity.Status = e.value;//this.entity.Status == 0 ? 1 : 0;
+   this.entity.Status = this.entity.Status == 0 ? 1 : 0;
   }
   addRow() {
     this.dataGrid.instance.addRow();
