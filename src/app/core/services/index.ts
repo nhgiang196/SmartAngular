@@ -8,7 +8,7 @@ export * from './item-type.service';
 export * from './item.service';
 export * from './monitor-standar.service';
 export * from './monitor.service';
-export * from './process.service';
+export * from './process-log.service';
 export * from './unit.service';
 export * from './warehouse.service';
 export * from './module.service';

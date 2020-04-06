@@ -74,4 +74,25 @@ export class FactoryService {
     return this.http.post(`${ApiUrl}/Factory/ValidateFactory`, e);
   }
 
+  getSelectBox(checkStatus = false){
+    let serviceUrl = `${environment.apiUrl}/Factory/UI_SelectBox`;
+    return  new DataSource({
+      store: createStore({
+          key: "FactoryId",
+          loadUrl: serviceUrl,
+          loadParams: {key:"FactoryId"}
+      }) ,
+      paginate: true,
+      pageSize: 10,
+      filter: checkStatus? ["Status", "=", 1] : [],
+      map: (dataItem) => {
+        dataItem.id =  dataItem[Object.keys(dataItem)[0]];
+        dataItem.text =  (dataItem['FactoryCode']? dataItem['FactoryCode']+' - ': '' ) +  dataItem[Object.keys(dataItem)[1]];
+        return dataItem;
+      }
+
+    });
+
+  }
+
 }

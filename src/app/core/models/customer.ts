@@ -4,14 +4,15 @@ import { Files } from './file'
 export class Customer {
     CustomerId: number = 0
     FactoryId: number = 0
+    FactoryName: string = null
     CustomerCode: string
     CustomerName: string
     CustomerType: number = 1
-    CustomerAddress?: string
-    CustomerContact?: string
-    CustomerContactEmail?: string
-    CustomerContactPhone?: string
-    CustomerDescription?: string
+    CustomerAddress?: string = null
+    CustomerContact?: string = null
+    CustomerContactEmail?: string = null
+    CustomerContactPhone?: string = null
+    CustomerDescription?: string = null
     CreateBy?: string
     CreateDate?: Date
     ModifyBy?: string

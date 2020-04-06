@@ -24,26 +24,18 @@
 
                 <dxo-selection mode="single"></dxo-selection>
                 <dxo-filter-row [visible]="true"></dxo-filter-row>
-                <dxo-header-filter [visible]="true"></dxo-header-filter>
                 <dxo-state-storing [enabled]="true" type="localStorage" storageKey="storage"></dxo-state-storing>
                 <!-- <dxo-group-panel [visible]="true"></dxo-group-panel> -->
-
-                <!-- <dxo-editing mode="popup">
-                <dxo-popup title="Unit Info" [showTitle]="true" [width]="600" [height]="230"
-                  [position]="{ my: 'top', at: 'top', of: 'window' }">
-                </dxo-popup>
-                <dxo-texts confirmDeleteMessage="Are you sure Delete?"></dxo-texts>
-                <dxo-form>
-                  <dxi-item dataField="UnitName"></dxi-item>
-                  <dxi-item dataField="Status"></dxi-item>
-                </dxo-form>
-              </dxo-editing> -->
-
                 <dxi-column dataField="CustomerCode" caption="{{ 'Customer.data.CustomerCode' | translate}}">
                 </dxi-column>
                 <dxi-column dataField="CustomerName" caption="{{ 'Customer.data.CustomerName' | translate}}">
                 </dxi-column>
-                <dxi-column dataField="FactoryName" caption="{{ 'Customer.data.FactoryId' | translate}}">
+                <dxi-column dataField="FactoryId" caption="{{ 'Customer.data.FactoryId' | translate}}">
+                  <dxo-lookup
+                  [dataSource]="dataSourceFactory"
+                                      displayExpr="FactoryName"
+                                      valueExpr="FactoryId">
+                   </dxo-lookup>
                 </dxi-column>
                 <dxi-column width="120px" dataField="CustomerType"
                   caption="{{ 'Customer.data.CustomerType' | translate}}"></dxi-column>
@@ -63,76 +55,24 @@
                   caption="{{ 'Customer.data.Status' | translate}}"></dxi-column>
                 <dxi-column dataField="IsIntergration" #status dataType="boolean"
                   caption="{{ 'Customer.data.IsIntergration' | translate}}"></dxi-column>
-
+                <dxi-column type="buttons" [width]="110">
+                  <dxi-button
+                      icon="edit"
+                      [visible]="1"
+                      [onClick]="routerToDetail"></dxi-button>
+                  <dxi-button
+                      icon="trash"
+                      [visible]="1"
+                      [onClick]="fnDelete"></dxi-button>
+                </dxi-column>
+                
                 <dxo-paging [pageSize]="25"></dxo-paging>
                 <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[25, 50, 100]"></dxo-pager>
               </dx-data-grid>
+              
 
               <dx-speed-dial-action icon="add" label="{{'Button.Add' | translate}}" [index]="1" visible="true" (onClick)="router.navigateByUrl('pages/category/newcustomer')">
               </dx-speed-dial-action>
-              <dx-speed-dial-action icon="trash" label="{{'Button.Delete' | translate}}" [index]="2" [visible]="grid.selectedRowKeys.length" (onClick)="fnDelete(grid.selectedRowKeys[0])">
-              </dx-speed-dial-action>
-              <dx-speed-dial-action icon="edit" label="{{'Button.Edit' | translate}}" [index]="3" [visible]="grid.selectedRowKeys.length" (onClick)="routerToDetail(grid.selectedRowKeys[0])">
-              </dx-speed-dial-action>
-
-
-              <!-- <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger"
-              class="table table-bordered table-hover table-striped" id="myTable" style="width:100%">
-              <thead>
-                <tr>
-                  <th>{{'Customer.data.CustomerCode' | translate}}</th>
-                  <th>{{'Customer.data.CustomerName' | translate}}</th>
-                  <th>{{'Customer.data.FactoryId' | translate}}</th>
-                  <th>{{'Customer.data.CustomerAddress' | translate}}</th>
-                  <th>{{'Customer.data.ContactName' | translate}}</th>
-                  <th>{{'Customer.data.ContactEmail' | translate}}</th>
-                  <th>{{'Customer.data.ContactPhone' | translate}}</th>
-                  <th>{{'Customer.data.Description' | translate}}</th>
-                  <th>{{'Customer.data.CreateBy' | translate}}</th>
-                  <th>{{'Customer.data.CreateDate' | translate}}</th>
-                  <th>{{'Customer.data.ModifyBy' | translate}}</th>
-                  <th>{{'Customer.data.ModifyDate' | translate}}</th>
-                  <th>{{'Customer.data.Status' | translate}}</th>
-                  <th>{{'Customer.data.IsIntergration' | translate}}</th>
-                  <th>{{'Button.Action'   | translate}}</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngFor="let item of lsData">
-                  <td> {{item.CustomerCode }} </td>
-                  <td> {{item.CustomerName }} </td>
-                  <td> {{item.FactoryName }} </td>
-                  <td> {{item.CustomerAddress }} </td>
-                  <td> {{item.ContactName }} </td>
-                  <td> {{item.ContactEmail }} </td>
-                  <td> {{item.ContactPhone }} </td>
-                  <td> {{item.Description }} </td>
-                  <td> {{item.CreateBy }} </td>
-                  <td> {{item.CreateDate  | amDateFormat: 'DD-MM-YYYY HH:mm' }} </td>
-                  <td> {{item.ModifyBy }} </td>
-                  <td> {{item.ModifyDate  | amDateFormat: 'DD-MM-YYYY HH:mm' }} </td>
-                  <td> <span class="badge "
-                      [ngClass]="{'badge-success': item.Status==1, 'badge-danger':item.Status==0}">{{item.CustomerStatus }}
-                    </span>
-                  </td>
-                  <td> <span><i class="fa fa-lg"
-                        [ngClass]="{'fa-check-square-o text-info': item.IsIntergration==true, 'fa-square-o':item.IsIntergration==false}"></i>
-                    </span></td>
-                  <td>
-                    <button type="button" class="btn btn-outline btn-danger" (click)="fnDelete(item.CustomerId)"><i
-                        class="fa fa-trash"></i></button>
-                    <button type="button" class="btn btn-outline btn-success"
-                      [routerLink]="['../customer/'+item.CustomerId]"><i class="fa fa-pencil"></i></button>
-                  </td>
-                </tr>
-              </tbody>
-
-              <tbody *ngIf="lsData?.length == 0">
-                <tr>
-                  <td colspan="20" class="no-data-available">{{'messg.datatable.zeroRecords'  | translate}}</td>
-                </tr>
-              <tbody>
-            </table> -->
             </div>
 
 
