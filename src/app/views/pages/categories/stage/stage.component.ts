@@ -79,8 +79,8 @@ export class StageComponent implements OnInit {
     //reAssign for get properties of oldData
     const data = Object.assign(e.oldData, e.newData);
     data.ModifyBy = this.auth.currentUser.Username;
-    data.ModifyDate = new Date();
-    data.Status = data.Status ? 1 : 0; //tenary operation if (data.status == true) return 1 else return 0
+    data.ModifyDate = new Date(); 
+    data.Status = this.entity.Status ? 1 : 0; //tenary operation if (data.status == true) return 1 else return 0
     data.StageFile = this.resetStageId(this.entity.StageFile)    
     e.newData = data;//set object   
     if (this.addFiles.FileList.length > 0) 

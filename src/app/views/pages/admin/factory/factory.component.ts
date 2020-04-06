@@ -191,8 +191,6 @@ export class FactoryComponent implements OnInit {
     switch (e.formItem.dataField) {
       case "FactoryStartDate": return e.value <=  this.entity.FactoryEndDate
       case "FactoryEndDate": return this.entity.FactoryStartDate <= e.value
-      // case "TechnologyFromDate": return e.value <=  this.entity.FactoryTechnology.TechnologyToDate
-      // case "TechnologyToDate": return this.entity.FactoryTechnology.TechnologyFromDate <= e.value
     }
     if (e.column){}
     switch (e.column.dataField) {
