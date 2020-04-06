@@ -27,6 +27,7 @@ export class UnitComponent implements OnInit {
     private toastr: ToastrService
   ) {
     this.dataSource = this.api.getDataGridUnit();
+    this.unitValidation = this.unitValidation.bind(this);
     config({
       floatingActionButtonConfig: directions.down
     });
@@ -34,6 +35,10 @@ export class UnitComponent implements OnInit {
   ngOnInit() {}
   onSwitchStatus(e) {
    this.entity.Status = e.value;//this.entity.Status == 0 ? 1 : 0;
+  }
+  addRow() {
+    this.dataGrid.instance.addRow();
+    this.dataGrid.instance.deselectAll();
   }
   onRowInserting(e) {
     e.data.Status = 1;
@@ -62,6 +67,27 @@ export class UnitComponent implements OnInit {
   onInitNewRow(e) {
     e.data.Status = 1;
     e.data.CreateBy = this.auth.currentUser.Username;
+  }
+
+  unitValidation(e){
+    console.log(e);
+    if (e.value == "" || e.value == null) {
+      return new Promise((resolve, reject) => {
+        reject("Field is empty!");
+      });
+
+    } else {
+      return new Promise((resolve, reject) => {
+        this.api.validateUnit(e.data).toPromise()
+          .then((result: any) => {
+            result.Success ? resolve() : reject("Unit already exist!");
+            resolve(result);
+          }) .catch(error => {
+            console.error("Server-side validation error", error);
+            reject("Cannot contact validation server");
+        });
+      });
+    }
   }
 
 }

@@ -121,63 +121,32 @@ export class ItemTypeComponent implements OnInit {
     e.data.ItemTypeId = this.itemTypeId;
   }
 
-  //Validate Master
-  // masterValidation(item) {
-  //   console.log(item)
-  //   let data;
-  //   if (item.oldData != null) {
-  //     data = Object.assign(item.oldData, item.newData);
-  //   } else data = item.newData;
-  //   item.promise = this.itemTypeService.validateItemType(data).toPromise()
-  //     .then((result: any) => {
-  //       if (!result.Success) {
-  //         item.isValid = false;
-  //         item.errorText = "ItemType Name already exists! ";
-  //       }
-  //     })
-  // }
-   masterValidation(e) {
-    console.log(e)
-    return new Promise((resolve, reject)=>{
-      this.itemTypeService.validateItemType(e.data).toPromise()
-        .then((result: any) => {
-          //result.Success ? resolve() : reject(result.message);
-          //resolve(result);
-          if (!result.Success) { 
-            result.message = "Item Type already exist!";
-            result.isValid = false;
+  masterValidation(e) {
+    if (e.value == "" || e.value == null) {
+      return new Promise((resolve, reject) => {
+        reject("Field is empty!");
+      });
+
+    } else {
+      return new Promise((resolve, reject) => {
+        this.itemTypeService.validateItemType(e.data).toPromise()
+          .then((result: any) => {
+            result.Success ? resolve() : reject("ItemType already exist!");
             resolve(result);
-          } else  {
-            result.isValid = true;
-            resolve(result);
-          }
+          }) .catch(error => {
+            console.error("Server-side validation error", error);
+            reject("Cannot contact validation server");
         });
-    });
+      });
+    }
   }
 
-  ///Validata Detail
-  // detailValidation(property) {
-  //   let data;
-  //   let isExsit = 0;
-  //   if (property.oldData != null) {
-  //     data = Object.assign(property.oldData, property.newData);
-  //   } else data = property.newData;
-  //   this.dataSourceProperties.forEach(element => {
-  //     if (element.ItemTypePropertyName == data.ItemTypePropertyName
-  //       && element.ItemTypePropertyId != data.ItemTypePropertyId) {
-  //       isExsit++
-  //       return
-  //     }
-  //   });
-  //   if (isExsit > 0) {
-  //     property.isValid = false;
-  //     property.errorText = "Property Name already exists! ";
-  //   }
-  // }
   detailValidation(e){
-    console.log(e);
     let isExsit = 0;
-    
+    if (e.value == "" || e.value == null ) {
+      e.rule.message = "Field is empty!";
+      return false;
+    }
     this.dataSourceProperties.forEach(element => {
       if (element.ItemTypePropertyName == e.data.ItemTypePropertyName
         && element.ItemTypePropertyId != e.data.ItemTypePropertyId) {

@@ -43,7 +43,6 @@ export class MonitorStandardComponent implements OnInit {
 
   }
   addRow() {
-    debugger;
     this.dataGrid.instance.addRow();
     this.dataGrid.instance.deselectAll();
   }
