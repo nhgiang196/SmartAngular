@@ -30,10 +30,7 @@ export class BomStageComponent implements OnInit {
   constructor(private devExtreme: DevextremeService, private bomService: BomService, private toastr: ToastrService,
     private trans: TranslateService, private auth: AuthService,
     private helpper: MyHelperService) {
-    //this.setItemValueOut = this.setItemValueOut.bind(this);
     this.getFilteredUnit = this.getFilteredUnit.bind(this);
-    //this.setItemValueIn = this.setItemValueIn.bind(this);
-    this.setCellUnitValue = this.setCellUnitValue.bind(this);
   }
 
   ngOnInit() {
@@ -42,7 +39,6 @@ export class BomStageComponent implements OnInit {
     this.loadDataSourceItem();
 
     this.loaddataSourceUnitOut();
-    this.loaddataSourceUnitIn();
   }
   async fnSave() {
     //Custom remove entity child
@@ -184,8 +180,6 @@ export class BomStageComponent implements OnInit {
 
   setItemValueOut(rowData: any, value: any) {
     rowData.UnitId = null;
-    // rowData.ItemId = value;
-    //this.dataSourceUnitOut = await this.bomService.getAllUnitByItemId(value).toPromise().then();
     (<any>this).defaultSetCellValue(rowData, value);
   }
 
@@ -220,8 +214,6 @@ export class BomStageComponent implements OnInit {
 
   async setItemValueIn(rowData: any, value: any) {
     rowData.UnitId = null;
-    // rowData.ItemId = value;
-    //this.dataSourceUnitIn = await this.bomService.getAllUnitByItemId(value).toPromise().then();
     (<any>this).defaultSetCellValue(rowData, value);
   }
 
@@ -274,11 +266,6 @@ export class BomStageComponent implements OnInit {
         e.isValid = false;
       }
     }
-  }
-
-  setCellUnitValue(rowData: any, value: any) {
-    rowData.UnitId = value;
-    this.dataSourceUnitIn = this.devExtreme.loadDxoLookup("Unit");
   }
 
   enableActiveTab() {
