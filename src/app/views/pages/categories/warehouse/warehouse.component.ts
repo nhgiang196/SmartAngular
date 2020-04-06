@@ -26,6 +26,7 @@ export class WarehouseComponent implements OnInit {
   // @ViewChild('myInputFile') InputManual: ElementRef;
   @ViewChild('targetSmartUpload', { static: false }) uploadComponent: SmartUploadComponent;
   @ViewChild('targetForm', { static: true }) targetForm: DxFormComponent;
+  @ViewChild("childModal", { static: false }) childModal: ModalDirective;
   constructor(
     private toastr: ToastrService,
     private warehouseService: WareHouseService,
@@ -110,7 +111,7 @@ export class WarehouseComponent implements OnInit {
     await this.warehouseService.findById(id).subscribe(res => {
       this.resetEntity();
       this.entity = res;
-      $("#myModal4").modal('show');
+      this.childModal.show();
       this.iboxloading = false;
       console.log('getEntity', res);
       /**CONTROL FILES */
