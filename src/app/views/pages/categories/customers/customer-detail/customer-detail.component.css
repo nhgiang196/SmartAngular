@@ -1,0 +1,10 @@
+.dx-field-value, .dx-field-label {  
+    text-align: right;  
+}  
+.dx-fieldset-column {  
+    float: left;  
+    width: 50%;  
+}  
+.clear {  
+    clear: both;  
+}  
