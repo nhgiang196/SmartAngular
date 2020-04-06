@@ -40,9 +40,9 @@
     <dxo-texts confirmDeleteMessage="Are you sure Delete?"></dxo-texts>
     <dxo-form>
       <dxi-item dataField="UnitName"></dxi-item>
-      <dxi-item dataField="Status">
+      <dxi-item >
         <div *dxTemplate>
-          <dx-switch (onValueChanged)="onSwitchStatus($event)" ></dx-switch>
+          <dx-switch [value]="entity.Status" (onValueChanged)="onSwitchStatus($event)" ></dx-switch>
         </div>
       </dxi-item>
       <!-- <dxi-item dataField="Status"></dxi-item> -->

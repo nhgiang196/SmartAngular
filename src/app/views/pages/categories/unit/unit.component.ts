@@ -32,9 +32,15 @@ export class UnitComponent implements OnInit {
       floatingActionButtonConfig: directions.down
     });
   }
-  ngOnInit() {}
+  ngOnInit() {
+    this.resetEntity();
+  }
+  resetEntity()
+  {
+    this.entity = new Unit();
+  }
   onSwitchStatus(e) {
-   this.entity.Status = this.entity.Status == 0 ? 1 : 0;
+   this.entity.Status = e.value;
   }
   addRow() {
     this.dataGrid.instance.addRow();
