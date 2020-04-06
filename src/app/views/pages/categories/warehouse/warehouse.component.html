@@ -149,7 +149,13 @@
 
             <dxi-item itemType="group" [colCount]="2">
               <dxi-item itemType="empty" visible="false"></dxi-item>
-              <dxi-item dataField="Status"  editorType="dxSwitch" [label]="{text: trans.instant('Warehouse.data.Status')}"></dxi-item>
+              <!-- <dxi-item dataField="Status"  editorType="dxSwitch" [label]="{text: trans.instant('Warehouse.data.Status')}"></dxi-item> -->
+              <dxi-item dataField="Status" [label]="{text: trans.instant('Warehouse.data.Status')}"
+                editorType="dxSelectBox" [editorOptions]="{ displayExpr: 'text' ,valueExpr:'id' ,
+                items: [{id: 0, text: trans.instant('Warehouse.data.Status0')}
+                ,{ id: 1, text: trans.instant('Warehouse.data.Status1')}]}">
+              </dxi-item>
+
             </dxi-item>
             
             
@@ -206,6 +212,7 @@
                 </dxi-column>
                 <dxi-column dataField="Status" caption="{{ 'Warehouse.data.Status' | translate }}"  dataType="boolean">
                 </dxi-column>
+                
                 
                 </dx-data-grid>
 
