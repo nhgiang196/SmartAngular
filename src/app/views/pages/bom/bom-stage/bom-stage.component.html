@@ -22,7 +22,7 @@
         </button>
       </div>
       <div class="modal-body">
-        <form role="form">
+        <form role="form" >
           <div class="row">
             <div class="col-lg-6">
               <div class="form-group">
@@ -32,7 +32,7 @@
             </div>
             <div class="col-lg-6">
               <div class="form-group">
-                <label> {{ "BomFactory.data.Validate" | translate }} :</label>
+                <label> {{ "BomFactory.data.Validate" | translate }} : *</label>
                 <input
                 autocomplete="off"
                   type="text"
@@ -78,8 +78,8 @@
             <div class="col-lg-12">
               <dx-data-grid
               [dataSource]="entity.BomStage"
-              (onEditingStart)="isEditRow =true"
-              (onRowUpdating)="isEditRow =false"
+              (onRowValidating)="onRowValidatingBomStage($event)"
+              (onContentReady) ="enableActiveTab()"
               [masterDetail]="{ enabled: true, template: 'detail' }"
               [remoteOperations]="true" height="auto"  showBorders="true" [showRowLines]="true">
 
@@ -99,7 +99,8 @@
                 </dxo-lookup>
                 <dxi-validation-rule type="required"></dxi-validation-rule>
               </dxi-column>
-              <dxi-column dataField="OrderNumber" caption="{{'BomFactory.BomStage.OrderNumber' | translate }}">
+              <dxi-column dataField="OrderNumber"  dataType="number" caption="{{'BomFactory.BomStage.OrderNumber' | translate }}">
+                <dxi-validation-rule type="required"></dxi-validation-rule>
               </dxi-column>
               <dxi-column dataField="IsSequence"  dataType="boolean"  caption="{{'BomFactory.BomStage.Sequence' | translate }}">
               </dxi-column>
@@ -112,6 +113,8 @@
                     [dataSource]="getBomOut(item.key)"
                     class="dx-grid-child"
                     [showBorders]="true"
+                    (onRowValidating)="onRowValidatingBomOut($event,item.key)"
+                    (onContentReady) ="enableActiveTab()"
                     [masterDetail]="{ enabled: true, template: 'detailIn' }"
                     [columnAutoWidth]="true">
                       <dxo-editing
@@ -128,19 +131,25 @@
                               displayExpr="ItemName"
                               valueExpr="ItemId">
                           </dxo-lookup>
+                          <dxi-validation-rule type="required"></dxi-validation-rule>
                         </dxi-column>
-                        <dxi-column dataField="UnitId" caption="{{'BomFactory.BomItem.UnitId ' | translate}}">
+                        <dxi-column dataField="UnitId" caption="{{'BomFactory.BomItem.UnitId ' | translate}}"  [setCellValue]="setCellUnitValue">
                           <dxo-lookup
                             [dataSource]="dataSourceUnitOut"
                             displayExpr="UnitName"
                             valueExpr="UnitId">
                         </dxo-lookup>
+                        <dxi-validation-rule type="required"></dxi-validation-rule>
                         </dxi-column>
-                        <dxi-column dataField="Quantity"  dataType="number" caption="{{'BomFactory.BomItem.Quantity' | translate}}"></dxi-column>
-                        <div *dxTemplate="let item of 'detailIn'">
-                          <div class="master-detail-caption">Danh sách đầu vào của {{item.data.ItemName | lowercase}}</div>
+                        <dxi-column dataField="Quantity"  dataType="number" caption="{{'BomFactory.BomItem.Quantity' | translate}}">
+                          <dxi-validation-rule type="required"></dxi-validation-rule>
+                        </dxi-column>
+                        <div *dxTemplate="let itemChild of 'detailIn'">
+                          <div class="master-detail-caption">Danh sách đầu vào của {{itemChild.data.ItemName | lowercase}}</div>
                           <dx-data-grid
-                              [dataSource]="getBomIn(item.key)"
+                              [dataSource]="getBomIn(itemChild.key)"
+                              (onRowValidating)="onRowValidatingBomIn($event,itemChild.key)"
+                              (onContentReady) ="enableActiveTab()"
                               class="dx-grid-child"
                               [showBorders]="true"
                               [columnAutoWidth]="true">
@@ -158,15 +167,19 @@
                                         displayExpr="ItemName"
                                         valueExpr="ItemId">
                                     </dxo-lookup>
+                                    <dxi-validation-rule type="required"></dxi-validation-rule>
                                   </dxi-column>
-                                  <dxi-column dataField="UnitId" caption="{{'BomFactory.BomItem.UnitId ' | translate}}">
+                                  <dxi-column dataField="UnitId" caption="{{'BomFactory.BomItem.UnitId ' | translate}}" [setCellValue]="setCellUnitValue">
                                     <dxo-lookup
                                       [dataSource]="dataSourceUnitIn"
                                       displayExpr="UnitName"
                                       valueExpr="UnitId">
                                   </dxo-lookup>
+                                  <dxi-validation-rule type="required"></dxi-validation-rule>
                                   </dxi-column>
-                                  <dxi-column dataField="Quantity"  dataType="number" caption="{{'BomFactory.BomItem.Quantity' | translate}}"></dxi-column>
+                                  <dxi-column dataField="Quantity"  dataType="number" caption="{{'BomFactory.BomItem.Quantity' | translate}}">
+                                    <dxi-validation-rule type="required"></dxi-validation-rule>
+                                  </dxi-column>
                           </dx-data-grid>
                       </div>
                 </dx-data-grid>
@@ -177,9 +190,12 @@
         </form>
       </div>
       <div class="modal-footer">
-        <button type="submit" class="btn btn-info waves-effect" form="ngForm" (click)="fnSave()">
-          Save
-        </button>
+        <button class="btn btn-primary btn-save"
+        [ladda]="laddaSubmitLoading"
+        [disabled]="entity.FactoryId==0 ||entity.FactoryId==null ||entity.BomFactoryValidateDate==''" (click)="fnSave()">
+        <i class="fa fa-plus"></i>
+        {{'Button.Save' | translate}}
+      </button>
         <button
           type="button"
           class="btn btn-default waves-effect"

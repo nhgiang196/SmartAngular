@@ -35,7 +35,7 @@
                     <dxo-filter-row [visible]="true"></dxo-filter-row>
                     <dxo-header-filter [visible]="true"></dxo-header-filter>
                     <dxo-state-storing [enabled]="true" type="localStorage" storageKey="storage"></dxo-state-storing>
-                    <dxo-editing mode="popup" [allowAdding]="true" [allowUpdating]="true" [allowDeleting]="true">
+                    <dxo-editing mode="popup" [allowAdding]="true" [allowUpdating]="true" [allowDeleting]="true" [useIcons]="true">
                       <dxo-popup title="Stage Info" [showTitle]="true" [width]="700" [height]="525"
                         [position]="{ my: 'top', at: 'top', of: window }">
                       </dxo-popup>
@@ -44,8 +44,13 @@
                         <dxi-item itemType="group" [colCount]="2" [colSpan]="2">
                           <dxi-item dataField="StageCode"></dxi-item>
                           <dxi-item dataField="StageName"></dxi-item>
-                          <dxi-item dataField="StageDescription" editorType="dxTextArea" [colSpan]="2"
+                          <dxi-item dataField="StageDescription" editorType="dxTextArea" [colSpan]="1"
                             [editorOptions]="{ height: 100 }"></dxi-item>
+                          <dxi-item>
+                            <div *dxTemplate>
+                              <dx-switch  [value]="entity.Status"  (onValueChanged)="onSwitchStatus($event)" ></dx-switch>
+                            </div>
+                          </dxi-item>
                           <dxi-item [colSpan]="2">
                             <div *dxTemplate>
                               <!-- <dx-file-uploader #fileUploader

@@ -5,9 +5,9 @@ import { Factory } from './factory'
 
 export class BomFactory {
 	BomFactoryId: number = 0
-  FactoryId: number
+  FactoryId: number=0
   FactoryName: number
-	BomFactoryValidateDate?: any
+	BomFactoryValidateDate?: any=''
   BomFactoryDescription?: string
   CreateBy: string
   CreateDate?: any
@@ -19,7 +19,7 @@ export class BomFactory {
 }
 
 export class BomItemOut {
-	BomItemId: number = 0
+	BomItemOutId: number = 0
 	BomStageId: number = 0
   ItemId?: number = 0
   ItemName:string
@@ -34,7 +34,7 @@ export class BomItemOut {
 }
 
 export class BomItemIn {
-	BomItemId: number = 0
+	BomItemInId: number = 0
 	BomStageId: number = 0
   ItemId?: number = 0
   ItemName:string
