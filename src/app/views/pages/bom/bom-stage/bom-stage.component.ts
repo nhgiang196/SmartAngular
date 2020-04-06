@@ -30,9 +30,7 @@ export class BomStageComponent implements OnInit {
   constructor(private devExtreme: DevextremeService, private bomService: BomService, private toastr: ToastrService,
     private trans: TranslateService, private auth: AuthService,
     private helpper: MyHelperService) {
-    this.setItemValueOut = this.setItemValueOut.bind(this);
-    this.setItemValueIn = this.setItemValueIn.bind(this);
-    this.setCellUnitValue = this.setCellUnitValue.bind(this);
+    this.getFilteredUnit = this.getFilteredUnit.bind(this);
   }
 
   ngOnInit() {
@@ -41,7 +39,6 @@ export class BomStageComponent implements OnInit {
     this.loadDataSourceItem();
 
     this.loaddataSourceUnitOut();
-    this.loaddataSourceUnitIn();
   }
   async fnSave() {
     //Custom remove entity child
@@ -122,15 +119,15 @@ export class BomStageComponent implements OnInit {
     if (this.entity.BomStage.length > 0)
       this.entity.BomStage.forEach(itemBomStage => {
         itemBomStage.BomStageId = 0;
-        itemBomStage.BomFactoryId =0;
-        if (itemBomStage.BomItemOut!=null &&itemBomStage.BomItemOut.length > 0)
+        itemBomStage.BomFactoryId = 0;
+        if (itemBomStage.BomItemOut != null && itemBomStage.BomItemOut.length > 0)
           itemBomStage.BomItemOut.forEach(itemBomOut => {
             itemBomOut.BomItemOutId = 0;
-            itemBomOut.BomStageId =0;
-            if (itemBomOut.BomItemIn!=null &&itemBomOut.BomItemIn.length > 0)
+            itemBomOut.BomStageId = 0;
+            if (itemBomOut.BomItemIn != null && itemBomOut.BomItemIn.length > 0)
               itemBomOut.BomItemIn.forEach(itemBomIn => {
                 itemBomIn.BomItemInId = 0;
-                itemBomIn.BomStageId =0;
+                itemBomIn.BomStageId = 0;
               });
           });
       });
@@ -181,18 +178,43 @@ export class BomStageComponent implements OnInit {
     this.childModal.show();
   }
 
-  async setItemValueOut(rowData: any, value: any) {
+  setItemValueOut(rowData: any, value: any) {
     rowData.UnitId = null;
-    rowData.ItemId = value;
-    this.dataSourceUnitOut = await this.bomService.getAllUnitByItemId(value).toPromise().then();
-    //(<any>this).defaultSetCellValue(rowData, value);
+    (<any>this).defaultSetCellValue(rowData, value);
+  }
+
+  getFilteredUnit(options) {
+    console.log("=========>")
+    console.log(options)
+    if (options == null || options.data == null)
+      {
+        return {
+          store: createStore({
+            key: "UnitId",
+            loadUrl: `${environment.apiUrl}/Unit/UI_SelectBox`,
+            loadParams: { KeyId: "UnitId" }
+          }),
+          paginate: true,
+          pageSize: 10
+        }
+      }
+    else {
+      return {
+        store: createStore({
+          key: "UnitId",
+          loadUrl: `${environment.apiUrl}/BomFactory/GetAllUnitBomByItemIdLookup`,
+          loadParams: { KeyId: "UnitId",valueId:options.data.ItemId }
+        }),
+        paginate: true,
+        pageSize: 10
+      }
+
+    }
   }
 
   async setItemValueIn(rowData: any, value: any) {
     rowData.UnitId = null;
-    rowData.ItemId = value;
-    this.dataSourceUnitIn = await this.bomService.getAllUnitByItemId(value).toPromise().then();
-    //(<any>this).defaultSetCellValue(rowData, value);
+    (<any>this).defaultSetCellValue(rowData, value);
   }
 
   onRowValidatingBomStage(e) {
@@ -246,12 +268,7 @@ export class BomStageComponent implements OnInit {
     }
   }
 
-  setCellUnitValue(rowData: any, value: any){
-      rowData.UnitId= value;
-      this.dataSourceUnitIn = this.devExtreme.loadDxoLookup("Unit");
-  }
-
-  enableActiveTab(){
+  enableActiveTab() {
     checkActiveTab();
   }
 }

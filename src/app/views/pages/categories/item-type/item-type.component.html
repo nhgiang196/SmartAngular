@@ -11,6 +11,12 @@
     </ol>
   </div>
   <div class="col-lg-12">
+    
+    <!-- hidden this button -->
+    <div style="text-align: right;">
+    <button type="button" class="btn btn-primary dim"  (click)="addRow()">
+      <i class="fa fa-plus"></i>{{'Button.Add' | translate}}</button>
+    </div>
     <!-- Begin Master DataGrid ItemType -->
     <dx-data-grid (onRowUpdating)="onRowUpdatingItemType($event)"
                   (onRowInserting)="onRowInsertingItemType($event)"
@@ -26,10 +32,9 @@
 
       <dxo-filter-row [visible]="true"></dxo-filter-row>
       <dxo-header-filter [visible]="true"></dxo-header-filter>
-      <dxo-group-panel [visible]="true"></dxo-group-panel>
+      <!-- <dxo-group-panel [visible]="true"></dxo-group-panel> -->
 
       <dxo-editing mode="popup" [allowUpdating]="true" 
-                                [allowAdding]="true" 
                                 [allowDeleting]="true" 
                                 [useIcons]="true"> 
         <dxo-popup title="ItemType Info" [showTitle]="true" [width]="600" [height]="600"
@@ -46,7 +51,7 @@
             <div *dxTemplate>
               <dx-data-grid
                             (onInitNewRow)="onInitNewRowDetail($event)"
-                            (onRowValidating)= "detailValidation($event)"
+                           
                             [dataSource]="dataSourceProperties"
                             keyExpr="ItemTypePropertyId"
                             [focusedRowEnabled]="true"
@@ -63,10 +68,8 @@
                 </dxo-editing>
               
                 <dxi-column dataField="ItemTypePropertyName" [editorOptions]="{ placeholder: 'Input ItemTypePropertyName' }">
-                  <!-- <dxi-validation-rule type="custom"  max="256" 
-                      [validationCallback]="detailValidation1" 
-                      message="ItemTypeName is empty"></dxi-validation-rule> -->
-                  <dxi-validation-rule type="required"  max="256"
+                  <dxi-validation-rule type="custom"  max="256" [reevaluate] =true
+                      [validationCallback]="detailValidation" 
                       message="ItemTypeName is empty"></dxi-validation-rule>
                 </dxi-column>
                 <dxo-paging [pageSize]="7"></dxo-paging>
@@ -78,8 +81,11 @@
         </dxo-form>
       </dxo-editing>
       <dxi-column dataField="ItemTypeName" [editorOptions]="{ placeholder: 'Input ItemTypeName' }">
-        <dxi-validation-rule type="required" max="256"
-          message="The field ItemTypeName must be a string with a maximum length of 256."></dxi-validation-rule>
+        <!-- <dxi-validation-rule type="required" max="256"
+          message="The field ItemTypeName must be a string with a maximum length of 256."></dxi-validation-rule> -->
+           <dxi-validation-rule type="async"  max="256" [reevaluate] =true
+                      [validationCallback]="masterValidation" 
+                      message=""></dxi-validation-rule>
       </dxi-column>
       <dxi-column dataField="ItemTypeCode" [editorOptions]="{ placeholder: 'Input ItemTypeCode' }">
         <dxi-validation-rule type="required" max="50"

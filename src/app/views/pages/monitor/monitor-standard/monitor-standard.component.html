@@ -11,7 +11,11 @@
     </ol>
   </div>
   <div class="col-lg-12">
-  
+    <!-- hidden this button -->
+    <div style="text-align: right;">
+      <button type="button" class="btn btn-primary dim"  (click)="addRow()">
+        <i class="fa fa-plus"></i>{{'Button.Add' | translate}}</button>
+    </div>
 <dx-data-grid
   [dataSource]="dataSource"
   height="400" 
@@ -29,7 +33,6 @@
   <dxo-group-panel [visible]="true"></dxo-group-panel>
 
   <dxo-editing mode="popup" 
-                [allowAdding]="true" 
                 [allowUpdating]="true" 
                 [allowDeleting]="true"
                 [useIcons] = "true">
