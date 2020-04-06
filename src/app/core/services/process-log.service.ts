@@ -3,9 +3,9 @@ import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { DataTablesResponse } from '../models/datatable';
 import { environment } from 'src/environments/environment';
-const ApiUrl = environment.apiUrl;;
+const ApiUrl = environment.apiUrl;
 @Injectable({providedIn: 'root'})
-export class ProcessService {
+export class ProcessLogService {
   constructor(private http: HttpClient) {
 
   }

@@ -1,19 +1,66 @@
 <div class="row wrapper border-bottom white-bg page-heading">
   <div class="col-lg-10">
-      <h2>Chức năng</h2>
-      <ol class="breadcrumb">
-          <li>
-              <a routerLink="/pages">Dashboard</a>
-          </li>
-          <li class="active">
-              <strong>Chức năng</strong>
-          </li>
-      </ol>
+    <h2>Chức năng</h2>
+    <ol class="breadcrumb">
+      <li>
+        <a routerLink="/pages">Dashboard</a>
+      </li>
+      <li class="active">
+        <strong>Chức năng</strong>
+      </li>
+    </ol>
   </div>
   <div class="col-lg-2">
 
   </div>
 </div>
-<p>
-  process-plan works!
-</p>
+<div class="wrapper wrapper-content animated fadeInRight">
+  <dx-data-grid [dataSource]="dataSourceProcessPlan" height="500" showBorders="true" (onRowRemoving)="onRowRemoving($event)"
+    (onEditorPreparing)="onEditorPreparing($event)" (onRowInserting)="onRowInserting($event)"
+    (onRowUpdating)="onRowUpdating($event)" (onInitNewRow)="onInitNewRow($event)"
+    (onSelectionChanged)="selectedChanged($event)">
+
+    <dxo-selection mode="single"></dxo-selection>
+    <dxo-filter-row [visible]="true"></dxo-filter-row>
+    <dxo-header-filter [visible]="true"></dxo-header-filter>
+    <dxo-group-panel [visible]="true"></dxo-group-panel>
+
+    <dxo-editing mode="popup" [allowUpdating]="true" [allowAdding]="true" [allowDeleting]="true" [useIcons]="true">
+      <dxo-popup title="Unit Info" [showTitle]="true" [width]="600" [height]="230"
+        [position]="{ my: 'top', at: 'top', of: 'window' }">
+      </dxo-popup>
+      <dxo-texts confirmDeleteMessage="Are you sure Delete?"></dxo-texts>
+      <dxo-form>
+        <dxi-item itemType="group" [colCount]="3" [colSpan]="2">
+          <dxi-item dataField="FactoryId">
+            <div *dxTemplate>
+              <!-- <ui-select-box entitykey="Factory" [pageSize]="5" [checkstatus]="true" [(ngModelCustom)]="entity.FactoryId"></ui-select-box> -->
+            </div>
+          </dxi-item>  
+          <dxi-item dataField="ProcessPlanMonth">
+          </dxi-item>
+          <dxi-item dataField="ProcessPlanYear">
+          </dxi-item>
+        </dxi-item>       
+        <dxi-item itemType="group" [colCount]="3" [colSpan]="3">
+          <dxi-item dataField="ProcessPlanDescription" [colSpan]="2">
+          </dxi-item>
+          <dxi-item dataField="Status">
+            <div *dxTemplate>
+              <dx-switch [value]="entity.Status" (onValueChanged)="onSwitchStatus($event)"></dx-switch>
+            </div>
+          </dxi-item>
+        </dxi-item>     
+      </dxo-form>
+    </dxo-editing>
+    <dxi-column dataField="FactoryName"></dxi-column>
+    <dxi-column dataField="FactoryCode"></dxi-column>
+    <dxi-column dataField="ProcessPlanMonth"></dxi-column>
+    <dxi-column dataField="ProcessPlanYear"></dxi-column>
+    <dxi-column dataField="ProcessPlanDescription"></dxi-column>
+    <dxi-column dataField="ModifyDate" dataType="date"></dxi-column>
+    <dxi-column dataField="Status" #status dataType="boolean" caption="Active" width="120"></dxi-column>
+    <dxo-paging [pageSize]="10"></dxo-paging>
+    <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[25, 50, 100]"></dxo-pager>
+  </dx-data-grid>
+</div>

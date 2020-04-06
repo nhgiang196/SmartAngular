@@ -5,6 +5,7 @@ import { ProcessRoutingModule } from './process-routing.module';
 import { MainViewProcessComponent } from './main-view-process/main-view-process.component';
 import { ProcessLogComponent } from './process-log/process-log.component';
 import { ProcessPlanComponent } from './process-plan/process-plan.component';
+import { DxSwitchModule, DxSelectBoxModule, DxCheckBoxModule, DxTextBoxModule, DxDateBoxModule, DxButtonModule, DxValidatorModule, DxFormModule, DxValidationSummaryModule, DxDataGridModule } from 'devextreme-angular';
 
 
 const COMPONENTS =[
@@ -16,7 +17,17 @@ const COMPONENTS =[
 @NgModule({
   imports: [
     ProcessRoutingModule,
-    CommonModule
+    CommonModule,
+    DxSwitchModule,
+    DxDataGridModule,
+    DxSelectBoxModule,
+    DxCheckBoxModule,
+    DxTextBoxModule,
+    DxDateBoxModule,
+    DxButtonModule,
+    DxValidatorModule,
+    DxFormModule,
+    DxValidationSummaryModule,
   ],
   declarations: [...COMPONENTS]
 })

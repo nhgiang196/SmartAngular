@@ -22,7 +22,8 @@ import {
   ItemTypeService,
   MonitorService,
   MonitorStandarService,
-  ProcessService,
+  ProcessLogService,
+  // ProcessPlanFactoryService,
   UnitService,
   WareHouseService,
   ModuleService,
@@ -47,12 +48,14 @@ const SERVICE = [
   ItemTypeService,
   MonitorService,
   MonitorStandarService,
-  ProcessService,
+  ProcessLogService,
+  // ProcessPlanFactoryService,
   UnitService,
   WareHouseService,
   ModuleService,
   FunctionService,
   FileService,
+  ProcessLogService,
   DevextremeService
 ];
 
