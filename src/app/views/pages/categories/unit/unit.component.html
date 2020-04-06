@@ -19,7 +19,7 @@
 <dx-data-grid
   [dataSource]="dataSource"
    height="500" showBorders="true"
- 
+   [focusedRowEnabled]="true"     
   (onEditorPreparing)="onEditorPreparing($event)"
   (onRowInserting)="onRowInserting($event)"
   (onRowUpdating)="onRowUpdating($event)"
@@ -40,11 +40,7 @@
     <dxo-texts confirmDeleteMessage="Are you sure Delete?"></dxo-texts>
     <dxo-form>
       <dxi-item dataField="UnitName"></dxi-item>
-      <dxi-item dataField="Status">
-        <div *dxTemplate>
-          <dx-switch  [value]="entity.Status"  (onValueChanged)="onSwitchStatus($event)" ></dx-switch>
-        </div>
-      </dxi-item>
+      <dxi-item dataField="Status" ></dxi-item>
       <!-- <dxi-item dataField="Status"></dxi-item> -->
     </dxo-form>
   </dxo-editing>
@@ -58,9 +54,16 @@
   <dxi-column dataField="CreateBy" ></dxi-column>
   <dxi-column dataField="ModifyBy"></dxi-column>
   <dxi-column dataField="ModifyDate" dataType="date"></dxi-column>
-  <dxi-column dataField="Status" #status dataType="boolean" caption="Active" width="120"></dxi-column>
+
+  <dxi-column dataField="Status" #status dataType="boolean" [editCellTemplate]="status" caption="Active" width="120"></dxi-column>
+  <div *dxTemplate ="let item of 'status'" >
+    <dx-switch  [value]="item.data" (onValueChanged)="onSwitchStatus($event)" ></dx-switch>
+  </div>
+  
   <dxo-paging [pageSize]="10"></dxo-paging>
   <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[25, 50, 100]"></dxo-pager>
+
+ 
 </dx-data-grid>
 </div>
 </div>
