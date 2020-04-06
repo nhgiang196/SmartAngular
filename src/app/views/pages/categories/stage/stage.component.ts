@@ -36,6 +36,9 @@ export class StageComponent implements OnInit {
   ngOnInit() {
     this.resetEntity();
   }
+  onSwitchStatus(e) {
+    this.entity.Status = e.value;//this.entity.Status == 0 ? 1 : 0;
+   }
   //Load popup by propertyId
   filterByStageId(e) {
     this.resetEntity();
@@ -93,6 +96,7 @@ export class StageComponent implements OnInit {
     if (this.addFiles.FileList.length > 0) 
       this.uploadFile(this.addFiles.FileList);
   }
+  
   onInitNewRow(e) {
     this.resetEntity();
   }
