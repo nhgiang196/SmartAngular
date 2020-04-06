@@ -49,7 +49,7 @@ export class UnitComponent implements OnInit {
   }
 
   onRowInserting(e) {
-    e.data.Status = 1;
+    e.data.Status = e.data.Status ? 1 : 0;
     e.data.CreateBy = this.auth.currentUser.Username;
     e.data.CreateDate = new Date();
     e.data.UnitId = 0;
@@ -59,7 +59,7 @@ export class UnitComponent implements OnInit {
     // Modify entity olddata to newdata;
     const data = Object.assign(e.oldData, e.newData);
     data.ModifyBy = this.auth.currentUser.Username;
-    data.Status = this.entity.Status ? 1 : 0; //tenary operation if (data.status == true) return 1 else return 0
+    data.Status = data.Status ? 1 : 0;//tenary operation if (data.status == true) return 1 else return 0
     e.newData = data;
   }
 
@@ -68,6 +68,11 @@ export class UnitComponent implements OnInit {
     if (e.dataField == "UnitName" && e.parentType === "dataRow") {
       e.setValue((e.value == null) ? "" : (e.value + "")); // Updates the cell value
     }
+    //Prepare Status editor to dxSwitch 
+    if (e.dataField == "Status" && e.parentType === "dataRow") {
+      e.editorName = "dxSwitch"; 
+    }
+
   }
 
   /**
@@ -81,11 +86,12 @@ export class UnitComponent implements OnInit {
 
   unitValidation(e){
     console.log(e);
+    if(e.newData==null)
+    {
     if (e.value == "" || e.value == null) {
       return new Promise((resolve, reject) => {
         reject("Field is empty!");
       });
-
     } else {
       return new Promise((resolve, reject) => {
         this.api.validateUnit(e.data).toPromise()
@@ -93,11 +99,11 @@ export class UnitComponent implements OnInit {
             result.Success ? resolve() : reject("Unit already exist!");
             resolve(result);
           }) .catch(error => {
-            console.error("Server-side validation error", error);
-            reject("Cannot contact validation server");
+            //console.error("Server-side validation error", error);
+            resolve()
         });
       });
     }
   }
-
+  }
 }

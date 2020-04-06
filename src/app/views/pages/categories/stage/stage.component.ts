@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { StageService } from 'src/app/core/services/stage.service';
 import CustomStore from 'devextreme/data/custom_store';
 import { AuthService } from 'src/app/core/services';
@@ -9,6 +9,7 @@ import { MyHelperService } from 'src/app/core/services/my-helper.service';
 import { StageFile, Stage } from 'src/app/core/models/stage';
 import { HttpEventType } from '@angular/common/http';
 import { FileService } from 'src/app/core/services/file.service';
+import { DxDataGridComponent } from 'devextreme-angular';
 var URL = "api/v1/Stage";
 @Component({
   selector: 'app-stage',
@@ -17,6 +18,7 @@ var URL = "api/v1/Stage";
 })
 
 export class StageComponent implements OnInit {
+  @ViewChild(DxDataGridComponent, { static: false }) dataGrid: DxDataGridComponent;
   dataSource: any;
   stageFiles: any[] = [];
   files: File[] = [];
@@ -31,12 +33,17 @@ export class StageComponent implements OnInit {
     private helper: MyHelperService,
     private toastr: ToastrService) {
     this.dataSource = this.stageService.getDataGridStage();
+    this.stageValidation = this.stageValidation.bind(this);
   }
 
   ngOnInit() {
     this.resetEntity();
   }
-  onSwitchStatus(e) {
+  addRow() {
+    this.dataGrid.instance.addRow();
+    this.dataGrid.instance.deselectAll();
+  }
+  onSwitchStatus(e) { 
     this.entity.Status = e.value;//this.entity.Status == 0 ? 1 : 0;
    }
   //Load popup by propertyId
@@ -68,6 +75,9 @@ export class StageComponent implements OnInit {
     if (e.dataField == "StageName" && e.parentType === "dataRow") {
       e.setValue((e.value == null) ? "" : (e.value + "")); // Updates the cell value
     }
+    if (e.dataField == "Status" && e.parentType === "dataRow") {
+      e.editorName = "dxSwitch"; 
+    }
   }
 
   /**
@@ -80,7 +90,7 @@ export class StageComponent implements OnInit {
     const data = Object.assign(e.oldData, e.newData);
     data.ModifyBy = this.auth.currentUser.Username;
     data.ModifyDate = new Date(); 
-    data.Status = this.entity.Status ? 1 : 0; //tenary operation if (data.status == true) return 1 else return 0
+    data.Status =  data.Status ? 1 : 0; //tenary operation if (data.status == true) return 1 else return 0
     data.StageFile = this.resetStageId(this.entity.StageFile)    
     e.newData = data;//set object   
     if (this.addFiles.FileList.length > 0) 
@@ -88,7 +98,7 @@ export class StageComponent implements OnInit {
   }
 
   onRowInsertingStage(e) {
-    e.data.Status = 1;
+    e.data.Status =  e.data.Status ? 1 : 0;
     e.data.CreateBy = this.auth.currentUser.Username;
     e.data.CreateDate = new Date();
     e.data.StageId = 0;
@@ -99,6 +109,8 @@ export class StageComponent implements OnInit {
   
   onInitNewRow(e) {
     this.resetEntity();
+    e.data.Status = 1;
+    e.data.CreateBy = this.auth.currentUser.Username;
   }
   /**
  * reset StagePropertyId = 0 
@@ -198,6 +210,24 @@ export class StageComponent implements OnInit {
       this.uploadReportProgress = { progress: 0, message: 'Error: ' + err.statusText, isError: true };
     });
   }
-
+  stageValidation(e){
+    console.log(e);
+    if (e.value == "" || e.value == null) {
+      return new Promise((resolve, reject) => {
+        reject("Field is empty!");
+      });
+    } else {
+      return new Promise((resolve, reject) => {
+        this.stageService.validateStage(e.data).toPromise()
+          .then((result: any) => {
+            result.Success ? resolve() : reject("StageName already exist!");
+            resolve(result);
+          }) .catch(error => {
+            //console.error("Server-side validation error", error);
+            resolve()
+        });
+      });
+    }
+  }
 
 }
