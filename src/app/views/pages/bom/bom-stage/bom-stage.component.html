@@ -133,9 +133,9 @@
                           </dxo-lookup>
                           <dxi-validation-rule type="required"></dxi-validation-rule>
                         </dxi-column>
-                        <dxi-column dataField="UnitId" caption="{{'BomFactory.BomItem.UnitId ' | translate}}"  [setCellValue]="setCellUnitValue">
+                        <dxi-column dataField="UnitId" caption="{{'BomFactory.BomItem.UnitId ' | translate}}" >
                           <dxo-lookup
-                            [dataSource]="dataSourceUnitOut"
+                            [dataSource]="getFilteredUnit"
                             displayExpr="UnitName"
                             valueExpr="UnitId">
                         </dxo-lookup>
@@ -169,9 +169,9 @@
                                     </dxo-lookup>
                                     <dxi-validation-rule type="required"></dxi-validation-rule>
                                   </dxi-column>
-                                  <dxi-column dataField="UnitId" caption="{{'BomFactory.BomItem.UnitId ' | translate}}" [setCellValue]="setCellUnitValue">
+                                  <dxi-column dataField="UnitId" caption="{{'BomFactory.BomItem.UnitId ' | translate}}">
                                     <dxo-lookup
-                                      [dataSource]="dataSourceUnitIn"
+                                      [dataSource]="getFilteredUnit"
                                       displayExpr="UnitName"
                                       valueExpr="UnitId">
                                   </dxo-lookup>
