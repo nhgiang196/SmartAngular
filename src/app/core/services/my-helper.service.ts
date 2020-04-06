@@ -1,14 +1,60 @@
 import { Injectable, ViewChild } from '@angular/core';
 import { Subject } from 'rxjs';
+import { HttpClient, HttpParams } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 
 export class MyHelperService {
-  constructor() {
+  requests: string[] = [];
+  constructor(private http: HttpClient) {
 
+  }
+  sendRequest(url: string, method: string = "GET", data: any = {}): any {
+    this.logRequest(method, url, data);
 
+    let httpParams = new HttpParams({ fromObject: data });
+    let httpOptions = { withCredentials: true, body: httpParams };
+    let result;
+
+    switch (method) {
+      case "GET":
+        result = this.http.get(url, httpOptions);
+        break;
+      case "PUT":
+        result = this.http.put(url, httpParams, httpOptions);
+        break;
+      case "POST":
+        result = this.http.post(url, httpParams, httpOptions);
+        break;
+      case "DELETE":
+        result = this.http.delete(url, httpOptions);
+        break;
+    }
+
+    return result
+      .toPromise()
+      .then((data: any) => {
+        return method === "GET" ? data.data : data;
+      })
+      .catch(e => {
+        throw e && e.error && e.error.Message;
+      });
+  }
+
+  logRequest(method: string, url: string, data: object): void {
+    var args = Object.keys(data || {}).map(function (key) {
+      return key + "=" + data[key];
+    }).join(" ");
+
+    var time = new Date();
+
+    this.requests.unshift([time, method, url.slice(URL.length), args].join(" "))
+  }
+
+  clearRequests() {
+    this.requests = [];
   }
   /**
   * Get FileName with structure yyy-mm-dd...
