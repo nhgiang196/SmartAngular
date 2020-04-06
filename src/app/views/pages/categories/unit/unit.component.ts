@@ -32,10 +32,22 @@ export class UnitComponent implements OnInit {
       floatingActionButtonConfig: directions.down
     });
   }
+<<<<<<< HEAD
 
   ngOnInit() {}
   onSwitchStatus(e) {
    this.entity.Status = e.value; //this.entity.Status == 0 ? 1 : 0;
+=======
+  ngOnInit() {
+    this.resetEntity();
+  }
+  resetEntity()
+  {
+    this.entity = new Unit();
+  }
+  onSwitchStatus(e) {
+   this.entity.Status = e.value;
+>>>>>>> d77224615e513f4c9aff9f24eb03bd4b8bd9e599
   }
 
   addRow() {
