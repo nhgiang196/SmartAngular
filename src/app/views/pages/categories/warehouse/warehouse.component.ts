@@ -3,7 +3,7 @@ import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 import swal from 'sweetalert2';
 import { trigger, transition, animate, style } from '@angular/animations';
-import { PageChangedEvent } from 'ngx-bootstrap';
+import { PageChangedEvent, ModalDirective } from 'ngx-bootstrap';
 import { Warehouse, WarehouseLocation } from 'src/app/core/models/warehouse';
 import { WareHouseService, AuthService, FactoryService } from 'src/app/core/services';
 import { SmartUploadComponent } from 'src/app/views/UISample/smart-upload/smart-upload.component';
