@@ -27,8 +27,8 @@ const COMPONENTS = [
   CategoriesComponent,
   MainViewCategoryComponent,
   ContractComponent,
-  CustomerListComponent,
   CustomerComponent,
+  CustomerListComponent,
   CustomerDetailComponent,
   ItemComponent,
   ItemTypeComponent,
@@ -41,7 +41,6 @@ const COMPONENTS = [
 @NgModule({
   imports: [
     CategoriesRoutingModule,
-
     SharedModule,
     CommonModule,
     UISampleModule,
