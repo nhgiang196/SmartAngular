@@ -45,9 +45,14 @@ export class UnitComponent implements OnInit {
     // Modify entity olddata to newdata;
     const data = Object.assign(e.oldData, e.newData);
     data.ModifyBy = this.auth.currentUser.Username;
-    // data.Status = data.Status ? 1 : 0; //tenary operation if (data.status == true) return 1 else return 0
-    data.Status = this.entity.Status;
+    data.Status = this.entity.Status ? 1 : 0; //tenary operation if (data.status == true) return 1 else return 0
     e.newData = data;
+  }
+  //Trigger for raise event update
+  onEditorPreparing(e) {
+    if (e.dataField == "UnitName" && e.parentType === "dataRow") {
+      e.setValue((e.value == null) ? "" : (e.value + "")); // Updates the cell value
+    }
   }
 
   /**
