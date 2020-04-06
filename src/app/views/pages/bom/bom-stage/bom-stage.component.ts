@@ -10,6 +10,7 @@ import { MyHelperService } from 'src/app/core/services/my-helper.service';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import swal from "sweetalert2";
+import { checkActiveTab } from 'src/app/app.helpers';
 @Component({
   selector: 'app-bom-stage',
   templateUrl: './bom-stage.component.html',
@@ -31,6 +32,7 @@ export class BomStageComponent implements OnInit {
     private helpper: MyHelperService) {
     this.setItemValueOut = this.setItemValueOut.bind(this);
     this.setItemValueIn = this.setItemValueIn.bind(this);
+    this.setCellUnitValue = this.setCellUnitValue.bind(this);
   }
 
   ngOnInit() {
@@ -242,5 +244,14 @@ export class BomStageComponent implements OnInit {
         e.isValid = false;
       }
     }
+  }
+
+  setCellUnitValue(rowData: any, value: any){
+      rowData.UnitId= value;
+      this.dataSourceUnitIn = this.devExtreme.loadDxoLookup("Unit");
+  }
+
+  enableActiveTab(){
+    checkActiveTab();
   }
 }

@@ -201,10 +201,14 @@ export function checkActiveTab(){
     $(".nav-tabs li").each(function(){
       $(this).addClass("disabledTab")
     })
+
+    $(".btn-save").attr("disabled","disabled");
   }
   else{
     $(".nav-tabs li").each(function(){
-      $(this).removeClass("disabledTab")
+      $(this).removeClass("disabledTab");
     })
+
+    $(".btn-save").removeAttr("disabled");
   }
 }
