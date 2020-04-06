@@ -6,6 +6,10 @@ import { MainViewProcessComponent } from './main-view-process/main-view-process.
 import { ProcessLogComponent } from './process-log/process-log.component';
 import { ProcessPlanComponent } from './process-plan/process-plan.component';
 import { DxSwitchModule, DxSelectBoxModule, DxCheckBoxModule, DxTextBoxModule, DxDateBoxModule, DxButtonModule, DxValidatorModule, DxFormModule, DxValidationSummaryModule, DxDataGridModule } from 'devextreme-angular';
+import { FormsModule } from '@angular/forms';
+import { SharedModule } from 'src/app/core/shared/shared.module';
+import { UISampleModule } from '../../UISample/UISample.module';
+import { ModalModule } from 'ngx-bootstrap';
 
 
 const COMPONENTS =[
@@ -18,16 +22,11 @@ const COMPONENTS =[
   imports: [
     ProcessRoutingModule,
     CommonModule,
+    FormsModule,
+    SharedModule,
+    UISampleModule,
     DxSwitchModule,
-    DxDataGridModule,
-    DxSelectBoxModule,
-    DxCheckBoxModule,
-    DxTextBoxModule,
-    DxDateBoxModule,
-    DxButtonModule,
-    DxValidatorModule,
-    DxFormModule,
-    DxValidationSummaryModule,
+    ModalModule.forRoot(),
   ],
   declarations: [...COMPONENTS]
 })
