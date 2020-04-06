@@ -30,15 +30,22 @@ export class ItemTypeComponent implements OnInit {
     private itemTypePropertyService: ItemTypePropertyService,
     private auth: AuthService,
     private toastr: ToastrService
+    
   ) {
     //LOAD MSTER GRID
     this.dataSourceItemTypes = this.itemTypeService.getDataGridItemType(); // default load with new Customer Store
-
+    this.masterValidation = this.masterValidation.bind(this);
+    this.detailValidation = this.detailValidation.bind(this);
     config({
       floatingActionButtonConfig: directions.down
     });
   }
   ngOnInit() { }
+
+  addRow() {
+    this.dataGrid.instance.addRow();
+    this.dataGrid.instance.deselectAll();
+  }
 
   //Load popup by propertyId
   async filterByItemTypeId(e) {
@@ -65,6 +72,11 @@ export class ItemTypeComponent implements OnInit {
   onInitNewRow(e) {
     this.dataSourceProperties = [];
     this.isUpdate = true;
+    e.data.Status = 1;
+    e.data.CreateBy = this.auth.currentUser.Username;
+    e.data.CreateDate = new Date();
+    e.data.ItemTypeId = 0;
+    e.data.ItemTypeProperty = [];
   }
   /**
    * Prepare ItemType dataSource to Add
@@ -73,12 +85,7 @@ export class ItemTypeComponent implements OnInit {
    */
   async onRowInsertingItemType(e) {
     console.log(e);
-   
-    e.data.Status = 1;
-    e.data.CreateBy = this.auth.currentUser.Username;
-    e.data.CreateDate = new Date();
-    e.data.ItemTypeId = 0;
-    e.data.ItemTypeProperty = [];
+
     e.data.ItemTypeProperty = this.resetItemTypePropertyId(this.dataSourceProperties);// đây là khi lưu cha con nó lưu luôn
   }
   /**
@@ -87,7 +94,7 @@ export class ItemTypeComponent implements OnInit {
    * @param dataSource 
    */
   resetItemTypePropertyId(dataSource) {
-    dataSource.forEach(item=>{
+    dataSource.forEach(item => {
       item.ItemTypePropertyId = 0
     })
     return dataSource;
@@ -115,40 +122,72 @@ export class ItemTypeComponent implements OnInit {
   }
 
   //Validate Master
-  masterValidation(item){
-    console.log(item)
-    let data;
-    if(item.oldData !=null){
-      data = Object.assign(item.oldData, item.newData);
-    } else data = item.newData;
-    item.promise  =  this.itemTypeService.validateItemType(data).toPromise()
-      .then((result: any)=>{
-        if(!result.Success){
-          item.isValid = false;
-          item.errorText = "ItemType Name already exists! ";
-        }
-      })
+  // masterValidation(item) {
+  //   console.log(item)
+  //   let data;
+  //   if (item.oldData != null) {
+  //     data = Object.assign(item.oldData, item.newData);
+  //   } else data = item.newData;
+  //   item.promise = this.itemTypeService.validateItemType(data).toPromise()
+  //     .then((result: any) => {
+  //       if (!result.Success) {
+  //         item.isValid = false;
+  //         item.errorText = "ItemType Name already exists! ";
+  //       }
+  //     })
+  // }
+   masterValidation(e) {
+    console.log(e)
+    return new Promise((resolve, reject)=>{
+      this.itemTypeService.validateItemType(e.data).toPromise()
+        .then((result: any) => {
+          //result.Success ? resolve() : reject(result.message);
+          //resolve(result);
+          if (!result.Success) { 
+            result.message = "Item Type already exist!";
+            result.isValid = false;
+            resolve(result);
+          } else  {
+            result.isValid = true;
+            resolve(result);
+          }
+        });
+    });
   }
 
-
   ///Validata Detail
-  detailValidation(property) {
-    let data;
+  // detailValidation(property) {
+  //   let data;
+  //   let isExsit = 0;
+  //   if (property.oldData != null) {
+  //     data = Object.assign(property.oldData, property.newData);
+  //   } else data = property.newData;
+  //   this.dataSourceProperties.forEach(element => {
+  //     if (element.ItemTypePropertyName == data.ItemTypePropertyName
+  //       && element.ItemTypePropertyId != data.ItemTypePropertyId) {
+  //       isExsit++
+  //       return
+  //     }
+  //   });
+  //   if (isExsit > 0) {
+  //     property.isValid = false;
+  //     property.errorText = "Property Name already exists! ";
+  //   }
+  // }
+  detailValidation(e){
+    console.log(e);
     let isExsit = 0;
-    if(property.oldData !=null){
-      data = Object.assign(property.oldData, property.newData);
-    } else data = property.newData;
+    
     this.dataSourceProperties.forEach(element => {
-      if (element.ItemTypePropertyName == data.ItemTypePropertyName
-        && element.ItemTypePropertyId != data.ItemTypePropertyId) {
+      if (element.ItemTypePropertyName == e.data.ItemTypePropertyName
+        && element.ItemTypePropertyId != e.data.ItemTypePropertyId) {
         isExsit++
         return
       }
     });
-    if (isExsit > 0)  { 
-      property.isValid = false;
-      property.errorText = "Property Name already exists! ";
-    }
+    if (isExsit > 0) {
+      e.rule.message = "Property already exist!";
+      return false;
+    } else return true;
   }
-
 }
