@@ -36,4 +36,6 @@ export class ProcessPlanFactoryService {
       remove: (key) => this.deleteProcessPlanFactory(key).toPromise().then()
     });
   }
+
+  getBomStageNearestByFactoryId=(params)=>this.http.get<any>(`${ApiUrl}/ProcessPlanFactory/GetBomStageNearestByFactoryId`,{ params: params});
 }

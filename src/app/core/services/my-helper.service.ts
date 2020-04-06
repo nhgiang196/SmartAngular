@@ -150,5 +150,13 @@ export class MyHelperService {
     return yyyy ;
 
   }
+  monthConvertToString(date: Date){
+    if (date==null) return null;
+    var dd = String(date.getDate()).padStart(2, '0');
+    var mm = String(date.getMonth() + 1).padStart(2, '0'); //January is 0!
+    var MM = date.getMonth();
+    return MM+1 ;
+
+  }
 
 }
