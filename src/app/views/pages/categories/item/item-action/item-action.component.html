@@ -252,7 +252,7 @@
                                                   [dataSource]="entity.ItemProperty"
                                                   (onEditingStart)="isEditRow =true"
                                                   (onRowValidating)="onRowValidatingItemProperty($event)"
-                                                  (onContentReady) ="enableActiveTab($event)"
+                                                  (onContentReady) ="enableActiveTab()"
                                                   [remoteOperations]="true" height="auto"  showBorders="true">
 
                                                   <dxo-editing
@@ -406,8 +406,8 @@
                 <div class="row">
                     <div class="col-sm-12">
                       <!-- [ladda]="laddaSubmitLoading" -->
-                        <button class="btn btn-primary pull-right"
-
+                        <button class="btn btn-primary pull-right btn-save"
+                            [ladda]="laddaSubmitLoading"
                             [disabled]="myForm.invalid ||entity.ItemUnitId==null" (click)="fnSave()">
                             <i class="fa fa-plus"></i>
                             {{'Button.Save' | translate}}
