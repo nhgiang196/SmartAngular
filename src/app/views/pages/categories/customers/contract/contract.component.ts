@@ -3,73 +3,55 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { collapseIboxHelper } from 'src/app/app.helpers';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
+import { PageChangedEvent, ModalDirective } from 'ngx-bootstrap';
 declare let $: any;
 import swal from 'sweetalert2';
-import { trigger, transition, animate, style } from '@angular/animations';
 import { SmartUploadComponent } from 'src/app/views/UISample/smart-upload/smart-upload.component';
 import { AuthService, ContractService } from 'src/app/core/services';
-import { MyHelperService } from 'src/app/core/services/my-helper.service';
 import { Contract, ContractPrice, ContractBreach } from 'src/app/core/models/contrack';
+import { DxFormComponent } from 'devextreme-angular';
 @Component({
   selector: 'app-contract',
   templateUrl: './contract.component.html',
-  styleUrls: ['./contract.component.css'],
-  animations: [
-    // the fade-in/fade-out animation.
-    trigger('simpleFadeAnimation', [
-      transition(':leave',
-        animate(300, style({ opacity: 0 })))
-    ])
-  ]
+  styleUrls: ['./contract.component.css']
 })
 export class ContractComponent implements OnInit, AfterViewInit {
-  @ViewChild('contractFile', {static: true}) uploadComponent: SmartUploadComponent;
-  
+  @ViewChild('contractFile', { static: true }) uploadComponent: SmartUploadComponent;
+  @ViewChild('targetForm', { static: true }) targetForm: DxFormComponent;
+  @ViewChild("childModal", { static: false }) childModal: ModalDirective;
   @Input('contractid') contractId: number;
   @Output('contract') send_entity = new EventEmitter<Contract>();
   constructor(
     private api: ContractService,
-    private router: Router,
     private route: ActivatedRoute,
     private toastr: ToastrService,
-    private helper: MyHelperService,
-    private trans: TranslateService,
+    public trans: TranslateService,
     private auth: AuthService
   ) {
   }
+  breachTypeList: any = [
+    { id: 1, text: this.trans.instant('Contract.data.ContractBreach.BreachType1') }
+    , { id: 2, text: this.trans.instant('Contract.data.ContractBreach.BreachType2') }
+  ];
+  resolveTypeList: any= [
+    { id: 1, text: this.trans.instant('Contract.data.ContractBreach.ResolveType1') }
+    , { id: 2, text: this.trans.instant('Contract.data.ContractBreach.ResolveType2') }
+  ];
   pathFile = 'uploadFileContract'
   entity: Contract;
-  invalid: any = {};
-  initCombobox = {};
-  EditRowNumber = 0;
-  EditRowNumber_PRICE = 0;
   laddaSubmitLoading = false;
-  bsConfig = { dateInputFormat: 'YYYY-MM-DD', adaptivePosition: true };
-  subEntity_ContractPrice: ContractPrice = new ContractPrice();
-  newEntity_ContractPrice: ContractPrice = new ContractPrice();
-  subEntity_ContractBreach: ContractBreach = new ContractBreach();
-  newEntity_ContractBreach: ContractBreach = new ContractBreach();
   iboxloading = false;
   ngOnInit() {
   }
   
-   async resetEntity() { //reset entity values
-    
-    this.entity = new Contract();
-    this.entity.CustomerId = this.route.snapshot.params.id || 0;
-    this.invalid = { Existed_ContractNo: false };
-    this.EditRowNumber = 0;
-    this.EditRowNumber_PRICE = 0;
-  }
-
-
-  loadInit(id){
-    
+  loadInit(id) {
+    this.targetForm.instance.resetValues();
     this.uploadComponent.resetEntity();
-    if (id && id!=0){
+    if (id && id != 0) {
       this.iboxloading = true;
       this.api.findContractById(id).subscribe(res => {
         console.log('findContractById', res);
+        this.childModal.show();
         this.entity = res;
         this.uploadComponent.loadInit(res.ContractFile);
         this.iboxloading = false;
@@ -78,30 +60,23 @@ export class ContractComponent implements OnInit, AfterViewInit {
         this.iboxloading = false;
       })
     }
-    
-    
   }
-
-
+  async resetEntity() { //reset entity values
+    this.entity = new Contract();
+    this.entity.CustomerId = this.route.snapshot.params.id || 0;
+  }
   /**Button Functions */
   async fnSave() {
-    this.invalid = {};
-    let e = this.entity as Contract;
-    let valid = await this.api.validateContract(e).toPromise().then() as any
-    if (valid.Success) {
-      this.sendToApi(e);
-    }
-    else this.invalid[valid.Message] = true;
-  }
-  private async sendToApi(e: Contract) {
-    e.ContractSignDate = this.helper.dateConvertToString(e.ContractSignDate);
-    e.ContractEffectiveDate = this.helper.dateConvertToString(e.ContractEffectiveDate);
-    e.ContractEndDate = this.helper.dateConvertToString(e.ContractEndDate);
+    if (! await this.targetForm.instance.validate().isValid) return;
+    var e = this.entity;
+    // e.ContractSignDate = this.helper.dateConvertToString(e.ContractSignDate);
+    // e.ContractEffectiveDate = this.helper.dateConvertToString(e.ContractEffectiveDate);
+    // e.ContractEndDate = this.helper.dateConvertToString(e.ContractEndDate);
     await this.uploadComponent.uploadFile();
     if (e.CustomerId == 0) { //New customer, just send to parrent
       let _sendParent = Object.assign({}, e); //stop binding
       this.send_entity.emit(_sendParent);
-      $('#myContractModal').modal('hide');
+      this.childModal.hide();
     }
     else if (e.ContractId == 0) //add
     {
@@ -126,96 +101,43 @@ export class ContractComponent implements OnInit, AfterViewInit {
       else this.toastr.warning(operationResult.Message);
     }
   }
+
   private sendtoParentView(e: Contract) {
     let _sendParent = Object.assign({}, e); //stop binding
     delete _sendParent.ContractBreach;
     delete _sendParent.ContractPrice;
     delete _sendParent.ContractFile;
     this.send_entity.emit(_sendParent);
-    $('#myContractModal').modal('hide');
+    this.childModal.hide();
   }
-  async fnAddContractBreach(itemAdd) {
-    if (!await this.validateBreach(itemAdd)) return;
-    itemAdd.ContractID = this.entity.ContractId;
-    this.entity.ContractBreach.push(itemAdd);
-    this.newEntity_ContractBreach = new ContractBreach();
-  }
-  async fnAddContractPrice(itemAdd) {
-    if (!await this.validatePrice(itemAdd)) return;
-    itemAdd.ContractId = this.entity.ContractId;
-    this.entity.ContractPrice.push(itemAdd);
-    this.newEntity_ContractPrice = new ContractPrice();
-  }
-  fnEditContractBreach(index) {
-    this.EditRowNumber = index + 1;
-    this.subEntity_ContractBreach = this.entity.ContractBreach[index];
-  }
-  fnEditContractPrice(index) {
-    this.EditRowNumber_PRICE = index + 1;
-    this.subEntity_ContractPrice = this.entity.ContractPrice[index];
-  }
-  fnDeleteContractPrice(index) {
-    this.entity.ContractPrice.splice(index, 1);
-  }
-  fnDeleteContractBreach(index) {
-    this.entity.ContractBreach.splice(index, 1);
-  }
-  fnSaveContractBreach() {
-    
-  }
-
-  async validatePrice(itemAdd) {
-    let _validateRatio = await this.entity.ContractPrice.find(t =>t.WaterFlow  == itemAdd.WaterFlow )
-    // && t.WarehouseLocationId!=itemAdd.WarehouseLocationId && itemAdd.WarehouseLocationId!=0
-    if (_validateRatio && itemAdd != _validateRatio)
-    {
-      swal.fire("Validate", this.trans.instant('Contract.data.ContractPrice.Ratio') + this.trans.instant('messg.isexisted'), 'warning');
-      return false;
-    } 
-    else {
-      this.EditRowNumber_PRICE=0;
-      return true;
+  validateFunction = (e) => {
+    if (e.formItem)
+      switch (e.formItem.dataField) {
+        case "ContractEffectiveDate": return (e.value <= this.entity.ContractEndDate) || this.entity.ContractEndDate == null
+        case "ContractEndDate": return (this.entity.ContractEffectiveDate <= e.value) || this.entity.ContractEffectiveDate == null
+      }
+    if (e.column) { }
+    switch (e.column.dataField) {
+      case "WaterFlow": return this.entity.ContractPrice.filter(x => x.WaterFlow == e.data.WaterFlow).length == 0
+      case "BreachType": return this.entity.ContractBreach.filter(x => x.BreachType == e.data.BreachType).length == 0
     }
-  }
-  async validateBreach(itemAdd){
-    let _validateBreachTimesType = await this.entity.ContractBreach.find(t =>t.BreachType  == itemAdd.BreachType &&  t.Times  == itemAdd.Times )
-    // && t.WarehouseLocationId!=itemAdd.WarehouseLocationId && itemAdd.WarehouseLocationId!=0
-    if (_validateBreachTimesType && itemAdd != _validateBreachTimesType)
-    {
-      swal.fire("Validate", this.trans.instant('Contract.data.ContractPrice.Ratio') + this.trans.instant('messg.isexisted'), 'warning');
-      return false;
-    } 
-    else {
-      this.EditRowNumber=0;
-      return true;
-    }
+    return true;
+  };
 
+  validateAsync = (e) =>{
+    return new Promise(async (resolve) => { 
+      let obj = Object.assign({}, this.entity); //stop binding
+      obj[e.formItem.dataField] = e.value;
+      let _res =await this.api.validateContract(obj).toPromise().then() as any;
+      let _validate = _res.Success? _res.Success : _res.ValidateData.indexOf(e.formItem.dataField)<0;
+      resolve(_validate);
+      resolve(true);
+    });  
   }
-
-  ratioOnChange(event){
-    let _value = event.target.valueAsNumber;
-    if (_value>100) this.entity.WasteWaterRatio = 100
-    else if (_value<1) this.entity.WasteWaterRatio = 1
-    else this.entity.WasteWaterRatio = _value || 1;
-  }
-
-  breachTimesOnChange(event){
-    let _value = event.target.valueAsNumber;
-    if (_value<1) return 1
-    else return _value || 1;
-  }
-
-  disabled_ContractPrice(){
-    return !this.newEntity_ContractPrice.Currency || this.newEntity_ContractPrice.WaterFlow<=0 || this.newEntity_ContractPrice.Price<=0 || this.newEntity_ContractPrice.Tax<0;
-  }
-
   ngOnDestroy() {
-    $('.modal').modal('hide');
+    this.childModal.hide();
   }
   ngAfterViewInit() {
     collapseIboxHelper();
   }
-  
-
-
 }
