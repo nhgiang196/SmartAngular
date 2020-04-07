@@ -7,6 +7,7 @@ import { directions } from 'src/app/core/helpers/DevExtremeExtention';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ItemType } from 'src/app/core/models/item';
 import { map } from 'rxjs/operators';
+import { DevextremeService } from 'src/app/core/services/general/devextreme.service';
 
 @Component({
   selector: 'app-item',
@@ -14,30 +15,26 @@ import { map } from 'rxjs/operators';
   styleUrls: ['./item.component.css']
 })
 export class ItemComponent implements OnInit {
-  @ViewChild(DxDataGridComponent, { static: false })
-  dataGrid: DxDataGridComponent;
-
   dataSource: any;
   listItemType: Array<ItemType> = new Array<ItemType>();
   itemTypeId:number;
   constructor(
     private itemService: ItemService,
     private itemTypeService: ItemTypeService,
-    private auth: AuthService,
-    private toastr: ToastrService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private devExtreme: DevextremeService
   ) {
     this.rediactToAction = this.rediactToAction.bind(this);
   }
   async ngOnInit() {
     await this.getAllItemType();
-    this.itemTypeId = this.route.snapshot.params.id || 0
-    this.dataSource = this.itemService.getDataGridItem('ItemId');
+    this.itemTypeId = this.route.snapshot.params.id || 0;
+    this.dataSource = this.devExtreme.loadDxoGrid('Item',"GetItemDataGridPagination","DeleteItem");
     if(this.itemTypeId!=0){
       this.searchItemByItemType(this.itemTypeId);
     }
-    this.dataSource = this.itemService.getDataGridItem('ItemId');
+
   }
 
 
@@ -49,7 +46,6 @@ export class ItemComponent implements OnInit {
 
   searchItemByItemType(id){
     let filter = id!=0?["ItemTypeId", "=",id]:[];
-    //this.dataSource= this.itemService.getDataGridItem('ItemId');
     this.dataSource.filter(filter);
     this.dataSource.reload();
   }
