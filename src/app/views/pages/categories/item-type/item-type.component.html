@@ -23,6 +23,7 @@
                   (onEditingStart)="filterByItemTypeId($event)"
                   (onEditorPreparing)="onEditorPreparing($event)"
                   (onInitNewRow)="onInitNewRow($event)"
+                  (onDataErrorOccurred)="onDataErrorOccurred($event)"
                   (onRowValidating)= "masterValidation($event)"
                   [dataSource]="dataSourceItemTypes"    
                   [focusedRowEnabled]="true"             

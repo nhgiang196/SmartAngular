@@ -219,7 +219,6 @@ export class FactoryComponent implements OnInit {
     $('.modal').modal('hide');
   }
   /*
-  Validate type:
-  'required' | 'numeric' | 'range' | 'stringLength' | 'custom' | 'compare' | 'pattern' | 'email' | 'async'
+  
   */
 }

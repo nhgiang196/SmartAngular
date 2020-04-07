@@ -2,7 +2,8 @@ import { element } from 'protractor';
 import {
   Component,
   OnInit,
-  ViewChild} from '@angular/core';
+  ViewChild
+} from '@angular/core';
 
 import { UnitService, AuthService } from 'src/app/core/services';
 import { DxDataGridComponent } from 'devextreme-angular';
@@ -11,6 +12,8 @@ import { directions } from 'src/app/core/helpers/DevExtremeExtention';
 import { ToastrService } from 'ngx-toastr';
 import Swal from 'sweetalert2';
 import { Unit } from 'src/app/core/models/unit';
+import { GenericFactoryService } from 'src/app/core/services/general/generic-factory.service';
+import { HttpClient } from '@angular/common/http';
 import { DevextremeService } from 'src/app/core/services/general/devextreme.service';
 import { MyHelperService } from 'src/app/core/services/my-helper.service';
 import { environment } from 'src/environments/environment';
@@ -24,21 +27,29 @@ export class UnitComponent implements OnInit {
   @ViewChild(DxDataGridComponent, { static: false })
   dataGrid: DxDataGridComponent;
   dataSource: any;
+  unitService: IGenericFactoryService<Unit>;
   entity: Unit = new Unit()
   constructor(
-    private api: UnitService,
+    // private api: UnitService,
+    // private api: IGenericFactoryService<Unit>,
+    private http: HttpClient,
     private auth: AuthService,
     private toastr: ToastrService,
     private devExtreme: DevextremeService,
     private helper: MyHelperService
   ) {
+    // this.api = new GenericFactoryService<Unit>(http,helper);
+    // this.dataSource = this.api.getDataGridUnit();
+     this.unitService = new GenericFactoryService<Unit>(http, helper,Unit);
+    this.dataSource = this.unitService.getDataGrid();
+    // this.unitValidation = this.unitValidation.bind(this)
 
-    this.dataSource = this.devExtreme.loadDxoGridCustomStore(
-      "Unit",
-      ()=>  helper.sendRequest(API_URL + "/Unit/DataGridUnitPagination"),
-      (value)=> api.addUnit(value).toPromise(),
-      (value)=> api.updateUnit(value).toPromise(),
-      (value)=> api.deleteUnit(value).toPromise().then());
+    // this.dataSource = this.devExtreme.loadDxoGridCustomStore(
+    //   "Unit",
+    //   ()=>  helper.sendRequest(API_URL + "/Unit/DataGridUnitPagination"),
+    //   (value)=> api.addUnit(value).toPromise(),
+    //   (value)=> api.updateUnit(value).toPromise(),
+    //   (value)=> api.deleteUnit(value).toPromise().then());
 
     this.unitValidation = this.unitValidation.bind(this)
     config({
@@ -48,12 +59,11 @@ export class UnitComponent implements OnInit {
   ngOnInit() {
     this.resetEntity();
   }
-  resetEntity()
-  {
+  resetEntity() {
     this.entity = new Unit();
   }
   onSwitchStatus(e) {
-   this.entity.Status = e.value;
+    this.entity.Status = e.value;
   }
 
   addRow() {
@@ -97,26 +107,26 @@ export class UnitComponent implements OnInit {
     e.data.CreateBy = this.auth.currentUser.Username;
   }
 
-  unitValidation(e){
+  unitValidation(e) {
     console.log(e);
-    if(e.newData==null)
-    {
-    if (e.value == "" || e.value == null) {
-      return new Promise((resolve, reject) => {
-        reject("Field is empty!");
-      });
-    } else {
-      return new Promise((resolve, reject) => {
-        this.api.validateUnit(e.data).toPromise()
-          .then((result: any) => {
-            result.Success ? resolve() : reject("Unit already exist!");
-            resolve(result);
-          }) .catch(error => {
-            //console.error("Server-side validation error", error);
-            resolve()
+    if (e.newData == null) {
+      if (e.value == "" || e.value == null) {
+        return new Promise((resolve, reject) => {
+          reject("Field is empty!");
         });
-      });
+      } else {
+        // return new Promise((resolve, reject) => {
+        //   this.unitService.validate(e.data)
+        //     .then((result: any) => {
+        //       result.Success ? resolve() : reject("Unit already exist!");
+        //       resolve(result);
+        //     }).catch(error => {
+        //       //console.error("Server-side validation error", error);
+        //       resolve()
+        //     });
+        // });
+        this.unitService.validate(e.data);
+      }
     }
-  }
   }
 }
