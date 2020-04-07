@@ -164,4 +164,10 @@ export class ItemTypeComponent implements OnInit {
       return false;
     } else return true;
   }
+
+  onDataErrorOccurred(e)
+  {
+    console.log(e);
+    this.toastr.error("Can't delete!","Error");
+  }
 }
