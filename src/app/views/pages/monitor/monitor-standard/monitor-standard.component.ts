@@ -51,6 +51,10 @@ export class MonitorStandardComponent implements OnInit {
     if (e.dataField == "Status" && e.parentType === "dataRow") {
       e.editorName = "dxSwitch"; 
     }
+    if (e.dataField == "MonitorStandardDescription" && e.parentType === "dataRow") {
+      e.editorName = "dxTextArea"; 
+      e.editorOptions.height = 50;  
+    }
   }
 
   loadFactorySelectBox() {
@@ -86,6 +90,7 @@ export class MonitorStandardComponent implements OnInit {
     e.newData = data;//set object
   }
 
+ 
   validation(e) {
     let data;
     if (e.oldData != null) {

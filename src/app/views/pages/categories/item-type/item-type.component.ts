@@ -69,6 +69,7 @@ export class ItemTypeComponent implements OnInit {
       e.editorName = "dxSwitch"; 
     }
   }
+ 
   /**
    * Init new Row for ItemType
    * @param e params with new ItemType
@@ -126,30 +127,29 @@ export class ItemTypeComponent implements OnInit {
   }
 
   masterValidation(e) {
-    if(e.newData==null)
-    {
-    if (e.value == "" || e.value == null) {
-      return new Promise((resolve, reject) => {
-        reject("Field is empty!");
-      });
-
-    } else {
-      return new Promise((resolve, reject) => {
-        this.itemTypeService.validateItemType(e.data).toPromise()
-          .then((result: any) => {
-            result.Success ? resolve() : reject("ItemType already exist!");
-            resolve(result);
-          }) .catch(error => {
-            resolve();
+    if (e.newData == null) {
+      if (e.value == "" || e.value == null) {
+        return new Promise((resolve, reject) => {
+          reject("Field is empty!");
         });
-      });
+
+      } else {
+        return new Promise((resolve, reject) => {
+          this.itemTypeService.validateItemType(e.data).toPromise()
+            .then((result: any) => {
+              result.Success ? resolve() : reject("ItemType already exist!");
+              resolve(result);
+            }).catch(error => {
+              resolve();
+            });
+        });
+      }
     }
   }
-  }
 
-  detailValidation(e){
+  detailValidation(e) {
     let isExsit = 0;
-    if (e.value == "" || e.value == null ) {
+    if (e.value == "" || e.value == null) {
       e.rule.message = "Field is empty!";
       return false;
     }
