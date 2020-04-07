@@ -80,16 +80,17 @@ export class ProcessPlanFactory {
   ModifyDate: Date
   Status: number
   Factory:Factory
-  ProcessPlanStage:ProcessPlanStage[]
+  ProcessPlanStage:Array<ProcessPlanStage>= new Array<ProcessPlanStage>();
 }
 
 export class ProcessPlanStage {
   ProcessPlanStageId: number
   ProcessPlanFactoryId: number
   StageId: number
-  ProcessPlanFactory: ProcessPlanFactory
-  Stage: Stage
-  ProcessPlanItem: ProcessPlanItem[]
+  StageName: string
+  ProcessPlanFactory: ProcessPlanFactory = new ProcessPlanFactory()
+  Stage: Stage = new Stage();
+  ProcessPlanItem:Array<ProcessPlanItem> =new Array<ProcessPlanItem>();
 }
 
 
