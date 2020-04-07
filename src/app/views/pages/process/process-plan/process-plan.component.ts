@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ProcessPlanFactoryService } from 'src/app/core/services/process-plan.service';
 import { TranslateService } from '@ngx-translate/core';
 import { AuthService } from 'src/app/core/services';
@@ -13,6 +13,7 @@ import { DevextremeService } from 'src/app/core/services/general/devextreme.serv
   styleUrls: ['./process-plan.component.css']
 })
 export class ProcessPlanComponent implements OnInit {
+  @ViewChild('modalChild',{static:false}) modalChild;
   dataSourceProcessPlan: any;
   dataSourceFactory:any;
   constructor(//private processPlanFactoryService: ProcessPlanFactoryService,
@@ -22,6 +23,7 @@ export class ProcessPlanComponent implements OnInit {
     private helper: MyHelperService,
     private toastr: ToastrService,
     private devExtreme:DevextremeService) {
+      this.showModalAction = this.showModalAction.bind(this);
     }
   ngOnInit() {
     this.loadDataSourceProcessPlan();
@@ -29,12 +31,21 @@ export class ProcessPlanComponent implements OnInit {
   }
 
   loadDataSourceProcessPlan(){
+    let entity= "ProcessPlanFactory";
     let actionLoad = "DataGridProcessPlanFactoryPagination";
     let actionDelete = "DeleteProcessPlanFactory";
-    this.dataSourceProcessPlan= this.devExtreme.loadDxoGrid("ProcessPlanFactory",actionLoad,actionDelete);
+    this.dataSourceProcessPlan= this.devExtreme.loadDxoGrid(entity,actionLoad,actionDelete);
   }
 
   loadDataSourceFactory(){
     this.dataSourceFactory= this.devExtreme.loadDxoLookup("Factory");
+  }
+  showModalAction(e){
+    this.modalChild.showChildModal(e.row.data);
+  }
+
+
+  showAdd(){
+    this.modalChild.showChildModal(null);
   }
 }

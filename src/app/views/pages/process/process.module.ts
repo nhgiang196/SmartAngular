@@ -10,13 +10,15 @@ import { FormsModule } from '@angular/forms';
 import { SharedModule } from 'src/app/core/shared/shared.module';
 import { UISampleModule } from '../../UISample/UISample.module';
 import { ModalModule } from 'ngx-bootstrap';
+import { ProcessPlanActionComponent } from './process-plan/process-plan-action/process-plan-action.component';
 
 
 const COMPONENTS =[
   ProcessComponent,
   MainViewProcessComponent,
   ProcessLogComponent,
-  ProcessPlanComponent
+  ProcessPlanComponent,
+  ProcessPlanActionComponent
 ]
 @NgModule({
   imports: [

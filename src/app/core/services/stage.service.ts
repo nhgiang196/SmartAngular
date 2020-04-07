@@ -56,10 +56,7 @@ export class StageService {
       key: "StageId",
       load: () => this.helper.sendRequest(ApiUrl + "/Stage/GetStageDataGridPagination"),
       insert: (values) => this.addStage(values).toPromise(),
-      update: (key, values) => {
-        console.log(values);
-        return this.updateStage(values).toPromise()
-      },
+      update: (key, values)=> this.updateStage(values).toPromise(),
       remove: (key) => this.deleteStage(key).toPromise().then()
     });
   }

@@ -55,7 +55,6 @@ export class ItemTypeComponent implements OnInit {
       .then());
     this.isUpdate = false;
     this.itemTypeId = e.data.ItemTypeId
-    this.detail = this.dataSourceProperties;
     return this.dataSourceProperties;
   }
 

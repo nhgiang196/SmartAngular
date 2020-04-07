@@ -1,17 +1,14 @@
 <div class="row wrapper border-bottom white-bg page-heading">
   <div class="col-lg-10">
-      <h2>Chức năng</h2>
-      <ol class="breadcrumb">
-          <li>
-              <a routerLink="/pages">Dashboard</a>
-          </li>
-          <li >
-            <a routerLink="/pages/process/plan">Vận hành</a>
-          </li>
-          <li class="active">
-              <strong>Danh sách</strong>
-          </li>
-      </ol>
+    <h2>{{ 'ProcessPlaneFactory.Breadcrumb' | translate }}</h2>
+    <ol class="breadcrumb">
+      <li>
+        <a href="index.html">{{ 'TopNav.ProcessPlaneFactory' | translate }}</a>
+      </li>
+      <li class="active">
+        <strong>{{ 'ProcessPlaneFactory.Breadcrumb' | translate }}</strong>
+      </li>
+    </ol>
   </div>
 </div>
 
@@ -70,7 +67,7 @@
                 <dxi-button
                     icon="edit"
                     [visible]="1"
-                    [onClick]="showModalBomStage"></dxi-button>
+                    [onClick]="showModalAction"></dxi-button>
                   <dxi-button name="delete"></dxi-button>
             </dxi-column>
               <dxo-paging [pageSize]="25"></dxo-paging>
@@ -84,3 +81,5 @@
   </div>
 
 </div>
+
+<app-process-plan-action #modalChild></app-process-plan-action>

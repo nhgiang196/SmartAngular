@@ -80,6 +80,7 @@
                         <dx-select-box [(value)]="entity.FactoryId"  [dataSource]="factoryList" displayExpr="FactoryName" valueExpr="FactoryId">
                           <dx-validator>
                             <dxi-validation-rule type="required"></dxi-validation-rule>
+                            <dxi-validation-rule type="custom"  reevaluate="true" [validationCallback]="validateFunction_FactoryId" message="Please choose Factory"></dxi-validation-rule>
                           </dx-validator>
                         </dx-select-box>
                       </div>
@@ -120,7 +121,7 @@
                       <th width="">{{ 'Contract.data.Ratio' | translate }}</th>
                       <th width="">{{ 'Contract.data.Description' | translate }}</th>
                       <th width="">{{ 'Contract.data.IsIntergration' | translate }}</th>
-                      <th width="">{{ 'Button.Action' | translate }}</th>
+                      <th width="8%">{{ 'Button.Action' | translate }}</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -146,8 +147,7 @@
                           <button type="button" class="btn btn-sm btn-outline btn-primary"
                             *ngIf="i+1 === EditRowNumber"><i class="fa fa-check"></i></button>
                           <button type="button" class="btn btn-sm btn-outline btn-success"
-                            (click)="fnEditItem(item.ContractId,i)" data-toggle="modal"
-                            data-target="#myContractModal"><i class="fa fa-pencil"></i></button>
+                            (click)="fnEditItem(item.ContractId,i)" ><i class="fa fa-pencil"></i></button>
                           <button type="button" class="btn btn-sm btn-outline btn-danger" (click)="fnDeleteItem(i)"
                             *ngIf="i+1 !== EditRowNumber"><i class="fa fa-trash"></i></button>
                         </div>

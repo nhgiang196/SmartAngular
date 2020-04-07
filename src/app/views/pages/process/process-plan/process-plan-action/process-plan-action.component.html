@@ -1,0 +1,173 @@
+<div
+  bsModal
+  #childModal="bs-modal"
+  class="modal fade"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="dialog-child-name"
+>
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 id="dialog-child-name" class="modal-title pull-left">
+          {{ "ProcessPlanFactory.Model" | translate }}
+        </h4>
+        <button
+          type="button"
+          class="close pull-right"
+          aria-label="Close"
+          (click)="childModal.hide()"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form role="form">
+          <div class="row">
+            <div class="col-lg-6">
+              <div class="form-group">
+                <label>
+                  {{ "BomFactory.data.FactoryId" | translate }} : *</label
+                >
+                <ui-select-box
+                  entitykey="Factory"
+                  [pageSize]="5"
+                  [checkstatus]="true"
+                  [(ngModelCustom)]="entity.FactoryId"
+                  (valueChange)="onChange()"
+                ></ui-select-box>
+              </div>
+            </div>
+            <div class="col-lg-3">
+              <div class="form-group">
+                <label> {{ "Month" | translate }} : *</label>
+                <input
+                  autocomplete="off"
+                  name="month"
+                  type="text"
+                  class="form-control"
+                  bsDatepicker
+                  readonly
+                  [bsConfig]="bsConfigMonth"
+                  [(ngModel)]="entity.ProcessPlanMonth"
+                  (ngModelChange)="onChange()"
+                  placeholder="Month"
+                />
+              </div>
+            </div>
+            <div class="col-lg-3">
+              <div class="form-group">
+                <label> {{ "Year" | translate }} : *</label>
+                <input
+                  autocomplete="off"
+                  name="year"
+                  type="text"
+                  class="form-control"
+                  bsDatepicker
+                  readonly
+                  [bsConfig]="bsConfigYear"
+                  [(ngModel)]="entity.ProcessPlanYear"
+                  (ngModelChange)="onChange()"
+                  placeholder="Year"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="form-group">
+                <label>
+                  {{ "BomFactory.data.Descriptions" | translate }} :
+                </label>
+                <textarea
+                  autocomplete="off"
+                  type="text"
+                  name="Descriptions"
+                  id="Descriptions"
+                  class="form-control"
+                  placeholder="{{ 'Descriptions' | translate }}"
+                  rows="2"
+                  [(ngModel)]="entity.ProcessPlanDescription"
+                ></textarea>
+                <!-- <div *ngIf="existName" style="color: red;">{{ 'BomFactory.ErrorExistDescriptions' | translate }}</div> -->
+              </div>
+            </div>
+          </div>
+          <hr />
+          <!-- table  -->
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="tabs-container" *ngIf="showTab">
+                <ul class="nav nav-tabs">
+                  <li  *ngFor="let item of entity.ProcessPlanStage;let i= index" [class.active]="i==0">
+                    <a data-toggle="tab" [href]="'#tab-'+i" ><i class="fa fa-info-circle"></i>
+                      {{item.StageName}}
+                    </a>
+                  </li>
+                </ul>
+                <div class="tab-content">
+                  <div  class="tab-pane" *ngFor="let item of entity.ProcessPlanStage;let i= index" [id]="'tab-'+i"  [class.active]="i==0">
+                    <dx-data-grid
+                       [dataSource]="item.ProcessPlanItem"
+                       (onContentReady) ="enableActiveTab($event)"
+                       [remoteOperations]="true" height="auto"  showBorders="true">
+
+                       <dxo-editing
+                         [allowAdding]="true"
+                         [allowUpdating]="true"
+                         [allowDeleting]="true"
+                         [useIcons] ="true"
+                         >
+                         <dxo-texts confirmDeleteMessage="Are you sure Delete?"></dxo-texts>
+                       </dxo-editing>
+                       <dxi-column dataField="ItemId" caption="{{'Item.datacolumn.ItemId' | translate }} (*)" >
+                         <dxo-lookup
+                             [dataSource]="dataSourceItem"
+                             displayExpr="ItemName"
+                             valueExpr="ItemId">
+                         </dxo-lookup>
+                         <dxi-validation-rule type="required"></dxi-validation-rule>
+                       </dxi-column>
+                       <dxi-column dataField="UnitId" caption="{{'Item.datacolumn.UnitId' | translate }} (*)" >
+                        <dxo-lookup
+                            [dataSource]="dataSourceUnit"
+                            displayExpr="UnitName"
+                            valueExpr="UnitId">
+                        </dxo-lookup>
+                        <dxi-validation-rule type="required"></dxi-validation-rule>
+                      </dxi-column>
+                      <dxi-column dataField="Quantity" caption="{{'Item.datacolumn.Quantity' | translate }} (*)" ></dxi-column>
+                    </dx-data-grid>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button
+          class="btn btn-primary btn-save"
+          [ladda]="laddaSubmitLoading"
+          [disabled]="
+            entity.FactoryId == 0 ||
+            entity.FactoryId == null ||
+            entity.ProcessPlanMonth == 0 ||
+            entity.ProcessPlanYear == 0
+          "
+          (click)="fnSave()"
+        >
+          <i class="fa fa-plus"></i>
+          {{ "Button.Save" | translate }}
+        </button>
+        <button
+          type="button"
+          class="btn btn-default waves-effect"
+          (click)="childModal.hide()"
+        >
+          Cancel
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
