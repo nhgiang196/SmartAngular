@@ -4,6 +4,7 @@ import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
 import DataSource from 'devextreme/data/data_source';
 import * as AspNetData from "devextreme-aspnet-data-nojquery";
+import CustomStore from 'devextreme/data/custom_store';
 const ApiUrl = environment.apiUrl;
 @Injectable({
   providedIn: 'root'
@@ -25,6 +26,16 @@ loadDxoGrid(entity,actionLoad="",actionDelete="",actionInsert="",actionUpdate=""
      }
     }),
     filter:checkStatus?["Status","=","1"]:[]
+  });
+}
+
+loadDxoGridCustomStore(entity,cbLoad,cbInsert,cbUpdate,cbRemove) {
+  return new CustomStore({
+    key: entity+ "Id",
+    load: () => cbLoad(),
+    insert: (values) => cbInsert(values),
+    update: (key, values) => cbUpdate(values),
+    remove: (key) => cbRemove(key)
   });
 }
 

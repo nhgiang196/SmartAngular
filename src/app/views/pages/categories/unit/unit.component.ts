@@ -13,8 +13,11 @@ import { ToastrService } from 'ngx-toastr';
 import Swal from 'sweetalert2';
 import { Unit } from 'src/app/core/models/unit';
 import { GenericFactoryService } from 'src/app/core/services/general/generic-factory.service';
-import { MyHelperService } from 'src/app/core/services/my-helper.service';
 import { HttpClient } from '@angular/common/http';
+import { DevextremeService } from 'src/app/core/services/general/devextreme.service';
+import { MyHelperService } from 'src/app/core/services/my-helper.service';
+import { environment } from 'src/environments/environment';
+const API_URL = environment.apiUrl;
 @Component({
   selector: 'app-unit',
   templateUrl: './unit.component.html',
@@ -30,15 +33,25 @@ export class UnitComponent implements OnInit {
     // private api: UnitService,
     // private api: IGenericFactoryService<Unit>,
     private http: HttpClient,
-    private helper: MyHelperService,
     private auth: AuthService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private devExtreme: DevextremeService,
+    private helper: MyHelperService
   ) {
     // this.api = new GenericFactoryService<Unit>(http,helper);
     // this.dataSource = this.api.getDataGridUnit();
      this.unitService = new GenericFactoryService<Unit>(http, helper,Unit);
     this.dataSource = this.unitService.getDataGrid();
     // this.unitValidation = this.unitValidation.bind(this)
+
+    // this.dataSource = this.devExtreme.loadDxoGridCustomStore(
+    //   "Unit",
+    //   ()=>  helper.sendRequest(API_URL + "/Unit/DataGridUnitPagination"),
+    //   (value)=> api.addUnit(value).toPromise(),
+    //   (value)=> api.updateUnit(value).toPromise(),
+    //   (value)=> api.deleteUnit(value).toPromise().then());
+
+    this.unitValidation = this.unitValidation.bind(this)
     config({
       floatingActionButtonConfig: directions.down
     });
@@ -78,7 +91,7 @@ export class UnitComponent implements OnInit {
     if (e.dataField == "UnitName" && e.parentType === "dataRow") {
       e.setValue((e.value == null) ? "" : (e.value + "")); // Updates the cell value
     }
-    //Prepare Status editor to dxSwitch 
+    //Prepare Status editor to dxSwitch
     if (e.dataField == "Status" && e.parentType === "dataRow") {
       e.editorName = "dxSwitch";
     }

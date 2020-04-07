@@ -99,16 +99,16 @@
             <div class="col-lg-12">
               <div class="tabs-container" *ngIf="showTab">
                 <ul class="nav nav-tabs">
-                  <li  *ngFor="let item of bomFactory.BomStage;let i= index" [class.active]="i==0">
+                  <li  *ngFor="let item of entity.ProcessPlanStage;let i= index" [class.active]="i==0">
                     <a data-toggle="tab" [href]="'#tab-'+i" ><i class="fa fa-info-circle"></i>
                       {{item.StageName}}
                     </a>
                   </li>
                 </ul>
                 <div class="tab-content">
-                  <div  class="tab-pane" *ngFor="let item of bomFactory.BomStage;let i= index" [id]="'tab-'+i"  [class.active]="i==0">
+                  <div  class="tab-pane" *ngFor="let item of entity.ProcessPlanStage;let i= index" [id]="'tab-'+i"  [class.active]="i==0">
                     <dx-data-grid
-                       [dataSource]="item.BomItemOut"
+                       [dataSource]="item.ProcessPlanItem"
                        (onContentReady) ="enableActiveTab($event)"
                        [remoteOperations]="true" height="auto"  showBorders="true">
 
