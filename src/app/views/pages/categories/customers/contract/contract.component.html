@@ -1,330 +1,134 @@
-
-<div class="modal inmodal"  id="myContractModal" data-backdrop="static" data-keyboard="true" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog modal-lg "  style="width: 65%;">
-    <div class="modal-content animated fadeIn" >
+<!-- <form id="myForm" (submit)="fnSave($event)"> -->
+<div class="modal inmodal" id="myContractModal" bsModal #childModal="bs-modal" data-backdrop="static"
+  data-keyboard="true" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-lg " style="width: 80%;">
+    <div class="modal-content animated fadeIn">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
             class="sr-only">Close</span></button>
         <h4 class="modal-title"> {{'Contract.label.Information' | translate }}</h4>
       </div>
       <div class="modal-body">
-
-        <div class="ibox-content" [ngClass]=" {'sk-loading': iboxloading}">
-          <div class="sk-spinner sk-spinner-wave">
-            <div class="sk-rect1"></div>
-            <div class="sk-rect2"></div>
-            <div class="sk-rect3"></div>
-            <div class="sk-rect4"></div>
-            <div class="sk-rect5"></div>
-          </div>
-          <form role="form" #mySubForm="ngForm">
-
-            <div class="row">
-              <div class="col-lg-6">
-                <div class="form-group">
-                  <label> {{ 'Contract.data.ContractNo' | translate }} *: </label>
-                  <input autocomplete="off" type="text" name="ContractNo" id="ContractNo" [(ngModel)]="entity.ContractNo" class="form-control" placeholder="{{ 'Contract.placeholder.ContractNo' | translate }}" 
-                   [ngClass]="{ 'is-invalid':  invalid.Existed_ContractNo }" required>
-                    <div *ngIf="invalid.Existed_ContractNo" style="color: red;">{{ 'Contract.invalid.Existed_ContractNo' | translate }}</div>
-                </div>
-              </div>
-              <div class="col-lg-6">
-                <label>{{ 'Contract.data.ContractType' | translate }} *:</label>
-                <select autocomplete="off" class="select2_demo_3 form-control" [(ngModel)]="entity.ContractType" name="ContractType" id="ContractType"  required>
-                  <option selected value=1> {{ 'Contract.data.ContractType1' | translate }} </option>
-                  <option value=2> {{ 'Contract.data.ContractType2' | translate }} </option>
-                </select>
-                
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-lg-6">
-                <label>{{ 'Contract.data.ContractCode' | translate }} *:</label>
-                <input autocomplete="off" type="text" name="ContractCode" id="ContractCode" [(ngModel)]="entity.ContractCode" class="form-control" placeholder="{{ 'Contract.placeholder.ContractCode' | translate }}" 
-                   [ngClass]="{ 'is-invalid':  invalid.Existed_ContractCode }" required>
-                <div *ngIf="invalid.Existed_ContractCode" style="color: red;">{{ 'Contract.invalid.Existed_ContractCode' | translate }}</div>
-                
-                
-                
-              </div>
-  
-              <div class="col-lg-6">
-                <div class="form-group">
-                  <label>{{ 'Contract.data.SignDate' | translate }}* :</label>
-                  <input autocomplete="off"  type="text" name="SignDate" id="SignDate" class="form-control" placeholder="{{ 'Contract.placeholder.SignDate' | translate }}"  required
-                    bsDatepicker readonly [bsConfig]="bsConfig" [(ngModel)]="entity.ContractSignDate">
-                </div>
-              </div>
-             
-            </div>
-            <div class="row">
-              <div class="col-lg-6">
-                <div class="form-group">
-                  <label>{{ 'Contract.data.EffectiveDate' | translate }}* :</label>
-                  <input autocomplete="off"  type="text" name="EffectiveDate" id="EffectiveDate" class="form-control" placeholder="{{ 'Contract.placeholder.EffectiveDate' | translate }}" required
-                  bsDatepicker readonly [bsConfig]="bsConfig" [(ngModel)]="entity.ContractEffectiveDate">
-  
-                </div>
-  
-                
-              </div>
-              <div class="col-lg-6">
-                <label>{{ 'Contract.data.EndDate' | translate }} :</label>
-                <input autocomplete="off" type="text" name="EndDate" id="EndDate" class="form-control" placeholder="{{ 'Contract.placeholder.EndDate' | translate }}" 
-                  bsDatepicker readonly [bsConfig]="bsConfig" [(ngModel)]="entity.ContractEndDate">
-                
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-lg-6">
-                <div class="form-group">
-                  <label> {{ 'Contract.data.StandardType' | translate }} *: </label>
-                  <select autocomplete="off" class="select2_demo_3 form-control" [(ngModel)]="entity.StandardType" name="StandardType" id="StandardType"  placeholder="Select" >
-                    <option selected value=1 > {{ 'Contract.data.StandardType1' | translate }} </option>
-                    <option value=2> {{ 'Contract.data.StandardType2' | translate }} </option>
-                  </select>
-  
-                </div>
-                
-              </div>
-              <div class="col-lg-6">
-                <div class="form-group">
-                  <label>{{ 'Contract.data.Description' | translate }} :</label>
-                  <input autocomplete="off" type="text" name="Description" id="Description" [(ngModel)]="entity.ContractDescription" class="form-control" placeholder="{{ 'Contract.placeholder.Description' | translate }}" >
-                </div>
-                
-                
-                
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-lg-6">
-                <div class="form-group">
-                  <label> {{ 'Contract.data.Ratio' | translate }} *: </label>
-                  <input autocomplete="off" type="number" min="0" max="100" name="Ratio" id="Ratio" [(ngModel)]="entity.WasteWaterRatio" class="form-control" placeholder="{{ 'Contract.placeholder.Ratio' | translate }}" 
-                  (keyup)="ratioOnChange($event)">
-  
-                </div>
-                
-              </div>  
-              <div class="col-lg-6">
-                <div class="form-group">
-                  <label>{{ 'Contract.data.IsIntergration' | translate }} :</label>
-  
-                  <span><i class="fa fa-lg" (click)="entity.IsIntergration= !entity.IsIntergration"  [ngClass]="{'fa-check-square-o text-info': entity.IsIntergration==true, 'fa-square-o':entity.IsIntergration==false}" ></i> </span>
-  
-                  
-                </div>
-              </div>
-            </div>
-  
-  
-            <div class="row">
-              <div class="col-lg-12">
-                <div class="ibox">
-                  <div class="ibox-title">
-                    <h5>{{'Contract.label.Breach' | translate}} </h5>
-                    <div class="ibox-tools" >
-                      <a class="collapse-link" data-toggle="collapse" data-parent="#accordion" href="myCollapse2">
-                        <i class="fa fa-chevron-up"></i>
-                      </a>
-                    </div>
-                  </div>
-                  <div class="ibox-content" id="myCollapse2" >.
-                    <div class="table-responsive">
-  
-                    <table class="table table-bordered">
-                      <thead>
-                        <tr>
-                          <th width="">#</th>
-                          <th width="">{{ 'Contract.data.ContractBreach.BreachType' | translate }} *</th>
-                          <th width="">{{ 'Contract.data.ContractBreach.ResolveType' | translate }} *</th>
-                          <th width="">{{ 'Contract.data.ContractBreach.Times' | translate }}</th>
-                          <th width="">{{ 'Button.Action' | translate }}</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr class="" *ngFor="let item of entity.ContractBreach; let i = index"
-                          [@simpleFadeAnimation]="'in'">
-                          <td> {{i+1}} </td>
-                          <!-- TABLE -->
-                          <td *ngIf="i+1 !== EditRowNumber">{{ 'Contract.data.ContractBreach.ResolveType'+item.ResolveType | translate }} </td>
-                          <td *ngIf="i+1 !== EditRowNumber">{{ 'Contract.data.ContractBreach.BreachType'+item.BreachType | translate }} </td>
-                          <td *ngIf="i+1 !== EditRowNumber">{{item.Times}} </td>
-                          <!-- FORM -->
-                          
-                          <td *ngIf="i+1 === EditRowNumber">
-                            <select autocomplete="off" class="select2_demo_3 form-control"  [(ngModel)]="subEntity_ContractBreach.ResolveType" name="ResolveType" >
-                              <option selected value=1> {{ 'Contract.data.ContractBreach.ResolveType1' | translate }} </option>
-                              <option value=2> {{ 'Contract.data.ContractBreach.ResolveType2' | translate }} </option>
-                            </select>
-                          </td>
-                          <td *ngIf="i+1 === EditRowNumber">
-                            <select autocomplete="off" class="select2_demo_3 form-control"  [(ngModel)]="subEntity_ContractBreach.BreachType" name="BreachType" >
-                              <option selected value=1> {{ 'Contract.data.ContractBreach.BreachType1' | translate }} </option>
-                              <option value=2> {{ 'Contract.data.ContractBreach.BreachType2' | translate }} </option>
-                            </select>
-                          </td>
-                          <td *ngIf="i+1 === EditRowNumber">
-                            <input autocomplete="off" type="number" min="0" [(ngModel)]="subEntity_ContractBreach.Times" (keyup)="subEntity_ContractBreach.Times= breachTimesOnChange($event)" class="form-control" name="Times" ></td>
-                          <!-- BUTTON -->
-                          <td>
-                            <div class="btn-group">
-                              <button type="button" class="btn btn-sm btn-outline btn-primary"
-                                [disabled]="!subEntity_ContractBreach.BreachType || !subEntity_ContractBreach.ResolveType || !subEntity_ContractBreach.Times"
-                                (click)="EditRowNumber=0" *ngIf="i+1 === EditRowNumber"><i class="fa fa-check"></i></button>
-                              <button type="button" class="btn btn-sm btn-outline btn-success" (click)="fnEditContractBreach(i)" [disabled]="EditRowNumber!=0"
-                                *ngIf="i+1 !== EditRowNumber"><i class="fa fa-pencil"></i></button>
-                              <button type="button" class="btn btn-sm btn-outline btn-danger" (click)="fnDeleteContractBreach(i)"
-                                *ngIf="i+1 !== EditRowNumber"><i class="fa fa-trash"></i></button>
-                            </div>
-                          </td>
-                        </tr>
-                        
-                        <tr>
-                          <td> {{entity.ContractBreach.length+1}} </td>
-                          <td> 
-                            <select autocomplete="off" class="select2_demo_3 form-control"  [(ngModel)]="newEntity_ContractBreach.BreachType" name="newBreachType" >
-                              <option selected value=1> {{ 'Contract.data.ContractBreach.BreachType1' | translate }} </option>
-                              <option value=2> {{ 'Contract.data.ContractBreach.BreachType2' | translate }} </option>
-                            </select>
-                          <td> 
-                            <select autocomplete="off" class="select2_demo_3 form-control"  [(ngModel)]="newEntity_ContractBreach.ResolveType" name="newResolveType" >
-                              <option selected value=1> {{ 'Contract.data.ContractBreach.ResolveType1' | translate }} </option>
-                              <option value=2> {{ 'Contract.data.ContractBreach.ResolveType2' | translate }} </option>
-                            </select>
-                          <td> <input autocomplete="off" type="number" min="0" class="form-control"  name="newTimes" [(ngModel)]="newEntity_ContractBreach.Times" (keyup)="newEntity_ContractBreach.Times= breachTimesOnChange($event)"> </td>
-                          <td>
-                            <button [disabled]="!newEntity_ContractBreach.BreachType || !newEntity_ContractBreach.ResolveType || !subEntity_ContractBreach.Times"
-                            type="button" class="btn  btn-sm btn-outline btn-info pull-right"  (click)="fnAddContractBreach(newEntity_ContractBreach)"><i class="fa fa-plus"></i> </button>
-                          </td>
-                        </tr>
-      
-                      </tbody>
-                    </table>
-  
-                  </div>
-                  
-  
-  
-  
-  
-  
-  
-  
-                  </div>
-                 
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-lg-12">
-                <div class="ibox">
-                  <div class="ibox-title">
-                    <h5>{{'Contract.label.Price' | translate}} </h5>
-                    <div class="ibox-tools" >
-                      <a class="collapse-link" data-toggle="collapse" data-parent="#accordion" href="myCollapse2">
-                        <i class="fa fa-chevron-up"></i>
-                      </a>
-                    </div>
-                  </div>
-                  <div class="ibox-content" id="myCollapse2" >
-  
-                    <table class="table table-bordered">
-                      <thead>
-                        <tr>
-                          <th width="">#</th>
-                          <th width="">{{ 'Contract.data.ContractPrice.Ratio' | translate }} *</th>
-                          <th width="">{{ 'Contract.data.ContractPrice.Currency' | translate }} *</th>
-                          <th width="">{{ 'Contract.data.ContractPrice.Price' | translate }}</th>
-                          <th width="">{{ 'Contract.data.ContractPrice.Tax' | translate }}</th>
-                          <th width="">{{ 'Button.Action' | translate }}</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-      
-                        <tr class="" *ngFor="let item of entity.ContractPrice; let i = index"
-                          [@simpleFadeAnimation]="'in'">
-                          <td> {{i+1}} </td>
-                          <!-- TABLE -->
-                          <td *ngIf="i+1 !== EditRowNumber_PRICE">{{item.WaterFlow}} </td>
-                          <td *ngIf="i+1 !== EditRowNumber_PRICE">{{item.Currency}} </td>
-                          <td *ngIf="i+1 !== EditRowNumber_PRICE">{{item.Price}} </td>
-                          <td *ngIf="i+1 !== EditRowNumber_PRICE">{{item.Tax}} </td>
-                          <!-- FORM -->
-                          <td *ngIf="i+1 === EditRowNumber_PRICE">
-                            <input autocomplete="off" type="number" min="0" class="form-control" name="Ratio" [(ngModel)]="subEntity_ContractPrice.WaterFlow"></td>
-                          <td *ngIf="i+1 === EditRowNumber_PRICE">
-                            <input autocomplete="off" type="text" class="form-control" name="Currency" [(ngModel)]="subEntity_ContractPrice.Currency"></td>
-                          <td *ngIf="i+1 === EditRowNumber_PRICE">
-                            <input autocomplete="off" type="number" min="0" class="form-control" name="Price" [(ngModel)]="subEntity_ContractPrice.Price"></td>
-                          <td *ngIf="i+1 === EditRowNumber_PRICE">
-                            <input autocomplete="off" type="number" min="0" class="form-control" name="Tax" [(ngModel)]="subEntity_ContractPrice.Tax"></td>
-                          <!-- BUTTON -->
-                          <td>
-                            <div class="btn-group">
-                              <button type="button" class="btn btn-sm btn-outline btn-primary" (click)="validatePrice(subEntity_ContractPrice)" *ngIf="i+1 === EditRowNumber_PRICE"
-                              [disabled]="disabled_ContractPrice()" ><i class="fa fa-check"></i></button>
-                              <button type="button" class="btn btn-sm btn-outline btn-success" (click)="fnEditContractPrice(i)"  [disabled]="EditRowNumber_PRICE!=0"
-                                *ngIf="i+1 !== EditRowNumber_PRICE"><i class="fa fa-pencil"></i></button>
-                              <button type="button" class="btn btn-sm btn-outline btn-danger" (click)="fnDeleteContractPrice(i)"
-                                *ngIf="i+1 !== EditRowNumber_PRICE"><i class="fa fa-trash"></i></button>
-                            </div>
-                          </td>
-                        </tr>
-                        
-                        <tr>
-                          <td> {{entity.ContractPrice.length+1}} </td>
-                          <td> <input autocomplete="off" type="number" min="0" class="form-control" name="newRatio" [(ngModel)]="newEntity_ContractPrice.WaterFlow"> </td>
-                          <td> <input autocomplete="off" type="text" class="form-control" name="newCurrency" [(ngModel)]="newEntity_ContractPrice.Currency"> </td>
-                          <td> <input autocomplete="off" type="number" min="0" class="form-control" name="newPrice" [(ngModel)]="newEntity_ContractPrice.Price"> </td>
-                          <td> <input autocomplete="off" type="number" min="0" class="form-control" name="newTax" [(ngModel)]="newEntity_ContractPrice.Tax"> </td>
-                          <td>
-                            <button type="button" class="btn  btn-sm btn-outline btn-info pull-right" (click)="fnAddContractPrice(newEntity_ContractPrice)" 
-                            [disabled]="disabled_ContractPrice()"
-                            ><i class="fa fa-plus" ></i> </button>
-                          </td>
-                        </tr>
-      
-                      </tbody>
-                    </table>
-  
-                  </div>
-                 
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-lg-12">
-                <div class="ibox">
-                  <div class="ibox-title">
-                    <h5>{{'Contract.label.File' | translate}} </h5>
-                    <div class="ibox-tools" >
-                      <a class="collapse-link" data-toggle="collapse" data-parent="#accordion" href="myCollapse2">
-                        <i class="fa fa-chevron-up"></i>
-                      </a>
-                    </div>
-                  </div>
-                  <div class="ibox-content" id="myCollapse2" >
-                    <app-smart-upload  #contractFile [filePath]="pathFile" (entityFile)="this.entity.ContractFile = $event" ></app-smart-upload>
-                  </div>
-                 
-                </div>
-              </div>
-            </div>
-            
-          </form>
-
+        <div class="dx-fieldset">
+          <dx-form #targetForm [(formData)]="entity" [colCount]="2" validationGroup>
+            <dxi-item dataField="ContractNo" [label]="{text: trans.instant('Contract.data.ContractNo')}">
+              <dxi-validation-rule type="required"></dxi-validation-rule>
+              <dxi-validation-rule type="async" ignoreEmptyValue="true" [validationCallback]="validateAsync"
+                message="Exsits Contract Code"></dxi-validation-rule>
+            </dxi-item>
+            <dxi-item dataField="ContractCode" [label]="{text: trans.instant('Contract.data.ContractCode')}">
+              <dxi-validation-rule type="required"></dxi-validation-rule>
+              <dxi-validation-rule type="async" ignoreEmptyValue="true" [validationCallback]="validateAsync"
+                message="Exsits Contract Code"></dxi-validation-rule>
+            </dxi-item>
+            <dxi-item dataField="ContractType" editorType="dxSelectBox"
+              [label]="{text: trans.instant('Contract.data.ContractType')}" [editorOptions]="{ displayExpr: 'text' ,valueExpr:'id' ,
+                items: [
+                 { id: 1, text: trans.instant('Contract.data.ContractType1')}
+                ,{ id: 2, text: trans.instant('Contract.data.ContractType2')}
+                ]}"></dxi-item>
+            <dxi-item dataField="ContractDescription" editorType="dxTextArea"
+              [label]="{text: trans.instant('Contract.data.ContractDescription')}"></dxi-item>
+            <dxi-item dataField="ContractSignDate" editorType="dxDateBox"
+              [label]="{text: trans.instant('Contract.data.ContractSignDate')}">
+              <dxi-validation-rule type="required"></dxi-validation-rule>
+            </dxi-item>
+            <dxi-item dataField="ContractEffectiveDate" editorType="dxDateBox"
+              [label]="{text: trans.instant('Contract.data.ContractEffectiveDate')}">
+              <dxi-validation-rule type="custom" ignoreEmptyValue="true" [validationCallback]="validateFunction"
+                message="Contract Effective Date Date Compare Validate">
+              </dxi-validation-rule>
+            </dxi-item>
+            <dxi-item dataField="ContractEndDate" editorType="dxDateBox"
+              [label]="{text: trans.instant('Contract.data.ContractEndDate')}">
+              <dxi-validation-rule type="custom" ignoreEmptyValue="true" [validationCallback]="validateFunction"
+                message="Contract End Date Compare Validate">
+              </dxi-validation-rule>
+            </dxi-item>
+            <dxi-item dataField="StandardType" editorType="dxSelectBox"
+              [label]="{text: trans.instant('Contract.data.StandardType')}" [editorOptions]="{ displayExpr: 'text' ,valueExpr:'id' ,
+                items: [
+                 { id: 1, text: trans.instant('Contract.data.StandardType1')}
+                ,{ id: 2, text: trans.instant('Contract.data.StandardType2')}
+                ]}"></dxi-item>
+            <dxi-item dataField="WasteWaterRatio" editorType="dxNumberBox"
+              [label]="{text: trans.instant('Contract.data.WasteWaterRatio')}">
+              <dxi-validation-rule type="range" [min]="0" [max]="100" message="Range 0-100"></dxi-validation-rule>
+            </dxi-item>
+            <dxi-item dataField="IsIntergration" editorType="dxCheckBox"
+              [label]="{text: trans.instant('Contract.data.IsIntergration')}"></dxi-item>
+          </dx-form>
         </div>
-        
-        
-        
-
-        
+        <div class="dx-fieldset">
+          <div class="dx-fieldset-header">{{'Contract.label.Breach' | translate}} </div>
+          <dx-data-grid [dataSource]="entity.ContractBreach" allowColumnResizing="true" [showBorders]="true">
+            <dxo-editing mode="row" [allowUpdating]="true" [allowDeleting]="true" [allowAdding]="true"
+              [useIcons]="true">
+            </dxo-editing>
+            <dxi-column dataField="BreachType" caption="{{ 'Contract.data.ContractBreach.BreachType' | translate }}">
+              <dxi-validation-rule type="required"></dxi-validation-rule>
+              <dxo-lookup displayExpr="text" valueExpr="id" [dataSource]="breachTypeList"></dxo-lookup>
+              <dxi-validation-rule type="custom" reevaluate="true" [validationCallback]="validateFunction"
+                message="Existed Breach Type"></dxi-validation-rule>
+            </dxi-column>
+            <dxi-column dataField="ResolveType" caption="{{ 'Contract.data.ContractBreach.ResolveType' | translate }}">
+              <dxi-validation-rule type="required"></dxi-validation-rule>
+              <dxo-lookup displayExpr="text" valueExpr="id" [dataSource]="resolveTypeList"></dxo-lookup>
+            </dxi-column>
+            <dxi-column dataField="Times" caption="{{ 'Contract.data.ContractBreach.Times' | translate }}"
+              dataType="number">
+              <dxi-validation-rule type="required"></dxi-validation-rule>
+              <dxi-validation-rule type="range" [min]="0" message="Times >0"></dxi-validation-rule>
+            </dxi-column>
+            <dxo-paging [pageSize]="7"></dxo-paging>
+            <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[7,25, 50, 100]"></dxo-pager>
+          </dx-data-grid>
+        </div>
+        <div class="dx-fieldset">
+          <div class="dx-fieldset-header">{{'Contract.label.Price' | translate}} </div>
+          <dx-data-grid [dataSource]="entity.ContractPrice" allowColumnResizing="true" [showBorders]="true">
+            <dxo-editing mode="row" [allowUpdating]="true" [allowDeleting]="true" [allowAdding]="true"
+              [useIcons]="true">
+            </dxo-editing>
+            <dxi-column dataField="WaterFlow" caption="{{ 'Contract.data.ContractPrice.WaterFlow' | translate }}"
+              dataType="number">
+              <dxi-validation-rule type="required"></dxi-validation-rule>
+              <dxi-validation-rule type="range" [min]="0" [max]="100" message="Range 0-100"></dxi-validation-rule>
+              <dxi-validation-rule type="custom" reevaluate="true" [validationCallback]="validateFunction"
+                message="Existed WaterFlow"></dxi-validation-rule>
+            </dxi-column>
+            <dxi-column dataField="Currency" caption="{{ 'Contract.data.ContractPrice.Currency' | translate }}">
+              <dxi-validation-rule type="required"></dxi-validation-rule>
+            </dxi-column>
+            <dxi-column dataField="Price" caption="{{ 'Contract.data.ContractPrice.Price' | translate }}"
+              dataType="number">
+              <dxi-validation-rule type="required"></dxi-validation-rule>
+              <dxi-validation-rule type="range" [min]="0" [max]="100" message="Range 0-100"></dxi-validation-rule>
+            </dxi-column>
+            <dxi-column dataField="Tax" caption="{{ 'Contract.data.ContractPrice.Tax' | translate }}" dataType="number">
+              <dxi-validation-rule type="required"></dxi-validation-rule>
+              <dxi-validation-rule type="range" [min]="0" [max]="100" message="Range 0-100"></dxi-validation-rule>
+            </dxi-column>
+            <dxo-paging [pageSize]="7"></dxo-paging>
+            <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[7,25, 50, 100]"></dxo-pager>
+          </dx-data-grid>
+        </div>
+        <div class="dx-fieldset">
+          <app-smart-upload #contractFile [filePath]="pathFile" (entityFile)="this.entity.ContractFile = $event">
+          </app-smart-upload>
+        </div>
       </div>
       <div class="modal-footer">
-        <button class="btn btn-white"  data-dismiss="modal">{{'Button.Close' | translate}}</button>
-        <button type="button" class="btn btn-primary" [disabled]="mySubForm.invalid || EditRowNumber!=0 || EditRowNumber_PRICE!=0 "  [ladda]="laddaSubmitLoading" (click)="fnSave()" ><i class="fa fa-paper-plane-o"></i> {{'Button.Save' | translate}} </button>
+        <div class="row">
+          <div class="col-sm-6">
+            <!-- <dx-validation-summary [elementAttr]="{ form: 'myForm'  }" id="summary"></dx-validation-summary> -->
+          </div>
+          <div class="col-sm-6">
+            <button class="btn btn-white" data-dismiss="modal">{{'Button.Close' | translate}}</button>
+            <button type="button" class="btn btn-primary" [ladda]="laddaSubmitLoading" (click)="fnSave()"><i
+                class="fa fa-paper-plane-o"></i> {{'Button.Save' | translate}} </button>
+          </div>
+        </div>
       </div>
     </div>
   </div>

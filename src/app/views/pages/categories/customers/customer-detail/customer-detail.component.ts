@@ -167,6 +167,10 @@ export class CustomerDetailComponent implements OnInit {
     
   }
 
+  validateFunction_FactoryId = (e) => {
+    return !(e.value ==0 || e.value==null)
+  };
+
   
   validateAsync_CustomerCode = (e) =>{ 
     return new Promise(async (resolve) => { 

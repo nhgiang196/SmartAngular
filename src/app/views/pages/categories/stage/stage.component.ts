@@ -43,22 +43,21 @@ export class StageComponent implements OnInit {
     this.dataGrid.instance.addRow();
     this.dataGrid.instance.deselectAll();
   }
-  onSwitchStatus(e) { 
+  onSwitchStatus(e) {
     this.entity.Status = e.value;//this.entity.Status == 0 ? 1 : 0;
-   }
+  }
   //Load popup by propertyId
   filterByStageId(e) {
     this.resetEntity();
     this.entity.StageId = e.data.StageId
-    this.stageService.findStageById(this.entity.StageId).subscribe(res =>{
+    this.stageService.findStageById(this.entity.StageId).subscribe(res => {
       this.entity = res
       this.pushFiles(this.entity.StageFile);
     })
   }
-  pushFiles(stageFiles)
-  {
-     /**CONTROL FILES */
-     stageFiles.forEach(item => {
+  pushFiles(stageFiles) {
+    /**CONTROL FILES */
+    stageFiles.forEach(item => {
       let _tempFile = new File([], item.File.FileLocalName);
       this.files.push(_tempFile);
     })
@@ -76,7 +75,7 @@ export class StageComponent implements OnInit {
       e.setValue((e.value == null) ? "" : (e.value + "")); // Updates the cell value
     }
     if (e.dataField == "Status" && e.parentType === "dataRow") {
-      e.editorName = "dxSwitch"; 
+      e.editorName = "dxSwitch";
     }
   }
 
@@ -89,24 +88,25 @@ export class StageComponent implements OnInit {
     //reAssign for get properties of oldData
     const data = Object.assign(e.oldData, e.newData);
     data.ModifyBy = this.auth.currentUser.Username;
-    data.ModifyDate = new Date(); 
-    data.Status =  data.Status ? 1 : 0; //tenary operation if (data.status == true) return 1 else return 0
-    data.StageFile = this.resetStageId(this.entity.StageFile)    
+    data.ModifyDate = new Date();
+    data.Status = data.Status ? 1 : 0; //tenary operation if (data.status == true) return 1 else return 0
+    data.StageFile = this.resetStageId(this.entity.StageFile)
     e.newData = data;//set object   
-    if (this.addFiles.FileList.length > 0) 
-        this.uploadFile(this.addFiles.FileList);
+    if (this.addFiles.FileList.length > 0)
+      this.uploadFile(this.addFiles.FileList);
+
   }
 
   onRowInsertingStage(e) {
-    e.data.Status =  e.data.Status ? 1 : 0;
+    e.data.Status = e.data.Status ? 1 : 0;
     e.data.CreateBy = this.auth.currentUser.Username;
     e.data.CreateDate = new Date();
     e.data.StageId = 0;
     e.data.StageFile = this.entity.StageFile//this.stageFiles;
-    if (this.addFiles.FileList.length > 0) 
+    if (this.addFiles.FileList.length > 0)
       this.uploadFile(this.addFiles.FileList);
   }
-  
+
   onInitNewRow(e) {
     this.resetEntity();
     e.data.Status = 1;
@@ -126,7 +126,7 @@ export class StageComponent implements OnInit {
   downloadFile(filename) { //press File to download (in modal)
     this.fileService.downloadFile(this.pathFile + '/' + filename);
   }
-  
+
   onRemove(event) { //press x to delte file (in modal)
     let index = this.files.indexOf(event);
     this.files.splice(index, 1); //UI del
@@ -210,7 +210,7 @@ export class StageComponent implements OnInit {
       this.uploadReportProgress = { progress: 0, message: 'Error: ' + err.statusText, isError: true };
     });
   }
-  stageValidation(e){
+  stageValidation(e) {
     console.log(e);
     if (e.value == "" || e.value == null) {
       return new Promise((resolve, reject) => {
@@ -222,10 +222,10 @@ export class StageComponent implements OnInit {
           .then((result: any) => {
             result.Success ? resolve() : reject("StageName already exist!");
             resolve(result);
-          }) .catch(error => {
+          }).catch(error => {
             //console.error("Server-side validation error", error);
             resolve()
-        });
+          });
       });
     }
   }
