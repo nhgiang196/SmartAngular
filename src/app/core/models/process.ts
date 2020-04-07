@@ -78,8 +78,7 @@ export class ProcessPlanFactory {
   CreateDate: Date
   ModifyBy: string
   ModifyDate: Date
-  Status: number
-  Factory:Factory
+  Status: number=1;
   ProcessPlanStage:Array<ProcessPlanStage>= new Array<ProcessPlanStage>();
 }
 
@@ -88,8 +87,6 @@ export class ProcessPlanStage {
   ProcessPlanFactoryId: number
   StageId: number
   StageName: string
-  ProcessPlanFactory: ProcessPlanFactory = new ProcessPlanFactory()
-  Stage: Stage = new Stage();
   ProcessPlanItem:Array<ProcessPlanItem> =new Array<ProcessPlanItem>();
 }
 

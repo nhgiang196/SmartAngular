@@ -48,4 +48,8 @@ export class ProcessPlanComponent implements OnInit {
   showAdd(){
     this.modalChild.showChildModal(null);
   }
+
+  loadInit(){
+    this.dataSourceProcessPlan.reload();
+  }
 }

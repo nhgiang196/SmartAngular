@@ -22,19 +22,5 @@ export class BomService {
 
    validateBomFactory =(entity) =>this.http.post(`${ApiUrl}/BomFactory/ValidateBomFactory`,entity);
    getAllUnitByItemId =(id) => this.http.get<any>(`${ApiUrl}/BomFactory/GetAllUnitByItemId?id=${id}` );
-   getDataGridBomFactory(key) {
-    return  new DataSource({
-       store: AspNetData.createStore({
-         key: key,
-         loadUrl: `${ApiUrl}/BomFactory/GetBomFactoryDataGridPagination`,
-         deleteUrl:`${ApiUrl}/BomFactory/DeleteBomFactory`,
-         onBeforeSend: function (method, ajaxOptions) {
-           ajaxOptions.data.keyId = key;
-        }
-       })
-     });
-   }
-
-   getLookupDataSource =(params) => this.http.get<any>(`${ApiUrl}/Stage/UI_SelectBox`, { params: params } );
 
 }
