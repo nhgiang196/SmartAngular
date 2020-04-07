@@ -8,7 +8,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { ItemType } from 'src/app/core/models/item';
 import { map } from 'rxjs/operators';
 import { DevextremeService } from 'src/app/core/services/general/devextreme.service';
-
+import swal from "sweetalert2";
 @Component({
   selector: 'app-item',
   templateUrl: './item.component.html',
@@ -52,5 +52,9 @@ export class ItemComponent implements OnInit {
 
   rediactToAction(event){
     this.router.navigate(['/pages/category/item/action/'+event.row.data.ItemId])
+  }
+
+  onDataErrorOccurred(err){
+    swal.fire("Validate", "Xóa thất bại do ràng buộc khóa", "error");
   }
 }

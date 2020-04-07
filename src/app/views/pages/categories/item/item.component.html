@@ -50,6 +50,8 @@
             <div class="col-lg-12">
               <dx-data-grid
               [dataSource]="dataSource"
+              (onDataErrorOccurred)="onDataErrorOccurred($event)"
+              [errorRowEnabled]="false"
               [remoteOperations]="true"  [showBorders]="true" [showRowLines]="true" style="max-height: 500px;">
 
               <dxo-selection mode="single"></dxo-selection>
