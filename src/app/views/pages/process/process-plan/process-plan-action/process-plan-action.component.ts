@@ -10,7 +10,8 @@ import { BsDatepickerViewMode } from 'ngx-bootstrap/datepicker/models';
 import { BehaviorSubject } from 'rxjs';
 import { ProcessPlanFactoryService } from 'src/app/core/services/process-plan.service';
 import { async } from 'rxjs/internal/scheduler/async';
-import { BomFactory } from 'src/app/core/models/bom';
+import { BomFactory, BomItemOut } from 'src/app/core/models/bom';
+import { checkActiveTab } from 'src/app/app.helpers';
 
 @Component({
   selector: 'app-process-plan-action',
@@ -21,6 +22,8 @@ export class ProcessPlanActionComponent implements OnInit {
   @ViewChild("childModal", { static: false }) childModal: ModalDirective;
   entity:ProcessPlanFactory = new  ProcessPlanFactory();
   bomFactory:BomFactory= new BomFactory();
+
+
   processPlanStage:ProcessPlanStage = new ProcessPlanStage();
   processPlanItem: ProcessPlanItem = new ProcessPlanItem();
   laddaSubmitLoading = false;
@@ -51,9 +54,10 @@ export class ProcessPlanActionComponent implements OnInit {
     this.dataSourceUnit = this.devExtreme.loadDxoLookup("Unit");
   }
 
-  showChildModal(item:ProcessPlanFactory) {
+ async showChildModal(item:ProcessPlanFactory) {
     if(item!=null){
-      this.entity =item;
+      var data =await this.processPlanService.findProcessPlanFactoryById(item.ProcessPlanFactoryId).toPromise().then();
+      this.entity =data;
     }else{
       this.entity = new ProcessPlanFactory();
     }
@@ -70,9 +74,31 @@ export class ProcessPlanActionComponent implements OnInit {
       );
       let dataBomFactory =await this.loadBomStageNearestByFactoryId(this.entity.FactoryId,month,year);
       if(dataBomFactory!=null){
-        this.bomFactory = dataBomFactory
-        console.log(dataBomFactory);
+        this.entity.ProcessPlanStage = new Array<ProcessPlanStage>();
+
+       if(dataBomFactory.BomStage.length>0){
+        dataBomFactory.BomStage.forEach(item => {
+          var processPlanStage = new ProcessPlanStage();
+          processPlanStage.StageId = item.StageId;
+          processPlanStage.StageName = item.StageName;
+          if(item.BomItemOut.length>0){
+            item.BomItemOut.forEach(itemOut => {
+              var processPlanItem = new ProcessPlanItem();
+              processPlanItem.ItemId = itemOut.ItemId;
+              processPlanItem.UnitId = itemOut.UnitId;
+              processPlanItem.Quantity = itemOut.Quantity;
+              processPlanStage.ProcessPlanItem.push(processPlanItem);
+            });
+          }
+          this.entity.ProcessPlanStage.push(processPlanStage);
+         }
+         );
+       }
+        console.log(this.entity.ProcessPlanStage);
         this.showTab =true;
+      }
+      else{
+        this.entity.ProcessPlanStage = new Array<ProcessPlanStage>();
       }
     }
     else{
@@ -84,5 +110,10 @@ export class ProcessPlanActionComponent implements OnInit {
     let params ={factoryId:factoryId,month:month,year:year};
     return  await this.processPlanService.getBomStageNearestByFactoryId(params).toPromise().then();
   }
+
+  enableActiveTab(){
+    checkActiveTab();
+  }
+
 
 }
