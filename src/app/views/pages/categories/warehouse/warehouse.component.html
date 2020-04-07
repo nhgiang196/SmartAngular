@@ -110,7 +110,7 @@
             <dxi-item itemType="group" [colCount]="2">
               <dxi-item dataField="WarehouseCode" [label]="{text: trans.instant('Warehouse.data.WarehouseCode')}">
                 <dxi-validation-rule type="required"></dxi-validation-rule>
-                <dxi-validation-rule type="async" message="Exist Warehouse Code"  [validationCallback]="validateAsync"></dxi-validation-rule>
+                <dxi-validation-rule type="async" message="Exist Warehouse Code"  reevaluate="true" [validationCallback]="validateAsync"></dxi-validation-rule>
               </dxi-item>
               <dxi-item dataField="FactoryId" editorType="dxSelectBox"  [label]="{text: trans.instant('Warehouse.data.FactoryId')}"
               [editorOptions]="{ displayExpr: 'FactoryName' ,valueExpr:'FactoryId' , dataSource: factoryList}">
@@ -122,7 +122,7 @@
             <dxi-item itemType="group" [colCount]="2">
               <dxi-item dataField="WarehouseName" [label]="{text: trans.instant('Warehouse.data.WarehouseName')}">
                 <dxi-validation-rule type="required"></dxi-validation-rule>
-                <dxi-validation-rule type="async" message="Exist Warehouse Name"  [validationCallback]="validateAsync"></dxi-validation-rule>
+                <dxi-validation-rule type="async" message="Exist Warehouse Name" reevaluate="true"  [validationCallback]="validateAsync"></dxi-validation-rule>
               </dxi-item>
               <dxi-item dataField="WarehouseType" [label]="{text: trans.instant('Warehouse.data.WarehouseType')}"  editorType="dxSelectBox" 
               [editorOptions]="{ displayExpr: 'text' ,valueExpr:'id' ,
