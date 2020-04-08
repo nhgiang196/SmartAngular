@@ -87,7 +87,7 @@ export class CustomerDetailComponent implements OnInit {
       e.Status = e.Status? 1 : 0; 
       if (this.route.snapshot.params.id == null) { //add
         e.CreateBy = this.auth.currentUser.Username;
-        this.api.addCustomer(e).subscribe(res => {
+        this.api.add(e).then(res => {
           var operationResult: any = res
           if (operationResult.Success) {
             this.toastr.success(this.trans.instant("messg.add.success"));
@@ -99,7 +99,7 @@ export class CustomerDetailComponent implements OnInit {
       }
       else {
         e.ModifyBy = this.auth.currentUser.Username;
-        this.api.updateCustomer(e).subscribe(res => {
+        this.api.update(e).then(res => {
           var operationResult: any = res
           if (operationResult.Success) {
             this.toastr.success(this.trans.instant("messg.update.success"));
@@ -176,7 +176,7 @@ export class CustomerDetailComponent implements OnInit {
     return new Promise(async (resolve) => { 
       let obj = Object.assign({}, this.entity); //stop binding
       obj['CustomerCode'] = e.value;
-      let _res =await this.api.validateCustomer(obj).toPromise().then() as any;
+      let _res =await this.api.validate(obj).then() as any;
       let _validate = _res.Success? _res.Success : _res.ValidateData.indexOf('CustomerCode')<0;
       resolve(_validate);
     });  
@@ -185,7 +185,7 @@ export class CustomerDetailComponent implements OnInit {
     return new Promise(async (resolve) => { 
       let obj = Object.assign({}, this.entity); //stop binding
       obj['CustomerName'] = e.value;
-      let _res =await this.api.validateCustomer(obj).toPromise().then() as any;
+      let _res =await this.api.validate(obj).then() as any;
       let _validate = _res.Success? _res.Success : _res.ValidateData.indexOf('CustomerName')<0;
       resolve(_validate);
     });  
