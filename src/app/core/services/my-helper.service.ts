@@ -1,5 +1,4 @@
 import { Injectable, ViewChild } from '@angular/core';
-import { Subject } from 'rxjs';
 import { HttpClient, HttpParams } from '@angular/common/http';
 
 @Injectable({
@@ -112,3 +111,20 @@ export class MyHelperService {
   }
 
 }
+
+
+/*
+** dx-form/simpleItem
+ editorType: Type: String
+Accepted Values: 'dxAutocomplete' | 'dxCalendar' | 'dxCheckBox' | 'dxColorBox' | 'dxDateBox' | 'dxDropDownBox' | 'dxHtmlEditor' 
+| 'dxLookup' | 'dxNumberBox' | 'dxRadioGroup' | 'dxRangeSlider' | 'dxSelectBox' | 'dxSlider' | 'dxSwitch' | 'dxTagBox'
+ | 'dxTextArea' | 'dxTextBox'
+
+** dx-grid/ column 
+dataType: 'string' | 'number' | 'date' | 'boolean' | 'object' | 'datetime'
+
+** validate type
+type:  'required' | 'numeric' | 'range' | 'stringLength' | 'custom' | 'compare' | 'pattern' | 'email' | 'async'
+
+
+ */
