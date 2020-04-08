@@ -7,8 +7,6 @@ import { environment } from 'src/environments/environment';
 import * as AspNetData from "devextreme-aspnet-data-nojquery";
 import CustomStore from 'devextreme/data/custom_store';
 import { GenericFactoryService } from './general/generic-factory.service';
-const ApiUrl = environment.apiUrl;
-const NULL_ROUTES = `${environment.apiUrl}/DevExtreme/NullRoutes`;
 @Injectable({providedIn: 'root'})
 export class MonitorStandarService extends GenericFactoryService<MonitorStandard> {
   constructor(http: HttpClient) {

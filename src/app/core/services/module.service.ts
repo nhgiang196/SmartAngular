@@ -3,9 +3,9 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { Module } from '../models/module';
 const ApiUrl = environment.apiUrl;;
-@Injectable({
-  providedIn: 'root'
-})
+// @Injectable({
+//   providedIn: 'root'
+// })
 export class ModuleService {
 
 constructor(private http: HttpClient) { }

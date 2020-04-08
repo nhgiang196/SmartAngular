@@ -44,7 +44,10 @@ export class MonitorChartComponent implements OnInit {
     let entity = this.chartFactory;
     entity.dateFrom = formatDate(entity.dateFrom, format, locale);
     entity.dateTo = formatDate(entity.dateTo, format, locale);
-    this.monitorService.getChartByDate(entity).toPromise().then(res =>  this.monitorsInfo = res as Monitor[]);
+    this.monitorService.getChartByDate(entity).subscribe(res =>  {
+      this.monitorsInfo = res as Monitor[]
+      console.log(this.monitorsInfo.length);
+    });
     // this.monitorsInfo = await this.monitorService.getChartByDate(entity).toPromise().then();
     // console.log(this.monitorsInfo);
   }

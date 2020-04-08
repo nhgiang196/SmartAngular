@@ -81,8 +81,8 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "2mb",
-                  "maximumError": "5mb"
+                  "maximumWarning": "4mb",
+                  "maximumError": "10mb"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -155,5 +155,8 @@
       }
     }
   },
-  "defaultProject": "XLNT-SPA"
+  "defaultProject": "XLNT-SPA",
+  "cli": {
+    "analytics": "eb8c1aa6-8fb6-4d3b-8145-0a3c6c5d0dfe"
+  }
 }
