@@ -5,22 +5,16 @@ import { DataTablesResponse } from '../models/datatable';
 import { environment } from 'src/environments/environment';
 import * as AspNetData from "devextreme-aspnet-data-nojquery";
 import DataSource from 'devextreme/data/data_source';
+import { GenericFactoryService } from './general/generic-factory.service';
+import { Customer } from '../models/customer';
 
 const ApiUrl = environment.apiUrl;
 
 @Injectable({providedIn: 'root'})
-export class CustomerService {
-  constructor(private http: HttpClient) {
-
+export class CustomerService extends GenericFactoryService<Customer>{
+  constructor(http: HttpClient) {
+    super(http,Customer);
   }
-
-  addCustomer =(entity) => this.http.post(`${ApiUrl}/Customer/AddCustomer`,entity);
-  updateCustomer =(entity) => this.http.put(`${ApiUrl}/Customer/UpdateCustomer`,entity);
-  deleteCustomer =(id) => this.http.delete(`${ApiUrl}/Customer/DeleteCustomer`,{ params: { id: id } });
-  getCustomerPagination =(entity) => this.http.post<any>(`${ApiUrl}/IteCustomerm/GetCustomerPagination`,entity,{} );
-  getCustomer =() => this.http.get(`${ApiUrl}/Customer/GetCustomer` );
-  findCustomerById =(id) => this.http.get<any>(`${ApiUrl}/Customer/FindCustomerById?id=${id}` );
-  validateCustomer =(entity) =>{ return this.http.post(`${ApiUrl}/Customer/ValidateCustomer`,entity);}
 
   getDataGrid() {
     var dataSource = new DataSource({
