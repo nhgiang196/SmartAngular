@@ -16,14 +16,6 @@ export class CustomerService extends GenericFactoryService<Customer>{
     super(http,Customer);
   }
 
-  // addCustomer =(entity) => this.http.post(`${ApiUrl}/Customer/AddCustomer`,entity);
-  // updateCustomer =(entity) => this.http.put(`${ApiUrl}/Customer/UpdateCustomer`,entity);
-  // deleteCustomer =(id) => this.http.delete(`${ApiUrl}/Customer/DeleteCustomer`,{ params: { id: id } });
-  // getCustomerPagination =(entity) => this.http.post<any>(`${ApiUrl}/IteCustomerm/GetCustomerPagination`,entity,{} );
-  // getCustomer =() => this.http.get(`${ApiUrl}/Customer/GetCustomer` );
-  // findCustomerById =(id) => this.http.get<any>(`${ApiUrl}/Customer/FindCustomerById?id=${id}` );
-  // validateCustomer =(entity) =>{ return this.http.post(`${ApiUrl}/Customer/ValidateCustomer`,entity);}
-
   getDataGrid() {
     var dataSource = new DataSource({
       store: AspNetData.createStore({

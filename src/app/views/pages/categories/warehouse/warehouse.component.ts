@@ -119,7 +119,7 @@ export class WarehouseComponent implements OnInit {
       this.iboxloading = false;
       console.log('getEntity', res);
       /**CONTROL FILES */
-      this.uploadComponent.loadInit(res.WarehouseFile);
+      this.uploadComponent.loadInit((res as any).WarehouseFile);
       this.entity.ModifyBy = this.auth.currentUser.Username;
     }, error => {
       this.iboxloading = false;
@@ -141,7 +141,7 @@ export class WarehouseComponent implements OnInit {
       reverseButtons: true
     }).then((result) => {
       if (result.value) {
-        this.warehouseService.delete(id).subscribe(res => {
+        this.warehouseService.remove(id).then(res => {
           var operationResult: any = res
           if (operationResult.Success) {
             swal.fire(
@@ -167,7 +167,7 @@ export class WarehouseComponent implements OnInit {
     await this.uploadComponent.uploadFile();
     if (this.ACTION_STATUS == 'add') {
       e.CreateBy = this.auth.currentUser.Username;
-      this.warehouseService.add(e).subscribe(res => {
+      this.warehouseService.add(e).then(res => {
         var operationResult: any = res
         if (operationResult.Success) {
           this.toastr.success(this.trans.instant("messg.add.success"));
@@ -180,7 +180,7 @@ export class WarehouseComponent implements OnInit {
     }
     if (this.ACTION_STATUS == 'update') {
       e.ModifyBy = this.auth.currentUser.Username;
-      this.warehouseService.update(e).subscribe(res => {
+      this.warehouseService.update(e).then(res => {
         var operationResult: any = res
         if (operationResult.Success) {
           this.loadInit();
@@ -221,7 +221,7 @@ export class WarehouseComponent implements OnInit {
     return new Promise(async (resolve) => { 
       let obj = Object.assign({}, this.entity); //stop binding
       obj[e.formItem.dataField] = e.value;
-      let _res =await this.warehouseService.validate(obj).toPromise().then() as any;
+      let _res =await this.warehouseService.validate(obj).then() as any;
       let _validate = _res.Success? _res.Success : _res.ValidateData.indexOf(e.formItem.dataField)<0;
       resolve(_validate);
     });   

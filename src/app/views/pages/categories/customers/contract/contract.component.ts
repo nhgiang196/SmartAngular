@@ -49,11 +49,11 @@ export class ContractComponent implements OnInit, AfterViewInit {
     this.uploadComponent.resetEntity();
     if (id && id != 0) {
       this.iboxloading = true;
-      this.api.findContractById(id).subscribe(res => {
+      this.api.findById(id).subscribe(res => {
         console.log('findContractById', res);
         this.childModal.show();
         this.entity = res;
-        this.uploadComponent.loadInit(res.ContractFile);
+        this.uploadComponent.loadInit((res as any).ContractFile);
         this.iboxloading = false;
       }, err => {
         this.toastr.error(err.statusText, "Load contract failed! Check your connection");
@@ -82,7 +82,7 @@ export class ContractComponent implements OnInit, AfterViewInit {
     {
       e.CreateBy = this.auth.currentUser.Username;
       console.log('create_contract', e);
-      let operationResult = await this.api.addContract(e).toPromise().then().catch(err => this.toastr.error(err.statusText, 'Network')) as any;
+      let operationResult = await this.api.add(e).then().catch(err => this.toastr.error(err.statusText, 'Network')) as any;
       if (operationResult.Success) {
         this.toastr.success(this.trans.instant("messg.add.success"));
         this.entity.ContractId = operationResult.Data; //ID return;
@@ -93,7 +93,7 @@ export class ContractComponent implements OnInit, AfterViewInit {
     else { //update
       e.ModifyBy = this.auth.currentUser.Username;
       console.log('update_Contract', e);
-      let operationResult = await this.api.updateContract(e).toPromise().then().catch(err => this.toastr.error(err.statusText, 'Network')) as any;
+      let operationResult = await this.api.update(e).then().catch(err => this.toastr.error(err.statusText, 'Network')) as any;
       if (operationResult.Success) {
         this.toastr.success(this.trans.instant("messg.update.success"));
         this.sendtoParentView(this.entity);
@@ -128,7 +128,7 @@ export class ContractComponent implements OnInit, AfterViewInit {
     return new Promise(async (resolve) => { 
       let obj = Object.assign({}, this.entity); //stop binding
       obj[e.formItem.dataField] = e.value;
-      let _res =await this.api.validateContract(obj).toPromise().then() as any;
+      let _res =await this.api.validate(obj).then() as any;
       let _validate = _res.Success? _res.Success : _res.ValidateData.indexOf(e.formItem.dataField)<0;
       resolve(_validate);
       resolve(true);
