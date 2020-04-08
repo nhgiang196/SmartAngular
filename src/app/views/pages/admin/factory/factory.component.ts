@@ -92,11 +92,11 @@ export class FactoryComponent implements OnInit {
     if (id == null) { this.toastr.warning('Factory ID is Null, cant show modal'); return; }
     this.ACTION_STATUS = 'update';
     this.iboxloading = true;
-    this.api.getFactoryById(id).subscribe(res => {
+    this.api.findById(id).subscribe(res => {
       this.entity = res;
       $("#myModal4").modal('show');
       this.iboxloading = false;
-      this.uploadComponent.loadInit(res.FactoryFile);
+      this.uploadComponent.loadInit((res as any).FactoryFile);
       this.entity.ModifyBy = this.auth.currentUser.Username;
     }, error => {
       this.iboxloading = false;
@@ -115,7 +115,7 @@ export class FactoryComponent implements OnInit {
     })
       .then((result) => {
         if (result.value) {
-          this.api.deleteFactory(id).subscribe(res => {
+          this.api.remove(id).then(res => {
             var operationResult: any = res
             if (operationResult.Success) {
               swal.fire(
@@ -151,7 +151,7 @@ export class FactoryComponent implements OnInit {
     var e = this.fnConvertFactoryDate(this.entity);
     await this.uploadComponent.uploadFile();
     if (this.ACTION_STATUS == 'add') {
-      this.api.addFactory(e).subscribe(res => {
+      this.api.add(e).then(res => {
         var operationResult: any = res
         if (operationResult.Success) {
           this.toastr.success(this.trans.instant("messg.add.success"));
@@ -163,7 +163,7 @@ export class FactoryComponent implements OnInit {
       }, err => { this.toastr.error(err.statusText);  })
     }
     if (this.ACTION_STATUS == 'update') {
-      this.api.updateFactory(e).subscribe(res => {
+      this.api.update(e).then(res => {
         var operationResult: any = res
         if (operationResult.Success) {
           this.loadInit();
@@ -207,7 +207,7 @@ export class FactoryComponent implements OnInit {
     return new Promise(async (resolve) => { 
       let obj = Object.assign({}, this.entity); //stop binding
       obj[e.formItem.dataField] = e.value;
-      let _res =await this.api.validateFactory(obj).toPromise().then() as any;
+      let _res =await this.api.validate(obj).then() as any;
       let _validate = _res.Success? _res.Success : _res.ValidateData.indexOf(e.formItem.dataField)<0;
       resolve(_validate);
     });   
