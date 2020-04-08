@@ -18,6 +18,6 @@ export class WareHouseService extends GenericFactoryService<Warehouse>{
     pr.key = keyvalue;
     pr.page = page<1? 1 : page;
     pr.pageSize = pageSize;
-    return this.http.post<any>(`${ApiUrl}/Warehouse/GetPaginationByStored`,pr);
+    return this.http.post<any>(`${ApiUrl}/Warehouse/GetWarehousePaginationByStored`,pr);
   };
 }

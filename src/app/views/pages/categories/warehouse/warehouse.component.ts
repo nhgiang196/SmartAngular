@@ -65,8 +65,10 @@ export class WarehouseComponent implements OnInit {
     this.loadUsers();
     this.loadInit();
   }
-
-  
+  private async resetEntity() { //reset entity values
+    this.entity = new Warehouse();
+    this.EditRowNumber = 0;
+  }
   private loadUsers() {
     this.auth.getUsers().subscribe(res => {
       this.initCombobox.Users = res;
@@ -77,10 +79,6 @@ export class WarehouseComponent implements OnInit {
     e.data.WarehouseId = this.entity.WarehouseId;
     e.data.Status = true;
   }
-
-  changeWarehouseLocationStatus(event){
-    event.data.Status = event.data.Status? 1: 0;
-  }
   searchLoad() {
     this.pageIndex = 1;
     this.loadInit();
@@ -89,8 +87,6 @@ export class WarehouseComponent implements OnInit {
     this.iboxloading = true;
     this.warehouseService.getPagination(this.keyword, this.pageIndex, this.pageSize).subscribe(res => {
       var data = res as any;
-      // this.selectComponent.specialId = res.FactoryId;
-      // this.selectComponent.loadInit();
       this.Warehouse = data.result;
       this.Warehouse_showed = data.totalCount;
       this.iboxloading = false;
@@ -126,10 +122,7 @@ export class WarehouseComponent implements OnInit {
       this.toastr.error(error.statusText, "Load factory information error");
     })
   }
-  pageChanged(event: PageChangedEvent): void {
-    this.pageIndex = event.page;
-    this.loadInit();
-  }
+  
   fnDelete(id) { //press Delete Entity
     swal.fire({
       title: this.trans.instant('Warehouse.mssg.DeleteAsk_Title'),
@@ -192,15 +185,15 @@ export class WarehouseComponent implements OnInit {
     }
   }
   /** EVENT TRIGGERS */
-  /** PRIVATES FUNCTIONS */
-  private async resetEntity() { //reset entity values
-    this.entity = new Warehouse();
-    this.EditRowNumber = 0;
-  }
-  private CheckBeforeEdit(id) { //check auth before edit 
-    this.toastr.warning("User not dont have permission");
+  pageChanged(event: PageChangedEvent): void {
+    this.pageIndex = event.page;
+    this.loadInit();
   }
 
+  changeWarehouseLocationStatus(event){
+    event.data.Status = event.data.Status? 1: 0;
+  }
+  
 
   validateFunction = (e) => {
     if (e.formItem)
@@ -217,7 +210,6 @@ export class WarehouseComponent implements OnInit {
 
   validateAsync = (e) =>{ 
     console.log('Validate Async', e)
-    // return true;
     return new Promise(async (resolve) => { 
       let obj = Object.assign({}, this.entity); //stop binding
       obj[e.formItem.dataField] = e.value;
@@ -228,6 +220,7 @@ export class WarehouseComponent implements OnInit {
 
   }
   
+
   ngOnDestroy() {
     $('.modal').modal('hide');
   }
