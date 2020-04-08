@@ -16,19 +16,10 @@ declare let $: any;
   selector: 'app-factory',
   templateUrl: './factory.component.html',
   styleUrls: ['./factory.component.css'],
-  animations: [
-    // the fade-in/fade-out animation.
-    trigger('simpleFadeAnimation', [
-      transition(':leave',
-        animate(300, style({ opacity: 0 })))
-    ])
-  ]
 })
 export class FactoryComponent implements OnInit {
-  @ViewChild('myInputFile', { static: true }) InputManual: ElementRef; // set for emtpy file after Close or Reload
   @ViewChild('targetSmartUpload', { static: false }) uploadComponent: SmartUploadComponent;
   @ViewChild('targetForm', { static: true }) targetForm: DxFormComponent;
-  @ViewChild('targetValidate', { static: true }) targetValidate: DxValidatorComponent;
   constructor(
     private api: FactoryService,
     private toastr: ToastrService,
@@ -56,6 +47,9 @@ export class FactoryComponent implements OnInit {
     this.loadInit();
   }
   /**INIT FUNCTIONS */
+  private resetEntity() {
+    this.entity = new Factory();
+  }
   loadInit() {
     this.iboxloading = true;
     this.api.getFactoryPaginationMain(this.keyword, this.pageIndex, this.pageSize).subscribe(res => {
@@ -68,18 +62,11 @@ export class FactoryComponent implements OnInit {
       this.iboxloading = false;
     })
   }
-  pageChanged(event: PageChangedEvent): void {
-    this.pageIndex = event.page;
-    this.loadInit();
-  }
+  /** BUTTON ACTIONS */
   searchLoad() {
     this.pageIndex = 1;
     this.loadInit();
   }
-  private resetEntity() {
-    this.entity = new Factory();
-  }
-  /** BUTTON ACTIONS */
   fnAdd() { //press add buton
     this.ACTION_STATUS = 'add';
     this.targetForm.instance.resetValues();
@@ -148,7 +135,8 @@ export class FactoryComponent implements OnInit {
       })
   }
   async fnSave() { //press save/SUBMIT button
-    var e = this.fnConvertFactoryDate(this.entity);
+    // var e = this.fnConvertFactoryDate(this.entity);
+    var e = this.entity;
     await this.uploadComponent.uploadFile();
     if (this.ACTION_STATUS == 'add') {
       this.api.add(e).then(res => {
@@ -175,16 +163,11 @@ export class FactoryComponent implements OnInit {
     }
     
   }
-  /** PRIVATES FUNCTIONS */
-  private fnConvertFactoryDate(e: Factory) {
-    e.FactoryBuiltDate = this.helper.dateConvertToString(e.FactoryBuiltDate) as any;
-    e.FactoryStartDate = this.helper.dateConvertToString(e.FactoryStartDate) as any;
-    e.FactoryEndDate = this.helper.dateConvertToString(e.FactoryEndDate) as any;
-    for (var index in e.FactoryTechnology) {
-      e.FactoryTechnology[index].TechnologyFromDate = this.helper.dateConvertToString(e.FactoryTechnology[index].TechnologyFromDate) as any;
-      e.FactoryTechnology[index].TechnologyToDate = this.helper.dateConvertToString(e.FactoryTechnology[index].TechnologyToDate) as any;
-    }
-    return e;
+
+  /** EVent Triggers */
+  pageChanged(event: PageChangedEvent): void {
+    this.pageIndex = event.page;
+    this.loadInit();
   }
   validateFunction = (e) => {
     if (e.formItem)
@@ -200,10 +183,8 @@ export class FactoryComponent implements OnInit {
     }
     return true;
   };
-
   validateAsync = (e) =>{ 
     console.log('Validate Async', e)
-    // return true;
     return new Promise(async (resolve) => { 
       let obj = Object.assign({}, this.entity); //stop binding
       obj[e.formItem.dataField] = e.value;
@@ -213,8 +194,18 @@ export class FactoryComponent implements OnInit {
     });   
 
   }
-  ngAfterViewInit() { //CSS
-  }
+  /** PRIVATES FUNCTIONS */
+  // private fnConvertFactoryDate(e: Factory) {
+  //   e.FactoryBuiltDate = this.helper.dateConvertToString(e.FactoryBuiltDate) as any;
+  //   e.FactoryStartDate = this.helper.dateConvertToString(e.FactoryStartDate) as any;
+  //   e.FactoryEndDate = this.helper.dateConvertToString(e.FactoryEndDate) as any;
+  //   for (var index in e.FactoryTechnology) {
+  //     e.FactoryTechnology[index].TechnologyFromDate = this.helper.dateConvertToString(e.FactoryTechnology[index].TechnologyFromDate) as any;
+  //     e.FactoryTechnology[index].TechnologyToDate = this.helper.dateConvertToString(e.FactoryTechnology[index].TechnologyToDate) as any;
+  //   }
+  //   return e;
+  // }
+  
   ngOnDestroy() {
     $('.modal').modal('hide');
   }
