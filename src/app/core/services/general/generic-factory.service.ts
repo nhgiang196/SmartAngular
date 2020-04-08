@@ -50,7 +50,20 @@ export class GenericFactoryService<T> implements IGenericFactoryService<T> {
      filter: checkStatus ? ["Status", "=", "1"] : ""
     })
   }
+
+  getDxoLookup(checkStatus =true){
+    return {
+      store: createStore({
+        key: this.entity + "Id",
+        loadUrl: `${ApiUrl}/${this.entity}/UI_SelectBox`,
+    }) ,
+    paginate: true,
+    pageSize: 10,
+    filter: checkStatus?["Status", "=", 1]:[]
+    }
+  }
   getDataGridUrl(actionLoad = "", actionDelete = "", actionInsert = "", actionUpdate = "", checkStatus = true) {
+    let entity = this.entity;
     return new DataSource({
       store: createStore({
         key: `${this.entity}Id`,
@@ -59,13 +72,14 @@ export class GenericFactoryService<T> implements IGenericFactoryService<T> {
         updateUrl: `${ApiUrl}/${this.entity}/${actionUpdate}`,
         insertUrl: `${ApiUrl}/${this.entity}/${actionInsert}`,
         onBeforeSend: function (method, ajaxOptions) {
-          ajaxOptions.data.keyId = this.entity + "Id";
+          ajaxOptions.data.keyId = `${entity}Id`;
         }
       }),
       filter: checkStatus ? ["Status", "=", "1"] : ""
     });
   }
   getDataGridWithOutUrl(checkStatus: boolean = true) {
+    let entity = this.entity;
     return new DataSource({
       store: createStore({
         key: `${this.entity}Id`,
@@ -74,7 +88,7 @@ export class GenericFactoryService<T> implements IGenericFactoryService<T> {
         updateUrl: `${ApiUrl}/${this.entity}/Update${this.entity}`,
         insertUrl: `${ApiUrl}/${this.entity}/Add${this.entity}`,
         onBeforeSend: function (method, ajaxOptions) {
-          ajaxOptions.data.keyId = this.entity + "Id";
+          ajaxOptions.data.keyId = entity + "Id";
         }
       }),
       filter: checkStatus ? ["Status", "=", "1"] : ""
@@ -98,10 +112,10 @@ export class GenericFactoryService<T> implements IGenericFactoryService<T> {
 
   /**
    * Sends request
-   * @param url 
+   * @param url
    * @param [method] GET, POST, PUT, DELETE
    * @param [data] Return data
-   * @returns request 
+   * @returns request
    */
 
   private sendRequest(url: string, method: string = "GET", data: any = {}): any {

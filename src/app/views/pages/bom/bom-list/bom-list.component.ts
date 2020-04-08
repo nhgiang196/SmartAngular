@@ -20,9 +20,7 @@ export class BomListComponent implements OnInit {
    }
 
   ngOnInit() {
-    let actionLoad ="GetBomFactoryDataGridPagination";
-    let actionDelete ="DeleteBomFactory";
-    this.dataSource = this.devExtreme.loadDxoGrid("BomFactory",actionLoad,actionDelete);
+    this.dataSource = this.bomService.getDataGridWithOutUrl();
     this.loadFactorySelectBox();
 
   }

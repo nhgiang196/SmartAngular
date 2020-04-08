@@ -5,7 +5,7 @@ import { Unit } from '../models/unit';
 import { GenericFactoryService } from './general/generic-factory.service';
 @Injectable({ providedIn: 'root' })
 export class UnitService extends GenericFactoryService<Unit>{
-  constructor(http: HttpClient) { 
+  constructor(http: HttpClient) {
     super(http,Unit);
   }
   demoFunction()

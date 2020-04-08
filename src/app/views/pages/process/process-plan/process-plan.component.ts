@@ -22,6 +22,7 @@ export class ProcessPlanComponent implements OnInit {
     private fileService: FileService,
     private helper: MyHelperService,
     private toastr: ToastrService,
+    private processPlanService:ProcessPlanFactoryService,
     private devExtreme:DevextremeService) {
       this.showModalAction = this.showModalAction.bind(this);
     }
@@ -31,10 +32,7 @@ export class ProcessPlanComponent implements OnInit {
   }
 
   loadDataSourceProcessPlan(){
-    let entity= "ProcessPlanFactory";
-    let actionLoad = "DataGridProcessPlanFactoryPagination";
-    let actionDelete = "DeleteProcessPlanFactory";
-    this.dataSourceProcessPlan= this.devExtreme.loadDxoGrid(entity,actionLoad,actionDelete);
+    this.dataSourceProcessPlan= this.processPlanService.getDataGridWithOutUrl();
   }
 
   loadDataSourceFactory(){

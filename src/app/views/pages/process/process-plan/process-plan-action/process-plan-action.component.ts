@@ -59,7 +59,7 @@ export class ProcessPlanActionComponent implements OnInit {
 
   fnSave(){
     console.log(this.entity);
-    this.processPlanService.addProcessPlanFactory(this.entity).subscribe(res=>{
+    this.processPlanService.add(this.entity).then(res=>{
       let result = res as any;
       if(result.Success){
         this.toastr.success("Add success");
@@ -72,7 +72,7 @@ export class ProcessPlanActionComponent implements OnInit {
   async showChildModal(item: ProcessPlanFactory) {
     if (item != null) {
       this.action ="update";
-      var data = await this.processPlanService.findProcessPlanFactoryById(item.ProcessPlanFactoryId).toPromise().then();
+      var data = await this.processPlanService.findById(item.ProcessPlanFactoryId).toPromise().then();
       this.entity = data;
       console.log(this.entity)
     } else {

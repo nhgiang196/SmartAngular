@@ -13,7 +13,7 @@ export class ItemResolver implements Resolve<Item> {
         private toastr: ToastrService) { }
 
     resolve(router: ActivatedRouteSnapshot): Observable<Item> {
-        return  this.api.findItemById(router.params['id']).pipe(
+        return  this.api.findById(router.params['id']).pipe(
             map(item=>{
                 // item.ItemFactory.forEach(e => {
                 //     e.FactoryName = e.Factory.FactoryName

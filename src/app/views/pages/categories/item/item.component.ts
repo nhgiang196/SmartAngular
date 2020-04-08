@@ -23,21 +23,18 @@ export class ItemComponent implements OnInit {
     private itemTypeService: ItemTypeService,
     private router: Router,
     private route: ActivatedRoute,
-    private devExtreme: DevextremeService
   ) {
     this.rediactToAction = this.rediactToAction.bind(this);
   }
   async ngOnInit() {
     await this.getAllItemType();
     this.itemTypeId = this.route.snapshot.params.id || 0;
-    this.dataSource = this.devExtreme.loadDxoGrid('Item',"GetItemDataGridPagination","DeleteItem");
+    this.dataSource = this.itemService.getDataGridWithOutUrl();
     if(this.itemTypeId!=0){
       this.searchItemByItemType(this.itemTypeId);
     }
 
   }
-
-
   async getAllItemType() {
     this.listItemType = await this.itemTypeService.getAll().pipe(map(res => {
       return res as Array<ItemType>;

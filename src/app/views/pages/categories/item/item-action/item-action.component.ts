@@ -47,13 +47,13 @@ export class ItemActionComponent implements OnInit {
   addFiles: { FileList: File[]; FileLocalNameList: string[] };
 
   constructor(private itemService: ItemService,
+    private devExtreme:DevextremeService,
      private route: ActivatedRoute,
      private auth: AuthService,
      public helper: MyHelperService,
      private toastr: ToastrService,
     private trans: TranslateService,
     private router: Router,
-    private devExtremeService:DevextremeService,
     private fileService:FileService) { }
 
   ngOnInit() {
@@ -94,7 +94,7 @@ export class ItemActionComponent implements OnInit {
     //Clear rác
     if (this.entity.ItemId ==0) {
       if (await this.fnValidate(e)) {
-        this.itemService.addItem(e).subscribe(
+        this.itemService.add(e).then(
           res => {
             let operationResult: any = res;
             if (operationResult.Success) {
@@ -117,7 +117,7 @@ export class ItemActionComponent implements OnInit {
       }
     } else {
       console.log(">>", this.entity);
-      this.itemService.updateItem(e).subscribe(
+      this.itemService.update(e).then(
         res => {
           let operationResult: any = res;
           if (operationResult.Success) {
@@ -183,7 +183,7 @@ export class ItemActionComponent implements OnInit {
   }
 
   loadFactorySelectBox() {
-    this.dataSourceFactory =  this.devExtremeService.loadDxoLookup("Factory");
+    this.dataSourceFactory =  this.itemService.getDxoLookup();
   }
 
   ///Area Item Property////
@@ -206,7 +206,7 @@ export class ItemActionComponent implements OnInit {
     }
   }
   loadItemPropertySelectBox(itemTypeId) {
-    this.dataSourceItemTypeProperty = this.devExtremeService.loadDxoLookup("ItemTypeProperty",false);
+    this.dataSourceItemTypeProperty = this.devExtreme.loadDxoLookup("ItemTypeProperty",false);
   }
 
   ///Area Item Package////
@@ -234,7 +234,7 @@ export class ItemActionComponent implements OnInit {
   }
 
   loadUnitSelectbox(){
-   this.dataSourceUnit =  this.devExtremeService.loadDxoLookup("Unit");
+   this.dataSourceUnit =  this.devExtreme.loadDxoLookup("Unit");
   }
 
   ///FILE////
