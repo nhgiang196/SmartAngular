@@ -11,6 +11,7 @@ const ApiUrl = environment.apiUrl;
   providedIn: 'root'
 })
 export class ProcessPlanFactoryService {
+  
   constructor(private http: HttpClient, private helper: MyHelperService) {}
 
   findProcessPlanFactoryById =(id) => this.http.get<any>(`${ApiUrl}/ProcessPlanFactory/FindProcessPlanFactoryById?id=${id}` );

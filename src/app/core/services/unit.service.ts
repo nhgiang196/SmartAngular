@@ -13,6 +13,9 @@ export class UnitService extends GenericFactoryService<Unit>{
     console.log('Hello world')
   }
   getUnitId(){
-    this.findById(2).then(res=>console.log(res));
+    this.findById(2).subscribe(res=>console.log(res));
+  }
+  getHttpRequest(){
+    this.http.get('Unit/GellAll');
   }
 }

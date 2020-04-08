@@ -50,7 +50,7 @@ export class StageComponent implements OnInit {
   filterByStageId(e) {
     this.resetEntity();
     this.entity.StageId = e.data.StageId
-    this.stageService.findById(this.entity.StageId).then(res => {
+    this.stageService.findById(this.entity.StageId).subscribe(res => {
       this.entity = res
       this.pushFiles(this.entity.StageFile);
     })

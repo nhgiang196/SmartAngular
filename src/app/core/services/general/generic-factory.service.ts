@@ -4,6 +4,7 @@ import { environment } from 'src/environments/environment';
 import CustomStore from 'devextreme/data/custom_store';
 import DataSource from 'devextreme/data/data_source';
 import { createStore } from 'devextreme-aspnet-data-nojquery';
+import { Observable } from 'rxjs';
 const ApiUrl = environment.apiUrl;
 @Injectable({
   providedIn: 'root'
@@ -79,8 +80,8 @@ export class GenericFactoryService<T> implements IGenericFactoryService<T> {
       filter: checkStatus ? ["Status", "=", "1"] : ""
     });
   }
-  findById(id: any): Promise<T> {
-    return this.http.get<T>(`${ApiUrl}/${this.entity}/FindBy${this.entity}Id`, { params: { id: id } }).toPromise();
+  findById(id: any):Observable<T> {
+    return this.http.get<T>(`${ApiUrl}/${this.entity}/Find${this.entity}ById`, { params: { id: id } });
   }
   add(entity): Promise<T> {
     return this.http.post<T>(`${ApiUrl}/${this.entity}/Add${this.entity}`, entity).toPromise();
