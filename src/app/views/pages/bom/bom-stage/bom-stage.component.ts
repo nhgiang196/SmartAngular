@@ -49,7 +49,7 @@ export class BomStageComponent implements OnInit {
       if (this.entity.BomFactoryId == 0) {
         this.entity.CreateBy = this.auth.currentUser.Username;
         this.entity.CreateDate = this.helpper.dateConvertToString(new Date());
-        this.bomService.addBomFactory(this.entity).subscribe(
+        this.bomService.add(this.entity).then(
           res => {
             let result = res as any;
             if (result.Success) {
@@ -73,7 +73,7 @@ export class BomStageComponent implements OnInit {
         this.removeIdChild();
         console.log("a", this.entity);
 
-        this.bomService.updateBomFactory(this.entity).subscribe(
+        this.bomService.update(this.entity).then(
           res => {
             var result = res as any;
             if (result.Success) {
@@ -109,8 +109,7 @@ export class BomStageComponent implements OnInit {
     let model: BomFactory = JSON.parse(JSON.stringify(this.entity));
     model.BomStage = null;
     var data = (await this.bomService
-      .validateBomFactory(model)
-      .toPromise()
+      .validate(model)
       .then()) as any;
     console.log(data);
     return data;
