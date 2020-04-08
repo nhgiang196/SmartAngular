@@ -42,7 +42,7 @@ export class ItemComponent implements OnInit {
 
 
   async getAllItemType() {
-    this.listItemType = await this.itemTypeService.getItemType().pipe(map(res => {
+    this.listItemType = await this.itemTypeService.getAll().pipe(map(res => {
       return res as Array<ItemType>;
     })).toPromise().then();
   }

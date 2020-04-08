@@ -56,7 +56,7 @@ export class ProcessPlanActionComponent implements OnInit {
 
  async showChildModal(item:ProcessPlanFactory) {
     if(item!=null){
-      var data =await this.processPlanService.findProcessPlanFactoryById(item.ProcessPlanFactoryId).toPromise().then();
+      var data =await this.processPlanService.findById(item.ProcessPlanFactoryId).then();
       this.entity =data;
     }else{
       this.entity = new ProcessPlanFactory();

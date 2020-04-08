@@ -20,7 +20,7 @@ export class MonitorService {
   }
 
   addMonitor =(entity) => this.http.post(`${ApiUrl}/Monitor/AddMonitor`,entity);
-   updateMonitor =(entity) => this.http.put(`${ApiUrl}/Monitor/UpdateMonitor`,entity);
+   updateMonitor =(entity) => this.http.put(`${ApiUrl}/Monitor/UpdateMonitor`,entity)
    getDataTableMonitorPagination =(entity) => this.http.post<DataTablesResponse>(`${ApiUrl}/Monitor/DataTableMonitorPagination`,entity);
    deleteMonitor =(id) => this.http.delete(`${ApiUrl}/Monitor/DeleteMonitor`,{ params: { id: id } });
    getMonitorPagination =(keySearch) => {

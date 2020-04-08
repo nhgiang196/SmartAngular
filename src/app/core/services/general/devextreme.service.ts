@@ -35,7 +35,7 @@ loadDxoGridCustomStore(entity,cbLoad,cbInsert,cbUpdate,cbRemove) {
     load: () => cbLoad(),
     insert: (values) => cbInsert(values),
     update: (key, values) => cbUpdate(values),
-    remove: (key) => cbRemove(key)
+    remove: (key) => cbRemove(key),
   });
 }
 

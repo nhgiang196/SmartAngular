@@ -33,7 +33,7 @@ export class ItemTypeComponent implements OnInit {
     
   ) {
     //LOAD MSTER GRID
-    this.dataSourceItemTypes = this.itemTypeService.getDataGridItemType(); // default load with new Customer Store
+    this.dataSourceItemTypes = this.itemTypeService.getDataGrid(false); // default load with new Customer Store
     this.masterValidation = this.masterValidation.bind(this);
     this.detailValidation = this.detailValidation.bind(this);
     config({
@@ -134,7 +134,7 @@ export class ItemTypeComponent implements OnInit {
 
       } else {
         return new Promise((resolve, reject) => {
-          this.itemTypeService.validateItemType(e.data).toPromise()
+          this.itemTypeService.validate(e.data)
             .then((result: any) => {
               result.Success ? resolve() : reject("ItemType already exist!");
               resolve(result);

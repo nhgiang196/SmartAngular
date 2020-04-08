@@ -5,7 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AuthsModule } from './views/auths/auths.module';
 import { AuthGuard } from './core/guards/auth.guard';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { AuthInterceptor } from './core/helpers/AuthInterceptor';
 import { SharedModule } from './core/shared/shared.module';
@@ -36,7 +36,9 @@ import { UISampleModule } from './views/UISample/UISample.module';
 import { ItemResolver } from './core/resolvers/item.resolver';
 import { FileService } from './core/services/file.service';
 import { DevextremeService } from './core/services/general/devextreme.service';
-
+import { GenericFactoryService } from './core/services/general/generic-factory.service';
+import { Unit } from './core/models/unit';
+import { MyHelperService } from './core/services/my-helper.service';
 const SERVICE = [
   AuthService,
   BomService,

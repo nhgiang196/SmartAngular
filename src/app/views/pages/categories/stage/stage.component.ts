@@ -32,7 +32,7 @@ export class StageComponent implements OnInit {
     private fileService: FileService,
     private helper: MyHelperService,
     private toastr: ToastrService) {
-    this.dataSource = this.stageService.getDataGridStage();
+    this.dataSource = this.stageService.getDataGrid(false);
     this.stageValidation = this.stageValidation.bind(this);
   }
 
@@ -50,7 +50,7 @@ export class StageComponent implements OnInit {
   filterByStageId(e) {
     this.resetEntity();
     this.entity.StageId = e.data.StageId
-    this.stageService.findStageById(this.entity.StageId).subscribe(res => {
+    this.stageService.findById(this.entity.StageId).then(res => {
       this.entity = res
       this.pushFiles(this.entity.StageFile);
     })
@@ -218,7 +218,7 @@ export class StageComponent implements OnInit {
       });
     } else {
       return new Promise((resolve, reject) => {
-        this.stageService.validateStage(e.data).toPromise()
+        this.stageService.validate(e.data)
           .then((result: any) => {
             result.Success ? resolve() : reject("StageName already exist!");
             resolve(result);
