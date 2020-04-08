@@ -97,7 +97,7 @@
           <!-- table  -->
           <div class="row">
             <div class="col-lg-12">
-              <div class="tabs-container" *ngIf="showTab">
+              <div class="tabs-container" >
                 <ul class="nav nav-tabs">
                   <li  *ngFor="let item of entity.ProcessPlanStage;let i= index" [class.active]="i==0">
                     <a data-toggle="tab" [href]="'#tab-'+i" ><i class="fa fa-info-circle"></i>
@@ -113,14 +113,13 @@
                        [remoteOperations]="true" height="auto"  showBorders="true">
 
                        <dxo-editing
-                         [allowAdding]="true"
                          [allowUpdating]="true"
                          [allowDeleting]="true"
                          [useIcons] ="true"
                          >
                          <dxo-texts confirmDeleteMessage="Are you sure Delete?"></dxo-texts>
                        </dxo-editing>
-                       <dxi-column dataField="ItemId" caption="{{'Item.datacolumn.ItemId' | translate }} (*)" >
+                       <dxi-column [allowEditing]="false" dataField="ItemId" caption="{{'Item.datacolumn.ItemId' | translate }} (*)" >
                          <dxo-lookup
                              [dataSource]="dataSourceItem"
                              displayExpr="ItemName"
@@ -128,7 +127,7 @@
                          </dxo-lookup>
                          <dxi-validation-rule type="required"></dxi-validation-rule>
                        </dxi-column>
-                       <dxi-column dataField="UnitId" caption="{{'Item.datacolumn.UnitId' | translate }} (*)" >
+                       <dxi-column [allowEditing]="false" dataField="UnitId" caption="{{'Item.datacolumn.UnitId' | translate }} (*)" >
                         <dxo-lookup
                             [dataSource]="dataSourceUnit"
                             displayExpr="UnitName"

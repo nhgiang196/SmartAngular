@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, SimpleChanges } from '@angular/core';
+import { Component, OnInit, ViewChild, SimpleChanges, Output, EventEmitter } from '@angular/core';
 import { ProcessPlanFactory, ProcessPlanStage, ProcessPlanItem } from 'src/app/core/models/process';
 import { ModalDirective, BsDatepickerConfig } from 'ngx-bootstrap';
 import { DevextremeService } from 'src/app/core/services/general/devextreme.service';
@@ -20,32 +20,35 @@ import { checkActiveTab } from 'src/app/app.helpers';
 })
 export class ProcessPlanActionComponent implements OnInit {
   @ViewChild("childModal", { static: false }) childModal: ModalDirective;
-  entity:ProcessPlanFactory = new  ProcessPlanFactory();
-  bomFactory:BomFactory= new BomFactory();
+  @Output() loadInit = new EventEmitter<void>();
+  entity: ProcessPlanFactory = new ProcessPlanFactory();
+  bomFactory: BomFactory = new BomFactory();
 
 
-  processPlanStage:ProcessPlanStage = new ProcessPlanStage();
+  processPlanStage: ProcessPlanStage = new ProcessPlanStage();
   processPlanItem: ProcessPlanItem = new ProcessPlanItem();
   laddaSubmitLoading = false;
   minModeMonth: BsDatepickerViewMode = "month";
   minModeYear: BsDatepickerViewMode = "year";
-  bsConfigMonth :Partial<BsDatepickerConfig>;
-  bsConfigYear : Partial<BsDatepickerConfig>;
+  bsConfigMonth: Partial<BsDatepickerConfig>;
+  bsConfigYear: Partial<BsDatepickerConfig>;
   dataSourceItem: any;
-  dataSourceUnit:any;
-  showTab: boolean =false;
-  constructor(private devExtreme: DevextremeService,private processPlanService:ProcessPlanFactoryService, private toastr: ToastrService,
+  dataSourceUnit: any;
+  showTab: boolean = false;
+  flag: boolean = true;
+  action:string;
+  constructor(private devExtreme: DevextremeService, private processPlanService: ProcessPlanFactoryService, private toastr: ToastrService,
     private trans: TranslateService, private auth: AuthService,
     private helper: MyHelperService) { }
 
   ngOnInit() {
-    this.bsConfigMonth = Object.assign({},{
+    this.bsConfigMonth = Object.assign({}, {
       minMode: this.minModeMonth,
       dateInputFormat: "MM",
       adaptivePosition: true
     });
-    this.bsConfigYear = Object.assign({},{
-      minMode:this.minModeYear,
+    this.bsConfigYear = Object.assign({}, {
+      minMode: this.minModeYear,
       dateInputFormat: "YYYY",
       adaptivePosition: true
     });
@@ -54,64 +57,82 @@ export class ProcessPlanActionComponent implements OnInit {
     this.dataSourceUnit = this.devExtreme.loadDxoLookup("Unit");
   }
 
- async showChildModal(item:ProcessPlanFactory) {
-    if(item!=null){
-      var data =await this.processPlanService.findById(item.ProcessPlanFactoryId).then();
-      this.entity =data;
-    }else{
+  fnSave(){
+    console.log(this.entity);
+    this.processPlanService.addProcessPlanFactory(this.entity).subscribe(res=>{
+      let result = res as any;
+      if(result.Success){
+        this.toastr.success("Add success");
+        this.loadInit.emit();
+        this.childModal.hide();
+      }
+    })
+  }
+
+  async showChildModal(item: ProcessPlanFactory) {
+    if (item != null) {
+      this.action ="update";
+      var data = await this.processPlanService.findProcessPlanFactoryById(item.ProcessPlanFactoryId).toPromise().then();
+      this.entity = data;
+      console.log(this.entity)
+    } else {
+      this.action ="add";
       this.entity = new ProcessPlanFactory();
     }
-
+    this.showTab = true;
     this.childModal.show();
   }
- async onChange(){
-    if(this.entity.FactoryId!=0   && this.entity.ProcessPlanMonth!=0&&this.entity.ProcessPlanYear!=0){
-      let month = this.helper.monthConvertToString(
-        new Date(this.entity.ProcessPlanMonth)
-      );
-      let year = this.helper.yearConvertToString(
-        new Date(this.entity.ProcessPlanYear)
-      );
-      let dataBomFactory =await this.loadBomStageNearestByFactoryId(this.entity.FactoryId,month,year);
-      if(dataBomFactory!=null){
+  async onChange() {
+    if (this.entity.FactoryId != 0 && this.entity.ProcessPlanMonth != 0 && this.entity.ProcessPlanYear != 0 && this.action=="add") {
+
+      let type = typeof(this.entity.ProcessPlanMonth);
+         this.entity.ProcessPlanMonth = this.helper.monthConvertToString(
+          new Date(this.entity.ProcessPlanMonth)
+        );
+        this.entity.ProcessPlanYear = this.helper.yearConvertToString(
+          new Date(this.entity.ProcessPlanYear)
+        );
+
+      let dataBomFactory = await this.loadBomStageNearestByFactoryId(this.entity.FactoryId, this.entity.ProcessPlanMonth, this.entity.ProcessPlanYear);
+      if (dataBomFactory != null) {
         this.entity.ProcessPlanStage = new Array<ProcessPlanStage>();
 
-       if(dataBomFactory.BomStage.length>0){
-        dataBomFactory.BomStage.forEach(item => {
-          var processPlanStage = new ProcessPlanStage();
-          processPlanStage.StageId = item.StageId;
-          processPlanStage.StageName = item.StageName;
-          if(item.BomItemOut.length>0){
-            item.BomItemOut.forEach(itemOut => {
-              var processPlanItem = new ProcessPlanItem();
-              processPlanItem.ItemId = itemOut.ItemId;
-              processPlanItem.UnitId = itemOut.UnitId;
-              processPlanItem.Quantity = itemOut.Quantity;
-              processPlanStage.ProcessPlanItem.push(processPlanItem);
-            });
+        if (dataBomFactory.BomStage.length > 0) {
+          dataBomFactory.BomStage.forEach(item => {
+            var processPlanStage = new ProcessPlanStage();
+            processPlanStage.StageId = item.StageId;
+            processPlanStage.StageName = item.StageName;
+            if (item.BomItemOut.length > 0) {
+              item.BomItemOut.forEach(itemOut => {
+                var processPlanItem = new ProcessPlanItem();
+                processPlanItem.ItemId = itemOut.ItemId;
+                processPlanItem.UnitId = itemOut.UnitId;
+                processPlanItem.Quantity = itemOut.Quantity;
+                processPlanStage.ProcessPlanItem.push(processPlanItem);
+              });
+            }
+            this.entity.ProcessPlanStage.push(processPlanStage);
           }
-          this.entity.ProcessPlanStage.push(processPlanStage);
-         }
-         );
-       }
+          );
+        }
         console.log(this.entity.ProcessPlanStage);
-        this.showTab =true;
+        this.showTab = true;
       }
-      else{
+      else {
         this.entity.ProcessPlanStage = new Array<ProcessPlanStage>();
       }
     }
-    else{
-      this.showTab= false;
+    else {
+      this.showTab = false;
     }
   }
 
- async loadBomStageNearestByFactoryId(factoryId,month,year){
-    let params ={factoryId:factoryId,month:month,year:year};
-    return  await this.processPlanService.getBomStageNearestByFactoryId(params).toPromise().then();
+  async loadBomStageNearestByFactoryId(factoryId, month, year) {
+    let params = { factoryId: factoryId, month: month, year: year };
+    return await this.processPlanService.getBomStageNearestByFactoryId(params).toPromise().then();
   }
 
-  enableActiveTab(){
+  enableActiveTab() {
     checkActiveTab();
   }
 
