@@ -12,7 +12,7 @@ import { ItemType } from '../models/item';
 export class ItemTypeService extends GenericFactoryService<ItemType> {
   constructor(http: HttpClient) 
   { 
-    super(http,ItemType);
+    super(http,'ItemType');
   }
 
  

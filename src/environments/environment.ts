@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  apiUrl:"api/v1"
+  apiUrl:"api/v1",
+  signalR: "http://localhost:7777"
 };
 
 /*

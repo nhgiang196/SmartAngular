@@ -6,6 +6,6 @@ import { GenericFactoryService } from './general/generic-factory.service';
 @Injectable({ providedIn: 'root' })
 export class UnitService extends GenericFactoryService<Unit>{
   constructor(http: HttpClient) {
-    super(http,Unit);
+    super(http,'Unit');
   }
 }

@@ -15,6 +15,6 @@ const ApiUrl = environment.apiUrl;
 @Injectable({ providedIn: 'root' })
 export class StageService extends GenericFactoryService<Stage> {
   constructor(http:HttpClient) {
-    super(http, Stage);
+    super(http, 'Stage');
   }
 }

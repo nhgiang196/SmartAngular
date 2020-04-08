@@ -10,6 +10,6 @@ import { GenericFactoryService } from './general/generic-factory.service';
 @Injectable({providedIn: 'root'})
 export class MonitorStandarService extends GenericFactoryService<MonitorStandard> {
   constructor(http: HttpClient) {
-    super(http,MonitorStandard);
+    super(http,'MonitorStandard');
   }
 }

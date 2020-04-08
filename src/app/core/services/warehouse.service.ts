@@ -10,7 +10,7 @@ const ApiUrl = environment.apiUrl;
 @Injectable({providedIn: 'root'})
 export class WareHouseService extends GenericFactoryService<Warehouse>{
   constructor(http: HttpClient) {
-    super(http,Warehouse);
+    super(http,'Warehouse');
   }
 
   getPagination =(keyvalue, page, pageSize) => { 

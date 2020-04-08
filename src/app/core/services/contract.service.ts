@@ -9,6 +9,6 @@ const ApiUrl = environment.apiUrl;;
 @Injectable({providedIn: 'root'})
 export class ContractService extends GenericFactoryService<Contract>{
   constructor(http: HttpClient) {
-    super(http,Contract);
+    super(http,'Contract');
   }
 }

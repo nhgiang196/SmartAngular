@@ -13,7 +13,7 @@ const ApiUrl = environment.apiUrl;
 @Injectable({providedIn: 'root'})
 export class CustomerService extends GenericFactoryService<Customer>{
   constructor(http: HttpClient) {
-    super(http,Customer);
+    super(http,'Customer');
   }
 
   getDataGrid() {

@@ -20,7 +20,7 @@ export class MainViewMonitorComponent implements OnInit {
   ngOnInit() {
    this.signalRService.startConnection()
    this.signalRService.addTransferFactoryDataListener();
-    this.startRequestTableFactory();
+   this.startRequestTableFactory();
   }
   private startRequestTableFactory =() =>{
     this.signalRService.getTableFactory().subscribe(res => console.log(res))

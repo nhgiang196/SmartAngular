@@ -13,7 +13,7 @@ const ApiUrl = environment.apiUrl;;
 @Injectable({ providedIn: 'root' })
 export class FactoryService extends GenericFactoryService<Factory> {
   constructor(http: HttpClient) {
-    super(http, Factory);
+    super(http, 'Factory');
   }
   getFactoryPaginationMain(keyvalue, pageIndex, pageSize) {
     let pr = new DataTablePaginationParams();

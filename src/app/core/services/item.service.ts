@@ -11,7 +11,7 @@ const ApiUrl = environment.apiUrl;;
 @Injectable({ providedIn: 'root' })
 export class ItemService extends GenericFactoryService<Item> {
   constructor(http: HttpClient) {
-    super(http,Item);
+    super(http,'Item');
   }
   checkItemNameExist = (itemName) => this.http.get<any>(`${ApiUrl}/Item/CheckItemNameExist?ItemName=${itemName}`);
 }
