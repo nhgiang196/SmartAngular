@@ -21,9 +21,8 @@ declare let $: any;
   styleUrls: ['./customer-detail.component.css'],
 })
 export class CustomerDetailComponent implements OnInit {
-  @ViewChild(ContractComponent, {static: true}) childView: ContractComponent;
-  @ViewChild('customerFile', {static: true}) uploadComponent: SmartUploadComponent;
-
+  @ViewChild(ContractComponent, { static: true }) childView: ContractComponent;
+  @ViewChild('customerFile', { static: true }) uploadComponent: SmartUploadComponent;
   constructor(
     private api: CustomerService,
     private router: Router,
@@ -33,11 +32,10 @@ export class CustomerDetailComponent implements OnInit {
     private trans: TranslateService,
     private auth: AuthService,
     private devService: DevextremeService,
-  ) { 
+  ) {
     this.factoryList = devService.loadDxoLookup("Factory");
-
   }
-  factoryList : any;
+  factoryList: any;
   pathFile = "uploadFileCustomer";
   entity: Customer;
   invalid: any = { Existed_CustomerName: false, Null_CustomerName: false };
@@ -46,7 +44,6 @@ export class CustomerDetailComponent implements OnInit {
   laddaSubmitLoading = false;
   app_contractId = 0;
   private editIndex: number = 0;
-  /**INIT FUNCTIONS */
   ngOnInit() {
     this.resetEntity();
     this.childView.resetEntity();
@@ -55,24 +52,20 @@ export class CustomerDetailComponent implements OnInit {
   async loadInit() {
     /**Add Combobox Value: FACTORY */
     let dataResolver = this.route.snapshot.data["dataResolver"] as any;
-    if (dataResolver){
+    if (dataResolver) {
       this.entity = dataResolver;
       this.uploadComponent.loadInit(dataResolver.CustomerFile)
     }
     // await this.loadContractByCustomer();
-    
     console.log(this.entity);
   }
-  /**INIT FUNCTIONS */
-  private async resetEntity() { //reset entity values
+  private async resetEntity() {
     this.entity = new Customer();
     this.invalid = {};
     this.EditRowNumber = 0;
     this.editIndex = 0;
   }
-  /** BUTTON ACTIONS */
-  async fnSave() { // press save button 
-    
+  async fnSave() { 
     this.invalid = {};
     this.laddaSubmitLoading = true;
     // let _valid = await this.api.validateCustomer(this.entity).toPromise().then() as any;
@@ -83,40 +76,38 @@ export class CustomerDetailComponent implements OnInit {
     //   return false;
     // }
     // else {
-      var e = this.entity;
-      await this.uploadComponent.uploadFile();
-      e.Status = e.Status? 1 : 0; 
-      if (this.route.snapshot.params.id == null) { //add
-        e.CreateBy = this.auth.currentUser.Username;
-        this.api.add(e).then(res => {
-          var operationResult: any = res
-          if (operationResult.Success) {
-            this.toastr.success(this.trans.instant("messg.add.success"));
-            this.router.navigate(["pages/category/customer/" + operationResult.Data]);
-          }
-          else this.toastr.warning(operationResult.Message);
-          this.laddaSubmitLoading = false;
-        }, err => { this.toastr.error(err.statusText); this.laddaSubmitLoading = false; })
-      }
-      else {
-        e.ModifyBy = this.auth.currentUser.Username;
-        this.api.update(e).then(res => {
-          var operationResult: any = res
-          if (operationResult.Success) {
-            this.toastr.success(this.trans.instant("messg.update.success"));
-            this.router.navigate(["pages/category/customer/" + this.entity.CustomerId]);
-          }
-          else this.toastr.warning(operationResult.Message);
-          this.laddaSubmitLoading = false;
-        }, err => { this.toastr.error(err.statusText); this.laddaSubmitLoading = false; })
-      }
-      return true;
+    var e = this.entity;
+    await this.uploadComponent.uploadFile();
+    e.Status = e.Status ? 1 : 0;
+    if (this.route.snapshot.params.id == null) { //add
+      e.CreateBy = this.auth.currentUser.Username;
+      this.api.add(e).then(res => {
+        var operationResult: any = res
+        if (operationResult.Success) {
+          this.toastr.success(this.trans.instant("messg.add.success"));
+          this.router.navigate(["pages/category/customer/" + operationResult.Data]);
+        }
+        else this.toastr.warning(operationResult.Message);
+        this.laddaSubmitLoading = false;
+      }, err => { this.toastr.error(err.statusText); this.laddaSubmitLoading = false; })
+    }
+    else {
+      e.ModifyBy = this.auth.currentUser.Username;
+      this.api.update(e).then(res => {
+        var operationResult: any = res
+        if (operationResult.Success) {
+          this.toastr.success(this.trans.instant("messg.update.success"));
+          this.router.navigate(["pages/category/customer/" + this.entity.CustomerId]);
+        }
+        else this.toastr.warning(operationResult.Message);
+        this.laddaSubmitLoading = false;
+      }, err => { this.toastr.error(err.statusText); this.laddaSubmitLoading = false; })
+    }
+    return true;
     // }
-    
-    
   }
   fnEditItem(contractId, index) {
-    if (this.entity.CustomerId!=0) this.childView.resetEntity();
+    if (this.entity.CustomerId != 0) this.childView.resetEntity();
     console.log('edit item', contractId);
     console.log('edit index', index)
     this.editIndex = index;
@@ -139,15 +130,9 @@ export class CustomerDetailComponent implements OnInit {
       }
     })
   }
-  /**EVENT TRIGGER */
- 
-  onSwitchStatus(_TYPE) { //modal switch on change
-    if (_TYPE == 'entity') this.entity.Status = this.entity.Status == 0 ? 1 : 0;
-    if (_TYPE == 'entityIsIntergration') this.entity.IsIntergration = !this.entity.IsIntergration;
-  }
   async onChangeAdd(returnContract: Contract) {
     console.log('return Contract', returnContract);
-    if (returnContract.CustomerId==0)
+    if (returnContract.CustomerId == 0)
       swal.fire({
         titleText: this.trans.instant('Customer.mssg.AskForCreateContractCustomer'),
         confirmButtonText: this.trans.instant('Button.OK'),
@@ -155,7 +140,7 @@ export class CustomerDetailComponent implements OnInit {
         type: 'question',
         showCancelButton: true,
         reverseButtons: true
-      }).then(async (result)=>{
+      }).then(async (result) => {
         if (result.value) {
           this.entity.Contract.splice(this.editIndex, 1, returnContract);
           let saveValidate = await this.fnSave();
@@ -165,33 +150,28 @@ export class CustomerDetailComponent implements OnInit {
     else {
       this.entity.Contract.splice(this.editIndex, 1, returnContract);
     }
-    
   }
-
   validateFunction_FactoryId = (e) => {
-    return !(e.value ==0 || e.value==null)
+    return !(e.value == 0 || e.value == null)
   };
-
-  
-  validateAsync_CustomerCode = (e) =>{ 
-    return new Promise(async (resolve) => { 
+  validateAsync_CustomerCode = (e) => {
+    return new Promise(async (resolve) => {
       let obj = Object.assign({}, this.entity); //stop binding
       obj['CustomerCode'] = e.value;
-      let _res =await this.api.validate(obj).then() as any;
-      let _validate = _res.Success? _res.Success : _res.ValidateData.indexOf('CustomerCode')<0;
+      let _res = await this.api.validate(obj).then() as any;
+      let _validate = _res.Success ? _res.Success : _res.ValidateData.indexOf('CustomerCode') < 0;
       resolve(_validate);
-    });  
+    });
   }
-  validateAsync_CustomerName = (e) =>{ 
-    return new Promise(async (resolve) => { 
+  validateAsync_CustomerName = (e) => {
+    return new Promise(async (resolve) => {
       let obj = Object.assign({}, this.entity); //stop binding
       obj['CustomerName'] = e.value;
-      let _res =await this.api.validate(obj).then() as any;
-      let _validate = _res.Success? _res.Success : _res.ValidateData.indexOf('CustomerName')<0;
+      let _res = await this.api.validate(obj).then() as any;
+      let _validate = _res.Success ? _res.Success : _res.ValidateData.indexOf('CustomerName') < 0;
       resolve(_validate);
-    });  
+    });
   }
-
   ngAfterViewInit() {
   }
 }

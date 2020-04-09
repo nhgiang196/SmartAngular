@@ -46,7 +46,6 @@ export class FactoryComponent implements OnInit {
     this.resetEntity();
     this.loadInit();
   }
-  /**INIT FUNCTIONS */
   private resetEntity() {
     this.entity = new Factory();
   }
@@ -62,19 +61,18 @@ export class FactoryComponent implements OnInit {
       this.iboxloading = false;
     })
   }
-  /** BUTTON ACTIONS */
-  searchLoad() {
+  fnSearchLoad() {
     this.pageIndex = 1;
     this.loadInit();
   }
-  fnAdd() { //press add buton
+  fnAdd() { 
     this.ACTION_STATUS = 'add';
     this.targetForm.instance.resetValues();
     this.resetEntity();
     this.uploadComponent.resetEntity();
     this.entity.CreateBy = this.auth.currentUser.Username;
   }
-  fnEditSignal(id) { //press a link name of entity
+  fnEditSignal(id) {
     $("#myModal4").modal('hide');
     if (id == null) { this.toastr.warning('Factory ID is Null, cant show modal'); return; }
     this.ACTION_STATUS = 'update';
@@ -90,7 +88,7 @@ export class FactoryComponent implements OnInit {
       this.toastr.error(error.statusText, "Load factory information error");
     })
   }
-  fnDelete(id) { //press X to delete entity
+  fnDelete(id) { 
     swal.fire({
       title: this.trans.instant('Factory.mssg.DeleteAsk_Title'),
       titleText: this.trans.instant('Factory.mssg.DeleteAsk_Text'),
@@ -134,7 +132,7 @@ export class FactoryComponent implements OnInit {
         }
       })
   }
-  async fnSave() { //press save/SUBMIT button
+  async fnSave() {
     // var e = this.fnConvertFactoryDate(this.entity);
     var e = this.entity;
     await this.uploadComponent.uploadFile();
@@ -147,8 +145,7 @@ export class FactoryComponent implements OnInit {
           this.loadInit();
         }
         else this.toastr.warning(operationResult.Message);
-        
-      }, err => { this.toastr.error(err.statusText);  })
+      }, err => { this.toastr.error(err.statusText); })
     }
     if (this.ACTION_STATUS == 'update') {
       this.api.update(e).then(res => {
@@ -158,58 +155,38 @@ export class FactoryComponent implements OnInit {
           this.toastr.success(this.trans.instant("messg.update.success"));
         }
         else this.toastr.warning(operationResult.Message);
-        
-      }, err => { this.toastr.error(err.statusText);  })
+      }, err => { this.toastr.error(err.statusText); })
     }
-    
   }
-
-  /** EVent Triggers */
-  pageChanged(event: PageChangedEvent): void {
+  onPageChanged(event: PageChangedEvent): void {
     this.pageIndex = event.page;
     this.loadInit();
   }
   validateFunction = (e) => {
     if (e.formItem)
-    switch (e.formItem.dataField) {
-      case "FactoryStartDate": return e.value <=  this.entity.FactoryEndDate
-      case "FactoryEndDate": return this.entity.FactoryStartDate <= e.value
-    }
-    if (e.column){}
+      switch (e.formItem.dataField) {
+        case "FactoryStartDate": return e.value <= this.entity.FactoryEndDate
+        case "FactoryEndDate": return this.entity.FactoryStartDate <= e.value
+      }
+    if (e.column) { }
     switch (e.column.dataField) {
-      case "TechnologyName": return this.entity.FactoryTechnology.filter(x=>x.TechnologyName==e.data.TechnologyName && x.FactoryTechnologyId != e.data.FactoryTechnologyId).length==0
-      case "TechnologyFromDate": return e.data.TechnologyFromDate <=  e.data.TechnologyToDate
-      case "TechnologyToDate": return e.data.TechnologyFromDate  <= e.data.TechnologyFromDate
+      case "TechnologyName": return this.entity.FactoryTechnology.filter(x => x.TechnologyName == e.data.TechnologyName && x.FactoryTechnologyId != e.data.FactoryTechnologyId).length == 0
+      case "TechnologyFromDate": return e.data.TechnologyFromDate <= e.data.TechnologyToDate
+      case "TechnologyToDate": return e.data.TechnologyFromDate <= e.data.TechnologyFromDate
     }
     return true;
   };
-  validateAsync = (e) =>{ 
+  validateAsync = (e) => {
     console.log('Validate Async', e)
-    return new Promise(async (resolve) => { 
+    return new Promise(async (resolve) => {
       let obj = Object.assign({}, this.entity); //stop binding
       obj[e.formItem.dataField] = e.value;
-      let _res =await this.api.validate(obj).then() as any;
-      let _validate = _res.Success? _res.Success : _res.ValidateData.indexOf(e.formItem.dataField)<0;
+      let _res = await this.api.validate(obj).then() as any;
+      let _validate = _res.Success ? _res.Success : _res.ValidateData.indexOf(e.formItem.dataField) < 0;
       resolve(_validate);
-    });   
-
+    });
   }
-  /** PRIVATES FUNCTIONS */
-  // private fnConvertFactoryDate(e: Factory) {
-  //   e.FactoryBuiltDate = this.helper.dateConvertToString(e.FactoryBuiltDate) as any;
-  //   e.FactoryStartDate = this.helper.dateConvertToString(e.FactoryStartDate) as any;
-  //   e.FactoryEndDate = this.helper.dateConvertToString(e.FactoryEndDate) as any;
-  //   for (var index in e.FactoryTechnology) {
-  //     e.FactoryTechnology[index].TechnologyFromDate = this.helper.dateConvertToString(e.FactoryTechnology[index].TechnologyFromDate) as any;
-  //     e.FactoryTechnology[index].TechnologyToDate = this.helper.dateConvertToString(e.FactoryTechnology[index].TechnologyToDate) as any;
-  //   }
-  //   return e;
-  // }
-  
   ngOnDestroy() {
     $('.modal').modal('hide');
   }
-  /*
-  
-  */
 }
