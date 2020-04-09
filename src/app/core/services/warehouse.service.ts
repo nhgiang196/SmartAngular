@@ -13,6 +13,7 @@ export class WareHouseService extends GenericFactoryService<Warehouse>{
     super(http,'Warehouse');
   }
 
+  /** Hàm lấy phân trang cho Warehouse theo phương pháp cũ (dùng Store), sẽ phải sửa lại - nhgiang */
   getPagination =(keyvalue, page, pageSize) => { 
     let pr = new DataTablePaginationParams();
     pr.key = keyvalue;
