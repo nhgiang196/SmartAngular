@@ -35,9 +35,8 @@ export class WarehouseComponent implements OnInit {
     private auth: AuthService,
     private factoryService: FactoryService,
     private devService: DevextremeService,
-  ) { 
+  ) {
     this.factoryList = devService.loadDxoLookup("Factory");
-    
   }
   /** INIT / DECLARATION */
   factoryList: any;
@@ -53,19 +52,17 @@ export class WarehouseComponent implements OnInit {
   EditRowNumber: number = 0;
   pageIndex = 1;
   pageSize = 12;
-
   buttonOptions: any = {
     stylingMode: 'text', // để tắt đường viền container
     template: `<button type="button" class="btn btn-primary"><i class="fa fa-paper-plane-o"></i>${this.trans.instant('Button.Save')}</button>`, //template hoạt động cho Ispinia
     useSubmitBehavior: true, //submit = validate + save
   }
-  /**INIT FUNCTIONS */
-  ngOnInit() { //init functions
+  ngOnInit() { 
     this.resetEntity();
     this.loadUsers();
     this.loadInit();
   }
-  private async resetEntity() { //reset entity values
+  private resetEntity() { 
     this.entity = new Warehouse();
     this.EditRowNumber = 0;
   }
@@ -74,16 +71,7 @@ export class WarehouseComponent implements OnInit {
       this.initCombobox.Users = res;
     }, err => this.toastr.warning('Get users Failed, check network'))
   }
-  initWarehouseLocation(e){
-    e.data.WarehouseLocationId = 0;
-    e.data.WarehouseId = this.entity.WarehouseId;
-    e.data.Status = true;
-  }
-  searchLoad() {
-    this.pageIndex = 1;
-    this.loadInit();
-  }
-  loadInit() { //init loading
+  loadInit() {
     this.iboxloading = true;
     this.warehouseService.getPagination(this.keyword, this.pageIndex, this.pageSize).subscribe(res => {
       var data = res as any;
@@ -95,16 +83,18 @@ export class WarehouseComponent implements OnInit {
       this.iboxloading = false;
     });
   }
-  /** BUTTON ACTIONS */
-  fnAdd() { //press new button
+  fnSearchLoad() {
+    this.pageIndex = 1;
+    this.loadInit();
+  }
+  fnAdd() {
     this.resetEntity();
     this.targetForm.instance.resetValues();
     this.ACTION_STATUS = 'add';
-    
     this.uploadComponent.resetEntity();
     this.entity.CreateBy = this.auth.currentUser.Username;
   }
-  async fnEditSignal(id) { //press a link of ENTITY
+  async fnEditSignal(id) { 
     if (id == null) { this.toastr.warning('ID is Null, cant show modal'); return; }
     this.ACTION_STATUS = 'update';
     this.iboxloading = true;
@@ -122,8 +112,7 @@ export class WarehouseComponent implements OnInit {
       this.toastr.error(error.statusText, "Load factory information error");
     })
   }
-  
-  fnDelete(id) { //press Delete Entity
+  fnDelete(id) {
     swal.fire({
       title: this.trans.instant('Warehouse.mssg.DeleteAsk_Title'),
       titleText: this.trans.instant('Warehouse.mssg.DeleteAsk_Text'),
@@ -153,7 +142,7 @@ export class WarehouseComponent implements OnInit {
       }
     })
   }
-  async fnSave() { // press save butotn
+  async fnSave() { 
     if (! await this.targetForm.instance.validate().isValid) return;
     this.laddaSubmitLoading = true;
     var e = this.entity;
@@ -184,45 +173,42 @@ export class WarehouseComponent implements OnInit {
       }, err => { this.toastr.error(err.statusText); this.laddaSubmitLoading = false; })
     }
   }
-  /** EVENT TRIGGERS */
-  pageChanged(event: PageChangedEvent): void {
+  onPageChanged(event: PageChangedEvent): void {
     this.pageIndex = event.page;
     this.loadInit();
   }
-
-  changeWarehouseLocationStatus(event){
-    event.data.Status = event.data.Status? 1: 0;
+  onInitNewRowWarehouseLocation(e) {
+    e.data.WarehouseLocationId = 0;
+    e.data.WarehouseId = this.entity.WarehouseId;
+    e.data.Status = true;
   }
-  
-
+  onChangeWarehouseLocationStatus(event) {
+    event.data.Status = event.data.Status ? 1 : 0;
+  }
   validateFunction = (e) => {
     if (e.formItem)
-    switch (e.formItem.dataField) {
-      case "FactoryId": return !(e.value==null || e.value==0)
-    }
-    if (e.column){}
+      switch (e.formItem.dataField) {
+        case "FactoryId": return !(e.value == null || e.value == 0)
+      }
+    if (e.column) { }
     switch (e.column.dataField) {
-      case "WarehouseLocationCode": return this.entity.WarehouseLocation.filter(x=>x.WarehouseLocationCode==e.data.WarehouseLocationCode && x.WarehouseLocationId != e.data.WarehouseLocationId).length==0
-      case "WarehouseLocationName": return this.entity.WarehouseLocation.filter(x=>x.WarehouseLocationName==e.data.WarehouseLocationName && x.WarehouseLocationId != e.data.WarehouseLocationId).length==0
+      case "WarehouseLocationCode": return this.entity.WarehouseLocation.filter(x => x.WarehouseLocationCode == e.data.WarehouseLocationCode && x.WarehouseLocationId != e.data.WarehouseLocationId).length == 0
+      case "WarehouseLocationName": return this.entity.WarehouseLocation.filter(x => x.WarehouseLocationName == e.data.WarehouseLocationName && x.WarehouseLocationId != e.data.WarehouseLocationId).length == 0
     }
     return true;
   };
-
-  validateAsync = (e) =>{ 
+  validateAsync = (e) => {
     console.log('Validate Async', e)
-    return new Promise(async (resolve) => { 
+    return new Promise(async (resolve) => {
       this.laddaSubmitLoading = true;
       let obj = Object.assign({}, this.entity); //stop binding
       obj[e.formItem.dataField] = e.value;
-      let _res =await this.warehouseService.validate(obj).then() as any;
-      let _validate = _res.Success? _res.Success : _res.ValidateData.indexOf(e.formItem.dataField)<0;
-      if (_validate==true) this.laddaSubmitLoading = false;
+      let _res = await this.warehouseService.validate(obj).then() as any;
+      let _validate = _res.Success ? _res.Success : _res.ValidateData.indexOf(e.formItem.dataField) < 0;
+      if (_validate == true) this.laddaSubmitLoading = false;
       resolve(_validate);
-    });   
-
+    });
   }
-  
-
   ngOnDestroy() {
     $('.modal').modal('hide');
   }
