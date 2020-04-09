@@ -10736,3 +10736,7 @@ bs-datepicker-container, bs-daterangepicker-container { z-index: 3501 !important
 .pl-2{
   padding-left: 25px;
 }
+
+.m-grid-5{
+  max-height: 500px;
+}
