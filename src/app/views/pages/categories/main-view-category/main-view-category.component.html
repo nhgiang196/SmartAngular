@@ -1,15 +1,3 @@
-<p>
-  main-view-category works!
-  <a [routerLink]="['/pages']">
-    Go to Dashboard {{'TopNav.Language' | translate}}
-  </a>
-</p>
-
-<dx-select-box [dataSource]="selectBoxData"
-displayExpr="UnitName"
-valueExpr="UnitId"
-[value]="141"
-(onValueChanged)="onValueChanged($event)"
-[searchEnabled]="true"></dx-select-box>
-
-<smart-select-box [(selectData)]="selected" entitykey="Unit" checkstatus="true"></smart-select-box>
+<h1>
+  {{"About" | translate}}
+</h1>

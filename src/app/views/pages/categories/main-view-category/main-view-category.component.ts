@@ -13,37 +13,8 @@ const ApiUrl = environment.apiUrl;
   styleUrls: ['./main-view-category.component.css']
 })
 export class MainViewCategoryComponent implements OnInit {
-
-  selectBoxData:any;
-  selected:any =17;
-  
   constructor(private unitService:UnitService, httpClient: HttpClient) {
-    let serviceUrl = `${ApiUrl}/Unit/UnitSelectBox`;
-    this.selectBoxData = new DataSource({
-      store: createStore({
-          key: "UnitId",
-          loadUrl: serviceUrl,
-          loadParams:{key:"UnitId"}
-      }) ,
-      paginate: true,
-      pageSize: 2
-    });
-  //   this.selectBoxData = new DataSource({
-  //     store: new CustomStore({
-  //         key: "UnitId",
-  //         load: (pa) => {
-  //           console.log(pa)
-  //             return httpClient.get(serviceUrl,{params:p})
-  //             .toPromise().then();
-  //         }
-  //     })
-  // });
   }
-
   ngOnInit() {
-  }
-
-  onValueChanged(e){
-    console.log(e);
   }
 }
