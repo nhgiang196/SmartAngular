@@ -121,7 +121,7 @@
         <h4 class="modal-title"> {{'Factory.label.Information' | translate }}</h4>
       </div>
       <div class="modal-body">
-        <form action="your-action" (submit)="fnSave($event)">
+        <form action="your-action" (submit)="fnSave()">
           <dx-form #targetForm id="form" [(formData)]="entity">
             <dxi-item itemType="group" [colCount]="2">
               <dxi-item dataField="FactoryType" [label]="{text: trans.instant('Factory.data.FactoryType')}"

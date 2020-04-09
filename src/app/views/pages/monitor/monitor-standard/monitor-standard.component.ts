@@ -32,7 +32,7 @@ export class MonitorStandardComponent implements OnInit {
     private helper: MyHelperService
   ) {
     //LOAD DATAGRID MONITOR
-    this.dataSource = this.monitorStandarService.getDataGridMonitorStandard();
+    this.dataSource = this.monitorStandarService.getDataGrid(false);
     this.loadFactorySelectBox();
     // this.validateMSId = this.validateMSId.bind(this);
     // this.validateDateFrom = this.validateDateFrom.bind(this);
@@ -105,7 +105,7 @@ export class MonitorStandardComponent implements OnInit {
       e.isValid = false;
       e.errorText = "Date From greater than date To ";
     } else {
-      e.promise = this.monitorStandarService.validateMonitorStandard(data).toPromise()
+      e.promise = this.monitorStandarService.validate(data)
         .then((result: any) => {
           if (!result.Success) {
             e.isValid = false;

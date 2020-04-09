@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import * as signalR from "@aspnet/signalr";
 import { HttpClient } from '@angular/common/http';
-const ApiUrl = "signalR/api/v1";
+import { environment } from 'src/environments/environment';
+const SignalRUrl = environment.signalR;
 @Injectable({
   providedIn: 'root'
 })
@@ -13,7 +14,12 @@ export class SignalRService {
   public startConnection = () => {
     Object.defineProperty(WebSocket, 'OPEN', { value: 1, });
     this.hubConnection = new signalR.HubConnectionBuilder()
-      .withUrl('http://localhost:7777/chart')
+      .configureLogging(signalR.LogLevel.Debug)
+      // .withUrl(`${ApiUrl}/chart`,{
+      //   skipNegotiation: true,
+      //   transport: signalR.HttpTransportType.WebSockets
+      // }) //${SignalRUrl}/chart , http://localhost:7777/chart
+      .withUrl(`${SignalRUrl}/chart`)
       .build();
     this.hubConnection.onclose(() => {
       console.log('Reconnection after 500')
@@ -47,5 +53,5 @@ export class SignalRService {
     });
 
   }
-  public getTableFactory = () => this.http.get(`${ApiUrl}/Monitor/GetTableFactory`);
+  public getTableFactory = () => this.http.get(`${SignalRUrl}/api/v1/Monitor/GetTableFactory`);
 }

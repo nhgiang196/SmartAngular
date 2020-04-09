@@ -65,8 +65,10 @@ export class WarehouseComponent implements OnInit {
     this.loadUsers();
     this.loadInit();
   }
-
-  
+  private async resetEntity() { //reset entity values
+    this.entity = new Warehouse();
+    this.EditRowNumber = 0;
+  }
   private loadUsers() {
     this.auth.getUsers().subscribe(res => {
       this.initCombobox.Users = res;
@@ -77,10 +79,6 @@ export class WarehouseComponent implements OnInit {
     e.data.WarehouseId = this.entity.WarehouseId;
     e.data.Status = true;
   }
-
-  changeWarehouseLocationStatus(event){
-    event.data.Status = event.data.Status? 1: 0;
-  }
   searchLoad() {
     this.pageIndex = 1;
     this.loadInit();
@@ -89,8 +87,6 @@ export class WarehouseComponent implements OnInit {
     this.iboxloading = true;
     this.warehouseService.getPagination(this.keyword, this.pageIndex, this.pageSize).subscribe(res => {
       var data = res as any;
-      // this.selectComponent.specialId = res.FactoryId;
-      // this.selectComponent.loadInit();
       this.Warehouse = data.result;
       this.Warehouse_showed = data.totalCount;
       this.iboxloading = false;
@@ -119,17 +115,14 @@ export class WarehouseComponent implements OnInit {
       this.iboxloading = false;
       console.log('getEntity', res);
       /**CONTROL FILES */
-      this.uploadComponent.loadInit(res.WarehouseFile);
+      this.uploadComponent.loadInit((res as any).WarehouseFile);
       this.entity.ModifyBy = this.auth.currentUser.Username;
     }, error => {
       this.iboxloading = false;
       this.toastr.error(error.statusText, "Load factory information error");
     })
   }
-  pageChanged(event: PageChangedEvent): void {
-    this.pageIndex = event.page;
-    this.loadInit();
-  }
+  
   fnDelete(id) { //press Delete Entity
     swal.fire({
       title: this.trans.instant('Warehouse.mssg.DeleteAsk_Title'),
@@ -141,7 +134,7 @@ export class WarehouseComponent implements OnInit {
       reverseButtons: true
     }).then((result) => {
       if (result.value) {
-        this.warehouseService.delete(id).subscribe(res => {
+        this.warehouseService.remove(id).then(res => {
           var operationResult: any = res
           if (operationResult.Success) {
             swal.fire(
@@ -167,7 +160,7 @@ export class WarehouseComponent implements OnInit {
     await this.uploadComponent.uploadFile();
     if (this.ACTION_STATUS == 'add') {
       e.CreateBy = this.auth.currentUser.Username;
-      this.warehouseService.add(e).subscribe(res => {
+      this.warehouseService.add(e).then(res => {
         var operationResult: any = res
         if (operationResult.Success) {
           this.toastr.success(this.trans.instant("messg.add.success"));
@@ -180,7 +173,7 @@ export class WarehouseComponent implements OnInit {
     }
     if (this.ACTION_STATUS == 'update') {
       e.ModifyBy = this.auth.currentUser.Username;
-      this.warehouseService.update(e).subscribe(res => {
+      this.warehouseService.update(e).then(res => {
         var operationResult: any = res
         if (operationResult.Success) {
           this.loadInit();
@@ -192,15 +185,15 @@ export class WarehouseComponent implements OnInit {
     }
   }
   /** EVENT TRIGGERS */
-  /** PRIVATES FUNCTIONS */
-  private async resetEntity() { //reset entity values
-    this.entity = new Warehouse();
-    this.EditRowNumber = 0;
-  }
-  private CheckBeforeEdit(id) { //check auth before edit 
-    this.toastr.warning("User not dont have permission");
+  pageChanged(event: PageChangedEvent): void {
+    this.pageIndex = event.page;
+    this.loadInit();
   }
 
+  changeWarehouseLocationStatus(event){
+    event.data.Status = event.data.Status? 1: 0;
+  }
+  
 
   validateFunction = (e) => {
     if (e.formItem)
@@ -217,17 +210,17 @@ export class WarehouseComponent implements OnInit {
 
   validateAsync = (e) =>{ 
     console.log('Validate Async', e)
-    // return true;
     return new Promise(async (resolve) => { 
       let obj = Object.assign({}, this.entity); //stop binding
       obj[e.formItem.dataField] = e.value;
-      let _res =await this.warehouseService.validate(obj).toPromise().then() as any;
+      let _res =await this.warehouseService.validate(obj).then() as any;
       let _validate = _res.Success? _res.Success : _res.ValidateData.indexOf(e.formItem.dataField)<0;
       resolve(_validate);
     });   
 
   }
   
+
   ngOnDestroy() {
     $('.modal').modal('hide');
   }

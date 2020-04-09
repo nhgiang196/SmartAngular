@@ -24,7 +24,6 @@ export class UnitComponent implements OnInit {
     private auth: AuthService,
   ) {
     this.dataSource = this.unitService.getDataGrid(false);
-    this.unitService.getUnitId();
     this.unitValidation = this.unitValidation.bind(this)
     config({
       floatingActionButtonConfig: directions.down

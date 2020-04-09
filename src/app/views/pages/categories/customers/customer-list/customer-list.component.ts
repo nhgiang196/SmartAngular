@@ -55,7 +55,7 @@ export class CustomerListComponent  implements  OnInit {
       reverseButtons: true
     }).then((result) => {
       if (result.value) {
-        this.api.deleteCustomer(rowValue.row.data.CustomerId).subscribe(res => {
+        this.api.remove(rowValue.row.data.CustomerId).then(res => {
           var operationResult: any = res
           if (operationResult.Success) {
             swal.fire(

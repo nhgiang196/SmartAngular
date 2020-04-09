@@ -4,7 +4,7 @@
         "secure": false,
         "changeOrigin": true
     },
-    "/signalR/*":{
+   "/signalR/*":{
         "target":"http://localhost:7777",
         "secure": false,
         "changeOrigin": true,

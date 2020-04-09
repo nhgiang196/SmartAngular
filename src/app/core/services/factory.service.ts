@@ -6,23 +6,15 @@ import { environment } from 'src/environments/environment';
 import { createStore } from 'devextreme-aspnet-data-nojquery';
 // import * as AspNetData from "devextreme-aspnet-data-nojquery";
 import DataSource from 'devextreme/data/data_source';
+import { Factory } from '../models/factory';
+import { GenericFactoryService } from './general/generic-factory.service';
 const ApiUrl = environment.apiUrl;;
 
 @Injectable({ providedIn: 'root' })
-export class FactoryService {
-  constructor(private http: HttpClient) {
-
+export class FactoryService extends GenericFactoryService<Factory> {
+  constructor(http: HttpClient) {
+    super(http, 'Factory');
   }
-
-  getFactory() {
-    return this.http.get<any>(`${ApiUrl}/Factory/GetFactory`);
-  }
-  getBasicFactory() {
-    let pr = new DataTablePaginationParams();
-    pr.selectFields = "FactoryId, [FactoryName]= IIF(ISNULL(FactoryName,'')='',N'[Noname factory]',FactoryName), Status ";
-    return this.http.post(`${ApiUrl}/Factory/GetFactoryPagination`, pr);
-  }
-
   getFactoryPaginationMain(keyvalue, pageIndex, pageSize) {
     let pr = new DataTablePaginationParams();
     pr.key = keyvalue;
@@ -30,15 +22,6 @@ export class FactoryService {
     pr.pageSize = pageSize;
     return this.http.post(`${ApiUrl}/Factory/GetFactoryPaginationPageIndex`, pr);
   }
-  getFactoryPagination(keyvalue) {
-    let pr = new DataTablePaginationParams();
-    pr.keyFields = "FactoryName ,FactoryAddress,FactoryContact,ContactPhone"
-    pr.key = keyvalue;
-
-    pr.pageSize = 9999;
-    return this.http.post(`${ApiUrl}/Factory/GetFactoryPagination`, pr);
-  }
-
   loadFactorySelectBox(key) {
     return  new DataSource({
       store:createStore({
@@ -51,48 +34,5 @@ export class FactoryService {
     });
   }
 
-  getAllFactoryPagination(model) {
-    return this.http.post(`${ApiUrl}/Factory/GetFactoryPagination`, model);
-  }
-
-  getFactoryToSelect2 = (keyword) => this.http.get<any>(`${ApiUrl}/Factory/GetFactoryPaginationToSelect2?keyword=` + keyword);
-
-  getFactoryById(id) {
-    return this.http.get<any>(`${ApiUrl}/Factory/FindFactoryById`, { params: { id: id } });
-  }
-
-  addFactory(entity) {
-    return this.http.post(`${ApiUrl}/Factory/AddFactory`, entity);
-  }
-  updateFactory(entity) {
-    return this.http.put(`${ApiUrl}/Factory/UpdateFactory`, entity);
-  }
-  deleteFactory(id) {
-    return this.http.delete(`${ApiUrl}/Factory/DeleteFactory`, { params: { id: id } });
-  }
-  validateFactory(e) {
-    return this.http.post(`${ApiUrl}/Factory/ValidateFactory`, e);
-  }
-
-  getSelectBox(checkStatus = false){
-    let serviceUrl = `${environment.apiUrl}/Factory/UI_SelectBox`;
-    return  new DataSource({
-      store: createStore({
-          key: "FactoryId",
-          loadUrl: serviceUrl,
-          loadParams: {key:"FactoryId"}
-      }) ,
-      paginate: true,
-      pageSize: 10,
-      filter: checkStatus? ["Status", "=", 1] : [],
-      map: (dataItem) => {
-        dataItem.id =  dataItem[Object.keys(dataItem)[0]];
-        dataItem.text =  (dataItem['FactoryCode']? dataItem['FactoryCode']+' - ': '' ) +  dataItem[Object.keys(dataItem)[1]];
-        return dataItem;
-      }
-
-    });
-
-  }
 
 }

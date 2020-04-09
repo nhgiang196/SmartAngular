@@ -29,16 +29,7 @@
                 class="p-2"
                 [dataSource]="functions"
                 keyExpr="Id"
-                [allowColumnReordering]="true"
-                [showBorders]="true"
-                (onEditingStart)="logEvent('EditingStart')"
-                (onInitNewRow)="logEvent('InitNewRow')"
-                (onRowInserting)="logEvent('RowInserting')"
-                (onRowInserted)="logEvent('RowInserted')"
-                (onRowUpdating)="logEvent('RowUpdating')"
-                (onRowUpdated)="logEvent('RowUpdated')"
-                (onRowRemoving)="logEvent('RowRemoving')"
-                (onRowRemoved)="logEvent('RowRemoved')">
+                [allowColumnReordering]="true"            
                 [showBorders]="true">    
                 <dxo-paging [pageSize]="10"></dxo-paging>
                 <dxo-header-filter [visible]="true"></dxo-header-filter>

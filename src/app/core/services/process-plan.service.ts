@@ -7,15 +7,13 @@ import { MyHelperService } from './my-helper.service';
 import { GenericFactoryService } from './general/generic-factory.service';
 import { ProcessPlanFactory } from '../models/process';
 const ApiUrl = environment.apiUrl;
-@Injectable({
-  providedIn: 'root'
-})
-export class ProcessPlanFactoryService  extends GenericFactoryService<ProcessPlanFactory> {
+@Injectable({ providedIn: 'root' })
+export class ProcessPlanFactoryService extends GenericFactoryService<ProcessPlanFactory> {
   constructor(http: HttpClient) {
-    super(http,ProcessPlanFactory);
+    super(http, 'ProcessPlanFactory');
   }
 
-  findProcessPlanFactoryByFactoryId =(id,endDate) => this.http.get<any>(`${ApiUrl}/ProcessPlanFactory/FindProcessPlanFactoryByFactoryId?id=${id}&endDate=${endDate}` );
+  findProcessPlanFactoryByFactoryId = (id, endDate) => this.http.get<any>(`${ApiUrl}/ProcessPlanFactory/FindProcessPlanFactoryByFactoryId?id=${id}&endDate=${endDate}`);
 
-  getBomStageNearestByFactoryId=(params)=>this.http.get<any>(`${ApiUrl}/ProcessPlanFactory/GetBomStageNearestByFactoryId`,{ params: params});
+  getBomStageNearestByFactoryId = (params) => this.http.get<any>(`${ApiUrl}/ProcessPlanFactory/GetBomStageNearestByFactoryId`, { params: params });
 }

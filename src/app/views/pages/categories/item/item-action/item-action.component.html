@@ -204,7 +204,7 @@
                                                     <!-- (onRowValidating)="onRowValidatingFactory($event)" -->
                                                     <dx-data-grid
                                                     [dataSource]="entity.ItemFactory"
-                                                    (onContentReady) ="enableActiveTab($event)"
+                                                    (onContentReady) ="enableActiveTab()"
                                                     [remoteOperations]="true" height="auto"  showBorders="true">
 
                                                     <dxo-editing
@@ -249,8 +249,7 @@
                                                   (onCellPrepared)="onCellPrepared($event)" -->
                                                   <!-- (onContentReady) ="enableActiveTab($event)" -->
                                                   <dx-data-grid
-                                                  [dataSource]="entity.ItemProperty"
-                                                  (onEditingStart)="isEditRow =true"
+                                                  [dataSource]="entity.ItemProperty"                                                
                                                   (onRowValidating)="onRowValidatingItemProperty($event)"
                                                   (onContentReady) ="enableActiveTab()"
                                                   [remoteOperations]="true" height="auto"  showBorders="true">
@@ -292,9 +291,8 @@
                               <div class="col-sm-12">
                                 <dx-data-grid
                                 [dataSource]="entity.ItemPackage"
-                                (onEditingStart)="isEditRow =true"
                                 (onRowValidating)="onRowValidatingUnit($event)"
-                                (onContentReady) ="enableActiveTab($event)"
+                                (onContentReady) ="enableActiveTab()"
                                 [remoteOperations]="true" height="auto"  showBorders="true">
 
                                 <dxo-editing

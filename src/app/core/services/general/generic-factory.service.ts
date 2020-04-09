@@ -6,14 +6,11 @@ import DataSource from 'devextreme/data/data_source';
 import { createStore } from 'devextreme-aspnet-data-nojquery';
 import { Observable } from 'rxjs';
 const ApiUrl = environment.apiUrl;
-@Injectable({
-  providedIn: 'root'
-})
 export class GenericFactoryService<T> implements IGenericFactoryService<T> {
   private entity: string;
   requests: string[] = [];
-  constructor(public http: HttpClient,  x: new () => T) {
-    this.entity = x.name;
+  constructor(public http: HttpClient,entity:string) {
+    this.entity = entity;
   }
   getAll() {
     return this.http.get<any>(`${ApiUrl}/${this.entity}/Get${this.entity}`);

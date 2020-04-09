@@ -16,7 +16,7 @@ constructor(private api: CustomerService, private router: Router,
         private toastr: ToastrService) {}
 
   resolve(router: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Customer> {
-    return  this.api.findCustomerById(router.params['id'])
+    return  this.api.findById(router.params['id'])
       .pipe(
       map(item=>{ return item;
       }),
