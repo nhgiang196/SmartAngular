@@ -16,14 +16,7 @@ import { UserIdleModule } from 'angular-user-idle';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
-  return new TranslateHttpLoader(http);
-}
-
-export function getLanguage(){
-  let lang = localStorage.getItem('locallanguage');
-  if(lang==null || lang =='')
-    lang ='vn'
-  return  lang;
+  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
 @NgModule({
   declarations: [],
@@ -32,10 +25,9 @@ export function getLanguage(){
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
-        useFactory: HttpLoaderFactory,
+        useFactory: (HttpLoaderFactory),
         deps: [HttpClient]
       },
-      defaultLanguage: getLanguage()
     }),
     ToastrModule.forRoot({
       timeOut: 3000,
@@ -67,7 +59,7 @@ export function getLanguage(){
     NgxDropzoneModule,
     NgSelectModule,
     BsDatepickerModule,
-     PopoverModule,
+    PopoverModule,
     TimepickerModule,
     PaginationModule,
     DxButtonModule,
