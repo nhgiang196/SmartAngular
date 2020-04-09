@@ -35,7 +35,7 @@ export function getLanguage(){
         useFactory: HttpLoaderFactory,
         deps: [HttpClient]
       },
-      // defaultLanguage: getLanguage()
+      defaultLanguage: getLanguage()
     }),
     ToastrModule.forRoot({
       timeOut: 3000,
