@@ -27,7 +27,10 @@ export class LanguageService {
   getLanguage(){
     let lang = localStorage.getItem('locallanguage');
     if(lang==null || lang =='')
-      lang ='vn'
+     {
+       localStorage.setItem('locallanguage','vn');
+      lang ='vn';
+     }
     return  lang;
   }
 

@@ -155,6 +155,15 @@ export function minimalize(){
    $('.navbar-minimalize').on('click', function (event) {
     event.preventDefault();
     $("body").toggleClass("mini-navbar");
+    if($("body").hasClass("mini-navbar")){
+      $(this).find("i").addClass("fa-bars")
+      $(this).find("i").removeClass("fa-times")
+    }
+    else{
+      $(this).find("i").removeClass("fa-bars")
+      $(this).find("i").addClass("fa-times")
+    }
+
 });
 }
 
@@ -210,5 +219,17 @@ export function checkActiveTab(){
     })
 
     $(".btn-save").removeAttr("disabled");
+  }
+}
+
+
+export function toggleNav(code){
+  if(code=="dashboard"){
+    $("#page-wrapper").attr("style","margin:0px");
+    $(".navbar-default[role='navigation']").hide();
+  }
+  else{
+    $("#page-wrapper").removeAttr("style");
+    $(".navbar-default[role='navigation']").show();
   }
 }

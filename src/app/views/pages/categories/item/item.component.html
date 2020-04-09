@@ -32,7 +32,7 @@
             </div>
             <div class="col-sm-4">
               <div class="row">
-                <label class="col-sm-3">{{'Item.label.ItemTypeSearch' | translate}}</label>
+                <label class="col-sm-3" style="padding: 8px 0 8px 40px;">{{'Item.label.ItemTypeSearch' | translate}}</label>
                 <div class="col-sm-9">
                   <select class="form-control" [(ngModel)]="itemTypeId" (change)="searchItemByItemType($event.target.value)" placeholder="Vui lòng chọn loại vật tư">
                     <option value="0">{{'Item.label.ItemTypeSearchValue0' | translate}}</option>
@@ -52,7 +52,7 @@
               [dataSource]="dataSource"
               (onDataErrorOccurred)="onDataErrorOccurred($event)"
               [errorRowEnabled]="false"
-              [remoteOperations]="true"  [showBorders]="true" [showRowLines]="true" style="max-height: 500px;">
+              [remoteOperations]="true"  [showBorders]="true" [showRowLines]="true" class="m-grid-5">
 
               <dxo-selection mode="single"></dxo-selection>
               <dxo-filter-row [visible]="true"></dxo-filter-row>
