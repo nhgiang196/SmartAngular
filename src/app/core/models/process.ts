@@ -75,9 +75,9 @@ export class ProcessPlanFactory {
   ProcessPlanYear: number = 0
   ProcessPlanDescription: string
   CreateBy: string
-  CreateDate: Date
+  CreateDate: any
   ModifyBy: string
-  ModifyDate: Date
+  ModifyDate: any
   Status: number=1;
   ProcessPlanStage:Array<ProcessPlanStage>= new Array<ProcessPlanStage>();
 }

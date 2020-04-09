@@ -14,6 +14,7 @@ export class UISelectBoxComponent implements OnInit {
   @Input('pageSize')  pageSize : number = 10 ;
   @Input('ngModelCustom')  ngModelCustom : any =null;
   @Input('checkstatus')  checkStatus : boolean = false ;
+  @Input('disabled')  disabled : boolean = false ;
 
   @Output() ngModelCustomChange: EventEmitter<any> = new EventEmitter<any>();
   @Output() valueChange: EventEmitter<any> = new EventEmitter<any>();
