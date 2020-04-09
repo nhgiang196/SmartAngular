@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { UserIdleService } from 'angular-user-idle';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { AuthService } from './core/services';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -10,10 +11,20 @@ import { AuthService } from './core/services';
 export class AppComponent {
   title = 'XLNT-SPA';
 
-  constructor(private userIdle: UserIdleService,
+  constructor(
+    private userIdle: UserIdleService,
     private auth: AuthService,
-    public translate: TranslateService) {
-    // translate.addLangs(['en', 'vn']);
+    public translate: TranslateService,
+    public router: Router,
+    ) {
+    translate.addLangs(['en', 'vn']);
+    translate.use(localStorage.getItem('locallanguage') || 'en');
+    translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      var reloadpath = location.hash.replace('#', '');
+      router.navigateByUrl('/', { skipLocationChange: true }).then(() =>
+      router.navigate([reloadpath]));
+    })
+
   }
   
 
