@@ -10724,3 +10724,7 @@ bs-datepicker-container, bs-daterangepicker-container { z-index: 3501 !important
   color: #888;
   font-weight: 400;
 }
+
+.dx-state-disabled{
+  background: #eee !important;
+}
