@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { minimalize } from 'src/app/app.helpers';
 import { ActivatedRoute } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-pages',
@@ -11,7 +12,8 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class PagesComponent implements OnInit {
 
-  constructor(private activeRoute: ActivatedRoute) {
+  constructor(private translate: TranslateService) {
+    translate.use(localStorage.getItem('locallanguage') || 'en');
    }
 
   ngOnInit() {

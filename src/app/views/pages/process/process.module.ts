@@ -23,9 +23,9 @@ const COMPONENTS =[
 @NgModule({
   imports: [
     ProcessRoutingModule,
+    SharedModule,
     CommonModule,
     FormsModule,
-    SharedModule,
     UISampleModule,
     DxSwitchModule,
     ModalModule.forRoot(),
