@@ -212,3 +212,15 @@ export function checkActiveTab(){
     $(".btn-save").removeAttr("disabled");
   }
 }
+
+
+export function toggleNav(code){
+  if(code=="dashboard"){
+    $("#page-wrapper").attr("style","margin:0px");
+    $(".navbar-default[role='navigation']").hide();
+  }
+  else{
+    $("#page-wrapper").removeAttr("style");
+    $(".navbar-default[role='navigation']").show();
+  }
+}
