@@ -21,6 +21,7 @@ import { ContractComponent } from './customers/contract/contract.component';
 import { ItemActionComponent } from './item/item-action/item-action.component';
 import { ModalModule } from 'ngx-bootstrap';
 import { NgxDropzoneModule } from 'ngx-dropzone';
+import { TranslateModule } from '@ngx-translate/core';
 
 
 const COMPONENTS = [
@@ -58,7 +59,7 @@ const COMPONENTS = [
     DxValidationSummaryModule,
     DxFileUploaderModule,
     DxTextAreaModule,
-    ModalModule.forRoot()
+    ModalModule.forRoot(),
   ],
   declarations: [...COMPONENTS],
   exports: [],

@@ -10728,3 +10728,15 @@ bs-datepicker-container, bs-daterangepicker-container { z-index: 3501 !important
 .dx-state-disabled{
   background: #eee !important;
 }
+
+.disabledTab {
+  pointer-events: none;
+  cursor: not-allowed;
+}
+.pl-2{
+  padding-left: 25px;
+}
+
+.m-grid-5{
+  max-height: 500px;
+}

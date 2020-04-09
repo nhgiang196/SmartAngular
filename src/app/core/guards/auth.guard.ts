@@ -7,6 +7,7 @@ import {
 } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { StoreService } from '../services/store.service';
+import { toggleNav } from 'src/app/app.helpers';
 
 @Injectable({
     providedIn: 'root',
@@ -44,7 +45,10 @@ export class AuthGuard implements CanActivate {
           let arrayPath = state.url.split('/');
           if(arrayPath.length>2){
             let code =arrayPath[2];
+            console.log(code);
+
             this.store.loadMenu(code);
+            toggleNav(code)
           }
           return true;
         } else {
