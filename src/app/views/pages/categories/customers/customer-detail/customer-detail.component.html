@@ -116,10 +116,10 @@
                       <th width="">{{ 'Contract.data.ContractNo' | translate }} *</th>
                       <th width="">{{ 'Contract.data.ContractCode' | translate }} *</th>
                       <th width="">{{ 'Contract.data.ContractType' | translate }}</th>
-                      <th width="">{{ 'Contract.data.EffectiveDate' | translate }}</th>
+                      <th width="">{{ 'Contract.data.ContractEffectiveDate' | translate }}</th>
                       <th width="">{{ 'Contract.data.StandardType' | translate }}</th>
-                      <th width="">{{ 'Contract.data.Ratio' | translate }}</th>
-                      <th width="">{{ 'Contract.data.Description' | translate }}</th>
+                      <th width="">{{ 'Contract.data.WasteWaterRatio' | translate }}</th>
+                      <th width="">{{ 'Contract.data.ContractDescription' | translate }}</th>
                       <th width="">{{ 'Contract.data.IsIntergration' | translate }}</th>
                       <th width="8%">{{ 'Button.Action' | translate }}</th>
                     </tr>
@@ -188,12 +188,11 @@
             <dx-validation-summary [elementAttr]="{ form: 'myform'  }" id="summary"></dx-validation-summary>
           </div>
           <div class="col-sm-6">
-            <dx-button [elementAttr]="{ form: 'myform'  , type:'submit'}" class="btn btn-primary dim pull-right" icon="fa fa-paper-plane-o"  text="{{'Button.Save' | translate}}" [useSubmitBehavior]="true" >
+            <dx-button class="pull-right" stylingMode="text"  [useSubmitBehavior]="true" template="btnTemplate">
+              <div *dxTemplate="let data of 'btnTemplate'">
+                <button type="button" class="btn btn-primary dim pull-right" [ladda]="laddaSubmitLoading"><i class="fa fa-paper-plane-o"></i> {{'Button.Save' | translate}}</button>
+              </div>
             </dx-button>
-            <!-- <button class="btn btn-primary dim pull-right" [ladda]="laddaSubmitLoading"
-              [disabled]="myForm.invalid || ContactEmail.invalid" (click)="fnSave()"><i class="fa fa-paper-plane-o"></i>
-              {{'Button.Save' | translate}}</button> -->
-         
             <button class="btn btn-outline dim pull-right" [routerLink]="['/pages/category/customer']"><i
                 class="fa fa-chevron-circle-left"></i> {{'Button.Back' | translate}} </button>
           </div>

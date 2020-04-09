@@ -72,6 +72,7 @@ export class CustomerDetailComponent implements OnInit {
   }
   /** BUTTON ACTIONS */
   async fnSave() { // press save button 
+    
     this.invalid = {};
     this.laddaSubmitLoading = true;
     // let _valid = await this.api.validateCustomer(this.entity).toPromise().then() as any;

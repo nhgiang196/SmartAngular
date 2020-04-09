@@ -69,9 +69,6 @@ export class ContractComponent implements OnInit, AfterViewInit {
   async fnSave() {
     if (! await this.targetForm.instance.validate().isValid) return;
     var e = this.entity;
-    // e.ContractSignDate = this.helper.dateConvertToString(e.ContractSignDate);
-    // e.ContractEffectiveDate = this.helper.dateConvertToString(e.ContractEffectiveDate);
-    // e.ContractEndDate = this.helper.dateConvertToString(e.ContractEndDate);
     await this.uploadComponent.uploadFile();
     if (e.CustomerId == 0) { //New customer, just send to parrent
       let _sendParent = Object.assign({}, e); //stop binding
@@ -126,12 +123,13 @@ export class ContractComponent implements OnInit, AfterViewInit {
 
   validateAsync = (e) =>{
     return new Promise(async (resolve) => { 
+      this.laddaSubmitLoading = true;
       let obj = Object.assign({}, this.entity); //stop binding
       obj[e.formItem.dataField] = e.value;
       let _res =await this.api.validate(obj).then() as any;
       let _validate = _res.Success? _res.Success : _res.ValidateData.indexOf(e.formItem.dataField)<0;
+      if (_validate == true) this.laddaSubmitLoading = false;
       resolve(_validate);
-      resolve(true);
     });  
   }
   ngOnDestroy() {
