@@ -155,6 +155,15 @@ export function minimalize(){
    $('.navbar-minimalize').on('click', function (event) {
     event.preventDefault();
     $("body").toggleClass("mini-navbar");
+    if($("body").hasClass("mini-navbar")){
+      $(this).find("i").addClass("fa-bars")
+      $(this).find("i").removeClass("fa-times")
+    }
+    else{
+      $(this).find("i").removeClass("fa-bars")
+      $(this).find("i").addClass("fa-times")
+    }
+
 });
 }
 
