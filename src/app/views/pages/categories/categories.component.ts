@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { hideSideBar, showNavBar } from 'src/app/app.helpers';
+import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-categories',
@@ -7,7 +9,9 @@ import { hideSideBar, showNavBar } from 'src/app/app.helpers';
 })
 export class CategoriesComponent implements OnInit {
 
-  constructor() { }
+  constructor(private translate: TranslateService) {
+    translate.use(localStorage.getItem('locallanguage') || 'en');
+  }
 
   ngOnInit() {
     //showNavBar();
