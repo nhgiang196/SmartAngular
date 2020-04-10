@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FactoryService, MonitorService } from 'src/app/core/services';
 import { formatDate } from '@angular/common';
 import { Monitor, MonitorDescription, ChartFactory } from 'src/app/core/models/monitor';
+import { DevextremeService } from 'src/app/core/services/general/devextreme.service';
 
 @Component({
   selector: 'app-monitor-chart',
@@ -20,7 +21,8 @@ export class MonitorChartComponent implements OnInit {
   monitorsInfo: Monitor[];
   monitorSources: MonitorDescription[];
   types: string[] = ["bar", "line", "stackedline", "fullstackedline"];
-  constructor(private factoryService: FactoryService, private monitorService: MonitorService) {
+  constructor(private factoryService: FactoryService, private monitorService: MonitorService,
+    private devService: DevextremeService) {
     this.chartFactory = new ChartFactory();
     this.monitorSources = this.monitorService.getMonitorSources();
     this.labelLocation = "top";
@@ -32,7 +34,7 @@ export class MonitorChartComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.factories = this.factoryService.loadFactorySelectBox('FactoryId');
+    this.factories = this.devService.loadDxoLookup('Factory',false);
     console.log(this.factories);
   }
   onValueChanged(e){
