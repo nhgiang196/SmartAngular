@@ -73,10 +73,10 @@ export class WarehouseComponent implements OnInit {
   }
   loadInit() {
     this.iboxloading = true;
-    this.warehouseService.getPagination(this.keyword, this.pageIndex, this.pageSize).subscribe(res => {
+    this.warehouseService.getWarehousePaginationMain(this.keyword, this.pageIndex, this.pageSize).subscribe(res => {
       var data = res as any;
-      this.Warehouse = data.result;
-      this.Warehouse_showed = data.totalCount;
+      this.Warehouse = data.data;
+      this.Warehouse_showed = data.recordsTotal;
       this.iboxloading = false;
     }, err => {
       this.toastr.error(err.statusText, "Load init failed!");
