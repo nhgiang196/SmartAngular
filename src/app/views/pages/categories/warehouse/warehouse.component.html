@@ -46,7 +46,8 @@
               <h2> {{'Warehouse.label.TotalWarehouse' | translate}} {{Warehouse_showed}} {{'Warehouse.' | translate}}
               </h2>
               <!-- <small>{{'Warehouse.label.Showed'| translate}} : {{Warehouse.length}}  {{'Warehouse.' |  translate}} </small> -->
-              <pagination [totalItems]="Warehouse_showed" [itemsPerPage]="pageSize" (pageChanged)="pageChanged($event)">
+              <pagination [totalItems]="Warehouse_showed" [itemsPerPage]="pageSize"
+                (pageChanged)="onPageChanged($event)">
               </pagination>
             </div>
             <div class="col-sm-4">
@@ -55,9 +56,9 @@
                 <div class="input-group">
                   <input type="text" class="form-control input-lg"
                     placeholder="{{ 'Warehouse.label.SearchText' | translate}}" name="search" [(ngModel)]="keyword"
-                    (keyup)="$event.keyCode === 13  && searchLoad()">
+                    (keyup)="$event.keyCode === 13  && fnSearchLoad()">
                   <div class="input-group-btn">
-                    <button class="btn btn-lg btn-primary" type="submit" (click)="searchLoad()">
+                    <button class="btn btn-lg btn-primary" type="submit" (click)="fnSearchLoad()">
                       <i class="fa fa-search"></i>
                     </button>
                   </div>
@@ -78,14 +79,13 @@
                 <div class="panel-body">
                   <p> <strong>{{ 'Warehouse.data.WarehouseCode' | translate}}:</strong> {{item.WarehouseCode}}</p>
                   <p> <strong>{{ 'Factory.' | translate}}:</strong> {{item.FactoryName}}</p>
-                  <p> <strong>{{ 'Warehouse.data.WarehouseUserName' | translate}}:</strong>
-                    {{item.NormalizedUserName | translate}}</p>
-                  <p> <strong>{{ 'Warehouse.data.WarehouseType' | translate }}:</strong>
-                    {{'Warehouse.data.WarehouseType'+item.WarehouseType | translate}}</p>
+                  <p> <strong>{{ 'Warehouse.data.WarehouseUserName' | translate}}:</strong> {{item.WarehouseUserName}}</p>
+                  <p> <strong>{{ 'Warehouse.data.WarehouseType' | translate }}:</strong> {{'Warehouse.data.WarehouseType'+item.WarehouseType | translate}}</p>
                   <p> <strong>{{ 'Warehouse.data.WarehouseAddress' | translate}}:</strong> {{item.WarehouseAddress}}</p>
                   <p> <strong>{{ 'Warehouse.data.Status' | translate}}:</strong>
                     <span class="label" [ngClass]="{'label-primary': item.Status==1, 'label-danger': item.Status==0}">
-                      {{'Warehouse.data.Status'+item.Status | translate}}</span></p>
+                      {{'Warehouse.data.Status'+item.Status | translate}}</span>
+                  </p>
                 </div>
               </div>
             </div>
@@ -95,8 +95,8 @@
     </div>
   </div>
 </div>
-<div class="modal inmodal" bsModal #childModal="bs-modal" id="myModal4" data-backdrop="static" data-keyboard="true" tabindex="-1" role="dialog"
-  aria-hidden="true">
+<div class="modal inmodal" bsModal #childModal="bs-modal" id="myModal4" data-backdrop="static" data-keyboard="true"
+  tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-lg ">
     <div class="modal-content animated fadeIn">
       <div class="modal-header">
@@ -106,26 +106,29 @@
       </div>
       <div class="modal-body">
         <form role="form" #myForm="ngForm" (submit)="fnSave()">
-          <dx-form #targetForm id="form" [(formData)]="entity" >
+          <dx-form #targetForm id="form" [(formData)]="entity">
             <dxi-item itemType="group" [colCount]="2">
               <dxi-item dataField="WarehouseCode" [label]="{text: trans.instant('Warehouse.data.WarehouseCode')}">
                 <dxi-validation-rule type="required"></dxi-validation-rule>
-                <dxi-validation-rule type="async" message="Exist Warehouse Code"  reevaluate="true" [validationCallback]="validateAsync"></dxi-validation-rule>
+                <dxi-validation-rule type="async" message="Exist Warehouse Code" reevaluate="true"
+                  [validationCallback]="validateAsync"></dxi-validation-rule>
               </dxi-item>
-              <dxi-item dataField="FactoryId" editorType="dxSelectBox"  [label]="{text: trans.instant('Warehouse.data.FactoryId')}"
-              [editorOptions]="{ displayExpr: 'FactoryName' ,valueExpr:'FactoryId' , dataSource: factoryList}">
-                  <dxi-validation-rule type="required"></dxi-validation-rule>
-                  <dxi-validation-rule type="custom" ignoreEmptyValue="true" [validationCallback]="validateFunction" message="Required Choose"></dxi-validation-rule>
+              <dxi-item dataField="FactoryId" editorType="dxSelectBox"
+                [label]="{text: trans.instant('Warehouse.data.FactoryId')}"
+                [editorOptions]="{ displayExpr: 'FactoryName' ,valueExpr:'FactoryId' , dataSource: factoryList}">
+                <dxi-validation-rule type="required"></dxi-validation-rule>
+                <dxi-validation-rule type="custom" ignoreEmptyValue="true" [validationCallback]="validateFunction"
+                  message="Required Choose"></dxi-validation-rule>
               </dxi-item>
             </dxi-item>
-           
             <dxi-item itemType="group" [colCount]="2">
               <dxi-item dataField="WarehouseName" [label]="{text: trans.instant('Warehouse.data.WarehouseName')}">
                 <dxi-validation-rule type="required"></dxi-validation-rule>
-                <dxi-validation-rule type="async" message="Exist Warehouse Name" reevaluate="true"  [validationCallback]="validateAsync"></dxi-validation-rule>
+                <dxi-validation-rule type="async" message="Exist Warehouse Name" reevaluate="true"
+                  [validationCallback]="validateAsync"></dxi-validation-rule>
               </dxi-item>
-              <dxi-item dataField="WarehouseType" [label]="{text: trans.instant('Warehouse.data.WarehouseType')}"  editorType="dxSelectBox" 
-              [editorOptions]="{ displayExpr: 'text' ,valueExpr:'id' ,
+              <dxi-item dataField="WarehouseType" [label]="{text: trans.instant('Warehouse.data.WarehouseType')}"
+                editorType="dxSelectBox" [editorOptions]="{ displayExpr: 'text' ,valueExpr:'id' ,
                 items: [
                  { id: 1, text: trans.instant('Warehouse.data.WarehouseType1')}
                 ,{ id: 2, text: trans.instant('Warehouse.data.WarehouseType2')}
@@ -134,18 +137,16 @@
                 ]}">
                 <dxi-validation-rule type="required"></dxi-validation-rule>
               </dxi-item>
-
-              
             </dxi-item>
- 
             <dxi-item itemType="group" [colCount]="2">
-              <dxi-item dataField="WarehouseAddress" [label]="{text: trans.instant('Warehouse.data.WarehouseAddress')}"></dxi-item>
-              <dxi-item dataField="WarehouseUserName" [label]="{text: trans.instant('Warehouse.data.WarehouseUserName')}"
-              editorType="dxSelectBox"  [editorOptions]="{displayExpr: 'NormalizedUserName' ,valueExpr:'UserName' ,items: initCombobox.Users}" >
+              <dxi-item dataField="WarehouseAddress" [label]="{text: trans.instant('Warehouse.data.WarehouseAddress')}">
+              </dxi-item>
+              <dxi-item dataField="WarehouseUserName"
+                [label]="{text: trans.instant('Warehouse.data.WarehouseUserName')}" editorType="dxSelectBox"
+                [editorOptions]="{displayExpr: 'NormalizedUserName' ,valueExpr:'UserName' ,items: initCombobox.Users}">
                 <dxi-validation-rule type="required"></dxi-validation-rule>
               </dxi-item>
             </dxi-item>
-
             <dxi-item itemType="group" [colCount]="2">
               <dxi-item itemType="empty" visible="false"></dxi-item>
               <!-- <dxi-item dataField="Status"  editorType="dxSwitch" [label]="{text: trans.instant('Warehouse.data.Status')}"></dxi-item> -->
@@ -154,82 +155,73 @@
                 items: [{id: 0, text: trans.instant('Warehouse.data.Status0')}
                 ,{ id: 1, text: trans.instant('Warehouse.data.Status1')}]}">
               </dxi-item>
-
             </dxi-item>
-            
-            
-
             <dxi-item itemType="group" [colCount]="3" caption="Size (cm)">
-              <dxi-item dataField="WarehouseLength" [label]="{text: trans.instant('Warehouse.data.WarehouseLength')}" editorType="dxNumberBox" >
-                <dxi-validation-rule type="range" [min]="0"  [max]="100" message="Range 0-100"></dxi-validation-rule>
+              <dxi-item dataField="WarehouseLength" [label]="{text: trans.instant('Warehouse.data.WarehouseLength')}"
+                editorType="dxNumberBox">
+                <dxi-validation-rule type="range" [min]="0" [max]="100" message="Range 0-100"></dxi-validation-rule>
               </dxi-item>
-              <dxi-item dataField="WarehouseWidth" [label]="{text: trans.instant('Warehouse.data.WarehouseWidth')}" editorType="dxNumberBox" >
-                <dxi-validation-rule type="range" [min]="0"  [max]="100" message="Range 0-100"></dxi-validation-rule>
+              <dxi-item dataField="WarehouseWidth" [label]="{text: trans.instant('Warehouse.data.WarehouseWidth')}"
+                editorType="dxNumberBox">
+                <dxi-validation-rule type="range" [min]="0" [max]="100" message="Range 0-100"></dxi-validation-rule>
               </dxi-item>
-              <dxi-item dataField="WarehouseHeight" [label]="{text: trans.instant('Warehouse.data.WarehouseHeight')}" editorType="dxNumberBox" >
-                <dxi-validation-rule type="range" [min]="0"  [max]="100" message="Range 0-100"></dxi-validation-rule>
+              <dxi-item dataField="WarehouseHeight" [label]="{text: trans.instant('Warehouse.data.WarehouseHeight')}"
+                editorType="dxNumberBox">
+                <dxi-validation-rule type="range" [min]="0" [max]="100" message="Range 0-100"></dxi-validation-rule>
               </dxi-item>
             </dxi-item>
-            <dxi-item  itemType="group" caption="{{'Upload.' | translate}}">
+            <dxi-item itemType="group" caption="{{'Upload.' | translate}}">
               <div *dxTemplate>
                 <app-smart-upload #targetSmartUpload [filePath]="pathFile"
                   (entityFile)="this.entity.WarehouseFile = $event"></app-smart-upload>
               </div>
             </dxi-item>
-            <dxi-item  itemType="group" caption="{{'Warehouse.label.Location' | translate}}">
+            <dxi-item itemType="group" caption="{{'Warehouse.label.Location' | translate}}">
               <div *dxTemplate>
-                <dx-data-grid
-                  [dataSource]="entity.WarehouseLocation"
-                  allowColumnResizing="true"
-                  (onInitNewRow)="initWarehouseLocation($event)"
-                  (onRowInserted)="changeWarehouseLocationStatus($event)"
-                  (onRowUpdated)="changeWarehouseLocationStatus($event)"
-                  [showBorders]="true">
-                  <dxo-editing 
-                    mode="row"
-                    [allowUpdating]="true"
-                    [allowDeleting]="true"
-                    [allowAdding]="true"
-                    [useIcons] ="true">
+                <dx-data-grid [dataSource]="entity.WarehouseLocation" allowColumnResizing="true"
+                  (onInitNewRow)="onInitNewRowWarehouseLocation($event)"
+                  (onRowInserted)="onChangeWarehouseLocationStatus($event)"
+                  (onRowUpdated)="onChangeWarehouseLocationStatus($event)" [showBorders]="true">
+                  <dxo-editing mode="row" [allowUpdating]="true" [allowDeleting]="true" [allowAdding]="true"
+                    [useIcons]="true">
                   </dxo-editing>
-                <dxi-column dataField="WarehouseLocationCode" caption="{{ 'Warehouse.data.WarehouseLocationCode' | translate }}">
-                  <dxi-validation-rule type="required"></dxi-validation-rule>
-                  <dxi-validation-rule type="custom" ignoreEmptyValue="true" reevaluate="true" [validationCallback]="validateFunction" message="Existed Technology Name"></dxi-validation-rule>
-                </dxi-column>
-                <dxi-column dataField="WarehouseLocationName" caption="{{ 'Warehouse.data.WarehouseLocationName' | translate }}">
-                  <dxi-validation-rule type="required"></dxi-validation-rule>
-                  <dxi-validation-rule type="custom" ignoreEmptyValue="true" reevaluate="true" [validationCallback]="validateFunction" message="Existed Technology Name"></dxi-validation-rule>
-                </dxi-column>
-                <dxi-column dataField="WarehouseLocationLength" caption="{{ 'Warehouse.data.WarehouseLocationLength' | translate }}">
-                  <dxi-validation-rule type="range" [min]="0"  [max]="100" message="Range 0-100"></dxi-validation-rule>
-                </dxi-column>
-                <dxi-column dataField="WarehouseLocationWidth" caption="{{ 'Warehouse.data.WarehouseLocationWidth' | translate }}">
-                  <dxi-validation-rule type="range" [min]="0"  [max]="100" message="Range 0-100"></dxi-validation-rule>
-                </dxi-column>
-                <dxi-column dataField="WarehouseLocationHeight" caption="{{ 'Warehouse.data.WarehouseLocationHeight' | translate }}">
-                  <dxi-validation-rule type="range" [min]="0"  [max]="100" message="Range 0-100"></dxi-validation-rule>
-                </dxi-column>
-                <dxi-column dataField="Status" caption="{{ 'Warehouse.data.Status' | translate }}"  dataType="boolean">
-                </dxi-column>
-                
-                
+                  <dxi-column dataField="WarehouseLocationCode"
+                    caption="{{ 'Warehouse.data.WarehouseLocationCode' | translate }}">
+                    <dxi-validation-rule type="required"></dxi-validation-rule>
+                    <dxi-validation-rule type="custom" ignoreEmptyValue="true" reevaluate="true"
+                      [validationCallback]="validateFunction" message="Existed Technology Name"></dxi-validation-rule>
+                  </dxi-column>
+                  <dxi-column dataField="WarehouseLocationName"
+                    caption="{{ 'Warehouse.data.WarehouseLocationName' | translate }}">
+                    <dxi-validation-rule type="required"></dxi-validation-rule>
+                    <dxi-validation-rule type="custom" ignoreEmptyValue="true" reevaluate="true"
+                      [validationCallback]="validateFunction" message="Existed Technology Name"></dxi-validation-rule>
+                  </dxi-column>
+                  <dxi-column dataField="WarehouseLocationLength"
+                    caption="{{ 'Warehouse.data.WarehouseLocationLength' | translate }}">
+                    <dxi-validation-rule type="range" [min]="0" [max]="100" message="Range 0-100"></dxi-validation-rule>
+                  </dxi-column>
+                  <dxi-column dataField="WarehouseLocationWidth"
+                    caption="{{ 'Warehouse.data.WarehouseLocationWidth' | translate }}">
+                    <dxi-validation-rule type="range" [min]="0" [max]="100" message="Range 0-100"></dxi-validation-rule>
+                  </dxi-column>
+                  <dxi-column dataField="WarehouseLocationHeight"
+                    caption="{{ 'Warehouse.data.WarehouseLocationHeight' | translate }}">
+                    <dxi-validation-rule type="range" [min]="0" [max]="100" message="Range 0-100"></dxi-validation-rule>
+                  </dxi-column>
+                  <dxi-column dataField="Status" caption="{{ 'Warehouse.data.Status' | translate }}" dataType="boolean">
+                  </dxi-column>
                 </dx-data-grid>
-
               </div>
             </dxi-item>
-            
-
-            
-
           </dx-form>
-          
         </form>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-white" data-dismiss="modal">{{'Button.Close' | translate}} </button>
-        <button type="button" class="btn btn-primary" (click)="fnSave()" [ladda]="laddaSubmitLoading"><i class="fa fa-paper-plane-o"></i> {{'Button.Save' | translate}} </button>
+        <button type="button" class="btn btn-primary" (click)="fnSave()" [ladda]="laddaSubmitLoading"><i
+            class="fa fa-paper-plane-o"></i> {{'Button.Save' | translate}} </button>
       </div>
-
     </div>
   </div>
 </div>

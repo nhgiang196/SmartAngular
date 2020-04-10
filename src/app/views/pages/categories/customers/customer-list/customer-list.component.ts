@@ -1,7 +1,6 @@
 
 import { Component, OnInit, ViewChild, AfterViewInit, OnDestroy, Renderer, Input } from "@angular/core";
 import { TranslateService } from "@ngx-translate/core";
-
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { CustomerService } from 'src/app/core/services';
@@ -9,43 +8,36 @@ import { DxDataGridComponent } from 'devextreme-angular';
 declare let $: any;
 import swal from "sweetalert2";
 import { DevextremeService } from 'src/app/core/services/general/devextreme.service';
-
 @Component({
   selector: 'app-customer-list',
   templateUrl: './customer-list.component.html',
   styleUrls: ['./customer-list.component.css']
 })
-export class CustomerListComponent  implements  OnInit {
+export class CustomerListComponent implements OnInit {
   // @ViewChild(DataTableDirective)  datatableElement: DataTableDirective;
   // dtOptions: DataTables.Settings = {};
-
   @ViewChild(DxDataGridComponent, { static: false }) dataGrid: DxDataGridComponent;
-
   public ACTION_STATUS: string;
   iboxloading = false;
   laddaSubmitLoading = false;
   lsData: any = [];
-
-  dataSource: any 
+  dataSource: any
   constructor(
     private api: CustomerService,
     private trans: TranslateService,
     public router: Router,
     private toastr: ToastrService,
     private devService: DevextremeService,
-  ) { 
+  ) {
     this.dataSource = this.api.getDataGrid();
     this.dataSourceFactory = devService.loadDxoLookup("Factory");
     this.routerToDetail = this.routerToDetail.bind(this);
     this.fnDelete = this.fnDelete.bind(this);
   }
   dataSourceFactory: any;
-  lsDatatable : any= []; //return datatable
-  ngOnInit() {
-    // this.dataSource.filter(["Status", "=", 1]);
-  }
-  
-  fnDelete(rowValue){
+  lsDatatable: any = []; //return datatable
+  ngOnInit() {}
+  fnDelete(rowValue) {
     swal.fire({
       titleText: this.trans.instant('Customer.mssg.DeleteAsk_Text'),
       confirmButtonText: this.trans.instant('Button.OK'),
@@ -74,15 +66,8 @@ export class CustomerListComponent  implements  OnInit {
         }, err => { this.toastr.error(err.statusText) })
       }
     })
-
   }
-
-  routerToDetail(rowValue){
-    this.router.navigateByUrl('pages/category/customer/'+rowValue.row.data.CustomerId);
-
+  routerToDetail(rowValue) {
+    this.router.navigateByUrl('pages/category/customer/' + rowValue.row.data.CustomerId);
   }
-
-
-
 }
-

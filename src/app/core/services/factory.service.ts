@@ -15,6 +15,7 @@ export class FactoryService extends GenericFactoryService<Factory> {
   constructor(http: HttpClient) {
     super(http, 'Factory');
   }
+  /** Hàm lấy phân trang cho page nhà máy bằng phương pháp index */
   getFactoryPaginationMain(keyvalue, pageIndex, pageSize) {
     let pr = new DataTablePaginationParams();
     pr.key = keyvalue;
@@ -22,17 +23,5 @@ export class FactoryService extends GenericFactoryService<Factory> {
     pr.pageSize = pageSize;
     return this.http.post(`${ApiUrl}/Factory/GetFactoryPaginationPageIndex`, pr);
   }
-  loadFactorySelectBox(key) {
-    return  new DataSource({
-      store:createStore({
-        key: key,
-        loadUrl: `${ApiUrl}/Factory/GetFactoryDataGridPagination`,
-        onBeforeSend: function (method, ajaxOptions) {
-          ajaxOptions.data.keyId = key;
-       }
-      })
-    });
-  }
-
 
 }

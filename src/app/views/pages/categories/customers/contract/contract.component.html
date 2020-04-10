@@ -1,136 +1,137 @@
-<form id="myForm" (submit)="fnSave()">
-<div class="modal inmodal" id="myContractModal" bsModal #childModal="bs-modal" data-backdrop="static"
+
+<div  bsModal #childModal="bs-modal" class="modal inmodal" id="myContractModal" data-backdrop="static"
   data-keyboard="true" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-lg " style="width: 80%;">
     <div class="modal-content animated fadeIn">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
-            class="sr-only">Close</span></button>
-        <h4 class="modal-title"> {{'Contract.label.Information' | translate }}</h4>
-      </div>
-      <div class="modal-body">
-        <div class="dx-fieldset">
-          <dx-form #targetForm [(formData)]="entity" [colCount]="2" validationGroup>
-            <dxi-item dataField="ContractNo" [label]="{text: trans.instant('Contract.data.ContractNo')}">
-              <dxi-validation-rule type="required"></dxi-validation-rule>
-              <dxi-validation-rule type="async" ignoreEmptyValue="true" [validationCallback]="validateAsync"
-                message="Exsits Contract Code"></dxi-validation-rule>
-            </dxi-item>
-            <dxi-item dataField="ContractCode" [label]="{text: trans.instant('Contract.data.ContractCode')}">
-              <dxi-validation-rule type="required"></dxi-validation-rule>
-              <dxi-validation-rule type="async" ignoreEmptyValue="true" [validationCallback]="validateAsync"
-                message="Exsits Contract Code"></dxi-validation-rule>
-            </dxi-item>
-            <dxi-item dataField="ContractType" editorType="dxSelectBox"
-              [label]="{text: trans.instant('Contract.data.ContractType')}" [editorOptions]="{ displayExpr: 'text' ,valueExpr:'id' ,
-                items: [
-                 { id: 1, text: trans.instant('Contract.data.ContractType1')}
-                ,{ id: 2, text: trans.instant('Contract.data.ContractType2')}
-                ]}"></dxi-item>
-            <dxi-item dataField="ContractDescription" editorType="dxTextArea"
-              [label]="{text: trans.instant('Contract.data.ContractDescription')}"></dxi-item>
-            <dxi-item dataField="ContractSignDate" editorType="dxDateBox"
-              [label]="{text: trans.instant('Contract.data.ContractSignDate')}">
-              <dxi-validation-rule type="required"></dxi-validation-rule>
-            </dxi-item>
-            <dxi-item dataField="ContractEffectiveDate" editorType="dxDateBox"
-              [label]="{text: trans.instant('Contract.data.ContractEffectiveDate')}">
-              <dxi-validation-rule type="custom" ignoreEmptyValue="true" [validationCallback]="validateFunction"
-                message="Contract Effective Date Date Compare Validate">
-              </dxi-validation-rule>
-            </dxi-item>
-            <dxi-item dataField="ContractEndDate" editorType="dxDateBox"
-              [label]="{text: trans.instant('Contract.data.ContractEndDate')}">
-              <dxi-validation-rule type="custom" ignoreEmptyValue="true" [validationCallback]="validateFunction"
-                message="Contract End Date Compare Validate">
-              </dxi-validation-rule>
-            </dxi-item>
-            <dxi-item dataField="StandardType" editorType="dxSelectBox"
-              [label]="{text: trans.instant('Contract.data.StandardType')}" [editorOptions]="{ displayExpr: 'text' ,valueExpr:'id' ,
-                items: [
-                 { id: 1, text: trans.instant('Contract.data.StandardType1')}
-                ,{ id: 2, text: trans.instant('Contract.data.StandardType2')}
-                ]}"></dxi-item>
-            <dxi-item dataField="WasteWaterRatio" editorType="dxNumberBox"
-              [label]="{text: trans.instant('Contract.data.WasteWaterRatio')}">
-              <dxi-validation-rule type="range" [min]="0" [max]="100" message="Range 0-100"></dxi-validation-rule>
-            </dxi-item>
-            <dxi-item dataField="IsIntergration" editorType="dxCheckBox"
-              [label]="{text: trans.instant('Contract.data.IsIntergration')}"></dxi-item>
-          </dx-form>
+      <form id="myForm" (submit)="fnSave()">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
+              class="sr-only">Close</span></button>
+          <h4 class="modal-title"> {{'Contract.label.Information' | translate }}</h4>
         </div>
-        <div class="dx-fieldset">
-          <div class="dx-fieldset-header">{{'Contract.label.Breach' | translate}} </div>
-          <dx-data-grid [dataSource]="entity.ContractBreach" allowColumnResizing="true" [showBorders]="true">
-            <dxo-editing mode="row" [allowUpdating]="true" [allowDeleting]="true" [allowAdding]="true"
-              [useIcons]="true">
-            </dxo-editing>
-            <dxi-column dataField="BreachType" caption="{{ 'Contract.data.ContractBreach.BreachType' | translate }}">
-              <dxi-validation-rule type="required"></dxi-validation-rule>
-              <dxo-lookup displayExpr="text" valueExpr="id" [dataSource]="breachTypeList"></dxo-lookup>
-              <dxi-validation-rule type="custom" reevaluate="true" [validationCallback]="validateFunction"
-                message="Existed Breach Type"></dxi-validation-rule>
-            </dxi-column>
-            <dxi-column dataField="ResolveType" caption="{{ 'Contract.data.ContractBreach.ResolveType' | translate }}">
-              <dxi-validation-rule type="required"></dxi-validation-rule>
-              <dxo-lookup displayExpr="text" valueExpr="id" [dataSource]="resolveTypeList"></dxo-lookup>
-            </dxi-column>
-            <dxi-column dataField="Times" caption="{{ 'Contract.data.ContractBreach.Times' | translate }}"
-              dataType="number">
-              <dxi-validation-rule type="required"></dxi-validation-rule>
-              <dxi-validation-rule type="range" [min]="0" message="Times >0"></dxi-validation-rule>
-            </dxi-column>
-            <dxo-paging [pageSize]="7"></dxo-paging>
-            <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[7,25, 50, 100]"></dxo-pager>
-          </dx-data-grid>
-        </div>
-        <div class="dx-fieldset">
-          <div class="dx-fieldset-header">{{'Contract.label.Price' | translate}} </div>
-          <dx-data-grid [dataSource]="entity.ContractPrice" allowColumnResizing="true" [showBorders]="true">
-            <dxo-editing mode="row" [allowUpdating]="true" [allowDeleting]="true" [allowAdding]="true"
-              [useIcons]="true">
-            </dxo-editing>
-            <dxi-column dataField="WaterFlow" caption="{{ 'Contract.data.ContractPrice.WaterFlow' | translate }}"
-              dataType="number">
-              <dxi-validation-rule type="required"></dxi-validation-rule>
-              <dxi-validation-rule type="range" [min]="0" [max]="100" message="Range 0-100"></dxi-validation-rule>
-              <dxi-validation-rule type="custom" reevaluate="true" [validationCallback]="validateFunction"
-                message="Existed WaterFlow"></dxi-validation-rule>
-            </dxi-column>
-            <dxi-column dataField="Currency" caption="{{ 'Contract.data.ContractPrice.Currency' | translate }}">
-              <dxi-validation-rule type="required"></dxi-validation-rule>
-            </dxi-column>
-            <dxi-column dataField="Price" caption="{{ 'Contract.data.ContractPrice.Price' | translate }}"
-              dataType="number">
-              <dxi-validation-rule type="required"></dxi-validation-rule>
-              <dxi-validation-rule type="range" [min]="0" [max]="100" message="Range 0-100"></dxi-validation-rule>
-            </dxi-column>
-            <dxi-column dataField="Tax" caption="{{ 'Contract.data.ContractPrice.Tax' | translate }}" dataType="number">
-              <dxi-validation-rule type="required"></dxi-validation-rule>
-              <dxi-validation-rule type="range" [min]="0" [max]="100" message="Range 0-100"></dxi-validation-rule>
-            </dxi-column>
-            <dxo-paging [pageSize]="7"></dxo-paging>
-            <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[7,25, 50, 100]"></dxo-pager>
-          </dx-data-grid>
-        </div>
-        <div class="dx-fieldset">
-          <app-smart-upload #contractFile [filePath]="pathFile" (entityFile)="this.entity.ContractFile = $event">
-          </app-smart-upload>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <div class="row">
-          <div class="col-sm-6">
-            <!-- <dx-validation-summary [elementAttr]="{ form: 'myForm'  }" id="summary"></dx-validation-summary> -->
+        <div class="modal-body">
+          <div class="dx-fieldset">
+            <dx-form #targetForm [(formData)]="entity" [colCount]="2" validationGroup>
+              <dxi-item dataField="ContractNo" [label]="{text: trans.instant('Contract.data.ContractNo')}">
+                <dxi-validation-rule type="required"></dxi-validation-rule>
+                <dxi-validation-rule type="async" ignoreEmptyValue="true" [validationCallback]="validateAsync"
+                  message="Exsits Contract Code"></dxi-validation-rule>
+              </dxi-item>
+              <dxi-item dataField="ContractCode" [label]="{text: trans.instant('Contract.data.ContractCode')}">
+                <dxi-validation-rule type="required"></dxi-validation-rule>
+                <dxi-validation-rule type="async" ignoreEmptyValue="true" [validationCallback]="validateAsync"
+                  message="Exsits Contract Code"></dxi-validation-rule>
+              </dxi-item>
+              <dxi-item dataField="ContractType" editorType="dxSelectBox"
+                [label]="{text: trans.instant('Contract.data.ContractType')}" [editorOptions]="{ displayExpr: 'text' ,valueExpr:'id' ,
+                  items: [
+                  { id: 1, text: trans.instant('Contract.data.ContractType1')}
+                  ,{ id: 2, text: trans.instant('Contract.data.ContractType2')}
+                  ]}"></dxi-item>
+              <dxi-item dataField="ContractDescription" editorType="dxTextArea"
+                [label]="{text: trans.instant('Contract.data.ContractDescription')}"></dxi-item>
+              <dxi-item dataField="ContractSignDate" editorType="dxDateBox"
+                [label]="{text: trans.instant('Contract.data.ContractSignDate')}">
+                <dxi-validation-rule type="required"></dxi-validation-rule>
+              </dxi-item>
+              <dxi-item dataField="ContractEffectiveDate" editorType="dxDateBox"
+                [label]="{text: trans.instant('Contract.data.ContractEffectiveDate')}">
+                <dxi-validation-rule type="custom" ignoreEmptyValue="true" [validationCallback]="validateFunction"
+                  message="Contract Effective Date Date Compare Validate">
+                </dxi-validation-rule>
+              </dxi-item>
+              <dxi-item dataField="ContractEndDate" editorType="dxDateBox"
+                [label]="{text: trans.instant('Contract.data.ContractEndDate')}">
+                <dxi-validation-rule type="custom" ignoreEmptyValue="true" [validationCallback]="validateFunction"
+                  message="Contract End Date Compare Validate">
+                </dxi-validation-rule>
+              </dxi-item>
+              <dxi-item dataField="StandardType" editorType="dxSelectBox"
+                [label]="{text: trans.instant('Contract.data.StandardType')}" [editorOptions]="{ displayExpr: 'text' ,valueExpr:'id' ,
+                  items: [
+                  { id: 1, text: trans.instant('Contract.data.StandardType1')}
+                  ,{ id: 2, text: trans.instant('Contract.data.StandardType2')}
+                  ]}"></dxi-item>
+              <dxi-item dataField="WasteWaterRatio" editorType="dxNumberBox"
+                [label]="{text: trans.instant('Contract.data.WasteWaterRatio')}">
+                <dxi-validation-rule type="range" [min]="0" [max]="100" message="Range 0-100"></dxi-validation-rule>
+              </dxi-item>
+              <dxi-item dataField="IsIntergration" editorType="dxCheckBox"
+                [label]="{text: trans.instant('Contract.data.IsIntergration')}"></dxi-item>
+            </dx-form>
           </div>
-          <div class="col-sm-6">
-            <button class="btn btn-white" data-dismiss="modal">{{'Button.Close' | translate}}</button>
-            <button type="button" class="btn btn-primary" [ladda]="laddaSubmitLoading" (click)="fnSave()"><i
-                class="fa fa-paper-plane-o"></i> {{'Button.Save' | translate}} </button>
+          <div class="dx-fieldset">
+            <div class="dx-fieldset-header">{{'Contract.label.Breach' | translate}} </div>
+            <dx-data-grid [dataSource]="entity.ContractBreach" allowColumnResizing="true" [showBorders]="true">
+              <dxo-editing mode="row" [allowUpdating]="true" [allowDeleting]="true" [allowAdding]="true"
+                [useIcons]="true">
+              </dxo-editing>
+              <dxi-column dataField="BreachType" caption="{{ 'Contract.data.ContractBreach.BreachType' | translate }}">
+                <dxi-validation-rule type="required"></dxi-validation-rule>
+                <dxo-lookup displayExpr="text" valueExpr="id" [dataSource]="breachTypeList"></dxo-lookup>
+                <dxi-validation-rule type="custom" reevaluate="true" [validationCallback]="validateFunction"
+                  message="Existed Breach Type"></dxi-validation-rule>
+              </dxi-column>
+              <dxi-column dataField="ResolveType" caption="{{ 'Contract.data.ContractBreach.ResolveType' | translate }}">
+                <dxi-validation-rule type="required"></dxi-validation-rule>
+                <dxo-lookup displayExpr="text" valueExpr="id" [dataSource]="resolveTypeList"></dxo-lookup>
+              </dxi-column>
+              <dxi-column dataField="Times" caption="{{ 'Contract.data.ContractBreach.Times' | translate }}"
+                dataType="number">
+                <dxi-validation-rule type="required"></dxi-validation-rule>
+                <dxi-validation-rule type="range" [min]="0" message="Times >0"></dxi-validation-rule>
+              </dxi-column>
+              <dxo-paging [pageSize]="7"></dxo-paging>
+              <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[7,25, 50, 100]"></dxo-pager>
+            </dx-data-grid>
+          </div>
+          <div class="dx-fieldset">
+            <div class="dx-fieldset-header">{{'Contract.label.Price' | translate}} </div>
+            <dx-data-grid [dataSource]="entity.ContractPrice" allowColumnResizing="true" [showBorders]="true">
+              <dxo-editing mode="row" [allowUpdating]="true" [allowDeleting]="true" [allowAdding]="true"
+                [useIcons]="true">
+              </dxo-editing>
+              <dxi-column dataField="WaterFlow" caption="{{ 'Contract.data.ContractPrice.WaterFlow' | translate }}"
+                dataType="number">
+                <dxi-validation-rule type="required"></dxi-validation-rule>
+                <dxi-validation-rule type="range" [min]="0" [max]="100" message="Range 0-100"></dxi-validation-rule>
+                <dxi-validation-rule type="custom" reevaluate="true" [validationCallback]="validateFunction"
+                  message="Existed WaterFlow"></dxi-validation-rule>
+              </dxi-column>
+              <dxi-column dataField="Currency" caption="{{ 'Contract.data.ContractPrice.Currency' | translate }}">
+                <dxi-validation-rule type="required"></dxi-validation-rule>
+              </dxi-column>
+              <dxi-column dataField="Price" caption="{{ 'Contract.data.ContractPrice.Price' | translate }}"
+                dataType="number">
+                <dxi-validation-rule type="required"></dxi-validation-rule>
+                <dxi-validation-rule type="range" [min]="0" [max]="100" message="Range 0-100"></dxi-validation-rule>
+              </dxi-column>
+              <dxi-column dataField="Tax" caption="{{ 'Contract.data.ContractPrice.Tax' | translate }}" dataType="number">
+                <dxi-validation-rule type="required"></dxi-validation-rule>
+                <dxi-validation-rule type="range" [min]="0" [max]="100" message="Range 0-100"></dxi-validation-rule>
+              </dxi-column>
+              <dxo-paging [pageSize]="7"></dxo-paging>
+              <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[7,25, 50, 100]"></dxo-pager>
+            </dx-data-grid>
+          </div>
+          <div class="dx-fieldset">
+            <app-smart-upload #contractFile [filePath]="pathFile" (entityFile)="this.entity.ContractFile = $event">
+            </app-smart-upload>
           </div>
         </div>
-      </div>
+        <div class="modal-footer">
+          <div class="row">
+            <div class="col-sm-6">
+              <!-- <dx-validation-summary [elementAttr]="{ form: 'myForm'  }" id="summary"></dx-validation-summary> -->
+            </div>
+            <div class="col-sm-6">
+              <button type="button" class="btn btn-white" data-dismiss="modal">{{'Button.Close' | translate}}</button>
+              <button type="button" class="btn btn-primary" [ladda]="laddaSubmitLoading" (click)="fnSave()"><i
+                  class="fa fa-paper-plane-o"></i> {{'Button.Save' | translate}} </button>
+            </div>
+          </div>
+        </div>
+      </form> 
     </div>
   </div>
 </div>
-</form>

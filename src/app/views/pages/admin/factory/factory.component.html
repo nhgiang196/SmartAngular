@@ -29,24 +29,6 @@
                 data-target="#myModal4">
                 <i class="fa fa-plus"></i> {{ 'Factory.btn.AddFactory' | translate}} </button>
             </div>
-            <!-- <div class="col-sm-4 text-center">
-                <h2> {{'Factory.label.TotalFactory' | translate}} {{factory_showed}} {{'Factory.' | translate}} </h2>
-                <small>{{'Factory.label.TotalFactory1' | translate}} {{factory.length}} {{'Factory.label.TotalFactory2' | translate}}</small>
-              </div> -->
-            <!-- <div class="col-sm-4">
-                <div class="pull-right">
-                 <label for="">{{ 'Factory.label.SearchTitle' | translate}}</label>
-                  <div class="input-group">
-                      <input type="text"  class="form-control input-lg" placeholder="{{ 'Factory.label.SearchText' | translate}}" name="search"  [(ngModel)]="keyword"  (keyup)="$event.keyCode === 13 && loadInit()" >
-                      <div class="input-group-btn">
-                          <button class="btn btn-lg btn-primary" type="submit" (click)="loadInit()">
-                              <i class="fa fa-search"></i>
-                          </button>
-                      </div>
-                  </div>
-                </div>
-  
-              </div> -->
             <div class="col-sm-2 text-center">
               <div class="form-group">
                 <label for="choose">
@@ -63,7 +45,7 @@
             <div class="col-sm-4 text-center">
               <h2 class="total-factory"> {{'Factory.label.TotalFactory' | translate}} {{factory_showed}}
                 {{'Factory.' | translate}} </h2>
-              <pagination [totalItems]="factory_showed" [itemsPerPage]="pageSize" (pageChanged)="pageChanged($event)">
+              <pagination [totalItems]="factory_showed" [itemsPerPage]="pageSize" (pageChanged)="onPageChanged($event)">
               </pagination>
             </div>
             <div class="col-sm-4">
@@ -72,9 +54,9 @@
                 <div class="input-group">
                   <input type="text" class="form-control input-lg"
                     placeholder="{{ 'Factory.label.SearchText' | translate}}" name="search" [(ngModel)]="keyword"
-                    (keyup)="$event.keyCode === 13  && searchLoad()">
+                    (keyup)="$event.keyCode === 13  && fnSearchLoad()">
                   <div class="input-group-btn">
-                    <button class="btn btn-lg btn-primary" type="submit" (click)="searchLoad()">
+                    <button class="btn btn-lg btn-primary" type="submit" (click)="fnSearchLoad()">
                       <i class="fa fa-search"></i>
                     </button>
                   </div>

@@ -13,11 +13,13 @@ export class WareHouseService extends GenericFactoryService<Warehouse>{
     super(http,'Warehouse');
   }
 
-  getPagination =(keyvalue, page, pageSize) => { 
+  /** Hàm lấy phân trang cho page nhà máy bằng phương pháp index */
+  getWarehousePaginationMain(keyvalue, pageIndex, pageSize) {
     let pr = new DataTablePaginationParams();
     pr.key = keyvalue;
-    pr.page = page<1? 1 : page;
+    pr.page = pageIndex < 1 ? 1 : pageIndex;
     pr.pageSize = pageSize;
-    return this.http.post<any>(`${ApiUrl}/Warehouse/GetWarehousePaginationByStored`,pr);
-  };
+    return this.http.post(`${ApiUrl}/Warehouse/GetWarehousePaginationPageIndex`, pr);
+  }
+
 }

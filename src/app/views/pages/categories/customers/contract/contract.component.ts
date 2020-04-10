@@ -33,7 +33,7 @@ export class ContractComponent implements OnInit, AfterViewInit {
     { id: 1, text: this.trans.instant('Contract.data.ContractBreach.BreachType1') }
     , { id: 2, text: this.trans.instant('Contract.data.ContractBreach.BreachType2') }
   ];
-  resolveTypeList: any= [
+  resolveTypeList: any = [
     { id: 1, text: this.trans.instant('Contract.data.ContractBreach.ResolveType1') }
     , { id: 2, text: this.trans.instant('Contract.data.ContractBreach.ResolveType2') }
   ];
@@ -43,7 +43,6 @@ export class ContractComponent implements OnInit, AfterViewInit {
   iboxloading = false;
   ngOnInit() {
   }
-  
   loadInit(id) {
     this.targetForm.instance.resetValues();
     this.uploadComponent.resetEntity();
@@ -61,17 +60,13 @@ export class ContractComponent implements OnInit, AfterViewInit {
       })
     }
   }
-  async resetEntity() { //reset entity values
+  async resetEntity() { 
     this.entity = new Contract();
     this.entity.CustomerId = this.route.snapshot.params.id || 0;
   }
-  /**Button Functions */
   async fnSave() {
     if (! await this.targetForm.instance.validate().isValid) return;
     var e = this.entity;
-    // e.ContractSignDate = this.helper.dateConvertToString(e.ContractSignDate);
-    // e.ContractEffectiveDate = this.helper.dateConvertToString(e.ContractEffectiveDate);
-    // e.ContractEndDate = this.helper.dateConvertToString(e.ContractEndDate);
     await this.uploadComponent.uploadFile();
     if (e.CustomerId == 0) { //New customer, just send to parrent
       let _sendParent = Object.assign({}, e); //stop binding
@@ -101,7 +96,6 @@ export class ContractComponent implements OnInit, AfterViewInit {
       else this.toastr.warning(operationResult.Message);
     }
   }
-
   private sendtoParentView(e: Contract) {
     let _sendParent = Object.assign({}, e); //stop binding
     delete _sendParent.ContractBreach;
@@ -123,16 +117,16 @@ export class ContractComponent implements OnInit, AfterViewInit {
     }
     return true;
   };
-
-  validateAsync = (e) =>{
-    return new Promise(async (resolve) => { 
+  validateAsync = (e) => {
+    return new Promise(async (resolve) => {
+      this.laddaSubmitLoading = true;
       let obj = Object.assign({}, this.entity); //stop binding
       obj[e.formItem.dataField] = e.value;
-      let _res =await this.api.validate(obj).then() as any;
-      let _validate = _res.Success? _res.Success : _res.ValidateData.indexOf(e.formItem.dataField)<0;
+      let _res = await this.api.validate(obj).then() as any;
+      let _validate = _res.Success ? _res.Success : _res.ValidateData.indexOf(e.formItem.dataField) < 0;
+      if (_validate == true) this.laddaSubmitLoading = false;
       resolve(_validate);
-      resolve(true);
-    });  
+    });
   }
   ngOnDestroy() {
     this.childModal.hide();
