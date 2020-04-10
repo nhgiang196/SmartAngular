@@ -3,6 +3,7 @@ import { Item } from './item'
 import { Stage } from './stage'
 import { Unit } from './unit'
 
+
 export class ProcessLog {
   ProcessLogId: number = 0
   FactoryId?: number = 0

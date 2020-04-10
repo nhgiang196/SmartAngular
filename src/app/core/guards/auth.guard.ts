@@ -45,8 +45,6 @@ export class AuthGuard implements CanActivate {
           let arrayPath = state.url.split('/');
           if(arrayPath.length>2){
             let code =arrayPath[2];
-            console.log(code);
-
             this.store.loadMenu(code);
             toggleNav(code)
           }

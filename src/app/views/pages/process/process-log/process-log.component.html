@@ -1,19 +1,177 @@
 <div class="row wrapper border-bottom white-bg page-heading">
   <div class="col-lg-10">
-      <h2>Chức năng</h2>
-      <ol class="breadcrumb">
-          <li>
-              <a routerLink="/pages">Dashboard</a>
-          </li>
-          <li class="active">
-              <strong>Chức năng</strong>
-          </li>
-      </ol>
-  </div>
-  <div class="col-lg-2">
-
+    <h2>{{ 'ProcessPlaneFactory.Breadcrumb' | translate }}</h2>
+    <ol class="breadcrumb">
+      <li>
+        <a href="index.html">{{ 'TopNav.ProcessPlaneFactory' | translate }}</a>
+      </li>
+      <li class="active">
+        <strong>{{ 'ProcessPlaneFactory.Breadcrumb' | translate }}</strong>
+      </li>
+    </ol>
   </div>
 </div>
-<p>
-  process-log works!
-</p>
+
+
+<div class="wrapper wrapper-content animated fadeInRight">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="ibox float-e-margins">
+        <div class="ibox-title">
+          <h5>New data for the report</h5> <span class="label label-primary">IN+</span>
+
+        </div>
+        <div class="ibox-content">
+          <div class="row">
+            <form role="form" #myForm="ngForm" name="myForm">
+              <div class="col-lg-4">
+                <div class="form-group">
+                  <label>{{ 'Process.data.StartDate' | translate }}:</label>
+                  <input type="text" [(ngModel)]="startDay" bsDatepicker readonly [bsConfig]="bsConfig"
+                    class="form-control" placeholder="{{'Item.placeholder.ItemManufactureYear' | translate }}"
+                    name="ItemManufactureYear" required>
+                </div>
+              </div>
+              <div class="col-lg-4">
+                <div class="form-group">
+                  <label> {{ 'Process.data.EndDate' | translate }} *: </label>
+                  <input type="text" [(ngModel)]="endDay" bsDatepicker readonly [bsConfig]="bsConfig"
+                    class="form-control" placeholder="{{'Item.placeholder.ItemManufactureYear' | translate }}"
+                    name="ItemManufactureYear" required>
+                </div>
+              </div>
+              <div class="col-lg-4">
+                <div class="form-group">
+                  <label> {{ 'Process.data.Factory' | translate }} *: </label>
+                  <div class="input-group">
+                    <ui-select-box
+                  entitykey="Factory"
+                  [pageSize]="5"
+                  [checkstatus]="true"
+                  [(ngModelCustom)]="factoryId"></ui-select-box>
+                    <span class="input-group-btn">
+                      <button type="button" class="btn btn-primary" (click)="fnFindBomFactoryId()" [disabled]="myForm.invalid"> Go!</button> </span>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row" >
+    <div class="col-lg-12">
+      <div class="tabs-container">
+        <ul class="nav nav-tabs">
+          <!-- <li *ngFor="let item of bomFactory"><a data-toggle="tab" href="#tab-1"> {{item.BomStage}}</a></li> -->
+          <li *ngFor="let stage of bomFactory.BomStage; let i =index" [class.active]="i==0">
+            <a data-toggle="tab" [href]="'#tab-'+i"> {{stage.StageName}}</a></li>
+        </ul>
+        <div class="tab-content">
+          <div class="tab-pane" *ngFor="let stage of bomFactory.BomStage; let i =index" [class.active]="i==0"  [id]="'tab-'+i" >
+            <div class="panel-body">
+              <div class="col-lg-12">
+                <div class="tabs-container">
+                  <div class="tabs-left">
+                    <ul class="nav nav-tabs">
+                      <li  *ngFor="let itemOut of stage.BomItemOut; let i =index" [class.active]="i==0"  [id]="'tabItemOut-'+i">
+                        <a data-toggle="tab" [href]="'#tabItemOut-'+i"> {{itemOut.ItemName}}</a>
+                      </li>
+                    </ul>
+                    <div class="tab-content ">
+                      <div  class="tab-pane" *ngFor="let itemOut of stage.BomItemOut; let i =index" [class.active]="i==0"  [id]="'tabItemOut-'+i">
+                        <div class="panel-body">
+                          <div class="row">
+                            <table
+                              class="table table-bordered table-hover table-striped" id="myTable2"
+                              style="width:100%">
+                              <thead>
+                                <tr>
+                                  <th>#</th>
+                                  <th>Thời gian</th>
+                                  <th>Ngày</th>
+                                  <th>Ca</th>
+                                  <th>Chỉ số</th>
+                                  <th>Sản phẩm</th>
+                                  <th>Điện</th>
+                                  <th>Nước</th>
+                                  <th>Nước cấp</th>
+                                  <th>Amoni</th>
+                                  <th>Note</th>
+                                  <th style="text-align: left">Action</th>
+                                </tr>
+                              </thead>
+                              <tbody *ngIf="monitors?.length != 0">
+                                <!-- <tr *ngFor="let monitor of monitors, let i = index">
+                                    <td style="text-align: left"> {{ recordStart+i+1}}</td>
+                                    <td style="text-align: left"> {{monitor.FactoryName | uppercase}}</td>
+                                    <td style="text-align: left">
+                                      {{monitor.ValidateDateFrom | amDateFormat: "YYYY-MM-DD HH:mm"}}</td>
+                                    <td style="text-align: left">
+                                      {{monitor.ValidateDateTo | amDateFormat: "YYYY-MM-DD HH:mm"}}</td>
+                                    <td style="text-align: left">
+                                      {{monitor.TemperatureMin}}-{{monitor.TemperatureMax}}</td>
+                                    <td style="text-align: left"> {{monitor.pHMin}}-{{monitor.pHMax}}</td>
+                                    <td style="text-align: left"> {{monitor.CODMin}}-{{monitor.CODMax}}</td>
+                                    <td style="text-align: left"> {{monitor.TSSMin}}-{{monitor.TSSMax}}</td>
+                                    <td style="text-align: left"> {{monitor.ColorMin}}-{{monitor.ColorMax}}</td>
+                                    <td style="text-align: left"> {{monitor.AmoniMin}}-{{monitor.AmoniMax}}</td>
+                                    <td style="text-align: left"> {{monitor.MonitorStandardDesc}}</td>
+                                    <td>
+                                      <button type="button" class="btn btn-outline btn-danger"
+                                        (click)="fnDelete(monitor.MonitorStandardId)"><i
+                                          class="fa fa-trash"></i></button>
+                                      <button type="button" class="btn btn-outline btn-success"
+                                        (click)="fnUpdate(monitor)" data-toggle="modal"
+                                        data-target="#myModal4"><i class="fa fa-pencil"></i></button>
+                                    </td>
+                                  </tr> -->
+                                <tr>
+                                  <td style="text-align: left">1</td>
+                                  <td style="text-align: left"> a</td>
+                                  <td style="text-align: left">Lorem ipsum dolor sit.</td>
+                                  <td style="text-align: left">Lorem ipsum dolor sit.</td>
+                                  <td style="text-align: left">Lorem ipsum dolor sit.</td>
+                                  <td style="text-align: left">Lorem ipsum dolor sit.</td>
+                                  <td style="text-align: left">Lorem ipsum dolor sit.</td>
+                                  <td style="text-align: left">Lorem ipsum dolor sit.</td>
+                                  <td style="text-align: left">Lorem ipsum dolor sit.</td>
+                                  <td style="text-align: left">Lorem ipsum dolor sit.</td>
+                                  <td style="text-align: left">Lorem ipsum dolor sit.</td>
+                                  <td>
+                                    <button type="button" class="btn btn-outline btn-danger"><i
+                                        class="fa fa-trash"></i></button>
+                                    <button type="button" class="btn btn-outline btn-success"
+                                      (click)="fnUpdate()"><i class="fa fa-pencil"></i></button>
+                                  </td>
+                                </tr>
+                              </tbody>
+                              <tbody *ngIf="monitors?.length == 0">
+                                <tr>
+                                  <td colspan="20" class="no-data-available">
+                                    {{'messg.datatable.zeroRecords'  | translate}}</td>
+                                </tr>
+                              <tbody>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
