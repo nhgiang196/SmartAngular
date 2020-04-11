@@ -52,7 +52,6 @@ export class ProcessLogComponent implements OnInit {
   }
 
   loadProcessLogByItemOut(stageId , itemId){
-    this.itemOutSelecedId = itemId;
     let startDate = this.helper.dateConvertToString(this.startDay)
     let endDate = this.helper.dateConvertToString(this.endDay)
     this.dataSourceProcessLog =  this.processLogService.loadDxoGridProcessLog(this.factoryId,stageId,itemId,startDate,endDate);
