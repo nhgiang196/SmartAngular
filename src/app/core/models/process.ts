@@ -103,3 +103,8 @@ export class ProcessPlanItem {
   Unit: Unit
 }
 
+export class FilterModel{
+  StartDate: Date
+  EndDate: Date
+  FactoryId
+}

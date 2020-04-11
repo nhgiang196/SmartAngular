@@ -233,3 +233,19 @@ export function toggleNav(code){
     $(".navbar-default[role='navigation']").show();
   }
 }
+
+export function activeDefaultTabProcessLog(){
+  $(".nav-tab-process-log").on('click','li a',function(){
+    let id = $(this).attr('dataId');
+    $(".tab-process-log .tab-pane[id='"+id+"'] .tab-child li").each(function(index,e){
+      if(index ==0){
+        $(this).removeClass('active');
+        $(this).addClass('active');
+      }
+      else{
+        $(this).removeClass('active');
+      }
+
+    })
+  })
+}

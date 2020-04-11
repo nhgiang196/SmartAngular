@@ -1,11 +1,12 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { ProcessLog } from 'src/app/core/models/process';
+import { ProcessLog, FilterModel } from 'src/app/core/models/process';
 import { ProcessLogService } from 'src/app/core/services';
 import { MyHelperService } from 'src/app/core/services/my-helper.service';
 import { BomFactory, BomStage } from 'src/app/core/models/bom';
 import { async } from 'rxjs/internal/scheduler/async';
 import { DevextremeService } from 'src/app/core/services/general/devextreme.service';
 import { DxDataGridComponent } from 'devextreme-angular';
+import { activeDefaultTabProcessLog } from 'src/app/app.helpers';
 
 @Component({
   selector: 'app-process-log',
@@ -25,17 +26,17 @@ export class ProcessLogComponent implements OnInit {
   dataSourceItem:any;
   dataSourceUnit:any;
   dataSourceShift:any;
-
   bsConfig = { dateInputFormat: "YYYY-MM-DD", adaarptivePosition: true };
   constructor(private processLogService: ProcessLogService,private devExtreme: DevextremeService,private helper: MyHelperService) { }
 
   ngOnInit() {
     this.bomFactory = new BomFactory();
-    this.dataSourceFactory= this.devExtreme.loadDxoLookup("Factory");
-    this.dataSourceStage= this.devExtreme.loadDxoLookup("Stage");
-    this.dataSourceItem= this.devExtreme.loadDxoLookup("Item");
-    this.dataSourceUnit= this.devExtreme.loadDxoLookup("Unit");
-    this.dataSourceShift= this.devExtreme.loadDxoLookup("Shift");
+    activeDefaultTabProcessLog();
+    // this.dataSourceFactory= this.devExtreme.loadDxoLookup("Factory");
+    // this.dataSourceStage= this.devExtreme.loadDxoLookup("Stage");
+    // this.dataSourceItem= this.devExtreme.loadDxoLookup("Item");
+    // this.dataSourceUnit= this.devExtreme.loadDxoLookup("Unit");
+    // this.dataSourceShift= this.devExtreme.loadDxoLookup("Shift");
   }
 
   async fnFindBomFactoryId(){
@@ -51,6 +52,7 @@ export class ProcessLogComponent implements OnInit {
   }
 
   loadProcessLogByItemOut(stageId , itemId){
+    this.itemOutSelecedId = itemId;
     let startDate = this.helper.dateConvertToString(this.startDay)
     let endDate = this.helper.dateConvertToString(this.endDay)
     this.dataSourceProcessLog =  this.processLogService.loadDxoGridProcessLog(this.factoryId,stageId,itemId,startDate,endDate);
@@ -60,8 +62,8 @@ export class ProcessLogComponent implements OnInit {
     let startDate = this.helper.dateConvertToString(this.startDay)
     let endDate = this.helper.dateConvertToString(this.endDay)
     if(stage.BomItemOut.length>0){
-      let itemOut = stage.BomItemOut[0];
-      this.dataSourceProcessLog =  this.processLogService.loadDxoGridProcessLog(this.factoryId,stage.StageId,itemOut.ItemId,startDate,endDate);
+      let itemOutId = stage.BomItemOut[0].ItemId;
+      this.dataSourceProcessLog =  this.processLogService.loadDxoGridProcessLog(this.factoryId,stage.StageId,itemOutId,startDate,endDate);
     }
 
   }

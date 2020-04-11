@@ -62,11 +62,11 @@
   </div>
   <div class="row" >
     <div class="col-lg-12">
-      <div class="tabs-container">
-        <ul class="nav nav-tabs">
+      <div class="tabs-container tab-process-log">
+        <ul class="nav nav-tabs nav-tab-process-log">
           <!-- <li *ngFor="let item of bomFactory"><a data-toggle="tab" href="#tab-1"> {{item.BomStage}}</a></li> -->
           <li *ngFor="let stage of bomFactory.BomStage; let i =index" [class.active]="i==0"  (click)="loadProcessLogByStage(stage)">
-            <a data-toggle="tab" [href]="'#tab-'+i"> {{stage.StageName}}</a></li>
+            <a data-toggle="tab" [href]="'#tab-'+i" [attr.dataId]="'tab-'+i"> {{stage.StageName}}</a></li>
         </ul>
         <div class="tab-content">
           <div class="tab-pane" *ngFor="let stage of bomFactory.BomStage; let i =index" [class.active]="i==0"  [id]="'tab-'+i" >
@@ -75,12 +75,12 @@
                 <div class="tabs-container">
                   <div class="tabs-left">
                     <ul class="nav nav-tabs tab-child">
-                      <li  *ngFor="let itemOut of stage.BomItemOut; let i =index" [class.active]="i==0"  [id]="'tabItemOut-'+i" (click)="loadProcessLogByItemOut(stage.StageId ,itemOut.ItemId)">
-                        <a data-toggle="tab" [href]="'#tabItemOut-'+i"> {{itemOut.ItemName}}</a>
+                      <li  *ngFor="let itemOut of stage.BomItemOut; let i =index" [class.active]="i==0"  [id]="'tabItemOut-'+stage.StageId+i" (click)="loadProcessLogByItemOut(stage.StageId ,itemOut.ItemId)">
+                        <a data-toggle="tab" [href]="'#tabItemOut-'+stage.StageId+i"> {{itemOut.ItemName}}</a>
                       </li>
                     </ul>
                     <div class="tab-content ">
-                      <div  class="tab-pane" *ngFor="let itemOut of stage.BomItemOut; let i =index" [class.active]="i==0"  [id]="'tabItemOut-'+i">
+                      <div  class="tab-pane" *ngFor="let itemOut of stage.BomItemOut; let i =index" [class.active]="i==0"  [id]="'tabItemOut-'+stage.StageId+i">
                         <div class="panel-body panel-body-child">
                           <div class="row">
                             <dx-data-grid
@@ -99,43 +99,43 @@
                               <dxo-texts confirmDeleteMessage="Are you sure Delete?"></dxo-texts>
 
                             </dxo-editing>
-                            <dxi-column  dataField="ShiftId"  caption="ShiftId">
-                              <dxo-lookup
+                            <dxi-column  dataField="ShiftName"  caption="ShiftId">
+                              <!-- <dxo-lookup
                                 [dataSource]="dataSourceShift"
                                                     displayExpr="ShiftName"
                                                     valueExpr="ShiftId">
-                                 </dxo-lookup>
+                                 </dxo-lookup> -->
                             </dxi-column>
-                            <dxi-column dataField="FactoryId" caption="FactoryName">
-                              <dxo-lookup
+                            <dxi-column dataField="FactoryName" caption="FactoryName">
+                              <!-- <dxo-lookup
                                 [dataSource]="dataSourceFactory"
                                                     displayExpr="FactoryName"
                                                     valueExpr="FactoryId">
-                                 </dxo-lookup>
+                                 </dxo-lookup> -->
                             </dxi-column>
-                            <dxi-column dataField="StageId" caption="Stage Name">
-                              <dxo-lookup
+                            <dxi-column dataField="StageName" caption="Stage Name">
+                              <!-- <dxo-lookup
                                 [dataSource]="dataSourceStage"
                                                     displayExpr="StageName"
                                                     valueExpr="StageId">
-                                 </dxo-lookup>
+                                 </dxo-lookup> -->
                             </dxi-column>
-                            <dxi-column dataField="ItemOutId" caption="Item Name">
-                              <dxo-lookup
+                            <dxi-column dataField="ItemName" caption="Item Name">
+                              <!-- <dxo-lookup
                                 [dataSource]="dataSourceItem"
                                                     displayExpr="ItemName"
                                                     valueExpr="ItemId">
-                                 </dxo-lookup>
+                                 </dxo-lookup> -->
                             </dxi-column>
                             <dxi-column  dataField="ProcessLogDate"  caption="ProcessLogDate" dataType="date"></dxi-column>
                             <dxi-column  dataField="ProcessLogDate"  caption="ProcessLogDate" dataType="date"></dxi-column>
                             <dxi-column  dataField="ItemOutIndicator" caption="ItemOutIndicator"></dxi-column>
-                            <dxi-column dataField="ItemOutUnitId" caption="ItemOutUnitId">
-                              <dxo-lookup
+                            <dxi-column dataField="UnitName" caption="ItemOutUnitId">
+                              <!-- <dxo-lookup
                                 [dataSource]="dataSourceUnit"
                                                     displayExpr="UnitName"
                                                     valueExpr="UnitId">
-                                 </dxo-lookup>
+                                 </dxo-lookup> -->
                             </dxi-column>
                             <dxi-column  dataField="ItemOutQuantity" caption="ItemOutQuantity"></dxi-column>
                             <!-- <dxi-column  dataField="ItemEletricIndicator" caption="ItemEletricIndicator"></dxi-column>
