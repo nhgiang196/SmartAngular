@@ -65,7 +65,7 @@
       <div class="tabs-container">
         <ul class="nav nav-tabs">
           <!-- <li *ngFor="let item of bomFactory"><a data-toggle="tab" href="#tab-1"> {{item.BomStage}}</a></li> -->
-          <li *ngFor="let stage of bomFactory.BomStage; let i =index" [class.active]="i==0">
+          <li *ngFor="let stage of bomFactory.BomStage; let i =index" [class.active]="i==0"  (click)="loadProcessLogByStage(stage)">
             <a data-toggle="tab" [href]="'#tab-'+i"> {{stage.StageName}}</a></li>
         </ul>
         <div class="tab-content">
@@ -74,86 +74,96 @@
               <div class="col-lg-12">
                 <div class="tabs-container">
                   <div class="tabs-left">
-                    <ul class="nav nav-tabs">
-                      <li  *ngFor="let itemOut of stage.BomItemOut; let i =index" [class.active]="i==0"  [id]="'tabItemOut-'+i">
+                    <ul class="nav nav-tabs tab-child">
+                      <li  *ngFor="let itemOut of stage.BomItemOut; let i =index" [class.active]="i==0"  [id]="'tabItemOut-'+i" (click)="loadProcessLogByItemOut(stage.StageId ,itemOut.ItemId)">
                         <a data-toggle="tab" [href]="'#tabItemOut-'+i"> {{itemOut.ItemName}}</a>
                       </li>
                     </ul>
                     <div class="tab-content ">
                       <div  class="tab-pane" *ngFor="let itemOut of stage.BomItemOut; let i =index" [class.active]="i==0"  [id]="'tabItemOut-'+i">
-                        <div class="panel-body">
+                        <div class="panel-body panel-body-child">
                           <div class="row">
-                            <table
-                              class="table table-bordered table-hover table-striped" id="myTable2"
-                              style="width:100%">
-                              <thead>
-                                <tr>
-                                  <th>#</th>
-                                  <th>Thời gian</th>
-                                  <th>Ngày</th>
-                                  <th>Ca</th>
-                                  <th>Chỉ số</th>
-                                  <th>Sản phẩm</th>
-                                  <th>Điện</th>
-                                  <th>Nước</th>
-                                  <th>Nước cấp</th>
-                                  <th>Amoni</th>
-                                  <th>Note</th>
-                                  <th style="text-align: left">Action</th>
-                                </tr>
-                              </thead>
-                              <tbody *ngIf="monitors?.length != 0">
-                                <!-- <tr *ngFor="let monitor of monitors, let i = index">
-                                    <td style="text-align: left"> {{ recordStart+i+1}}</td>
-                                    <td style="text-align: left"> {{monitor.FactoryName | uppercase}}</td>
-                                    <td style="text-align: left">
-                                      {{monitor.ValidateDateFrom | amDateFormat: "YYYY-MM-DD HH:mm"}}</td>
-                                    <td style="text-align: left">
-                                      {{monitor.ValidateDateTo | amDateFormat: "YYYY-MM-DD HH:mm"}}</td>
-                                    <td style="text-align: left">
-                                      {{monitor.TemperatureMin}}-{{monitor.TemperatureMax}}</td>
-                                    <td style="text-align: left"> {{monitor.pHMin}}-{{monitor.pHMax}}</td>
-                                    <td style="text-align: left"> {{monitor.CODMin}}-{{monitor.CODMax}}</td>
-                                    <td style="text-align: left"> {{monitor.TSSMin}}-{{monitor.TSSMax}}</td>
-                                    <td style="text-align: left"> {{monitor.ColorMin}}-{{monitor.ColorMax}}</td>
-                                    <td style="text-align: left"> {{monitor.AmoniMin}}-{{monitor.AmoniMax}}</td>
-                                    <td style="text-align: left"> {{monitor.MonitorStandardDesc}}</td>
-                                    <td>
-                                      <button type="button" class="btn btn-outline btn-danger"
-                                        (click)="fnDelete(monitor.MonitorStandardId)"><i
-                                          class="fa fa-trash"></i></button>
-                                      <button type="button" class="btn btn-outline btn-success"
-                                        (click)="fnUpdate(monitor)" data-toggle="modal"
-                                        data-target="#myModal4"><i class="fa fa-pencil"></i></button>
-                                    </td>
-                                  </tr> -->
-                                <tr>
-                                  <td style="text-align: left">1</td>
-                                  <td style="text-align: left"> a</td>
-                                  <td style="text-align: left">Lorem ipsum dolor sit.</td>
-                                  <td style="text-align: left">Lorem ipsum dolor sit.</td>
-                                  <td style="text-align: left">Lorem ipsum dolor sit.</td>
-                                  <td style="text-align: left">Lorem ipsum dolor sit.</td>
-                                  <td style="text-align: left">Lorem ipsum dolor sit.</td>
-                                  <td style="text-align: left">Lorem ipsum dolor sit.</td>
-                                  <td style="text-align: left">Lorem ipsum dolor sit.</td>
-                                  <td style="text-align: left">Lorem ipsum dolor sit.</td>
-                                  <td style="text-align: left">Lorem ipsum dolor sit.</td>
-                                  <td>
-                                    <button type="button" class="btn btn-outline btn-danger"><i
-                                        class="fa fa-trash"></i></button>
-                                    <button type="button" class="btn btn-outline btn-success"
-                                      (click)="fnUpdate()"><i class="fa fa-pencil"></i></button>
-                                  </td>
-                                </tr>
-                              </tbody>
-                              <tbody *ngIf="monitors?.length == 0">
-                                <tr>
-                                  <td colspan="20" class="no-data-available">
-                                    {{'messg.datatable.zeroRecords'  | translate}}</td>
-                                </tr>
-                              <tbody>
-                            </table>
+                            <dx-data-grid
+                            #dataGridVar id="myDataGrid"
+                            [dataSource]="dataSourceProcessLog"
+                            [remoteOperations]="true"  [showBorders]="true" [showRowLines]="true" style="max-height: 500px;">
+
+                            <dxo-selection mode="single"></dxo-selection>
+                            <dxo-filter-row [visible]="true"></dxo-filter-row>
+                            <dxo-editing
+                              mode="popup"
+                              [allowUpdating]="true"
+                              [allowDeleting]="true"
+                              [useIcons] ="true"
+                              >
+                              <dxo-texts confirmDeleteMessage="Are you sure Delete?"></dxo-texts>
+
+                            </dxo-editing>
+                            <dxi-column  dataField="ShiftId"  caption="ShiftId">
+                              <dxo-lookup
+                                [dataSource]="dataSourceShift"
+                                                    displayExpr="ShiftName"
+                                                    valueExpr="ShiftId">
+                                 </dxo-lookup>
+                            </dxi-column>
+                            <dxi-column dataField="FactoryId" caption="FactoryName">
+                              <dxo-lookup
+                                [dataSource]="dataSourceFactory"
+                                                    displayExpr="FactoryName"
+                                                    valueExpr="FactoryId">
+                                 </dxo-lookup>
+                            </dxi-column>
+                            <dxi-column dataField="StageId" caption="Stage Name">
+                              <dxo-lookup
+                                [dataSource]="dataSourceStage"
+                                                    displayExpr="StageName"
+                                                    valueExpr="StageId">
+                                 </dxo-lookup>
+                            </dxi-column>
+                            <dxi-column dataField="ItemOutId" caption="Item Name">
+                              <dxo-lookup
+                                [dataSource]="dataSourceItem"
+                                                    displayExpr="ItemName"
+                                                    valueExpr="ItemId">
+                                 </dxo-lookup>
+                            </dxi-column>
+                            <dxi-column  dataField="ProcessLogDate"  caption="ProcessLogDate" dataType="date"></dxi-column>
+                            <dxi-column  dataField="ProcessLogDate"  caption="ProcessLogDate" dataType="date"></dxi-column>
+                            <dxi-column  dataField="ItemOutIndicator" caption="ItemOutIndicator"></dxi-column>
+                            <dxi-column dataField="ItemOutUnitId" caption="ItemOutUnitId">
+                              <dxo-lookup
+                                [dataSource]="dataSourceUnit"
+                                                    displayExpr="UnitName"
+                                                    valueExpr="UnitId">
+                                 </dxo-lookup>
+                            </dxi-column>
+                            <dxi-column  dataField="ItemOutQuantity" caption="ItemOutQuantity"></dxi-column>
+                            <!-- <dxi-column  dataField="ItemEletricIndicator" caption="ItemEletricIndicator"></dxi-column>
+                            <dxi-column  dataField="ItemWaterIndicator" caption="ItemWaterIndicator"></dxi-column> -->
+                            <!-- <dxi-column  dataField="CODIn" caption="CODIn"></dxi-column>
+                            <dxi-column  dataField="CODOut" caption="CODOut"></dxi-column> -->
+                            <!-- <dxi-column  dataField="pHIn" caption="pHIn"></dxi-column>
+                            <dxi-column  dataField="pHOut" caption="pHOut"></dxi-column>
+                            <dxi-column  dataField="TSSIn" caption="TSSIn"></dxi-column>
+                            <dxi-column  dataField="TSSOut" caption="TSSOut"></dxi-column>
+                            <dxi-column  dataField="QIn" caption="QIn"></dxi-column>
+                            <dxi-column  dataField="QOut" caption="QOut"></dxi-column>
+                            <dxi-column  dataField="ColorIn" caption="ColorIn"></dxi-column>
+                            <dxi-column  dataField="ColorOut" caption="ColorOut"></dxi-column>
+                            <dxi-column  dataField="AmoniIn" caption="AmoniIn"></dxi-column>
+                            <dxi-column  dataField="AmoniOut" caption="AmoniOut"></dxi-column>
+                            <dxi-column  dataField="TemperatureIn" caption="TemperatureIn"></dxi-column>
+                            <dxi-column  dataField="TemperatureOut" caption="TemperatureOut"></dxi-column> -->
+
+                            <!-- <dxi-column  dataField="CreateBy" caption="{{'Item.data.CreateBy' | translate}}"></dxi-column>
+                            <dxi-column  dataField="CreateDate" caption="{{'Item.data.CreateDate' | translate}}" dataType="date"></dxi-column>
+                            <dxi-column  dataField="ModifyBy" caption="{{'Item.data.ModifyBy' | translate}}"></dxi-column>
+                            <dxi-column  dataField="ModifyDate" caption="{{'Item.data.ModifyDate' | translate}}" dataType="date"></dxi-column> -->
+                            <dxi-column  dataField="Status" dataType="boolean" caption="{{'Master.data.Status' | translate}}"></dxi-column>
+
+                            <dxo-paging [pageSize]="25"></dxo-paging>
+                            <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[25, 50, 100]"></dxo-pager>
+                        </dx-data-grid>
                           </div>
                         </div>
                       </div>
