@@ -19,7 +19,7 @@
     <dx-form id="form" [(formData)]="chartFactory" [readOnly]="readOnly" [showColonAfterLabel]="showColon"
       [labelLocation]="labelLocation" [minColWidth]="minColWidth" [colCount]="colCount" [width]="width">
       <dxi-item itemType="group" cssClass="first-group" dataField="factoryId" [colCount]="2" [colSpan]="1">
-        <dxo-label text ="FactoryId"></dxo-label>
+        <dxo-label text="FactoryId"></dxo-label>
         <dx-select-box #factory displayExpr="FactoryName" valueExpr="FactoryId"
           (onValueChanged)="onValueChanged($event)" [(dataSource)]="factories" [value]="factories[0]">
         </dx-select-box>
@@ -34,11 +34,11 @@
       <dxi-item itemType="group" cssClass="second-group" [colCount]="2" [colSpan]="2">
         <dxi-item dataField="dateFrom" editorType="dxDateBox"
           [editorOptions]="{ type: 'datetime',displayFormat:'d/M/yyyy HH:mm',width: '100%'}">
-          <dxo-label text ="DateFrom"></dxo-label>
+          <dxo-label text="DateFrom"></dxo-label>
         </dxi-item>
         <dxi-item dataField="dateTo" editorType="dxDateBox"
           [editorOptions]="{ type: 'datetime',displayFormat:'d/M/yyyy HH:mm',width: '100%'}">
-          <dxo-label text ="DateTo"></dxo-label>
+          <dxo-label text="DateTo"></dxo-label>
         </dxi-item>
         <dxi-item [colSpan]="1">
           <dx-button stylingMode="contained" text="Query" type="normal" [width]="120" (onClick)="chartQuery()">
@@ -50,15 +50,25 @@
 </div>
 
 <!-- chartpH -->
-<dx-chart id="chart-pHChart" palette="Violet" [dataSource]="monitorsInfo">
-  <dxi-series type= "{{seriesSettings.type}}" color = "#F05A5E" valueField="PH" name="pH">
+<dx-chart id="chart-pHChart" palette="Violet" [dataSource]="chartDataSource" [zoomAndPan]="{ argumentAxis: 'pan' }">
+  <dxo-scroll-bar [visible]="true"></dxo-scroll-bar>
+  <dxi-series type="bar" color="#F05A5E" argumentField="monitorDate" valueField="pH" name="pH">
   </dxi-series>
-  <dxo-common-series-settings  argumentField="MonitorDate" selectionMode="allArgumentPoints">
+  <dxo-common-series-settings argumentField="monitorDate" selectionMode="allArgumentPoints">
   </dxo-common-series-settings>
   <dxo-margin [bottom]="20"></dxo-margin>
-  <dxo-argument-axis [valueMarginsEnabled]="false" discreteAxisDivisionMode="crossLabels">
+  <dxo-argument-axis argumentType="datetime" [valueMarginsEnabled]="false" discreteAxisDivisionMode="crossLabels"
+    [visualRangeUpdateMode]="keep" [(visualRange)]="currentVisualRange" [wholeRange]="bounds">
     <dxo-grid [visible]="true"></dxo-grid>
   </dxo-argument-axis>
+  <dxi-value-axis name="temperature" [allowDecimals]="false">
+    <dxo-title text="Nồng độ pH">
+      <dxo-font color="#ff950c"></dxo-font>
+    </dxo-title>
+    <dxo-label>
+      <dxo-font color="#ff950c"></dxo-font>
+    </dxo-label>
+  </dxi-value-axis>
   <dxo-legend verticalAlignment="bottom" horizontalAlignment="center" itemTextPosition="bottom">
   </dxo-legend>
   <dxo-title text="pH Chart ">
@@ -67,17 +77,32 @@
   </dxo-title>
   <dxo-export [enabled]="true"></dxo-export>
   <dxo-tooltip [enabled]="true"></dxo-tooltip>
+  <dxo-animation [enabled]="false"></dxo-animation>
+  <dxo-loading-indicator backgroundColor="none">
+    <dxo-font [size]="14"></dxo-font>
+  </dxo-loading-indicator>
 </dx-chart>
-<!-- COD chart -->
-<dx-chart id="codChart" palette="Violet" [dataSource]="monitorsInfo">
-  <dxi-series type= "{{seriesSettings.type}}" color = "#CBC83E" valueField="Cod" name="COD">
+
+<!-- chartcod-->
+<dx-chart id="chart-pHChart" palette="Violet" [dataSource]="chartDataSource" [zoomAndPan]="{ argumentAxis: 'pan' }">
+  <dxo-scroll-bar [visible]="true"></dxo-scroll-bar>
+  <dxi-series type="bar" color = "#CBC83E" argumentField="monitorDate" valueField="cod" name="cod">
   </dxi-series>
-  <dxo-common-series-settings  argumentField="MonitorDate" >
+  <dxo-common-series-settings argumentField="monitorDate" selectionMode="allArgumentPoints">
   </dxo-common-series-settings>
   <dxo-margin [bottom]="20"></dxo-margin>
-  <dxo-argument-axis [valueMarginsEnabled]="false" discreteAxisDivisionMode="crossLabels">
+  <dxo-argument-axis argumentType="datetime" [valueMarginsEnabled]="false" discreteAxisDivisionMode="crossLabels"
+    [visualRangeUpdateMode]="keep" [(visualRange)]="currentVisualRange" [wholeRange]="bounds">
     <dxo-grid [visible]="true"></dxo-grid>
   </dxo-argument-axis>
+  <dxi-value-axis name="temperature" [allowDecimals]="false">
+    <dxo-title text="COD">
+      <dxo-font color="#ff950c"></dxo-font>
+    </dxo-title>
+    <dxo-label>
+      <dxo-font color="#ff950c"></dxo-font>
+    </dxo-label>
+  </dxi-value-axis>
   <dxo-legend verticalAlignment="bottom" horizontalAlignment="center" itemTextPosition="bottom">
   </dxo-legend>
   <dxo-title text="COD Chart ">
@@ -86,17 +111,32 @@
   </dxo-title>
   <dxo-export [enabled]="true"></dxo-export>
   <dxo-tooltip [enabled]="true"></dxo-tooltip>
+  <dxo-animation [enabled]="false"></dxo-animation>
+  <dxo-loading-indicator backgroundColor="none">
+    <dxo-font [size]="14"></dxo-font>
+  </dxo-loading-indicator>
 </dx-chart>
-<!-- TSS Chart -->
-<dx-chart id="tssChart" palette="Violet" [dataSource]="monitorsInfo">
-  <dxi-series type= "{{seriesSettings.type}}" valueField="Tss" name="TSS">
+
+<!-- chartTSS-->
+<dx-chart id="chart-pHChart" palette="Violet" [dataSource]="chartDataSource" [zoomAndPan]="{ argumentAxis: 'pan' }">
+  <dxo-scroll-bar [visible]="true"></dxo-scroll-bar>
+  <dxi-series type="bar" color = "#CBC83E" argumentField="monitorDate" valueField="tss" name="tss">
   </dxi-series>
-  <dxo-common-series-settings  argumentField="MonitorDate" >
+  <dxo-common-series-settings argumentField="monitorDate" selectionMode="allArgumentPoints">
   </dxo-common-series-settings>
   <dxo-margin [bottom]="20"></dxo-margin>
-  <dxo-argument-axis [valueMarginsEnabled]="false" discreteAxisDivisionMode="crossLabels">
+  <dxo-argument-axis argumentType="datetime" [valueMarginsEnabled]="false" discreteAxisDivisionMode="crossLabels"
+    [visualRangeUpdateMode]="keep" [(visualRange)]="currentVisualRange" [wholeRange]="bounds">
     <dxo-grid [visible]="true"></dxo-grid>
   </dxo-argument-axis>
+  <dxi-value-axis name="temperature" [allowDecimals]="false">
+    <dxo-title text="TSS">
+      <dxo-font color="#ff950c"></dxo-font>
+    </dxo-title>
+    <dxo-label>
+      <dxo-font color="#ff950c"></dxo-font>
+    </dxo-label>
+  </dxi-value-axis>
   <dxo-legend verticalAlignment="bottom" horizontalAlignment="center" itemTextPosition="bottom">
   </dxo-legend>
   <dxo-title text="TSS Chart ">
@@ -105,17 +145,31 @@
   </dxo-title>
   <dxo-export [enabled]="true"></dxo-export>
   <dxo-tooltip [enabled]="true"></dxo-tooltip>
+  <dxo-animation [enabled]="false"></dxo-animation>
+  <dxo-loading-indicator backgroundColor="none">
+    <dxo-font [size]="14"></dxo-font>
+  </dxo-loading-indicator>
 </dx-chart>
-<!-- Q Chart -->
-<dx-chart id="QChart" palette="Violet" [dataSource]="monitorsInfo">
-  <dxi-series type= "{{seriesSettings.type}}" color = "#6593BC" valueField="Q" name="Q">
+<!-- chartQ-->
+<dx-chart id="chart-pHChart" palette="Violet" [dataSource]="chartDataSource" [zoomAndPan]="{ argumentAxis: 'pan' }">
+  <dxo-scroll-bar [visible]="true"></dxo-scroll-bar>
+  <dxi-series type="bar" color = "#CBC83E" argumentField="monitorDate" valueField="q" name="Q">
   </dxi-series>
-  <dxo-common-series-settings  argumentField="MonitorDate" >
+  <dxo-common-series-settings argumentField="monitorDate" selectionMode="allArgumentPoints">
   </dxo-common-series-settings>
   <dxo-margin [bottom]="20"></dxo-margin>
-  <dxo-argument-axis [valueMarginsEnabled]="false" discreteAxisDivisionMode="crossLabels">
+  <dxo-argument-axis argumentType="datetime" [valueMarginsEnabled]="false" discreteAxisDivisionMode="crossLabels"
+    [visualRangeUpdateMode]="keep" [(visualRange)]="currentVisualRange" [wholeRange]="bounds">
     <dxo-grid [visible]="true"></dxo-grid>
   </dxo-argument-axis>
+  <dxi-value-axis name="temperature" [allowDecimals]="false">
+    <dxo-title text="Q">
+      <dxo-font color="#ff950c"></dxo-font>
+    </dxo-title>
+    <dxo-label>
+      <dxo-font color="#ff950c"></dxo-font>
+    </dxo-label>
+  </dxi-value-axis>
   <dxo-legend verticalAlignment="bottom" horizontalAlignment="center" itemTextPosition="bottom">
   </dxo-legend>
   <dxo-title text="Q Chart ">
@@ -124,17 +178,31 @@
   </dxo-title>
   <dxo-export [enabled]="true"></dxo-export>
   <dxo-tooltip [enabled]="true"></dxo-tooltip>
+  <dxo-animation [enabled]="false"></dxo-animation>
+  <dxo-loading-indicator backgroundColor="none">
+    <dxo-font [size]="14"></dxo-font>
+  </dxo-loading-indicator>
 </dx-chart>
-<!-- Color Chart -->
-<dx-chart id="colorChart" palette="Violet" [dataSource]="monitorsInfo">
-  <dxi-series type= "{{seriesSettings.type}}" color = "#F5564A" valueField="Color" name="Color">
+<!-- chartColor-->
+<dx-chart id="chart-pHChart" palette="Violet" [dataSource]="chartDataSource" [zoomAndPan]="{ argumentAxis: 'pan' }">
+  <dxo-scroll-bar [visible]="true"></dxo-scroll-bar>
+  <dxi-series type="bar" color = "#CBC83E" argumentField="monitorDate" valueField="color" name="Color">
   </dxi-series>
-  <dxo-common-series-settings  argumentField="MonitorDate" >
+  <dxo-common-series-settings argumentField="monitorDate" selectionMode="allArgumentPoints">
   </dxo-common-series-settings>
   <dxo-margin [bottom]="20"></dxo-margin>
-  <dxo-argument-axis [valueMarginsEnabled]="false" discreteAxisDivisionMode="crossLabels">
+  <dxo-argument-axis argumentType="datetime" [valueMarginsEnabled]="false" discreteAxisDivisionMode="crossLabels"
+    [visualRangeUpdateMode]="keep" [(visualRange)]="currentVisualRange" [wholeRange]="bounds">
     <dxo-grid [visible]="true"></dxo-grid>
   </dxo-argument-axis>
+  <dxi-value-axis name="temperature" [allowDecimals]="false">
+    <dxo-title text="TSS">
+      <dxo-font color="#ff950c"></dxo-font>
+    </dxo-title>
+    <dxo-label>
+      <dxo-font color="#ff950c"></dxo-font>
+    </dxo-label>
+  </dxi-value-axis>
   <dxo-legend verticalAlignment="bottom" horizontalAlignment="center" itemTextPosition="bottom">
   </dxo-legend>
   <dxo-title text="Color Chart ">
@@ -143,17 +211,31 @@
   </dxo-title>
   <dxo-export [enabled]="true"></dxo-export>
   <dxo-tooltip [enabled]="true"></dxo-tooltip>
+  <dxo-animation [enabled]="false"></dxo-animation>
+  <dxo-loading-indicator backgroundColor="none">
+    <dxo-font [size]="14"></dxo-font>
+  </dxo-loading-indicator>
 </dx-chart>
-<!-- Amoni Chart -->
-<dx-chart id="amoniChart" palette="Violet" [dataSource]="monitorsInfo">
-  <dxi-series type= "{{seriesSettings.type}}" color = "#1DB2F5" valueField="Amoni" name="Amoni">
+<!-- chartAmoni-->
+<dx-chart id="chart-pHChart" palette="Violet" [dataSource]="chartDataSource" [zoomAndPan]="{ argumentAxis: 'pan' }">
+  <dxo-scroll-bar [visible]="true"></dxo-scroll-bar>
+  <dxi-series type="bar" color = "#CBC83E" argumentField="monitorDate" valueField="amoni" name="Amoni">
   </dxi-series>
-  <dxo-common-series-settings  argumentField="MonitorDate" >
+  <dxo-common-series-settings argumentField="monitorDate" selectionMode="allArgumentPoints">
   </dxo-common-series-settings>
   <dxo-margin [bottom]="20"></dxo-margin>
-  <dxo-argument-axis [valueMarginsEnabled]="false" discreteAxisDivisionMode="crossLabels">
+  <dxo-argument-axis argumentType="datetime" [valueMarginsEnabled]="false" discreteAxisDivisionMode="crossLabels"
+    [visualRangeUpdateMode]="keep" [(visualRange)]="currentVisualRange" [wholeRange]="bounds">
     <dxo-grid [visible]="true"></dxo-grid>
   </dxo-argument-axis>
+  <dxi-value-axis name="temperature" [allowDecimals]="false">
+    <dxo-title text="TSS">
+      <dxo-font color="#ff950c"></dxo-font>
+    </dxo-title>
+    <dxo-label>
+      <dxo-font color="#ff950c"></dxo-font>
+    </dxo-label>
+  </dxi-value-axis>
   <dxo-legend verticalAlignment="bottom" horizontalAlignment="center" itemTextPosition="bottom">
   </dxo-legend>
   <dxo-title text="Amoni Chart ">
@@ -162,36 +244,66 @@
   </dxo-title>
   <dxo-export [enabled]="true"></dxo-export>
   <dxo-tooltip [enabled]="true"></dxo-tooltip>
+  <dxo-animation [enabled]="false"></dxo-animation>
+  <dxo-loading-indicator backgroundColor="none">
+    <dxo-font [size]="14"></dxo-font>
+  </dxo-loading-indicator>
 </dx-chart>
-<!-- Temperature Chart -->
-<dx-chart id="temperatureChart"  [dataSource]="monitorsInfo" (onLegendClick)="legendClick($event)">
-  <dxi-series type= "{{seriesSettings.type}}" color = "#6278D7" valueField="Temperature" name="Temperature">
+
+<!-- chartTemperature-->
+<dx-chart id="chart-pHChart" palette="Violet" [dataSource]="chartDataSource" [zoomAndPan]="{ argumentAxis: 'pan' }">
+  <dxo-scroll-bar [visible]="true"></dxo-scroll-bar>
+  <dxi-series type="bar" color = "#CBC83E" argumentField="monitorDate" valueField="temperature" name="Temperature">
   </dxi-series>
-  <dxo-common-series-settings argumentField="MonitorDate" selectionMode="allArgumentPoints">
+  <dxo-common-series-settings argumentField="monitorDate" selectionMode="allArgumentPoints">
   </dxo-common-series-settings>
   <dxo-margin [bottom]="20"></dxo-margin>
-  <dxo-argument-axis [valueMarginsEnabled]="false" discreteAxisDivisionMode="crossLabels">
+  <dxo-argument-axis argumentType="datetime" [valueMarginsEnabled]="false" discreteAxisDivisionMode="crossLabels"
+    [visualRangeUpdateMode]="keep" [(visualRange)]="currentVisualRange" [wholeRange]="bounds">
     <dxo-grid [visible]="true"></dxo-grid>
   </dxo-argument-axis>
+  <dxi-value-axis name="temperature" [allowDecimals]="false">
+    <dxo-title text="Temperature">
+      <dxo-font color="#ff950c"></dxo-font>
+    </dxo-title>
+    <dxo-label>
+      <dxo-font color="#ff950c"></dxo-font>
+    </dxo-label>
+  </dxi-value-axis>
   <dxo-legend verticalAlignment="bottom" horizontalAlignment="center" itemTextPosition="bottom">
   </dxo-legend>
-  <dxo-title text="Temperature Chart ">
+  <dxo-title text="Temperature, &deg;C ">
     <dxo-subtitle text="(Millions of Tons, Oil Equivalent)">
     </dxo-subtitle>
   </dxo-title>
   <dxo-export [enabled]="true"></dxo-export>
   <dxo-tooltip [enabled]="true"></dxo-tooltip>
+  <dxo-animation [enabled]="false"></dxo-animation>
+  <dxo-loading-indicator backgroundColor="none">
+    <dxo-font [size]="14"></dxo-font>
+  </dxo-loading-indicator>
 </dx-chart>
-<!-- chart Demo -->
-<dx-chart id="fullChart" palette="Violet" [dataSource]="monitorsInfo" (onLegendClick)="legendClick($event)">
+
+<!-- chart Full-->
+<!-- <dx-chart id="fullChart" palette="Violet" [dataSource]="chartDataSource" [zoomAndPan]="{ argumentAxis: 'pan' }">
+  <dxo-scroll-bar [visible]="true"></dxo-scroll-bar>
   <dxi-series *ngFor="let monitor of monitorSources" [valueField]="monitor.value" [name]="monitor.name">
   </dxi-series>
-  <dxo-common-series-settings #seriesSettings argumentField="MonitorDate" selectionMode="allArgumentPoints">
+  <dxo-common-series-settings #seriesSettings argumentField="monitorDate" selectionMode="allArgumentPoints">
   </dxo-common-series-settings>
   <dxo-margin [bottom]="20"></dxo-margin>
-  <dxo-argument-axis [valueMarginsEnabled]="false" discreteAxisDivisionMode="crossLabels">
+  <dxo-argument-axis argumentType="datetime" [valueMarginsEnabled]="false" discreteAxisDivisionMode="crossLabels"
+    [visualRangeUpdateMode]="keep" [(visualRange)]="currentVisualRange" [wholeRange]="bounds">
     <dxo-grid [visible]="true"></dxo-grid>
   </dxo-argument-axis>
+  <dxi-value-axis name="temperature" [allowDecimals]="false">
+    <dxo-title text="Temperature">
+      <dxo-font color="#ff950c"></dxo-font>
+    </dxo-title>
+    <dxo-label>
+      <dxo-font color="#ff950c"></dxo-font>
+    </dxo-label>
+  </dxi-value-axis>
   <dxo-legend verticalAlignment="bottom" horizontalAlignment="center" itemTextPosition="bottom">
   </dxo-legend>
   <dxo-title text="Full Chart">
@@ -200,6 +312,10 @@
   </dxo-title>
   <dxo-export [enabled]="true"></dxo-export>
   <dxo-tooltip [enabled]="true"></dxo-tooltip>
-</dx-chart>
+  <dxo-animation [enabled]="false"></dxo-animation>
+  <dxo-loading-indicator backgroundColor="none">
+    <dxo-font [size]="14"></dxo-font>
+  </dxo-loading-indicator>
+</dx-chart> -->
 
 <hr>

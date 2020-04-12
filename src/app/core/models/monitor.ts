@@ -3,7 +3,7 @@ import { formatDate } from '@angular/common';
 const FORMAT_DATE = 'MM/dd/yyyy HH:mm:ss';
 const LOCALE = 'en-US';
 const CURRENT_DATE = new Date();
-const FROM_DATE = (new Date()).setMonth(CURRENT_DATE.getMonth() -1);
+const FROM_DATE = (new Date()).setDate(CURRENT_DATE.getDay() -1);
 export class MonitorStandard {
   MonitorStandardId: number
   FactoryId: number
