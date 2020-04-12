@@ -116,11 +116,11 @@ export class MyHelperService {
 /*
 ** dx-form/simpleItem
  editorType: Type: String
-Accepted Values: 'dxAutocomplete' | 'dxCalendar' | 'dxCheckBox' | 'dxColorBox' | 'dxDateBox' | 'dxDropDownBox' | 'dxHtmlEditor' 
+Accepted Values: 'dxAutocomplete' | 'dxCalendar' | 'dxCheckBox' | 'dxColorBox' | 'dxDateBox' | 'dxDropDownBox' | 'dxHtmlEditor'
 | 'dxLookup' | 'dxNumberBox' | 'dxRadioGroup' | 'dxRangeSlider' | 'dxSelectBox' | 'dxSlider' | 'dxSwitch' | 'dxTagBox'
  | 'dxTextArea' | 'dxTextBox'
 
-** dx-grid/ column 
+** dx-grid/ column
 dataType: 'string' | 'number' | 'date' | 'boolean' | 'object' | 'datetime'
 
 ** validate type

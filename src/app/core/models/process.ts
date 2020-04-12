@@ -3,6 +3,7 @@ import { Item } from './item'
 import { Stage } from './stage'
 import { Unit } from './unit'
 
+
 export class ProcessLog {
   ProcessLogId: number = 0
   FactoryId?: number = 0
@@ -102,3 +103,8 @@ export class ProcessPlanItem {
   Unit: Unit
 }
 
+export class FilterModel{
+  StartDate: Date
+  EndDate: Date
+  FactoryId
+}
