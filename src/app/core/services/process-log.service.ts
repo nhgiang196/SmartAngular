@@ -19,9 +19,9 @@ export class ProcessLogService extends GenericFactoryService<ProcessLog>{
     return new DataSource({
        store:AspNetData.createStore({
          key: "ProcessLogId",
-         loadUrl: `${ApiUrl}//ProcessLog/FindProcessLogs`,
+         loadUrl: `${ApiUrl}/ProcessLog/FindProcessLogs`,
         //  deleteUrl:`${ApiUrl}/${entity}/${actionDelete}`,
-        //  updateUrl:`${ApiUrl}/${entity}/${actionUpdate}`,
+          updateUrl:`${ApiUrl}/ProcessLog/Update`,
         //  insertUrl:`${ApiUrl}/${entity}/${actionInsert}`,
          onBeforeSend: function (method, ajaxOptions) {
            ajaxOptions.data.keyId ="ProcessLogId";

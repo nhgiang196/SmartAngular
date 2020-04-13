@@ -87,13 +87,13 @@
                             #dataGridVar id="myDataGrid"
                             [dataSource]="dataSourceProcessLog"
                             [masterDetail]="{ enabled: true, template: 'detail' }"
-                            [remoteOperations]="true"  [showBorders]="true" [showRowLines]="true" style="max-height: 500px;">
+                            [remoteOperations]="true"  [showBorders]="true" [showRowLines]="true" >
 
                             <dxo-selection mode="single"></dxo-selection>
                             <dxo-filter-row [visible]="true"></dxo-filter-row>
                             <dxo-editing
                               mode="popup"
-                              [allowUpdating]="true"
+                              [allowUpdating]="false"
                               [allowDeleting]="true"
                               [useIcons] ="true"
                               >
@@ -117,29 +117,37 @@
                                                     valueExpr="UnitId">
                                  </dxo-lookup> -->
                             </dxi-column>
-                            <dxi-column  dataField="ItemOutQuantity" caption="ItemOutQuantity"></dxi-column>
-                            <!-- <dxi-column  dataField="ItemEletricIndicator" caption="ItemEletricIndicator"></dxi-column>
-                            <dxi-column  dataField="ItemWaterIndicator" caption="ItemWaterIndicator"></dxi-column> -->
-                            <!-- <dxi-column  dataField="CODIn" caption="CODIn"></dxi-column>
-                            <dxi-column  dataField="CODOut" caption="CODOut"></dxi-column> -->
-                            <!-- <dxi-column  dataField="pHIn" caption="pHIn"></dxi-column>
-                            <dxi-column  dataField="pHOut" caption="pHOut"></dxi-column>
-                            <dxi-column  dataField="TSSIn" caption="TSSIn"></dxi-column>
-                            <dxi-column  dataField="TSSOut" caption="TSSOut"></dxi-column>
-                            <dxi-column  dataField="QIn" caption="QIn"></dxi-column>
-                            <dxi-column  dataField="QOut" caption="QOut"></dxi-column>
-                            <dxi-column  dataField="ColorIn" caption="ColorIn"></dxi-column>
-                            <dxi-column  dataField="ColorOut" caption="ColorOut"></dxi-column>
-                            <dxi-column  dataField="AmoniIn" caption="AmoniIn"></dxi-column>
-                            <dxi-column  dataField="AmoniOut" caption="AmoniOut"></dxi-column>
-                            <dxi-column  dataField="TemperatureIn" caption="TemperatureIn"></dxi-column>
-                            <dxi-column  dataField="TemperatureOut" caption="TemperatureOut"></dxi-column> -->
+                            <!-- <dxi-column [hidingPriority]="0"  dataField="ItemOutQuantity" caption="ItemOutQuantity"></dxi-column>
+                            <dxi-column [hidingPriority]="1"  dataField="ItemEletricIndicator" caption="ItemEletricIndicator"></dxi-column>
+                            <dxi-column [hidingPriority]="2"  dataField="ItemWaterIndicator" caption="ItemWaterIndicator"></dxi-column>
+                            <dxi-column [hidingPriority]="3"  dataField="CODIn" caption="CODIn"></dxi-column>
+                            <dxi-column [hidingPriority]="4"  dataField="CODOut" caption="CODOut"></dxi-column>
+                            <dxi-column [hidingPriority]="5"  dataField="pHIn" caption="pHIn"></dxi-column>
+                            <dxi-column [hidingPriority]="6" dataField="pHOut" caption="pHOut"></dxi-column>
+                            <dxi-column [hidingPriority]="7" dataField="TSSIn" caption="TSSIn"></dxi-column>
+                            <dxi-column [hidingPriority]="8" dataField="TSSOut" caption="TSSOut"></dxi-column>
+                            <dxi-column [hidingPriority]="9" dataField="QIn" caption="QIn"></dxi-column>
+                            <dxi-column [hidingPriority]="10" dataField="QOut" caption="QOut"></dxi-column>
+                            <dxi-column [hidingPriority]="11" dataField="ColorIn" caption="ColorIn"></dxi-column>
+                            <dxi-column [hidingPriority]="12" dataField="ColorOut" caption="ColorOut"></dxi-column>
+                            <dxi-column [hidingPriority]="13" dataField="AmoniIn" caption="AmoniIn"></dxi-column>
+                            <dxi-column [hidingPriority]="14" dataField="AmoniOut" caption="AmoniOut"></dxi-column>
+                            <dxi-column [hidingPriority]="15" dataField="TemperatureIn" caption="TemperatureIn"></dxi-column>
+                            <dxi-column [hidingPriority]="16" dataField="TemperatureOut" caption="TemperatureOut"></dxi-column> -->
 
                             <!-- <dxi-column  dataField="CreateBy" caption="{{'Item.data.CreateBy' | translate}}"></dxi-column>
                             <dxi-column  dataField="CreateDate" caption="{{'Item.data.CreateDate' | translate}}" dataType="date"></dxi-column>
                             <dxi-column  dataField="ModifyBy" caption="{{'Item.data.ModifyBy' | translate}}"></dxi-column>
                             <dxi-column  dataField="ModifyDate" caption="{{'Item.data.ModifyDate' | translate}}" dataType="date"></dxi-column> -->
                             <dxi-column  dataField="Status" dataType="boolean" caption="{{'Master.data.Status' | translate}}"></dxi-column>
+
+                            <dxi-column type="buttons" [width]="110">
+                              <dxi-button
+                                  icon="more"
+                                  [visible]="1"
+                                  [onClick]="showModalDetail"></dxi-button>
+                                <dxi-button name="delete"></dxi-button>
+                            </dxi-column>
 
                             <div *dxTemplate="let item of 'detail'">
                               <dx-data-grid
@@ -201,3 +209,4 @@
 </div>
 
 
+<app-process-log-detail #modalChild></app-process-log-detail>

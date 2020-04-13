@@ -15,6 +15,7 @@ import { activeDefaultTabProcessLog } from 'src/app/app.helpers';
 })
 export class ProcessLogComponent implements OnInit {
   @ViewChild("dataGridVar",{static:false}) dataGrid: DxDataGridComponent;
+  @ViewChild('modalChild',{static:false}) modalChild;
   //entity: ProcessLog = new ProcessLog();
   startDay:Date
   endDay: Date
@@ -27,11 +28,14 @@ export class ProcessLogComponent implements OnInit {
   dataSourceUnit:any;
   dataSourceShift:any;
   bsConfig = { dateInputFormat: "YYYY-MM-DD", adaarptivePosition: true };
+
+
   constructor(private processLogService: ProcessLogService,private devExtreme: DevextremeService,private helper: MyHelperService) { }
 
   ngOnInit() {
     this.bomFactory = new BomFactory();
     activeDefaultTabProcessLog();
+    this.showModalDetail = this.showModalDetail.bind(this);
     // this.dataSourceFactory= this.devExtreme.loadDxoLookup("Factory");
     // this.dataSourceStage= this.devExtreme.loadDxoLookup("Stage");
     // this.dataSourceItem= this.devExtreme.loadDxoLookup("Item");
@@ -72,6 +76,10 @@ export class ProcessLogComponent implements OnInit {
       key.ProcessLogItem = new Array<ProcessLogItem>();
     }
     return key.ProcessLogItem;
+  }
+
+  showModalDetail(e){
+    this.modalChild.showChildModal(e.row.data);
   }
 
 }

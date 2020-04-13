@@ -1,0 +1,446 @@
+<div
+  bsModal
+  #childModal="bs-modal"
+  class="modal fade"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="dialog-child-name"
+>
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 id="dialog-child-name" class="modal-title pull-left">
+          {{ "ProcessPlanFactory.Model" | translate }}
+        </h4>
+        <button
+          type="button"
+          class="close pull-right"
+          aria-label="Close"
+          (click)="childModal.hide()"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form role="form">
+          <div class="row">
+            <div class="col-lg-4">
+              <div class="form-group">
+                <label>
+                  Nhà máy</label
+                >
+                <ui-select-box
+                entitykey="Factory"
+                [pageSize]="5"
+                [checkstatus]="true"
+                [disabled]="true"
+                [ngModelCustom]="entity.FactoryId"
+                ></ui-select-box>
+              </div>
+            </div>
+            <div class="col-lg-4">
+              <div class="form-group">
+                <label> Giai đoạn </label>
+                <ui-select-box
+                entitykey="Stage"
+                [pageSize]="5"
+                [checkstatus]="true"
+                [disabled]="true"
+                [ngModelCustom]="entity.StageId"
+                ></ui-select-box>
+              </div>
+            </div>
+            <div class="col-lg-4">
+              <div class="form-group">
+                <label> Sản phẩm đầu ra </label>
+                <ui-select-box
+                entitykey="Item"
+                [pageSize]="5"
+                [checkstatus]="true"
+                [disabled]="true"
+                [ngModelCustom]="entity.ItemOutId"
+                ></ui-select-box>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-4">
+              <div class="form-group">
+                <label>
+                  Ca</label
+                >
+                <ui-select-box
+                entitykey="Shift"
+                [pageSize]="5"
+                [checkstatus]="true"
+                [ngModelCustom]="entity.ShiftId"
+                ></ui-select-box>
+              </div>
+            </div>
+            <div class="col-lg-4">
+              <div class="form-group">
+                <label> Process log date </label>
+                <input class="form-control"
+                  a2e-datetimepicker
+                  [options]="optionsDate"/>
+              </div>
+            </div>
+            <div class="col-lg-4">
+              <div class="form-group">
+                <label> Process log time </label>
+                <input class="form-control"
+                  a2e-datetimepicker
+                  [options]="optionsTime"/>
+
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-4">
+              <div class="form-group">
+                <label>
+                  ItemOutIndicator</label
+                >
+                <input
+                  autocomplete="off"
+                  type="text"
+                  class="form-control"
+                  name="ItemOutIndicator"
+                  [(ngModel)]="entity.ItemOutIndicator"
+                  placeholder="Item Out Indicator"
+                />
+              </div>
+            </div>
+            <div class="col-lg-4">
+              <div class="form-group">
+                <label> ItemOutUnitId </label>
+                <ui-select-box
+                entitykey="Unit"
+                [pageSize]="5"
+                [checkstatus]="true"
+                [ngModelCustom]="entity.ItemOutUnitId"
+                ></ui-select-box>
+              </div>
+            </div>
+            <div class="col-lg-4">
+              <div class="form-group">
+                <label> ItemOutQuantity </label>
+                <input
+                  autocomplete="off"
+                  type="text"
+                  class="form-control"
+                  name="ItemOutQuantity"
+                  [(ngModel)]="entity.ItemOutQuantity"
+                  placeholder="Item Out Quantity"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-4">
+              <div class="form-group">
+                <label>
+                  ItemEletricIndicator</label
+                >
+                <input
+                  autocomplete="off"
+                  type="text"
+                  class="form-control"
+                  name="ItemEletricIndicator"
+                  [(ngModel)]="entity.ItemEletricIndicator"
+                  placeholder="Item Eletric Indicator"
+                />
+              </div>
+            </div>
+            <div class="col-lg-4">
+              <div class="form-group">
+                <label> ItemWaterIndicator </label>
+                <input
+                  autocomplete="off"
+                  type="text"
+                  class="form-control"
+                  name="ItemWaterIndicator"
+                  [(ngModel)]="entity.ItemWaterIndicator"
+                  placeholder="Item Water Indicator"
+                />
+              </div>
+            </div>
+            <div class="col-lg-4">
+              <div class="form-group">
+                <label> CODIn </label>
+                <input
+                  autocomplete="off"
+                  type="text"
+                  class="form-control"
+                  name="CODIn"
+                  [(ngModel)]="entity.CODIn"
+                  placeholder="CODIn"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-4">
+              <div class="form-group">
+                <label>
+                  CODOut</label
+                >
+                <input
+                  autocomplete="off"
+                  type="text"
+                  class="form-control"
+                  name="CODOut"
+                  [(ngModel)]="entity.CODOut"
+                  placeholder="CODOut"
+                />
+              </div>
+            </div>
+            <div class="col-lg-4">
+              <div class="form-group">
+                <label> pHIn </label>
+                <input
+                  autocomplete="off"
+                  type="text"
+                  class="form-control"
+                  name="pHIn"
+                  [(ngModel)]="entity.pHIn"
+                  placeholder="pHIn"
+                />
+              </div>
+            </div>
+            <div class="col-lg-4">
+              <div class="form-group">
+                <label> pHOut </label>
+                <input
+                  autocomplete="off"
+                  type="text"
+                  class="form-control"
+                  name="pHOut"
+                  [(ngModel)]="entity.pHOut"
+                  placeholder="pHOut"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-4">
+              <div class="form-group">
+                <label>
+                  TSSIn</label
+                >
+                <input
+                  autocomplete="off"
+                  type="text"
+                  class="form-control" name="TSSIn"
+                  [(ngModel)]="entity.TSSIn"
+                  placeholder="TSSIn"
+                />
+              </div>
+            </div>
+            <div class="col-lg-4">
+              <div class="form-group">
+                <label> TSSOut </label>
+                <input
+                  autocomplete="off"
+                  type="text"
+                  class="form-control" name="TSSOut"
+                  [(ngModel)]="entity.TSSOut"
+                  placeholder="TSSOut"
+                />
+              </div>
+            </div>
+            <div class="col-lg-4">
+              <div class="form-group">
+                <label> QIn </label>
+                <input
+                  autocomplete="off"
+                  type="text"
+                  class="form-control" name="QIn"
+                  [(ngModel)]="entity.QIn"
+                  placeholder="QIn"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-4">
+              <div class="form-group">
+                <label>
+                  QOut</label
+                >
+                <input
+                  autocomplete="off"
+                  type="text"
+                  class="form-control" name="QOut"
+                  [(ngModel)]="entity.QOut"
+                  placeholder="QOut"
+                />
+              </div>
+            </div>
+            <div class="col-lg-4">
+              <div class="form-group">
+                <label> ColorIn </label>
+                <input
+                  autocomplete="off"
+                  type="text"
+                  class="form-control" name="ColorIn"
+                  [(ngModel)]="entity.ColorIn"
+                  placeholder="ColorIn"
+                />
+              </div>
+            </div>
+            <div class="col-lg-4">
+              <div class="form-group">
+                <label> ColorOut </label>
+                <input
+                  autocomplete="off"
+                  type="text"
+                  class="form-control" name="ColorOut"
+                  [(ngModel)]="entity.ColorOut"
+                  placeholder="ColorOut"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-4">
+              <div class="form-group">
+                <label>
+                  AmoniIn</label
+                >
+                <input
+                  autocomplete="off"
+                  type="text"
+                  class="form-control" name="AmoniIn"
+                  [(ngModel)]="entity.AmoniIn"
+                  placeholder="AmoniIn"
+                />
+              </div>
+            </div>
+            <div class="col-lg-4">
+              <div class="form-group">
+                <label> AmoniOut </label>
+                <input
+                  autocomplete="off"
+                  type="text"
+                  class="form-control"  name="AmoniOut"
+                  [(ngModel)]="entity.AmoniOut"
+                  placeholder="AmoniOut"
+                />
+              </div>
+            </div>
+            <div class="col-lg-4">
+              <div class="form-group">
+                <label> TemperatureIn </label>
+                <input
+                  autocomplete="off"
+                  type="text"
+                  class="form-control" name="TemperatureIn"
+                  [(ngModel)]="entity.TemperatureIn"
+                  placeholder="TemperatureIn"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-4">
+              <div class="form-group">
+                <label>
+                  TemperatureOut</label
+                >
+                <input
+                  autocomplete="off"
+                  type="text"
+                  class="form-control" name="TemperatureOut"
+                  [(ngModel)]="entity.TemperatureOut"
+                  placeholder="TemperatureOut"
+                />
+              </div>
+            </div>
+            <div class="col-lg-4">
+              <div class="form-group">
+                <label> CreateBy </label>
+                <input
+                  autocomplete="off"
+                  type="text"
+                  class="form-control" name="CreateBy"
+                  [(ngModel)]="entity.CreateBy"
+                  placeholder="CreateBy"
+                />
+              </div>
+            </div>
+            <div class="col-lg-4">
+              <div class="form-group">
+                <label> CreateDate </label>
+                <input
+                  autocomplete="off"
+                  type="text"
+                  class="form-control"  name="CreateDate"
+                  [(ngModel)]="entity.CreateDate"
+                  placeholder="CreateDate"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-4">
+              <div class="form-group">
+                <label>
+                  ModifyBy</label
+                >
+                <input
+                  autocomplete="off"
+                  type="text"
+                  class="form-control"  name="ModifyBy"
+                  [(ngModel)]="entity.ModifyBy"
+                  placeholder="ModifyBy"
+                />
+              </div>
+            </div>
+            <div class="col-lg-4">
+              <div class="form-group">
+                <label> ModifyDate </label>
+                <input
+                  autocomplete="off"
+                  type="text"
+                  class="form-control"  name="ModifyDate"
+                  [(ngModel)]="entity.ModifyDate"
+                  placeholder="ModifyDate"
+                />
+              </div>
+            </div>
+            <div class="col-lg-4">
+              <div class="form-group">
+                <label> Status </label> &nbsp;&nbsp;
+              <dx-switch  [value]="entity.Status"  (onValueChanged)="onSwitchStatus()" ></dx-switch>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <!-- <button
+          class="btn btn-primary btn-save"
+          [ladda]="laddaSubmitLoading"
+          [disabled]="
+            entity.FactoryId == 0 ||
+            entity.FactoryId == null ||
+            entity.ProcessPlanMonth == 0 ||
+            entity.ProcessPlanYear == 0
+          "
+          (click)="fnSave()"
+        >
+          <i class="fa fa-plus"></i>
+          {{ "Button.Save" | translate }}
+        </button> -->
+        <button
+          type="button"
+          class="btn btn-default waves-effect"
+          (click)="childModal.hide()"
+        >
+          Cancel
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

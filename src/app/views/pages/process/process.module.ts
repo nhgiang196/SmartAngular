@@ -11,14 +11,16 @@ import { SharedModule } from 'src/app/core/shared/shared.module';
 import { UISampleModule } from '../../UISample/UISample.module';
 import { ModalModule } from 'ngx-bootstrap';
 import { ProcessPlanActionComponent } from './process-plan/process-plan-action/process-plan-action.component';
-
+import { ProcessLogDetailComponent } from './process-log/process-log-detail/process-log-detail.component';
+import {A2Edatetimepicker} from 'ng2-eonasdan-datetimepicker';
 
 const COMPONENTS =[
   ProcessComponent,
   MainViewProcessComponent,
   ProcessLogComponent,
   ProcessPlanComponent,
-  ProcessPlanActionComponent
+  ProcessPlanActionComponent,
+  ProcessLogDetailComponent
 ]
 @NgModule({
   imports: [
@@ -29,6 +31,7 @@ const COMPONENTS =[
     UISampleModule,
     DxSwitchModule,
     ModalModule.forRoot(),
+    A2Edatetimepicker
   ],
   declarations: [...COMPONENTS]
 })

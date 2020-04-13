@@ -38,6 +38,7 @@
               "node_modules/ngx-bootstrap/datepicker/bs-datepicker.css",
               "node_modules/select2/dist/css/select2.min.css",
               "node_modules/@ng-select/ng-select/themes/default.theme.css",
+              "node_modules/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css",
               "src/assets/styles/animate.css",
               "src/assets/styles/styles.css"
             ],
@@ -58,6 +59,8 @@
               "node_modules/datatables.net-buttons/js/buttons.html5.js",
               "node_modules/datatables.net-buttons/js/buttons.print.min.js",
               "node_modules/slick-carousel/slick/slick.min.js",
+              "node_modules/moment/moment.js",
+              "node_modules/eonasdan-bootstrap-datetimepicker/src/js/bootstrap-datetimepicker.js",
               "node_modules/select2/dist/js/select2.min.js"
             ]
           },
