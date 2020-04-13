@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { ProcessLog, FilterModel } from 'src/app/core/models/process';
+import { ProcessLog, FilterModel, ProcessLogItem } from 'src/app/core/models/process';
 import { ProcessLogService } from 'src/app/core/services';
 import { MyHelperService } from 'src/app/core/services/my-helper.service';
 import { BomFactory, BomStage } from 'src/app/core/models/bom';
@@ -65,6 +65,13 @@ export class ProcessLogComponent implements OnInit {
       this.dataSourceProcessLog =  this.processLogService.loadDxoGridProcessLog(this.factoryId,stage.StageId,itemOutId,startDate,endDate);
     }
 
+  }
+
+  getProcessLogItem(key: ProcessLog) {
+    if (key.ProcessLogItem == null) {
+      key.ProcessLogItem = new Array<ProcessLogItem>();
+    }
+    return key.ProcessLogItem;
   }
 
 }

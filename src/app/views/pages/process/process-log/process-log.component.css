@@ -5,3 +5,7 @@
   width: 90% !important;
   margin-left: 130px !important;
 }
+
+.tabs-container .nav-tabs>li {
+  cursor: pointer;
+}

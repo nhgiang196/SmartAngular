@@ -86,6 +86,7 @@
                             <dx-data-grid
                             #dataGridVar id="myDataGrid"
                             [dataSource]="dataSourceProcessLog"
+                            [masterDetail]="{ enabled: true, template: 'detail' }"
                             [remoteOperations]="true"  [showBorders]="true" [showRowLines]="true" style="max-height: 500px;">
 
                             <dxo-selection mode="single"></dxo-selection>
@@ -104,27 +105,6 @@
                                 [dataSource]="dataSourceShift"
                                                     displayExpr="ShiftName"
                                                     valueExpr="ShiftId">
-                                 </dxo-lookup> -->
-                            </dxi-column>
-                            <dxi-column dataField="FactoryName" caption="FactoryName">
-                              <!-- <dxo-lookup
-                                [dataSource]="dataSourceFactory"
-                                                    displayExpr="FactoryName"
-                                                    valueExpr="FactoryId">
-                                 </dxo-lookup> -->
-                            </dxi-column>
-                            <dxi-column dataField="StageName" caption="Stage Name">
-                              <!-- <dxo-lookup
-                                [dataSource]="dataSourceStage"
-                                                    displayExpr="StageName"
-                                                    valueExpr="StageId">
-                                 </dxo-lookup> -->
-                            </dxi-column>
-                            <dxi-column dataField="ItemName" caption="Item Name">
-                              <!-- <dxo-lookup
-                                [dataSource]="dataSourceItem"
-                                                    displayExpr="ItemName"
-                                                    valueExpr="ItemId">
                                  </dxo-lookup> -->
                             </dxi-column>
                             <dxi-column  dataField="ProcessLogDate"  caption="ProcessLogDate" dataType="date"></dxi-column>
@@ -160,6 +140,42 @@
                             <dxi-column  dataField="ModifyBy" caption="{{'Item.data.ModifyBy' | translate}}"></dxi-column>
                             <dxi-column  dataField="ModifyDate" caption="{{'Item.data.ModifyDate' | translate}}" dataType="date"></dxi-column> -->
                             <dxi-column  dataField="Status" dataType="boolean" caption="{{'Master.data.Status' | translate}}"></dxi-column>
+
+                            <div *dxTemplate="let item of 'detail'">
+                              <dx-data-grid
+                                  [dataSource]="getProcessLogItem(item.data)"
+                                  class="dx-grid-child"
+                                  [showBorders]="true"
+                                  [columnAutoWidth]="true">
+                                    <dxo-editing
+                                    [allowAdding]="true"
+                                    [allowUpdating]="true"
+                                    [allowDeleting]="true"
+                                    [useIcons] ="true"
+                                    >
+                                    <dxo-texts confirmDeleteMessage="Are you sure Delete?"></dxo-texts>
+                                  </dxo-editing>
+                                      <dxi-column dataField="ItemId"  caption="{{'BomFactory.BomItem.ItemId' | translate}}"  [setCellValue]="setItemValueIn">
+                                        <!-- <dxo-lookup
+                                            [dataSource]="dataSourceItem"
+                                            displayExpr="ItemName"
+                                            valueExpr="ItemId">
+                                        </dxo-lookup> -->
+                                        <dxi-validation-rule type="required"></dxi-validation-rule>
+                                      </dxi-column>
+                                      <dxi-column dataField="UnitId" caption="{{'BomFactory.BomItem.UnitId ' | translate}}">
+                                        <!-- <dxo-lookup
+                                          [dataSource]="getFilteredUnit"
+                                          displayExpr="UnitName"
+                                          valueExpr="UnitId">
+                                      </dxo-lookup> -->
+                                      <dxi-validation-rule type="required"></dxi-validation-rule>
+                                      </dxi-column>
+                                      <dxi-column dataField="Quantity"  dataType="number" caption="{{'BomFactory.BomItem.Quantity' | translate}}">
+                                        <dxi-validation-rule type="required"></dxi-validation-rule>
+                                      </dxi-column>
+                              </dx-data-grid>
+                          </div>
 
                             <dxo-paging [pageSize]="25"></dxo-paging>
                             <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[25, 50, 100]"></dxo-pager>
