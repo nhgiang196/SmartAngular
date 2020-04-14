@@ -193,15 +193,10 @@
                 </dx-data-grid>
               </div>
             </dxi-item>
-            <dxi-item itemType="group" [colCount]="1" [colSpan]="1">
-              <dxi-item horizontalAlignment="right">
-                <div *dxTemplate>
-                  <button type="button" class="btn btn-white pull-right"
-                    data-dismiss="modal">{{'Button.Close' | translate}}
-                  </button>
-                </div>
-              </dxi-item>
-              <dxi-item itemType="button" horizontalAlignment="right" [buttonOptions]="buttonOptions"></dxi-item>
+            <dxi-item itemType="group" [colCount]="12" [colSpan]="1">
+              <dxi-item itemType="empty" [colSpan]="10"></dxi-item>
+              <dxi-item  itemType="button" [colSpan]="1"  [buttonOptions]="buttonOptions2"></dxi-item>
+              <dxi-item itemType="button"  [colSpan]="1" [buttonOptions]="buttonOptions"></dxi-item>
             </dxi-item>
           </dx-form>
         </form>
