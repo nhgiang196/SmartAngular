@@ -10,8 +10,8 @@ export class ProcessLog {
   StageId?: number = 0
   ItemOutId?: number = 0
   ShiftId?: number = 0
-  ProcessLogTime?: Date
-  ProcessLogDate?: Date
+  ProcessLogTime?: any
+  ProcessLogDate?: any
   ItemOutIndicator?: any
   ItemOutUnitId?: number
   ItemOutQuantity?: any
@@ -32,9 +32,9 @@ export class ProcessLog {
   TemperatureIn?: any
   TemperatureOut?: any
   CreateBy?: string
-  CreateDate?: Date
+  CreateDate?: any
   ModifyBy?: string
-  ModifyDate?: Date
+  ModifyDate?: any
   Status?: number
 
   Factory: Factory = new Factory()
