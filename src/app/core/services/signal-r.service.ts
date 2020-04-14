@@ -19,13 +19,14 @@ export class SignalRService {
       //   skipNegotiation: true,
       //   transport: signalR.HttpTransportType.WebSockets
       // }) //${SIGNAL_R_URL}/chart , http://localhost:7777/chart
-      .withUrl(`${SIGNAL_R_URL}/chart`)
+      .withUrl(`http://localhost:7777/chart`) // tam
       .build();
-    this.hubConnection.onclose(() => {
-      console.log('Reconnection after 500')
-      this.start();
-    });
-    this.start();
+
+      this.hubConnection
+      .start()
+      .then(() => console.log('Connection started'))
+      .catch(err => console.log('Error while starting connection: ' + err))
+    // this.start();
   }
   start() {
     this.hubConnection
@@ -43,12 +44,10 @@ export class SignalRService {
     this.hubConnection.on('transferFactoryData', (data) => {
       if (JSON.stringify(currentData) != JSON.stringify(data)) {
         currentData = data;
+        console.log(currentData);
         this.FactoryData = data;
         console.log(this.FactoryData);
       }
-      // debugger
-      //  if(this.FactoryData.length >4)
-      //     this.FactoryData.shift();
 
     });
 
