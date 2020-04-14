@@ -63,7 +63,7 @@ export class FactoryComponent implements OnInit {
     this.api.getFactoryPaginationMain(this.keyword, this.pageIndex, this.pageSize).subscribe(res => {
       var data = res as any;
       this.factory = data.data;
-      this.factory_showed = data.totalCount;
+      this.factory_showed = data.recordsTotal;
       this.iboxloading = false;
     }, err => {
       this.toastr.error(err.statusText, "Load init failed!");
@@ -152,6 +152,7 @@ export class FactoryComponent implements OnInit {
           this.toastr.success(this.trans.instant("messg.add.success"));
           $("#myModal4").modal('hide');
           this.loadInit();
+          this.fnEditSignal(operationResult.Data);
         }
         else this.toastr.warning(operationResult.Message);
       }, err => { this.toastr.error(err.statusText); })
