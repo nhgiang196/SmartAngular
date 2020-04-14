@@ -19,10 +19,10 @@ export class SignalRService {
       //   skipNegotiation: true,
       //   transport: signalR.HttpTransportType.WebSockets
       // }) //${SIGNAL_R_URL}/chart , http://localhost:7777/chart
-      .withUrl(`http://localhost:7777/chart`) // tam
+      .withUrl(`https://localhost:7777/chart`) // tam
       .build();
 
-      this.hubConnection
+    this.hubConnection
       .start()
       .then(() => console.log('Connection started'))
       .catch(err => console.log('Error while starting connection: ' + err))
@@ -42,11 +42,10 @@ export class SignalRService {
   public addTransferFactoryDataListener = () => {
     var currentData: any = {};
     this.hubConnection.on('transferFactoryData', (data) => {
-      if (JSON.stringify(currentData) != JSON.stringify(data)) {
+      if (JSON.stringify(currentData) != JSON.stringify(data)) {//kiểm tra mảng cũ so sánh với mảng mới nếu khác nhau thì add vào
         currentData = data;
-        console.log(currentData);
         this.FactoryData = data;
-        console.log(this.FactoryData);
+        // console.log(this.FactoryData);
       }
 
     });

@@ -5,7 +5,7 @@
         "changeOrigin": true
     },
    "/signalR/*":{
-        "target":"http://localhost:7777",
+        "target":"https://localhost:7777",
         "secure": false,
         "changeOrigin": true,
         "pathRewrite": {"^/signalR" : ""}
