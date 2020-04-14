@@ -26,7 +26,9 @@ export class FactoryComponent implements OnInit {
     public trans: TranslateService,
     public helper: MyHelperService,
     private auth: AuthService
-  ) { }
+  ) {
+
+   }
   /** DECLARATION */
   factory: Factory[] = []; //init data
   entity: Factory;
@@ -37,11 +39,18 @@ export class FactoryComponent implements OnInit {
   factory_showed = 0;
   pageIndex = 1;
   pageSize = 12;
-  buttonOptions: any = {
+  
+  buttonOptions2 = {
     stylingMode: 'text', // để tắt đường viền container
-    template: `<button type="button" class="btn btn-primary"><i class="fa fa-paper-plane-o"></i>${this.trans.instant('Button.Save')}</button>`, //template hoạt động cho Ispinia
+    template: ` <button type="button" class="btn btn-white" data-dismiss="modal"> ${this.trans.instant('Button.Close')}</button>`, //template hoạt động cho Ispinia
+  }
+  
+  buttonOptions = {
+    stylingMode: 'text', // để tắt đường viền container
+    template: `<button type="button" class="btn btn-primary"><i class="fa fa-paper-plane-o"></i> ${this.trans.instant('Button.Save')}</button>`, //template hoạt động cho Ispinia
     useSubmitBehavior: true, //submit = validate + save
   }
+
   ngOnInit() {
     this.resetEntity();
     this.loadInit();
@@ -54,7 +63,7 @@ export class FactoryComponent implements OnInit {
     this.api.getFactoryPaginationMain(this.keyword, this.pageIndex, this.pageSize).subscribe(res => {
       var data = res as any;
       this.factory = data.data;
-      this.factory_showed = data.totalCount;
+      this.factory_showed = data.recordsTotal;
       this.iboxloading = false;
     }, err => {
       this.toastr.error(err.statusText, "Load init failed!");
@@ -143,6 +152,7 @@ export class FactoryComponent implements OnInit {
           this.toastr.success(this.trans.instant("messg.add.success"));
           $("#myModal4").modal('hide');
           this.loadInit();
+          this.fnEditSignal(operationResult.Data);
         }
         else this.toastr.warning(operationResult.Message);
       }, err => { this.toastr.error(err.statusText); })

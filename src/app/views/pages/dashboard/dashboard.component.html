@@ -1,7 +1,7 @@
 <div class="wrapper wrapper-content" >
   <div class="row">
               <a *ngFor="let item of listMenu" class="col-lg-3" [routerLink]="item.Link">
-                  <div class="ibox float-e-margins">
+                  <div *ngIf="item.Code!='admin'" class="ibox float-e-margins">
                       <div class="ibox-content repo">
                           <img class="img-repo" [src]="item.Icon" />
                           <h1 *ngIf="langService.getLanguage() =='vn'" class="no-margins">{{item.NameVi}}</h1>
