@@ -35,9 +35,9 @@
                   <small>{{'Factory.label.Showed'| translate}} </small>
                 </label>
                 <select id='choose' class="form-control" [(ngModel)]="pageSize" (change)="loadInit()">
-                  <option value=4>1 {{'Factory.label.Rows' | translate}} </option>
-                  <option value=8>2 {{'Factory.label.Rows' | translate}}</option>
-                  <option value=12>3 {{'Factory.label.Rows' | translate}}</option>
+                  <option selected value=12>12</option>
+                  <option value=24>24</option>
+                  <option value=36>36</option>
                   <option value=0>All</option>
                 </select>
               </div>
