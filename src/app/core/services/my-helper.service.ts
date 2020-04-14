@@ -73,6 +73,14 @@ export class MyHelperService {
     var ss = date.getSeconds();
     return new Date(yyyy + '-' + mm + '-' + dd + ' ' + HH  + ':' + MM + ':' + ss);
   }
+  //Không set + 7 vào giờ
+  timeConvert(str) {
+    var date = new Date(str)
+    var HH = date.getHours() ; // set for GTM +7
+    var MM = date.getMinutes();
+    var ss = date.getSeconds();
+    return  HH  + ':' + MM + ':' + ss;
+  }
   dateConvertToString(date?: Date){
     if (date==null) return null;
     date = new Date(date);

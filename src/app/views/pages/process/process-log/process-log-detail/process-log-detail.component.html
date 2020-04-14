@@ -34,7 +34,7 @@
                 [pageSize]="5"
                 [checkstatus]="true"
                 [disabled]="true"
-                [ngModelCustom]="entity.FactoryId"
+                [(ngModelCustom)]="entity.FactoryId"
                 ></ui-select-box>
               </div>
             </div>
@@ -46,7 +46,7 @@
                 [pageSize]="5"
                 [checkstatus]="true"
                 [disabled]="true"
-                [ngModelCustom]="entity.StageId"
+                [(ngModelCustom)]="entity.StageId"
                 ></ui-select-box>
               </div>
             </div>
@@ -58,7 +58,7 @@
                 [pageSize]="5"
                 [checkstatus]="true"
                 [disabled]="true"
-                [ngModelCustom]="entity.ItemOutId"
+                [(ngModelCustom)]="entity.ItemOutId"
                 ></ui-select-box>
               </div>
             </div>
@@ -73,16 +73,16 @@
                 entitykey="Shift"
                 [pageSize]="5"
                 [checkstatus]="true"
-                [ngModelCustom]="entity.ShiftId"
+                [(ngModelCustom)]="entity.ShiftId"
                 ></ui-select-box>
               </div>
             </div>
             <div class="col-lg-4">
               <div class="form-group">
                 <label> Process log date </label>
-                <input class="form-control"
-                  a2e-datetimepicker
-                  [options]="optionsDate"/>
+                <input type="text" [(ngModel)]="entity.ProcessLogDate" bsDatepicker readonly [bsConfig]="bsConfig"
+                class="form-control" placeholder="{{'Item.placeholder.ItemManufactureYear' | translate }}"
+                name="ItemManufactureYear" required>
               </div>
             </div>
             <div class="col-lg-4">
@@ -90,6 +90,8 @@
                 <label> Process log time </label>
                 <input class="form-control"
                   a2e-datetimepicker
+                  name="ProcessLogTime"
+                  [(ngModel)]="logTime"
                   [options]="optionsTime"/>
 
               </div>
@@ -118,7 +120,7 @@
                 entitykey="Unit"
                 [pageSize]="5"
                 [checkstatus]="true"
-                [ngModelCustom]="entity.ItemOutUnitId"
+                [(ngModelCustom)]="entity.ItemOutUnitId"
                 ></ui-select-box>
               </div>
             </div>
@@ -365,6 +367,7 @@
                   type="text"
                   class="form-control" name="CreateBy"
                   [(ngModel)]="entity.CreateBy"
+                  [disabled]="true"
                   placeholder="CreateBy"
                 />
               </div>
@@ -377,6 +380,7 @@
                   type="text"
                   class="form-control"  name="CreateDate"
                   [(ngModel)]="entity.CreateDate"
+                  [disabled]="true"
                   placeholder="CreateDate"
                 />
               </div>
@@ -393,6 +397,7 @@
                   type="text"
                   class="form-control"  name="ModifyBy"
                   [(ngModel)]="entity.ModifyBy"
+                  [disabled]="true"
                   placeholder="ModifyBy"
                 />
               </div>
@@ -405,6 +410,7 @@
                   type="text"
                   class="form-control"  name="ModifyDate"
                   [(ngModel)]="entity.ModifyDate"
+                  [disabled]="true"
                   placeholder="ModifyDate"
                 />
               </div>
@@ -419,20 +425,12 @@
         </form>
       </div>
       <div class="modal-footer">
-        <!-- <button
-          class="btn btn-primary btn-save"
-          [ladda]="laddaSubmitLoading"
-          [disabled]="
-            entity.FactoryId == 0 ||
-            entity.FactoryId == null ||
-            entity.ProcessPlanMonth == 0 ||
-            entity.ProcessPlanYear == 0
-          "
-          (click)="fnSave()"
-        >
-          <i class="fa fa-plus"></i>
-          {{ "Button.Save" | translate }}
-        </button> -->
+        <button class="btn btn-primary btn-save"
+        [ladda]="laddaSubmitLoading"
+         (click)="fnSave()">
+        <i class="fa fa-plus"></i>
+        {{'Button.Save' | translate}}
+      </button>
         <button
           type="button"
           class="btn btn-default waves-effect"

@@ -17,8 +17,8 @@ export class ProcessLogComponent implements OnInit {
   @ViewChild("dataGridVar",{static:false}) dataGrid: DxDataGridComponent;
   @ViewChild('modalChild',{static:false}) modalChild;
   //entity: ProcessLog = new ProcessLog();
-  startDay:Date
-  endDay: Date
+  startDay:any
+  endDay: any
   factoryId:number
   bomFactory: BomFactory
   dataSourceProcessLog: any;
@@ -38,8 +38,8 @@ export class ProcessLogComponent implements OnInit {
     this.showModalDetail = this.showModalDetail.bind(this);
     // this.dataSourceFactory= this.devExtreme.loadDxoLookup("Factory");
     // this.dataSourceStage= this.devExtreme.loadDxoLookup("Stage");
-    // this.dataSourceItem= this.devExtreme.loadDxoLookup("Item");
-    // this.dataSourceUnit= this.devExtreme.loadDxoLookup("Unit");
+     this.dataSourceItem= this.devExtreme.loadDxoLookup("Item");
+     this.dataSourceUnit= this.devExtreme.loadDxoLookup("Unit");
     // this.dataSourceShift= this.devExtreme.loadDxoLookup("Shift");
   }
 
@@ -82,4 +82,15 @@ export class ProcessLogComponent implements OnInit {
     this.modalChild.showChildModal(e.row.data);
   }
 
+  loadInit(){
+    this.dataSourceProcessLog.reload();
+  }
+
+  showModalAdd(stageId,itemOutId){
+    let entity = new ProcessLog();
+    entity.FactoryId = this.factoryId;
+    entity.StageId = stageId;
+    entity.ItemOutId = itemOutId;
+    this.modalChild.showChildModal(entity);
+  }
 }

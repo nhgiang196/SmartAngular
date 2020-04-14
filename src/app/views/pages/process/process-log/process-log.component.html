@@ -83,6 +83,13 @@
                       <div  class="tab-pane" *ngFor="let itemOut of stage.BomItemOut; let i =index" [class.active]="i==0"  [id]="'tabItemOut-'+stage.StageId+i">
                         <div class="panel-body panel-body-child">
                           <div class="row">
+                            <div class="form-group text-right">
+                              <button class="btn btn-primary btn-save"
+                                (click)="showModalAdd(stage.StageId,itemOut.ItemId)">
+                                <i class="fa fa-plus"></i>
+                                Thêm mới
+                              </button>
+                            </div>
                             <dx-data-grid
                             #dataGridVar id="myDataGrid"
                             [dataSource]="dataSourceProcessLog"
@@ -100,15 +107,10 @@
                               <dxo-texts confirmDeleteMessage="Are you sure Delete?"></dxo-texts>
 
                             </dxo-editing>
-                            <dxi-column  dataField="ShiftName"  caption="ShiftId">
-                              <!-- <dxo-lookup
-                                [dataSource]="dataSourceShift"
-                                                    displayExpr="ShiftName"
-                                                    valueExpr="ShiftId">
-                                 </dxo-lookup> -->
+                            <dxi-column  dataField="ShiftName"  caption="ShiftName">
                             </dxi-column>
                             <dxi-column  dataField="ProcessLogDate"  caption="ProcessLogDate" dataType="date"></dxi-column>
-                            <dxi-column  dataField="ProcessLogDate"  caption="ProcessLogDate" dataType="date"></dxi-column>
+                            <dxi-column  dataField="ProcessLogTime"  caption="ProcessLogTime"></dxi-column>
                             <dxi-column  dataField="ItemOutIndicator" caption="ItemOutIndicator"></dxi-column>
                             <dxi-column dataField="UnitName" caption="ItemOutUnitId">
                               <!-- <dxo-lookup
@@ -117,30 +119,7 @@
                                                     valueExpr="UnitId">
                                  </dxo-lookup> -->
                             </dxi-column>
-                            <!-- <dxi-column [hidingPriority]="0"  dataField="ItemOutQuantity" caption="ItemOutQuantity"></dxi-column>
-                            <dxi-column [hidingPriority]="1"  dataField="ItemEletricIndicator" caption="ItemEletricIndicator"></dxi-column>
-                            <dxi-column [hidingPriority]="2"  dataField="ItemWaterIndicator" caption="ItemWaterIndicator"></dxi-column>
-                            <dxi-column [hidingPriority]="3"  dataField="CODIn" caption="CODIn"></dxi-column>
-                            <dxi-column [hidingPriority]="4"  dataField="CODOut" caption="CODOut"></dxi-column>
-                            <dxi-column [hidingPriority]="5"  dataField="pHIn" caption="pHIn"></dxi-column>
-                            <dxi-column [hidingPriority]="6" dataField="pHOut" caption="pHOut"></dxi-column>
-                            <dxi-column [hidingPriority]="7" dataField="TSSIn" caption="TSSIn"></dxi-column>
-                            <dxi-column [hidingPriority]="8" dataField="TSSOut" caption="TSSOut"></dxi-column>
-                            <dxi-column [hidingPriority]="9" dataField="QIn" caption="QIn"></dxi-column>
-                            <dxi-column [hidingPriority]="10" dataField="QOut" caption="QOut"></dxi-column>
-                            <dxi-column [hidingPriority]="11" dataField="ColorIn" caption="ColorIn"></dxi-column>
-                            <dxi-column [hidingPriority]="12" dataField="ColorOut" caption="ColorOut"></dxi-column>
-                            <dxi-column [hidingPriority]="13" dataField="AmoniIn" caption="AmoniIn"></dxi-column>
-                            <dxi-column [hidingPriority]="14" dataField="AmoniOut" caption="AmoniOut"></dxi-column>
-                            <dxi-column [hidingPriority]="15" dataField="TemperatureIn" caption="TemperatureIn"></dxi-column>
-                            <dxi-column [hidingPriority]="16" dataField="TemperatureOut" caption="TemperatureOut"></dxi-column> -->
-
-                            <!-- <dxi-column  dataField="CreateBy" caption="{{'Item.data.CreateBy' | translate}}"></dxi-column>
-                            <dxi-column  dataField="CreateDate" caption="{{'Item.data.CreateDate' | translate}}" dataType="date"></dxi-column>
-                            <dxi-column  dataField="ModifyBy" caption="{{'Item.data.ModifyBy' | translate}}"></dxi-column>
-                            <dxi-column  dataField="ModifyDate" caption="{{'Item.data.ModifyDate' | translate}}" dataType="date"></dxi-column> -->
                             <dxi-column  dataField="Status" dataType="boolean" caption="{{'Master.data.Status' | translate}}"></dxi-column>
-
                             <dxi-column type="buttons" [width]="110">
                               <dxi-button
                                   icon="more"
@@ -150,6 +129,7 @@
                             </dxi-column>
 
                             <div *dxTemplate="let item of 'detail'">
+
                               <dx-data-grid
                                   [dataSource]="getProcessLogItem(item.data)"
                                   class="dx-grid-child"
@@ -164,19 +144,19 @@
                                     <dxo-texts confirmDeleteMessage="Are you sure Delete?"></dxo-texts>
                                   </dxo-editing>
                                       <dxi-column dataField="ItemId"  caption="{{'BomFactory.BomItem.ItemId' | translate}}"  [setCellValue]="setItemValueIn">
-                                        <!-- <dxo-lookup
+                                        <dxo-lookup
                                             [dataSource]="dataSourceItem"
                                             displayExpr="ItemName"
                                             valueExpr="ItemId">
-                                        </dxo-lookup> -->
+                                        </dxo-lookup>
                                         <dxi-validation-rule type="required"></dxi-validation-rule>
                                       </dxi-column>
                                       <dxi-column dataField="UnitId" caption="{{'BomFactory.BomItem.UnitId ' | translate}}">
-                                        <!-- <dxo-lookup
-                                          [dataSource]="getFilteredUnit"
+                                        <dxo-lookup
+                                          [dataSource]="dataSourceUnit"
                                           displayExpr="UnitName"
                                           valueExpr="UnitId">
-                                      </dxo-lookup> -->
+                                      </dxo-lookup>
                                       <dxi-validation-rule type="required"></dxi-validation-rule>
                                       </dxi-column>
                                       <dxi-column dataField="Quantity"  dataType="number" caption="{{'BomFactory.BomItem.Quantity' | translate}}">
@@ -209,4 +189,4 @@
 </div>
 
 
-<app-process-log-detail #modalChild></app-process-log-detail>
+<app-process-log-detail #modalChild (loadInit)="loadInit()"></app-process-log-detail>

@@ -13,6 +13,7 @@ export class ProcessLogService extends GenericFactoryService<ProcessLog>{
   constructor(http: HttpClient) {
     super(http,'ProcessLog');
   }
+  updateDefault =(entity) => this.http.post(`${ApiUrl}/ProcessLog/UpdateProcessLog`, entity);
   findProcessLog =(factoryId,stageId,itemOutId,startDate,endDate) => this.http.get<any>(`${ApiUrl}/ProcessLog/FindProcessLog`,{ params: { factoryId: factoryId ,stageId:stageId,itemOutId,startDate,endDate}});
   searchProcessLog =(factoryid,endate) => this.http.get<any>(`${ApiUrl}/ProcessLog/SearchProcessLog`,{ params: { factoryid: factoryid , endDate : endate} });
   loadDxoGridProcessLog(factoryId,stageId,itemOutId,startDate,endDate){
