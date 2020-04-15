@@ -1,0 +1,85 @@
+<div
+  bsModal
+  #childModalItem="bs-modal"
+  class="modal fade"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="dialog-child-name"
+>
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 id="dialog-child-name" class="modal-title pull-left">
+          Process Log Item
+        </h4>
+        <button
+          type="button"
+          class="close pull-right"
+          aria-label="Close"
+          (click)="childModal.hide()"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form role="form">
+          <div class="row">
+            <div class="col-lg-4">
+              <div class="form-group">
+                <label>
+                  Item</label
+                >
+                <ui-select-box
+                entitykey="Item"
+                [pageSize]="5"
+                [checkstatus]="true"
+                [(ngModelCustom)]="entity.ItemId"
+                ></ui-select-box>
+              </div>
+            </div>
+            <div class="col-lg-4">
+              <div class="form-group">
+                <label>
+                  Unit</label
+                >
+                <ui-select-box
+                entitykey="Unit"
+                [pageSize]="5"
+                [checkstatus]="true"
+                [(ngModelCustom)]="entity.UnitId"
+                ></ui-select-box>
+              </div>
+            </div>
+            <div class="col-lg-4">
+              <div class="form-group">
+                <label> Quantity </label>
+                <input
+                  autocomplete="off"
+                  type="text"
+                  class="form-control"  name="Quantity"
+                  [(ngModel)]="entity.Quantity"
+                  placeholder="Quantity"
+                />
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-primary btn-save"
+        [ladda]="laddaSubmitLoading"
+         (click)="fnSave()">
+        <i class="fa fa-plus"></i>
+        {{'Button.Save' | translate}}
+      </button>
+        <button
+          type="button"
+          class="btn btn-default waves-effect"
+          (click)="childModal.hide()"
+        >
+          Cancel
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

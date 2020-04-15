@@ -20,11 +20,12 @@ export class ProcessLogService extends GenericFactoryService<ProcessLog>{
     return new DataSource({
        store:AspNetData.createStore({
          key: "ProcessLogId",
-         loadUrl: `${ApiUrl}/ProcessLog/FindProcessLogs`,
-        //  deleteUrl:`${ApiUrl}/${entity}/${actionDelete}`,
-          updateUrl:`${ApiUrl}/ProcessLog/Update`,
-        //  insertUrl:`${ApiUrl}/${entity}/${actionInsert}`,
+          loadUrl: `${ApiUrl}/ProcessLog/FindProcessLogs`,
+          deleteUrl:`${ApiUrl}/ProcessLog/DeleteProcessLog`,
+          insertUrl:`${ApiUrl}/ProcessLogItem/UpdateProcessLogItem`,
+          updateUrl:`${ApiUrl}/ProcessLogItem/UpdateProcessLogItem`,
          onBeforeSend: function (method, ajaxOptions) {
+          ajaxOptions.xhrFields = { withCredentials: true };
            ajaxOptions.data.keyId ="ProcessLogId";
         },
         loadParams:{

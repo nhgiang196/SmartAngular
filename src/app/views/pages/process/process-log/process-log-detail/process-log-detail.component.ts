@@ -23,7 +23,7 @@ export class ProcessLogDetailComponent implements OnInit {
   }
   logTime: any;
   constructor(private processLogService: ProcessLogService, private helper: MyHelperService,private toastr: ToastrService,
-    private trans: TranslateService, private auth: AuthService,) { }
+    private trans: TranslateService, private auth: AuthService) { }
 
   ngOnInit() {
     this.entity = new ProcessLog();

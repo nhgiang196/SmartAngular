@@ -7,7 +7,10 @@ import { async } from 'rxjs/internal/scheduler/async';
 import { DevextremeService } from 'src/app/core/services/general/devextreme.service';
 import { DxDataGridComponent } from 'devextreme-angular';
 import { activeDefaultTabProcessLog } from 'src/app/app.helpers';
-
+import swal from "sweetalert2";
+import { TranslateService } from '@ngx-translate/core';
+import { ProcessLogItemService } from 'src/app/core/services/process-log-item.service';
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-process-log',
   templateUrl: './process-log.component.html',
@@ -16,6 +19,7 @@ import { activeDefaultTabProcessLog } from 'src/app/app.helpers';
 export class ProcessLogComponent implements OnInit {
   @ViewChild("dataGridVar",{static:false}) dataGrid: DxDataGridComponent;
   @ViewChild('modalChild',{static:false}) modalChild;
+  @ViewChild('modalChildItem',{static:false}) modalChildItem;
   //entity: ProcessLog = new ProcessLog();
   startDay:any
   endDay: any
@@ -30,12 +34,20 @@ export class ProcessLogComponent implements OnInit {
   bsConfig = { dateInputFormat: "YYYY-MM-DD", adaarptivePosition: true };
 
 
-  constructor(private processLogService: ProcessLogService,private devExtreme: DevextremeService,private helper: MyHelperService) { }
+  constructor(private processLogService: ProcessLogService,
+    private processLogItemService: ProcessLogItemService,
+    private devExtreme: DevextremeService,
+    private helper: MyHelperService,
+    private trans: TranslateService,
+    private toastr: ToastrService
+    ) { }
 
   ngOnInit() {
     this.bomFactory = new BomFactory();
     activeDefaultTabProcessLog();
     this.showModalDetail = this.showModalDetail.bind(this);
+    this.showModalItemOut = this.showModalItemOut.bind(this);
+    this.deleteItemOut = this.deleteItemOut.bind(this);
     // this.dataSourceFactory= this.devExtreme.loadDxoLookup("Factory");
     // this.dataSourceStage= this.devExtreme.loadDxoLookup("Stage");
      this.dataSourceItem= this.devExtreme.loadDxoLookup("Item");
@@ -92,5 +104,53 @@ export class ProcessLogComponent implements OnInit {
     entity.StageId = stageId;
     entity.ItemOutId = itemOutId;
     this.modalChild.showChildModal(entity);
+  }
+
+
+  showModalItemOut(e){
+    console.log(e);
+    this.modalChildItem.showChildModal( e.row.data);
+  }
+
+  showModalAddItemOut(e){
+    console.log(e);
+    let itemOut = new ProcessLogItem();
+    itemOut.ProcessLogId = e.data.ProcessLogId;
+    this.modalChildItem.showChildModal(itemOut);
+  }
+
+  loadInitItem(e){
+    this.dataSourceProcessLog.reload();
+  }
+
+  deleteItemOut(e){
+    console.log(e);
+    swal.fire({
+      titleText: this.trans.instant('Bạn có chắc chắn muốn xóa !'),
+      confirmButtonText: this.trans.instant('Button.OK'),
+      cancelButtonText: this.trans.instant('Button.Cancel'),
+      type: 'warning',
+      showCancelButton: true,
+      reverseButtons: true
+    }).then((result) => {
+      if (result.value) {
+        this.processLogItemService.remove(e.row.data.ProcessLogItemId).then(res => {
+          var operationResult: any = res
+          if (operationResult.Success) {
+            swal.fire(
+              {
+                title: 'Deleted!',
+                titleText: this.trans.instant('messg.delete.success'),
+                confirmButtonText: this.trans.instant('Button.OK'),
+                type: 'success',
+              }
+            );
+
+            this.dataSourceProcessLog.reload();
+          }
+          else this.toastr.warning(operationResult.Message);
+        }, err => { this.toastr.error(err.statusText) })
+      }
+    })
   }
 }

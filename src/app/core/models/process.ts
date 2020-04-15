@@ -35,7 +35,7 @@ export class ProcessLog {
   CreateDate?: any
   ModifyBy?: string
   ModifyDate?: any
-  Status?: number
+  Status?: number =1
 
   Factory: Factory = new Factory()
   ItemOutUnit: Item = new Item()
@@ -49,8 +49,8 @@ export class ProcessLog {
 
 
 export class ProcessLogItem {
-  ProcessPlanItemId: number = 0
-  ProcessPlanStageId: number = 0
+  ProcessLogItemId: number = 0
+  ProcessLogId: number = 0
   ItemId: number = 0
   UnitId: number
   Quantity?: any
