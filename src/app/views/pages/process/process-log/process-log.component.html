@@ -74,7 +74,7 @@
                 <div class="tabs-container">
                   <div class="tabs-left">
                     <ul class="nav nav-tabs tab-child">
-                      <li  *ngFor="let itemOut of stage.BomItemOut; let i =index" [class.active]="i==0"  [id]="'tabItemOut-'+stage.StageId+i" (click)="loadProcessLogByItemOut(stage.StageId ,itemOut.ItemId)">
+                      <li  *ngFor="let itemOut of stage.BomItemOut; let i =index" [class.active]="i==0"  (click)="loadProcessLogByItemOut(stage.StageId ,itemOut.ItemId)">
                         <a data-toggle="tab" [href]="'#tabItemOut-'+stage.StageId+i"> {{itemOut.ItemName}}</a>
                       </li>
                     </ul>
@@ -86,7 +86,7 @@
                               <button class="btn btn-primary btn-save"
                                 (click)="showModalAdd(stage.StageId,itemOut.ItemId)">
                                 <i class="fa fa-plus"></i>
-                                Thêm mới
+                                Thêm mới {{itemOut.ItemId}}
                               </button>
                             </div>
                             <dx-data-grid

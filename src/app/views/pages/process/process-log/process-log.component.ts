@@ -99,6 +99,7 @@ export class ProcessLogComponent implements OnInit {
   }
 
   showModalAdd(stageId,itemOutId){
+    console.log(itemOutId);
     let entity = new ProcessLog();
     entity.FactoryId = this.factoryId;
     entity.StageId = stageId;
