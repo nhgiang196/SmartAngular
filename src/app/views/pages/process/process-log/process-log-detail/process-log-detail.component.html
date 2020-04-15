@@ -67,7 +67,7 @@
             <div class="col-lg-4">
               <div class="form-group">
                 <label>
-                  Ca</label
+                  Ca *</label
                 >
                 <ui-select-box
                 entitykey="Shift"
@@ -79,43 +79,7 @@
             </div>
             <div class="col-lg-4">
               <div class="form-group">
-                <label> Process log date </label>
-                <input type="text" [(ngModel)]="entity.ProcessLogDate" bsDatepicker readonly [bsConfig]="bsConfig"
-                class="form-control" placeholder="{{'Item.placeholder.ItemManufactureYear' | translate }}"
-                name="ItemManufactureYear" required>
-              </div>
-            </div>
-            <div class="col-lg-4">
-              <div class="form-group">
-                <label> Process log time </label>
-                <input class="form-control"
-                  a2e-datetimepicker
-                  name="ProcessLogTime"
-                  [(ngModel)]="logTime"
-                  [options]="optionsTime"/>
-
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-lg-4">
-              <div class="form-group">
-                <label>
-                  ItemOutIndicator</label
-                >
-                <input
-                  autocomplete="off"
-                  type="text"
-                  class="form-control"
-                  name="ItemOutIndicator"
-                  [(ngModel)]="entity.ItemOutIndicator"
-                  placeholder="Item Out Indicator"
-                />
-              </div>
-            </div>
-            <div class="col-lg-4">
-              <div class="form-group">
-                <label> ItemOutUnitId </label>
+                <label> ItemOutUnitId *</label>
                 <ui-select-box
                 entitykey="Unit"
                 [pageSize]="5"
@@ -126,13 +90,55 @@
             </div>
             <div class="col-lg-4">
               <div class="form-group">
+                <label> Process log date *</label>
+                <input type="text" [(ngModel)]="entity.ProcessLogDate" bsDatepicker readonly [bsConfig]="bsConfig"
+                class="form-control" placeholder="Log Date"
+                name="ItemManufactureYear" required>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-4">
+              <div class="form-group">
+                <label> Process log time *</label>
+                <input class="form-control"
+                  a2e-datetimepicker
+                  name="ProcessLogTime"
+                  placeholder="ProcessLogTime"
+                  [(ngModel)]="logTime"
+                  [options]="optionsTime"/>
+
+              </div>
+            </div>
+            <div class="col-lg-4">
+              <div class="form-group">
+                <label>
+                  ItemOutIndicator</label
+                >
+                <input
+                  autocomplete="off"
+                  type="number"
+                  class="form-control"
+                  name="ItemOutIndicator"
+                  [(ngModel)]="entity.ItemOutIndicator"
+                  min="0"
+                  (change)="($event.target.value<0 ||$event.target.value=='' ) ?entity.ItemOutIndicator =0:entity.ItemOutIndicator"
+                  placeholder="Item Out Indicator"
+                />
+              </div>
+            </div>
+
+            <div class="col-lg-4">
+              <div class="form-group">
                 <label> ItemOutQuantity </label>
                 <input
                   autocomplete="off"
-                  type="text"
+                  type="number"
                   class="form-control"
                   name="ItemOutQuantity"
                   [(ngModel)]="entity.ItemOutQuantity"
+                  min="0"
+                  (change)="($event.target.value<0 ||$event.target.value=='' ) ?entity.ItemOutQuantity =0:entity.ItemOutQuantity"
                   placeholder="Item Out Quantity"
                 />
               </div>
@@ -146,10 +152,12 @@
                 >
                 <input
                   autocomplete="off"
-                  type="text"
+                  type="number"
                   class="form-control"
                   name="ItemEletricIndicator"
                   [(ngModel)]="entity.ItemEletricIndicator"
+                  min="0"
+                  (change)="($event.target.value<0 ||$event.target.value=='' ) ?entity.ItemEletricIndicator =0:entity.ItemEletricIndicator"
                   placeholder="Item Eletric Indicator"
                 />
               </div>
@@ -159,10 +167,12 @@
                 <label> ItemWaterIndicator </label>
                 <input
                   autocomplete="off"
-                  type="text"
+                  type="number"
                   class="form-control"
                   name="ItemWaterIndicator"
                   [(ngModel)]="entity.ItemWaterIndicator"
+                  min="0"
+                  (change)="($event.target.value<0 ||$event.target.value=='' ) ?entity.ItemWaterIndicator =0:entity.ItemWaterIndicator"
                   placeholder="Item Water Indicator"
                 />
               </div>
@@ -172,10 +182,12 @@
                 <label> CODIn </label>
                 <input
                   autocomplete="off"
-                  type="text"
+                  type="number"
                   class="form-control"
                   name="CODIn"
                   [(ngModel)]="entity.CODIn"
+                  min="0"
+                  (change)="($event.target.value<0 ||$event.target.value=='' ) ?entity.CODIn =0:entity.CODIn"
                   placeholder="CODIn"
                 />
               </div>
@@ -189,10 +201,12 @@
                 >
                 <input
                   autocomplete="off"
-                  type="text"
+                  type="number"
                   class="form-control"
                   name="CODOut"
                   [(ngModel)]="entity.CODOut"
+                  min="0"
+                  (change)="($event.target.value<0 ||$event.target.value=='' ) ?entity.CODOut =0:entity.CODOut"
                   placeholder="CODOut"
                 />
               </div>
@@ -202,10 +216,12 @@
                 <label> pHIn </label>
                 <input
                   autocomplete="off"
-                  type="text"
+                  type="number"
                   class="form-control"
                   name="pHIn"
                   [(ngModel)]="entity.pHIn"
+                  min="0"
+                  (change)="($event.target.value<0 ||$event.target.value=='' ) ?entity.pHIn =0:entity.pHIn"
                   placeholder="pHIn"
                 />
               </div>
@@ -215,10 +231,12 @@
                 <label> pHOut </label>
                 <input
                   autocomplete="off"
-                  type="text"
+                  type="number"
                   class="form-control"
                   name="pHOut"
                   [(ngModel)]="entity.pHOut"
+                  min="0"
+                  (change)="($event.target.value<0 ||$event.target.value=='' ) ?entity.pHOut =0:entity.pHOut"
                   placeholder="pHOut"
                 />
               </div>
@@ -232,9 +250,11 @@
                 >
                 <input
                   autocomplete="off"
-                  type="text"
+                  type="number"
                   class="form-control" name="TSSIn"
                   [(ngModel)]="entity.TSSIn"
+                  min="0"
+                  (change)="($event.target.value<0 ||$event.target.value=='' ) ?entity.TSSIn =0:entity.TSSIn"
                   placeholder="TSSIn"
                 />
               </div>
@@ -244,9 +264,11 @@
                 <label> TSSOut </label>
                 <input
                   autocomplete="off"
-                  type="text"
+                  type="number"
                   class="form-control" name="TSSOut"
                   [(ngModel)]="entity.TSSOut"
+                  min="0"
+                  (change)="($event.target.value<0 ||$event.target.value=='' ) ?entity.TSSOut =0:entity.TSSOut"
                   placeholder="TSSOut"
                 />
               </div>
@@ -256,9 +278,11 @@
                 <label> QIn </label>
                 <input
                   autocomplete="off"
-                  type="text"
+                  type="number"
                   class="form-control" name="QIn"
                   [(ngModel)]="entity.QIn"
+                  min="0"
+                  (change)="($event.target.value<0 ||$event.target.value=='' ) ?entity.QIn =0:entity.QIn"
                   placeholder="QIn"
                 />
               </div>
@@ -272,9 +296,11 @@
                 >
                 <input
                   autocomplete="off"
-                  type="text"
+                  type="number"
                   class="form-control" name="QOut"
                   [(ngModel)]="entity.QOut"
+                  min="0"
+                  (change)="($event.target.value<0 ||$event.target.value=='' ) ?entity.QOut =0:entity.QOut"
                   placeholder="QOut"
                 />
               </div>
@@ -284,9 +310,11 @@
                 <label> ColorIn </label>
                 <input
                   autocomplete="off"
-                  type="text"
+                  type="number"
                   class="form-control" name="ColorIn"
                   [(ngModel)]="entity.ColorIn"
+                  min="0"
+                  (change)="($event.target.value<0 ||$event.target.value=='' ) ?entity.ColorIn =0:entity.ColorIn"
                   placeholder="ColorIn"
                 />
               </div>
@@ -296,9 +324,11 @@
                 <label> ColorOut </label>
                 <input
                   autocomplete="off"
-                  type="text"
+                  type="number"
                   class="form-control" name="ColorOut"
                   [(ngModel)]="entity.ColorOut"
+                  min="0"
+                  (change)="($event.target.value<0 ||$event.target.value=='' ) ?entity.ColorOut =0:entity.ColorOut"
                   placeholder="ColorOut"
                 />
               </div>
@@ -312,9 +342,11 @@
                 >
                 <input
                   autocomplete="off"
-                  type="text"
+                  type="number"
                   class="form-control" name="AmoniIn"
                   [(ngModel)]="entity.AmoniIn"
+                  min="0"
+                  (change)="($event.target.value<0 ||$event.target.value=='' ) ?entity.AmoniIn =0:entity.AmoniIn"
                   placeholder="AmoniIn"
                 />
               </div>
@@ -324,9 +356,11 @@
                 <label> AmoniOut </label>
                 <input
                   autocomplete="off"
-                  type="text"
+                  type="number"
                   class="form-control"  name="AmoniOut"
                   [(ngModel)]="entity.AmoniOut"
+                  min="0"
+                  (change)="($event.target.value<0 ||$event.target.value=='' ) ?entity.AmoniOut =0:entity.AmoniOut"
                   placeholder="AmoniOut"
                 />
               </div>
@@ -336,9 +370,11 @@
                 <label> TemperatureIn </label>
                 <input
                   autocomplete="off"
-                  type="text"
+                  type="number"
                   class="form-control" name="TemperatureIn"
                   [(ngModel)]="entity.TemperatureIn"
+                  min="0"
+                  (change)="($event.target.value<0 ||$event.target.value=='' ) ?entity.TemperatureIn =0:entity.TemperatureIn"
                   placeholder="TemperatureIn"
                 />
               </div>
@@ -352,9 +388,11 @@
                 >
                 <input
                   autocomplete="off"
-                  type="text"
+                  type="number"
                   class="form-control" name="TemperatureOut"
                   [(ngModel)]="entity.TemperatureOut"
+                  min="0"
+                  (change)="($event.target.value<0 ||$event.target.value=='' ) ?entity.TemperatureOut =0:entity.TemperatureOut"
                   placeholder="TemperatureOut"
                 />
               </div>
@@ -427,6 +465,7 @@
       <div class="modal-footer">
         <button class="btn btn-primary btn-save"
         [ladda]="laddaSubmitLoading"
+        [disabled]="entity.ShiftId==0 || entity.ItemOutUnitId ==0||entity.ProcessLogDate==null ||logTime==null||logTime==''"
          (click)="fnSave()">
         <i class="fa fa-plus"></i>
         {{'Button.Save' | translate}}

@@ -11,6 +11,7 @@ import swal from "sweetalert2";
 import { TranslateService } from '@ngx-translate/core';
 import { ProcessLogItemService } from 'src/app/core/services/process-log-item.service';
 import { ToastrService } from 'ngx-toastr';
+import { compareDate } from 'src/app/core/helpers/helper';
 @Component({
   selector: 'app-process-log',
   templateUrl: './process-log.component.html',
@@ -21,9 +22,9 @@ export class ProcessLogComponent implements OnInit {
   @ViewChild('modalChild',{static:false}) modalChild;
   @ViewChild('modalChildItem',{static:false}) modalChildItem;
   //entity: ProcessLog = new ProcessLog();
-  startDay:any
-  endDay: any
-  factoryId:number
+  startDay:any=null;
+  endDay: any=null;
+  factoryId:number=0;
   bomFactory: BomFactory
   dataSourceProcessLog: any;
   dataSourceFactory:any;
@@ -56,14 +57,35 @@ export class ProcessLogComponent implements OnInit {
   }
 
   async fnFindBomFactoryId(){
+    if(compareDate(this.startDay,this.endDay) ==1){
+      this.toastr.warning("Thời gian bắt đầu phải nhỏ hơn hoặc bằng thời gian kết thúc");
+      this.bomFactory = new BomFactory();
+      return;
+    }
     let startDate = this.helper.dateConvertToString(this.startDay)
     let endDate = this.helper.dateConvertToString(this.endDay)
     var dataBomFactory =await  this.processLogService.searchProcessLog(this.factoryId,endDate).toPromise().then();
-    this.bomFactory = dataBomFactory;
-    if(this.bomFactory!=null&&this.bomFactory.BomStage.length>0&& this.bomFactory.BomStage[0].BomItemOut.length>0){
-      let stage =  this.bomFactory.BomStage[0];
-      let itemOut = this.bomFactory.BomStage[0].BomItemOut[0];
-      this.dataSourceProcessLog =  this.processLogService.loadDxoGridProcessLog(this.factoryId,stage.StageId,itemOut.ItemId,startDate,endDate);
+    if(dataBomFactory!=null){
+      this.bomFactory = dataBomFactory;
+      if(this.bomFactory!=null&&this.bomFactory.BomStage.length>0&& this.bomFactory.BomStage[0].BomItemOut.length>0){
+        let stage =  this.bomFactory.BomStage[0];
+        let itemOut = this.bomFactory.BomStage[0].BomItemOut[0];
+        this.dataSourceProcessLog =  this.processLogService.loadDxoGridProcessLog(this.factoryId,stage.StageId,itemOut.ItemId,startDate,endDate);
+      }
+    }
+    else{
+      this.toastr.warning("Không tìm thấy dữ liệu");
+      this.bomFactory = new BomFactory();
+    }
+
+  }
+
+ async onChange(){
+    if(this.startDay!=null && this.endDay!=null && this.factoryId!=0 && this.factoryId!=null){
+       await this.fnFindBomFactoryId();
+    }
+    else{
+      this.bomFactory = new BomFactory();
     }
   }
 

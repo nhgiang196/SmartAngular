@@ -27,7 +27,7 @@
             <div class="col-lg-4">
               <div class="form-group">
                 <label>
-                  Item</label
+                  Item *</label
                 >
                 <ui-select-box
                 entitykey="Item"
@@ -35,12 +35,13 @@
                 [checkstatus]="true"
                 [(ngModelCustom)]="entity.ItemId"
                 ></ui-select-box>
+
               </div>
             </div>
             <div class="col-lg-4">
               <div class="form-group">
                 <label>
-                  Unit</label
+                  Unit *</label
                 >
                 <ui-select-box
                 entitykey="Unit"
@@ -52,12 +53,14 @@
             </div>
             <div class="col-lg-4">
               <div class="form-group">
-                <label> Quantity </label>
+                <label> Quantity *</label>
                 <input
                   autocomplete="off"
-                  type="text"
+                  type="number"
                   class="form-control"  name="Quantity"
                   [(ngModel)]="entity.Quantity"
+                  min="0"
+                  (change)="($event.target.value<0 ||$event.target.value=='' ) ?entity.Quantity =0:entity.Quantity"
                   placeholder="Quantity"
                 />
               </div>
@@ -68,6 +71,7 @@
       <div class="modal-footer">
         <button class="btn btn-primary btn-save"
         [ladda]="laddaSubmitLoading"
+        [disabled]="entity.ItemId==0 ||entity.ItemId==null || entity.UnitId==0|| entity.UnitId==null  ||entity.Quantity==0"
          (click)="fnSave()">
         <i class="fa fa-plus"></i>
         {{'Button.Save' | translate}}

@@ -22,8 +22,6 @@ export class ProcessLogService extends GenericFactoryService<ProcessLog>{
          key: "ProcessLogId",
           loadUrl: `${ApiUrl}/ProcessLog/FindProcessLogs`,
           deleteUrl:`${ApiUrl}/ProcessLog/DeleteProcessLog`,
-          insertUrl:`${ApiUrl}/ProcessLogItem/UpdateProcessLogItem`,
-          updateUrl:`${ApiUrl}/ProcessLogItem/UpdateProcessLogItem`,
          onBeforeSend: function (method, ajaxOptions) {
           ajaxOptions.xhrFields = { withCredentials: true };
            ajaxOptions.data.keyId ="ProcessLogId";
