@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { DataTablesResponse, DataTablePaginationParams } from '../models/datatable';
 import { environment } from 'src/environments/environment';
-import { MonitorDescription } from '../models/monitor';
+import { MonitorDescription, Monitor } from '../models/monitor';
 const ApiUrl = environment.apiUrl;
 let monitorSources: MonitorDescription[] = [
   { value: "PH", name: "pH" },
@@ -45,4 +45,7 @@ export class MonitorService {
   getMonitorSources(): MonitorDescription[] {
     return monitorSources;
   }
+
+  //test get all only month
+  getAll =()=> this.http.get<Monitor[]>(`${ApiUrl}/Monitor/GetAll`);
 }
