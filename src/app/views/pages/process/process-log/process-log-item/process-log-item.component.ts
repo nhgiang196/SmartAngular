@@ -5,7 +5,8 @@ import { ProcessLogItemService } from 'src/app/core/services/process-log-item.se
 import { MyHelperService } from 'src/app/core/services/my-helper.service';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
-import { AuthService } from 'src/app/core/services';
+import { AuthService, UnitService } from 'src/app/core/services';
+import { async } from 'rxjs/internal/scheduler/async';
 
 @Component({
   selector: 'app-process-log-item',
@@ -16,62 +17,75 @@ export class ProcessLogItemComponent implements OnInit {
   @ViewChild("childModalItem", { static: false }) childModal: ModalDirective;
   @Output() loadInit = new EventEmitter<void>();
   entity: ProcessLogItem
+  dataSourceUnit:any;
   laddaSubmitLoading = false;
-  constructor( private processLogItemService: ProcessLogItemService, private helper: MyHelperService,private toastr: ToastrService,
+  constructor( private processLogItemService: ProcessLogItemService,private unitService : UnitService , private helper: MyHelperService,private toastr: ToastrService,
     private trans: TranslateService, private auth: AuthService) { }
 
-  ngOnInit() {
+ async ngOnInit() {
     this.entity  = new ProcessLogItem();
   }
 
-  fnSave(){
+  async fnSave(){
     this.laddaSubmitLoading = true;
-    if (this.entity.ProcessLogItemId == 0) {
-      this.processLogItemService.add(this.entity).then(
-        res => {
-          let result = res as any;
-          if (result.Success) {
-            this.toastr.success(this.trans.instant("messg.update.success"));
-            this.loadInit.emit();
-            this.childModal.hide();
-          } else {
-            this.toastr.error(this.trans.instant("messg.update.error"));
-          }
+    if(!await this.validate()){
+      if (this.entity.ProcessLogItemId == 0) {
+        this.processLogItemService.add(this.entity).then(
+          res => {
+            let result = res as any;
+            if (result.Success) {
+              this.toastr.success(this.trans.instant("messg.update.success"));
+              this.loadInit.emit();
+              this.childModal.hide();
+            } else {
+              this.toastr.error(this.trans.instant("messg.update.error"));
+            }
 
-          this.laddaSubmitLoading = false;
-        },
-        err => {
-          this.toastr.error(this.trans.instant("messg.add.error"));
-          this.laddaSubmitLoading = false;
-        }
-      );
-    } else {
-      this.processLogItemService.updateDefault(this.entity).subscribe(
-        res => {
-          var result = res as any;
-          if (result.Success) {
-            this.toastr.success(this.trans.instant("messg.update.success"));
-            this.loadInit.emit();
-            this.childModal.hide();
-          } else {
-            this.toastr.error(this.trans.instant("messg.update.error"));
+            this.laddaSubmitLoading = false;
+          },
+          err => {
+            this.toastr.error(this.trans.instant("messg.add.error"));
+            this.laddaSubmitLoading = false;
           }
-          this.laddaSubmitLoading = false;
-        },
-        err => {
-          this.toastr.error(this.trans.instant("messg.update.error"));
-          this.laddaSubmitLoading = false;
-        }
-      );
+        );
+      } else {
+        this.processLogItemService.updateDefault(this.entity).subscribe(
+          res => {
+            var result = res as any;
+            if (result.Success) {
+              this.toastr.success(this.trans.instant("messg.update.success"));
+              this.loadInit.emit();
+              this.childModal.hide();
+            } else {
+              this.toastr.error(this.trans.instant("messg.update.error"));
+            }
+            this.laddaSubmitLoading = false;
+          },
+          err => {
+            this.toastr.error(this.trans.instant("messg.update.error"));
+            this.laddaSubmitLoading = false;
+          }
+        );
+      }
     }
+    else{
+      this.toastr.warning("Process log item already exist");
+      this.laddaSubmitLoading = false;
+    }
+
   }
 
-  showChildModal(item: ProcessLogItem) {
-    console.log(item);
+ async showChildModal(item: ProcessLogItem) {
     this.entity =JSON.parse(JSON.stringify(item));
     this.childModal.show();
  }
 
+ async getUnitByItem(itemId){
+  this.dataSourceUnit =  await this.unitService.getAllUnitByItemId(itemId).toPromise().then();
+ }
 
+ async validate() {
+  return await this.processLogItemService.validate(this.entity).then();
+}
 
 }

@@ -34,6 +34,7 @@
                 [pageSize]="5"
                 [checkstatus]="true"
                 [(ngModelCustom)]="entity.ItemId"
+                (valueChange)="getUnitByItem($event)"
                 ></ui-select-box>
 
               </div>
@@ -43,12 +44,13 @@
                 <label>
                   Unit *</label
                 >
-                <ui-select-box
-                entitykey="Unit"
-                [pageSize]="5"
-                [checkstatus]="true"
-                [(ngModelCustom)]="entity.UnitId"
-                ></ui-select-box>
+
+                <dx-select-box  [items]="dataSourceUnit"
+                displayExpr="UnitName"
+                valueExpr="UnitId"
+                [(value)]="entity.UnitId"
+                [searchEnabled]="true"
+                ></dx-select-box>
               </div>
             </div>
             <div class="col-lg-4">
