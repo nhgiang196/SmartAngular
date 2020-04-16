@@ -111,9 +111,6 @@
                             </dxo-editing>
                             <dxi-column  dataField="ShiftName"  caption="ShiftName">
                             </dxi-column>
-                            <dxi-column  dataField="ProcessLogDate"  caption="ProcessLogDate" dataType="date"></dxi-column>
-                            <dxi-column  dataField="ProcessLogTime"  caption="ProcessLogTime"></dxi-column>
-                            <dxi-column  dataField="ItemOutIndicator" caption="ItemOutIndicator"></dxi-column>
                             <dxi-column dataField="UnitName" caption="ItemOutUnitId">
                               <!-- <dxo-lookup
                                 [dataSource]="dataSourceUnit"
@@ -121,6 +118,10 @@
                                                     valueExpr="UnitId">
                                  </dxo-lookup> -->
                             </dxi-column>
+                            <dxi-column  dataField="ProcessLogDate"  caption="ProcessLogDate" dataType="date"></dxi-column>
+                            <dxi-column  dataField="ProcessLogTime"  caption="ProcessLogTime"></dxi-column>
+                            <dxi-column  dataField="ItemOutIndicator" caption="ItemOutIndicator"></dxi-column>
+
                             <dxi-column  dataField="Status" dataType="boolean" caption="{{'Master.data.Status' | translate}}"></dxi-column>
                             <dxi-column type="buttons" [width]="110">
                               <dxi-button
