@@ -20,8 +20,7 @@
       [labelLocation]="labelLocation" [minColWidth]="minColWidth" [colCount]="colCount" [width]="width">
       <dxi-item itemType="group" cssClass="first-group" dataField="factoryId" [colCount]="2" [colSpan]="1">
         <dxo-label text ="FactoryId"></dxo-label>
-        <dx-select-box #factory displayExpr="FactoryName" valueExpr="FactoryId"
-          (onValueChanged)="onValueChanged($event)" [(dataSource)]="factories" [value]="factories[0]">
+        <dx-select-box #factory displayExpr="FactoryName" valueExpr="FactoryId" [(dataSource)]="factories" [(value)]="this.chartFactory.factoryId">
         </dx-select-box>
         <div class="options">
           <div class="option">
@@ -215,7 +214,9 @@
  -->
 
  
- <div id="container"></div>
+ <div *ngFor="let item of monitorSources">
+   <div [id]="item.value" ></div>
+ </div>
 
  
 <hr>

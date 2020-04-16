@@ -34,10 +34,18 @@ export class  MonitorService extends GenericFactoryService<Monitor>{
       }),
       paginate: false,
       select: ["MonitorDate","PH","Tss","Q","Color","Amoni"],
-      filter: ["FactoryId","=",0]
+      filter: ["FactoryId","=",0],
+      map: (data)=>{
+        var _returnData = [];
+        this.getMonitorSources().forEach((e)=>{
+          data['data_'+e.value] = [new Date(data['MonitorDate']).valueOf() ,data[e.value]]
+        })
+        return data;
+      }
 
     });
   }
+  // ["MonitorDate","PH","Tss","Q","Color","Amoni"]
 
   addMonitor = (entity) => this.http.post(`${ApiUrl}/Monitor/AddMonitor`, entity);
   updateMonitor = (entity) => this.http.put(`${ApiUrl}/Monitor/UpdateMonitor`, entity)
