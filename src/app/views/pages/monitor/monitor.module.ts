@@ -7,14 +7,11 @@ import { MonitorChartComponent } from './monitor-chart/monitor-chart.component';
 import { MonitorStandardComponent } from './monitor-standard/monitor-standard.component';
 import { DxDataGridModule,DxSelectBoxModule, DxSwitchModule, DxSpeedDialActionModule, DxFormModule, DxDateBoxModule, DxChartModule } from 'devextreme-angular';
 import { SharedModule } from 'src/app/core/shared/shared.module';
-import { MonitorChartDemoComponent } from './monitor-chart-demo/monitor-chart-demo.component';
-import { ChartModule } from 'angular-highcharts';
 const COMPONENTS =[
   MonitorComponent,
   MainViewMonitorComponent,
   MonitorChartComponent,
   MonitorStandardComponent,
-  MonitorChartDemoComponent
 ]
 @NgModule({
   imports: [
@@ -27,7 +24,6 @@ const COMPONENTS =[
     DxChartModule,
     DxDateBoxModule,
     DxSelectBoxModule,
-    ChartModule
   ],
   declarations: [...COMPONENTS]
 })
