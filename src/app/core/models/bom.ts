@@ -52,7 +52,7 @@ export class BomStage {
   BomFactoryId: number = 0
   StageId?: number = 0
   StageName: string
-	OrderNumber?: number
+	OrderNumber?: number =0;
 	IsSequence?: boolean = false
   BomStageDescription?: string
   BomItemOut?: BomItemOut[] =[]
