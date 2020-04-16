@@ -67,12 +67,17 @@ export class MonitorChartComponent implements OnInit, AfterViewInit {
     this.chartFactory.factoryId = 1 //default
   }
   async chartQuery() {
+    const format = 'MM/dd/yyyy HH:mm:ss';
+    const locale = 'en-US';
+    let entity = this.chartFactory;
+    entity.dateFrom = formatDate(entity.dateFrom, format, locale);
+    entity.dateTo = formatDate(entity.dateTo, format, locale);
     var _filterDataSource = [
-      ["FactoryId", "=", this.chartFactory.factoryId],
+      ["FactoryId", "=", entity.factoryId],
       "and",
-      ["MonitorDate", ">=", this.chartFactory.dateFrom],
+      ["MonitorDate", ">=",   entity.dateFrom ],
       "and",
-      ["MonitorDate", "<=", this.chartFactory.dateTo]
+      ["MonitorDate", "<=",  entity.dateTo ]
     ]
     this.monitorsInfo.filter(_filterDataSource);
     await this.monitorsInfo.load();
