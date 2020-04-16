@@ -6,16 +6,8 @@ import { DevextremeService } from 'src/app/core/services/general/devextreme.serv
 import DataSource from 'devextreme/data/data_source';
 import { DxChartComponent } from 'devextreme-angular';
 import { HttpClient } from '@angular/common/http';
-import * as Highcharts from 'highcharts';
+import * as Highcharts from 'highcharts/highstock';
 import { Subscription, interval } from 'rxjs';
-declare var require: any;
-let Boost = require('highcharts/modules/boost');
-let noData = require('highcharts/modules/no-data-to-display');
-let More = require('highcharts/highcharts-more');
-Boost(Highcharts);
-noData(Highcharts);
-More(Highcharts);
-noData(Highcharts);
 @Component({
   selector: 'app-monitor-chart',
   templateUrl: './monitor-chart.component.html',
@@ -30,10 +22,11 @@ export class MonitorChartComponent implements OnInit, AfterViewInit {
   minColWidth: number;
   colCount: number;
   width: any;
+  chartType: string = ''
   chartFactory: ChartFactory;
   monitorsInfo: DataSource;
-  monitorSources: MonitorDescription[];
-  types: string[] = ["bar", "line", "stackedline", "fullstackedline"];
+  monitorSources: MonitorDescription[] = [];
+  types: string[] = ["line", "column", "stackedline", "fullstackedline"];
   private _visualRange: any = {};
   chartDataSource: any;
   public options: Highcharts.Options;
@@ -41,7 +34,7 @@ export class MonitorChartComponent implements OnInit, AfterViewInit {
   constructor(private factoryService: FactoryService, private monitorService: MonitorService,
     private devService: DevextremeService, private http: HttpClient) {
     this.chartFactory = new ChartFactory();
-    this.monitorSources = this.monitorService.getMonitorSources();
+    this.chartType = this.types[0]
     this.labelLocation = "top";
     this.readOnly = false;
     this.showColon = true;
@@ -58,6 +51,18 @@ export class MonitorChartComponent implements OnInit, AfterViewInit {
       xAxis: {
         type: 'datetime'
       },
+      //ngôn ngữ chưa hoat động
+      lang: {
+        loading: "Đang tải ...",
+        months: [
+          "Tháng 1", "Tháng 2", "Tháng 3", "Tháng 4",
+          "Tháng 5", "Tháng 6", "Tháng 7", "Tháng 8", "Tháng 9",
+          "Tháng 10", "Tháng 11", "Tháng 12"],
+        weekdays: [
+          'Dimanche', 'Lundi', 'Mardi', 'Mercredi',
+          'Jeudi', 'Vendredi', 'Samedi'
+        ]
+      }
     }
     this.factories = this.devService.loadDxoLookup('Factory', false);
   }
@@ -66,7 +71,39 @@ export class MonitorChartComponent implements OnInit, AfterViewInit {
     console.log(this.factories);
     this.chartFactory.factoryId = 1 //default
   }
+  onSelectionChanged(event) {
+    switch(event.selectedItem)
+    {
+      case 'line':
+        this.monitorSources.forEach((item) => {
+          this.options.series = [{
+            type: "line",
+            data: this.monitorsInfo.items().map((e) => { return e['data_' + item.value] }),
+            lineWidth: 0.5,
+            name: 'Chỉ số'
+          }]
+          this.options.title = {
+            text: item.name
+          },
+            Highcharts.stockChart(item.value, this.options)
+        })
+      case 'column':
+        this.monitorSources.forEach((item) => {
+          this.options.series = [{
+            type: "column",
+            data: this.monitorsInfo.items().map((e) => { return e['data_' + item.value] }),
+            
+            name: 'Chỉ số'
+          }]
+          this.options.title = {
+            text: item.name
+          },
+            Highcharts.stockChart(item.value, this.options)
+        })
+    }
+  }
   async chartQuery() {
+    this.monitorSources = this.monitorService.getMonitorSources();
     var _filterDataSource = [
       ["FactoryId", "=", this.chartFactory.factoryId],
       "and",
@@ -92,7 +129,7 @@ export class MonitorChartComponent implements OnInit, AfterViewInit {
       containerOption.title = {
         text: item.name
       },
-        Highcharts.chart(item.value, containerOption)
+        Highcharts.stockChart(item.value, containerOption)
     })
   }
   ngAfterViewInit(): void {

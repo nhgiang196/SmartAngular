@@ -6,7 +6,6 @@ import { MonitorComponent } from './monitor.component';
 import { MainViewMonitorComponent } from './main-view-monitor/main-view-monitor.component';
 import { MonitorChartComponent } from './monitor-chart/monitor-chart.component';
 import { MonitorStandardComponent } from './monitor-standard/monitor-standard.component';
-import { MonitorChartDemoComponent } from './monitor-chart-demo/monitor-chart-demo.component';
 
 const routes: Routes = [{
     path: '',
@@ -24,11 +23,7 @@ const routes: Routes = [{
         {
             path: 'standard',
             component: MonitorStandardComponent
-        },
-        {
-          path: 'demo',
-          component: MonitorChartDemoComponent
-      },
+        },     
         { path: '', redirectTo: 'main', pathMatch: 'full' },
         { path: '**', redirectTo: 'main' },
     ]
