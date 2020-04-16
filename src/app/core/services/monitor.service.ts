@@ -3,7 +3,10 @@ import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { DataTablesResponse, DataTablePaginationParams } from '../models/datatable';
 import { environment } from 'src/environments/environment';
-import { MonitorDescription } from '../models/monitor';
+import { MonitorDescription, Monitor } from '../models/monitor';
+import { GenericFactoryService } from './general/generic-factory.service';
+import { createStore } from 'devextreme-aspnet-data-nojquery';
+import DataSource from 'devextreme/data/data_source';
 const ApiUrl = environment.apiUrl;
 let monitorSources: MonitorDescription[] = [
   { value: "PH", name: "pH" },
@@ -14,9 +17,26 @@ let monitorSources: MonitorDescription[] = [
 ];
 
 @Injectable({ providedIn: 'root' })
-export class MonitorService {
-  constructor(private http: HttpClient) {
+export class  MonitorService extends GenericFactoryService<Monitor>{
+  constructor(http: HttpClient) {
+    super(http,'Monitor');
+  }
 
+  getChartMonitor() {
+    let entity = "Monitor";
+    return new DataSource({
+      store: createStore({
+        key: `${entity}Id`,
+        loadUrl: `${ApiUrl}/${entity}/DataGrid${entity}Pagination`,
+        onBeforeSend: function (method, ajaxOptions) {
+          ajaxOptions.data.keyId = entity + "Id";
+  }
+      }),
+      paginate: false,
+      select: ["MonitorDate","PH","Tss","Q","Color","Amoni"],
+      filter: ["FactoryId","=",0]
+
+    });
   }
 
   addMonitor = (entity) => this.http.post(`${ApiUrl}/Monitor/AddMonitor`, entity);
