@@ -5,7 +5,7 @@ import { ProcessLogItemService } from 'src/app/core/services/process-log-item.se
 import { MyHelperService } from 'src/app/core/services/my-helper.service';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
-import { AuthService } from 'src/app/core/services';
+import { AuthService, UnitService } from 'src/app/core/services';
 import { async } from 'rxjs/internal/scheduler/async';
 
 @Component({
@@ -17,11 +17,12 @@ export class ProcessLogItemComponent implements OnInit {
   @ViewChild("childModalItem", { static: false }) childModal: ModalDirective;
   @Output() loadInit = new EventEmitter<void>();
   entity: ProcessLogItem
+  dataSourceUnit:any;
   laddaSubmitLoading = false;
-  constructor( private processLogItemService: ProcessLogItemService, private helper: MyHelperService,private toastr: ToastrService,
+  constructor( private processLogItemService: ProcessLogItemService,private unitService : UnitService , private helper: MyHelperService,private toastr: ToastrService,
     private trans: TranslateService, private auth: AuthService) { }
 
-  ngOnInit() {
+ async ngOnInit() {
     this.entity  = new ProcessLogItem();
   }
 
@@ -74,14 +75,16 @@ export class ProcessLogItemComponent implements OnInit {
 
   }
 
-  showChildModal(item: ProcessLogItem) {
-    console.log(item);
+ async showChildModal(item: ProcessLogItem) {
     this.entity =JSON.parse(JSON.stringify(item));
     this.childModal.show();
  }
 
+ async getUnitByItem(itemId){
+  this.dataSourceUnit =  await this.unitService.getAllUnitByItemId(itemId).toPromise().then();
+ }
+
  async validate() {
-  console.log(this.entity);
   return await this.processLogItemService.validate(this.entity).then();
 }
 
