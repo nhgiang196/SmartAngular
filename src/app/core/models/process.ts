@@ -10,32 +10,32 @@ export class ProcessLog {
   StageId?: number = 0
   ItemOutId?: number = 0
   ShiftId?: number = 0
-  ProcessLogTime?: Date
-  ProcessLogDate?: Date
-  ItemOutIndicator?: any
-  ItemOutUnitId?: number
-  ItemOutQuantity?: any
-  ItemEletricIndicator?: any
-  ItemWaterIndicator?: any
-  CODIn?: any
-  CODOut?: any
-  pHIn?: any
-  pHOut?: any
-  TSSIn?: any
-  TSSOut?: any
-  QIn?: any
-  QOut?: any
-  ColorIn?: any
-  ColorOut?: any
-  AmoniIn?: any
-  AmoniOut?: any
-  TemperatureIn?: any
-  TemperatureOut?: any
+  ProcessLogTime?: any
+  ProcessLogDate?: any
+  ItemOutIndicator?: any= 0
+  ItemOutUnitId?: number= 0
+  ItemOutQuantity?: any= 0
+  ItemEletricIndicator?: any= 0
+  ItemWaterIndicator?: any= 0
+  CODIn?: any= 0
+  CODOut?: any= 0
+  pHIn?: any= 0
+  pHOut?: any= 0
+  TSSIn?: any= 0
+  TSSOut?: any= 0
+  QIn?: any= 0
+  QOut?: any= 0
+  ColorIn?: any= 0
+  ColorOut?: any= 0
+  AmoniIn?: any= 0
+  AmoniOut?: any= 0
+  TemperatureIn?: any= 0
+  TemperatureOut?: any= 0
   CreateBy?: string
-  CreateDate?: Date
+  CreateDate?: any
   ModifyBy?: string
-  ModifyDate?: Date
-  Status?: number
+  ModifyDate?: any
+  Status?: number =1
 
   Factory: Factory = new Factory()
   ItemOutUnit: Item = new Item()
@@ -49,11 +49,11 @@ export class ProcessLog {
 
 
 export class ProcessLogItem {
-  ProcessPlanItemId: number = 0
-  ProcessPlanStageId: number = 0
+  ProcessLogItemId: number = 0
+  ProcessLogId: number = 0
   ItemId: number = 0
-  UnitId: number
-  Quantity?: any
+  UnitId: number=0
+  Quantity?: any=0
 }
 
 export class Shift {

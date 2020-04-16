@@ -13,6 +13,7 @@ import { ModalModule } from 'ngx-bootstrap';
 import { ProcessPlanActionComponent } from './process-plan/process-plan-action/process-plan-action.component';
 import { ProcessLogDetailComponent } from './process-log/process-log-detail/process-log-detail.component';
 import {A2Edatetimepicker} from 'ng2-eonasdan-datetimepicker';
+import { ProcessLogItemComponent } from './process-log/process-log-item/process-log-item.component';
 
 const COMPONENTS =[
   ProcessComponent,
@@ -20,7 +21,8 @@ const COMPONENTS =[
   ProcessLogComponent,
   ProcessPlanComponent,
   ProcessPlanActionComponent,
-  ProcessLogDetailComponent
+  ProcessLogDetailComponent,
+  ProcessLogItemComponent
 ]
 @NgModule({
   imports: [

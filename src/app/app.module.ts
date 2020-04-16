@@ -39,6 +39,7 @@ import { DevextremeService } from './core/services/general/devextreme.service';
 import { GenericFactoryService } from './core/services/general/generic-factory.service';
 import { Unit } from './core/models/unit';
 import { MyHelperService } from './core/services/my-helper.service';
+import { ProcessLogItemService } from './core/services/process-log-item.service';
 const SERVICE = [
   AuthService,
   BomService,
@@ -52,6 +53,7 @@ const SERVICE = [
   MonitorStandarService,
   ProcessLogService,
   // ProcessPlanFactoryService,
+  ProcessLogItemService,
   UnitService,
   WareHouseService,
   ModuleService,

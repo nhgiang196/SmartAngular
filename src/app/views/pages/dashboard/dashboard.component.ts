@@ -14,7 +14,7 @@ import { LanguageService } from 'src/app/core/services/language.service';
 export class DashboardComponent implements OnInit {
   listMenu: [] =[];
 
-  constructor(private store: StoreService, 
+  constructor(private store: StoreService,
     private moduleService :ModuleService,
     private router : Router,
     public langService: LanguageService) {

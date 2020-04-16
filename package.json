@@ -44,7 +44,7 @@
     "devextreme-aspnet-data-nojquery": "^2.6.1",
     "devextreme-schematics": "^1.1.12",
     "eonasdan-bootstrap-datetimepicker": "^4.17.47",
-    "font-awesome": "^4.7.0",
+    "font-awesome": "4.0.3",
     "highcharts": "^8.0.4",
     "jasny-bootstrap": "^4.0.0",
     "jquery": "^3.4.1",

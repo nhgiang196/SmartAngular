@@ -13,17 +13,17 @@ export class ProcessLogService extends GenericFactoryService<ProcessLog>{
   constructor(http: HttpClient) {
     super(http,'ProcessLog');
   }
+  updateDefault =(entity) => this.http.post(`${ApiUrl}/ProcessLog/UpdateProcessLog`, entity);
   findProcessLog =(factoryId,stageId,itemOutId,startDate,endDate) => this.http.get<any>(`${ApiUrl}/ProcessLog/FindProcessLog`,{ params: { factoryId: factoryId ,stageId:stageId,itemOutId,startDate,endDate}});
   searchProcessLog =(factoryid,endate) => this.http.get<any>(`${ApiUrl}/ProcessLog/SearchProcessLog`,{ params: { factoryid: factoryid , endDate : endate} });
   loadDxoGridProcessLog(factoryId,stageId,itemOutId,startDate,endDate){
     return new DataSource({
        store:AspNetData.createStore({
          key: "ProcessLogId",
-         loadUrl: `${ApiUrl}/ProcessLog/FindProcessLogs`,
-        //  deleteUrl:`${ApiUrl}/${entity}/${actionDelete}`,
-          updateUrl:`${ApiUrl}/ProcessLog/Update`,
-        //  insertUrl:`${ApiUrl}/${entity}/${actionInsert}`,
+          loadUrl: `${ApiUrl}/ProcessLog/FindProcessLogs`,
+          deleteUrl:`${ApiUrl}/ProcessLog/DeleteProcessLog`,
          onBeforeSend: function (method, ajaxOptions) {
+          ajaxOptions.xhrFields = { withCredentials: true };
            ajaxOptions.data.keyId ="ProcessLogId";
         },
         loadParams:{
