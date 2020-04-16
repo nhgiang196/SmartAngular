@@ -4,7 +4,7 @@ import { TranslateService } from '@ngx-translate/core';
 import swal from 'sweetalert2';
 import { ItemService } from 'src/app/core/services';
 import { UI_CustomFile } from 'src/app/core/models/file';
-import { MyHelperService } from 'src/app/core/services/my-helper.service';
+import { MyHelperService } from 'src/app/core/services/utility/my-helper.service';
 import { HttpEventType } from '@angular/common/http';
 import { UploadService } from 'src/app/core/services/general/upload.service';
 
@@ -28,7 +28,7 @@ export class SmartUploadComponent implements OnInit {
   entityFile : UI_CustomFile[] = [];
   files: File[] = [];
   addFiles: { FileList: File[], FileLocalNameList: string[] };
-  
+
   uploadReportProgress: any = { progress: 0, message: null, isError: null };
   /**INIT FUNCTIONS */
   ngOnInit() { //init functions
@@ -149,11 +149,11 @@ export class SmartUploadComponent implements OnInit {
     this.files.push(...event.addedFiles); //refresh showing in Directive
     this.addFiles.FileList.push(...event.addedFiles);
     this.send_entityFile.emit(this.entityFile);
-    
+
   }
 
-  
 
-  
+
+
 
 }

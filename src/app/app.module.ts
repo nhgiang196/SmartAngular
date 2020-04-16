@@ -11,7 +11,7 @@ import { AuthInterceptor } from './core/helpers/AuthInterceptor';
 import { SharedModule } from './core/shared/shared.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { PagesModule } from './views/pages/pages.module';
-import { StoreService } from './core/services/store.service';
+import { StoreService } from './core/services/general/store.service';
 import {
   AuthService,
   BomService,
@@ -38,8 +38,9 @@ import { FileService } from './core/services/file.service';
 import { DevextremeService } from './core/services/general/devextreme.service';
 import { GenericFactoryService } from './core/services/general/generic-factory.service';
 import { Unit } from './core/models/unit';
-import { MyHelperService } from './core/services/my-helper.service';
+import { MyHelperService } from './core/services/utility/my-helper.service';
 import { ProcessLogItemService } from './core/services/process-log-item.service';
+import { NotifyService } from './core/services/utility/notify.service';
 const SERVICE = [
   AuthService,
   BomService,
@@ -60,7 +61,8 @@ const SERVICE = [
   FunctionService,
   FileService,
   ProcessLogService,
-  DevextremeService
+  DevextremeService,
+  NotifyService
 ];
 
 @NgModule({

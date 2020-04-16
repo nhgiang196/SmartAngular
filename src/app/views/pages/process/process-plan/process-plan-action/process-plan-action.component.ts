@@ -3,7 +3,7 @@ import { ProcessPlanFactory, ProcessPlanStage, ProcessPlanItem } from 'src/app/c
 import { ModalDirective, BsDatepickerConfig } from 'ngx-bootstrap';
 import { DevextremeService } from 'src/app/core/services/general/devextreme.service';
 import { TranslateService } from '@ngx-translate/core';
-import { MyHelperService } from 'src/app/core/services/my-helper.service';
+import { MyHelperService } from 'src/app/core/services/utility/my-helper.service';
 import { AuthService } from 'src/app/core/services';
 import { ToastrService } from 'ngx-toastr';
 import { BsDatepickerViewMode } from 'ngx-bootstrap/datepicker/models';
@@ -13,6 +13,7 @@ import { async } from 'rxjs/internal/scheduler/async';
 import { BomFactory, BomItemOut } from 'src/app/core/models/bom';
 import { checkActiveTab } from 'src/app/app.helpers';
 import swal from "sweetalert2";
+import { NotifyService } from 'src/app/core/services/utility/notify.service';
 @Component({
   selector: 'app-process-plan-action',
   templateUrl: './process-plan-action.component.html',
@@ -39,8 +40,12 @@ export class ProcessPlanActionComponent implements OnInit {
   action:string;
   oldValueQuantity:number=0;
 
-  constructor(private devExtreme: DevextremeService, private processPlanService: ProcessPlanFactoryService, private toastr: ToastrService,
-    private trans: TranslateService, private auth: AuthService,
+  constructor(
+    private devExtreme: DevextremeService,
+    private processPlanService: ProcessPlanFactoryService,
+    private notifyService: NotifyService,
+    private trans: TranslateService,
+    private auth: AuthService,
     private helper: MyHelperService) {
       this.validationCallback = this.validationCallback.bind(this);
      }
@@ -86,17 +91,17 @@ export class ProcessPlanActionComponent implements OnInit {
           res => {
             let result = res as any;
             if (result.Success) {
-              this.toastr.success(this.trans.instant("messg.update.success"));
+              this.notifyService.success(this.trans.instant("messg.update.success"));
               this.loadInit.emit();
               this.childModal.hide();
             } else {
-              this.toastr.error(this.trans.instant("messg.update.error"));
+              this.notifyService.error(this.trans.instant("messg.update.error"));
             }
 
             this.laddaSubmitLoading = false;
           },
           err => {
-            this.toastr.error(this.trans.instant("messg.add.error"));
+            this.notifyService.error(this.trans.instant("messg.update.error"));
             this.laddaSubmitLoading = false;
           }
         );
@@ -107,41 +112,29 @@ export class ProcessPlanActionComponent implements OnInit {
           res => {
             var result = res as any;
             if (result.Success) {
-              this.toastr.success(this.trans.instant("messg.update.success"));
+              this.notifyService.success(this.trans.instant("messg.update.success"));
               this.loadInit.emit();
               this.childModal.hide();
             } else {
-              this.toastr.error(this.trans.instant("messg.update.error"));
+              this.notifyService.error(this.trans.instant("messg.update.error"));
             }
             this.laddaSubmitLoading = false;
           },
           err => {
-            this.toastr.error(this.trans.instant("messg.update.error"));
+            this.notifyService.error(this.trans.instant("messg.update.error"));
             this.laddaSubmitLoading = false;
           }
         );
       }
     } else {
       this.laddaSubmitLoading = false;
-      swal.fire(
-        {
-          title: this.trans.instant('messg.validation.caption'),
-          titleText: this.trans.instant('Dữ liệu đã bị trùng'),
-          confirmButtonText: this.trans.instant('Button.OK'),
-          type: 'error',
-        }
-      );
+      this.notifyService.warning("Dữ liệu bị trùng");
       return;
     }
   }
 
  async fnValidate(){
-    console.log(this.entity);
-    var data = (await this.processPlanService
-      .validate(this.entity)
-      .then());
-    console.log(data);
-    return data;
+  return await this.processPlanService.validate(this.entity).then();
   }
 
   removeId(){
@@ -162,7 +155,6 @@ export class ProcessPlanActionComponent implements OnInit {
       this.action ="update";
       var data = await this.processPlanService.findById(item.ProcessPlanFactoryId).toPromise().then();
       this.entity = data;
-      console.log(this.entity)
     } else {
       this.action ="add";
       this.entity = new ProcessPlanFactory();
@@ -215,7 +207,6 @@ export class ProcessPlanActionComponent implements OnInit {
           }
           );
         }
-        console.log(this.entity.ProcessPlanStage);
         this.showTab = true;
       }
       else {
@@ -237,14 +228,12 @@ export class ProcessPlanActionComponent implements OnInit {
   }
 
   validationCallback(e){
-    if(e.value>this.oldValueQuantity){
+    if(e.value>this.oldValueQuantity)
       return false;
-    }
     return true;
   }
 
   onEditingStart(event){
     this.oldValueQuantity =event.data.Quantity;
-    console.log("222",this.oldValueQuantity);
   }
 }

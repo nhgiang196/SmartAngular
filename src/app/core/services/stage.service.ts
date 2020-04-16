@@ -7,7 +7,7 @@ import DataSource from 'devextreme/data/data_source';
 import * as AspNetData from "devextreme-aspnet-data-nojquery";
 import { formatDate } from '@angular/common';
 import CustomStore from 'devextreme/data/custom_store';
-import { MyHelperService } from './my-helper.service';
+import { MyHelperService } from './utility/my-helper.service';
 import { GenericFactoryService } from './general/generic-factory.service';
 import { Stage } from '../models/stage';
 const ApiUrl = environment.apiUrl;

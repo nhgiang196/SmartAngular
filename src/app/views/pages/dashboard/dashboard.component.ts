@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { StoreService } from 'src/app/core/services/store.service';
+import { StoreService } from 'src/app/core/services/general/store.service';
 import { minimalize, showSideBar, hideNavBar } from 'src/app/app.helpers';
 import { ModuleService } from 'src/app/core/services';
 import { LanguageService } from 'src/app/core/services/language.service';

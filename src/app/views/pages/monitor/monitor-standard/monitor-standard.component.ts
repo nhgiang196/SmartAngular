@@ -12,7 +12,7 @@ import { directions } from 'src/app/core/helpers/DevExtremeExtention';
 import { ToastrService } from 'ngx-toastr';
 import Swal from 'sweetalert2';
 import { DevextremeService } from 'src/app/core/services/general/devextreme.service';
-import { MyHelperService } from 'src/app/core/services/my-helper.service';
+import { MyHelperService } from 'src/app/core/services/utility/my-helper.service';
 
 @Component({
   selector: 'app-monitor-standard',
@@ -47,13 +47,13 @@ export class MonitorStandardComponent implements OnInit {
     this.dataGrid.instance.deselectAll();
   }
   onEditorPreparing(e) {
-    //Prepare Status editor to dxSwitch 
+    //Prepare Status editor to dxSwitch
     if (e.dataField == "Status" && e.parentType === "dataRow") {
-      e.editorName = "dxSwitch"; 
+      e.editorName = "dxSwitch";
     }
     if (e.dataField == "MonitorStandardDescription" && e.parentType === "dataRow") {
-      e.editorName = "dxTextArea"; 
-      e.editorOptions.height = 50;  
+      e.editorName = "dxTextArea";
+      e.editorOptions.height = 50;
     }
   }
 
@@ -71,7 +71,7 @@ export class MonitorStandardComponent implements OnInit {
       = e.data.Tssmin = e.data.Tssmax
       = e.data.ColorMin = e.data.ColorMax
       = e.data.Qmin = e.data.Qmax
-      = e.data.AmoniMin = e.data.AmoniMax 
+      = e.data.AmoniMin = e.data.AmoniMax
       = 0;
   }
 
@@ -90,7 +90,7 @@ export class MonitorStandardComponent implements OnInit {
     e.newData = data;//set object
   }
 
- 
+
   validation(e) {
     let data;
     if (e.oldData != null) {

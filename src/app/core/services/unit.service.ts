@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { MyHelperService } from './my-helper.service';
+import { MyHelperService } from './utility/my-helper.service';
 import { Unit } from '../models/unit';
 import { GenericFactoryService } from './general/generic-factory.service';
 import { environment } from 'src/environments/environment';

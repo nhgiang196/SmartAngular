@@ -5,7 +5,7 @@ import { trigger, transition, style, animate } from '@angular/animations';
 import { PageChangedEvent } from 'ngx-bootstrap/pagination';
 import { SmartUploadComponent } from 'src/app/views/UISample/smart-upload/smart-upload.component';
 import { FactoryService, AuthService } from 'src/app/core/services';
-import { MyHelperService } from 'src/app/core/services/my-helper.service';
+import { MyHelperService } from 'src/app/core/services/utility/my-helper.service';
 import { Factory, FactoryTechnology } from 'src/app/core/models/factory';
 import { UI_CustomFile } from 'src/app/core/models/file';
 import swal from 'sweetalert2';
@@ -39,12 +39,12 @@ export class FactoryComponent implements OnInit {
   factory_showed = 0;
   pageIndex = 1;
   pageSize = 12;
-  
+
   buttonOptions2 = {
     stylingMode: 'text', // để tắt đường viền container
     template: ` <button type="button" class="btn btn-white" data-dismiss="modal"> ${this.trans.instant('Button.Close')}</button>`, //template hoạt động cho Ispinia
   }
-  
+
   buttonOptions = {
     stylingMode: 'text', // để tắt đường viền container
     template: `<button type="button" class="btn btn-primary"><i class="fa fa-paper-plane-o"></i> ${this.trans.instant('Button.Save')}</button>`, //template hoạt động cho Ispinia
@@ -74,7 +74,7 @@ export class FactoryComponent implements OnInit {
     this.pageIndex = 1;
     this.loadInit();
   }
-  fnAdd() { 
+  fnAdd() {
     this.ACTION_STATUS = 'add';
     this.targetForm.instance.resetValues();
     this.resetEntity();
@@ -97,7 +97,7 @@ export class FactoryComponent implements OnInit {
       this.toastr.error(error.statusText, "Load factory information error");
     })
   }
-  fnDelete(id) { 
+  fnDelete(id) {
     swal.fire({
       title: this.trans.instant('Factory.mssg.DeleteAsk_Title'),
       titleText: this.trans.instant('Factory.mssg.DeleteAsk_Text'),

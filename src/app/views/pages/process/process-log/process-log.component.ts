@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ProcessLog, FilterModel, ProcessLogItem } from 'src/app/core/models/process';
 import { ProcessLogService } from 'src/app/core/services';
-import { MyHelperService } from 'src/app/core/services/my-helper.service';
+import { MyHelperService } from 'src/app/core/services/utility/my-helper.service';
 import { BomFactory, BomStage } from 'src/app/core/models/bom';
 import { async } from 'rxjs/internal/scheduler/async';
 import { DevextremeService } from 'src/app/core/services/general/devextreme.service';
@@ -12,6 +12,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { ProcessLogItemService } from 'src/app/core/services/process-log-item.service';
 import { ToastrService } from 'ngx-toastr';
 import { compareDate } from 'src/app/core/helpers/helper';
+import { NotifyService } from 'src/app/core/services/utility/notify.service';
 @Component({
   selector: 'app-process-log',
   templateUrl: './process-log.component.html',
@@ -35,12 +36,13 @@ export class ProcessLogComponent implements OnInit {
   bsConfig = { dateInputFormat: "YYYY-MM-DD", adaarptivePosition: true };
 
 
-  constructor(private processLogService: ProcessLogService,
+  constructor(
+    private processLogService: ProcessLogService,
     private processLogItemService: ProcessLogItemService,
     private devExtreme: DevextremeService,
     private helper: MyHelperService,
     private trans: TranslateService,
-    private toastr: ToastrService
+    private notifyService: NotifyService
     ) { }
 
   ngOnInit() {
@@ -49,16 +51,13 @@ export class ProcessLogComponent implements OnInit {
     this.showModalDetail = this.showModalDetail.bind(this);
     this.showModalItemOut = this.showModalItemOut.bind(this);
     this.deleteItemOut = this.deleteItemOut.bind(this);
-    // this.dataSourceFactory= this.devExtreme.loadDxoLookup("Factory");
-    // this.dataSourceStage= this.devExtreme.loadDxoLookup("Stage");
      this.dataSourceItem= this.devExtreme.loadDxoLookup("Item");
      this.dataSourceUnit= this.devExtreme.loadDxoLookup("Unit");
-    // this.dataSourceShift= this.devExtreme.loadDxoLookup("Shift");
   }
 
   async fnFindBomFactoryId(){
     if(compareDate(this.startDay,this.endDay) ==1){
-      this.toastr.warning("Thời gian bắt đầu phải nhỏ hơn hoặc bằng thời gian kết thúc");
+      this.notifyService.warning("Thời gian bắt đầu phải nhỏ hơn hoặc bằng thời gian kết thúc");
       this.bomFactory = new BomFactory();
       return;
     }
@@ -74,7 +73,7 @@ export class ProcessLogComponent implements OnInit {
       }
     }
     else{
-      this.toastr.warning("Không tìm thấy dữ liệu");
+      this.notifyService.warning("Không tìm thấy dữ liệu");
       this.bomFactory = new BomFactory();
     }
 
@@ -102,7 +101,6 @@ export class ProcessLogComponent implements OnInit {
       let itemOutId = stage.BomItemOut[0].ItemId;
       this.dataSourceProcessLog =  this.processLogService.loadDxoGridProcessLog(this.factoryId,stage.StageId,itemOutId,startDate,endDate);
     }
-
   }
 
   getProcessLogItem(key: ProcessLog) {
@@ -121,15 +119,12 @@ export class ProcessLogComponent implements OnInit {
   }
 
   showModalAdd(stageId,itemOutId){
-    console.log(itemOutId);
     let entity = new ProcessLog();
     entity.FactoryId = this.factoryId;
     entity.StageId = stageId;
     entity.ItemOutId = itemOutId;
     this.modalChild.showChildModal(entity);
   }
-
-
   showModalItemOut(e){
     console.log(e);
     this.modalChildItem.showChildModal( e.row.data);
@@ -147,33 +142,15 @@ export class ProcessLogComponent implements OnInit {
   }
 
   deleteItemOut(e){
-    console.log(e);
-    swal.fire({
-      titleText: this.trans.instant('Bạn có chắc chắn muốn xóa !'),
-      confirmButtonText: this.trans.instant('Button.OK'),
-      cancelButtonText: this.trans.instant('Button.Cancel'),
-      type: 'warning',
-      showCancelButton: true,
-      reverseButtons: true
-    }).then((result) => {
-      if (result.value) {
-        this.processLogItemService.remove(e.row.data.ProcessLogItemId).then(res => {
-          var operationResult: any = res
-          if (operationResult.Success) {
-            swal.fire(
-              {
-                title: 'Deleted!',
-                titleText: this.trans.instant('messg.delete.success'),
-                confirmButtonText: this.trans.instant('Button.OK'),
-                type: 'success',
-              }
-            );
-
-            this.dataSourceProcessLog.reload();
-          }
-          else this.toastr.warning(operationResult.Message);
-        }, err => { this.toastr.error(err.statusText) })
-      }
+    this.notifyService.confirmDelete(() =>{
+      this.processLogItemService.remove(e.row.data.ProcessLogItemId).then(res => {
+        var operationResult: any = res
+        if (operationResult.Success) {
+          this.notifyService.confirmDeleteSuccess();
+          this.dataSourceProcessLog.reload();
+        }
+        else this.notifyService.warning(operationResult.Message);
+      }, err => { this.notifyService.error(err.statusText) })
     })
   }
 }

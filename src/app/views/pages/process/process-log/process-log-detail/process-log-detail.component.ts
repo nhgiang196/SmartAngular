@@ -1,11 +1,11 @@
 import { Component, OnInit, ViewChild, Output, EventEmitter } from '@angular/core';
 import { ModalDirective } from 'ngx-bootstrap';
 import { ProcessLog } from 'src/app/core/models/process';
-import { MyHelperService } from 'src/app/core/services/my-helper.service';
+import { MyHelperService } from 'src/app/core/services/utility/my-helper.service';
 import { ProcessLogService, AuthService } from 'src/app/core/services';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
-import { async } from 'rxjs/internal/scheduler/async';
+import { NotifyService } from 'src/app/core/services/utility/notify.service';
 
 @Component({
   selector: 'app-process-log-detail',
@@ -24,14 +24,13 @@ export class ProcessLogDetailComponent implements OnInit {
   }
   logTime: any;
   constructor(private processLogService: ProcessLogService, private helper: MyHelperService, private toastr: ToastrService,
-    private trans: TranslateService, private auth: AuthService) { }
+    private trans: TranslateService, private auth: AuthService,private notifyService: NotifyService) { }
 
   ngOnInit() {
     this.entity = new ProcessLog();
   }
 
   showChildModal(item: ProcessLog) {
-    console.log(item);
     this.entity = item;
     this.logTime = item.ProcessLogTime;
     this.childModal.show();
@@ -41,16 +40,13 @@ export class ProcessLogDetailComponent implements OnInit {
   }
 
  async fnSave() {
-
     if (typeof (this.logTime) == "object") {
       this.entity.ProcessLogTime = this.helper.timeConvert(this.logTime._d);
     }
     if (typeof (this.entity.ProcessLogDate) == "object") {
       this.entity.ProcessLogDate = this.helper.dateConvertToString(this.entity.ProcessLogDate);
     }
-    console.log(this.entity);
     this.laddaSubmitLoading = true;
-
     if(!await this.validate()){
       if (this.entity.ProcessLogId == 0) {
         this.entity.CreateBy = this.auth.currentUser.Username;
@@ -59,17 +55,16 @@ export class ProcessLogDetailComponent implements OnInit {
           res => {
             let result = res as any;
             if (result.Success) {
-              this.toastr.success(this.trans.instant("messg.update.success"));
+              this.notifyService.success(this.trans.instant("messg.update.success"));
               this.loadInit.emit();
               this.childModal.hide();
             } else {
-              this.toastr.error(this.trans.instant("messg.update.error"));
+              this.notifyService.error(this.trans.instant("messg.update.error"));
             }
-
             this.laddaSubmitLoading = false;
           },
           err => {
-            this.toastr.error(this.trans.instant("messg.add.error"));
+            this.notifyService.error(this.trans.instant("messg.update.error"));
             this.laddaSubmitLoading = false;
           }
         );
@@ -80,30 +75,28 @@ export class ProcessLogDetailComponent implements OnInit {
           res => {
             var result = res as any;
             if (result.Success) {
-              this.toastr.success(this.trans.instant("messg.update.success"));
+              this.notifyService.success(this.trans.instant("messg.update.success"));
               this.loadInit.emit();
               this.childModal.hide();
             } else {
-              this.toastr.error(this.trans.instant("messg.update.error"));
+              this.notifyService.error(this.trans.instant("messg.update.error"));
             }
             this.laddaSubmitLoading = false;
           },
           err => {
-            this.toastr.error(this.trans.instant("messg.update.error"));
+            this.notifyService.error(this.trans.instant("messg.update.error"));
             this.laddaSubmitLoading = false;
           }
         );
       }
     }
     else{
-      this.toastr.warning("Process log already exist");
+      this.notifyService.warning("Process log already exist");
       this.laddaSubmitLoading = false;
     }
-
   }
 
   async validate() {
-    console.log(this.entity);
     return await this.processLogService.validate(this.entity).then();
   }
 }

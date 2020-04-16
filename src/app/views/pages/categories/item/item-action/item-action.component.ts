@@ -10,7 +10,7 @@ import { environment } from 'src/environments/environment';
 import { ActivatedRoute, Router } from '@angular/router';
 import swal from "sweetalert2";
 import { DxDataGridComponent } from 'devextreme-angular';
-import { MyHelperService } from 'src/app/core/services/my-helper.service';
+import { MyHelperService } from 'src/app/core/services/utility/my-helper.service';
 import { HttpEventType } from "@angular/common/http";
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';

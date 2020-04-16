@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { FunctionService } from './function.service';
+import { FunctionService } from '../function.service';
 
 @Injectable({providedIn: 'root'})
 //* Service này chia sẻ data giữa các component không có mối quan hệ cha con */
