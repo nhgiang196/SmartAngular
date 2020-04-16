@@ -73,4 +73,7 @@ export class  MonitorService extends GenericFactoryService<Monitor>{
   getMonitorSources(): MonitorDescription[] {
     return monitorSources;
   }
+
+  //test get all only month
+  getAll =()=> this.http.get<Monitor[]>(`${ApiUrl}/Monitor/GetAll`);
 }
