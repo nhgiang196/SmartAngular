@@ -1913,6 +1913,11 @@ amdefine@>=0.0.4:
   resolved "https://registry.yarnpkg.com/amdefine/-/amdefine-1.0.1.tgz#4a5282ac164729e93619bcfd3ad151f817ce91f5"
   integrity sha1-SlKCrBZHKek2Gbz9OtFR+BfOkfU=
 
+angular-highcharts@^9.0.9:
+  version "9.0.9"
+  resolved "https://registry.yarnpkg.com/angular-highcharts/-/angular-highcharts-9.0.9.tgz#fb4a8558f40654c0ff331ca6cac9f9529be245b7"
+  integrity sha512-wvYSsXCXsZ2UbOsDB8T5+FSUuWIyWi4hmcpZNfSrE/MvldYPLvp4/VhCf3AjhgMBqZpUItQO6uuCVW2JsIjxsg==
+
 angular-ng-autocomplete@^1.1.17:
   version "1.1.17"
   resolved "https://registry.yarnpkg.com/angular-ng-autocomplete/-/angular-ng-autocomplete-1.1.17.tgz#469d160af8c079d0333aa6225a6b72ef8ca776c2"

@@ -12,7 +12,7 @@ import { NgForm } from '@angular/forms';
 })
 export class LoginComponent implements OnInit {
   laddaSubmitLoading = false;
-  rememberMe = false;
+  rememberMe = true;
   constructor(public authService: AuthService,
     private router: Router,
     private routeActive: ActivatedRoute,
