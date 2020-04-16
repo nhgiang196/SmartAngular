@@ -47,44 +47,7 @@ export class MonitorChartComponent implements OnInit {
   bounds: any;
 
 
-  public options: any = {
-    chart: {
-      type: 'scatter',
-      height: 700
-    },
-    title: {
-      text: 'Sample Scatter Plot'
-    },
-    credits: {
-      enabled: false
-    },
-    tooltip: {
-      formatter: function() {
-        return '<b>x: </b>' + Highcharts.dateFormat('%e %b %y %H:%M:%S', this.x) +
-          ' <br> <b>y: </b>' + this.y.toFixed(2);
-      }
-    },
-    xAxis: {
-      type: 'datetime',
-      labels: {
-        formatter: function() {
-          return Highcharts.dateFormat('%e %b %y', this.value);
-        }
-      }
-    },
-    series: [
-      {
-        name: 'Normal',
-        turboThreshold: 500000,
-        data: [[new Date('2018-01-25 18:38:31').getTime(), 2]]
-      },
-      {
-        name: 'Abnormal',
-        turboThreshold: 500000,
-        data: [[new Date('2018-02-05 18:38:31').getTime(), 7]]
-      }
-    ]
-  }
+  public options: any;
 
 
 
@@ -106,7 +69,7 @@ export class MonitorChartComponent implements OnInit {
     });
 
     this.bounds = {
-      startValue: this.chartFactory.dateFrom ,//new Date(2020, 2, 1),
+      startValue: this.chartFactory.dateFrom,//new Date(2020, 2, 1),
       endValue: this.chartFactory.dateTo//new Date(2020, 2, 31)
     };
 
@@ -117,7 +80,46 @@ export class MonitorChartComponent implements OnInit {
       }
     };
 
-    
+    this.options = {
+      chart: {
+        type: 'scatter',
+        height: 700
+      },
+      title: {
+        text: 'Sample Scatter Plot'
+      },
+      credits: {
+        enabled: false
+      },
+      tooltip: {
+        formatter: function () {
+          return '<b>x: </b>' + Highcharts.dateFormat('%e %b %y %H:%M:%S', this.x) +
+            ' <br> <b>y: </b>' + this.y.toFixed(2);
+        }
+      },
+      xAxis: {
+        type: 'datetime',
+        labels: {
+          formatter: function () {
+            return Highcharts.dateFormat('%e %b %y', this.value);
+          }
+        }
+      },
+      series: [
+        {
+          name: 'Normal',
+          turboThreshold: 500000,
+          data: [[new Date('2018-01-25 18:38:31').getTime(), 2]]
+        },
+        {
+          name: 'Abnormal',
+          turboThreshold: 500000,
+          data: [[new Date('2018-02-05 18:38:31').getTime(), 7]]
+        }
+      ]
+    }
+
+
 
 
 
@@ -127,45 +129,9 @@ export class MonitorChartComponent implements OnInit {
     this.chartFactory = new ChartFactory();
     this.factories = this.devService.loadDxoLookup('Factory', false);
     console.log(this.factories);
-    
-    
-     // Set 10 seconds interval to update data again and again
-     const source = interval(10000);
-
-     // Sample API
-     const apiLink = 'https://api.myjson.com/bins/13lnf4';
- 
-     this.subscription = source.subscribe(val => this.getApiResponse(apiLink).then(
-       data => {
-         const updated_normal_data = [];
-         const updated_abnormal_data = [];
-         data.forEach(row => {
-           const temp_row = [
-             new Date(row.timestamp).getTime(),
-             row.value
-           ];
-           row.Normal === 1 ? updated_normal_data.push(temp_row) : updated_abnormal_data.push(temp_row);
-         });
-         this.options.series[0]['data'] = updated_normal_data;
-         this.options.series[1]['data'] = updated_abnormal_data;
-         Highcharts.chart('container', this.options);
-       },
-       error => {
-         console.log('Something went wrong.');
-       })
-     );
-
-
-
+    Highcharts.chart('container', this.options);
   }
 
-  getApiResponse(url) {
-    return this.http.get<any>(url, {})
-      .toPromise().then(res => {
-        return res;
-      });
-  }
-  
   onValueChanged(e) {
     this.chartFactory.factoryId = e.value
   }
@@ -255,7 +221,7 @@ export class MonitorChartComponent implements OnInit {
     const format = 'MM/dd/yyyy HH:mm:ss';
     const locale = 'en-US';
     this.bounds = {
-      startValue: this.chartFactory.dateFrom ,//new Date(2020, 2, 1),
+      startValue: this.chartFactory.dateFrom,//new Date(2020, 2, 1),
       endValue: this.chartFactory.dateTo//new Date(2020, 2, 31)
     };
 
@@ -271,7 +237,7 @@ export class MonitorChartComponent implements OnInit {
     var _filterDataSource = [
       ["FactoryId", "=", entity.factoryId],
       "and",
-      ["MonitorDate", ">", entity.dateFrom],
+      ["MonitorDate", ">=", entity.dateFrom],
       "and",
       ["MonitorDate", "<=", entity.dateTo]
     ]
@@ -334,15 +300,15 @@ export class MonitorChartComponent implements OnInit {
 
 
 /**
- 
 
-<dx-chart id="fullChart" 
+
+<dx-chart id="fullChart"
 palette="Violet" [dataSource]="monitorsInfo" (onLegendClick)="legendClick($event)"
 [zoomAndPan]="{ argumentAxis: 'pan' }">
 
   <dxi-series *ngFor="let monitor of monitorSources" [valueField]="monitor.value" [name]="monitor.name"  [pane]="monitor.name+'pane'">
   </dxi-series>
- 
+
   <dxo-scroll-bar [visible]="true"></dxo-scroll-bar>
   <dxo-common-series-settings #seriesSettings argumentField="MonitorDate" selectionMode="allArgumentPoints">
   </dxo-common-series-settings>
@@ -369,7 +335,7 @@ palette="Violet" [dataSource]="monitorsInfo" (onLegendClick)="legendClick($event
   <dxo-grid [visible]="true"></dxo-grid>
   </dxo-argument-axis> -->
 
- 
+
   <!-- <dxo-title text="Full Chart">
     <dxo-subtitle text="(Millions of Tons, Oil Equivalent)">
     </dxo-subtitle>
