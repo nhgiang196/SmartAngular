@@ -58,7 +58,7 @@ export class MonitorDescription {
 
 
 export class MonitorChartTracking {
-  FactoryId: number = 0;
-  StartDate: Date = new Date();
-  EndDate: Date = new Date();
+  FactoryId: number = 1;
+  StartDate: Date = new Date("2020-03-02 01:01");
+  EndDate: Date = new Date("2020-03-02 15:01");
 }
