@@ -85,7 +85,7 @@ export class MonitorChartComponent implements OnInit, AfterViewInit {
       let containerOption = this.options;
       containerOption.series = [{
         type: "line",
-        data: this.monitorsInfo.items().length > 0 ? this.monitorsInfo.items().map((e) => { return e['data_' + item.value] }) : [],
+        data: this.monitorsInfo.items().map((e) => { return e['data_' + item.value] }),
         lineWidth: 0.5,
         name: 'Chỉ số'
       }]
