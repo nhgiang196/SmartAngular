@@ -14,6 +14,6 @@ export class BomService  extends GenericFactoryService<BomFactory> {
     super(http,'BomFactory');
   }
 
-   getAllUnitByItemId =(id) => this.http.get<any>(`${ApiUrl}/BomFactory/GetAllUnitByItemId?id=${id}` );
+
 
 }

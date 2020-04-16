@@ -201,7 +201,7 @@ export class BomStageComponent implements OnInit {
       return {
         store: createStore({
           key: "UnitId",
-          loadUrl: `${environment.apiUrl}/BomFactory/GetAllUnitBomByItemIdLookup`,
+          loadUrl: `${environment.apiUrl}/Unit/GetAllUnitBomByItemIdLookup`,
           loadParams: { KeyId: "UnitId",valueId:options.data.ItemId }
         }),
         paginate: true,
