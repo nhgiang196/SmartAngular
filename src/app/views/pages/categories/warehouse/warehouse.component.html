@@ -115,7 +115,7 @@
               </dxi-item>
               <dxi-item dataField="FactoryId" editorType="dxSelectBox"
                 [label]="{text: trans.instant('Warehouse.data.FactoryId')}"
-                [editorOptions]="{ displayExpr: 'FactoryName' ,valueExpr:'FactoryId' , dataSource: factoryList}">
+                [editorOptions]="{ displayExpr: 'FactoryName' ,valueExpr:'FactoryId' , dataSource: factoryList, searchEnabled: true, searchExpr: 'FactoryName' }">
                 <dxi-validation-rule type="required"></dxi-validation-rule>
                 <dxi-validation-rule type="custom" ignoreEmptyValue="true" [validationCallback]="validateFunction"
                   message="Required Choose"></dxi-validation-rule>

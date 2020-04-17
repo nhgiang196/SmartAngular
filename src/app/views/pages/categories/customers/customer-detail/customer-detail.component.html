@@ -84,7 +84,7 @@
                       <div class="dx-field-label">{{'Customer.data.FactoryId' | translate }}*</div>
                       <div class="dx-field-value">
                         <dx-select-box [(value)]="entity.FactoryId" [dataSource]="factoryList" displayExpr="FactoryName"
-                          valueExpr="FactoryId">
+                          valueExpr="FactoryId" searchEnabled="true"  searchExpr="FactoryName">
                           <dx-validator>
                             <dxi-validation-rule type="required"></dxi-validation-rule>
                             <dxi-validation-rule type="custom" reevaluate="true"
