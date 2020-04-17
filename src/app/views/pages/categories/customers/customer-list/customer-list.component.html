@@ -5,9 +5,10 @@
       <div class="ibox float-e-margins">
         <div class="ibox-content">
           <div class="row">
-            <div class="col-sm-4">
+            <div class="col-sm-12">
               <button type="button" class="btn btn-primary dim" [routerLink]="[ '/pages/category/newcustomer' ]">
                 <i class="fa fa-plus"></i> {{'Button.Add' | translate}}</button>
+              <button (click)="dataSource.reload()" type="button" class="btn btn-outline btn-white btn-default dim pull-right"><i class="fa fa-undo"></i>  </button>
 
             </div>
           </div>
