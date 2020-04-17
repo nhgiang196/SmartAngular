@@ -140,7 +140,9 @@
     "login.caption": "Lỗi đăng nhập",
     "datatable.zeroRecords": "Không có dữ liệu",
     "maximumFileSize2000": "Giới hạn file tối đa 2MB, một số file sẽ không được upload lên",
-    "maximumFileSize5000": "Giới hạn file tối đa 5MB, một số file sẽ không được upload lên"
+    "maximumFileSize5000": "Giới hạn file tối đa 5MB, một số file sẽ không được upload lên",
+    "valid.required": "Không để trống",
+    "valid.exist": "Đã tồn tại"
   },
   "Master": {
     "data.CreateBy": "Người tạo",
@@ -191,6 +193,14 @@
     "invalid.FactoryNameExist": "Tên nhà máy đã tồn tại",
     "invalid.FactoryNameNull": "Tên nhà máy không được để trống",
     "invalid.Valid_FactoryDate": "Bạn chưa chọn ngày xây dựng",
+    "invalid.Valid_FactoryStartDate": "Ngày bắt đầu phải nhỏ hơn hoặc bằng  ngày kết thúc",
+    "invalid.Valid_FactoryEndDate": "Ngày kết thúc phải lớn hơn hoặc bằng ngày bắt đầu",
+    "invalid.Valid_ContactNumber": "Vui lòng điền số điện thoại liên lạc",
+    "invalid.TechnologyNameRequired": "Tên công nghệ không được để trống",
+    "invalid.TechnologyNameExist": "Công nghệ đã tồn tại trong danh sách",
+    "invalid.TechnologyDescriptionRequired": "Mô tả công nghệ không để trống",
+    "invalid.TechnologyFromDateCompare": "Thời gian bắt đầu <= Thời gian kết thúc",
+    "invalid.TechnologyToDateCompare": "Thời gian bắt đầu <= Thời gian kết thúc",
     "label.Breadcrumb": "QUẢN TRỊ NHÀ MÁY",
     "label.Information": "Thông tin nhà máy",
     "label.SearchText": "Gõ và nhấn enter",
@@ -201,6 +211,7 @@
     "label.Showed": "Hiển thị",
     "label.Rows": " hàng",
     "mssg.DeleteAskDeleteAsk_Title_Text": "Bạn có chắc muốn xóa nhà máy này?",
+    "mssg.ErrorTechnologyValidateOverlap": "Thời gian hiệu lực bị lồng nhau",
     "mssg.": "Xóa nhà máy?"
   },
   "Warehouse": {
@@ -232,6 +243,10 @@
     "data.WarehouseLocationStatus": "Tình trạng",
     "data.WarehouseLocationStatus1": "Có",
     "data.WarehouseLocationStatus2": "Không",
+    "data.CreateBy": "Người tạo",
+    "data.CreateDate": "Ngày tạo",
+    "data.ModifyBy": "Người cập nhật",
+    "data.ModifyDate": "Ngày cập nhật",
     "placeholder.WarehouseCode": "Nhập mã kho",
     "placeholder.WarehouseName": "Nhập tên kho",
     "placeholder.WarehouseAddress": "Nhập địa chỉ kho",
@@ -398,9 +413,13 @@
     "placeholder.ContactPhone" : "Nhập số điện thoại liên hệ",
     "placeholder.Description" : "Nhập ghi chú",
     "label.Breadcrumb":"ĐƠN VỊ XẢ THẢI",
-    "invalid.Existed_CustomerName":"Trùng tên đơn vị xả thải",
-    "invalid.Null_CustomerName":"Tên đơn vị bị trống",
-    "invalid.Email":"Sai kiểu email",
+    "invalid.CustomerNameRequired":"Không để trống tên đơn vị xả thải",
+    "invalid.CustomerNameExist":"Tên đơn vị đã tồn tại",
+    "invalid.CustomerCodeRequired":"Không để trống mã đơn vị xả thải",
+    "invalid.CustomerCodeExist":"Mã đơn vị đã tồn tại",
+    "invalid.CustomerContactEmailType":"Sai kiểu email",
+    "invalid.ContactPhoneType":"Sai kiểu số điện thoại",
+    "invalid.FactoryIdRequired":"Chọn nhà máy",
     "mssg.AskForCreateContractCustomer":"Việc thêm hợp đồng sẽ đồng thời tạo đơn vị xả thải, bạn có đồng ý?",
     "mssg.DeleteAsk_Text":"Bạn có chắc chắc muốn xóa đơn vị xả thải này?"
 

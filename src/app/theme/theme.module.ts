@@ -9,6 +9,7 @@ import {
 import { SharedModule } from '../core/shared/shared.module';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { RouterModule } from '@angular/router';
+import { TooltipModule } from 'ngx-bootstrap';
 
 
 const COMPONENTS = [
@@ -23,7 +24,8 @@ const COMPONENTS = [
   imports: [
     CommonModule,
     RouterModule ,
-    SharedModule
+    SharedModule,
+    TooltipModule.forRoot()
   ],
   declarations: [...COMPONENTS],
   exports: [...COMPONENTS]

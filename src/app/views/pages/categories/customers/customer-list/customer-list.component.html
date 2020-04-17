@@ -5,9 +5,10 @@
       <div class="ibox float-e-margins">
         <div class="ibox-content">
           <div class="row">
-            <div class="col-sm-4">
+            <div class="col-sm-12">
               <button type="button" class="btn btn-primary dim" [routerLink]="[ '/pages/category/newcustomer' ]">
-                <i class="fa fa-plus"></i>{{'Button.Add' | translate}}</button>
+                <i class="fa fa-plus"></i> {{'Button.Add' | translate}}</button>
+              <button (click)="dataSource.reload()" type="button" class="btn btn-outline btn-white btn-default dim pull-right"><i class="fa fa-undo"></i>  </button>
 
             </div>
           </div>
@@ -17,7 +18,7 @@
               <dx-data-grid #grid [dataSource]="dataSource" [remoteOperations]="true" class="m-grid-5" [showRowLines]="true"  [showBorders]="true">
                 <dxo-selection mode="single"></dxo-selection>
                 <dxo-filter-row [visible]="true"></dxo-filter-row>
-                <dxo-state-storing [enabled]="true" type="localStorage" storageKey="storage"></dxo-state-storing>
+                <dxo-state-storing [enabled]="true" type="localStorage" storageKey="gridStorage_Customer"></dxo-state-storing>
                 <!-- <dxo-group-panel [visible]="true"></dxo-group-panel> -->
                 <dxi-column dataField="CustomerCode" caption="{{ 'Customer.data.CustomerCode' | translate}}">
                 </dxi-column>
@@ -35,10 +36,10 @@
                 </dxi-column>
                 <dxi-column dataField="CustomerContactEmail" caption="{{ 'Customer.data.ContactEmail' | translate}}">
                 </dxi-column>
-                <dxi-column dataField="CreateDate" dataType="date" caption="{{ 'Customer.data.CreateDate' | translate}}">
+                <dxi-column dataField="CreateDate" dataType="date" caption="{{ 'Customer.data.CreateDate' | translate}}"  format="d/M/yyyy HH:mm">
                 </dxi-column>
                 <dxi-column dataField="CreateBy" caption="{{ 'Customer.data.CreateBy' | translate}}"></dxi-column>
-                <dxi-column dataField="ModifyDate" dataType="date" caption="{{ 'Customer.data.ModifyDate' | translate}}">
+                <dxi-column dataField="ModifyDate" dataType="date" caption="{{ 'Customer.data.ModifyDate' | translate}}"  format="d/M/yyyy HH:mm">
                 </dxi-column>
                 <dxi-column dataField="ModifyBy" caption="{{ 'Customer.data.ModifyBy' | translate}}"></dxi-column>
                 <dxi-column dataField="Status" #status dataType="boolean"

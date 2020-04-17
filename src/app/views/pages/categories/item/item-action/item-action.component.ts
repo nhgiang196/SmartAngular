@@ -97,13 +97,13 @@ export class ItemActionComponent implements OnInit {
         this.itemService.add(e).then(
           res => {
             let operationResult: any = res;
+            this.laddaSubmitLoading = false;
             if (operationResult.Success) {
               this.toastr.success(this.trans.instant("messg.add.success"));
             } else {
               this.toastr.warning(operationResult.Message);
               return;
             }
-            this.laddaSubmitLoading = false;
             this.uploadFile(this.addFiles.FileList);
             this.router.navigate(["/pages/category/item/" + this.entity.ItemTypeId]);
           },
@@ -114,12 +114,14 @@ export class ItemActionComponent implements OnInit {
         );
       } else {
         this.toastr.warning("Validate", "Tên hóa chất đã tồn tại");
+        this.laddaSubmitLoading = false;
       }
     } else {
       console.log(">>", this.entity);
       this.itemService.update(e).then(
         res => {
           let operationResult: any = res;
+          this.laddaSubmitLoading = false;
           if (operationResult.Success) {
             this.toastr.success(this.trans.instant("messg.update.success"));
           } else {
@@ -127,7 +129,6 @@ export class ItemActionComponent implements OnInit {
             console.log(operationResult.statusText);
             return;
           }
-          this.laddaSubmitLoading = false;
           this.uploadFile(this.addFiles.FileList);
           this.router.navigate(["/pages/category/item/" + this.entity.ItemTypeId]);
         },
@@ -183,7 +184,7 @@ export class ItemActionComponent implements OnInit {
   }
 
   loadFactorySelectBox() {
-    this.dataSourceFactory =  this.itemService.getDxoLookup();
+    this.dataSourceFactory =  this.devExtreme.loadDxoLookup("Factory");
   }
 
   ///Area Item Property////

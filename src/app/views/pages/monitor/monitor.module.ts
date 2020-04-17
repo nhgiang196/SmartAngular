@@ -13,7 +13,7 @@ const COMPONENTS =[
   MonitorComponent,
   MainViewMonitorComponent,
   MonitorChartComponent,
-  MonitorStandardComponent
+  MonitorStandardComponent,
 ]
 
 @NgModule({

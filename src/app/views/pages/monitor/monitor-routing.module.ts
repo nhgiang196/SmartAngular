@@ -23,7 +23,7 @@ const routes: Routes = [{
         {
             path: 'standard',
             component: MonitorStandardComponent
-        },     
+        },
         { path: '', redirectTo: 'main', pathMatch: 'full' },
         { path: '**', redirectTo: 'main' },
     ]

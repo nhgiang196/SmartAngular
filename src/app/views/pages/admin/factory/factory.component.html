@@ -45,7 +45,7 @@
             <div class="col-sm-4 text-center">
               <h2 class="total-factory"> {{'Factory.label.TotalFactory' | translate}} {{factory_showed}}
                 {{'Factory.' | translate}} </h2>
-              <pagination [totalItems]="factory_showed" [itemsPerPage]="pageSize" (pageChanged)="onPageChanged($event)">
+              <pagination firstText="<<" previousText="<" nextText=">" lastText=">>" [totalItems]="factory_showed" [itemsPerPage]="pageSize" (pageChanged)="onPageChanged($event)">
               </pagination>
             </div>
             <div class="col-sm-4">
@@ -114,36 +114,38 @@
                 ,{ id: 3, text: trans.instant('Factory.data.FactoryType3')}
                 ]}"></dxi-item>
               <dxi-item dataField="Status" [label]="{text: trans.instant('Factory.data.Status')}"
-                editorType="dxSelectBox" [editorOptions]="{ displayExpr: 'text' ,valueExpr:'id' ,
-                items: [{id: 0, text: trans.instant('Factory.data.Status0')}
-                ,{ id: 1, text: trans.instant('Factory.data.Status1')}]}">
+                editorType="dxSelectBox" [editorOptions]="statusOption">
               </dxi-item>
             </dxi-item>
             <dxi-item itemType="group" [colCount]="2">
               <dxi-item dataField="FactoryCode" [label]="{text: trans.instant('Factory.data.FactoryCode')}">
-                <dxi-validation-rule type="required"></dxi-validation-rule>
-                <dxi-validation-rule type="async" ignoreEmptyValue="true" message="Exist Factory Code"  [validationCallback]="validateAsync"></dxi-validation-rule>
+                <dxi-validation-rule type="required" message="{{'Factory.invalid.FactoryCodeNull' | translate}} "></dxi-validation-rule>
+                <dxi-validation-rule type="async" ignoreEmptyValue="true" message="Exist Factory Code"  [validationCallback]="validateAsync" message="{{'Factory.invalid.FactoryCodeExist' | translate}}"></dxi-validation-rule>
               </dxi-item>
               <dxi-item dataField="FactoryName" [label]="{text: trans.instant('Factory.data.FactoryName')}">
-                <dxi-validation-rule type="required"></dxi-validation-rule>
-                <dxi-validation-rule type="async" ignoreEmptyValue="true" message="Exist Factory Name"  [validationCallback]="validateAsync"></dxi-validation-rule>
+                <dxi-validation-rule type="required"  message="{{'Factory.invalid.FactoryNameNull' | translate}}"></dxi-validation-rule>
+                <dxi-validation-rule type="async" ignoreEmptyValue="true" message="Exist Factory Name"  [validationCallback]="validateAsync" message="{{'Factory.invalid.FactoryNameExist' | translate}}"></dxi-validation-rule>
               </dxi-item>
             </dxi-item>
             <dxi-item itemType="group" [colCount]="2">
               <dxi-item dataField="FactoryBuiltDate" [label]="{text: trans.instant('Factory.data.FactoryBuiltDate')}"
-                editorType="dxDateBox">
+                editorType="dxDateBox"  [editorOptions]="{ displayFormat:'d/M/yyyy' }" >
+                <dxi-validation-rule type="required"  message="{{'Factory.invalid.Valid_FactoryDate' | translate}}"></dxi-validation-rule>
               </dxi-item>
               <dxi-item dataField="FactoryStartDate" [label]="{text: trans.instant('Factory.data.FactoryStartDate')}"
-                editorType="dxDateBox">
+                editorType="dxDateBox"  [editorOptions]="{ displayFormat:'d/M/yyyy' }" >
+                <dxi-validation-rule type="custom" ignoreEmptyValue="true" reevaluate="true"
+                  [validationCallback]="validateFunction" message="Factory End Date Compare Validate">
+                </dxi-validation-rule>
               </dxi-item>
             </dxi-item>
             <dxi-item itemType="group" [colCount]="2">
               <dxi-item dataField="FactoryAddress" [label]="{text: trans.instant('Factory.data.FactoryAddress')}">
               </dxi-item>
               <dxi-item dataField="FactoryEndDate" [label]="{text: trans.instant('Factory.data.FactoryEndDate')}"
-                editorType="dxDateBox">
+                editorType="dxDateBox" [editorOptions]="{ disabled: disabledEndDate, displayFormat:'d/M/yyyy' }">
                 <dxi-validation-rule type="custom" ignoreEmptyValue="true" reevaluate="true"
-                  [validationCallback]="validateFunction" message="Factory End Date Compare Validate">
+                  [validationCallback]="validateFunction" message="Factory Start Date Compare Validate">
                 </dxi-validation-rule>
               </dxi-item>
             </dxi-item>
@@ -151,7 +153,9 @@
               <dxi-item dataField="FactoryContact" [label]="{text: trans.instant('Factory.data.FactoryContact')}"
                 editorType="dxTextArea"></dxi-item>
               <dxi-item dataField="FactoryContactPhone" [label]="{text: trans.instant('Factory.data.ContactPhone')}"
-                [editorOptions]="{ mask: '(+00) 000 000 0099'}"></dxi-item>
+                [editorOptions]="{ mask: '(+00) 000 000 0099'}">
+                <dxi-validation-rule type="required" message="{{'Factory.invalid.Valid_ContactNumber' | translate}}"></dxi-validation-rule>
+              </dxi-item>
             </dxi-item>
             <dxi-item>
               <div *dxTemplate>
@@ -164,6 +168,7 @@
               <div *dxTemplate="let data of 'table-resposive'">
                 <dx-data-grid
                   [dataSource]="entity.FactoryTechnology"
+                  (onRowValidating)="onRowValidatingTechnology($event)"
                   allowColumnResizing="true"
                   [showBorders]="true">
                   <dxo-editing 
@@ -174,20 +179,20 @@
                     [useIcons] ="true">
                   </dxo-editing>
                   <dxi-column width="20%" dataField="TechnologyName" caption="{{ 'Factory.data.TechnologyName' | translate }}">
-                    <dxi-validation-rule type="required"></dxi-validation-rule>
-                    <dxi-validation-rule type="custom" ignoreEmptyValue="true" reevaluate="true" [validationCallback]="validateFunction" message="Existed Technology Name"></dxi-validation-rule>
+                    <dxi-validation-rule type="required" message="{{'Factory.invalid.TechnologyNameRequired' | translate }}"></dxi-validation-rule>
+                    <dxi-validation-rule type="custom" ignoreEmptyValue="true" reevaluate="true" [validationCallback]="validateFunction" message="{{'Factory.invalid.TechnologyNameExist' | translate }}"></dxi-validation-rule>
                   </dxi-column>
                   <dxi-column width="30%" dataField="TechnologyDescription" caption="{{ 'Factory.data.TechnologyDescription' | translate }}">
-                    <dxi-validation-rule type="required"></dxi-validation-rule>
+                    <dxi-validation-rule type="required" message="{{'Factory.invalid.TechnologyDescriptionRequired' | translate }}"></dxi-validation-rule>
                   </dxi-column>
                   <dxi-column width="20%" dataField="TechnologyFromDate"  caption="{{ 'Factory.data.TechnologyFromDate' | translate }}" dataType="date">
                     <dxi-validation-rule type="custom" ignoreEmptyValue="true" reevaluate="true"
-                      [validationCallback]="validateFunction" message="TechnologyFromDate Compare Validate">
+                      [validationCallback]="validateFunction" message="{{'Factory.invalid.TechnologyFromDateCompare' | translate }}">
                     </dxi-validation-rule>
                   </dxi-column>
                   <dxi-column width="20%" dataField="TechnologyToDate"  caption="{{ 'Factory.data.TechnologyToDate' | translate }}" dataType="date">
                     <dxi-validation-rule type="custom" ignoreEmptyValue="true" reevaluate="true"
-                      [validationCallback]="validateFunction" message="TechnologyToDate Compare Validate">
+                      [validationCallback]="validateFunction" message="{{'Factory.invalid.TechnologyToDateCompare' | translate }}">
                     </dxi-validation-rule>
                   </dxi-column>
                 </dx-data-grid>

@@ -24,70 +24,54 @@
             <div class="sk-rect5"></div>
           </div>
           <div class="row">
-            <div class="col-sm-2">
+            <div class="col-lg-12">
               <button (click)="fnAdd()" type="button" class="btn btn-primary dim" data-toggle="modal"
-                data-target="#myModal4">
-                <i class="fa fa-plus"></i> {{ 'Warehouse.btn.Add' | translate}} </button>
-            </div>
-            <div class="col-sm-2 text-center">
-              <div class="form-group">
-                <label for="choose">
-                  <small>{{'Warehouse.label.Showed'| translate}} </small>
-                </label>
-                <select id='choose' class="form-control" [(ngModel)]="pageSize" (change)="loadInit()">
-                  <option selected value=12>12</option>
-                  <option value=24>24</option>
-                  <option value=36>36</option>
-                  <option value=0>All</option>
-                </select>
-              </div>
-            </div>
-            <div class="col-sm-4 text-center">
-              <h2> {{'Warehouse.label.TotalWarehouse' | translate}} {{Warehouse_showed}} {{'Warehouse.' | translate}}
-              </h2>
-              <!-- <small>{{'Warehouse.label.Showed'| translate}} : {{Warehouse.length}}  {{'Warehouse.' |  translate}} </small> -->
-              <pagination [totalItems]="Warehouse_showed" [itemsPerPage]="pageSize"
-                (pageChanged)="onPageChanged($event)">
-              </pagination>
-            </div>
-            <div class="col-sm-4">
-              <div class="pull-right">
-                <label for="">{{ 'Warehouse.label.SearchTitle' | translate}}</label>
-                <div class="input-group">
-                  <input type="text" class="form-control input-lg"
-                    placeholder="{{ 'Warehouse.label.SearchText' | translate}}" name="search" [(ngModel)]="keyword"
-                    (keyup)="$event.keyCode === 13  && fnSearchLoad()">
-                  <div class="input-group-btn">
-                    <button class="btn btn-lg btn-primary" type="submit" (click)="fnSearchLoad()">
-                      <i class="fa fa-search"></i>
-                    </button>
-                  </div>
-                </div>
-              </div>
+                data-target="#myModal4"><i class="fa fa-plus"></i> {{ 'Warehouse.btn.Add' | translate}} </button>
+              <button (click)="dataSource.reload()" type="button" class="btn btn-outline btn-white btn-default dim pull-right"><i class="fa fa-undo"></i>  </button>
             </div>
           </div>
           <hr>
           <div class="row">
-            <div class="col-lg-3" *ngFor="let item of Warehouse">
-              <div class="panel panel-info">
-                <div class="panel-heading text-center">
-                  <a (click)="fnEditSignal(item.WarehouseId)"><i class="fa fa-info-circle"></i> {{item.WarehouseName}}
-                  </a>
-                  <button class="btn btn-sm btn-outline pull-right css_btnDel" (click)="fnDelete(item.WarehouseId)"><i
-                      class="fa fa-times-circle"></i> </button>
-                </div>
-                <div class="panel-body">
-                  <p> <strong>{{ 'Warehouse.data.WarehouseCode' | translate}}:</strong> {{item.WarehouseCode}}</p>
-                  <p> <strong>{{ 'Factory.' | translate}}:</strong> {{item.FactoryName}}</p>
-                  <p> <strong>{{ 'Warehouse.data.WarehouseUserName' | translate}}:</strong> {{item.WarehouseUserName}}</p>
-                  <p> <strong>{{ 'Warehouse.data.WarehouseType' | translate }}:</strong> {{'Warehouse.data.WarehouseType'+item.WarehouseType | translate}}</p>
-                  <p> <strong>{{ 'Warehouse.data.WarehouseAddress' | translate}}:</strong> {{item.WarehouseAddress}}</p>
-                  <p> <strong>{{ 'Warehouse.data.Status' | translate}}:</strong>
-                    <span class="label" [ngClass]="{'label-primary': item.Status==1, 'label-danger': item.Status==0}">
-                      {{'Warehouse.data.Status'+item.Status | translate}}</span>
-                  </p>
-                </div>
-              </div>
+            <div class="col-lg-12">
+              <dx-data-grid #grid [dataSource]="dataSource" [remoteOperations]="true" class="m-grid-5" [showRowLines]="true"  [showBorders]="true">
+                <dxo-selection mode="single"></dxo-selection>
+                <dxo-filter-row [visible]="true"></dxo-filter-row>
+                <dxo-state-storing [enabled]="true" type="localStorage" storageKey="gridStorage_Warehouse"></dxo-state-storing>
+                <dxi-column dataField="WarehouseCode" caption="{{ 'Warehouse.data.WarehouseCode' | translate}}">
+                </dxi-column>
+                <dxi-column dataField="WarehouseName" caption="{{ 'Warehouse.data.WarehouseName' | translate}}">
+                </dxi-column>
+                <dxi-column dataField="FactoryId" caption="{{ 'Warehouse.data.FactoryId' | translate}}">
+                  <dxo-lookup [dataSource]="factoryList" displayExpr="FactoryName" valueExpr="FactoryId"></dxo-lookup>
+                </dxi-column>
+                <dxi-column width="120px" dataField="WarehouseType" caption="{{ 'Warehouse.data.WarehouseType' | translate}}">
+                  <dxo-lookup [dataSource]=" [
+                  { id: 1, text: trans.instant('Warehouse.data.WarehouseType1')}
+                  ,{ id: 2, text: trans.instant('Warehouse.data.WarehouseType2')}
+                  ,{ id: 3, text: trans.instant('Warehouse.data.WarehouseType3')}
+                  ,{ id: 4, text: trans.instant('Warehouse.data.WarehouseType4')}]" 
+                displayExpr="text" valueExpr="id"></dxo-lookup>
+                </dxi-column>
+                <dxi-column dataField="WarehouseLength" caption="{{ 'Warehouse.data.WarehouseLength' | translate}}"></dxi-column>
+                <dxi-column dataField="WarehouseWidth" caption="{{ 'Warehouse.data.WarehouseWidth' | translate}}"></dxi-column>
+                <dxi-column dataField="WarehouseHeight" caption="{{ 'Warehouse.data.WarehouseHeight' | translate}}"></dxi-column>
+                <dxi-column dataField="CreateDate" dataType="date" caption="{{ 'Warehouse.data.CreateDate' | translate}}"  format="d/M/yyyy HH:mm">
+                </dxi-column>
+                <dxi-column dataField="CreateBy" caption="{{ 'Warehouse.data.CreateBy' | translate}}">
+                </dxi-column>
+                <dxi-column dataField="ModifyDate" dataType="date" caption="{{ 'Warehouse.data.ModifyDate' | translate}}"  format="d/M/yyyy HH:mm">
+                </dxi-column>
+                <dxi-column dataField="ModifyBy" caption="{{ 'Warehouse.data.ModifyBy' | translate}}"></dxi-column>
+                <dxi-column dataField="Status" #status dataType="boolean"
+                  caption="{{ 'Warehouse.data.Status' | translate}}"></dxi-column>
+                <dxi-column type="buttons" [width]="110">
+                  <dxi-button icon="edit" [visible]="1" [onClick]="fnEdit"></dxi-button>
+                  <dxi-button icon="trash" [visible]="1" [onClick]="fnDelete"></dxi-button>
+                </dxi-column>
+                <dxo-paging [pageSize]="25"></dxo-paging>
+                <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[25, 50, 100]"></dxo-pager>
+              </dx-data-grid>
+
             </div>
           </div>
         </div>
@@ -100,8 +84,8 @@
   <div class="modal-dialog modal-lg ">
     <div class="modal-content animated fadeIn">
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal"  (click)="childModal.hide()" ><span aria-hidden="true" >&times;</span><span
-            class="sr-only">Close</span></button>
+        <button type="button" class="close" data-dismiss="modal" (click)="childModal.hide()"><span
+            aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
         <h4 class="modal-title"> {{'Warehouse.label.Information' | translate }}</h4>
       </div>
       <div class="modal-body">
@@ -109,22 +93,25 @@
           <dx-form #targetForm id="form" [(formData)]="entity">
             <dxi-item itemType="group" [colCount]="2">
               <dxi-item dataField="WarehouseCode" [label]="{text: trans.instant('Warehouse.data.WarehouseCode')}">
-                <dxi-validation-rule type="required"></dxi-validation-rule>
-                <dxi-validation-rule type="async" message="Exist Warehouse Code" reevaluate="true"
+                <dxi-validation-rule type="required" message="{{ 'messg.valid.required' | translate}}">
+                </dxi-validation-rule>
+                <dxi-validation-rule type="async" message="{{ 'messg.valid.exist' | translate}}" reevaluate="true"
                   [validationCallback]="validateAsync"></dxi-validation-rule>
               </dxi-item>
               <dxi-item dataField="FactoryId" editorType="dxSelectBox"
                 [label]="{text: trans.instant('Warehouse.data.FactoryId')}"
-                [editorOptions]="{ displayExpr: 'FactoryName' ,valueExpr:'FactoryId' , dataSource: factoryList}">
-                <dxi-validation-rule type="required"></dxi-validation-rule>
+                [editorOptions]="{ displayExpr: 'FactoryName' ,valueExpr:'FactoryId' , dataSource: factoryList, searchEnabled: true, searchExpr: 'FactoryName' }">
+                <dxi-validation-rule type="required" message="{{ 'messg.valid.required' | translate}}">
+                </dxi-validation-rule>
                 <dxi-validation-rule type="custom" ignoreEmptyValue="true" [validationCallback]="validateFunction"
-                  message="Required Choose"></dxi-validation-rule>
+                  message="{{ 'messg.valid.required' | translate}}"></dxi-validation-rule>
               </dxi-item>
             </dxi-item>
             <dxi-item itemType="group" [colCount]="2">
               <dxi-item dataField="WarehouseName" [label]="{text: trans.instant('Warehouse.data.WarehouseName')}">
-                <dxi-validation-rule type="required"></dxi-validation-rule>
-                <dxi-validation-rule type="async" message="Exist Warehouse Name" reevaluate="true"
+                <dxi-validation-rule type="required" message="{{ 'messg.valid.required' | translate}}">
+                </dxi-validation-rule>
+                <dxi-validation-rule type="async" message="{{ 'messg.valid.exist' | translate}}" reevaluate="true"
                   [validationCallback]="validateAsync"></dxi-validation-rule>
               </dxi-item>
               <dxi-item dataField="WarehouseType" [label]="{text: trans.instant('Warehouse.data.WarehouseType')}"
@@ -135,7 +122,8 @@
                 ,{ id: 3, text: trans.instant('Warehouse.data.WarehouseType3')}
                 ,{ id: 4, text: trans.instant('Warehouse.data.WarehouseType4')}
                 ]}">
-                <dxi-validation-rule type="required"></dxi-validation-rule>
+                <dxi-validation-rule type="required" message="{{ 'messg.valid.required' | translate}}">
+                </dxi-validation-rule>
               </dxi-item>
             </dxi-item>
             <dxi-item itemType="group" [colCount]="2">
@@ -143,8 +131,9 @@
               </dxi-item>
               <dxi-item dataField="WarehouseUserName"
                 [label]="{text: trans.instant('Warehouse.data.WarehouseUserName')}" editorType="dxSelectBox"
-                [editorOptions]="{displayExpr: 'NormalizedUserName' ,valueExpr:'UserName' ,items: initCombobox.Users}">
-                <dxi-validation-rule type="required"></dxi-validation-rule>
+                [editorOptions]="{displayExpr: 'NormalizedUserName' ,valueExpr:'UserName' ,items: userList}">
+                <dxi-validation-rule type="required" message="{{ 'messg.valid.required' | translate}}">
+                </dxi-validation-rule>
               </dxi-item>
             </dxi-item>
             <dxi-item itemType="group" [colCount]="2">
@@ -159,15 +148,15 @@
             <dxi-item itemType="group" [colCount]="3" caption="Size (cm)">
               <dxi-item dataField="WarehouseLength" [label]="{text: trans.instant('Warehouse.data.WarehouseLength')}"
                 editorType="dxNumberBox">
-                <dxi-validation-rule type="range" [min]="0" [max]="100" message="Range 0-100"></dxi-validation-rule>
+                <dxi-validation-rule type="range" [min]="0" message=">=0"></dxi-validation-rule>
               </dxi-item>
               <dxi-item dataField="WarehouseWidth" [label]="{text: trans.instant('Warehouse.data.WarehouseWidth')}"
                 editorType="dxNumberBox">
-                <dxi-validation-rule type="range" [min]="0" [max]="100" message="Range 0-100"></dxi-validation-rule>
+                <dxi-validation-rule type="range" [min]="0" message=">=0"></dxi-validation-rule>
               </dxi-item>
               <dxi-item dataField="WarehouseHeight" [label]="{text: trans.instant('Warehouse.data.WarehouseHeight')}"
                 editorType="dxNumberBox">
-                <dxi-validation-rule type="range" [min]="0" [max]="100" message="Range 0-100"></dxi-validation-rule>
+                <dxi-validation-rule type="range" [min]="0" message=">=0"></dxi-validation-rule>
               </dxi-item>
             </dxi-item>
             <dxi-item itemType="group" caption="{{'Upload.' | translate}}">
@@ -187,27 +176,31 @@
                   </dxo-editing>
                   <dxi-column dataField="WarehouseLocationCode"
                     caption="{{ 'Warehouse.data.WarehouseLocationCode' | translate }}">
-                    <dxi-validation-rule type="required"></dxi-validation-rule>
+                    <dxi-validation-rule type="required" message="{{ 'messg.valid.required' | translate}}">
+                    </dxi-validation-rule>
                     <dxi-validation-rule type="custom" ignoreEmptyValue="true" reevaluate="true"
-                      [validationCallback]="validateFunction" message="Existed Technology Name"></dxi-validation-rule>
+                      [validationCallback]="validateFunction" message="{{ 'messg.valid.exist' | translate}}">
+                    </dxi-validation-rule>
                   </dxi-column>
                   <dxi-column dataField="WarehouseLocationName"
                     caption="{{ 'Warehouse.data.WarehouseLocationName' | translate }}">
-                    <dxi-validation-rule type="required"></dxi-validation-rule>
+                    <dxi-validation-rule type="required" message="{{ 'messg.valid.required' | translate}}">
+                    </dxi-validation-rule>
                     <dxi-validation-rule type="custom" ignoreEmptyValue="true" reevaluate="true"
-                      [validationCallback]="validateFunction" message="Existed Technology Name"></dxi-validation-rule>
+                      [validationCallback]="validateFunction" message="{{ 'messg.valid.exist' | translate}}">
+                    </dxi-validation-rule>
                   </dxi-column>
                   <dxi-column dataField="WarehouseLocationLength"
-                    caption="{{ 'Warehouse.data.WarehouseLocationLength' | translate }}">
-                    <dxi-validation-rule type="range" [min]="0" [max]="100" message="Range 0-100"></dxi-validation-rule>
+                    caption="{{ 'Warehouse.data.WarehouseLocationLength' | translate }}" dataType="number">
+                    <dxi-validation-rule type="range" [min]="0" message=">=0"></dxi-validation-rule>
                   </dxi-column>
                   <dxi-column dataField="WarehouseLocationWidth"
-                    caption="{{ 'Warehouse.data.WarehouseLocationWidth' | translate }}">
-                    <dxi-validation-rule type="range" [min]="0" [max]="100" message="Range 0-100"></dxi-validation-rule>
+                    caption="{{ 'Warehouse.data.WarehouseLocationWidth' | translate }}" dataType="number">
+                    <dxi-validation-rule type="range" [min]="0" message=">=0"></dxi-validation-rule>
                   </dxi-column>
                   <dxi-column dataField="WarehouseLocationHeight"
-                    caption="{{ 'Warehouse.data.WarehouseLocationHeight' | translate }}">
-                    <dxi-validation-rule type="range" [min]="0" [max]="100" message="Range 0-100"></dxi-validation-rule>
+                    caption="{{ 'Warehouse.data.WarehouseLocationHeight' | translate }}" dataType="number">
+                    <dxi-validation-rule type="range" [min]="0" message=">=0"></dxi-validation-rule>
                   </dxi-column>
                   <dxi-column dataField="Status" caption="{{ 'Warehouse.data.Status' | translate }}" dataType="boolean">
                   </dxi-column>
@@ -218,7 +211,8 @@
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-white"  data-dismiss="modal" (click)="childModal.hide()"  >{{'Button.Close' | translate}} </button>
+        <button type="button" class="btn btn-white" data-dismiss="modal"
+          (click)="childModal.hide()">{{'Button.Close' | translate}} </button>
         <button type="button" class="btn btn-primary" (click)="fnSave()" [ladda]="laddaSubmitLoading"><i
             class="fa fa-paper-plane-o"></i> {{'Button.Save' | translate}} </button>
       </div>
