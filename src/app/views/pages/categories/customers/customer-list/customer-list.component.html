@@ -18,7 +18,7 @@
               <dx-data-grid #grid [dataSource]="dataSource" [remoteOperations]="true" class="m-grid-5" [showRowLines]="true"  [showBorders]="true">
                 <dxo-selection mode="single"></dxo-selection>
                 <dxo-filter-row [visible]="true"></dxo-filter-row>
-                <dxo-state-storing [enabled]="true" type="localStorage" storageKey="storage"></dxo-state-storing>
+                <dxo-state-storing [enabled]="true" type="localStorage" storageKey="gridStorage_Customer"></dxo-state-storing>
                 <!-- <dxo-group-panel [visible]="true"></dxo-group-panel> -->
                 <dxi-column dataField="CustomerCode" caption="{{ 'Customer.data.CustomerCode' | translate}}">
                 </dxi-column>
