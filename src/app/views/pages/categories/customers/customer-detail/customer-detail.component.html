@@ -30,7 +30,7 @@
                 <div class="dx-fieldset">
                   <div class="dx-fieldset-column">
                     <div class="dx-field">
-                      <div class="dx-field-label">{{'Customer.data.CustomerName' | translate }}*</div>
+                      <div class="dx-field-label">{{'Customer.data.CustomerName' | translate }} <span class="dx-field-item-required-mark"> *</span>  </div>
                       <div class="dx-field-value">
                         <dx-text-box mode="text" [(value)]="entity.CustomerName">
                           <dx-validator>
@@ -42,7 +42,7 @@
                       </div>
                     </div>
                     <div class="dx-field">
-                      <div class="dx-field-label">{{'Customer.data.CustomerCode' | translate }}*</div>
+                      <div class="dx-field-label">{{'Customer.data.CustomerCode' | translate }} <span class="dx-field-item-required-mark"> *</span>  </div>
                       <div class="dx-field-value">
                         <dx-text-box name="FactoryCode" mode="text" [(value)]="entity.CustomerCode"
                           placeholder="{{'Customer.placeholder.CustomerCode' | translate }}">
@@ -81,7 +81,7 @@
                   </div>
                   <div class="dx-fieldset-column">
                     <div class="dx-field">
-                      <div class="dx-field-label">{{'Customer.data.FactoryId' | translate }}*</div>
+                      <div class="dx-field-label">{{'Customer.data.FactoryId' | translate }} <span class="dx-field-item-required-mark"> *</span>  </div>
                       <div class="dx-field-value">
                         <dx-select-box [(value)]="entity.FactoryId" [dataSource]="factoryList" displayExpr="FactoryName"
                           valueExpr="FactoryId" searchEnabled="true"  searchExpr="FactoryName">

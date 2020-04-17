@@ -194,7 +194,13 @@ export class FactoryComponent implements OnInit {
       }
     if (e.column) { }
     switch (e.column.dataField) {
-      case "TechnologyName": return this.entity.FactoryTechnology.filter(x => x.TechnologyName == e.data.TechnologyName && x.FactoryTechnologyId != e.data.FactoryTechnologyId).length == 0
+      case "TechnologyName": 
+        let _find = this.entity.FactoryTechnology.find(x => x.TechnologyName.toLowerCase().trim() == e.data.TechnologyName.toLowerCase().trim());
+        if (!_find) return true;
+        else if (_find.TechnologyDescription == e.data.TechnologyDescription 
+          &&  _find.TechnologyFromDate == e.data.TechnologyFromDate 
+          &&  _find.TechnologyToDate == e.data.TechnologyToDate) return true;
+        else return false;
       case "TechnologyFromDate": return e.data.TechnologyFromDate <= e.data.TechnologyToDate
       case "TechnologyToDate": return e.data.TechnologyFromDate <= e.data.TechnologyFromDate
     }
