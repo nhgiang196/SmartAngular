@@ -45,7 +45,7 @@
             <div class="col-sm-4 text-center">
               <h2 class="total-factory"> {{'Factory.label.TotalFactory' | translate}} {{factory_showed}}
                 {{'Factory.' | translate}} </h2>
-              <pagination [totalItems]="factory_showed" [itemsPerPage]="pageSize" (pageChanged)="onPageChanged($event)">
+              <pagination firstText="<<" previousText="<" nextText=">" lastText=">>" [totalItems]="factory_showed" [itemsPerPage]="pageSize" (pageChanged)="onPageChanged($event)">
               </pagination>
             </div>
             <div class="col-sm-4">
@@ -114,9 +114,7 @@
                 ,{ id: 3, text: trans.instant('Factory.data.FactoryType3')}
                 ]}"></dxi-item>
               <dxi-item dataField="Status" [label]="{text: trans.instant('Factory.data.Status')}"
-                editorType="dxSelectBox" [editorOptions]="{ displayExpr: 'text' ,valueExpr:'id' ,
-                items: [{id: 0, text: trans.instant('Factory.data.Status0')}
-                ,{ id: 1, text: trans.instant('Factory.data.Status1')}]}">
+                editorType="dxSelectBox" [editorOptions]="statusOption">
               </dxi-item>
             </dxi-item>
             <dxi-item itemType="group" [colCount]="2">
@@ -134,16 +132,19 @@
                 editorType="dxDateBox">
               </dxi-item>
               <dxi-item dataField="FactoryStartDate" [label]="{text: trans.instant('Factory.data.FactoryStartDate')}"
-                editorType="dxDateBox">
+                editorType="dxDateBox"  >
+                <dxi-validation-rule type="custom" ignoreEmptyValue="true" reevaluate="true"
+                  [validationCallback]="validateFunction" message="Factory End Date Compare Validate">
+                </dxi-validation-rule>
               </dxi-item>
             </dxi-item>
             <dxi-item itemType="group" [colCount]="2">
               <dxi-item dataField="FactoryAddress" [label]="{text: trans.instant('Factory.data.FactoryAddress')}">
               </dxi-item>
               <dxi-item dataField="FactoryEndDate" [label]="{text: trans.instant('Factory.data.FactoryEndDate')}"
-                editorType="dxDateBox">
+                editorType="dxDateBox" [editorOptions]="{ disabled: disabledEndDate }">
                 <dxi-validation-rule type="custom" ignoreEmptyValue="true" reevaluate="true"
-                  [validationCallback]="validateFunction" message="Factory End Date Compare Validate">
+                  [validationCallback]="validateFunction" message="Factory Start Date Compare Validate">
                 </dxi-validation-rule>
               </dxi-item>
             </dxi-item>
@@ -151,7 +152,9 @@
               <dxi-item dataField="FactoryContact" [label]="{text: trans.instant('Factory.data.FactoryContact')}"
                 editorType="dxTextArea"></dxi-item>
               <dxi-item dataField="FactoryContactPhone" [label]="{text: trans.instant('Factory.data.ContactPhone')}"
-                [editorOptions]="{ mask: '(+00) 000 000 0099'}"></dxi-item>
+                [editorOptions]="{ mask: '(+00) 000 000 0099'}">
+                <dxi-validation-rule type="required"></dxi-validation-rule>
+              </dxi-item>
             </dxi-item>
             <dxi-item>
               <div *dxTemplate>

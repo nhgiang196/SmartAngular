@@ -46,7 +46,7 @@
               <h2> {{'Warehouse.label.TotalWarehouse' | translate}} {{Warehouse_showed}} {{'Warehouse.' | translate}}
               </h2>
               <!-- <small>{{'Warehouse.label.Showed'| translate}} : {{Warehouse.length}}  {{'Warehouse.' |  translate}} </small> -->
-              <pagination [totalItems]="Warehouse_showed" [itemsPerPage]="pageSize"
+              <pagination firstText="<<" previousText="<" nextText=">" lastText=">>" [totalItems]="Warehouse_showed" [itemsPerPage]="pageSize"
                 (pageChanged)="onPageChanged($event)">
               </pagination>
             </div>

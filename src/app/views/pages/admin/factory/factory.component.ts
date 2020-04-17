@@ -28,7 +28,7 @@ export class FactoryComponent implements OnInit {
     private auth: AuthService
   ) {
 
-   }
+  }
   /** DECLARATION */
   factory: Factory[] = []; //init data
   entity: Factory;
@@ -40,6 +40,7 @@ export class FactoryComponent implements OnInit {
   pageIndex = 1;
   pageSize = 12;
 
+  disabledEndDate = false;
   buttonOptions2 = {
     stylingMode: 'text', // để tắt đường viền container
     template: ` <button type="button" class="btn btn-white" data-dismiss="modal"> ${this.trans.instant('Button.Close')}</button>`, //template hoạt động cho Ispinia
@@ -49,6 +50,19 @@ export class FactoryComponent implements OnInit {
     stylingMode: 'text', // để tắt đường viền container
     template: `<button type="button" class="btn btn-primary"><i class="fa fa-paper-plane-o"></i> ${this.trans.instant('Button.Save')}</button>`, //template hoạt động cho Ispinia
     useSubmitBehavior: true, //submit = validate + save
+  }
+  statusOption = {
+    displayExpr: 'text', valueExpr: 'id',
+    items: [
+      { id: 0, text: this.trans.instant('Factory.data.Status0') },
+      { id: 1, text: this.trans.instant('Factory.data.Status1') }
+    ],
+    onValueChanged: (e)=>{
+      this.entity.FactoryEndDate = null;
+      this.disabledEndDate = e.value==1;
+
+    }
+    
   }
 
   ngOnInit() {
@@ -175,8 +189,8 @@ export class FactoryComponent implements OnInit {
   validateFunction = (e) => {
     if (e.formItem)
       switch (e.formItem.dataField) {
-        case "FactoryStartDate": return e.value <= this.entity.FactoryEndDate
-        case "FactoryEndDate": return this.entity.FactoryStartDate <= e.value
+        case "FactoryStartDate": return e.value <= this.entity.FactoryEndDate || this.entity.FactoryEndDate==null
+        case "FactoryEndDate": return this.entity.FactoryStartDate <= e.value  || this.entity.FactoryStartDate==null
       }
     if (e.column) { }
     switch (e.column.dataField) {
