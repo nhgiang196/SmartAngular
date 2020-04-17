@@ -194,7 +194,13 @@ export class FactoryComponent implements OnInit {
       }
     if (e.column) { }
     switch (e.column.dataField) {
-      case "TechnologyName": return this.entity.FactoryTechnology.filter(x => x.TechnologyName == e.data.TechnologyName && x.FactoryTechnologyId != e.data.FactoryTechnologyId).length == 0
+      case "TechnologyName": 
+        let _find = this.entity.FactoryTechnology.find(x => x.TechnologyName.toLowerCase().trim() == e.data.TechnologyName.toLowerCase().trim());
+        if (!_find) return true;
+        else if (_find.TechnologyDescription == e.data.TechnologyDescription 
+          &&  _find.TechnologyFromDate == e.data.TechnologyFromDate 
+          &&  _find.TechnologyToDate == e.data.TechnologyToDate) return true;
+        else return false;
       case "TechnologyFromDate": return e.data.TechnologyFromDate <= e.data.TechnologyToDate
       case "TechnologyToDate": return e.data.TechnologyFromDate <= e.data.TechnologyFromDate
     }
@@ -210,6 +216,31 @@ export class FactoryComponent implements OnInit {
       resolve(_validate);
     });
   }
+
+  onRowValidatingTechnology(e) {
+    // e.oldData 
+    // e.isValid = false;
+    // swal.fire("Validate", "Dữ liệu đã bị trùng", "warning");
+    var itemAdd= e.newData;
+    for (const i in this.entity.FactoryTechnology) {
+      let t = this.entity.FactoryTechnology[i];
+      if ((itemAdd.TechnologyFromDate >= t.TechnologyFromDate && itemAdd.TechnologyFromDate <= t.TechnologyToDate)
+        || (itemAdd.TechnologyToDate >= t.TechnologyFromDate && itemAdd.TechnologyToDate <= t.TechnologyToDate)
+        || (itemAdd.TechnologyFromDate <= t.TechnologyFromDate && itemAdd.TechnologyToDate >= t.TechnologyToDate)) {
+        swal.fire(
+          {
+            title: this.trans.instant('messg.validation.caption'),
+            titleText: this.trans.instant('Factory.mssg.ErrorTechnologyValidateOverlap'),
+            confirmButtonText: this.trans.instant('Button.OK'),
+            type: 'error',
+          });
+        e.isValid = false;
+      }
+    }
+    
+
+  }
+  
   ngOnDestroy() {
     $('.modal').modal('hide');
   }
