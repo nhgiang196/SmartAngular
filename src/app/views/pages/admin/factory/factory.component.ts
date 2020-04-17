@@ -216,6 +216,31 @@ export class FactoryComponent implements OnInit {
       resolve(_validate);
     });
   }
+
+  onRowValidatingTechnology(e) {
+    // e.oldData 
+    // e.isValid = false;
+    // swal.fire("Validate", "Dữ liệu đã bị trùng", "warning");
+    var itemAdd= e.newData;
+    for (const i in this.entity.FactoryTechnology) {
+      let t = this.entity.FactoryTechnology[i];
+      if ((itemAdd.TechnologyFromDate >= t.TechnologyFromDate && itemAdd.TechnologyFromDate <= t.TechnologyToDate)
+        || (itemAdd.TechnologyToDate >= t.TechnologyFromDate && itemAdd.TechnologyToDate <= t.TechnologyToDate)
+        || (itemAdd.TechnologyFromDate <= t.TechnologyFromDate && itemAdd.TechnologyToDate >= t.TechnologyToDate)) {
+        swal.fire(
+          {
+            title: this.trans.instant('messg.validation.caption'),
+            titleText: this.trans.instant('Factory.mssg.ErrorTechnologyValidateOverlap'),
+            confirmButtonText: this.trans.instant('Button.OK'),
+            type: 'error',
+          });
+        e.isValid = false;
+      }
+    }
+    
+
+  }
+  
   ngOnDestroy() {
     $('.modal').modal('hide');
   }

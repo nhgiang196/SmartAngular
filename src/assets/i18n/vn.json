@@ -209,6 +209,7 @@
     "label.Showed": "Hiển thị",
     "label.Rows": " hàng",
     "mssg.DeleteAskDeleteAsk_Title_Text": "Bạn có chắc muốn xóa nhà máy này?",
+    "mssg.ErrorTechnologyValidateOverlap": "Thời gian hiệu lực bị lồng nhau",
     "mssg.": "Xóa nhà máy?"
   },
   "Warehouse": {

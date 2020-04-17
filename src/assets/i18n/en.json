@@ -204,6 +204,7 @@
     "label.TotalFactory1": "Show",
     "label.TotalFactory2": "factory",
     "mssg.DeleteAsk_Text": "Are you sure delete this factory?",
+    "mssg.ErrorTechnologyValidateOverlap": "Error: Technology Validate Overlap",
     "mssg.DeleteAsk_Title": "Delete Factory?"
   },
   "Warehouse": {

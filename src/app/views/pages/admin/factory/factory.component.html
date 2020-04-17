@@ -168,6 +168,7 @@
               <div *dxTemplate="let data of 'table-resposive'">
                 <dx-data-grid
                   [dataSource]="entity.FactoryTechnology"
+                  (onRowValidating)="onRowValidatingTechnology($event)"
                   allowColumnResizing="true"
                   [showBorders]="true">
                   <dxo-editing 
