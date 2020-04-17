@@ -9,11 +9,11 @@ import { createStore } from 'devextreme-aspnet-data-nojquery';
 import DataSource from 'devextreme/data/data_source';
 const ApiUrl = environment.apiUrl;
 let monitorSources: MonitorDescription[] = [
-  { value: "PH", name: "pH" },
-  { value: "Tss", name: "TSS" },
-  { value: "Q", name: "Q" },
-  { value: "Color", name: "Color" },
-  { value: "Amoni", name: "Amoni" }
+  { value: "PH", name: "pH", color:'#1DB2F5'},
+  { value: "Tss", name: "TSS", color: '#EB3573' },
+  { value: "Q", name: "Q", color: '#97C95C' },
+  { value: "Color", name: "Color", color: '#F5564A' },
+  { value: "Amoni", name: "Amoni", color: '#A63DB8' }
 ];
 
 @Injectable({ providedIn: 'root' })

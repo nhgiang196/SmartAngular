@@ -48,7 +48,8 @@
     </dx-form>
   </div>
 </div>
-<div *ngFor="let item of monitorSources">
+<h1 class="text-center" [hidden]="showData" >No data</h1>
+<div *ngFor="let item of monitorSources" [hidden]="!showData">
   <div [id]="item.value"></div>
   <br>
 </div>
