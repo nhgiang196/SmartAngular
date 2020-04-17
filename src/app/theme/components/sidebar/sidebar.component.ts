@@ -21,12 +21,4 @@ export class SidebarComponent implements OnInit {
       this.listMenu = res;
     })
   }
-
-  loadLink(link){
-
-      this.router.navigate([link]);
-
-
-  }
-
 }
