@@ -129,11 +129,11 @@
             </dxi-item>
             <dxi-item itemType="group" [colCount]="2">
               <dxi-item dataField="FactoryBuiltDate" [label]="{text: trans.instant('Factory.data.FactoryBuiltDate')}"
-                editorType="dxDateBox">
+                editorType="dxDateBox"  [editorOptions]="{ displayFormat:'d/M/yyyy' }" >
                 <dxi-validation-rule type="required"  message="{{'Factory.invalid.Valid_FactoryDate' | translate}}"></dxi-validation-rule>
               </dxi-item>
               <dxi-item dataField="FactoryStartDate" [label]="{text: trans.instant('Factory.data.FactoryStartDate')}"
-                editorType="dxDateBox"  >
+                editorType="dxDateBox"  [editorOptions]="{ displayFormat:'d/M/yyyy' }" >
                 <dxi-validation-rule type="custom" ignoreEmptyValue="true" reevaluate="true"
                   [validationCallback]="validateFunction" message="Factory End Date Compare Validate">
                 </dxi-validation-rule>
@@ -143,7 +143,7 @@
               <dxi-item dataField="FactoryAddress" [label]="{text: trans.instant('Factory.data.FactoryAddress')}">
               </dxi-item>
               <dxi-item dataField="FactoryEndDate" [label]="{text: trans.instant('Factory.data.FactoryEndDate')}"
-                editorType="dxDateBox" [editorOptions]="{ disabled: disabledEndDate }">
+                editorType="dxDateBox" [editorOptions]="{ disabled: disabledEndDate, displayFormat:'d/M/yyyy' }">
                 <dxi-validation-rule type="custom" ignoreEmptyValue="true" reevaluate="true"
                   [validationCallback]="validateFunction" message="Factory Start Date Compare Validate">
                 </dxi-validation-rule>

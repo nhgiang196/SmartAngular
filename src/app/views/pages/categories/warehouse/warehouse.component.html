@@ -55,10 +55,11 @@
                 <dxi-column dataField="WarehouseLength" caption="{{ 'Warehouse.data.WarehouseLength' | translate}}"></dxi-column>
                 <dxi-column dataField="WarehouseWidth" caption="{{ 'Warehouse.data.WarehouseWidth' | translate}}"></dxi-column>
                 <dxi-column dataField="WarehouseHeight" caption="{{ 'Warehouse.data.WarehouseHeight' | translate}}"></dxi-column>
-                <dxi-column dataField="CreateDate" dataType="date" caption="{{ 'Warehouse.data.CreateDate' | translate}}">
+                <dxi-column dataField="CreateDate" dataType="date" caption="{{ 'Warehouse.data.CreateDate' | translate}}"  format="d/M/yyyy HH:mm">
                 </dxi-column>
-                <dxi-column dataField="CreateBy" caption="{{ 'Warehouse.data.CreateBy' | translate}}"></dxi-column>
-                <dxi-column dataField="ModifyDate" dataType="date" caption="{{ 'Warehouse.data.ModifyDate' | translate}}">
+                <dxi-column dataField="CreateBy" caption="{{ 'Warehouse.data.CreateBy' | translate}}">
+                </dxi-column>
+                <dxi-column dataField="ModifyDate" dataType="date" caption="{{ 'Warehouse.data.ModifyDate' | translate}}"  format="d/M/yyyy HH:mm">
                 </dxi-column>
                 <dxi-column dataField="ModifyBy" caption="{{ 'Warehouse.data.ModifyBy' | translate}}"></dxi-column>
                 <dxi-column dataField="Status" #status dataType="boolean"
