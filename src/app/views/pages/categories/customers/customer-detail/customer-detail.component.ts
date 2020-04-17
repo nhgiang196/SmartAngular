@@ -10,7 +10,7 @@ import { ContractComponent } from '../contract/contract.component';
 import { async } from '@angular/core/testing';
 import { CustomerService, AuthService } from 'src/app/core/services';
 import { SmartUploadComponent } from 'src/app/views/UISample/smart-upload/smart-upload.component';
-import { MyHelperService } from 'src/app/core/services/my-helper.service';
+import { MyHelperService } from 'src/app/core/services/utility/my-helper.service';
 import { Customer } from 'src/app/core/models/customer';
 import { Contract } from 'src/app/core/models/contrack';
 import { DevextremeService } from 'src/app/core/services/general/devextreme.service';
@@ -65,7 +65,7 @@ export class CustomerDetailComponent implements OnInit {
     this.EditRowNumber = 0;
     this.editIndex = 0;
   }
-  async fnSave() { 
+  async fnSave() {
     this.invalid = {};
     this.laddaSubmitLoading = true;
     // let _valid = await this.api.validateCustomer(this.entity).toPromise().then() as any;

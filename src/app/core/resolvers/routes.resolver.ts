@@ -4,7 +4,7 @@ import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { ToastrService } from 'ngx-toastr';
 import { Item } from '../models/item';
-import { StoreService } from '../services/store.service';
+import { StoreService } from '../services/general/store.service';
 
 
 @Injectable()

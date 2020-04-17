@@ -6,7 +6,7 @@ import {
     CanActivateChild
 } from '@angular/router';
 import { AuthService } from '../services/auth.service';
-import { StoreService } from '../services/store.service';
+import { StoreService } from '../services/general/store.service';
 import { toggleNav } from 'src/app/app.helpers';
 
 @Injectable({

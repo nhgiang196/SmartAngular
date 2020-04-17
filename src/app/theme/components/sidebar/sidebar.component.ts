@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { StoreService } from 'src/app/core/services/store.service';
+import { StoreService } from 'src/app/core/services/general/store.service';
 import { metisMenuRender } from 'src/app/app.helpers';
 import { Router, ActivatedRoute } from '@angular/router';
 

@@ -42,7 +42,14 @@
               <div class="col-lg-4">
                 <div class="form-group">
                   <label> {{ 'Process.data.Factory' | translate }} *: </label>
-                  <div class="input-group">
+                  <ui-select-box
+                  entitykey="Factory"
+                  [pageSize]="5"
+                  [checkstatus]="true"
+                  [(ngModelCustom)]="factoryId"
+                  (valueChange)="onChange()"
+                  ></ui-select-box>
+                  <!-- <div class="input-group">
                     <ui-select-box
                   entitykey="Factory"
                   [pageSize]="5"
@@ -54,7 +61,7 @@
                       <button type="button" class="btn btn-primary" (click)="fnFindBomFactoryId()"
                       [disabled]="startDay==null || endDay==null || factoryId==0||factoryId==null"
                       > Go!</button> </span>
-                  </div>
+                  </div> -->
                 </div>
               </div>
             </form>
@@ -111,9 +118,6 @@
                             </dxo-editing>
                             <dxi-column  dataField="ShiftName"  caption="ShiftName">
                             </dxi-column>
-                            <dxi-column  dataField="ProcessLogDate"  caption="ProcessLogDate" dataType="date"></dxi-column>
-                            <dxi-column  dataField="ProcessLogTime"  caption="ProcessLogTime"></dxi-column>
-                            <dxi-column  dataField="ItemOutIndicator" caption="ItemOutIndicator"></dxi-column>
                             <dxi-column dataField="UnitName" caption="ItemOutUnitId">
                               <!-- <dxo-lookup
                                 [dataSource]="dataSourceUnit"
@@ -121,6 +125,10 @@
                                                     valueExpr="UnitId">
                                  </dxo-lookup> -->
                             </dxi-column>
+                            <dxi-column  dataField="ProcessLogDate"  caption="ProcessLogDate" dataType="date"></dxi-column>
+                            <dxi-column  dataField="ProcessLogTime"  caption="ProcessLogTime"></dxi-column>
+                            <dxi-column  dataField="ItemOutIndicator" caption="ItemOutIndicator"></dxi-column>
+
                             <dxi-column  dataField="Status" dataType="boolean" caption="{{'Master.data.Status' | translate}}"></dxi-column>
                             <dxi-column type="buttons" [width]="110">
                               <dxi-button
@@ -151,7 +159,7 @@
                                     >
                                     <dxo-texts confirmDeleteMessage="Are you sure Delete?"></dxo-texts>
                                   </dxo-editing>
-                                      <dxi-column [allowEditing]="false" dataField="ItemId"  caption="{{'BomFactory.BomItem.ItemId' | translate}}"  [setCellValue]="setItemValueIn">
+                                      <dxi-column [allowEditing]="false" dataField="ItemId"  caption="{{'BomFactory.BomItem.ItemId' | translate}}" >
                                         <dxo-lookup
                                             [dataSource]="dataSourceItem"
                                             displayExpr="ItemName"

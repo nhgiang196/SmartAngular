@@ -5,7 +5,7 @@ import { AuthService } from 'src/app/core/services';
 import { ToastrService } from 'ngx-toastr';
 import swal from 'sweetalert2';
 import { TranslateService } from '@ngx-translate/core';
-import { MyHelperService } from 'src/app/core/services/my-helper.service';
+import { MyHelperService } from 'src/app/core/services/utility/my-helper.service';
 import { StageFile, Stage } from 'src/app/core/models/stage';
 import { HttpEventType } from '@angular/common/http';
 import { FileService } from 'src/app/core/services/file.service';
@@ -91,7 +91,7 @@ export class StageComponent implements OnInit {
     data.ModifyDate = new Date();
     data.Status = data.Status ? 1 : 0; //tenary operation if (data.status == true) return 1 else return 0
     data.StageFile = this.resetStageId(this.entity.StageFile)
-    e.newData = data;//set object   
+    e.newData = data;//set object
     if (this.addFiles.FileList.length > 0)
       this.uploadFile(this.addFiles.FileList);
 
@@ -113,9 +113,9 @@ export class StageComponent implements OnInit {
     e.data.CreateBy = this.auth.currentUser.Username;
   }
   /**
- * reset StagePropertyId = 0 
+ * reset StagePropertyId = 0
  * Although use for instead of forEach. But I used forEach to read easier.
- * @param dataSource 
+ * @param dataSource
  */
   resetStageId(dataSource) {
     dataSource.forEach(item => {
