@@ -137,7 +137,9 @@
     "delete.success": "Delete Success!",
     "delete.error": "Erron on Deleteing ",
     "maximumFileSize2000": "Maximum attachment size 2MB, some file can't upload",
-    "maximumFileSize5000": "Maximum attachment size 5MB, some file can't upload"
+    "maximumFileSize5000": "Maximum attachment size 5MB, some file can't upload",
+    "valid.required": "Required",
+    "valid.exist": "Existed"
   },
   "Master": {
     "data.CreateBy": "Create By",

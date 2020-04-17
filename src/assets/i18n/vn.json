@@ -140,7 +140,9 @@
     "login.caption": "Lỗi đăng nhập",
     "datatable.zeroRecords": "Không có dữ liệu",
     "maximumFileSize2000": "Giới hạn file tối đa 2MB, một số file sẽ không được upload lên",
-    "maximumFileSize5000": "Giới hạn file tối đa 5MB, một số file sẽ không được upload lên"
+    "maximumFileSize5000": "Giới hạn file tối đa 5MB, một số file sẽ không được upload lên",
+    "valid.required": "Không để trống",
+    "valid.exist": "Đã tồn tại"
   },
   "Master": {
     "data.CreateBy": "Người tạo",

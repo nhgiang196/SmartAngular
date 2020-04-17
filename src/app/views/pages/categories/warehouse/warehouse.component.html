@@ -109,22 +109,21 @@
           <dx-form #targetForm id="form" [(formData)]="entity">
             <dxi-item itemType="group" [colCount]="2">
               <dxi-item dataField="WarehouseCode" [label]="{text: trans.instant('Warehouse.data.WarehouseCode')}">
-                <dxi-validation-rule type="required"></dxi-validation-rule>
-                <dxi-validation-rule type="async" message="Exist Warehouse Code" reevaluate="true"
+                <dxi-validation-rule type="required" message="{{ 'messg.valid.required' | translate}}"></dxi-validation-rule>
+                <dxi-validation-rule type="async" message="{{ 'messg.valid.exist' | translate}}" reevaluate="true"
                   [validationCallback]="validateAsync"></dxi-validation-rule>
               </dxi-item>
               <dxi-item dataField="FactoryId" editorType="dxSelectBox"
                 [label]="{text: trans.instant('Warehouse.data.FactoryId')}"
                 [editorOptions]="{ displayExpr: 'FactoryName' ,valueExpr:'FactoryId' , dataSource: factoryList, searchEnabled: true, searchExpr: 'FactoryName' }">
-                <dxi-validation-rule type="required"></dxi-validation-rule>
-                <dxi-validation-rule type="custom" ignoreEmptyValue="true" [validationCallback]="validateFunction"
-                  message="Required Choose"></dxi-validation-rule>
+                <dxi-validation-rule type="required" message="{{ 'messg.valid.required' | translate}}"></dxi-validation-rule>
+                <dxi-validation-rule type="custom" ignoreEmptyValue="true" [validationCallback]="validateFunction"  message="{{ 'messg.valid.required' | translate}}"></dxi-validation-rule>
               </dxi-item>
             </dxi-item>
             <dxi-item itemType="group" [colCount]="2">
               <dxi-item dataField="WarehouseName" [label]="{text: trans.instant('Warehouse.data.WarehouseName')}">
-                <dxi-validation-rule type="required"></dxi-validation-rule>
-                <dxi-validation-rule type="async" message="Exist Warehouse Name" reevaluate="true"
+                <dxi-validation-rule type="required" message="{{ 'messg.valid.required' | translate}}"></dxi-validation-rule>
+                <dxi-validation-rule type="async"message="{{ 'messg.valid.exist' | translate}}" reevaluate="true"
                   [validationCallback]="validateAsync"></dxi-validation-rule>
               </dxi-item>
               <dxi-item dataField="WarehouseType" [label]="{text: trans.instant('Warehouse.data.WarehouseType')}"
@@ -135,7 +134,7 @@
                 ,{ id: 3, text: trans.instant('Warehouse.data.WarehouseType3')}
                 ,{ id: 4, text: trans.instant('Warehouse.data.WarehouseType4')}
                 ]}">
-                <dxi-validation-rule type="required"></dxi-validation-rule>
+                <dxi-validation-rule type="required" message="{{ 'messg.valid.required' | translate}}"></dxi-validation-rule>
               </dxi-item>
             </dxi-item>
             <dxi-item itemType="group" [colCount]="2">
@@ -144,7 +143,7 @@
               <dxi-item dataField="WarehouseUserName"
                 [label]="{text: trans.instant('Warehouse.data.WarehouseUserName')}" editorType="dxSelectBox"
                 [editorOptions]="{displayExpr: 'NormalizedUserName' ,valueExpr:'UserName' ,items: initCombobox.Users}">
-                <dxi-validation-rule type="required"></dxi-validation-rule>
+                <dxi-validation-rule type="required" message="{{ 'messg.valid.required' | translate}}"></dxi-validation-rule>
               </dxi-item>
             </dxi-item>
             <dxi-item itemType="group" [colCount]="2">
@@ -159,15 +158,15 @@
             <dxi-item itemType="group" [colCount]="3" caption="Size (cm)">
               <dxi-item dataField="WarehouseLength" [label]="{text: trans.instant('Warehouse.data.WarehouseLength')}"
                 editorType="dxNumberBox">
-                <dxi-validation-rule type="range" [min]="0" [max]="100" message="Range 0-100"></dxi-validation-rule>
+                <dxi-validation-rule type="range" [min]="0" [max]="100" message="0-100"></dxi-validation-rule>
               </dxi-item>
               <dxi-item dataField="WarehouseWidth" [label]="{text: trans.instant('Warehouse.data.WarehouseWidth')}"
                 editorType="dxNumberBox">
-                <dxi-validation-rule type="range" [min]="0" [max]="100" message="Range 0-100"></dxi-validation-rule>
+                <dxi-validation-rule type="range" [min]="0" [max]="100" message="0-100"></dxi-validation-rule>
               </dxi-item>
               <dxi-item dataField="WarehouseHeight" [label]="{text: trans.instant('Warehouse.data.WarehouseHeight')}"
                 editorType="dxNumberBox">
-                <dxi-validation-rule type="range" [min]="0" [max]="100" message="Range 0-100"></dxi-validation-rule>
+                <dxi-validation-rule type="range" [min]="0" [max]="100" message="0-100"></dxi-validation-rule>
               </dxi-item>
             </dxi-item>
             <dxi-item itemType="group" caption="{{'Upload.' | translate}}">
@@ -187,27 +186,27 @@
                   </dxo-editing>
                   <dxi-column dataField="WarehouseLocationCode"
                     caption="{{ 'Warehouse.data.WarehouseLocationCode' | translate }}">
-                    <dxi-validation-rule type="required"></dxi-validation-rule>
+                    <dxi-validation-rule type="required" message="{{ 'messg.valid.required' | translate}}"></dxi-validation-rule>
                     <dxi-validation-rule type="custom" ignoreEmptyValue="true" reevaluate="true"
-                      [validationCallback]="validateFunction" message="Existed Technology Name"></dxi-validation-rule>
+                      [validationCallback]="validateFunction" message="{{ 'messg.valid.exist' | translate}}"></dxi-validation-rule>
                   </dxi-column>
                   <dxi-column dataField="WarehouseLocationName"
                     caption="{{ 'Warehouse.data.WarehouseLocationName' | translate }}">
-                    <dxi-validation-rule type="required"></dxi-validation-rule>
+                    <dxi-validation-rule type="required" message="{{ 'messg.valid.required' | translate}}"></dxi-validation-rule>
                     <dxi-validation-rule type="custom" ignoreEmptyValue="true" reevaluate="true"
-                      [validationCallback]="validateFunction" message="Existed Technology Name"></dxi-validation-rule>
+                      [validationCallback]="validateFunction"message="{{ 'messg.valid.exist' | translate}}"></dxi-validation-rule>
                   </dxi-column>
                   <dxi-column dataField="WarehouseLocationLength"
                     caption="{{ 'Warehouse.data.WarehouseLocationLength' | translate }}">
-                    <dxi-validation-rule type="range" [min]="0" [max]="100" message="Range 0-100"></dxi-validation-rule>
+                    <dxi-validation-rule type="range" [min]="0" [max]="100" message="0-100"></dxi-validation-rule>
                   </dxi-column>
                   <dxi-column dataField="WarehouseLocationWidth"
                     caption="{{ 'Warehouse.data.WarehouseLocationWidth' | translate }}">
-                    <dxi-validation-rule type="range" [min]="0" [max]="100" message="Range 0-100"></dxi-validation-rule>
+                    <dxi-validation-rule type="range" [min]="0" [max]="100" message="0-100"></dxi-validation-rule>
                   </dxi-column>
                   <dxi-column dataField="WarehouseLocationHeight"
                     caption="{{ 'Warehouse.data.WarehouseLocationHeight' | translate }}">
-                    <dxi-validation-rule type="range" [min]="0" [max]="100" message="Range 0-100"></dxi-validation-rule>
+                    <dxi-validation-rule type="range" [min]="0" [max]="100" message="0-100"></dxi-validation-rule>
                   </dxi-column>
                   <dxi-column dataField="Status" caption="{{ 'Warehouse.data.Status' | translate }}" dataType="boolean">
                   </dxi-column>
