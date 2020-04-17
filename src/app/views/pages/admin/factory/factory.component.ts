@@ -57,12 +57,12 @@ export class FactoryComponent implements OnInit {
       { id: 0, text: this.trans.instant('Factory.data.Status0') },
       { id: 1, text: this.trans.instant('Factory.data.Status1') }
     ],
-    onValueChanged: (e)=>{
+    onValueChanged: (e) => {
       this.entity.FactoryEndDate = null;
-      this.disabledEndDate = e.value==1;
+      this.disabledEndDate = e.value == 1;
 
     }
-    
+
   }
 
   ngOnInit() {
@@ -189,20 +189,21 @@ export class FactoryComponent implements OnInit {
   validateFunction = (e) => {
     if (e.formItem)
       switch (e.formItem.dataField) {
-        case "FactoryStartDate": return e.value <= this.entity.FactoryEndDate || this.entity.FactoryEndDate==null
-        case "FactoryEndDate": return this.entity.FactoryStartDate <= e.value  || this.entity.FactoryStartDate==null
+        case "FactoryStartDate": return e.value <= this.entity.FactoryEndDate || this.entity.FactoryEndDate == null
+        case "FactoryEndDate": return this.entity.FactoryStartDate <= e.value || this.entity.FactoryStartDate == null
       }
-    if (e.column) { }
-    switch (e.column.dataField) {
-      case "TechnologyName": 
-        let _find = this.entity.FactoryTechnology.find(x => x.TechnologyName.toLowerCase().trim() == e.data.TechnologyName.toLowerCase().trim());
-        if (!_find) return true;
-        else if (_find.TechnologyDescription == e.data.TechnologyDescription 
-          &&  _find.TechnologyFromDate == e.data.TechnologyFromDate 
-          &&  _find.TechnologyToDate == e.data.TechnologyToDate) return true;
-        else return false;
-      case "TechnologyFromDate": return e.data.TechnologyFromDate <= e.data.TechnologyToDate
-      case "TechnologyToDate": return e.data.TechnologyFromDate <= e.data.TechnologyFromDate
+    if (e.column) {
+      switch (e.column.dataField) {
+        case "TechnologyName":
+          let _find = this.entity.FactoryTechnology.find(x => x.TechnologyName.toLowerCase().trim() == e.data.TechnologyName.toLowerCase().trim());
+          if (!_find) return true;
+          else if (_find.TechnologyDescription == e.data.TechnologyDescription
+            && _find.TechnologyFromDate == e.data.TechnologyFromDate
+            && _find.TechnologyToDate == e.data.TechnologyToDate) return true;
+          else return false;
+        case "TechnologyFromDate": return e.data.TechnologyFromDate <= e.data.TechnologyToDate
+        case "TechnologyToDate": return e.data.TechnologyFromDate <= e.data.TechnologyFromDate
+      }
     }
     return true;
   };
@@ -221,7 +222,7 @@ export class FactoryComponent implements OnInit {
     // e.oldData 
     // e.isValid = false;
     // swal.fire("Validate", "Dữ liệu đã bị trùng", "warning");
-    var itemAdd= e.newData;
+    var itemAdd = e.newData;
     for (const i in this.entity.FactoryTechnology) {
       let t = this.entity.FactoryTechnology[i];
       if ((itemAdd.TechnologyFromDate >= t.TechnologyFromDate && itemAdd.TechnologyFromDate <= t.TechnologyToDate)
@@ -237,10 +238,10 @@ export class FactoryComponent implements OnInit {
         e.isValid = false;
       }
     }
-    
+
 
   }
-  
+
   ngOnDestroy() {
     $('.modal').modal('hide');
   }

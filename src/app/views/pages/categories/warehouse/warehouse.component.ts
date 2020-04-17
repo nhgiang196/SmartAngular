@@ -57,12 +57,12 @@ export class WarehouseComponent implements OnInit {
     template: `<button type="button" class="btn btn-primary"><i class="fa fa-paper-plane-o"></i>${this.trans.instant('Button.Save')}</button>`, //template hoạt động cho Ispinia
     useSubmitBehavior: true, //submit = validate + save
   }
-  ngOnInit() { 
+  ngOnInit() {
     this.resetEntity();
     this.loadUsers();
     this.loadInit();
   }
-  private resetEntity() { 
+  private resetEntity() {
     this.entity = new Warehouse();
     this.EditRowNumber = 0;
   }
@@ -94,7 +94,7 @@ export class WarehouseComponent implements OnInit {
     this.uploadComponent.resetEntity();
     this.entity.CreateBy = this.auth.currentUser.Username;
   }
-  async fnEditSignal(id) { 
+  async fnEditSignal(id) {
     if (id == null) { this.toastr.warning('ID is Null, cant show modal'); return; }
     this.ACTION_STATUS = 'update';
     this.iboxloading = true;
@@ -142,7 +142,7 @@ export class WarehouseComponent implements OnInit {
       }
     })
   }
-  async fnSave() { 
+  async fnSave() {
     if (! await this.targetForm.instance.validate().isValid) return;
     this.laddaSubmitLoading = true;
     var e = this.entity;
@@ -191,10 +191,25 @@ export class WarehouseComponent implements OnInit {
       switch (e.formItem.dataField) {
         case "FactoryId": return !(e.value == null || e.value == 0)
       }
-    if (e.column) { }
-    switch (e.column.dataField) {
-      case "WarehouseLocationCode": return this.entity.WarehouseLocation.filter(x => x.WarehouseLocationCode == e.data.WarehouseLocationCode && x.WarehouseLocationId != e.data.WarehouseLocationId).length == 0
-      case "WarehouseLocationName": return this.entity.WarehouseLocation.filter(x => x.WarehouseLocationName == e.data.WarehouseLocationName && x.WarehouseLocationId != e.data.WarehouseLocationId).length == 0
+    if (e.column) {
+      switch (e.column.dataField) {
+        case "WarehouseLocationCode":
+          let _find = this.entity.WarehouseLocation.find(x => x.WarehouseLocationCode.toLowerCase().trim() == e.data.WarehouseLocationCode.toLowerCase().trim());
+          if (!_find) return true;
+          else if (_find.WarehouseLocationName == e.data.WarehouseLocationName
+            && _find.WarehouseLocationHeight == e.data.WarehouseLocationHeight
+            && _find.WarehouseLocationWidth == e.data.WarehouseLocationWidth
+            && _find.WarehouseLocationLength == e.data.WarehouseLocationLength) return true;
+          else return false;
+        case "WarehouseLocationName":
+          let _findWarehouseLocationName = this.entity.WarehouseLocation.find(x => x.WarehouseLocationName.toLowerCase().trim() == e.data.WarehouseLocationName.toLowerCase().trim());
+          if (!_findWarehouseLocationName) return true;
+          else if (_findWarehouseLocationName.WarehouseLocationCode == e.data.WarehouseLocationCode
+            && _findWarehouseLocationName.WarehouseLocationHeight == e.data.WarehouseLocationHeight
+            && _findWarehouseLocationName.WarehouseLocationWidth == e.data.WarehouseLocationWidth
+            && _findWarehouseLocationName.WarehouseLocationLength == e.data.WarehouseLocationLength) return true;
+          else return false;
+      }
     }
     return true;
   };
