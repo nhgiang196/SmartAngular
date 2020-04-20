@@ -133,9 +133,9 @@
                 <dxi-validation-rule type="required"  message="{{'Factory.invalid.Valid_FactoryDate' | translate}}"></dxi-validation-rule>
               </dxi-item>
               <dxi-item dataField="FactoryStartDate" [label]="{text: trans.instant('Factory.data.FactoryStartDate')}"
-                editorType="dxDateBox"  [editorOptions]="{ displayFormat:'d/M/yyyy' }" >
-                <dxi-validation-rule type="custom" ignoreEmptyValue="true" 
-                  [validationCallback]="validateFunction"  message="{{'Factory.invalid.Valid_FactoryEndDate' | translate}}">
+                editorType="dxDateBox"  [editorOptions]="{ displayFormat:'d/M/yyyy' }"  >
+                <dxi-validation-rule type="custom" ignoreEmptyValue="true" reevaluate="true"
+                  [validationCallback]="validateFunction"  message="{{'Factory.invalid.Valid_FactoryStartDate' | translate}}">
                 </dxi-validation-rule>
               </dxi-item>
             </dxi-item>
@@ -144,8 +144,8 @@
               </dxi-item>
               <dxi-item dataField="FactoryEndDate" [label]="{text: trans.instant('Factory.data.FactoryEndDate')}"
                 editorType="dxDateBox" [editorOptions]="{ disabled: disabledEndDate, displayFormat:'d/M/yyyy' }">
-                <dxi-validation-rule type="custom" ignoreEmptyValue="true" 
-                  [validationCallback]="validateFunction" message="Factory Start Date Compare Validate">
+                <dxi-validation-rule type="custom" ignoreEmptyValue="true" reevaluate="true"
+                  [validationCallback]="validateFunction" message="{{'Factory.invalid.Valid_FactoryEndDate' | translate}}">
                 </dxi-validation-rule>
               </dxi-item>
             </dxi-item>
@@ -179,18 +179,19 @@
                   </dxo-editing>
                   <dxi-column width="20%" dataField="TechnologyName" caption="{{ 'Factory.data.TechnologyName' | translate }}">
                     <dxi-validation-rule type="required" message="{{'Factory.invalid.TechnologyNameRequired' | translate }}"></dxi-validation-rule>
-                    <dxi-validation-rule type="custom" ignoreEmptyValue="true"  [validationCallback]="validateFunction" message="{{'Factory.invalid.TechnologyNameExist' | translate }}"></dxi-validation-rule>
+                    <dxi-validation-rule type="custom" ignoreEmptyValue="true" reevaluate="true"
+                     [validationCallback]="validateFunction" message="{{'Factory.invalid.TechnologyNameExist' | translate }}"></dxi-validation-rule>
                   </dxi-column>
                   <dxi-column width="30%" dataField="TechnologyDescription" caption="{{ 'Factory.data.TechnologyDescription' | translate }}">
                     <dxi-validation-rule type="required" message="{{'Factory.invalid.TechnologyDescriptionRequired' | translate }}"></dxi-validation-rule>
                   </dxi-column>
                   <dxi-column width="20%" dataField="TechnologyFromDate"  caption="{{ 'Factory.data.TechnologyFromDate' | translate }}" dataType="date"  format="dd/MM/yyyy" sortOrder>
-                    <dxi-validation-rule type="custom" ignoreEmptyValue="true" 
+                    <dxi-validation-rule type="custom" ignoreEmptyValue="true" reevaluate="true"
                       [validationCallback]="validateFunction" message="{{'Factory.invalid.TechnologyFromDateCompare' | translate }}">
                     </dxi-validation-rule>
                   </dxi-column>
                   <dxi-column width="20%" dataField="TechnologyToDate"  caption="{{ 'Factory.data.TechnologyToDate' | translate }}" dataType="date" format="dd/MM/yyyy">
-                    <dxi-validation-rule type="custom" ignoreEmptyValue="true" 
+                    <dxi-validation-rule type="custom" ignoreEmptyValue="true" reevaluate="true"
                       [validationCallback]="validateFunction" message="{{'Factory.invalid.TechnologyToDateCompare' | translate }}">
                     </dxi-validation-rule>
                   </dxi-column>

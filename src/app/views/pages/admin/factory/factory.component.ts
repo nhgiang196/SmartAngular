@@ -203,8 +203,8 @@ export class FactoryComponent implements OnInit {
             && _find.TechnologyFromDate == e.data.TechnologyFromDate
             && _find.TechnologyToDate == e.data.TechnologyToDate) return true;
           else return false;
-        case "TechnologyFromDate": return e.data.TechnologyFromDate <= e.data.TechnologyToDate
-        case "TechnologyToDate": return e.data.TechnologyFromDate <= e.data.TechnologyFromDate
+        case "TechnologyFromDate": return new Date(e.data.TechnologyFromDate) <= new Date(e.data.TechnologyToDate)
+        case "TechnologyToDate": return new Date(e.data.TechnologyFromDate) <= new Date(e.data.TechnologyToDate)
       }
     }
     return true;
