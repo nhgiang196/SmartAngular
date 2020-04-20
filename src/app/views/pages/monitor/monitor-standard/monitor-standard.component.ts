@@ -22,7 +22,7 @@ import { MyHelperService } from 'src/app/core/services/utility/my-helper.service
 export class MonitorStandardComponent implements OnInit {
   @ViewChild(DxDataGridComponent, { static: false }) dataGrid: DxDataGridComponent;
   dataSource: any;
-  lkDataSourceFactory: any;
+  lkDataSourceFactory;
   constructor(
     private monitorStandarService: MonitorStandarService,
     private factoryService: FactoryService,
@@ -31,17 +31,19 @@ export class MonitorStandardComponent implements OnInit {
     private toastr: ToastrService,
     private helper: MyHelperService
   ) {
-    //LOAD DATAGRID MONITOR
-    this.dataSource = this.monitorStandarService.getDataGrid(false);
-    this.loadFactorySelectBox();
-    // this.validateMSId = this.validateMSId.bind(this);
-    // this.validateDateFrom = this.validateDateFrom.bind(this);
-
   }
 
   ngOnInit() {
-
+     //LOAD DATAGRID MONITOR
+     this.dataSource = this.monitorStandarService.getDataGrid(false);
+     this.loadFactorySelectBox();
+     // this.validateMSId = this.validateMSId.bind(this);
+     // this.validateDateFrom = this.validateDateFrom.bind(this);
   }
+  loadFactorySelectBox() {
+    this.lkDataSourceFactory = this.devExtremeService.loadDxoLookup("Factory");
+  }
+  
   addRow() {
     this.dataGrid.instance.addRow();
     this.dataGrid.instance.deselectAll();
@@ -57,9 +59,7 @@ export class MonitorStandardComponent implements OnInit {
     }
   }
 
-  loadFactorySelectBox() {
-    this.lkDataSourceFactory = this.devExtremeService.loadDxoLookup("Factory");
-  }
+ 
 
   onInitNewRow(e) {
     e.data.Status = 1;
