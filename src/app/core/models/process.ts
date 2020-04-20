@@ -56,6 +56,12 @@ export class ProcessLogItem {
   Quantity?: any=0
 }
 
+export class  SearchProcessLog{
+  startDay:Date = new Date();
+  endDay:Date = new Date();
+  factoryId:number
+}
+
 export class Shift {
   ShiftId: number = 0
   ShiftName?: string

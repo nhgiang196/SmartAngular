@@ -27,7 +27,7 @@ export class FactoryComponent implements OnInit {
     public helper: MyHelperService,
     private auth: AuthService
   ) {
-
+    this.onFactoryDateChange = this.onFactoryDateChange.bind(this);
   }
   /** DECLARATION */
   factory: Factory[] = []; //init data
@@ -104,6 +104,7 @@ export class FactoryComponent implements OnInit {
       this.entity = res;
       $("#myModal4").modal('show');
       this.iboxloading = false;
+      this.disabledEndDate = res.Status == 1;
       this.uploadComponent.loadInit((res as any).FactoryFile);
       this.entity.ModifyBy = this.auth.currentUser.Username;
     }, error => {
@@ -158,6 +159,7 @@ export class FactoryComponent implements OnInit {
   async fnSave() {
     // var e = this.fnConvertFactoryDate(this.entity);
     var e = this.entity;
+    if(e.FactoryContactPhone.length<=2) e.FactoryContactPhone= null;
     await this.uploadComponent.uploadFile();
     if (this.ACTION_STATUS == 'add') {
       this.api.add(e).then(res => {
@@ -187,11 +189,13 @@ export class FactoryComponent implements OnInit {
     this.loadInit();
   }
   validateFunction = (e) => {
-    if (e.formItem)
+    if (e.formItem){
       switch (e.formItem.dataField) {
-        case "FactoryStartDate": return e.value <= this.entity.FactoryEndDate || this.entity.FactoryEndDate == null
-        case "FactoryEndDate": return this.entity.FactoryStartDate <= e.value || this.entity.FactoryStartDate == null
+        case "FactoryStartDate": return new Date(e.value) <= new Date(this.entity.FactoryEndDate) || this.entity.FactoryEndDate == null
+        case "FactoryEndDate": return new Date(this.entity.FactoryStartDate) <= new Date(e.value) || this.entity.FactoryStartDate == null
       }
+    }
+      
     if (e.column) {
       switch (e.column.dataField) {
         case "TechnologyName":
@@ -201,12 +205,17 @@ export class FactoryComponent implements OnInit {
             && _find.TechnologyFromDate == e.data.TechnologyFromDate
             && _find.TechnologyToDate == e.data.TechnologyToDate) return true;
           else return false;
-        case "TechnologyFromDate": return e.data.TechnologyFromDate <= e.data.TechnologyToDate
-        case "TechnologyToDate": return e.data.TechnologyFromDate <= e.data.TechnologyFromDate
+        case "TechnologyFromDate": return new Date(e.data.TechnologyFromDate) <= new Date(e.data.TechnologyToDate)
+        case "TechnologyToDate": return new Date(e.data.TechnologyFromDate) <= new Date(e.data.TechnologyToDate)
       }
     }
     return true;
   };
+
+  onFactoryDateChange(e) {
+    this.targetForm.instance.validate();
+  }
+
   validateAsync = (e) => {
     console.log('Validate Async', e)
     return new Promise(async (resolve) => {
