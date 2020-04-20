@@ -27,7 +27,7 @@ export class FactoryComponent implements OnInit {
     public helper: MyHelperService,
     private auth: AuthService
   ) {
-
+    this.onFactoryDateChange = this.onFactoryDateChange.bind(this);
   }
   /** DECLARATION */
   factory: Factory[] = []; //init data
@@ -189,11 +189,13 @@ export class FactoryComponent implements OnInit {
     this.loadInit();
   }
   validateFunction = (e) => {
-    if (e.formItem)
+    if (e.formItem){
       switch (e.formItem.dataField) {
         case "FactoryStartDate": return new Date(e.value) <= new Date(this.entity.FactoryEndDate) || this.entity.FactoryEndDate == null
         case "FactoryEndDate": return new Date(this.entity.FactoryStartDate) <= new Date(e.value) || this.entity.FactoryStartDate == null
       }
+    }
+      
     if (e.column) {
       switch (e.column.dataField) {
         case "TechnologyName":
@@ -209,6 +211,11 @@ export class FactoryComponent implements OnInit {
     }
     return true;
   };
+
+  onFactoryDateChange(e) {
+    this.targetForm.instance.validate();
+  }
+
   validateAsync = (e) => {
     console.log('Validate Async', e)
     return new Promise(async (resolve) => {
