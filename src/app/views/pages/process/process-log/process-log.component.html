@@ -24,7 +24,7 @@
           <div class="row">
             <form action="your-action" (submit)="fnFindBomFactoryId()">
               <dx-form #targetForm id="form" [(formData)]="modelSearch" (onFieldDataChanged)="onChange($event)">
-                
+
                 <dxi-item itemType="group" [colCount]="3">
                   <dxi-item dataField="startDay" [label]="{text: trans.instant('Process.data.StartDate')}"
                     editorType="dxDateBox"  [editorOptions]="{ displayFormat:'d/M/yyyy' }" >
@@ -40,12 +40,12 @@
                       [validationCallback]="validateEndDate" message="Thời gian bắt đầu phải nhỏ hơn hoặc bằng thời gian kết thúc">
                     </dxi-validation-rule>
                   </dxi-item>
-                  
+
                   <dxi-item dataField="factoryId" [label]="{text: trans.instant('Factory.data.FactoryType')}"
                     editorType="dxSelectBox"  [editorOptions]="{ displayExpr: 'FactoryName' ,valueExpr:'FactoryId' ,
                     dataSource:dataSourceFactory, searchEnabled: true}"></dxi-item>
                 </dxi-item>
-               
+
               </dx-form>
             </form>
           </div>
@@ -86,6 +86,7 @@
                             <dx-data-grid
                             #dataGridVar id="myDataGrid"
                             [dataSource]="dataSourceProcessLog"
+                            [columnAutoWidth]="true"
                             [masterDetail]="{ enabled: true, template: 'detail' }"
                             [remoteOperations]="true"  [showBorders]="true" [showRowLines]="true" >
 
@@ -99,6 +100,8 @@
                               <dxo-texts confirmDeleteMessage="Are you sure Delete?"></dxo-texts>
 
                             </dxo-editing>
+                            <dxi-column  dataField="ProcessLogDate"  caption="ProcessLogDate" dataType="date"></dxi-column>
+                            <dxi-column  dataField="ProcessLogTime"  caption="ProcessLogTime"></dxi-column>
                             <dxi-column  dataField="ShiftName"  caption="ShiftName">
                             </dxi-column>
                             <dxi-column dataField="UnitName" caption="ItemOutUnitId">
@@ -108,9 +111,28 @@
                                                     valueExpr="UnitId">
                                  </dxo-lookup> -->
                             </dxi-column>
-                            <dxi-column  dataField="ProcessLogDate"  caption="ProcessLogDate" dataType="date"></dxi-column>
-                            <dxi-column  dataField="ProcessLogTime"  caption="ProcessLogTime"></dxi-column>
+
                             <dxi-column  dataField="ItemOutIndicator" caption="ItemOutIndicator"></dxi-column>
+                            <dxi-column  dataField="ItemEletricIndicator" caption="ItemEletricIndicator"></dxi-column>
+                            <dxi-column  caption="Kết quả phân tích nước thải">
+                              <dxi-column  caption="Đầu vào">
+                                <dxi-column  dataField="pHIn" caption="pHIn"></dxi-column>
+                                <dxi-column  dataField="TSSIn" caption="TSSIn"></dxi-column>
+                                <dxi-column  dataField="ColorIn" caption="ColorIn"></dxi-column>
+                                <dxi-column  dataField="CODIn" caption="CODIn"></dxi-column>
+                              </dxi-column>
+                              <dxi-column  caption="Đầu ra">
+                                <dxi-column  dataField="pHOut" caption="pHOut"></dxi-column>
+                                <dxi-column  dataField="TSSOut" caption="TSSOut"></dxi-column>
+                                <dxi-column  dataField="ColorOut" caption="ColorOut"></dxi-column>
+                                <dxi-column  dataField="CODOut" caption="CODOut"></dxi-column>
+                              </dxi-column>
+                            </dxi-column>
+
+                            <!-- <dxi-column  dataField="AmoniIn" caption="AmoniIn"></dxi-column>
+                            <dxi-column  dataField="AmoniOut" caption="AmoniOut"></dxi-column>
+                            <dxi-column  dataField="TemperatureIn" caption="TemperatureIn"></dxi-column>
+                            <dxi-column  dataField="TemperatureOut" caption="TemperatureOut"></dxi-column> -->
 
                             <dxi-column  dataField="Status" dataType="boolean" caption="{{'Master.data.Status' | translate}}"></dxi-column>
                             <dxi-column type="buttons" [width]="110">
