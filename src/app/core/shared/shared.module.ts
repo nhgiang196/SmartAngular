@@ -11,14 +11,12 @@ import { NgxDropzoneModule } from 'ngx-dropzone';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { BsDatepickerModule, PopoverModule, TimepickerModule, PaginationModule } from 'ngx-bootstrap';
 import { DxButtonModule, DxDataGridModule, DxPopupModule, DxCheckBoxModule, DxValidationGroupModule, DxFormModule } from 'devextreme-angular';
-import { NgxMaskModule, IConfig } from 'ngx-mask'
 import { UserIdleModule } from 'angular-user-idle';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
-export const options: Partial<IConfig> | (() => Partial<IConfig>) = null;
 
 @NgModule({
   declarations: [],
@@ -51,7 +49,6 @@ export const options: Partial<IConfig> | (() => Partial<IConfig>) = null;
     DxValidationGroupModule,
     DxFormModule,
     UserIdleModule.forRoot({ idle: 600, timeout: 5, ping: 300 }),
-    NgxMaskModule.forRoot(options),
 
   ],
   exports: [
@@ -71,7 +68,6 @@ export const options: Partial<IConfig> | (() => Partial<IConfig>) = null;
     DxCheckBoxModule,
     DxValidationGroupModule,
     DxFormModule,
-    NgxMaskModule,
     
   ],
   providers: [
