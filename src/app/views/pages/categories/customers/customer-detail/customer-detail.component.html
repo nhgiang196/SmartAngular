@@ -34,8 +34,8 @@
                       <div class="dx-field-value">
                         <dx-text-box mode="text" [(value)]="entity.CustomerName">
                           <dx-validator>
-                            <dxi-validation-rule type="required"></dxi-validation-rule>
-                            <dxi-validation-rule type="async" ignoreEmptyValue="true" message="Exist Customer Name"
+                            <dxi-validation-rule message="{{'Customer.invalid.CustomerNameRequired' | translate }}" type="required"></dxi-validation-rule>
+                            <dxi-validation-rule message="{{'Customer.invalid.CustomerNameExist' | translate }}" type="async" ignoreEmptyValue="true" 
                               [validationCallback]="validateAsync_CustomerName"></dxi-validation-rule>
                           </dx-validator>
                         </dx-text-box>
@@ -44,11 +44,11 @@
                     <div class="dx-field">
                       <div class="dx-field-label">{{'Customer.data.CustomerCode' | translate }} <span class="dx-field-item-required-mark"> *</span>  </div>
                       <div class="dx-field-value">
-                        <dx-text-box name="FactoryCode" mode="text" [(value)]="entity.CustomerCode"
+                        <dx-text-box mode="text" [(value)]="entity.CustomerCode"
                           placeholder="{{'Customer.placeholder.CustomerCode' | translate }}">
-                          <dx-validator name="FactoryCode">
-                            <dxi-validation-rule type="required"></dxi-validation-rule>
-                            <dxi-validation-rule type="async" ignoreEmptyValue="true" message="Exist Customer Code"
+                          <dx-validator >
+                            <dxi-validation-rule message="{{'Customer.invalid.CustomerCodeRequired' | translate }}" type="required"></dxi-validation-rule>
+                            <dxi-validation-rule message="{{'Customer.invalid.CustomerCodeExist' | translate }}" type="async" ignoreEmptyValue="true" 
                               [validationCallback]="validateAsync_CustomerCode"></dxi-validation-rule>
                           </dx-validator>
                         </dx-text-box>
@@ -67,7 +67,7 @@
                         <dx-text-box mode="email" [(value)]="entity.CustomerContactEmail"
                           placeholder="{{'Customer.placeholder.ContactEmail' | translate }}"> \
                           <dx-validator>
-                            <dxi-validation-rule type="email"></dxi-validation-rule>
+                            <dxi-validation-rule message="{{'Customer.invalid.CustomerContactEmailType' | translate }}" type="email"></dxi-validation-rule>
                           </dx-validator>
                         </dx-text-box>
                       </div>
@@ -86,9 +86,9 @@
                         <dx-select-box [(value)]="entity.FactoryId" [dataSource]="factoryList" displayExpr="FactoryName"
                           valueExpr="FactoryId" searchEnabled="true"  searchExpr="FactoryName">
                           <dx-validator>
-                            <dxi-validation-rule type="required"></dxi-validation-rule>
-                            <dxi-validation-rule type="custom" reevaluate="true"
-                              [validationCallback]="validateFunction_FactoryId" message="Please choose Factory">
+                            <dxi-validation-rule message="{{'Customer.invalid.FactoryIdRequired' | translate }}" type="required"></dxi-validation-rule>
+                            <dxi-validation-rule message="{{'Customer.invalid.FactoryIdRequired' | translate }}" type="custom" reevaluate="true"
+                              [validationCallback]="validateFunction_FactoryId">
                             </dxi-validation-rule>
                           </dx-validator>
                         </dx-select-box>
@@ -104,7 +104,7 @@
                     <div class="dx-field">
                       <div class="dx-field-label">{{'Customer.data.ContactPhone' | translate }}</div>
                       <div class="dx-field-value">
-                        <dx-text-box showMaskMode="onFocus" mask="(+00) 000 000 0099" mode="tel"
+                        <dx-text-box showMaskMode="onFocus" mask="(+00) 000 000 0099" maskInvalidMessage="{{'Customer.invalid.ContactPhoneType' | translate }}" mode="tel" 
                           [(value)]="entity.CustomerContactPhone"
                           placeholder="{{'Customer.placeholder.ContactPhone' | translate }}"></dx-text-box>
                       </div>

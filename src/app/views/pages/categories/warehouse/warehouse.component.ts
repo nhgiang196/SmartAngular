@@ -5,87 +5,56 @@ import swal from 'sweetalert2';
 import { trigger, transition, animate, style } from '@angular/animations';
 import { PageChangedEvent, ModalDirective } from 'ngx-bootstrap';
 import { Warehouse, WarehouseLocation } from 'src/app/core/models/warehouse';
-import { WareHouseService, AuthService, FactoryService } from 'src/app/core/services';
+import { WareHouseService, AuthService } from 'src/app/core/services';
 import { SmartUploadComponent } from 'src/app/views/UISample/smart-upload/smart-upload.component';
 import { SmartSelectComponent } from 'src/app/views/UISample/smart-select/smart-select.component';
 import { DxFormComponent } from 'devextreme-angular';
 import { DevextremeService } from 'src/app/core/services/general/devextreme.service';
+import DataSource from 'devextreme/data/data_source';
+import { DxoDataSourceModule } from 'devextreme-angular/ui/nested';
 declare let $: any;
 @Component({
   selector: 'app-warehouse',
   templateUrl: './warehouse.component.html',
-  styleUrls: ['./warehouse.component.css'],
-  animations: [
-    // the fade-in/fade-out animation.
-    trigger('simpleFadeAnimation', [
-      transition(':leave',
-        animate(300, style({ opacity: 0 })))
-    ])
-  ]
+  styleUrls: ['./warehouse.component.css']
 })
 export class WarehouseComponent implements OnInit {
   // @ViewChild('myInputFile') InputManual: ElementRef;
   @ViewChild('targetSmartUpload', { static: false }) uploadComponent: SmartUploadComponent;
   @ViewChild('targetForm', { static: true }) targetForm: DxFormComponent;
   @ViewChild("childModal", { static: false }) childModal: ModalDirective;
+  pathFile = "uploadFileWarehouse";
+  dataSource: DataSource;
+  factoryList: any;
+  userList: any;
+  entity: Warehouse;
+  laddaSubmitLoading = false;
+  iboxloading = false;
+  private ACTION_STATUS: string;
   constructor(
     private toastr: ToastrService,
     private warehouseService: WareHouseService,
     public trans: TranslateService,
     private auth: AuthService,
-    private factoryService: FactoryService,
     private devService: DevextremeService,
   ) {
     this.factoryList = devService.loadDxoLookup("Factory");
+    this.dataSource = warehouseService.getDataGridWithOutUrl(false);
+    this.fnEdit = this.fnEdit.bind(this);
+    this.fnDelete = this.fnDelete.bind(this);
   }
-  /** INIT / DECLARATION */
-  factoryList: any;
-  Warehouse: any[] = []; //init data
-  entity: Warehouse;
-  laddaSubmitLoading = false;
-  iboxloading = false;
-  keyword: string = '';
-  pathFile = "uploadFileWarehouse";
-  ACTION_STATUS: string;
-  Warehouse_showed = 0;
-  initCombobox = { Factories: [], FullFactories: [], Users: [] };
-  EditRowNumber: number = 0;
-  pageIndex = 1;
-  pageSize = 12;
-  buttonOptions: any = {
-    stylingMode: 'text', // để tắt đường viền container
-    template: `<button type="button" class="btn btn-primary"><i class="fa fa-paper-plane-o"></i>${this.trans.instant('Button.Save')}</button>`, //template hoạt động cho Ispinia
-    useSubmitBehavior: true, //submit = validate + save
-  }
-  ngOnInit() { 
+
+  ngOnInit() {
     this.resetEntity();
     this.loadUsers();
-    this.loadInit();
   }
-  private resetEntity() { 
+  private resetEntity() {
     this.entity = new Warehouse();
-    this.EditRowNumber = 0;
   }
   private loadUsers() {
     this.auth.getUsers().subscribe(res => {
-      this.initCombobox.Users = res;
+      this.userList = res;
     }, err => this.toastr.warning('Get users Failed, check network'))
-  }
-  loadInit() {
-    this.iboxloading = true;
-    this.warehouseService.getWarehousePaginationMain(this.keyword, this.pageIndex, this.pageSize).subscribe(res => {
-      var data = res as any;
-      this.Warehouse = data.data;
-      this.Warehouse_showed = data.recordsTotal;
-      this.iboxloading = false;
-    }, err => {
-      this.toastr.error(err.statusText, "Load init failed!");
-      this.iboxloading = false;
-    });
-  }
-  fnSearchLoad() {
-    this.pageIndex = 1;
-    this.loadInit();
   }
   fnAdd() {
     this.resetEntity();
@@ -94,7 +63,10 @@ export class WarehouseComponent implements OnInit {
     this.uploadComponent.resetEntity();
     this.entity.CreateBy = this.auth.currentUser.Username;
   }
-  async fnEditSignal(id) { 
+  fnEdit(rowValue) {
+    this.showModal(rowValue.row.data.WarehouseId);
+  }
+  async showModal(id) {
     if (id == null) { this.toastr.warning('ID is Null, cant show modal'); return; }
     this.ACTION_STATUS = 'update';
     this.iboxloading = true;
@@ -112,7 +84,7 @@ export class WarehouseComponent implements OnInit {
       this.toastr.error(error.statusText, "Load factory information error");
     })
   }
-  fnDelete(id) {
+  fnDelete(rowValue) {
     swal.fire({
       title: this.trans.instant('Warehouse.mssg.DeleteAsk_Title'),
       titleText: this.trans.instant('Warehouse.mssg.DeleteAsk_Text'),
@@ -123,7 +95,7 @@ export class WarehouseComponent implements OnInit {
       reverseButtons: true
     }).then((result) => {
       if (result.value) {
-        this.warehouseService.remove(id).then(res => {
+        this.warehouseService.remove(rowValue.row.data.WarehouseId).then(res => {
           var operationResult: any = res
           if (operationResult.Success) {
             swal.fire(
@@ -134,7 +106,7 @@ export class WarehouseComponent implements OnInit {
                 type: 'success',
               }
             );
-            this.loadInit();
+            this.dataSource.reload();
             $("#myModal4").modal('hide');
           }
           else this.toastr.warning(operationResult.Message);
@@ -142,7 +114,7 @@ export class WarehouseComponent implements OnInit {
       }
     })
   }
-  async fnSave() { 
+  async fnSave() {
     if (! await this.targetForm.instance.validate().isValid) return;
     this.laddaSubmitLoading = true;
     var e = this.entity;
@@ -154,8 +126,8 @@ export class WarehouseComponent implements OnInit {
         if (operationResult.Success) {
           this.toastr.success(this.trans.instant("messg.add.success"));
           $("#myModal4").modal('hide');
-          this.loadInit();
-          this.fnEditSignal(operationResult.Data);
+          this.dataSource.reload();
+          this.showModal(operationResult.Data);
         }
         else this.toastr.warning(operationResult.Message);
         this.laddaSubmitLoading = false;
@@ -166,17 +138,13 @@ export class WarehouseComponent implements OnInit {
       this.warehouseService.update(e).then(res => {
         var operationResult: any = res
         if (operationResult.Success) {
-          this.loadInit();
+          this.dataSource.reload();
           this.toastr.success(this.trans.instant("messg.update.success"));
         }
         else this.toastr.warning(operationResult.Message);
         this.laddaSubmitLoading = false;
       }, err => { this.toastr.error(err.statusText); this.laddaSubmitLoading = false; })
     }
-  }
-  onPageChanged(event: PageChangedEvent): void {
-    this.pageIndex = event.page;
-    this.loadInit();
   }
   onInitNewRowWarehouseLocation(e) {
     e.data.WarehouseLocationId = 0;
@@ -191,10 +159,25 @@ export class WarehouseComponent implements OnInit {
       switch (e.formItem.dataField) {
         case "FactoryId": return !(e.value == null || e.value == 0)
       }
-    if (e.column) { }
-    switch (e.column.dataField) {
-      case "WarehouseLocationCode": return this.entity.WarehouseLocation.filter(x => x.WarehouseLocationCode == e.data.WarehouseLocationCode && x.WarehouseLocationId != e.data.WarehouseLocationId).length == 0
-      case "WarehouseLocationName": return this.entity.WarehouseLocation.filter(x => x.WarehouseLocationName == e.data.WarehouseLocationName && x.WarehouseLocationId != e.data.WarehouseLocationId).length == 0
+    if (e.column) {
+      switch (e.column.dataField) {
+        case "WarehouseLocationCode":
+          let _find = this.entity.WarehouseLocation.find(x => x.WarehouseLocationCode.toLowerCase().trim() == e.data.WarehouseLocationCode.toLowerCase().trim());
+          if (!_find) return true;
+          else if (_find.WarehouseLocationName == e.data.WarehouseLocationName
+            && _find.WarehouseLocationHeight == e.data.WarehouseLocationHeight
+            && _find.WarehouseLocationWidth == e.data.WarehouseLocationWidth
+            && _find.WarehouseLocationLength == e.data.WarehouseLocationLength) return true;
+          else return false;
+        case "WarehouseLocationName":
+          let _findWarehouseLocationName = this.entity.WarehouseLocation.find(x => x.WarehouseLocationName.toLowerCase().trim() == e.data.WarehouseLocationName.toLowerCase().trim());
+          if (!_findWarehouseLocationName) return true;
+          else if (_findWarehouseLocationName.WarehouseLocationCode == e.data.WarehouseLocationCode
+            && _findWarehouseLocationName.WarehouseLocationHeight == e.data.WarehouseLocationHeight
+            && _findWarehouseLocationName.WarehouseLocationWidth == e.data.WarehouseLocationWidth
+            && _findWarehouseLocationName.WarehouseLocationLength == e.data.WarehouseLocationLength) return true;
+          else return false;
+      }
     }
     return true;
   };

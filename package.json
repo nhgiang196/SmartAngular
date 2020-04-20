@@ -60,6 +60,7 @@
     "ng2-select2": "^1.0.0-beta.16",
     "ngx-bootstrap": "^5.5.0",
     "ngx-dropzone": "^2.2.2",
+    "ngx-mask": "^9.0.1",
     "ngx-moment": "^3.5.0",
     "ngx-slick-carousel": "^0.4.7",
     "ngx-sweetalert2": "^0.2.7",
