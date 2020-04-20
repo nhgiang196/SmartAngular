@@ -5,7 +5,8 @@
 export const environment = {
   production: false,
   apiUrl:"api/v1",
-  signalR: "signalR"
+  signalR: "signalR",
+  hubChart: 'http://localhost:7777/chart'
 };
 
 /*
