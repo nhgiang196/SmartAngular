@@ -11,6 +11,9 @@ import { FormsModule } from '@angular/forms';
 import { DxiItemModule } from 'devextreme-angular/ui/nested';
 import { DxFormModule } from 'devextreme-angular';
 
+import { NgxMaskModule, IConfig } from 'ngx-mask'
+
+
 const routes: Routes = [{
   path: '',
   component: AdminComponent,
@@ -38,6 +41,7 @@ const routes: Routes = [{
     FormsModule,
     DxiItemModule,
     DxFormModule,
+    NgxMaskModule.forRoot()
   ],
   exports: [RouterModule, FactoryComponent, AdminComponent, MainViewAdminComponent],
   
