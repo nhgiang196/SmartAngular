@@ -3,7 +3,7 @@ import { formatDate } from '@angular/common';
 const FORMAT_DATE = 'MM/dd/yyyy HH:mm:ss';
 const LOCALE = 'en-US';
 const CURRENT_DATE = new Date();
-const FROM_DATE = (new Date()).setDate(CURRENT_DATE.getDay() -1);
+const FROM_DATE = (new Date()).setMonth(CURRENT_DATE.getMonth() -1);
 export class MonitorStandard {
   MonitorStandardId: number
   FactoryId: number
@@ -54,11 +54,5 @@ export class ChartFactory {
 export class MonitorDescription {
   value: string;
   name: string;
-}
-
-
-export class MonitorChartTracking {
-  FactoryId: number = 1;
-  StartDate: Date = new Date("2020-03-02 01:01");
-  EndDate: Date = new Date("2020-03-02 15:01");
+  color: string;
 }
