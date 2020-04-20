@@ -22,48 +22,31 @@
         </div>
         <div class="ibox-content">
           <div class="row">
-            <form role="form">
-              <div class="col-lg-4">
-                <div class="form-group">
-                  <label>{{ 'Process.data.StartDate' | translate }}:</label>
-                  <input type="text" [(ngModel)]="startDay" bsDatepicker readonly [bsConfig]="bsConfig"  (ngModelChange)="onChange()"
-                    class="form-control" placeholder="Time start"
-                    name="ItemManufactureYear" required>
-                </div>
-              </div>
-              <div class="col-lg-4">
-                <div class="form-group">
-                  <label> {{ 'Process.data.EndDate' | translate }} *: </label>
-                  <input type="text" [(ngModel)]="endDay" bsDatepicker readonly [bsConfig]="bsConfig"  (ngModelChange)="onChange()"
-                    class="form-control" placeholder="Time end"
-                    name="ItemManufactureYear" required>
-                </div>
-              </div>
-              <div class="col-lg-4">
-                <div class="form-group">
-                  <label> {{ 'Process.data.Factory' | translate }} *: </label>
-                  <ui-select-box
-                  entitykey="Factory"
-                  [pageSize]="5"
-                  [checkstatus]="true"
-                  [(ngModelCustom)]="factoryId"
-                  (valueChange)="onChange()"
-                  ></ui-select-box>
-                  <!-- <div class="input-group">
-                    <ui-select-box
-                  entitykey="Factory"
-                  [pageSize]="5"
-                  [checkstatus]="true"
-                  [(ngModelCustom)]="factoryId"
-                  (valueChange)="onChange()"
-                  ></ui-select-box>
-                    <span class="input-group-btn">
-                      <button type="button" class="btn btn-primary" (click)="fnFindBomFactoryId()"
-                      [disabled]="startDay==null || endDay==null || factoryId==0||factoryId==null"
-                      > Go!</button> </span>
-                  </div> -->
-                </div>
-              </div>
+            <form action="your-action" (submit)="fnFindBomFactoryId()">
+              <dx-form #targetForm id="form" [(formData)]="modelSearch" (onFieldDataChanged)="onChange($event)">
+                
+                <dxi-item itemType="group" [colCount]="3">
+                  <dxi-item dataField="startDay" [label]="{text: trans.instant('Process.data.StartDate')}"
+                    editorType="dxDateBox"  [editorOptions]="{ displayFormat:'d/M/yyyy' }" >
+                    <dxi-validation-rule type="required"  message="StartDate required"></dxi-validation-rule>
+                    <dxi-validation-rule type="custom" ignoreEmptyValue="true" reevaluate="true"
+                      [validationCallback]="validateStartDate" message="Thời gian bắt đầu phải nhỏ hơn hoặc bằng thời gian kết thúc">
+                    </dxi-validation-rule>
+                  </dxi-item>
+                  <dxi-item dataField="endDay" [label]="{text: trans.instant('Process.data.EndDate')}"
+                    editorType="dxDateBox"  [editorOptions]="{ displayFormat:'d/M/yyyy' }" >
+                    <dxi-validation-rule type="required"  message="EndDate required"></dxi-validation-rule>
+                    <dxi-validation-rule type="custom" ignoreEmptyValue="true" reevaluate="true"
+                      [validationCallback]="validateEndDate" message="Thời gian bắt đầu phải nhỏ hơn hoặc bằng thời gian kết thúc">
+                    </dxi-validation-rule>
+                  </dxi-item>
+                  
+                  <dxi-item dataField="factoryId" [label]="{text: trans.instant('Factory.data.FactoryType')}"
+                    editorType="dxSelectBox"  [editorOptions]="{ displayExpr: 'FactoryName' ,valueExpr:'FactoryId' ,
+                    dataSource:dataSourceFactory, searchEnabled: true}"></dxi-item>
+                </dxi-item>
+               
+              </dx-form>
             </form>
           </div>
         </div>
