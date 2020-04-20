@@ -18,7 +18,7 @@ import { UserIdleModule } from 'angular-user-idle';
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
-export let  maskOption:Partial<IConfig> | (() => Partial<IConfig>); //ngx-mask
+export const options: Partial<IConfig> | (() => Partial<IConfig>) = null;
 
 @NgModule({
   declarations: [],
@@ -51,7 +51,7 @@ export let  maskOption:Partial<IConfig> | (() => Partial<IConfig>); //ngx-mask
     DxValidationGroupModule,
     DxFormModule,
     UserIdleModule.forRoot({ idle: 600, timeout: 5, ping: 300 }),
-    NgxMaskModule.forRoot(maskOption),
+    NgxMaskModule.forRoot(options),
 
   ],
   exports: [
