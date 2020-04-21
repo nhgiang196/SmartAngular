@@ -14,7 +14,6 @@ import { LanguageService } from 'src/app/core/services/language.service';
 export class PagesComponent implements OnInit {
 
   constructor(private translate: TranslateService,private langService:LanguageService) {
-    translate.use(langService.getLanguage());
    }
 
   ngOnInit() {

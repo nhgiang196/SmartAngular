@@ -8,7 +8,6 @@ import { TranslateService } from '@ngx-translate/core';
 export class ProcessCostComponent implements OnInit {
 
   constructor(private translate: TranslateService) {
-    translate.use(localStorage.getItem('locallanguage') || 'en');
   }
 
   ngOnInit() {
