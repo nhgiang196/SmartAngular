@@ -11,6 +11,7 @@ import { UI_CustomFile } from 'src/app/core/models/file';
 import swal from 'sweetalert2';
 import { DxValidationGroupComponent, DxFormComponent, DxValidatorComponent } from 'devextreme-angular';
 import { async } from '@angular/core/testing';
+import { DxoGridComponent } from 'devextreme-angular/ui/nested';
 declare let $: any;
 @Component({
   selector: 'app-factory',
@@ -20,6 +21,7 @@ declare let $: any;
 export class FactoryComponent implements OnInit {
   @ViewChild('targetSmartUpload', { static: false }) uploadComponent: SmartUploadComponent;
   @ViewChild('targetForm', { static: true }) targetForm: DxFormComponent;
+  @ViewChild("targetGrid", { static: false }) targetGrid: DxoGridComponent;
   constructor(
     private api: FactoryService,
     private toastr: ToastrService,
@@ -27,7 +29,7 @@ export class FactoryComponent implements OnInit {
     public helper: MyHelperService,
     private auth: AuthService
   ) {
-
+    this.onFactoryDateChange = this.onFactoryDateChange.bind(this);
   }
   /** DECLARATION */
   factory: Factory[] = []; //init data
@@ -189,11 +191,13 @@ export class FactoryComponent implements OnInit {
     this.loadInit();
   }
   validateFunction = (e) => {
-    if (e.formItem)
+    if (e.formItem){
       switch (e.formItem.dataField) {
         case "FactoryStartDate": return new Date(e.value) <= new Date(this.entity.FactoryEndDate) || this.entity.FactoryEndDate == null
         case "FactoryEndDate": return new Date(this.entity.FactoryStartDate) <= new Date(e.value) || this.entity.FactoryStartDate == null
       }
+    }
+      
     if (e.column) {
       switch (e.column.dataField) {
         case "TechnologyName":
@@ -203,12 +207,17 @@ export class FactoryComponent implements OnInit {
             && _find.TechnologyFromDate == e.data.TechnologyFromDate
             && _find.TechnologyToDate == e.data.TechnologyToDate) return true;
           else return false;
-        case "TechnologyFromDate": return e.data.TechnologyFromDate <= e.data.TechnologyToDate
-        case "TechnologyToDate": return e.data.TechnologyFromDate <= e.data.TechnologyFromDate
+        case "TechnologyFromDate": return new Date(e.data.TechnologyFromDate) <= new Date(e.data.TechnologyToDate)
+        case "TechnologyToDate": return new Date(e.data.TechnologyFromDate) <= new Date(e.data.TechnologyToDate)
       }
     }
     return true;
   };
+
+  onFactoryDateChange(e) {
+    this.targetForm.instance.validate();
+  }
+
   validateAsync = (e) => {
     console.log('Validate Async', e)
     return new Promise(async (resolve) => {
@@ -218,6 +227,11 @@ export class FactoryComponent implements OnInit {
       let _validate = _res.Success ? _res.Success : _res.ValidateData.indexOf(e.formItem.dataField) < 0;
       resolve(_validate);
     });
+  }
+
+  onRowInserted(){
+    this.targetGrid.instance.addRow();
+    this.targetGrid.instance.focus(this.targetGrid.instance.getCellElement(0,0))
   }
 
   onRowValidatingTechnology(e) {

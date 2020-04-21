@@ -33,7 +33,8 @@ const COMPONENTS =[
     UISampleModule,
     DxSwitchModule,
     ModalModule.forRoot(),
-    A2Edatetimepicker
+    A2Edatetimepicker,
+    DxDateBoxModule
   ],
   declarations: [...COMPONENTS]
 })

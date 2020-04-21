@@ -22,48 +22,31 @@
         </div>
         <div class="ibox-content">
           <div class="row">
-            <form role="form">
-              <div class="col-lg-4">
-                <div class="form-group">
-                  <label>{{ 'Process.data.StartDate' | translate }}:</label>
-                  <input type="text" [(ngModel)]="startDay" bsDatepicker readonly [bsConfig]="bsConfig"  (ngModelChange)="onChange()"
-                    class="form-control" placeholder="Time start"
-                    name="ItemManufactureYear" required>
-                </div>
-              </div>
-              <div class="col-lg-4">
-                <div class="form-group">
-                  <label> {{ 'Process.data.EndDate' | translate }} *: </label>
-                  <input type="text" [(ngModel)]="endDay" bsDatepicker readonly [bsConfig]="bsConfig"  (ngModelChange)="onChange()"
-                    class="form-control" placeholder="Time end"
-                    name="ItemManufactureYear" required>
-                </div>
-              </div>
-              <div class="col-lg-4">
-                <div class="form-group">
-                  <label> {{ 'Process.data.Factory' | translate }} *: </label>
-                  <ui-select-box
-                  entitykey="Factory"
-                  [pageSize]="5"
-                  [checkstatus]="true"
-                  [(ngModelCustom)]="factoryId"
-                  (valueChange)="onChange()"
-                  ></ui-select-box>
-                  <!-- <div class="input-group">
-                    <ui-select-box
-                  entitykey="Factory"
-                  [pageSize]="5"
-                  [checkstatus]="true"
-                  [(ngModelCustom)]="factoryId"
-                  (valueChange)="onChange()"
-                  ></ui-select-box>
-                    <span class="input-group-btn">
-                      <button type="button" class="btn btn-primary" (click)="fnFindBomFactoryId()"
-                      [disabled]="startDay==null || endDay==null || factoryId==0||factoryId==null"
-                      > Go!</button> </span>
-                  </div> -->
-                </div>
-              </div>
+            <form action="your-action" (submit)="fnFindBomFactoryId()">
+              <dx-form #targetForm id="form" [(formData)]="modelSearch" (onFieldDataChanged)="onChange($event)">
+
+                <dxi-item itemType="group" [colCount]="3">
+                  <dxi-item dataField="startDay" [label]="{text: trans.instant('Process.data.StartDate')}"
+                    editorType="dxDateBox"  [editorOptions]="{ displayFormat:'d/M/yyyy' }" >
+                    <dxi-validation-rule type="required"  message="StartDate required"></dxi-validation-rule>
+                    <dxi-validation-rule type="custom" ignoreEmptyValue="true" reevaluate="true"
+                      [validationCallback]="validateStartDate" message="Thời gian bắt đầu phải nhỏ hơn hoặc bằng thời gian kết thúc">
+                    </dxi-validation-rule>
+                  </dxi-item>
+                  <dxi-item dataField="endDay" [label]="{text: trans.instant('Process.data.EndDate')}"
+                    editorType="dxDateBox"  [editorOptions]="{ displayFormat:'d/M/yyyy' }" >
+                    <dxi-validation-rule type="required"  message="EndDate required"></dxi-validation-rule>
+                    <dxi-validation-rule type="custom" ignoreEmptyValue="true" reevaluate="true"
+                      [validationCallback]="validateEndDate" message="Thời gian bắt đầu phải nhỏ hơn hoặc bằng thời gian kết thúc">
+                    </dxi-validation-rule>
+                  </dxi-item>
+
+                  <dxi-item dataField="factoryId" [label]="{text: trans.instant('Factory.data.FactoryType')}"
+                    editorType="dxSelectBox"  [editorOptions]="{ displayExpr: 'FactoryName' ,valueExpr:'FactoryId' ,
+                    dataSource:dataSourceFactory, searchEnabled: true}"></dxi-item>
+                </dxi-item>
+
+              </dx-form>
             </form>
           </div>
         </div>
@@ -100,42 +83,83 @@
                                 Thêm mới
                               </button>
                             </div>
-                            <dx-data-grid
-                            #dataGridVar id="myDataGrid"
+                            <dx-data-grid id="myDataGrid"
                             [dataSource]="dataSourceProcessLog"
+                            [columnAutoWidth]="true"
                             [masterDetail]="{ enabled: true, template: 'detail' }"
-                            [remoteOperations]="true"  [showBorders]="true" [showRowLines]="true" >
+                            [remoteOperations]="true"  
+                            [showBorders]="true" 
+                            [showRowLines]="true" 
+                            (onInitNewRow)="onInitNewRow($event,stage.StageId,itemOut)"
+                            (onEditingStart)="onEditingStart($event)"
+                            (onRowUpdating)="onRowUpdating($event)"
+                            allowColumnResizing="true">
 
                             <dxo-selection mode="single"></dxo-selection>
                             <dxo-filter-row [visible]="true"></dxo-filter-row>
                             <dxo-editing
-                              [allowUpdating]="false"
-                              [allowDeleting]="true"
+                              [allowAdding]="true"
+                              [allowUpdating]="true"
+                              [allowDeleting]="false"
                               [useIcons] ="true"
                               >
                               <dxo-texts confirmDeleteMessage="Are you sure Delete?"></dxo-texts>
 
                             </dxo-editing>
-                            <dxi-column  dataField="ShiftName"  caption="ShiftName">
+                            <dxi-column  dataField="ShiftId"  caption="ShiftName">
+                              <dxo-lookup
+                                [dataSource]="dataSourceShift"
+                                                    displayExpr="ShiftName"
+                                                    valueExpr="ShiftId">
+                                 </dxo-lookup> 
                             </dxi-column>
-                            <dxi-column dataField="UnitName" caption="ItemOutUnitId">
+                            <dxi-column  dataField="ProcessLogDate"  caption="ProcessLogDate" dataType="date"></dxi-column>
+                            <dxi-column  dataField="ProcessLogTime"  caption="ProcessLogTime" dataType='datetime' [editorOptions]="{ type: 'time' }" format='HH:mm:ss'></dxi-column>
+                            <!-- <dxi-column  dataField="ShiftName"  caption="ShiftName">
+                            </dxi-column>
+                            <dxi-column dataField="UnitName" caption="ItemOutUnitId"> -->
                               <!-- <dxo-lookup
                                 [dataSource]="dataSourceUnit"
                                                     displayExpr="UnitName"
                                                     valueExpr="UnitId">
                                  </dxo-lookup> -->
-                            </dxi-column>
-                            <dxi-column  dataField="ProcessLogDate"  caption="ProcessLogDate" dataType="date"></dxi-column>
-                            <dxi-column  dataField="ProcessLogTime"  caption="ProcessLogTime"></dxi-column>
-                            <dxi-column  dataField="ItemOutIndicator" caption="ItemOutIndicator"></dxi-column>
+                            <!-- </dxi-column> -->
 
-                            <dxi-column  dataField="Status" dataType="boolean" caption="{{'Master.data.Status' | translate}}"></dxi-column>
+                            <dxi-column  dataField="ItemOutIndicator" caption="Chỉ số lưu lượng"></dxi-column>
+                            <dxi-column  dataField="ItemOutQuantity" caption="Lưu lượng"></dxi-column>
+                            <dxi-column  dataField="ItemEletricIndicator" caption="Chỉ số điện"></dxi-column>
+                            <dxi-column  dataField="ItemWaterIndicator" caption="Chỉ số nước cấp"></dxi-column>
+                            <dxi-column  caption="Kết quả phân tích nước thải">
+                              <dxi-column  caption="Đầu vào">
+                                <dxi-column  dataField="pHIn" caption="pHIn"></dxi-column>
+                                <dxi-column  dataField="TSSIn" caption="TSSIn"></dxi-column>
+                                <dxi-column  dataField="ColorIn" caption="ColorIn"></dxi-column>
+                                <dxi-column  dataField="CODIn" caption="CODIn"></dxi-column>
+                              </dxi-column>
+                              <dxi-column  caption="Đầu ra">
+                                <dxi-column  dataField="pHOut" caption="pHOut"></dxi-column>
+                                <dxi-column  dataField="TSSOut" caption="TSSOut"></dxi-column>
+                                <dxi-column  dataField="ColorOut" caption="ColorOut"></dxi-column>
+                                <dxi-column  dataField="CODOut" caption="CODOut"></dxi-column>
+                              </dxi-column>
+                            </dxi-column>
+                            <dxi-column  dataField="Description" caption="Nhật ký vận hành"></dxi-column>
+                            <!-- <dxi-column  dataField="AmoniIn" caption="AmoniIn"></dxi-column>
+                            <dxi-column  dataField="AmoniOut" caption="AmoniOut"></dxi-column>
+                            <dxi-column  dataField="TemperatureIn" caption="TemperatureIn"></dxi-column>
+                            <dxi-column  dataField="TemperatureOut" caption="TemperatureOut"></dxi-column> -->
+
+                            <dxi-column  dataField="Status" dataType="number" caption="{{'Master.data.Status' | translate}}"></dxi-column>
                             <dxi-column type="buttons" [width]="110">
-                              <dxi-button
+                              <!-- <dxi-button
                                   icon="more"
                                   [visible]="1"
-                                  [onClick]="showModalDetail"></dxi-button>
-                                <dxi-button name="delete"></dxi-button>
+                                  [onClick]="showModalDetail"></dxi-button> -->
+                                  <dxi-button name="edit"></dxi-button>
+                                  <dxi-button
+                                  icon="trash"
+                                  [visible]="1"
+                                  [onClick]="fnDeleteProcessLog"></dxi-button>
                             </dxi-column>
 
                             <div *dxTemplate="let item of 'detail'">
@@ -150,7 +174,8 @@
                                   [dataSource]="getProcessLogItem(item.data)"
                                   class="dx-grid-child"
                                   [showBorders]="true"
-                                  [columnAutoWidth]="true">
+                                  [columnAutoWidth]="true"
+                                  allowColumnResizing="true">
                                     <dxo-editing
                                     [allowAdding]="false"
                                     [allowUpdating]="false"

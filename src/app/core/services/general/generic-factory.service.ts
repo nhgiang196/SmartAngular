@@ -151,7 +151,9 @@ export class GenericFactoryService<T> implements IGenericFactoryService<T> {
   remove(id: any): Promise<T> {
     return this.http.delete<T>(`${ApiUrl}/${this.entity}/Delete${this.entity}`, { params: { id: id } }).toPromise();
   }
-
+  load() {
+    return this.sendRequest(`${ApiUrl}/${this.entity}/DataGrid${this.entity}Pagination`)
+  }
 
   /**
    * Sends request

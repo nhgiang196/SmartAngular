@@ -36,7 +36,7 @@ export class ProcessLog {
   ModifyBy?: string
   ModifyDate?: any
   Status?: number =1
-
+  Description: string
   Factory: Factory = new Factory()
   ItemOutUnit: Item = new Item()
   ItemOut: Unit = new Unit()
@@ -54,6 +54,12 @@ export class ProcessLogItem {
   ItemId: number = 0
   UnitId: number=0
   Quantity?: any=0
+}
+
+export class  SearchProcessLog{
+  startDay:Date = new Date();
+  endDay:Date = new Date();
+  factoryId:number
 }
 
 export class Shift {

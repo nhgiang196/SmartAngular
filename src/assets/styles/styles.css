@@ -10748,3 +10748,8 @@ bs-datepicker-container, bs-daterangepicker-container { z-index: 3501 !important
 .swal2-container {
   z-index: 10000 !important; 
 }
+
+td[role=columnheader] {
+  text-align: center!important;
+  vertical-align: middle !important;
+}
