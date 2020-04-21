@@ -185,7 +185,8 @@ export class WarehouseComponent implements OnInit {
     console.log('Validate Async', e)
     return new Promise(async (resolve) => {
       this.laddaSubmitLoading = true;
-      let obj = Object.assign({}, this.entity); //stop binding
+      let obj = new Warehouse; //stop binding
+      obj.WarehouseId = this.entity.WarehouseId;
       obj[e.formItem.dataField] = e.value;
       let _res = await this.warehouseService.validate(obj).then() as any;
       let _validate = _res.Success ? _res.Success : _res.ValidateData.indexOf(e.formItem.dataField) < 0;

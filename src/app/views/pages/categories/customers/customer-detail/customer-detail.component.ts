@@ -167,6 +167,7 @@ export class CustomerDetailComponent implements OnInit {
     return new Promise(async (resolve) => {
       let obj = new Customer(); //stop binding
       obj['CustomerCode'] = e.value;
+      obj.CustomerId = this.entity.CustomerId;
       let _res = await this.api.validate(obj).then() as any;
       let _validate = _res.Success ? _res.Success : _res.ValidateData.indexOf('CustomerCode') < 0;
       resolve(_validate);
@@ -176,6 +177,7 @@ export class CustomerDetailComponent implements OnInit {
     return new Promise(async (resolve) => {
       let obj = new Customer(); //stop binding
       obj['CustomerName'] = e.value;
+      obj.CustomerId = this.entity.CustomerId;
       let _res = await this.api.validate(obj).then() as any;
       let _validate = _res.Success ? _res.Success : _res.ValidateData.indexOf('CustomerName') < 0;
       resolve(_validate);
