@@ -31,12 +31,12 @@
               <dx-data-grid class="m-grid-5" [dataSource]="dataSource" (onRowInserting)="onRowInserting($event)"
                 (onRowUpdating)="onRowUpdating($event)" (onInitNewRow)="onInitNewRow($event)"
                 (onEditorPreparing)="onEditorPreparing($event)" (onRowValidating)="validation($event)"
-                [focusedRowEnabled]="true" [showBorders]="true" [showRowLines]="true">
+                [remoteOperations]= "true"
+                [focusedRowEnabled]="true" [showBorders]="true" [showRowLines]="true" [allowColumnResizing] ="true" columnResizingMode = "widget" >
 
                 <dxo-selection mode="single"></dxo-selection>
                 <dxo-filter-row [visible]="true"></dxo-filter-row>
-                <dxo-header-filter [visible]="true"></dxo-header-filter>
-
+               
                 <dxo-editing mode="popup" [allowUpdating]="true" [allowDeleting]="true" [useIcons]="true">
                   <dxo-popup title="Monitor Standard Info" [showTitle]="true"
                     [position]="{ my: 'center', at: 'center', of: 'window' }" [height]="590">

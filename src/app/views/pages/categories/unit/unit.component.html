@@ -33,7 +33,7 @@
                 [allowColumnResizing] ="true"
                 [remoteOperations]="true"
                 (onRowInserting)="onRowInserting($event)" (onRowUpdating)="onRowUpdating($event)" 
-                (onInitNewRow)="onInitNewRow($event)">
+                (onInitNewRow)="onInitNewRow($event)" columnResizingMode = "widget" >
 
                 <dxo-selection mode="single"></dxo-selection>
                 <dxo-filter-row [visible]="true"></dxo-filter-row>

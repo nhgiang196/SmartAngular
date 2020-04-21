@@ -34,16 +34,18 @@
               <dx-data-grid #grid
                     class="m-grid-5"
                     [dataSource]="dataSource"
-                    [focusedRowEnabled]="true"
                     [remoteOperations]="true"
-                    [allowColumnResizing] = "true"
+                    [showRowLines]="true" 
+                    [showBorders]="true"  
+                    [focusedRowEnabled]="true"
+                    [allowColumnResizing] = "true" 
+                    columnResizingMode = "widget" 
                     (onEditingStart)="filterByStageId($event)"
                     (onRowUpdating)="onRowUpdatingStage($event)"
                     (onEditorPreparing)="onEditorPreparing($event)"
                     (onRowInserting)="onRowInsertingStage($event)"
-                    (onInitNewRow)="onInitNewRow($event)" showBorders="true" [showRowLines]="true" [showBorders]="true">
+                    (onInitNewRow)="onInitNewRow($event)" showBorders="true">
                     <dxo-filter-row [visible]="true"></dxo-filter-row>
-                    <dxo-state-storing [enabled]="true" type="localStorage" storageKey="storage"></dxo-state-storing>
                     <dxo-editing mode="popup" [allowUpdating]="true" [allowDeleting]="false" [useIcons]="true">
                       <dxo-popup title="Stage Info" [showTitle]="true" [width]="700" [height]="525"
                         [position]="{ my: 'center', at: 'center', of: 'window' }">
@@ -122,7 +124,7 @@
                     <dxi-column dataField="ModifyDate" dataType="date"
                       caption="{{ 'Stage.data.ModifyDate' | translate}}"></dxi-column>
                     <dxi-column dataField="ModifyBy" caption="{{ 'Stage.data.ModifyBy' | translate}}"></dxi-column>
-                    <dxi-column dataField="Status" caption="{{ 'Stage.data.Status' | translate}}"></dxi-column>
+                    <dxi-column dataField="Status" dataType="boolean"  caption="{{ 'Stage.data.Status' | translate}}"></dxi-column>
                     <dxi-column type="buttons" [width]="110">
                         <dxi-button name="edit"></dxi-button>
                         <dxi-button

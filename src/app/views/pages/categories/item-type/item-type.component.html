@@ -39,11 +39,10 @@
                   [dataSource]="dataSourceItemTypes"
                   [remoteOperations]="true"
                   [focusedRowEnabled]="true"
-                  [allowColumnResizing] = "true"
+                  [allowColumnResizing] = "true" columnResizingMode = "widget" 
                   [showBorders]="true" [showRowLines]="true" class="m-grid-5">
 
       <dxo-filter-row [visible]="true"></dxo-filter-row>
-
       <dxo-editing mode="popup" [allowUpdating]="true"
                                 [allowDeleting]="true"
                                 [useIcons]="true">
