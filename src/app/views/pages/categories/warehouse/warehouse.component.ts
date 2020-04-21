@@ -31,6 +31,16 @@ export class WarehouseComponent implements OnInit {
   laddaSubmitLoading = false;
   iboxloading = false;
   private ACTION_STATUS: string;
+  closeButtonOptions = {
+    stylingMode: 'text',
+    template: ` <button type="button" class="btn btn-white" data-dismiss="modal"> ${this.trans.instant('Button.Close')}</button>`, //template hoạt động cho Ispinia,
+    onClick: () => { this.childModal.hide() }
+  }
+  submitButtonOptions = {
+    stylingMode: 'text',
+    template: `<button type="button" class="btn btn-primary"><i class="fa fa-paper-plane-o"></i> ${this.trans.instant('Button.Save')}</button>`, //template hoạt động cho Ispinia
+    useSubmitBehavior: true,
+  }
   constructor(
     private toastr: ToastrService,
     private warehouseService: WareHouseService,
@@ -43,7 +53,6 @@ export class WarehouseComponent implements OnInit {
     this.fnEdit = this.fnEdit.bind(this);
     this.fnDelete = this.fnDelete.bind(this);
   }
-
   ngOnInit() {
     this.resetEntity();
     this.loadUsers();

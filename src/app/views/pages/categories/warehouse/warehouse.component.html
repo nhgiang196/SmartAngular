@@ -83,13 +83,14 @@
   tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-lg ">
     <div class="modal-content animated fadeIn">
+      <form role="form" #myForm="ngForm" (submit)="fnSave()">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" (click)="childModal.hide()"><span
             aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
         <h4 class="modal-title"> {{'Warehouse.label.Information' | translate }}</h4>
       </div>
       <div class="modal-body">
-        <form role="form" #myForm="ngForm" (submit)="fnSave()">
+        
           <dx-form #targetForm id="form" [(formData)]="entity">
             <dxi-item itemType="group" [colCount]="2">
               <dxi-item dataField="WarehouseCode" [label]="{text: trans.instant('Warehouse.data.WarehouseCode')}">
@@ -207,15 +208,18 @@
                 </dx-data-grid>
               </div>
             </dxi-item>
+            <dxi-item itemType="group" [colCount]="12" [colSpan]="1">
+              <dxi-item itemType="empty" [colSpan]="10"></dxi-item>
+              <dxi-item  itemType="button" [colSpan]="1"  [buttonOptions]="closeButtonOptions"></dxi-item>
+              <dxi-item itemType="button"  [colSpan]="1" [buttonOptions]="submitButtonOptions"></dxi-item>
+            </dxi-item>
+
+
           </dx-form>
-        </form>
+        
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-white" data-dismiss="modal"
-          (click)="childModal.hide()">{{'Button.Close' | translate}} </button>
-        <button type="button" class="btn btn-primary" (click)="fnSave()" [ladda]="laddaSubmitLoading"><i
-            class="fa fa-paper-plane-o"></i> {{'Button.Save' | translate}} </button>
-      </div>
+     
+      </form>
     </div>
   </div>
 </div>
