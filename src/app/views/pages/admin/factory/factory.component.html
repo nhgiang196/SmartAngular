@@ -165,9 +165,10 @@
             </dxi-item>
             <dxi-item caption="{{'Factory.data.FactoryTechnologyId' | translate}}" contentTemplate="table-resposive">
               <div *dxTemplate="let data of 'table-resposive'">
-                <dx-data-grid
+                <dx-data-grid #targetGrid
                   [dataSource]="entity.FactoryTechnology"
                   (onRowValidating)="onRowValidatingTechnology($event)"
+                  (onRowInserted)="onRowInserted()" 
                   allowColumnResizing="true"
                   [showBorders]="true">
                   <dxo-editing 
