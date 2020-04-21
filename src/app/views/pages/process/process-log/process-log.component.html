@@ -91,8 +91,10 @@
                             [showBorders]="true" 
                             [showRowLines]="true" 
                             (onInitNewRow)="onInitNewRow($event,stage.StageId,itemOut)"
-                            (onEditingStart)="onEditingStart($event)"
+                            (onRowInserting)="onRowInserting($event)"
+                            (onRowInserted)="onRowInserted($event)"
                             (onRowUpdating)="onRowUpdating($event)"
+                            (onRowUpdated)="onRowUpdated($event)"
                             allowColumnResizing="true">
 
                             <dxo-selection mode="single"></dxo-selection>
