@@ -11,12 +11,12 @@ import { BomFactory, BomStage, BomItemOut } from "src/app/core/models/bom";
 import { async } from "rxjs/internal/scheduler/async";
 import { DevextremeService } from "src/app/core/services/general/devextreme.service";
 import { DxDataGridComponent, DxFormComponent } from "devextreme-angular";
-import { activeDefaultTabProcessLog } from "src/app/app.helpers";
+import { activeDefaultTabProcessLog, checkActiveTab } from "src/app/app.helpers";
 import swal from "sweetalert2";
 import { TranslateService } from "@ngx-translate/core";
 import { ProcessLogItemService } from "src/app/core/services/process-log-item.service";
 import { ToastrService } from "ngx-toastr";
-import { compareDate } from "src/app/core/helpers/helper";
+import { compareDate, dataCopy } from "src/app/core/helpers/helper";
 import { NotifyService } from "src/app/core/services/utility/notify.service";
 @Component({
   selector: "app-process-log",
@@ -53,28 +53,28 @@ export class ProcessLogComponent implements OnInit {
   ) {
     this.validateStartDate = this.validateStartDate.bind(this);
     this.validateEndDate = this.validateEndDate.bind(this);
+    this.showModalDetail = this.showModalDetail.bind(this);
+    this.showModalItemOut = this.showModalItemOut.bind(this);
+    this.fnDeleteProcessLog = this.fnDeleteProcessLog.bind(this);
+    this.deleteItemOut = this.deleteItemOut.bind(this);
   }
 
   ngOnInit() {
     this.bomFactory = new BomFactory();
     this.modelSearch = new SearchProcessLog();
     activeDefaultTabProcessLog();
-    this.showModalDetail = this.showModalDetail.bind(this);
-    this.showModalItemOut = this.showModalItemOut.bind(this);
-    this.fnDeleteProcessLog = this.fnDeleteProcessLog.bind(this);
-    this.deleteItemOut = this.deleteItemOut.bind(this);
+
     this.dataSourceItem = this.devExtreme.loadDxoLookup("Item");
     this.dataSourceUnit = this.devExtreme.loadDxoLookup("Unit");
     this.dataSourceShift = this.devExtreme.loadDxoLookup("Shift");
     this.dataSourceFactory = this.devExtreme.loadDxoLookup("Factory");
   }
 
+  enableActiveTab(){
+    checkActiveTab();
+  }
+
   async fnFindBomFactoryId() {
-    // if(compareDate(this.modelSearch.startDay,this.modelSearch.endDay) ==1){
-    //   this.notifyService.warning("Thời gian bắt đầu phải nhỏ hơn hoặc bằng thời gian kết thúc");
-    //   this.bomFactory = new BomFactory();
-    //   return;
-    // }
     let startDate = this.helper.dateConvertToString(this.modelSearch.startDay);
     let endDate = this.helper.dateConvertToString(this.modelSearch.endDay);
     var dataBomFactory = await this.processLogService
@@ -131,12 +131,28 @@ export class ProcessLogComponent implements OnInit {
     e.data.CreateDate = new Date();
   }
 
-  onRowInserting(e) {
+  async  onRowInserting(e) {
     if (typeof e.data.ProcessLogDate == "object")
       e.data.ProcessLogDate = this.helper.dateConvertToString(e.data.ProcessLogDate);
     if (typeof e.data.ProcessLogTime == "object")
       e.data.ProcessLogTime = this.helper.timeConvert(e.data.ProcessLogTime);
-    console.log(e);
+  }
+
+  onRowValidating(e){
+    let data = e.newData;
+    if(e.oldData!=null){
+       data = Object.assign(dataCopy(e.oldData) ,dataCopy(e.newData));
+    }
+
+    if( data.ShiftId!=null &&data.ProcessLogDate!=null){
+      let items = this.dataSourceProcessLog._items;
+      let test = items.find(x=>x.ProcessLogId!=data.ProcessLogId && x.ProcessLogDate ==data.ProcessLogDate && x.ShiftId ==data.ShiftId);
+      if(items.find(x=>x.ProcessLogId!=data.ProcessLogId && x.ProcessLogDate ==data.ProcessLogDate && x.ShiftId ==data.ShiftId)){
+        e.isValid =false;
+        this.notifyService.warning(this.trans.instant("messg.isexisted"))
+      }
+    }
+    //e.isValid =false;
   }
 
   onRowInserted(e) {
@@ -145,6 +161,7 @@ export class ProcessLogComponent implements OnInit {
     } else {
       this.notifyService.error(this.trans.instant("messg.add.error"));
     }
+
   }
 
   onRowUpdating(e) {
