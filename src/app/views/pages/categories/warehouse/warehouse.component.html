@@ -168,10 +168,12 @@
             </dxi-item>
             <dxi-item itemType="group" caption="{{'Warehouse.label.Location' | translate}}">
               <div *dxTemplate>
-                <dx-data-grid [dataSource]="entity.WarehouseLocation" allowColumnResizing="true"
+                <dx-data-grid #targetGrid [dataSource]="entity.WarehouseLocation" allowColumnResizing="true"
                   (onInitNewRow)="onInitNewRowWarehouseLocation($event)"
                   (onRowInserted)="onChangeWarehouseLocationStatus($event)"
-                  (onRowUpdated)="onChangeWarehouseLocationStatus($event)" [showBorders]="true">
+                  (onRowUpdated)="onChangeWarehouseLocationStatus($event)" 
+                  (onRowInserted)="onRowInsertedLocation()" 
+                  [showBorders]="true">
                   <dxo-editing mode="row" [allowUpdating]="true" [allowDeleting]="true" [allowAdding]="true"
                     [useIcons]="true">
                   </dxo-editing>
