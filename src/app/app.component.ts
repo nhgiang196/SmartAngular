@@ -17,14 +17,6 @@ export class AppComponent {
     public translate: TranslateService,
     public router: Router,
     ) {
-    translate.addLangs(['en', 'vn']);
-    translate.use(localStorage.getItem('locallanguage') || 'en');
-    translate.onLangChange.subscribe((event: LangChangeEvent) => {
-      var reloadpath = location.hash.replace('#', '');
-      router.navigateByUrl('/', { skipLocationChange: true }).then(() =>
-      router.navigate([reloadpath]));
-    })
-
   }
   
 

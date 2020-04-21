@@ -11,6 +11,7 @@ import { UI_CustomFile } from 'src/app/core/models/file';
 import swal from 'sweetalert2';
 import { DxValidationGroupComponent, DxFormComponent, DxValidatorComponent } from 'devextreme-angular';
 import { async } from '@angular/core/testing';
+import { DxoGridComponent } from 'devextreme-angular/ui/nested';
 declare let $: any;
 @Component({
   selector: 'app-factory',
@@ -20,6 +21,7 @@ declare let $: any;
 export class FactoryComponent implements OnInit {
   @ViewChild('targetSmartUpload', { static: false }) uploadComponent: SmartUploadComponent;
   @ViewChild('targetForm', { static: true }) targetForm: DxFormComponent;
+  @ViewChild("targetGrid", { static: false }) targetGrid: DxoGridComponent;
   constructor(
     private api: FactoryService,
     private toastr: ToastrService,
@@ -225,6 +227,11 @@ export class FactoryComponent implements OnInit {
       let _validate = _res.Success ? _res.Success : _res.ValidateData.indexOf(e.formItem.dataField) < 0;
       resolve(_validate);
     });
+  }
+
+  onRowInserted(){
+    this.targetGrid.instance.addRow();
+    this.targetGrid.instance.focus(this.targetGrid.instance.getCellElement(0,0))
   }
 
   onRowValidatingTechnology(e) {
