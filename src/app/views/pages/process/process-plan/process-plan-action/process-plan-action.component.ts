@@ -223,7 +223,7 @@ export class ProcessPlanActionComponent implements OnInit {
     return await this.processPlanService.getBomStageNearestByFactoryId(params).toPromise().then();
   }
 
-  enableActiveTab() {
+  enableActiveTab(event) {
     checkActiveTab();
   }
 

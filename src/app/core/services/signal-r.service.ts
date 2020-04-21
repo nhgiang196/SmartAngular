@@ -3,23 +3,19 @@ import * as signalR from "@aspnet/signalr";
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 const SIGNAL_R_URL = environment.signalR;
+const hubChart = environment.hubChart;
 @Injectable({
   providedIn: 'root'
 })
 export class SignalRService {
   private hubConnection: signalR.HubConnection
-  private monitorHubConnection: signalR.HubConnection
   public FactoryData: any[] = [];
   constructor(private http: HttpClient) { }
   public startConnection = () => {
     Object.defineProperty(WebSocket, 'OPEN', { value: 1, });
     this.hubConnection = new signalR.HubConnectionBuilder()
       .configureLogging(signalR.LogLevel.Debug)
-      // .withUrl(`${SIGNAL_R_URL}/chart`,{
-      //   skipNegotiation: true,
-      //   transport: signalR.HttpTransportType.WebSockets
-      // }) //${SIGNAL_R_URL}/chart , http://localhost:7777/chart
-      .withUrl(`https://localhost:7777/chart`) // tam
+      .withUrl(hubChart) // tam
       .build();
 
     this.hubConnection
@@ -45,7 +41,6 @@ export class SignalRService {
       if (JSON.stringify(currentData) != JSON.stringify(data)) {//kiểm tra mảng cũ so sánh với mảng mới nếu khác nhau thì add vào
         currentData = data;
         this.FactoryData = data;
-        // console.log(this.FactoryData);
       }
 
     });

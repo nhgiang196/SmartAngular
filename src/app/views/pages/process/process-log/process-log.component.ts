@@ -97,7 +97,7 @@ export class ProcessLogComponent implements OnInit {
     return compareDate(this.modelSearch.startDay,e.value) ==1 ?false:true;
   }
 
- async onChange(){
+ async onChange(event){
     if(this.modelSearch.startDay!=null && this.modelSearch.endDay!=null && this.modelSearch.factoryId!=0 && this.modelSearch.factoryId!=null){
        await this.fnFindBomFactoryId();
     }
