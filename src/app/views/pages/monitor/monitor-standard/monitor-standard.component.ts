@@ -23,6 +23,7 @@ export class MonitorStandardComponent implements OnInit {
   @ViewChild(DxDataGridComponent, { static: false }) dataGrid: DxDataGridComponent;
   dataSource: any;
   lkDataSourceFactory;
+  myValidation:any ={}
   constructor(
     private monitorStandarService: MonitorStandarService,
     private factoryService: FactoryService,
@@ -43,7 +44,7 @@ export class MonitorStandardComponent implements OnInit {
   loadFactorySelectBox() {
     this.lkDataSourceFactory = this.devExtremeService.loadDxoLookup("Factory");
   }
-  
+
   addRow() {
     this.dataGrid.instance.addRow();
     this.dataGrid.instance.deselectAll();
@@ -58,9 +59,7 @@ export class MonitorStandardComponent implements OnInit {
       e.editorOptions.height = 50;
     }
   }
-
- 
-
+  
   onInitNewRow(e) {
     e.data.Status = 1;
     e.data.ValidateDateFrom = new Date();
@@ -117,8 +116,8 @@ export class MonitorStandardComponent implements OnInit {
   validateMSId(e) {
     console.log(e);
   }
-
   validateDateFrom(e) {
+   
     let date;
     if (typeof (e.data.ValidateDateTo) === 'string') {
       date = new Date(e.data.ValidateDateTo);
@@ -134,10 +133,12 @@ export class MonitorStandardComponent implements OnInit {
     if (typeof (e.data.ValidateDateFrom) === 'string') {
       date = new Date(e.data.ValidateDateFrom);
     } else date = e.data.ValidateDateFrom
-
     if (e.value < date) {
       e.rule.message = "DateTo smaller than dateFrom!";
       return false
-    } else return true;
+    } else{
+       return true;
+    }
   }
+
 }

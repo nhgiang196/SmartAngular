@@ -64,9 +64,9 @@ export class ItemTypeComponent implements OnInit {
       e.setValue((e.value == null) ? "" : (e.value + "")); // Updates the cell value
     }
     //Prepare Status editor to dxSwitch 
-    if (e.dataField == "Status" && e.parentType === "dataRow") {
-      e.editorName = "dxSwitch"; 
-    }
+    // if (e.dataField == "Status" && e.parentType === "dataRow") {
+    //   e.editorName = "dxSwitch"; 
+    // }
   }
  
   /**
