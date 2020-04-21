@@ -31,9 +31,11 @@ export class CustomerListComponent implements OnInit {
   ) {
     this.dataSource = this.api.getDataGrid();
     this.dataSourceFactory = devService.loadDxoLookup("Factory");
+    this.lookupCustomerType = devService.loadDefineLookup("CustomerType")
     this.routerToDetail = this.routerToDetail.bind(this);
     this.fnDelete = this.fnDelete.bind(this);
   }
+  lookupCustomerType: any;
   dataSourceFactory: any;
   lsDatatable: any = []; //return datatable
   ngOnInit() {}
