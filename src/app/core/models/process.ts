@@ -36,7 +36,7 @@ export class ProcessLog {
   ModifyBy?: string
   ModifyDate?: any
   Status?: number =1
-
+  Description: string
   Factory: Factory = new Factory()
   ItemOutUnit: Item = new Item()
   ItemOut: Unit = new Unit()

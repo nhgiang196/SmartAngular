@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ProcessLog, FilterModel, ProcessLogItem, SearchProcessLog } from 'src/app/core/models/process';
-import { ProcessLogService } from 'src/app/core/services';
+import { ProcessLogService, AuthService } from 'src/app/core/services';
 import { MyHelperService } from 'src/app/core/services/utility/my-helper.service';
-import { BomFactory, BomStage } from 'src/app/core/models/bom';
+import { BomFactory, BomStage, BomItemOut } from 'src/app/core/models/bom';
 import { async } from 'rxjs/internal/scheduler/async';
 import { DevextremeService } from 'src/app/core/services/general/devextreme.service';
 import { DxDataGridComponent, DxFormComponent } from 'devextreme-angular';
@@ -35,13 +35,14 @@ export class ProcessLogComponent implements OnInit {
   dataSourceShift:any;
   bsConfig = { dateInputFormat: "YYYY-MM-DD", adaarptivePosition: true };
   modelSearch :SearchProcessLog
-  
+  itemOut:BomItemOut = new BomItemOut();
 
   constructor(
     private processLogService: ProcessLogService,
     private processLogItemService: ProcessLogItemService,
     private devExtreme: DevextremeService,
     private helper: MyHelperService,
+    private auth: AuthService,
     public trans: TranslateService,
     private notifyService: NotifyService
     ) {
@@ -55,9 +56,11 @@ export class ProcessLogComponent implements OnInit {
     activeDefaultTabProcessLog();
     this.showModalDetail = this.showModalDetail.bind(this);
     this.showModalItemOut = this.showModalItemOut.bind(this);
+    this.fnDeleteProcessLog = this.fnDeleteProcessLog.bind(this);
     this.deleteItemOut = this.deleteItemOut.bind(this);
      this.dataSourceItem= this.devExtreme.loadDxoLookup("Item");
      this.dataSourceUnit= this.devExtreme.loadDxoLookup("Unit");
+     this.dataSourceShift= this.devExtreme.loadDxoLookup("Shift");
      this.dataSourceFactory = this.devExtreme.loadDxoLookup("Factory");
   }
 
@@ -85,10 +88,40 @@ export class ProcessLogComponent implements OnInit {
 
   }
 
-  form_fieldDataChanged(e){
-    console.log(e);
+  fnDeleteProcessLog(e){
+    this.notifyService.confirmDelete(() =>{
+      this.processLogService.remove(e.row.data.ProcessLogId).then(res => {
+        var operationResult: any = res
+        if (operationResult.Success) {
+          this.notifyService.confirmDeleteSuccess();
+          this.dataSourceProcessLog.reload();
+        }
+        else this.notifyService.warning(operationResult.Message);
+      }, err => { this.notifyService.error(err.statusText) })
+    })
   }
 
+  onInitNewRow(e,stageId,itemOut){
+    e.data.ProcessLogId =0;
+    e.data.FactoryId = this.modelSearch.factoryId;
+    e.data.StageId =stageId;
+    e.data.ItemOutId =itemOut.ItemId;
+    e.data.ItemOutUnitId =itemOut.UnitId;
+    e.data.CreateBy = this.auth.currentUser.Username;
+    e.data.CreateDate = new Date();
+  }
+
+  onEditingStart(e){
+    e.data.Test ="Aaaa";
+    console.log(e);
+  }
+  onRowUpdating(e){
+    const data = Object.assign(e.oldData, e.newData);
+    data.ModifyBy = this.auth.currentUser.Username;
+    data.ModifyDate = new Date(); 
+    e.newData = data;
+  }
+  
   validateStartDate(e){
     return compareDate(e.value,this.modelSearch.endDay) ==1 ?false:true;
   }
