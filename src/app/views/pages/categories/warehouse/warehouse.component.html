@@ -132,7 +132,7 @@
               </dxi-item>
               <dxi-item dataField="WarehouseUserName"
                 [label]="{text: trans.instant('Warehouse.data.WarehouseUserName')}" editorType="dxSelectBox"
-                [editorOptions]="{displayExpr: 'NormalizedUserName' ,valueExpr:'UserName' ,items: userList}">
+                [editorOptions]="{displayExpr: 'NormalizedUserName' ,valueExpr:'UserName' ,items: userList,  searchEnabled: true, searchExpr: 'NormalizedUserName'}">
                 <dxi-validation-rule type="required" message="{{ 'messg.valid.required' | translate}}">
                 </dxi-validation-rule>
               </dxi-item>
@@ -177,7 +177,7 @@
                   </dxo-editing>
                   <dxi-column dataField="WarehouseLocationCode"
                     caption="{{ 'Warehouse.data.WarehouseLocationCode' | translate }}">
-                    <dxi-validation-rule type="required" message="{{ 'messg.valid.required' | translate}}">
+                    <dxi-validation-rule ignoreEmptyValue="true" type="required" message="{{ 'messg.valid.required' | translate}}">
                     </dxi-validation-rule>
                     <dxi-validation-rule type="custom" ignoreEmptyValue="true" reevaluate="true"
                       [validationCallback]="validateFunction" message="{{ 'messg.valid.exist' | translate}}">
@@ -185,7 +185,7 @@
                   </dxi-column>
                   <dxi-column dataField="WarehouseLocationName"
                     caption="{{ 'Warehouse.data.WarehouseLocationName' | translate }}">
-                    <dxi-validation-rule type="required" message="{{ 'messg.valid.required' | translate}}">
+                    <dxi-validation-rule ignoreEmptyValue="true" type="required" message="{{ 'messg.valid.required' | translate}}">
                     </dxi-validation-rule>
                     <dxi-validation-rule type="custom" ignoreEmptyValue="true" reevaluate="true"
                       [validationCallback]="validateFunction" message="{{ 'messg.valid.exist' | translate}}">

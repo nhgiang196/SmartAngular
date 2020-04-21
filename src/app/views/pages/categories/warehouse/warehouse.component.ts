@@ -156,7 +156,7 @@ export class WarehouseComponent implements OnInit {
     }
   }
   onInitNewRowWarehouseLocation(e) {
-    e.data.WarehouseLocationId = 0;
+    e.data = new WarehouseLocation();
     e.data.WarehouseId = this.entity.WarehouseId;
     e.data.Status = true;
   }
