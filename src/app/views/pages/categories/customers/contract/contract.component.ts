@@ -110,10 +110,16 @@ export class ContractComponent implements OnInit, AfterViewInit {
         case "ContractEffectiveDate": return (e.value <= this.entity.ContractEndDate) || this.entity.ContractEndDate == null
         case "ContractEndDate": return (this.entity.ContractEffectiveDate <= e.value) || this.entity.ContractEffectiveDate == null
       }
-    if (e.column) { }
-    switch (e.column.dataField) {
-      case "WaterFlow": return this.entity.ContractPrice.filter(x => x.WaterFlow == e.data.WaterFlow).length == 0
-      case "BreachType": return this.entity.ContractBreach.filter(x => x.BreachType == e.data.BreachType).length == 0
+    if (e.column) { 
+      switch (e.column.dataField) {
+        case "WaterFlow":
+          let _find = this.entity.ContractPrice.find(x => x.WaterFlow == e.data.WaterFlow);
+          if (!_find) return true;
+          else if (_find.Currency == e.data.Currency
+            && _find.Price == e.data.Price
+            && _find.Tax == e.data.Tax) return true;
+          else return false;
+      }
     }
     return true;
   };
@@ -127,6 +133,22 @@ export class ContractComponent implements OnInit, AfterViewInit {
       if (_validate == true) this.laddaSubmitLoading = false;
       resolve(_validate);
     });
+  }
+  onRowValidatingBreach(e){
+    var itemAdd = e.newData as ContractBreach;
+    for (const i in this.entity.ContractBreach) {
+      let  item = this.entity.ContractBreach[i];
+      if (item.Times== itemAdd.Times && item.BreachType == itemAdd.BreachType) {
+        swal.fire(
+          {
+            title: this.trans.instant('messg.validation.caption'),
+            titleText: this.trans.instant('Same Breach Type & Times'),
+            confirmButtonText: this.trans.instant('Button.OK'),
+            type: 'error',
+          });
+        e.isValid = false;
+      }
+    }
   }
   ngOnDestroy() {
     this.childModal.hide();

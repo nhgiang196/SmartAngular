@@ -8,7 +8,7 @@ import { HttpEventType } from '@angular/common/http';
 import { setQuarter } from 'ngx-bootstrap/chronos/units/quarter';
 import { ContractComponent } from '../contract/contract.component';
 import { async } from '@angular/core/testing';
-import { CustomerService, AuthService } from 'src/app/core/services';
+import { CustomerService, AuthService, ContractService } from 'src/app/core/services';
 import { SmartUploadComponent } from 'src/app/views/UISample/smart-upload/smart-upload.component';
 import { MyHelperService } from 'src/app/core/services/utility/my-helper.service';
 import { Customer } from 'src/app/core/models/customer';
@@ -32,6 +32,7 @@ export class CustomerDetailComponent implements OnInit {
     private trans: TranslateService,
     private auth: AuthService,
     private devService: DevextremeService,
+    private contractService: ContractService,
   ) {
     this.factoryList = devService.loadDxoLookup("Factory");
   }
@@ -126,7 +127,15 @@ export class CustomerDetailComponent implements OnInit {
       reverseButtons: true
     }).then((result) => {
       if (result.value) {
-        this.entity.Contract.splice(index, 1);
+        this.contractService.remove(this.entity.Contract[index].ContractId).then((data)=>{
+          let res = data as any;
+          if (res.Success) {
+            this.entity.Contract.splice(index, 1);
+            this.toastr.success(this.trans.instant('messg.delete.success'))
+          }
+          else this.toastr.warning(res.Message)
+        }).catch((err)=>{ this.toastr.error(err.statusText);})
+        
       }
     })
   }
@@ -156,7 +165,7 @@ export class CustomerDetailComponent implements OnInit {
   };
   validateAsync_CustomerCode = (e) => {
     return new Promise(async (resolve) => {
-      let obj = Object.assign({}, this.entity); //stop binding
+      let obj = new Customer(); //stop binding
       obj['CustomerCode'] = e.value;
       let _res = await this.api.validate(obj).then() as any;
       let _validate = _res.Success ? _res.Success : _res.ValidateData.indexOf('CustomerCode') < 0;
@@ -165,7 +174,7 @@ export class CustomerDetailComponent implements OnInit {
   }
   validateAsync_CustomerName = (e) => {
     return new Promise(async (resolve) => {
-      let obj = Object.assign({}, this.entity); //stop binding
+      let obj = new Customer(); //stop binding
       obj['CustomerName'] = e.value;
       let _res = await this.api.validate(obj).then() as any;
       let _validate = _res.Success ? _res.Success : _res.ValidateData.indexOf('CustomerName') < 0;

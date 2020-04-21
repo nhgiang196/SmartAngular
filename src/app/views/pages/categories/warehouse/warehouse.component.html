@@ -36,7 +36,7 @@
               <dx-data-grid #grid [dataSource]="dataSource" [remoteOperations]="true" class="m-grid-5" [showRowLines]="true"  [showBorders]="true">
                 <dxo-selection mode="single"></dxo-selection>
                 <dxo-filter-row [visible]="true"></dxo-filter-row>
-                <dxo-state-storing [enabled]="true" type="localStorage" storageKey="gridStorage_Warehouse"></dxo-state-storing>
+                <!-- <dxo-state-storing [enabled]="true" type="localStorage" storageKey="gridStorage_Warehouse"></dxo-state-storing> -->
                 <dxi-column dataField="WarehouseCode" caption="{{ 'Warehouse.data.WarehouseCode' | translate}}">
                 </dxi-column>
                 <dxi-column dataField="WarehouseName" caption="{{ 'Warehouse.data.WarehouseName' | translate}}">
@@ -68,8 +68,8 @@
                   <dxi-button icon="edit" [visible]="1" [onClick]="fnEdit"></dxi-button>
                   <dxi-button icon="trash" [visible]="1" [onClick]="fnDelete"></dxi-button>
                 </dxi-column>
-                <dxo-paging [pageSize]="25"></dxo-paging>
-                <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[25, 50, 100]"></dxo-pager>
+                <dxo-paging [pageSize]="10"></dxo-paging>
+                <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[10, 50, 100]"></dxo-pager>
               </dx-data-grid>
 
             </div>
