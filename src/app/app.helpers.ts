@@ -219,6 +219,8 @@ export function checkActiveTab(){
     })
 
     $(".btn-save").attr("disabled","disabled");
+    $(".dx-datagrid-toolbar-button").addClass("disabledTab")
+
   }
   else{
     $(".nav-tabs li").each(function(){
@@ -226,6 +228,7 @@ export function checkActiveTab(){
     })
 
     $(".btn-save").removeAttr("disabled");
+    $(".dx-datagrid-toolbar-button").removeClass("disabledTab");
   }
 }
 
