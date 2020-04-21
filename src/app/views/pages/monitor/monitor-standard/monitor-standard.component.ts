@@ -22,7 +22,8 @@ import { MyHelperService } from 'src/app/core/services/utility/my-helper.service
 export class MonitorStandardComponent implements OnInit {
   @ViewChild(DxDataGridComponent, { static: false }) dataGrid: DxDataGridComponent;
   dataSource: any;
-  lkDataSourceFactory: any;
+  lkDataSourceFactory;
+  myValidation:any ={}
   constructor(
     private monitorStandarService: MonitorStandarService,
     private factoryService: FactoryService,
@@ -31,17 +32,19 @@ export class MonitorStandardComponent implements OnInit {
     private toastr: ToastrService,
     private helper: MyHelperService
   ) {
-    //LOAD DATAGRID MONITOR
-    this.dataSource = this.monitorStandarService.getDataGrid(false);
-    this.loadFactorySelectBox();
-    // this.validateMSId = this.validateMSId.bind(this);
-    // this.validateDateFrom = this.validateDateFrom.bind(this);
-
   }
 
   ngOnInit() {
-
+     //LOAD DATAGRID MONITOR
+     this.dataSource = this.monitorStandarService.getDataGrid(false);
+     this.loadFactorySelectBox();
+     // this.validateMSId = this.validateMSId.bind(this);
+     // this.validateDateFrom = this.validateDateFrom.bind(this);
   }
+  loadFactorySelectBox() {
+    this.lkDataSourceFactory = this.devExtremeService.loadDxoLookup("Factory");
+  }
+
   addRow() {
     this.dataGrid.instance.addRow();
     this.dataGrid.instance.deselectAll();
@@ -51,16 +54,12 @@ export class MonitorStandardComponent implements OnInit {
     if (e.dataField == "Status" && e.parentType === "dataRow") {
       e.editorName = "dxSwitch";
     }
-    if (e.dataField == "MonitorStandardDescription" && e.parentType === "dataRow") {
-      e.editorName = "dxTextArea";
-      e.editorOptions.height = 50;
-    }
+    // if (e.dataField == "MonitorStandardDescription" && e.parentType === "dataRow") {
+    //   e.editorName = "dxTextArea";
+    //   e.editorOptions.height = 50;
+    // }
   }
-
-  loadFactorySelectBox() {
-    this.lkDataSourceFactory = this.devExtremeService.loadDxoLookup("Factory");
-  }
-
+  
   onInitNewRow(e) {
     e.data.Status = 1;
     e.data.ValidateDateFrom = new Date();
@@ -117,8 +116,8 @@ export class MonitorStandardComponent implements OnInit {
   validateMSId(e) {
     console.log(e);
   }
-
   validateDateFrom(e) {
+   
     let date;
     if (typeof (e.data.ValidateDateTo) === 'string') {
       date = new Date(e.data.ValidateDateTo);
@@ -134,10 +133,12 @@ export class MonitorStandardComponent implements OnInit {
     if (typeof (e.data.ValidateDateFrom) === 'string') {
       date = new Date(e.data.ValidateDateFrom);
     } else date = e.data.ValidateDateFrom
-
     if (e.value < date) {
       e.rule.message = "DateTo smaller than dateFrom!";
       return false
-    } else return true;
+    } else{
+       return true;
+    }
   }
+
 }

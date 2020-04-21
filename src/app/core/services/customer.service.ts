@@ -16,16 +16,16 @@ export class CustomerService extends GenericFactoryService<Customer>{
     super(http,'Customer');
   }
 
-  getDataGrid() {
-    var dataSource = new DataSource({
-      store: AspNetData.createStore({
-          loadUrl: `${ApiUrl}/Customer/GetCustomerDataGridPagination`,
-      }) ,
-      paginate: true,
-      pageSize: 10,
-      })
-      return dataSource;
-  }
+  // getDataGrid() {
+  //   var dataSource = new DataSource({
+  //     store: AspNetData.createStore({
+  //         loadUrl: `${ApiUrl}/Customer/GetCustomerDataGridPagination`,
+  //     }) ,
+  //     paginate: true,
+  //     pageSize: 10,
+  //     })
+  //     return dataSource;
+  // }
 
 
 }
