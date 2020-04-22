@@ -95,7 +95,7 @@ export class MonitorStandardComponent implements OnInit {
     if (e.oldData != null) {
       data = Object.assign(e.oldData, e.newData);
     } else data = e.newData;
-
+  
     if (data.FactoryId == null) {
       e.isValid = false;
       e.errorText = "Factory is empty!";
@@ -104,6 +104,8 @@ export class MonitorStandardComponent implements OnInit {
       e.isValid = false;
       e.errorText = "Date From greater than date To ";
     } else {
+      if(data.Status == true) data.Status= 1
+      if(data.Status == false) data.Status= 0 
       e.promise = this.monitorStandarService.validate(data)
         .then((result: any) => {
           if (!result.Success) {

@@ -11,6 +11,8 @@ import { HttpParams } from '@angular/common/http';
 import DataSource from 'devextreme/data/data_source';
 import { async } from '@angular/core/testing';
 import { element } from 'protractor';
+import { NotifyService } from 'src/app/core/services/utility/notify.service';
+
 @Component({
   selector: 'app-item-type',
   templateUrl: './item-type.component.html',
@@ -18,7 +20,8 @@ import { element } from 'protractor';
 })
 export class ItemTypeComponent implements OnInit {
 
-  @ViewChild(DxDataGridComponent, { static: false }) dataGrid: DxDataGridComponent;
+  @ViewChild("masterDataGrid", { static: false }) dataGrid: DxDataGridComponent;
+  @ViewChild("detailDataGrid", { static: false }) detailGrid: DxDataGridComponent
   dataSourceItemTypes: any;
   dataSourceProperties: ItemTypeProperty[] = []//any = {};
   itemTypeId: number = 0;
@@ -29,7 +32,8 @@ export class ItemTypeComponent implements OnInit {
     private itemTypeService: ItemTypeService,
     private itemTypePropertyService: ItemTypePropertyService,
     private auth: AuthService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private notifyService: NotifyService,
     
   ) {
     //LOAD MSTER GRID
@@ -39,6 +43,7 @@ export class ItemTypeComponent implements OnInit {
     config({
       floatingActionButtonConfig: directions.down
     });
+    this.fnDeleteDetail = this.fnDeleteDetail.bind(this);
   }
   ngOnInit() { }
 
@@ -46,6 +51,7 @@ export class ItemTypeComponent implements OnInit {
     this.dataGrid.instance.addRow();
     this.dataGrid.instance.deselectAll();
   }
+
 
   //Load popup by propertyId
   async filterByItemTypeId(e) {
@@ -89,7 +95,7 @@ export class ItemTypeComponent implements OnInit {
    */
   async onRowInsertingItemType(e) {
     console.log(e);
-
+    e.data.Status = e.data.Status ? 1 : 0;
     e.data.ItemTypeProperty = this.resetItemTypePropertyId(this.dataSourceProperties);// đây là khi lưu cha con nó lưu luôn
   }
   /**
@@ -99,7 +105,9 @@ export class ItemTypeComponent implements OnInit {
    */
   resetItemTypePropertyId(dataSource) {
     dataSource.forEach(item => {
+      if(item.ItemTypePropertyId >= 999){
       item.ItemTypePropertyId = 0
+      }
     })
     return dataSource;
   }
@@ -114,8 +122,9 @@ export class ItemTypeComponent implements OnInit {
     data.ModifyBy = this.auth.currentUser.Username;
     data.ModifyDate = new Date();
     data.Status = data.Status ? 1 : 0; //tenary operation if (data.status == true) return 1 else return 0
-    data.ItemTypeProperty = this.resetItemTypePropertyId(this.dataSourceProperties)
+    data.ItemTypeProperty = this.resetItemTypePropertyId(this.dataSourceProperties);
     e.newData = data;//set object
+    console.log(e.newData);
   }
 
   ////DETAIL/////////////////
@@ -133,6 +142,8 @@ export class ItemTypeComponent implements OnInit {
         });
 
       } else {
+        if(e.data.Status == true) e.data.Status= 1
+        if(e.data.Status == false) e.data.Status= 0 
         return new Promise((resolve, reject) => {
           this.itemTypeService.validate(e.data)
             .then((result: any) => {
@@ -148,6 +159,7 @@ export class ItemTypeComponent implements OnInit {
 
   detailValidation(e) {
     let isExsit = 0;
+   
     if (e.value == "" || e.value == null) {
       e.rule.message = "Field is empty!";
       return false;
@@ -169,5 +181,18 @@ export class ItemTypeComponent implements OnInit {
   {
     console.log(e);
     this.toastr.error("Can't delete!","Error");
+  }
+
+  fnDeleteDetail(e){
+    console.log(e);
+    this.itemTypeService.checkForeignKey(e.row.data.ItemTypePropertyId).then((result: any)=>{
+      if(result.Success){
+        this.detailGrid.instance.deleteRow(e.row.rowIndex);
+        //this.detailGrid.instance.removeRow(2);
+        console.log(e);
+      }else{
+        this.notifyService.error("Dữ liệu đã phát sinh, không thể xóa!");
+      }
+    });
   }
 }
