@@ -29,7 +29,7 @@ export class CustomerListComponent implements OnInit {
     private toastr: ToastrService,
     private devService: DevextremeService,
   ) {
-    this.dataSource = this.api.getDataGrid();
+    this.dataSource = this.api.getDataGridWithOutUrl(false);
     this.dataSourceFactory = devService.loadDxoLookup("Factory");
     this.lookupCustomerType = devService.loadDefineLookup("CustomerType")
     this.routerToDetail = this.routerToDetail.bind(this);
