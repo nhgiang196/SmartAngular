@@ -51,7 +51,7 @@
 
                 <dxi-column dataField="UnitId" width="120" [allowEditing]="false"></dxi-column>
                 <dxi-column dataField="UnitName">
-                  <dxi-validation-rule type="async" max="256" [reevaluate]=true [validationCallback]="unitValidation"
+                  <dxi-validation-rule type="async" max="256" [validationCallback]="unitValidation"
                     message="">
                   </dxi-validation-rule>
                 </dxi-column>

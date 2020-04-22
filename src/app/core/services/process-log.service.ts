@@ -43,7 +43,6 @@ export class ProcessLogService extends GenericFactoryService<ProcessLog> {
           ajaxOptions.xhrFields = { withCredentials: true };
           ajaxOptions.data.keyId = "ProcessLogId";
           if (method == "insert") {
-            console.log(ajaxOptions.data);
             if (ajaxOptions.data.values != null) {
               let entity = JSON.parse(ajaxOptions.data.values);
               ajaxOptions.data.values = entity;

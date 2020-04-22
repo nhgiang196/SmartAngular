@@ -49,7 +49,6 @@ export class ContractComponent implements OnInit, AfterViewInit {
     if (id && id != 0) {
       this.iboxloading = true;
       this.api.findById(id).subscribe(res => {
-        console.log('findContractById', res);
         this.childModal.show();
         this.entity = res;
         this.uploadComponent.loadInit((res as any).ContractFile);
@@ -76,7 +75,6 @@ export class ContractComponent implements OnInit, AfterViewInit {
     else if (e.ContractId == 0) //add
     {
       e.CreateBy = this.auth.currentUser.Username;
-      console.log('create_contract', e);
       let operationResult = await this.api.add(e).then().catch(err => this.toastr.error(err.statusText, 'Network')) as any;
       if (operationResult.Success) {
         this.toastr.success(this.trans.instant("messg.add.success"));
@@ -87,7 +85,6 @@ export class ContractComponent implements OnInit, AfterViewInit {
     }
     else { //update
       e.ModifyBy = this.auth.currentUser.Username;
-      console.log('update_Contract', e);
       let operationResult = await this.api.update(e).then().catch(err => this.toastr.error(err.statusText, 'Network')) as any;
       if (operationResult.Success) {
         this.toastr.success(this.trans.instant("messg.update.success"));
@@ -151,7 +148,7 @@ export class ContractComponent implements OnInit, AfterViewInit {
     }
   }
   ngOnDestroy() {
-    this.childModal.hide();
+    // this.childModal.hide();
   }
   ngAfterViewInit() {
     collapseIboxHelper();

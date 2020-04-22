@@ -49,6 +49,7 @@ export class GenericFactoryService<T> implements IGenericFactoryService<T> {
     return this.http.post<T>(`${ApiUrl}/${this.entity}/ValidateCode${this.entity}`, entity).toPromise();
   }
 
+
   getDxoLookup(checkStatus = true) {
     return {
       store: createStore({

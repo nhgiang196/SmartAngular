@@ -301,8 +301,6 @@ export class ItemActionComponent implements OnInit {
         this.listFiles = this.entity.ItemFile.filter((x) => x.IsImage == false);
       }
     });
-    console.log(this.listImages);
-    console.log(this.listFiles);
     this.entity.ModifyBy = this.auth.currentUser.Username;
   }
 
@@ -310,7 +308,6 @@ export class ItemActionComponent implements OnInit {
   onRemove(event, isImage) {
     const file = event as ItemFile;
     //press x to delte file (in modal)
-    console.log(event);
     if (isImage) {
       let indexListImage = this.listImages.findIndex(
         (x) => x.File.FileOriginalName == file.File.FileOriginalName
@@ -383,7 +380,6 @@ export class ItemActionComponent implements OnInit {
       let item = event.addedFiles[index];
       let convertName = this.helper.getFileNameWithExtension(item);
       let currentFile = this.entity.ItemFile;
-      console.log(this.listImages);
       let findElement: ItemFile = null;
       if (isImage)
         findElement = this.listImages.find(
@@ -415,7 +411,6 @@ export class ItemActionComponent implements OnInit {
         }
         if (!allowUpload) return;
 
-        console.log(findElement);
         //ghi đè file
         if (isImage) {
           let _indextFileEntity = this.entity.ItemFile.findIndex(

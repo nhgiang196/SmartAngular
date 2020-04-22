@@ -250,12 +250,10 @@ export class ProcessLogComponent implements OnInit {
     this.modalChild.showChildModal(entity);
   }
   showModalItemOut(e) {
-    console.log(e);
     this.modalChildItem.showChildModal(e.row.data);
   }
 
   showModalAddItemOut(e) {
-    console.log(e);
     let itemOut = new ProcessLogItem();
     itemOut.ProcessLogId = e.data.ProcessLogId;
     this.modalChildItem.showChildModal(itemOut);
