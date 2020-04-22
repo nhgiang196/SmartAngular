@@ -148,7 +148,7 @@ export class ContractComponent implements OnInit, AfterViewInit {
     }
   }
   ngOnDestroy() {
-    this.childModal.hide();
+    // this.childModal.hide();
   }
   ngAfterViewInit() {
     collapseIboxHelper();

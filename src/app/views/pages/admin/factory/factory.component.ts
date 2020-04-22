@@ -12,6 +12,8 @@ import swal from 'sweetalert2';
 import { DxValidationGroupComponent, DxFormComponent, DxValidatorComponent } from 'devextreme-angular';
 import { async } from '@angular/core/testing';
 import { DxoGridComponent } from 'devextreme-angular/ui/nested';
+import { DevextremeService } from 'src/app/core/services/general/devextreme.service';
+import DataSource from 'devextreme/data/data_source';
 declare let $: any;
 @Component({
   selector: 'app-factory',
@@ -27,11 +29,18 @@ export class FactoryComponent implements OnInit {
     private toastr: ToastrService,
     public trans: TranslateService,
     public helper: MyHelperService,
-    private auth: AuthService
+    private auth: AuthService,
+    private devService: DevextremeService,
   ) {
     this.onFactoryDateChange = this.onFactoryDateChange.bind(this);
+    let lang = trans.currentLang;
+    this.lookup['FactoryType'] = devService.loadDefineSelectBox('FactoryType',lang);
+    this.lookup['FactoryStatus'] = devService.loadDefineSelectBox('FactoryStatus',lang);
+    this.lookup['FactoryType'].load();
+    this.lookup['FactoryStatus'].load();
   }
   /** DECLARATION */
+  lookup: any = {};
   factory: Factory[] = []; //init data
   entity: Factory;
   iboxloading = false;
@@ -70,8 +79,9 @@ export class FactoryComponent implements OnInit {
   ngOnInit() {
     this.resetEntity();
     this.loadInit();
+    
   }
-  private resetEntity() {
+  resetEntity() {
     this.entity = new Factory();
   }
   loadInit() {
@@ -93,7 +103,9 @@ export class FactoryComponent implements OnInit {
   fnAdd() {
     this.ACTION_STATUS = 'add';
     this.targetForm.instance.resetValues();
-    this.resetEntity();
+    this.targetForm.instance.updateData(new Factory());
+    this.targetForm.instance.getEditor("FactoryCode").option("isValid", true)
+    this.targetForm.instance.getEditor("FactoryName").option("isValid", true)
     this.uploadComponent.resetEntity();
     this.entity.CreateBy = this.auth.currentUser.Username;
   }
@@ -161,7 +173,6 @@ export class FactoryComponent implements OnInit {
   async fnSave() {
     // var e = this.fnConvertFactoryDate(this.entity);
     var e = this.entity;
-    if(e.FactoryContactPhone.length<=2) e.FactoryContactPhone= null;
     await this.uploadComponent.uploadFile();
     if (this.ACTION_STATUS == 'add') {
       this.api.add(e).then(res => {

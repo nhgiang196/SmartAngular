@@ -5,13 +5,14 @@ import { HttpClient } from '@angular/common/http';
 import DataSource from 'devextreme/data/data_source';
 import * as AspNetData from "devextreme-aspnet-data-nojquery";
 import CustomStore from 'devextreme/data/custom_store';
+import { TranslateService } from '@ngx-translate/core';
 const ApiUrl = environment.apiUrl;
 @Injectable({
   providedIn: 'root'
 })
 export class DevextremeService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private trans: TranslateService) { }
 
   loadDxoGrid(entity, actionLoad = "", actionDelete = "", actionInsert = "", actionUpdate = "", checkStatus = true) {
     return new DataSource({
@@ -51,17 +52,40 @@ export class DevextremeService {
     }
   }
 
-  loadDefineLookup(columnName, checkStatus = false){
+  loadDefineLookup(columnName, language, checkStatus = false){
     let basicFilter = ["ColumName","=",columnName]
-    return {
+    return  {
       store: createStore({
+        key: "Id",
         loadUrl: `${ApiUrl}/Define/GetDefineDxLookup`,
       }),
       paginate: true,
       pageSize: 10,
-      filter: checkStatus ? [["Status", "=", 1],"and",basicFilter] : basicFilter
+      filter: checkStatus ? [["State", "=", true],"and",basicFilter] : basicFilter,
+      map: (dataItem) => {
+        dataItem.Id = isNaN(dataItem.Id)? dataItem.Id : parseInt(dataItem.Id)
+        dataItem.Text = language=='en'? dataItem['DescriptionEn'] : dataItem['DescriptionVn'];
+        return dataItem;
+      }
     }
   }
+
+  loadDefineSelectBox(columnName,language, checkStatus = false){
+    let basicFilter = ["ColumName","=",columnName]
+    return new DataSource( {
+      store: createStore({
+        key: "Id",
+        loadUrl: `${ApiUrl}/Define/GetDefineDxLookup`,
+      }),
+      filter: checkStatus ? [["State", "=", true],"and",basicFilter] : basicFilter,
+      map: (dataItem) => {
+        dataItem.Id = isNaN(dataItem.Id)? dataItem.Id : parseInt(dataItem.Id);
+        dataItem.Text = language=='en'? dataItem['DescriptionEn'] : dataItem['DescriptionVn'];
+        return dataItem;
+      }
+    })
+  }
+
 
 
 

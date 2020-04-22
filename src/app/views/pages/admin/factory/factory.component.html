@@ -104,17 +104,12 @@
       </div>
       <div class="modal-body">
         <form action="your-action" (submit)="fnSave()">
-          <dx-form #targetForm id="form" [(formData)]="entity">
+          <dx-form #targetForm id="form" [(formData)]="entity" (onInitialized)="resetEntity">
             <dxi-item itemType="group" [colCount]="2">
               <dxi-item dataField="FactoryType" [label]="{text: trans.instant('Factory.data.FactoryType')}"
-                editorType="dxSelectBox" [editorOptions]="{ displayExpr: 'text' ,valueExpr:'id' ,
-                items: [
-                { id: 1, text: trans.instant('Factory.data.FactoryType1')}
-                ,{ id: 2, text: trans.instant('Factory.data.FactoryType2')}
-                ,{ id: 3, text: trans.instant('Factory.data.FactoryType3')}
-                ]}"></dxi-item>
+                editorType="dxSelectBox" [editorOptions]="{ displayExpr: 'Text' ,valueExpr:'Id' , items: lookup['FactoryType'].items() }"></dxi-item>
               <dxi-item dataField="Status" [label]="{text: trans.instant('Factory.data.Status')}"
-                editorType="dxSelectBox" [editorOptions]="statusOption">
+                editorType="dxSelectBox" [editorOptions]="{ displayExpr: 'Text' ,valueExpr:'Id' , items: lookup['FactoryStatus'].items(),searchEnabled: true, searchExpr: lookupDisplay}">
               </dxi-item>
             </dxi-item>
             <dxi-item itemType="group" [colCount]="2">
