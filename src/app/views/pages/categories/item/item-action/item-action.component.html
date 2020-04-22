@@ -35,10 +35,10 @@
                         <li><a data-toggle="tab" href="#tab-6"><i class="fa fa-file"></i>
                                 {{ 'Upload.Image' | translate }}</a></li>
                     </ul>
-    
-    
+
+
                         <div class="tab-content">
-    
+
                             <div id="tab-1" class="tab-pane active">
                                 <div class="panel-body">
                                     <div class="dx-fieldset">
@@ -49,7 +49,7 @@
                                             <dx-text-box mode="text" [(value)]="entity.ItemCode">
                                               <dx-validator>
                                                 <dxi-validation-rule message="Yêu cầu nhập mã vật tư" type="required"></dxi-validation-rule>
-                                                <dxi-validation-rule message="Mã vật tư đã tồn tại" type="async" ignoreEmptyValue="true" 
+                                                <dxi-validation-rule message="Mã vật tư đã tồn tại" type="async" ignoreEmptyValue="true"
                                                   [validationCallback]="validateAsync_ItemCode"></dxi-validation-rule>
                                               </dx-validator>
                                             </dx-text-box>
@@ -80,6 +80,7 @@
                                                 valueExpr="UnitId" searchEnabled="true"  searchExpr="UnitName">
                                                 <dx-validator>
                                                   <dxi-validation-rule message="Vui lòng chọn đơn vị tính" type="required"></dxi-validation-rule>
+                                                  <dxi-validation-rule message="Không được trùng đơn vị tính trong tab đóng gói" [validationCallback]="validationUnitCallback" type="custom"></dxi-validation-rule>
                                                 </dx-validator>
                                               </dx-select-box>
                                             </div>
@@ -233,9 +234,9 @@
                                         <div class="clearfix"></div>
                                     </div>
                                   </div>
-                            </div> 
-                            
-                          
+                            </div>
+
+
                             <div id="tab-2" class="tab-pane">
                               <div class="panel-body">
                                   <fieldset class="form-horizontal">
@@ -244,13 +245,13 @@
                                               <div class="row">
                                                   <div class="form-group">
                                                       <div class="col-sm-12 pl-2">
-                                                        
+
                                                         <dx-data-grid
                                                         [dataSource]="entity.ItemFactory"
-                                                        (onRowValidating)="onRowValidatingFactory($event)"
+                                                        keyExpr="ItemFactoryId"
                                                         (onContentReady) ="enableActiveTab()"
                                                         [remoteOperations]="true" height="auto"  showBorders="true">
-    
+
                                                         <dxo-editing
                                                           [allowAdding]="true"
                                                           [allowUpdating]="true"
@@ -265,6 +266,9 @@
                                                               displayExpr="FactoryName"
                                                               valueExpr="FactoryId">
                                                           </dxo-lookup>
+                                                          <dxi-validation-rule
+                                                              type="custom" [validationCallback]="validationFactoryCallback"  message="Không được trùng tên nhà máy">
+                                                          </dxi-validation-rule>
                                                           <dxi-validation-rule type="required"></dxi-validation-rule>
                                                         </dxi-column>
                                                         <dxi-column dataField="IntergrationCode" caption="{{'Item.datacolumn.IntergrationCode' | translate }}">
@@ -273,12 +277,12 @@
                                                       </div>
                                                   </div>
                                               </div>
-    
+
                                           </div>
                                       </div>
-    
+
                                   </fieldset>
-    
+
                               </div>
                           </div>
                           <div id="tab-3" class="tab-pane">
@@ -293,11 +297,11 @@
                                                       (onCellPrepared)="onCellPrepared($event)" -->
                                                       <!-- (onContentReady) ="enableActiveTab($event)" -->
                                                       <dx-data-grid
-                                                      [dataSource]="entity.ItemProperty"                                                
-                                                      (onRowValidating)="onRowValidatingItemProperty($event)"
+                                                      [dataSource]="entity.ItemProperty"
+                                                      keyExpr="ItemPropertyId"
                                                       (onContentReady) ="enableActiveTab()"
                                                       [remoteOperations]="true" height="auto"  showBorders="true">
-    
+
                                                       <dxo-editing
                                                         [allowAdding]="true"
                                                         [allowUpdating]="true"
@@ -312,6 +316,9 @@
                                                             displayExpr="ItemTypePropertyName"
                                                             valueExpr="ItemTypePropertyId">
                                                         </dxo-lookup>
+                                                        <dxi-validation-rule
+                                                        type="custom" [validationCallback]="validationItemPropertyCallback"  message="Không được trùng tên thuộc tính">
+                                                          </dxi-validation-rule>
                                                         <dxi-validation-rule type="required"></dxi-validation-rule>
                                                       </dxi-column>
                                                       <dxi-column dataField="ItemTypePropertyValue" caption="{{'Item.datacolumn.ItemTypePropertyValue' | translate }} (*)">
@@ -321,12 +328,12 @@
                                                     </div>
                                                 </div>
                                             </div>
-    
+
                                         </div>
                                     </div>
-    
+
                                 </fieldset>
-    
+
                             </div>
                         </div>
                         <div id="tab-4" class="tab-pane">
@@ -335,10 +342,11 @@
                                   <div class="col-sm-12">
                                     <dx-data-grid
                                     [dataSource]="entity.ItemPackage"
-                                    (onRowValidating)="onRowValidatingUnit($event)"
+                                    keyExpr="ItemPackageId"
                                     (onContentReady) ="enableActiveTab()"
+                                    (onRowValidating)="onRowItemPackageValidating($event)"
                                     [remoteOperations]="true" height="auto"  showBorders="true">
-    
+
                                     <dxo-editing
                                       [allowAdding]="true"
                                       [allowUpdating]="true"
@@ -353,24 +361,41 @@
                                           displayExpr="UnitName"
                                           valueExpr="UnitId">
                                       </dxo-lookup>
+                                      <dxi-validation-rule
+                                         type="custom" [validationCallback]="validationItemPackageCallback">
+                                       </dxi-validation-rule>
                                       <dxi-validation-rule type="required"></dxi-validation-rule>
                                     </dxi-column>
                                     <dxi-column dataField="ItemPackageCoefficient" caption="{{'Item.datacolumn.ItemPackageCoefficient' | translate }} (*)">
                                       <dxi-validation-rule type="required" ></dxi-validation-rule>
+                                      <dxi-validation-rule
+                                        type="custom" [validationCallback]="validationNumberCallback"  message=">=0">
+                                    </dxi-validation-rule>
                                     </dxi-column>
                                     <dxi-column dataField="ItemPackageLength"  dataType="number"   caption="{{'Item.datacolumn.ItemPackageLength' | translate }}">
-    
+                                      <dxi-validation-rule
+                                        type="custom" [validationCallback]="validationNumberCallback"  message=">=0">
+                                      </dxi-validation-rule>
                                     </dxi-column>
                                     <dxi-column dataField="ItemPackageWidth" dataType="number"  caption="{{'Item.datacolumn.ItemPackageWidth' | translate }}">
+                                      <dxi-validation-rule
+                                      type="custom" [validationCallback]="validationNumberCallback"  message=">=0">
+                                    </dxi-validation-rule>
                                     </dxi-column>
                                     <dxi-column dataField="ItemPackageHeight" dataType="number"  caption="{{'Item.datacolumn.ItemPackageHeight' | translate }} ">
+                                      <dxi-validation-rule
+                                        type="custom" [validationCallback]="validationNumberCallback"  message=">=0">
+                                      </dxi-validation-rule>
                                     </dxi-column>
                                     <dxi-column dataField="ItemPackageWeight" dataType="number"  caption="{{'Item.datacolumn.ItemPackageWeight' | translate }}">
+                                      <dxi-validation-rule
+                                        type="custom" [validationCallback]="validationNumberCallback"  message=">=0">
+                                      </dxi-validation-rule>
                                     </dxi-column>
                                 </dx-data-grid>
                                   </div>
                               </div>
-    
+
                           </div>
                       </div>
                       <div id="tab-5" class="tab-pane">
@@ -401,7 +426,7 @@
                                     </div>
                                 </div>
                             </div>
-    
+
                         </div>
                       </div>
                       <div id="tab-6" class="tab-pane">
@@ -432,7 +457,7 @@
                                     </div>
                                 </div>
                             </div>
-    
+
                         </div>
                       </div>
                       </div>
@@ -453,11 +478,11 @@
                                 class="fa fa-chevron-circle-left"></i> {{'Button.Back' | translate}} </button>
                           </div>
                     </div>
-    
+
                 </div>
             </form>
         </div>
-        
+
     </div>
 
 </div>

@@ -3,17 +3,11 @@ import { BsDatepickerViewMode } from "ngx-bootstrap/datepicker/models";
 import { BsDatepickerConfig } from "ngx-bootstrap";
 import {
   Item,
-  ItemFactory,
   ItemProperty,
   ItemPackage,
   ItemFile,
-  ItemType,
 } from "src/app/core/models/item";
-import { Subject } from "rxjs";
-import { UnitService, AuthService, ItemService } from "src/app/core/services";
-import DataSource from "devextreme/data/data_source";
-import { createStore } from "devextreme-aspnet-data-nojquery";
-import { environment } from "src/environments/environment";
+import { AuthService, ItemService } from "src/app/core/services";
 import { ActivatedRoute, Router } from "@angular/router";
 import swal from "sweetalert2";
 import { DxDataGridComponent } from "devextreme-angular";
@@ -21,11 +15,10 @@ import { MyHelperService } from "src/app/core/services/utility/my-helper.service
 import { HttpEventType } from "@angular/common/http";
 import { ToastrService } from "ngx-toastr";
 import { TranslateService } from "@ngx-translate/core";
-import { SmartUploadComponent } from "src/app/views/UISample/smart-upload/smart-upload.component";
 import { FileService } from "src/app/core/services/file.service";
 import { checkActiveTab } from "src/app/app.helpers";
 import { DevextremeService } from "src/app/core/services/general/devextreme.service";
-declare var $: any;
+import { dataCopy } from 'src/app/core/helpers/helper';
 @Component({
   selector: "app-item-action",
   templateUrl: "./item-action.component.html",
@@ -66,6 +59,10 @@ export class ItemActionComponent implements OnInit {
     private fileService: FileService
   ) {
     this.validateAsync_ItemCode = this.validateAsync_ItemCode.bind(this);
+    this.validationFactoryCallback = this.validationFactoryCallback.bind(this);
+    this.validationItemPropertyCallback = this.validationItemPropertyCallback.bind(this);
+    this.validationItemPackageCallback = this.validationItemPackageCallback.bind(this);
+    this.validationUnitCallback = this.validationUnitCallback.bind(this);
   }
 
   ngOnInit() {
@@ -103,6 +100,7 @@ export class ItemActionComponent implements OnInit {
     if (this.entity.ItemId == 0) e.CreateBy = this.auth.currentUser.Username;
     else e.ModifyBy = this.auth.currentUser.Username;
     //Clear rác
+    this.removeIdDevExtreme();
     if (this.entity.ItemId == 0) {
       this.itemService.add(e).then(
         (res) => {
@@ -147,7 +145,45 @@ export class ItemActionComponent implements OnInit {
     }
   }
 
+  removeIdDevExtreme(){
+    this.entity.ItemFactory.forEach(item=>{
+      if (typeof item.ItemFactoryId =="string")
+        {
+          item.ItemFactoryId=0;
+          return item;
+        }
+    })
+    this.entity.ItemProperty.forEach(item=>{
+      if (typeof item.ItemPropertyId =="string")
+        {
+          item.ItemPropertyId=0;
+          return item;
+        }
+    })
+    this.entity.ItemPackage.forEach(item=>{
+      if (typeof item.ItemPackageId =="string")
+        {
+          item.ItemPackageId=0;
+          return item;
+        }
+
+        item.ItemPackageHeight =item.ItemPackageHeight || 0;
+        item.ItemPackageLength =item.ItemPackageLength || 0;
+        item.ItemPackageWeight =item.ItemPackageWeight || 0;
+        item.ItemPackageWidth =item.ItemPackageWidth || 0;
+    })
+  }
+
   ///Tab1
+
+  validationUnitCallback(e){
+    console.log(e);
+    if(this.entity.ItemPackage.find(x=>x.ItemPackageUnitId == e.value)){
+      return false;
+    }
+    return true;
+  }
+
   validateAsync_ItemCode(e) {
     return new Promise(async (resolve) => {
       let obj = new Item(); //stop binding
@@ -165,81 +201,33 @@ export class ItemActionComponent implements OnInit {
     checkActiveTab();
   }
 
-  onSwitchStatus() {
-    //modal switch on change
-    this.entity.Status = this.entity.Status == 0 ? 1 : 0;
-  }
-
-  private async fnValidate(e) {
-    let result = !(await this.itemService
-      .checkItemNameExist(this.entity.ItemName)
-      .toPromise()
-      .then());
-    if (!result) {
-      this.laddaSubmitLoading = false;
-    }
-    return result;
-  }
   //Area ItemType///
   itemTypeChange(value) {
     this.loadItemPropertySelectBox(value);
   }
 
   ///Area Item Factory////
-  onRowValidatingFactory(e) {
-    if (e.oldData == null) {
-      //thêm mới
-      if (
-        this.entity.ItemFactory.find((x) => x.FactoryId == e.newData.FactoryId)
-      ) {
-        swal.fire("Validate", "Dữ liệu đã bị trùng", "warning");
-        e.isValid = false;
-      }
-    } else {
-      //chỉnh sửa
-      if (
-        this.entity.ItemFactory.find(
-          (x) => x.FactoryId == e.newData.FactoryId
-        ) &&
-        e.newData.FactoryId != e.oldData.FactoryId
-      ) {
-        swal.fire("Validate", "Dữ liệu đã bị trùng", "warning");
-        e.isValid = false;
-      }
+  validationFactoryCallback(e){
+    if(this.entity.ItemFactory.find(x=>x.FactoryId==e.value && x.ItemFactoryId !=e.data.ItemFactoryId)){
+      return false;
     }
+    return true
   }
+
 
   loadFactorySelectBox() {
     this.dataSourceFactory = this.devExtreme.loadDxoLookup("Factory");
   }
 
   ///Area Item Property////
-  onRowValidatingItemProperty(e) {
-    console.log("validate item property", e);
-    console.log(this.entity);
-    if (e.oldData == null) {
-      //thêm mới
-      if (
-        this.entity.ItemProperty.find(
-          (x) => x.ItemTypePropertyId == e.newData.ItemTypePropertyId
-        )
-      ) {
-        swal.fire("Validate", "Dữ liệu đã bị trùng", "warning");
-        e.isValid = false;
-      }
-    } else {
-      //chỉnh sửa
-      if (
-        this.entity.ItemProperty.find(
-          (x) => x.ItemTypePropertyId == e.newData.ItemTypePropertyId
-        ) &&
-        e.newData.ItemTypePropertyId != e.oldData.ItemTypePropertyId
-      ) {
-        swal.fire("Validate", "Dữ liệu đã bị trùng", "warning");
-        e.isValid = false;
-      }
+  validationItemPropertyCallback(e){
+    if(this.entity.ItemProperty.find(x=>x.ItemTypePropertyId==e.value && x.ItemPropertyId !=e.data.ItemPropertyId)){
+      return false;
     }
+    return true
   }
+
+
   loadItemPropertySelectBox(itemType) {
     let itemTypeId = 0;
     if (typeof itemType == "object") {
@@ -254,36 +242,31 @@ export class ItemActionComponent implements OnInit {
   }
 
   ///Area Item Package////
-  onRowValidatingUnit(e) {
-    if (e.newData.ItemPackageUnitId == this.entity.ItemUnitId) {
-      e.isValid = false;
-      swal.fire(
-        "Validate",
-        "Dữ liệu đã bị trùng với unit đã chọn ngoài tab thông tin",
-        "warning"
-      );
-    } else if (e.oldData == null) {
-      //thêm mới
-      if (
-        this.entity.ItemPackage.find(
-          (x) => x.ItemPackageUnitId == e.newData.ItemPackageUnitId
-        )
-      ) {
-        swal.fire("Validate", "Dữ liệu đã bị trùng", "warning");
-        e.isValid = false;
-      }
-    } else {
-      //chỉnh sửa
-      if (
-        this.entity.ItemPackage.find(
-          (x) => x.ItemPackageUnitId == e.newData.ItemPackageUnitId
-        ) &&
-        e.newData.ItemPackageUnitId != e.oldData.ItemPackageUnitId
-      ) {
-        swal.fire("Validate", "Dữ liệu đã bị trùng", "warning");
-        e.isValid = false;
-      }
+  validationItemPackageCallback(e){
+    console.log(e)
+    if(e.value==this.entity.ItemUnitId){
+      e.rule.message="Dữ liệu đã bị trùng với unit đã chọn ngoài tab thông tin";
+      return false;
     }
+    if(this.entity.ItemPackage.find(x=>x.ItemPackageUnitId==e.value && x.ItemPackageId !=e.data.ItemPackageId)){
+      e.rule.message="Không được trùng đơn vị";
+      return false;
+    }
+    return true
+  }
+
+  validationNumberCallback(e){
+    if(e.value<0){
+      return false;
+    }
+    return true;
+
+  }
+
+  onRowItemPackageValidating(e){
+    let data = Object.assign(new ItemPackage(),dataCopy(e.newData));
+    data.ItemPackageUnit =null;
+    e.newData = data;
   }
 
   loadUnitSelectbox() {
