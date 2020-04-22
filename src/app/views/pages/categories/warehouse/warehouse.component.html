@@ -33,14 +33,7 @@
           <hr>
           <div class="row">
             <div class="col-lg-12">
-              <dx-data-grid #grid 
-                    [dataSource]="dataSource" 
-                    [remoteOperations]="true" class="m-grid-5" 
-                    [showRowLines]="true"  
-                    [showBorders]="true"  
-                    [allowColumnResizing] = "true"  
-                    [focusedRowEnabled]="true" 
-                    columnResizingMode = "widget" > 
+              <dx-data-grid #grid [dataSource]="dataSource" [remoteOperations]="true" class="m-grid-5" [showRowLines]="true"  [showBorders]="true" [allowColumnResizing] = "true"  [focusedRowEnabled]="true"  columnResizingMode = "widget">
                 <dxo-selection mode="single"></dxo-selection>
                 <dxo-filter-row [visible]="true"></dxo-filter-row>
                 <!-- <dxo-state-storing [enabled]="true" type="localStorage" storageKey="gridStorage_Warehouse"></dxo-state-storing> -->
@@ -175,7 +168,7 @@
             </dxi-item>
             <dxi-item itemType="group" caption="{{'Warehouse.label.Location' | translate}}">
               <div *dxTemplate>
-                <dx-data-grid [dataSource]="entity.WarehouseLocation" keyExpr = "WarehouseLocationCode" allowColumnResizing="true" [focusedRowEnabled]="true"
+                <dx-data-grid #targetGrid [dataSource]="entity.WarehouseLocation" allowColumnResizing="true"   columnResizingMode = "widget" 
                   (onInitNewRow)="onInitNewRowWarehouseLocation($event)"
                   (onRowInserted)="onChangeWarehouseLocationStatus($event)"
                   (onRowUpdated)="onChangeWarehouseLocationStatus($event)" 

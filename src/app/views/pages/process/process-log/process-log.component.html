@@ -76,23 +76,27 @@
                       <div  class="tab-pane" *ngFor="let itemOut of stage.BomItemOut; let i =index" [class.active]="i==0"  [id]="'tabItemOut-'+stage.StageId+i">
                         <div class="panel-body panel-body-child">
                           <div class="row">
-                            <div class="form-group text-right">
+                            <!-- <div class="form-group text-right">
                               <button class="btn btn-primary btn-save"
                                 (click)="showModalAdd(stage.StageId,itemOut.ItemId)">
                                 <i class="fa fa-plus"></i>
                                 Thêm mới
                               </button>
-                            </div>
+                            </div> -->
                             <dx-data-grid id="myDataGrid"
                             [dataSource]="dataSourceProcessLog"
                             [columnAutoWidth]="true"
                             [masterDetail]="{ enabled: true, template: 'detail' }"
-                            [remoteOperations]="true"  
-                            [showBorders]="true" 
-                            [showRowLines]="true" 
+                            [remoteOperations]="true"
+                            [showBorders]="true"
+                            [showRowLines]="true"
                             (onInitNewRow)="onInitNewRow($event,stage.StageId,itemOut)"
-                            (onEditingStart)="onEditingStart($event)"
+                            (onRowInserting)="onRowInserting($event)"
+                            (onRowInserted)="onRowInserted($event)"
                             (onRowUpdating)="onRowUpdating($event)"
+                            (onRowUpdated)="onRowUpdated($event)"
+                            (onRowValidating)="onRowValidating($event)"
+                            (onContentReady) ="enableActiveTab()"
                             allowColumnResizing="true">
 
                             <dxo-selection mode="single"></dxo-selection>
@@ -103,18 +107,21 @@
                               [allowDeleting]="false"
                               [useIcons] ="true"
                               >
-                              <dxo-texts confirmDeleteMessage="Are you sure Delete?"></dxo-texts>
-
                             </dxo-editing>
                             <dxi-column  dataField="ShiftId"  caption="ShiftName">
                               <dxo-lookup
                                 [dataSource]="dataSourceShift"
                                                     displayExpr="ShiftName"
                                                     valueExpr="ShiftId">
-                                 </dxo-lookup> 
+                                 </dxo-lookup>
+                                 <dxi-validation-rule type="required"></dxi-validation-rule>
                             </dxi-column>
-                            <dxi-column  dataField="ProcessLogDate"  caption="ProcessLogDate" dataType="date"></dxi-column>
-                            <dxi-column  dataField="ProcessLogTime"  caption="ProcessLogTime" dataType='datetime' [editorOptions]="{ type: 'time' }" format='HH:mm:ss'></dxi-column>
+                            <dxi-column  dataField="ProcessLogDate"  caption="ProcessLogDate" dataType="date">
+                              <dxi-validation-rule type="required"></dxi-validation-rule>
+                            </dxi-column>
+                            <dxi-column  dataField="ProcessLogTime"  caption="ProcessLogTime" dataType='datetime' [editorOptions]="{ type: 'time' }" format='HH:mm:ss'>
+                              <dxi-validation-rule type="required"></dxi-validation-rule>
+                            </dxi-column>
                             <!-- <dxi-column  dataField="ShiftName"  caption="ShiftName">
                             </dxi-column>
                             <dxi-column dataField="UnitName" caption="ItemOutUnitId"> -->
@@ -125,22 +132,22 @@
                                  </dxo-lookup> -->
                             <!-- </dxi-column> -->
 
-                            <dxi-column  dataField="ItemOutIndicator" caption="Chỉ số lưu lượng"></dxi-column>
-                            <dxi-column  dataField="ItemOutQuantity" caption="Lưu lượng"></dxi-column>
-                            <dxi-column  dataField="ItemEletricIndicator" caption="Chỉ số điện"></dxi-column>
-                            <dxi-column  dataField="ItemWaterIndicator" caption="Chỉ số nước cấp"></dxi-column>
+                            <dxi-column  dataField="ItemOutIndicator"  dataType="number" caption="Chỉ số lưu lượng"></dxi-column>
+                            <dxi-column  dataField="ItemOutQuantity" dataType="number" caption="Lưu lượng"></dxi-column>
+                            <dxi-column  dataField="ItemEletricIndicator" dataType="number" caption="Chỉ số điện"></dxi-column>
+                            <dxi-column  dataField="ItemWaterIndicator" dataType="number" caption="Chỉ số nước cấp"></dxi-column>
                             <dxi-column  caption="Kết quả phân tích nước thải">
                               <dxi-column  caption="Đầu vào">
-                                <dxi-column  dataField="pHIn" caption="pHIn"></dxi-column>
-                                <dxi-column  dataField="TSSIn" caption="TSSIn"></dxi-column>
-                                <dxi-column  dataField="ColorIn" caption="ColorIn"></dxi-column>
-                                <dxi-column  dataField="CODIn" caption="CODIn"></dxi-column>
+                                <dxi-column  dataField="pHIn" dataType="number" caption="pHIn"></dxi-column>
+                                <dxi-column  dataField="TSSIn" dataType="number" caption="TSSIn"></dxi-column>
+                                <dxi-column  dataField="ColorIn" dataType="number" caption="ColorIn"></dxi-column>
+                                <dxi-column  dataField="CODIn" dataType="number" caption="CODIn"></dxi-column>
                               </dxi-column>
                               <dxi-column  caption="Đầu ra">
-                                <dxi-column  dataField="pHOut" caption="pHOut"></dxi-column>
-                                <dxi-column  dataField="TSSOut" caption="TSSOut"></dxi-column>
-                                <dxi-column  dataField="ColorOut" caption="ColorOut"></dxi-column>
-                                <dxi-column  dataField="CODOut" caption="CODOut"></dxi-column>
+                                <dxi-column  dataField="pHOut" dataType="number" caption="pHOut"></dxi-column>
+                                <dxi-column  dataField="TSSOut" dataType="number" caption="TSSOut"></dxi-column>
+                                <dxi-column  dataField="ColorOut" dataType="number" caption="ColorOut"></dxi-column>
+                                <dxi-column  dataField="CODOut" dataType="number" caption="CODOut"></dxi-column>
                               </dxi-column>
                             </dxi-column>
                             <dxi-column  dataField="Description" caption="Nhật ký vận hành"></dxi-column>
@@ -191,6 +198,7 @@
                                             valueExpr="ItemId">
                                         </dxo-lookup>
                                         <dxi-validation-rule type="required"></dxi-validation-rule>
+
                                       </dxi-column>
                                       <dxi-column dataField="UnitId" caption="{{'BomFactory.BomItem.UnitId ' | translate}}">
                                         <dxo-lookup

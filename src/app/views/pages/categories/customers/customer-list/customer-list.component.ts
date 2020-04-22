@@ -29,14 +29,18 @@ export class CustomerListComponent implements OnInit {
     private toastr: ToastrService,
     private devService: DevextremeService,
   ) {
-    this.dataSource = this.api.getDataGrid();
-    this.dataSourceFactory = devService.loadDxoLookup("Factory");
+    
+    this.dataSource = this.api.getDataGridWithOutUrl(false);
+    this.dataSourceFactory = devService.loadDxoLookup("Factory",false);
+    this.lookupCustomerType = devService.loadDefineLookup("CustomerType");
     this.routerToDetail = this.routerToDetail.bind(this);
     this.fnDelete = this.fnDelete.bind(this);
   }
+  lookupCustomerType: any;
   dataSourceFactory: any;
   lsDatatable: any = []; //return datatable
-  ngOnInit() {}
+  ngOnInit() {
+  }
   fnDelete(rowValue) {
     swal.fire({
       titleText: this.trans.instant('Customer.mssg.DeleteAsk_Text'),

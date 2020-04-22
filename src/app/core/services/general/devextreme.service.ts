@@ -11,43 +11,59 @@ const ApiUrl = environment.apiUrl;
 })
 export class DevextremeService {
 
-constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) { }
 
-loadDxoGrid(entity,actionLoad="",actionDelete="",actionInsert="",actionUpdate="",checkStatus =true){
- return new DataSource({
-    store:AspNetData.createStore({
-      key: entity+"Id",
-      loadUrl: `${ApiUrl}/${entity}/${actionLoad}`,
-      deleteUrl:`${ApiUrl}/${entity}/${actionDelete}`,
-      updateUrl:`${ApiUrl}/${entity}/${actionUpdate}`,
-      insertUrl:`${ApiUrl}/${entity}/${actionInsert}`,
-      onBeforeSend: function (method, ajaxOptions) {
-        ajaxOptions.data.keyId = entity+"Id";
-     }
-    }),
-    filter:checkStatus?["Status","=","1"]:[]
-  });
-}
-
-loadDxoGridCustomStore(entity,cbLoad,cbInsert,cbUpdate,cbRemove) {
-  return new CustomStore({
-    key: entity+ "Id",
-    load: () => cbLoad(),
-    insert: (values) => cbInsert(values),
-    update: (key, values) => cbUpdate(values),
-    remove: (key) => cbRemove(key),
-  });
-}
-
-loadDxoLookup(entity,checkStatus =true){
-  return {
-    store: createStore({
-      key: entity + "Id",
-      loadUrl: `${ApiUrl}/${entity}/UI_SelectBox`,
-  }) ,
-  paginate: true,
-  pageSize: 10,
-  filter: checkStatus?["Status", "=", 1]:[]
+  loadDxoGrid(entity, actionLoad = "", actionDelete = "", actionInsert = "", actionUpdate = "", checkStatus = true) {
+    return new DataSource({
+      store: AspNetData.createStore({
+        key: entity + "Id",
+        loadUrl: `${ApiUrl}/${entity}/${actionLoad}`,
+        deleteUrl: `${ApiUrl}/${entity}/${actionDelete}`,
+        updateUrl: `${ApiUrl}/${entity}/${actionUpdate}`,
+        insertUrl: `${ApiUrl}/${entity}/${actionInsert}`,
+        onBeforeSend: function (method, ajaxOptions) {
+          ajaxOptions.data.keyId = entity + "Id";
+        }
+      }),
+      filter: checkStatus ? ["Status", "=", "1"] : []
+    });
   }
-}
+
+  loadDxoGridCustomStore(entity, cbLoad, cbInsert, cbUpdate, cbRemove) {
+    return new CustomStore({
+      key: entity + "Id",
+      load: () => cbLoad(),
+      insert: (values) => cbInsert(values),
+      update: (key, values) => cbUpdate(values),
+      remove: (key) => cbRemove(key),
+    });
+  }
+
+  loadDxoLookup(entity, checkStatus = true) {
+    return {
+      store: createStore({
+        key: entity + "Id",
+        loadUrl: `${ApiUrl}/${entity}/UI_SelectBox`,
+      }),
+      paginate: true,
+      pageSize: 10,
+      filter: checkStatus ? ["Status", "=", 1] : []
+    }
+  }
+
+  loadDefineLookup(columnName, checkStatus = false){
+    let basicFilter = ["ColumName","=",columnName]
+    return {
+      store: createStore({
+        loadUrl: `${ApiUrl}/Define/GetDefineDxLookup`,
+      }),
+      paginate: true,
+      pageSize: 10,
+      filter: checkStatus ? [["Status", "=", 1],"and",basicFilter] : basicFilter
+    }
+  }
+
+
+
+
 }

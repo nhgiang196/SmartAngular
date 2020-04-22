@@ -46,16 +46,10 @@ export class ProcessLogService extends GenericFactoryService<ProcessLog> {
             console.log(ajaxOptions.data);
             if (ajaxOptions.data.values != null) {
               let entity = JSON.parse(ajaxOptions.data.values);
-              entity.ProcessLogDate = self.helper.dateConvertToString(
-                entity.ProcessLogDate
-              );
-              entity.ProcessLogTime = self.helper.timeConvert(
-                entity.ProcessLogTime
-              );
               ajaxOptions.data.values = entity;
               ajaxOptions.data = JSON.stringify(ajaxOptions.data);
             }
-           
+
           }
           if (method == "update") {
             let entity = JSON.parse(ajaxOptions.data.values);

@@ -34,11 +34,11 @@
                 <dxi-column dataField="CustomerName" caption="{{ 'Customer.data.CustomerName' | translate}}">
                 </dxi-column>
                 <dxi-column dataField="FactoryId" caption="{{ 'Customer.data.FactoryId' | translate}}">
-                  <dxo-lookup [dataSource]="dataSourceFactory" displayExpr="FactoryName" valueExpr="FactoryId">
-                  </dxo-lookup>
+                  <dxo-lookup [dataSource]="dataSourceFactory" displayExpr="FactoryName" valueExpr="FactoryId"></dxo-lookup>
                 </dxi-column>
-                <dxi-column width="120px" dataField="CustomerType"
-                  caption="{{ 'Customer.data.CustomerType' | translate}}"></dxi-column>
+                <dxi-column width="120px" dataField="CustomerType" caption="{{ 'Customer.data.CustomerType' | translate}}">
+                  <dxo-lookup [dataSource]="lookupCustomerType" displayExpr="DescriptionEn" valueExpr="Id"></dxo-lookup>
+                </dxi-column>
                 <dxi-column dataField="CustomerContact" caption="{{ 'Customer.data.ContactName' | translate}}">
                 </dxi-column>
                 <dxi-column dataField="CustomerContactPhone" caption="{{ 'Customer.data.ContactPhone' | translate}}">

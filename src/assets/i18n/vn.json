@@ -120,8 +120,8 @@
     "url": "Đường dẫn"
   },
   "messg": {
-    "isnull": " bị rỗng",
-    "isexisted": " bị trùng!",
+    "isnull": "Dữ liệu bị rỗng",
+    "isexisted": "Dữ liệu bị trùng!",
     "add.success": "Thêm thành công ",
     "add.error": "Lỗi khi thêm ",
     "add.warning1": "",
