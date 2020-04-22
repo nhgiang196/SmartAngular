@@ -52,14 +52,18 @@ export class DevextremeService {
   }
 
   loadDefineLookup(columnName, checkStatus = false){
+    let basicFilter = ["ColumName","=",columnName]
     return {
       store: createStore({
         loadUrl: `${ApiUrl}/Define/GetDefineDxLookup`,
       }),
       paginate: true,
       pageSize: 10,
-      filter: checkStatus ? ["Status", "=", 1] : []
+      filter: checkStatus ? [["Status", "=", 1],"and",basicFilter] : basicFilter
     }
-
   }
+
+
+
+
 }
