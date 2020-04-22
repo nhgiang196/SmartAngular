@@ -1,21 +1,31 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+
 import { environment } from 'src/environments/environment';
 import CustomStore from 'devextreme/data/custom_store';
 import DataSource from 'devextreme/data/data_source';
 import { createStore } from 'devextreme-aspnet-data-nojquery';
 import { Observable } from 'rxjs';
+
+import { NgModule, Component, enableProdMode } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+import { HttpClient, HttpClientModule, HttpParams } from '@angular/common/http';
+import * as AspNetData from "devextreme-aspnet-data-nojquery";
+import { DxDataGridModule } from 'devextreme-angular';
+
+
 const ApiUrl = environment.apiUrl;
 export class GenericFactoryService<T> implements IGenericFactoryService<T> {
   private entity: string;
   requests: string[] = [];
-  constructor(public http: HttpClient,entity:string) {
+  constructor(public http: HttpClient, entity: string) {
     this.entity = entity;
+
   }
   getAll() {
     return this.http.get<any>(`${ApiUrl}/${this.entity}/Get${this.entity}`);
   }
-  getSelectBox(checkStatus = false, showText='') {
+  getSelectBox(checkStatus = false, showText = '') {
     return new DataSource({
       store: createStore({
         key: `${this.entity}Id`,
@@ -35,28 +45,19 @@ export class GenericFactoryService<T> implements IGenericFactoryService<T> {
   validate(entity): Promise<T> {
     return this.http.post<T>(`${ApiUrl}/${this.entity}/Validate${this.entity}`, entity).toPromise();
   }
-  getDataGrid(checkStatus = false) {
-    return new DataSource({
-      store: new CustomStore({
-        key: `${this.entity}Id`,
-        load: () => this.load(),
-        insert: (values) => this.add(values),
-        update: (key, values) => this.update(values),
-        remove: (key) => this.remove(key).then(),
-      }),
-     filter: checkStatus ? ["Status", "=", "1"] : ""
-    })
+  validateCode(entity): Promise<T> {
+    return this.http.post<T>(`${ApiUrl}/${this.entity}/ValidateCode${this.entity}`, entity).toPromise();
   }
 
-  getDxoLookup(checkStatus =true){
+  getDxoLookup(checkStatus = true) {
     return {
       store: createStore({
         key: this.entity + "Id",
         loadUrl: `${ApiUrl}/${this.entity}/UI_SelectBox`,
-    }) ,
-    paginate: true,
-    pageSize: 10,
-    filter: checkStatus?["Status", "=", 1]:[]
+      }),
+      paginate: true,
+      pageSize: 10,
+      filter: checkStatus ? ["Status", "=", 1] : []
     }
   }
   getDataGridUrl(actionLoad = "", actionDelete = "", actionInsert = "", actionUpdate = "", checkStatus = true) {
@@ -91,9 +92,56 @@ export class GenericFactoryService<T> implements IGenericFactoryService<T> {
       filter: checkStatus ? ["Status", "=", "1"] : ""
     });
   }
-  findById(id: any):Observable<T> {
+  findById(id: any): Observable<T> {
     return this.http.get<T>(`${ApiUrl}/${this.entity}/Find${this.entity}ById`, { params: { id: id } });
   }
+
+  getDataGrid(checkStatus = false) {
+    let self = this;
+    return new DataSource({
+      store: new CustomStore({
+        key: `${this.entity}Id`,
+        load: (loadOptions) => {
+          function isNotEmpty(value: any): boolean {
+            return value !== undefined && value !== null && value !== "";
+          }
+          let params: HttpParams = new HttpParams();
+          [
+            "skip",
+            "take",
+            "requireTotalCount",
+            "requireGroupCount",
+            "sort",
+            "filter",
+            "totalSummary",
+            "group",
+            "groupSummary"
+          ].forEach(function (i) {
+            if (i in loadOptions && isNotEmpty(loadOptions[i]))
+              params = params.set(i, JSON.stringify(loadOptions[i]));
+          });
+          return this.http.get<any>(`${ApiUrl}/${self.entity}/DataGrid${self.entity}Pagination`, { params: params })
+            .toPromise()
+            .then(result => {
+              return {
+                data: result.data,
+                totalCount: result.totalCount,
+                summary: result.summary,
+                groupCount: result.groupCount
+              };
+            });
+        },
+        insert: (values) => this.add(values),
+        update: (key, values) => this.update(values),
+        remove: (key) => this.remove(key).then(),
+
+      }),
+      filter: checkStatus ? ["Status", "=", "1"] : ""
+
+    })
+  }
+
+
   add(entity): Promise<T> {
     return this.http.post<T>(`${ApiUrl}/${this.entity}/Add${this.entity}`, entity).toPromise();
   }
@@ -140,7 +188,11 @@ export class GenericFactoryService<T> implements IGenericFactoryService<T> {
     return result
       .toPromise()
       .then((data: any) => {
-        return method === "GET" ? data.data : data;
+        //return method === "GET" ? data.data : data;
+        return {
+          data: data.items,
+          totalCount: data.totalCount
+        }
       })
       .catch(e => {
         throw e && e.error && e.error.Message;
