@@ -33,8 +33,8 @@ export class FactoryComponent implements OnInit {
     private devService: DevextremeService,
   ) {
     this.onFactoryDateChange = this.onFactoryDateChange.bind(this);
-    this.lookup['FactoryType'] = devService.loadDefineLookup('FactoryType');
-    this.lookup['FactoryStatus'] = devService.loadDefineLookup('FactoryStatus');
+    this.lookup['FactoryType'] = devService.loadDefineSelectBox('FactoryType');
+    this.lookup['FactoryStatus'] = devService.loadDefineSelectBox('FactoryStatus');
     this.lookup['FactoryType'].load();
     this.lookup['FactoryStatus'].load();
     this.lookupDisplay = devService.loadDefineDisplayExpr();
@@ -78,11 +78,12 @@ export class FactoryComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.resetEntity();
     this.loadInit();
     
   }
   resetEntity() {
-    this.targetForm.instance.updateData(new Factory());
+    this.entity = new Factory();
   }
   loadInit() {
     this.iboxloading = true;

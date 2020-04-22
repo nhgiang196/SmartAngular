@@ -57,19 +57,36 @@ export class DevextremeService {
   }
   loadDefineLookup(columnName, checkStatus = false){
     let basicFilter = ["ColumName","=",columnName]
+    return  {
+      store: createStore({
+        key: "Id",
+        loadUrl: `${ApiUrl}/Define/GetDefineDxLookup`,
+      }),
+      filter: checkStatus ? [["State", "=", true],"and",basicFilter] : basicFilter,
+      map: (dataItem) => {
+        debugger;
+        dataItem.Id = isNaN(dataItem.Id)? dataItem.Id : parseInt(dataItem.Id)
+        return dataItem;
+      }
+    }
+  }
+
+  loadDefineSelectBox(columnName, checkStatus = false){
+    let basicFilter = ["ColumName","=",columnName]
     return new DataSource( {
       store: createStore({
         key: "Id",
         loadUrl: `${ApiUrl}/Define/GetDefineDxLookup`,
-        // onBeforeSend: (method, ajaxOptions) => {
-        //   console.log(ajaxOptions);
-        //   ajaxOptions.xhrFields = { withCredentials: true };
-        // }
       }),
       filter: checkStatus ? [["State", "=", true],"and",basicFilter] : basicFilter,
-      // searchExpr: ["Id", "ColumName"],
+      map: (dataItem) => {
+        debugger;
+        dataItem.Id = isNaN(dataItem.Id)? dataItem.Id : parseInt(dataItem.Id)
+        return dataItem;
+      }
     })
   }
+
 
 
 
