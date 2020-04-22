@@ -59,6 +59,8 @@ export class DevextremeService {
         key: "Id",
         loadUrl: `${ApiUrl}/Define/GetDefineDxLookup`,
       }),
+      paginate: true,
+      pageSize: 10,
       filter: checkStatus ? [["State", "=", true],"and",basicFilter] : basicFilter,
       map: (dataItem) => {
         dataItem.Id = isNaN(dataItem.Id)? dataItem.Id : parseInt(dataItem.Id)
