@@ -33,15 +33,14 @@ export class FactoryComponent implements OnInit {
     private devService: DevextremeService,
   ) {
     this.onFactoryDateChange = this.onFactoryDateChange.bind(this);
-    this.lookup['FactoryType'] = devService.loadDefineSelectBox('FactoryType');
-    this.lookup['FactoryStatus'] = devService.loadDefineSelectBox('FactoryStatus');
+    let lang = trans.currentLang;
+    this.lookup['FactoryType'] = devService.loadDefineSelectBox('FactoryType',lang);
+    this.lookup['FactoryStatus'] = devService.loadDefineSelectBox('FactoryStatus',lang);
     this.lookup['FactoryType'].load();
     this.lookup['FactoryStatus'].load();
-    this.lookupDisplay = devService.loadDefineDisplayExpr();
   }
   /** DECLARATION */
   lookup: any = {};
-  lookupDisplay : string;
   factory: Factory[] = []; //init data
   entity: Factory;
   iboxloading = false;
@@ -104,7 +103,7 @@ export class FactoryComponent implements OnInit {
   fnAdd() {
     this.ACTION_STATUS = 'add';
     this.targetForm.instance.resetValues();
-    this.resetEntity();
+    this.targetForm.instance.updateData(new Factory());
     this.targetForm.instance.getEditor("FactoryCode").option("isValid", true)
     this.targetForm.instance.getEditor("FactoryName").option("isValid", true)
     this.uploadComponent.resetEntity();

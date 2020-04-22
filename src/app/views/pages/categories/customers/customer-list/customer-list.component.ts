@@ -36,14 +36,12 @@ export class CustomerListComponent implements OnInit {
     
     this.routerToDetail = this.routerToDetail.bind(this);
     this.fnDelete = this.fnDelete.bind(this);
-    this.lookupCustomerType = devService.loadDefineLookup("CustomerType");
-    this.lookup["CustomerType"] =  devService.loadDefineLookup("CustomerType");
-    this.lookup["IsIntergration"] =  devService.loadDefineLookup("IsIntergration");
-    this.lookup["Status"] =  devService.loadDefineLookup("Status");
-    this.displayLookup = devService.loadDefineDisplayExpr();
-    
+    let lang = trans.currentLang;
+    this.lookupCustomerType = devService.loadDefineLookup("CustomerType",lang);
+    this.lookup["CustomerType"] =  devService.loadDefineLookup("CustomerType",lang);
+    this.lookup["IsIntergration"] =  devService.loadDefineLookup("IsIntergration",lang);
+    this.lookup["Status"] =  devService.loadDefineLookup("Status",lang);
   }
-  displayLookup : string;
   lookup: any = {};
   lookupCustomerType: any;
   dataSourceFactory: any;

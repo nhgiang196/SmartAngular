@@ -37,7 +37,7 @@
                   <dxo-lookup [dataSource]="dataSourceFactory" displayExpr="FactoryName" valueExpr="FactoryId"></dxo-lookup>
                 </dxi-column>
                 <dxi-column width="120px" dataField="CustomerType" caption="{{ 'Customer.data.CustomerType' | translate}}">
-                  <dxo-lookup [dataSource]="lookupCustomerType" [displayExpr]="displayLookup" valueExpr="Id"></dxo-lookup>
+                  <dxo-lookup [dataSource]="lookup['CustomerType']" displayExpr="Text" valueExpr="Id"></dxo-lookup>
                 </dxi-column>
                 <dxi-column dataField="CustomerContact" caption="{{ 'Customer.data.ContactName' | translate}}">
                 </dxi-column>
@@ -53,11 +53,11 @@
                 <dxi-column dataField="ModifyBy" caption="{{ 'Customer.data.ModifyBy' | translate}}"></dxi-column>
                 <dxi-column dataField="Status" #status 
                   caption="{{ 'Customer.data.Status' | translate}}" >
-                  <dxo-lookup [dataSource]="lookup['Status']" [displayExpr]="displayLookup" valueExpr="Id"></dxo-lookup>
+                  <dxo-lookup [dataSource]="lookup['Status']" displayExpr="Text" valueExpr="Id"></dxo-lookup>
                 </dxi-column>
                 <dxi-column dataField="IsIntergration" #status dataType="boolean"
                   caption="{{ 'Customer.data.IsIntergration' | translate}}">
-                  <dxo-lookup [dataSource]="lookup['IsIntergration']" [displayExpr]="displayLookup" valueExpr="Id"></dxo-lookup>
+                  <dxo-lookup [dataSource]="lookup['IsIntergration']" displayExpr="Text" valueExpr="Id"></dxo-lookup>
                 </dxi-column>
                 <dxi-column type="buttons" [width]="110">
                   <dxi-button icon="edit" [visible]="1" [onClick]="routerToDetail"></dxi-button>

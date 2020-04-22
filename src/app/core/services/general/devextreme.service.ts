@@ -52,10 +52,7 @@ export class DevextremeService {
     }
   }
 
-  loadDefineDisplayExpr(){
-    return "Description"+(this.trans.currentLang == 'en'? 'En' : 'Vn');
-  }
-  loadDefineLookup(columnName, checkStatus = false){
+  loadDefineLookup(columnName, language, checkStatus = false){
     let basicFilter = ["ColumName","=",columnName]
     return  {
       store: createStore({
@@ -64,14 +61,14 @@ export class DevextremeService {
       }),
       filter: checkStatus ? [["State", "=", true],"and",basicFilter] : basicFilter,
       map: (dataItem) => {
-        debugger;
         dataItem.Id = isNaN(dataItem.Id)? dataItem.Id : parseInt(dataItem.Id)
+        dataItem.Text = language=='en'? dataItem['DescriptionEn'] : dataItem['DescriptionVn'];
         return dataItem;
       }
     }
   }
 
-  loadDefineSelectBox(columnName, checkStatus = false){
+  loadDefineSelectBox(columnName,language, checkStatus = false){
     let basicFilter = ["ColumName","=",columnName]
     return new DataSource( {
       store: createStore({
@@ -80,8 +77,8 @@ export class DevextremeService {
       }),
       filter: checkStatus ? [["State", "=", true],"and",basicFilter] : basicFilter,
       map: (dataItem) => {
-        debugger;
-        dataItem.Id = isNaN(dataItem.Id)? dataItem.Id : parseInt(dataItem.Id)
+        dataItem.Id = isNaN(dataItem.Id)? dataItem.Id : parseInt(dataItem.Id);
+        dataItem.Text = language=='en'? dataItem['DescriptionEn'] : dataItem['DescriptionVn'];
         return dataItem;
       }
     })
