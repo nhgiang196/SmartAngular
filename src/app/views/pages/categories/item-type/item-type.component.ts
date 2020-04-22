@@ -1,17 +1,13 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ItemTypeService, AuthService, ItemTypePropertyService } from 'src/app/core/services';
-import { DxDataGridComponent, DxPopupComponent } from 'devextreme-angular';
+import { DxDataGridComponent } from 'devextreme-angular';
 import config from 'devextreme/core/config';
 import { directions } from 'src/app/core/helpers/DevExtremeExtention';
 import { ToastrService } from 'ngx-toastr';
-import DataGrid from "devextreme/ui/data_grid";
 import Swal from 'sweetalert2';
-import { ItemTypeProperty, ItemType } from 'src/app/core/models/item';
-import { HttpParams } from '@angular/common/http';
-import DataSource from 'devextreme/data/data_source';
-import { async } from '@angular/core/testing';
-import { element } from 'protractor';
+import { ItemTypeProperty } from 'src/app/core/models/item';
 import { NotifyService } from 'src/app/core/services/utility/notify.service';
+import { checkActiveTab } from 'src/app/app.helpers';
 
 @Component({
   selector: 'app-item-type',
@@ -94,7 +90,6 @@ export class ItemTypeComponent implements OnInit {
    * @param e params as ItemType with dataSourcePropeties
    */
   async onRowInsertingItemType(e) {
-    console.log(e);
     e.data.Status = e.data.Status ? 1 : 0;
     e.data.ItemTypeProperty = this.resetItemTypePropertyId(this.dataSourceProperties);// đây là khi lưu cha con nó lưu luôn
   }
@@ -124,7 +119,6 @@ export class ItemTypeComponent implements OnInit {
     data.Status = data.Status ? 1 : 0; //tenary operation if (data.status == true) return 1 else return 0
     data.ItemTypeProperty = this.resetItemTypePropertyId(this.dataSourceProperties);
     e.newData = data;//set object
-    console.log(e.newData);
   }
 
   ////DETAIL/////////////////
@@ -179,20 +173,27 @@ export class ItemTypeComponent implements OnInit {
 
   onDataErrorOccurred(e)
   {
-    console.log(e);
     this.toastr.error("Can't delete!","Error");
   }
 
   fnDeleteDetail(e){
-    console.log(e);
     this.itemTypeService.checkForeignKey(e.row.data.ItemTypePropertyId).then((result: any)=>{
       if(result.Success){
         this.detailGrid.instance.deleteRow(e.row.rowIndex);
-        //this.detailGrid.instance.removeRow(2);
-        console.log(e);
       }else{
-        this.notifyService.error("Dữ liệu đã phát sinh, không thể xóa!");
+        Swal.fire(
+          {
+            title: 'Error!',
+            titleText: "Dữ liệu đã phát sinh, không thể xóa!",
+            confirmButtonText: "Ok",
+            type: 'error',
+          }
+        );
       }
     });
+  }
+
+  enableActiveTab(){
+    checkActiveTab();
   }
 }

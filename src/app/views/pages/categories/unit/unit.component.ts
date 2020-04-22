@@ -81,8 +81,6 @@ export class UnitComponent implements OnInit {
   }
 
   unitValidation(e) {
-    console.log(e);
-
     if (e.newData == null) {
       if (e.value == "" || e.value == null) {
         return new Promise((resolve, reject) => {

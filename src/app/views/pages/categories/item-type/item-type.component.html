@@ -61,6 +61,7 @@
             <div *dxTemplate>
               <dx-data-grid #detailDataGrid 
                             (onInitNewRow)="onInitNewRowDetail($event)"
+                            (onContentReady) ="enableActiveTab()"
                             [dataSource]="dataSourceProperties"
                             keyExpr="ItemTypePropertyId"
                             [focusedRowEnabled]="true"

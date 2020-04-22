@@ -75,7 +75,6 @@ export class ItemActionComponent implements OnInit {
   }
 
  async fnSave() {
-    console.log(this.entity);
     this.laddaSubmitLoading = true;
     let e = this.entity;
     if(e.ItemManufactureYear!=0 && e.ItemManufactureYear!=null ){
@@ -90,7 +89,6 @@ export class ItemActionComponent implements OnInit {
 
     if (this.entity.ItemId ==0) e.CreateBy = this.auth.currentUser.Username;
     else e.ModifyBy = this.auth.currentUser.Username;
-    console.log(e);
     //Clear rác
     if (this.entity.ItemId ==0) {
       if (await this.fnValidate(e)) {
@@ -109,7 +107,6 @@ export class ItemActionComponent implements OnInit {
           },
           err => {
             this.toastr.error(err.statusText);
-            console.log(err.statusText);
           }
         );
       } else {
@@ -117,7 +114,7 @@ export class ItemActionComponent implements OnInit {
         this.laddaSubmitLoading = false;
       }
     } else {
-      console.log(">>", this.entity);
+
       this.itemService.update(e).then(
         res => {
           let operationResult: any = res;
@@ -126,7 +123,6 @@ export class ItemActionComponent implements OnInit {
             this.toastr.success(this.trans.instant("messg.update.success"));
           } else {
             this.toastr.warning(operationResult.Message);
-            console.log(operationResult.statusText);
             return;
           }
           this.uploadFile(this.addFiles.FileList);
@@ -189,8 +185,7 @@ export class ItemActionComponent implements OnInit {
 
   ///Area Item Property////
   onRowValidatingItemProperty(e) {
-    console.log("validate item property", e);
-    console.log(this.entity)
+
     if (e.oldData == null) {
       //thêm mới
       if (this.entity.ItemProperty.find(x => x.ItemTypePropertyId == e.newData.ItemTypePropertyId)) {
@@ -249,8 +244,6 @@ export class ItemActionComponent implements OnInit {
         this.listFiles = this.entity.ItemFile.filter(x => x.IsImage == false);
       }
     });
-    console.log(this.listImages);
-    console.log(this.listFiles);
     this.entity.ModifyBy = this.auth.currentUser.Username;
   }
 
@@ -258,7 +251,6 @@ export class ItemActionComponent implements OnInit {
   onRemove(event, isImage) {
     const file = event as ItemFile;
     //press x to delte file (in modal)
-    console.log(event);
     if (isImage) {
       let indexListImage = this.listImages.findIndex(
         x => x.File.FileOriginalName == file.File.FileOriginalName
@@ -331,7 +323,6 @@ export class ItemActionComponent implements OnInit {
       let item = event.addedFiles[index];
       let convertName = this.helper.getFileNameWithExtension(item);
       let currentFile = this.entity.ItemFile;
-      console.log(this.listImages);
       let findElement: ItemFile = null;
       if (isImage)
         findElement = this.listImages.find(
@@ -363,7 +354,6 @@ export class ItemActionComponent implements OnInit {
         }
         if (!allowUpload) return;
 
-        console.log(findElement);
         //ghi đè file
         if (isImage) {
           let _indextFileEntity = this.entity.ItemFile.findIndex(

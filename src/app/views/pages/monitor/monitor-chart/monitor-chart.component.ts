@@ -62,8 +62,6 @@ export class MonitorChartComponent implements OnInit {
   }
   ngOnInit() {
     this.chartFactory = new ChartFactory();
-    console.log(this.factories);
-    console.log()
     this.chartFactory.factoryId = 1 //default
   }
 
@@ -96,7 +94,6 @@ export class MonitorChartComponent implements OnInit {
     ]
     this.monitorsInfo.filter(_filterDataSource);
     await this.monitorsInfo.load();
-    console.log(this.monitorsInfo);
     if (this.monitorsInfo.items().length > 0) {
       this.loadChart('line'); // load chartType default
       this.showData = true;

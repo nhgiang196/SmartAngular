@@ -219,7 +219,6 @@ export class FactoryComponent implements OnInit {
   }
 
   validateAsync = (e) => {
-    console.log('Validate Async', e)
     return new Promise(async (resolve) => {
       let obj = Object.assign({}, this.entity); //stop binding
       obj[e.formItem.dataField] = e.value;
