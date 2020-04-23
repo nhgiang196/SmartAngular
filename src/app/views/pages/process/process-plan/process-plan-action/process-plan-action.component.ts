@@ -67,7 +67,6 @@ export class ProcessPlanActionComponent implements OnInit {
   }
 
  async fnSave(){
-    console.log(this.entity);
     let typeMonth = typeof(this.entity.ProcessPlanMonth);
     let typeYear = typeof(this.entity.ProcessPlanYear);
       if(typeMonth=="object"){

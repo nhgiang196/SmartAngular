@@ -13,7 +13,9 @@ let monitorSources: MonitorDescription[] = [
   { value: "Tss", name: "TSS", color: '#EB3573' },
   { value: "Q", name: "Q", color: '#97C95C' },
   { value: "Color", name: "Color", color: '#F5564A' },
-  { value: "Amoni", name: "Amoni", color: '#A63DB8' }
+  { value: "Amoni", name: "Amoni", color: '#A63DB8' },
+  { value: "Cod", name: "COD", color: '#F5564A' },
+  { value: "Temperature", name: "Temperature", color: '#A63DB8' }
 ];
 
 @Injectable({ providedIn: 'root' })
@@ -33,7 +35,7 @@ export class  MonitorService extends GenericFactoryService<Monitor>{
   }
       }),
       paginate: false,
-      select: ["MonitorDate","PH","Tss","Q","Color","Amoni"],
+      select: ["MonitorDate","PH","Tss","Q","Color","Amoni","Cod","Temperature"],
       filter: ["FactoryId","=",0],
       map: (data)=>{
         var _returnData = [];

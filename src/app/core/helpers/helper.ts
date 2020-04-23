@@ -20,3 +20,7 @@ export function compareDate(d1: Date, d2: Date) {
     return 0;
 
 }
+
+export function dataCopy(data){
+ return JSON.parse(JSON.stringify(data));
+}

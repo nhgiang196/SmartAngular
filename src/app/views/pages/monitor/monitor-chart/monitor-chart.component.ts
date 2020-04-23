@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { MonitorService } from 'src/app/core/services';
 import { MonitorDescription, ChartFactory } from 'src/app/core/models/monitor';
 import { DevextremeService } from 'src/app/core/services/general/devextreme.service';
@@ -7,7 +7,7 @@ import { DxChartComponent } from 'devextreme-angular';
 //load laguage default
 import higchart_vn from 'src/assets/i18n/highchart_vn.json';
 import higchart_en from 'src/assets/i18n/highchart_en.json';
-
+import { collapseIboxHelper } from 'src/app/app.helpers';
 import * as Highcharts from 'highcharts/highstock';
 require('highcharts/modules/exporting')(Highcharts);
 import HC_exportData from 'highcharts/modules/export-data';
@@ -18,9 +18,10 @@ HC_exportData(Highcharts);
   templateUrl: './monitor-chart.component.html',
   styleUrls: ['./monitor-chart.component.css']
 })
-export class MonitorChartComponent implements OnInit {
+export class MonitorChartComponent implements OnInit, AfterViewInit {
   @ViewChild(DxChartComponent, { static: false }) component: DxChartComponent;
   factories: any;
+
   labelLocation: string;
   readOnly: boolean;
   showColon: boolean;
@@ -62,9 +63,10 @@ export class MonitorChartComponent implements OnInit {
   }
   ngOnInit() {
     this.chartFactory = new ChartFactory();
-    console.log(this.factories);
-    console.log()
     this.chartFactory.factoryId = 1 //default
+  }
+  ngAfterViewInit() {
+    collapseIboxHelper();
   }
 
   /**
@@ -96,7 +98,6 @@ export class MonitorChartComponent implements OnInit {
     ]
     this.monitorsInfo.filter(_filterDataSource);
     await this.monitorsInfo.load();
-    console.log(this.monitorsInfo);
     if (this.monitorsInfo.items().length > 0) {
       this.loadChart('line'); // load chartType default
       this.showData = true;

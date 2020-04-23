@@ -10,6 +10,9 @@ import { StageFile, Stage } from 'src/app/core/models/stage';
 import { HttpEventType } from '@angular/common/http';
 import { FileService } from 'src/app/core/services/file.service';
 import { DxDataGridComponent } from 'devextreme-angular';
+import { NotifyService } from 'src/app/core/services/utility/notify.service';
+import { DevextremeService } from 'src/app/core/services/general/devextreme.service';
+import { LanguageService } from 'src/app/core/services/language.service';
 var URL = "api/v1/Stage";
 @Component({
   selector: 'app-stage',
@@ -26,18 +29,27 @@ export class StageComponent implements OnInit {
   addFiles: { FileList: File[], FileLocalNameList: string[] };
   private pathFile = "uploadFilesStage"
   uploadReportProgress: any = { progress: 0, message: null, isError: null };
+  lookupField: any = {};
   constructor(private stageService: StageService,
     private trans: TranslateService,
     private auth: AuthService,
     private fileService: FileService,
     private helper: MyHelperService,
-    private toastr: ToastrService) {
+    private notifyService: NotifyService,
+    private toastr: ToastrService,
+    private lang: LanguageService,
+    private devExtremeService: DevextremeService) {
     this.dataSource = this.stageService.getDataGrid(false);
     this.stageValidation = this.stageValidation.bind(this);
+    this.validateStageCode = this.validateStageCode.bind(this);
+    this.fnDelete = this.fnDelete.bind(this);
+    this.lookupField['Status']= devExtremeService.loadDefineSelectBox("Status",lang.getLanguage());
   }
 
   ngOnInit() {
+    this.lookupField['Status'].load();
     this.resetEntity();
+    
   }
   addRow() {
     this.dataGrid.instance.addRow();
@@ -74,9 +86,9 @@ export class StageComponent implements OnInit {
     if (e.dataField == "StageName" && e.parentType === "dataRow") {
       e.setValue((e.value == null) ? "" : (e.value + "")); // Updates the cell value
     }
-    if (e.dataField == "Status" && e.parentType === "dataRow") {
-      e.editorName = "dxSwitch";
-    }
+    // if (e.dataField == "Status" && e.parentType === "dataRow") {
+    //   e.editorName = "dxSwitch";
+    // }
   }
 
   /**
@@ -200,7 +212,7 @@ export class StageComponent implements OnInit {
     this.fileService.uploadFile(formData, this.pathFile).subscribe(event => {
       if (event.type === HttpEventType.UploadProgress) {
         this.uploadReportProgress.progress = Math.round(100 * event.loaded / event.total);
-        console.log(this.uploadReportProgress.progress);
+        
       }
       else if (event.type === HttpEventType.Response) {
         this.uploadReportProgress.message = this.trans.instant('Upload.UploadFileSuccess');
@@ -211,7 +223,7 @@ export class StageComponent implements OnInit {
     });
   }
   stageValidation(e) {
-    console.log(e);
+    
     if (e.value == "" || e.value == null) {
       return new Promise((resolve, reject) => {
         reject("Field is empty!");
@@ -229,5 +241,34 @@ export class StageComponent implements OnInit {
       });
     }
   }
-
+  validateStageCode(e){
+    if (e.value == "" || e.value == null) {
+      return new Promise((resolve, reject) => {
+        reject("Field is empty!");
+      });
+    } else {
+      return new Promise((resolve, reject) => {
+        this.stageService.validateCode(e.data)
+          .then((result: any) => {
+            result.Success ? resolve() : reject("StageCode already exist!");
+            resolve(result);
+          }).catch(error => {
+            //console.error("Server-side validation error", error);
+            resolve()
+          });
+      });
+    }
+  }
+  fnDelete(e){
+      this.notifyService.confirmDelete(()=>{
+       this.stageService.remove(e.row.data.StageId).then((result: any)=>{
+        this.dataGrid.instance.refresh();
+        this.notifyService.success("Xóa thành công!");
+       }).catch(error => {
+          if(error.error.search("Error Number:547")){
+            this.notifyService.error("Dữ liệu đã phát sinh!");
+          }
+       });
+      });
+  }
 }

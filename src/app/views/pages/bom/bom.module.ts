@@ -6,7 +6,7 @@ import { MainViewBomComponent } from './main-view-bom/main-view-bom.component';
 import { SharedModule } from 'src/app/core/shared/shared.module';
 import { BomListComponent } from './bom-list/bom-list.component';
 import { BomStageComponent } from './bom-stage/bom-stage.component';
-import { DxDataGridModule, DxButtonModule, DxSwitchModule } from 'devextreme-angular';
+import { DxDataGridModule, DxButtonModule, DxSwitchModule, DxValidationSummaryModule } from 'devextreme-angular';
 import { ModalModule } from 'ngx-bootstrap';
 import { FormsModule } from '@angular/forms';
 import { UISampleModule } from '../../UISample/UISample.module';
@@ -26,6 +26,7 @@ const COMPONENTS =[
     SharedModule,
     UISampleModule,
     DxSwitchModule,
+    DxValidationSummaryModule,
     ModalModule.forRoot(),
   ],
   declarations: [

@@ -1,6 +1,6 @@
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateModule, TranslateLoader, TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { ToastrModule } from 'ngx-toastr';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -12,6 +12,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { BsDatepickerModule, PopoverModule, TimepickerModule, PaginationModule } from 'ngx-bootstrap';
 import { DxButtonModule, DxDataGridModule, DxPopupModule, DxCheckBoxModule, DxValidationGroupModule, DxFormModule } from 'devextreme-angular';
 import { UserIdleModule } from 'angular-user-idle';
+import { Router } from '@angular/router';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -80,4 +81,18 @@ export class SharedModule {
       ngModule: SharedModule
     }
   }
+
+  constructor(public translate: TranslateService, public router: Router) {
+    translate.addLangs(['en','vn']);
+    translate.setDefaultLang( localStorage.getItem('locallanguage') || 'vn');
+    translate.reloadLang( localStorage.getItem('locallanguage') || 'vn');
+    translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      // localStorage.setItem('locallanguage', event.lang);
+      var reloadpath = location.hash.replace('#', '');
+      router.navigateByUrl('/', { skipLocationChange: true }).then(() =>
+      router.navigate([reloadpath]));
+    })
+  }
+
+
 }

@@ -205,13 +205,22 @@ export function showNavBar() {
 }
 
 export function checkActiveTab(){
-  let isEditRow= false;
-  if($(".dx-datagrid-content .dx-command-edit").find("a").hasClass('dx-link-save')){
+  let el = $(".dx-datagrid-content .dx-command-edit").find("a");
+  if(el.hasClass('dx-link-save')){
+    el.each(function(index,element){
+      if( $(element).hasClass("dx-link-save")){
+        $(element).closest("td").find("a.dx-icon-trash").hide();
+        return false;
+      }
+
+    })
     $(".nav-tabs li").each(function(){
       $(this).addClass("disabledTab")
     })
 
     $(".btn-save").attr("disabled","disabled");
+    $(".dx-datagrid-toolbar-button").addClass("disabledTab")
+    return true;
   }
   else{
     $(".nav-tabs li").each(function(){
@@ -219,6 +228,8 @@ export function checkActiveTab(){
     })
 
     $(".btn-save").removeAttr("disabled");
+    $(".dx-datagrid-toolbar-button").removeClass("disabledTab");
+    return false;
   }
 }
 

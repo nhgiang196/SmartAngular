@@ -5,9 +5,9 @@ import { Factory } from './factory'
 
 export class BomFactory {
 	BomFactoryId: number = 0
-  FactoryId: number=0
+  FactoryId: number= null
   FactoryName: number
-	BomFactoryValidateDate?: any=''
+	BomFactoryValidateDate?:any = null
   BomFactoryDescription?: string
   CreateBy: string
   CreateDate?: any
@@ -15,7 +15,7 @@ export class BomFactory {
   ModifyDate?: any
   Status?: number = 1
   Factory? : Factory = new Factory();
-  BomStage?: BomStage [] = []
+  BomStage?: Array<BomStage> = new Array<BomStage>();
 }
 
 export class BomItemOut {
@@ -53,7 +53,7 @@ export class BomStage {
   StageId?: number = 0
   StageName: string
 	OrderNumber?: number =0;
-	IsSequence?: boolean = false
+	IsSequence?: boolean =false;
   BomStageDescription?: string
   BomItemOut?: BomItemOut[] =[]
   Stage?: Stage = new Stage();

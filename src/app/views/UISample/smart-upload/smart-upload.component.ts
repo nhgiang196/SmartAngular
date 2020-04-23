@@ -55,7 +55,6 @@ export class SmartUploadComponent implements OnInit {
       let _tempFile = new File([], item.File.FileLocalName);
       this.files.push(_tempFile);
     })
-    console.log(this.files);
   }
   /** Lệnh upload lên server, thường dùng chờ hàm này trước khi gửi dữ liệu (await) */
   public uploadFile() { //upload file to server

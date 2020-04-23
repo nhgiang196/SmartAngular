@@ -5,6 +5,9 @@ import { environment } from 'src/environments/environment';
 import { BomStage } from 'src/app/core/models/bom';
 import { BomStageComponent } from '../bom-stage/bom-stage.component';
 import { DevextremeService } from 'src/app/core/services/general/devextreme.service';
+import { NotifyService } from 'src/app/core/services/utility/notify.service';
+import { TranslateService } from '@ngx-translate/core';
+import { LanguageService } from 'src/app/core/services/language.service';
 
 @Component({
   selector: 'app-bom-list',
@@ -14,13 +17,18 @@ import { DevextremeService } from 'src/app/core/services/general/devextreme.serv
 export class BomListComponent implements OnInit {
   @ViewChild('modalChild',{static:false}) modalChild;
   dataSource:any;
+  lookupField: any = {};
   dataSourceFactory;
-  constructor(private bomService:BomService,private devExtreme: DevextremeService) {
+  
+
+  constructor(private bomService:BomService,private devExtreme: DevextremeService, private notifyService:NotifyService, lang: LanguageService,private trans:TranslateService) {
     this.showModalBomStage = this.showModalBomStage.bind(this);
+    this.fnDelete = this.fnDelete.bind(this);
+    this.lookupField['Status'] = devExtreme.loadDefineLookup('Status',lang.getLanguage());
    }
 
   ngOnInit() {
-    this.dataSource = this.bomService.getDataGridWithOutUrl();
+    this.dataSource = this.bomService.getDataGridWithOutUrl(false);
     this.loadFactorySelectBox();
 
   }
@@ -39,5 +47,22 @@ export class BomListComponent implements OnInit {
 
   loadInit(){
     this.dataSource.reload();
+  }
+
+  fnDelete(e){
+    this.notifyService.confirmDelete(() => {
+      this.bomService.remove(e.row.data.BomFactoryId).then(
+        (res) => {
+          var operationResult: any = res;
+          if (operationResult.Success) {
+            this.notifyService.confirmDeleteSuccess();
+            this.dataSource.reload();
+          } else this.notifyService.warning(operationResult.Message);
+        },
+        (err) => {
+          this.notifyService.error(err.statusText);
+        }
+      );
+    });
   }
 }

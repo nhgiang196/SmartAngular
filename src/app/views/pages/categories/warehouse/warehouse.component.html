@@ -33,10 +33,10 @@
           <hr>
           <div class="row">
             <div class="col-lg-12">
-              <dx-data-grid #grid [dataSource]="dataSource" [remoteOperations]="true" class="m-grid-5" [showRowLines]="true"  [showBorders]="true">
+              <dx-data-grid #grid [dataSource]="dataSource" [remoteOperations]="true" class="m-grid-5" [showRowLines]="true"  [showBorders]="true" [allowColumnResizing] = "true"  [focusedRowEnabled]="true"  columnResizingMode = "widget">
                 <dxo-selection mode="single"></dxo-selection>
                 <dxo-filter-row [visible]="true"></dxo-filter-row>
-                <dxo-state-storing [enabled]="true" type="localStorage" storageKey="gridStorage_Warehouse"></dxo-state-storing>
+                <!-- <dxo-state-storing [enabled]="true" type="localStorage" storageKey="gridStorage_Warehouse"></dxo-state-storing> -->
                 <dxi-column dataField="WarehouseCode" caption="{{ 'Warehouse.data.WarehouseCode' | translate}}">
                 </dxi-column>
                 <dxi-column dataField="WarehouseName" caption="{{ 'Warehouse.data.WarehouseName' | translate}}">
@@ -62,14 +62,15 @@
                 <dxi-column dataField="ModifyDate" dataType="date" caption="{{ 'Warehouse.data.ModifyDate' | translate}}"  format="d/M/yyyy HH:mm">
                 </dxi-column>
                 <dxi-column dataField="ModifyBy" caption="{{ 'Warehouse.data.ModifyBy' | translate}}"></dxi-column>
-                <dxi-column dataField="Status" #status dataType="boolean"
-                  caption="{{ 'Warehouse.data.Status' | translate}}"></dxi-column>
+                <dxi-column dataField="Status" #status dataType="boolean" caption="{{ 'Warehouse.data.Status' | translate}}">
+                  <dxo-lookup [dataSource]="lookupField['WarehouseStatus'].items()" displayExpr="Text" valueExpr="Id"></dxo-lookup>
+                </dxi-column>
                 <dxi-column type="buttons" [width]="110">
                   <dxi-button icon="edit" [visible]="1" [onClick]="fnEdit"></dxi-button>
                   <dxi-button icon="trash" [visible]="1" [onClick]="fnDelete"></dxi-button>
                 </dxi-column>
-                <dxo-paging [pageSize]="25"></dxo-paging>
-                <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[25, 50, 100]"></dxo-pager>
+                <dxo-paging [pageSize]="10"></dxo-paging>
+                <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[10, 50, 100]"></dxo-pager>
               </dx-data-grid>
 
             </div>
@@ -83,13 +84,14 @@
   tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-lg ">
     <div class="modal-content animated fadeIn">
+      <form role="form" #myForm="ngForm" (submit)="fnSave()">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" (click)="childModal.hide()"><span
             aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
         <h4 class="modal-title"> {{'Warehouse.label.Information' | translate }}</h4>
       </div>
       <div class="modal-body">
-        <form role="form" #myForm="ngForm" (submit)="fnSave()">
+        
           <dx-form #targetForm id="form" [(formData)]="entity">
             <dxi-item itemType="group" [colCount]="2">
               <dxi-item dataField="WarehouseCode" [label]="{text: trans.instant('Warehouse.data.WarehouseCode')}">
@@ -131,7 +133,7 @@
               </dxi-item>
               <dxi-item dataField="WarehouseUserName"
                 [label]="{text: trans.instant('Warehouse.data.WarehouseUserName')}" editorType="dxSelectBox"
-                [editorOptions]="{displayExpr: 'NormalizedUserName' ,valueExpr:'UserName' ,items: userList}">
+                [editorOptions]="{displayExpr: 'NormalizedUserName' ,valueExpr:'UserName' ,items: userList,  searchEnabled: true, searchExpr: 'NormalizedUserName'}">
                 <dxi-validation-rule type="required" message="{{ 'messg.valid.required' | translate}}">
                 </dxi-validation-rule>
               </dxi-item>
@@ -140,9 +142,7 @@
               <dxi-item itemType="empty" visible="false"></dxi-item>
               <!-- <dxi-item dataField="Status"  editorType="dxSwitch" [label]="{text: trans.instant('Warehouse.data.Status')}"></dxi-item> -->
               <dxi-item dataField="Status" [label]="{text: trans.instant('Warehouse.data.Status')}"
-                editorType="dxSelectBox" [editorOptions]="{ displayExpr: 'text' ,valueExpr:'id' ,
-                items: [{id: 0, text: trans.instant('Warehouse.data.Status0')}
-                ,{ id: 1, text: trans.instant('Warehouse.data.Status1')}]}">
+                editorType="dxSelectBox" [editorOptions]="{ displayExpr: 'Text' ,valueExpr:'Id' , items: this.lookupField['WarehouseStatus'].items()}">
               </dxi-item>
             </dxi-item>
             <dxi-item itemType="group" [colCount]="3" caption="Size (cm)">
@@ -167,16 +167,18 @@
             </dxi-item>
             <dxi-item itemType="group" caption="{{'Warehouse.label.Location' | translate}}">
               <div *dxTemplate>
-                <dx-data-grid [dataSource]="entity.WarehouseLocation" allowColumnResizing="true"
+                <dx-data-grid #targetGrid [dataSource]="entity.WarehouseLocation" allowColumnResizing="true"   columnResizingMode = "widget" 
                   (onInitNewRow)="onInitNewRowWarehouseLocation($event)"
                   (onRowInserted)="onChangeWarehouseLocationStatus($event)"
-                  (onRowUpdated)="onChangeWarehouseLocationStatus($event)" [showBorders]="true">
+                  (onRowUpdated)="onChangeWarehouseLocationStatus($event)" 
+                  (onRowInserted)="onRowInsertedLocation()" 
+                  [showBorders]="true">
                   <dxo-editing mode="row" [allowUpdating]="true" [allowDeleting]="true" [allowAdding]="true"
                     [useIcons]="true">
                   </dxo-editing>
                   <dxi-column dataField="WarehouseLocationCode"
                     caption="{{ 'Warehouse.data.WarehouseLocationCode' | translate }}">
-                    <dxi-validation-rule type="required" message="{{ 'messg.valid.required' | translate}}">
+                    <dxi-validation-rule ignoreEmptyValue="true" type="required" message="{{ 'messg.valid.required' | translate}}">
                     </dxi-validation-rule>
                     <dxi-validation-rule type="custom" ignoreEmptyValue="true" reevaluate="true"
                       [validationCallback]="validateFunction" message="{{ 'messg.valid.exist' | translate}}">
@@ -184,7 +186,7 @@
                   </dxi-column>
                   <dxi-column dataField="WarehouseLocationName"
                     caption="{{ 'Warehouse.data.WarehouseLocationName' | translate }}">
-                    <dxi-validation-rule type="required" message="{{ 'messg.valid.required' | translate}}">
+                    <dxi-validation-rule ignoreEmptyValue="true" type="required" message="{{ 'messg.valid.required' | translate}}">
                     </dxi-validation-rule>
                     <dxi-validation-rule type="custom" ignoreEmptyValue="true" reevaluate="true"
                       [validationCallback]="validateFunction" message="{{ 'messg.valid.exist' | translate}}">
@@ -207,15 +209,18 @@
                 </dx-data-grid>
               </div>
             </dxi-item>
+            <dxi-item itemType="group" [colCount]="12" [colSpan]="1">
+              <dxi-item itemType="empty" [colSpan]="10"></dxi-item>
+              <dxi-item  itemType="button" [colSpan]="1"  [buttonOptions]="closeButtonOptions"></dxi-item>
+              <dxi-item itemType="button"  [colSpan]="1" [buttonOptions]="submitButtonOptions"></dxi-item>
+            </dxi-item>
+
+
           </dx-form>
-        </form>
+        
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-white" data-dismiss="modal"
-          (click)="childModal.hide()">{{'Button.Close' | translate}} </button>
-        <button type="button" class="btn btn-primary" (click)="fnSave()" [ladda]="laddaSubmitLoading"><i
-            class="fa fa-paper-plane-o"></i> {{'Button.Save' | translate}} </button>
-      </div>
+     
+      </form>
     </div>
   </div>
 </div>

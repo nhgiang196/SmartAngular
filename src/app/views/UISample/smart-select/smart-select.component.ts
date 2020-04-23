@@ -84,8 +84,6 @@ export class SmartSelectComponent implements OnInit ,OnChanges  {
     this.chooseItem = new SmartItem();
     var pr = this.selectParams();
     let res = await this.api.getItemPagination_Smart(pr).toPromise().then() as any;
-
-    console.log('load Select',res);
     this.totalCount = res.totalCount;
     this.itemsBuffer =  res.result || [];
     this.chooseItem.id = this.specialId || 0;

@@ -8,6 +8,9 @@ import { StageService } from './stage.service';
 import { createStore } from 'devextreme-aspnet-data-nojquery';
 import { GenericFactoryService } from './general/generic-factory.service';
 import { ItemType } from '../models/item';
+
+const ApiUrl = environment.apiUrl;
+
 @Injectable({ providedIn: 'root' })
 export class ItemTypeService extends GenericFactoryService<ItemType> {
   constructor(http: HttpClient) 
@@ -15,5 +18,8 @@ export class ItemTypeService extends GenericFactoryService<ItemType> {
     super(http,'ItemType');
   }
 
+  checkForeignKey(itemTypeProperty){
+    return this.http.post(`${ApiUrl}/ItemType/checkForeignKey`, itemTypeProperty).toPromise();
+  }
  
 }

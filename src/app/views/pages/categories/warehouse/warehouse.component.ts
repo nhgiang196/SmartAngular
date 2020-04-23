@@ -11,7 +11,8 @@ import { SmartSelectComponent } from 'src/app/views/UISample/smart-select/smart-
 import { DxFormComponent } from 'devextreme-angular';
 import { DevextremeService } from 'src/app/core/services/general/devextreme.service';
 import DataSource from 'devextreme/data/data_source';
-import { DxoDataSourceModule } from 'devextreme-angular/ui/nested';
+import { DxoDataSourceModule, DxoGridComponent } from 'devextreme-angular/ui/nested';
+import { LanguageService } from 'src/app/core/services/language.service';
 declare let $: any;
 @Component({
   selector: 'app-warehouse',
@@ -23,6 +24,7 @@ export class WarehouseComponent implements OnInit {
   @ViewChild('targetSmartUpload', { static: false }) uploadComponent: SmartUploadComponent;
   @ViewChild('targetForm', { static: true }) targetForm: DxFormComponent;
   @ViewChild("childModal", { static: false }) childModal: ModalDirective;
+  @ViewChild("targetGrid", { static: false }) targetGrid: DxoGridComponent;
   pathFile = "uploadFileWarehouse";
   dataSource: DataSource;
   factoryList: any;
@@ -31,20 +33,34 @@ export class WarehouseComponent implements OnInit {
   laddaSubmitLoading = false;
   iboxloading = false;
   private ACTION_STATUS: string;
+  lookupField: any = {};
+  closeButtonOptions = {
+    stylingMode: 'text',
+    template: ` <button type="button" class="btn btn-white" data-dismiss="modal"> ${this.trans.instant('Button.Close')}</button>`, //template hoạt động cho Ispinia,
+    onClick: () => { this.childModal.hide() }
+  }
+  submitButtonOptions = {
+    stylingMode: 'text',
+    template: `<button type="button" class="btn btn-primary"><i class="fa fa-paper-plane-o"></i> ${this.trans.instant('Button.Save')}</button>`, //template hoạt động cho Ispinia
+    useSubmitBehavior: true,
+  }
   constructor(
     private toastr: ToastrService,
     private warehouseService: WareHouseService,
     public trans: TranslateService,
     private auth: AuthService,
     private devService: DevextremeService,
+    private lang: LanguageService,
   ) {
     this.factoryList = devService.loadDxoLookup("Factory");
     this.dataSource = warehouseService.getDataGridWithOutUrl(false);
     this.fnEdit = this.fnEdit.bind(this);
     this.fnDelete = this.fnDelete.bind(this);
+    this.lookupField['WarehouseStatus']= devService.loadDefineSelectBox("WarehouseStatus",lang.getLanguage());
   }
-
   ngOnInit() {
+    
+    this.lookupField['WarehouseStatus'].load();
     this.resetEntity();
     this.loadUsers();
   }
@@ -59,6 +75,8 @@ export class WarehouseComponent implements OnInit {
   fnAdd() {
     this.resetEntity();
     this.targetForm.instance.resetValues();
+    this.targetForm.instance.updateData(new Warehouse());
+    this.targetForm.instance.getEditor("FactoryId").option("isValid", true);
     this.ACTION_STATUS = 'add';
     this.uploadComponent.resetEntity();
     this.entity.CreateBy = this.auth.currentUser.Username;
@@ -75,7 +93,6 @@ export class WarehouseComponent implements OnInit {
       this.entity = res;
       this.childModal.show();
       this.iboxloading = false;
-      console.log('getEntity', res);
       /**CONTROL FILES */
       this.uploadComponent.loadInit((res as any).WarehouseFile);
       this.entity.ModifyBy = this.auth.currentUser.Username;
@@ -147,9 +164,14 @@ export class WarehouseComponent implements OnInit {
     }
   }
   onInitNewRowWarehouseLocation(e) {
-    e.data.WarehouseLocationId = 0;
+    e.data = new WarehouseLocation();
     e.data.WarehouseId = this.entity.WarehouseId;
     e.data.Status = true;
+  }
+
+  onRowInsertedLocation(){
+    this.targetGrid.instance.addRow();
+    this.targetGrid.instance.focus(this.targetGrid.instance.getCellElement(0,0))
   }
   onChangeWarehouseLocationStatus(event) {
     event.data.Status = event.data.Status ? 1 : 0;
@@ -182,10 +204,10 @@ export class WarehouseComponent implements OnInit {
     return true;
   };
   validateAsync = (e) => {
-    console.log('Validate Async', e)
     return new Promise(async (resolve) => {
       this.laddaSubmitLoading = true;
-      let obj = Object.assign({}, this.entity); //stop binding
+      let obj = new Warehouse; //stop binding
+      obj.WarehouseId = this.entity.WarehouseId;
       obj[e.formItem.dataField] = e.value;
       let _res = await this.warehouseService.validate(obj).then() as any;
       let _validate = _res.Success ? _res.Success : _res.ValidateData.indexOf(e.formItem.dataField) < 0;
