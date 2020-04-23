@@ -19,14 +19,16 @@ export class BomListComponent implements OnInit {
   dataSource:any;
   lookupField: any = {};
   dataSourceFactory;
-  constructor(private bomService:BomService,private devExtreme: DevextremeService, private notifyService:NotifyService, lang: LanguageService) {
+  
+
+  constructor(private bomService:BomService,private devExtreme: DevextremeService, private notifyService:NotifyService, lang: LanguageService,private trans:TranslateService) {
     this.showModalBomStage = this.showModalBomStage.bind(this);
     this.fnDelete = this.fnDelete.bind(this);
     this.lookupField['Status'] = devExtreme.loadDefineLookup('Status',lang.getLanguage());
    }
 
   ngOnInit() {
-    this.dataSource = this.bomService.getDataGridWithOutUrl();
+    this.dataSource = this.bomService.getDataGridWithOutUrl(false);
     this.loadFactorySelectBox();
 
   }

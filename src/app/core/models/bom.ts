@@ -5,9 +5,9 @@ import { Factory } from './factory'
 
 export class BomFactory {
 	BomFactoryId: number = 0
-  FactoryId: number=0
+  FactoryId: number= null
   FactoryName: number
-	BomFactoryValidateDate?: any=''
+	BomFactoryValidateDate?:any
   BomFactoryDescription?: string
   CreateBy: string
   CreateDate?: any

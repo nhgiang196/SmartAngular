@@ -12,6 +12,8 @@ import { ToastrService } from 'ngx-toastr';
 import swal from "sweetalert2";
 import { checkActiveTab } from 'src/app/app.helpers';
 import { NotifyService } from 'src/app/core/services/utility/notify.service';
+import { LanguageService } from 'src/app/core/services/language.service';
+import { DxFormComponent } from 'devextreme-angular';
 @Component({
   selector: 'app-bom-stage',
   templateUrl: './bom-stage.component.html',
@@ -19,6 +21,7 @@ import { NotifyService } from 'src/app/core/services/utility/notify.service';
 })
 export class BomStageComponent implements OnInit {
   @ViewChild("childModal", { static: false }) childModal: ModalDirective;
+  @ViewChild('targetForm', { static: true }) targetForm: DxFormComponent;
   @Output() loadInit = new EventEmitter<void>();
   entity: BomFactory;
   dataSourceStage: any;
@@ -27,30 +30,52 @@ export class BomStageComponent implements OnInit {
   dataSourceItem: any;
   itemOutValidate:any;
   itemInValidate:any;
+  dataSourceFactory:any;
+  lookupField : any = {};
+  disabledSave:any;
+  buttonOptions2 = {
+    stylingMode: 'text', // để tắt đường viền container
+    template: ` <button type="button" class="btn btn-white" data-dismiss="modal"> ${this.trans.instant('Button.Close')}</button>`, //template hoạt động cho Ispinia,
+  }
+
+  buttonOptions = {
+    stylingMode: 'text', // để tắt đường viền container
+    template: `<button type="button" class="btn btn-primary"><i class="fa fa-plus"></i> ${this.trans.instant('Button.Save')}</button>`, //template hoạt động cho Ispinia
+    useSubmitBehavior: true, //submit = validate + save
+  }
   //config
   laddaSubmitLoading = false;
   bsConfig = { dateInputFormat: "YYYY-MM-DD", adaptivePosition: true };
   constructor(private devExtreme: DevextremeService, private bomService: BomService, private toastr: ToastrService,
-    private trans: TranslateService, private auth: AuthService, private notifyService:NotifyService,
-    private helpper: MyHelperService) {
+    public trans: TranslateService, private auth: AuthService, private notifyService:NotifyService,
+    private helpper: MyHelperService, lang: LanguageService) {
     this.getFilteredUnit = this.getFilteredUnit.bind(this);
     this.validationStageCallback =this.validationStageCallback.bind(this);
     this.validationOrderCallback= this.validationOrderCallback.bind(this);
     this.fnDeleteStage = this.fnDeleteStage.bind(this);
     this.validationItemOutCallback =this.validationItemOutCallback.bind(this);
     this.validationItemInCallback =this.validationItemInCallback.bind(this);
+    this.closeModal = this.closeModal.bind(this);
+    this.lookupField['Status'] = devExtreme.loadDefineSelectBox('Status',lang.getLanguage());
   }
 
   ngOnInit() {
+    this.lookupField['Status'].load()
     this.entity = new BomFactory();
     this.loadDataSourceStage();
     this.loadDataSourceItem();
 
     this.loaddataSourceUnitOut();
+    this.dataSourceFactory = this.devExtreme.loadDxoLookup("Factory");
   }
   async fnSave() {
+    if(!this.targetForm.instance.validate().isValid){
+      return;
+    }
+    
     //Custom remove entity child
-    //this.removeEntityChild();
+    //this.removeEntityChild();'
+    console.log(this.entity);
     this.entity.BomFactoryValidateDate = this.helpper.dateConvertToString(this.entity.BomFactoryValidateDate);
     this.laddaSubmitLoading = true;
     if (!(await this.fnValidateBomServer())) {
@@ -202,6 +227,7 @@ export class BomStageComponent implements OnInit {
     }
     else {
       this.entity = new BomFactory();
+      this.targetForm.instance.resetValues();
     }
     this.childModal.show();
   }
@@ -276,14 +302,17 @@ export class BomStageComponent implements OnInit {
     }
   }
 
+  closeModal(){
+    this.childModal.hide()
+  }
+
   enableActiveTab() {
-    checkActiveTab();
+   this.disabledSave=  checkActiveTab();
   }
 
   fnDeleteStage(e){
     console.log(e);
     this.notifyService.confirmDelete(() => {
-      let t =  this.entity.BomStage.filter(item => item.BomStageId !== e.row.data.BomStageId);
       this.entity.BomStage= this.entity.BomStage.filter(item => item.BomStageId !==  e.row.data.BomStageId);
     });
   }
