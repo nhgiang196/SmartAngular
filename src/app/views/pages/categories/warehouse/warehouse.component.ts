@@ -12,6 +12,7 @@ import { DxFormComponent } from 'devextreme-angular';
 import { DevextremeService } from 'src/app/core/services/general/devextreme.service';
 import DataSource from 'devextreme/data/data_source';
 import { DxoDataSourceModule, DxoGridComponent } from 'devextreme-angular/ui/nested';
+import { LanguageService } from 'src/app/core/services/language.service';
 declare let $: any;
 @Component({
   selector: 'app-warehouse',
@@ -49,12 +50,13 @@ export class WarehouseComponent implements OnInit {
     public trans: TranslateService,
     private auth: AuthService,
     private devService: DevextremeService,
+    private lang: LanguageService,
   ) {
     this.factoryList = devService.loadDxoLookup("Factory");
     this.dataSource = warehouseService.getDataGridWithOutUrl(false);
     this.fnEdit = this.fnEdit.bind(this);
     this.fnDelete = this.fnDelete.bind(this);
-    this.lookupField['WarehouseStatus']= devService.loadDefineSelectBox("WarehouseStatus",trans.currentLang);
+    this.lookupField['WarehouseStatus']= devService.loadDefineSelectBox("WarehouseStatus",lang.getLanguage());
   }
   ngOnInit() {
     

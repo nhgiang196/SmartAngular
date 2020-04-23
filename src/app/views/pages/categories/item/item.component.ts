@@ -9,7 +9,7 @@ import { ItemType } from 'src/app/core/models/item';
 import { map } from 'rxjs/operators';
 import { DevextremeService } from 'src/app/core/services/general/devextreme.service';
 import swal from "sweetalert2";
-import { TranslateService } from '@ngx-translate/core';
+import { LanguageService } from 'src/app/core/services/language.service';
 @Component({
   selector: 'app-item',
   templateUrl: './item.component.html',
@@ -26,9 +26,9 @@ export class ItemComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private devExtremeService: DevextremeService,
-    private trans: TranslateService
+    private lang: LanguageService
   ) {
-    this.lookupField['Status']= devExtremeService.loadDefineLookup("Status",trans.currentLang);
+    this.lookupField['Status']= devExtremeService.loadDefineLookup("Status",lang.getLanguage());
     this.rediactToAction = this.rediactToAction.bind(this);
     
   }

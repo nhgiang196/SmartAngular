@@ -3,6 +3,7 @@ import { UserIdleService } from 'angular-user-idle';
 import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { AuthService } from './core/services';
 import { Router } from '@angular/router';
+import { LanguageService } from './core/services/language.service';
 
 @Component({
   selector: 'app-root',
@@ -16,7 +17,9 @@ export class AppComponent {
     private auth: AuthService,
     public translate: TranslateService,
     public router: Router,
+    private langService: LanguageService
     ) {
+      translate.use(langService.getLanguage());
   }
   
 

@@ -13,6 +13,7 @@ import { async } from '@angular/core/testing';
 import { element } from 'protractor';
 import { DevextremeService } from 'src/app/core/services/general/devextreme.service';
 import { TranslateService } from '@ngx-translate/core';
+import { LanguageService } from 'src/app/core/services/language.service';
 @Component({
   selector: 'app-item-type',
   templateUrl: './item-type.component.html',
@@ -34,14 +35,14 @@ export class ItemTypeComponent implements OnInit {
     private auth: AuthService,
     private toastr: ToastrService,
     private devExtremeService: DevextremeService,
-    private trans: TranslateService
+    private lang: LanguageService
     
   ) {
     //LOAD MSTER GRID
     this.dataSourceItemTypes = this.itemTypeService.getDataGrid(false); // default load with new Customer Store
     this.masterValidation = this.masterValidation.bind(this);
     this.detailValidation = this.detailValidation.bind(this);
-    this.lookupField['Status']= devExtremeService.loadDefineSelectBox("Status",trans.currentLang);
+    this.lookupField['Status']= devExtremeService.loadDefineSelectBox("Status",lang.getLanguage());
     this.lookupField['Status'].load();
     config({
       floatingActionButtonConfig: directions.down

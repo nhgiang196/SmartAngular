@@ -6,6 +6,7 @@ import { BomStage } from 'src/app/core/models/bom';
 import { BomStageComponent } from '../bom-stage/bom-stage.component';
 import { DevextremeService } from 'src/app/core/services/general/devextreme.service';
 import { TranslateService } from '@ngx-translate/core';
+import { LanguageService } from 'src/app/core/services/language.service';
 
 @Component({
   selector: 'app-bom-list',
@@ -17,9 +18,9 @@ export class BomListComponent implements OnInit {
   dataSource:any;
   dataSourceFactory;
   lookupField: any = {};
-  constructor(private bomService:BomService,private devExtreme: DevextremeService, private trans: TranslateService) {
+  constructor(private bomService:BomService,private devExtreme: DevextremeService, private lang: LanguageService) {
     this.showModalBomStage = this.showModalBomStage.bind(this);
-    this.lookupField['Status']= devExtreme.loadDefineLookup("Status",trans.currentLang);
+    this.lookupField['Status']= devExtreme.loadDefineLookup("Status",lang.getLanguage());
    }
 
   ngOnInit() {

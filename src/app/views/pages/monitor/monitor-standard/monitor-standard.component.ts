@@ -14,6 +14,7 @@ import Swal from 'sweetalert2';
 import { DevextremeService } from 'src/app/core/services/general/devextreme.service';
 import { MyHelperService } from 'src/app/core/services/utility/my-helper.service';
 import { TranslateService } from '@ngx-translate/core';
+import { LanguageService } from 'src/app/core/services/language.service';
 
 @Component({
   selector: 'app-monitor-standard',
@@ -33,10 +34,10 @@ export class MonitorStandardComponent implements OnInit {
     private auth: AuthService,
     private toastr: ToastrService,
     private helper: MyHelperService,
-    public trans: TranslateService
+    public lang: LanguageService
   ) {
     this.dataSource = this.monitorStandarService.getDataGrid(false);
-    this.lookupField['Status']= devExtremeService.loadDefineSelectBox("Status",trans.currentLang);
+    this.lookupField['Status']= devExtremeService.loadDefineSelectBox("Status",lang.getLanguage());
     
   }
 
