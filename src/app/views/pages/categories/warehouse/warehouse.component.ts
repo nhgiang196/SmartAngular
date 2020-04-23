@@ -75,6 +75,8 @@ export class WarehouseComponent implements OnInit {
   fnAdd() {
     this.resetEntity();
     this.targetForm.instance.resetValues();
+    this.targetForm.instance.updateData(new Warehouse());
+    this.targetForm.instance.getEditor("FactoryId").option("isValid", true);
     this.ACTION_STATUS = 'add';
     this.uploadComponent.resetEntity();
     this.entity.CreateBy = this.auth.currentUser.Username;
