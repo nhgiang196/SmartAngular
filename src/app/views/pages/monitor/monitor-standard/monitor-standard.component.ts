@@ -14,6 +14,8 @@ import { ToastrService } from 'ngx-toastr';
 import Swal from 'sweetalert2';
 import { DevextremeService } from 'src/app/core/services/general/devextreme.service';
 import { MyHelperService } from 'src/app/core/services/utility/my-helper.service';
+import { TranslateService } from '@ngx-translate/core';
+import { LanguageService } from 'src/app/core/services/language.service';
 
 @Component({
   selector: 'app-monitor-standard',
@@ -24,21 +26,26 @@ export class MonitorStandardComponent implements OnInit {
   @ViewChild(DxDataGridComponent, { static: false }) dataGrid: DxDataGridComponent;
   dataSource: any;
   lkDataSourceFactory;
-  myValidation:any ={}
+  myValidation:any ={};
+  lookupField: any = {};
   constructor(
     private monitorStandarService: MonitorStandarService,
     private factoryService: FactoryService,
     private devExtremeService: DevextremeService,
     private auth: AuthService,
     private toastr: ToastrService,
-    private helper: MyHelperService
+    private helper: MyHelperService,
+    public lang: LanguageService
 
   ) {
+    this.dataSource = this.monitorStandarService.getDataGrid(false);
+    this.lookupField['Status']= devExtremeService.loadDefineSelectBox("Status",lang.getLanguage());
+    
   }
 
   ngOnInit() {
+    this.lookupField['Status'].load();
      //LOAD DATAGRID MONITOR
-     this.dataSource = this.monitorStandarService.getDataGrid(false);
      this.loadFactorySelectBox();
      // this.validateMSId = this.validateMSId.bind(this);
      // this.validateDateFrom = this.validateDateFrom.bind(this);
@@ -63,6 +70,7 @@ export class MonitorStandardComponent implements OnInit {
   }
   
   onInitNewRow(e) {
+    debugger;
     e.data.Status = 1;
     e.data.ValidateDateFrom = new Date();
     e.data.ValidateDateTo = new Date();
@@ -80,14 +88,14 @@ export class MonitorStandardComponent implements OnInit {
     e.data.MonitorStandardId = 0;
     e.data.CreateBy = this.auth.currentUser.Username;
     e.data.CreateDate = new Date();
-    e.data.Status = e.data.Status ? 1 : 0;
+    // e.data.Status = e.data.Status ? 1 : 0;
   }
 
   onRowUpdating(e) {
     const data = Object.assign(e.oldData, e.newData);
     data.ModifyBy = this.auth.currentUser.Username;
     data.ModifyDate = new Date();
-    data.Status = data.Status ? 1 : 0;
+    // data.Status = data.Status ? 1 : 0;
     e.newData = data;//set object
   }
 
@@ -97,7 +105,7 @@ export class MonitorStandardComponent implements OnInit {
     if (e.oldData != null) {
       data = Object.assign(e.oldData, e.newData);
     } else data = e.newData;
-  
+
     if (data.FactoryId == null) {
       e.isValid = false;
       e.errorText = "Factory is empty!";

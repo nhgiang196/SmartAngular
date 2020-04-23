@@ -6,6 +6,8 @@ import { BomStage } from 'src/app/core/models/bom';
 import { BomStageComponent } from '../bom-stage/bom-stage.component';
 import { DevextremeService } from 'src/app/core/services/general/devextreme.service';
 import { NotifyService } from 'src/app/core/services/utility/notify.service';
+import { TranslateService } from '@ngx-translate/core';
+import { LanguageService } from 'src/app/core/services/language.service';
 
 @Component({
   selector: 'app-bom-list',

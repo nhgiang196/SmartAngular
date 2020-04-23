@@ -77,9 +77,11 @@
               <dxi-column dataField="CreateBy" caption="{{'Item.data.CreateBy' | translate}}"></dxi-column>
               <dxi-column dataField="ModifyBy" caption="{{'Item.data.ModifyBy' | translate}}"></dxi-column>
               <dxi-column dataField="ModifyDate" caption="{{'Item.data.ModifyDate' | translate}}" dataType="date"></dxi-column>
-              
-            <dxi-column type="buttons" [width]="110">
-              <dxi-button
+              <dxi-column dataField="Status" dataType="boolean" caption="{{'Item.data.Status' | translate}}" width="120">
+                <dxo-lookup [dataSource]="lookupField['Status']" displayExpr="Text" valueExpr="Id"></dxo-lookup>
+              </dxi-column>
+              <dxi-column type="buttons" [width]="110">
+                <dxi-button
                     icon="edit"
                     [visible]="1"
                     [onClick]="rediactToAction"></dxi-button>

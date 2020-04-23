@@ -10,6 +10,7 @@ import { map } from 'rxjs/operators';
 import { DevextremeService } from 'src/app/core/services/general/devextreme.service';
 import swal from "sweetalert2";
 import { NotifyService } from 'src/app/core/services/utility/notify.service';
+import { LanguageService } from 'src/app/core/services/language.service';
 @Component({
   selector: 'app-item',
   templateUrl: './item.component.html',
@@ -19,13 +20,17 @@ export class ItemComponent implements OnInit {
   dataSource: any;
   listItemType: Array<ItemType> = new Array<ItemType>();
   itemTypeId:number;
+  lookupField: any = {};
   constructor(
     private itemService: ItemService,
     private itemTypeService: ItemTypeService,
     private router: Router,
     private route: ActivatedRoute,
-    private notifyService:NotifyService
+    private notifyService:NotifyService,
+    private devExtremeService: DevextremeService,
+    private lang: LanguageService
   ) {
+    this.lookupField['Status']= devExtremeService.loadDefineLookup("Status",lang.getLanguage());
     this.rediactToAction = this.rediactToAction.bind(this);
     this.fnDelete = this.fnDelete.bind(this);
   }

@@ -9,6 +9,9 @@ import { ItemTypeProperty } from 'src/app/core/models/item';
 import { NotifyService } from 'src/app/core/services/utility/notify.service';
 import { checkActiveTab } from 'src/app/app.helpers';
 
+import { DevextremeService } from 'src/app/core/services/general/devextreme.service';
+import { TranslateService } from '@ngx-translate/core';
+import { LanguageService } from 'src/app/core/services/language.service';
 @Component({
   selector: 'app-item-type',
   templateUrl: './item-type.component.html',
@@ -24,18 +27,23 @@ export class ItemTypeComponent implements OnInit {
   detail: any
   index = 999;
   isUpdate: boolean;
+  lookupField: any = {};
   constructor(
     private itemTypeService: ItemTypeService,
     private itemTypePropertyService: ItemTypePropertyService,
     private auth: AuthService,
     private toastr: ToastrService,
+    private devExtremeService: DevextremeService,
     private notifyService: NotifyService,
+    private lang: LanguageService
     
   ) {
     //LOAD MSTER GRID
     this.dataSourceItemTypes = this.itemTypeService.getDataGrid(false); // default load with new Customer Store
     this.masterValidation = this.masterValidation.bind(this);
     this.detailValidation = this.detailValidation.bind(this);
+    this.lookupField['Status']= devExtremeService.loadDefineSelectBox("Status",lang.getLanguage());
+    this.lookupField['Status'].load();
     config({
       floatingActionButtonConfig: directions.down
     });
@@ -187,7 +195,7 @@ export class ItemTypeComponent implements OnInit {
             titleText: "Dữ liệu đã phát sinh, không thể xóa!",
             confirmButtonText: "Ok",
             type: 'error',
-          }
+}
         );
       }
     });

@@ -59,7 +59,9 @@
                 <dxi-column dataField="CreateBy"></dxi-column>
                 <dxi-column dataField="ModifyBy"></dxi-column>
                 <dxi-column dataField="ModifyDate" dataType="date"></dxi-column>
-                <dxi-column dataField="Status" #status dataType="boolean" caption="Active" width="120"></dxi-column>
+                <dxi-column dataField="Status" #status dataType="boolean" caption="Active" width="120">
+                  <dxo-lookup [dataSource]="lookupField['Status'].items()" displayExpr="Text" valueExpr="Id"></dxo-lookup>
+                </dxi-column>
                 <dxo-paging [pageSize]="10"></dxo-paging>
                 <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[25, 50, 100]"></dxo-pager>
               </dx-data-grid>
