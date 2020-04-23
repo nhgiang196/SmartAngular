@@ -35,6 +35,8 @@ export class ItemActionComponent implements OnInit {
   dataSourceUnit: any;
   minMode: BsDatepickerViewMode = "year";
   bsConfig: Partial<BsDatepickerConfig>;
+  patternYear='^[12][0-9]{3}$';
+  disabledSave=false;
   //set rowEdit
   pathFile = "uploadFileItems";
   uploadReportProgress: any = { progress: 0, message: null, isError: null };
@@ -177,7 +179,7 @@ export class ItemActionComponent implements OnInit {
   ///Tab1
 
   validationUnitCallback(e){
-    console.log(e);
+    
     if(this.entity.ItemPackage.find(x=>x.ItemPackageUnitId == e.value)){
       return false;
     }
@@ -198,7 +200,7 @@ export class ItemActionComponent implements OnInit {
   }
 
   enableActiveTab() {
-    checkActiveTab();
+   this.disabledSave = checkActiveTab();
   }
 
   //Area ItemType///

@@ -6,6 +6,7 @@ import { FileService } from 'src/app/core/services/file.service';
 import { MyHelperService } from 'src/app/core/services/utility/my-helper.service';
 import { ToastrService } from 'ngx-toastr';
 import { DevextremeService } from 'src/app/core/services/general/devextreme.service';
+import { LanguageService } from 'src/app/core/services/language.service';
 
 @Component({
   selector: 'app-process-plan',
@@ -16,10 +17,13 @@ export class ProcessPlanComponent implements OnInit {
   @ViewChild('modalChild',{static:false}) modalChild;
   dataSourceProcessPlan: any;
   dataSourceFactory:any;
+  lookupField: any = {};
   constructor(
     private processPlanService:ProcessPlanFactoryService,
-    private devExtreme:DevextremeService) {
+    private devExtreme:DevextremeService,
+    private lang: LanguageService) {
       this.showModalAction = this.showModalAction.bind(this);
+      this.lookupField['Status'] = devExtreme.loadDefineLookup("Status",lang.getLanguage());
     }
   ngOnInit() {
     this.loadDataSourceProcessPlan();

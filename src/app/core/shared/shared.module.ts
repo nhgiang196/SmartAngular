@@ -82,11 +82,12 @@ export class SharedModule {
     }
   }
 
-  constructor(private translate: TranslateService, public router: Router) {
+  constructor(public translate: TranslateService, public router: Router) {
     translate.addLangs(['en','vn']);
     translate.setDefaultLang( localStorage.getItem('locallanguage') || 'vn');
     translate.reloadLang( localStorage.getItem('locallanguage') || 'vn');
     translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      // localStorage.setItem('locallanguage', event.lang);
       var reloadpath = location.hash.replace('#', '');
       router.navigateByUrl('/', { skipLocationChange: true }).then(() =>
       router.navigate([reloadpath]));

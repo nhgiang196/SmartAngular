@@ -11,6 +11,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import swal from "sweetalert2";
 import { checkActiveTab } from 'src/app/app.helpers';
+import { NotifyService } from 'src/app/core/services/utility/notify.service';
 @Component({
   selector: 'app-bom-stage',
   templateUrl: './bom-stage.component.html',
@@ -24,13 +25,20 @@ export class BomStageComponent implements OnInit {
   dataSourceUnitOut: any;
   dataSourceUnitIn: any;
   dataSourceItem: any;
+  itemOutValidate:any;
+  itemInValidate:any;
   //config
   laddaSubmitLoading = false;
   bsConfig = { dateInputFormat: "YYYY-MM-DD", adaptivePosition: true };
   constructor(private devExtreme: DevextremeService, private bomService: BomService, private toastr: ToastrService,
-    private trans: TranslateService, private auth: AuthService,
+    private trans: TranslateService, private auth: AuthService, private notifyService:NotifyService,
     private helpper: MyHelperService) {
     this.getFilteredUnit = this.getFilteredUnit.bind(this);
+    this.validationStageCallback =this.validationStageCallback.bind(this);
+    this.validationOrderCallback= this.validationOrderCallback.bind(this);
+    this.fnDeleteStage = this.fnDeleteStage.bind(this);
+    this.validationItemOutCallback =this.validationItemOutCallback.bind(this);
+    this.validationItemInCallback =this.validationItemInCallback.bind(this);
   }
 
   ngOnInit() {
@@ -130,6 +138,28 @@ export class BomStageComponent implements OnInit {
       });
   }
 
+  validationStageCallback(e){
+    if(this.entity.BomStage.find(x=>x.StageId==e.value && x.BomStageId !=e.data.BomStageId)){
+      return false;
+    }
+    return true
+  }
+
+  validationOrderCallback(e){
+    if(e.value<=0)
+    {
+      e.rule.message=">0"
+      return false;
+    }
+    
+
+    if(this.entity.BomStage.find(x=>x.OrderNumber ==e.value&& x.BomStageId !=e.data.BomStageId)){
+      e.rule.message ="Thứ tự không được trùng"
+      return false;
+    }
+    return true;
+  }
+
 
   loadDataSourceStage() {
     this.dataSourceStage = this.devExtreme.loadDxoLookup("Stage");
@@ -151,6 +181,7 @@ export class BomStageComponent implements OnInit {
     if (key.BomItemOut == null) {
       key.BomItemOut = new Array<BomItemOut>();
     }
+    this.itemOutValidate = key.BomItemOut;
     return key.BomItemOut;
   }
 
@@ -158,6 +189,7 @@ export class BomStageComponent implements OnInit {
     if (key.BomItemIn == null) {
       key.BomItemIn = new Array<BomItemIn>();
     }
+    this.itemInValidate = key.BomItemIn;
     return key.BomItemIn;
   }
 
@@ -211,38 +243,20 @@ export class BomStageComponent implements OnInit {
     (<any>this).defaultSetCellValue(rowData, value);
   }
 
-  onRowValidatingBomStage(e) {
-    if (e.oldData == null) {
-      //thêm mới
-      if (this.entity.BomStage.find(x => x.StageId == e.newData.StageId)) {
-        swal.fire("Validate", "Dữ liệu đã bị trùng", "warning");
-        e.isValid = false;
-      }
+  validationItemOutCallback(e){
+    if(this.itemOutValidate.find(x=>x.ItemId==e.value && x.BomItemOutId !=e.data.BomItemOutId)){
+      e.rule.message ="Vật tư không được trùng"
+      return false;
     }
-    else {
-      //chỉnh sửa
-      if (this.entity.BomStage.find(x => x.StageId == e.newData.StageId) && e.newData.StageId != e.oldData.StageId) {
-        swal.fire("Validate", "Dữ liệu đã bị trùng", "warning");
-        e.isValid = false;
-      }
-    }
+    return true
   }
 
-  onRowValidatingBomOut(e, item: BomStage) {
-    if (e.oldData == null) {
-      //thêm mới
-      if (item.BomItemOut.find(x => x.ItemId == e.newData.ItemId)) {
-        swal.fire("Validate", "Dữ liệu đã bị trùng", "warning");
-        e.isValid = false;
-      }
+  validationItemInCallback(e){
+    if(this.itemInValidate.find(x=>x.ItemId==e.value && x.BomItemInId !=e.data.BomItemInId)){
+      e.rule.message ="Vật tư không được trùng"
+      return false;
     }
-    else {
-      //chỉnh sửa
-      if (item.BomItemOut.find(x => x.ItemId == e.newData.ItemId) && e.newData.ItemId != e.oldData.ItemId) {
-        swal.fire("Validate", "Dữ liệu đã bị trùng", "warning");
-        e.isValid = false;
-      }
-    }
+    return true
   }
 
   onRowValidatingBomIn(e, item: BomItemOut) {
@@ -265,4 +279,13 @@ export class BomStageComponent implements OnInit {
   enableActiveTab() {
     checkActiveTab();
   }
+
+  fnDeleteStage(e){
+    console.log(e);
+    this.notifyService.confirmDelete(() => {
+      let t =  this.entity.BomStage.filter(item => item.BomStageId !== e.row.data.BomStageId);
+      this.entity.BomStage= this.entity.BomStage.filter(item => item.BomStageId !==  e.row.data.BomStageId);
+    });
+  }
+
 }

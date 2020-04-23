@@ -9,6 +9,7 @@ declare let $: any;
 import swal from "sweetalert2";
 import { DevextremeService } from 'src/app/core/services/general/devextreme.service';
 import { StringLengthRule } from 'devextreme/ui/validation_engine';
+import { LanguageService } from 'src/app/core/services/language.service';
 @Component({
   selector: 'app-customer-list',
   templateUrl: './customer-list.component.html',
@@ -29,6 +30,7 @@ export class CustomerListComponent implements OnInit {
     public router: Router,
     private toastr: ToastrService,
     public devService: DevextremeService,
+    private langServ: LanguageService
   ) {
     
     this.dataSource = this.api.getDataGridWithOutUrl(false);
@@ -36,7 +38,7 @@ export class CustomerListComponent implements OnInit {
     
     this.routerToDetail = this.routerToDetail.bind(this);
     this.fnDelete = this.fnDelete.bind(this);
-    let lang = trans.currentLang;
+    let lang = langServ.getLanguage();
     this.lookupCustomerType = devService.loadDefineLookup("CustomerType",lang);
     this.lookup["CustomerType"] =  devService.loadDefineLookup("CustomerType",lang);
     this.lookup["IsIntergration"] =  devService.loadDefineLookup("IsIntergration",lang);
