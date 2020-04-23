@@ -16,10 +16,13 @@ export class ProcessPlanComponent implements OnInit {
   @ViewChild('modalChild',{static:false}) modalChild;
   dataSourceProcessPlan: any;
   dataSourceFactory:any;
+  lookupField: any = {};
   constructor(
     private processPlanService:ProcessPlanFactoryService,
-    private devExtreme:DevextremeService) {
+    private devExtreme:DevextremeService,
+    private trans: TranslateService) {
       this.showModalAction = this.showModalAction.bind(this);
+      this.lookupField['Status'] = devExtreme.loadDefineLookup("Status",trans.currentLang);
     }
   ngOnInit() {
     this.loadDataSourceProcessPlan();

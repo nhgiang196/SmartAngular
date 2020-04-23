@@ -32,6 +32,7 @@ export class WarehouseComponent implements OnInit {
   laddaSubmitLoading = false;
   iboxloading = false;
   private ACTION_STATUS: string;
+  lookupField: any = {};
   closeButtonOptions = {
     stylingMode: 'text',
     template: ` <button type="button" class="btn btn-white" data-dismiss="modal"> ${this.trans.instant('Button.Close')}</button>`, //template hoạt động cho Ispinia,
@@ -53,8 +54,11 @@ export class WarehouseComponent implements OnInit {
     this.dataSource = warehouseService.getDataGridWithOutUrl(false);
     this.fnEdit = this.fnEdit.bind(this);
     this.fnDelete = this.fnDelete.bind(this);
+    this.lookupField['WarehouseStatus']= devService.loadDefineSelectBox("WarehouseStatus",trans.currentLang);
   }
   ngOnInit() {
+    
+    this.lookupField['WarehouseStatus'].load();
     this.resetEntity();
     this.loadUsers();
   }

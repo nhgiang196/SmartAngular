@@ -9,6 +9,7 @@ import { ItemType } from 'src/app/core/models/item';
 import { map } from 'rxjs/operators';
 import { DevextremeService } from 'src/app/core/services/general/devextreme.service';
 import swal from "sweetalert2";
+import { TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'app-item',
   templateUrl: './item.component.html',
@@ -18,13 +19,18 @@ export class ItemComponent implements OnInit {
   dataSource: any;
   listItemType: Array<ItemType> = new Array<ItemType>();
   itemTypeId:number;
+  lookupField: any = {};
   constructor(
     private itemService: ItemService,
     private itemTypeService: ItemTypeService,
     private router: Router,
     private route: ActivatedRoute,
+    private devExtremeService: DevextremeService,
+    private trans: TranslateService
   ) {
+    this.lookupField['Status']= devExtremeService.loadDefineLookup("Status",trans.currentLang);
     this.rediactToAction = this.rediactToAction.bind(this);
+    
   }
   async ngOnInit() {
     await this.getAllItemType();

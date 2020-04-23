@@ -11,6 +11,8 @@ import { HttpParams } from '@angular/common/http';
 import DataSource from 'devextreme/data/data_source';
 import { async } from '@angular/core/testing';
 import { element } from 'protractor';
+import { DevextremeService } from 'src/app/core/services/general/devextreme.service';
+import { TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'app-item-type',
   templateUrl: './item-type.component.html',
@@ -25,17 +27,22 @@ export class ItemTypeComponent implements OnInit {
   detail: any
   index = 999;
   isUpdate: boolean;
+  lookupField: any = {};
   constructor(
     private itemTypeService: ItemTypeService,
     private itemTypePropertyService: ItemTypePropertyService,
     private auth: AuthService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private devExtremeService: DevextremeService,
+    private trans: TranslateService
     
   ) {
     //LOAD MSTER GRID
     this.dataSourceItemTypes = this.itemTypeService.getDataGrid(false); // default load with new Customer Store
     this.masterValidation = this.masterValidation.bind(this);
     this.detailValidation = this.detailValidation.bind(this);
+    this.lookupField['Status']= devExtremeService.loadDefineSelectBox("Status",trans.currentLang);
+    this.lookupField['Status'].load();
     config({
       floatingActionButtonConfig: directions.down
     });

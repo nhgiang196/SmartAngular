@@ -62,8 +62,9 @@
                 <dxi-column dataField="ModifyDate" dataType="date" caption="{{ 'Warehouse.data.ModifyDate' | translate}}"  format="d/M/yyyy HH:mm">
                 </dxi-column>
                 <dxi-column dataField="ModifyBy" caption="{{ 'Warehouse.data.ModifyBy' | translate}}"></dxi-column>
-                <dxi-column dataField="Status" #status dataType="boolean"
-                  caption="{{ 'Warehouse.data.Status' | translate}}"></dxi-column>
+                <dxi-column dataField="Status" #status dataType="boolean" caption="{{ 'Warehouse.data.Status' | translate}}">
+                  <dxo-lookup [dataSource]="lookupField['WarehouseStatus'].items()" displayExpr="Text" valueExpr="Id"></dxo-lookup>
+                </dxi-column>
                 <dxi-column type="buttons" [width]="110">
                   <dxi-button icon="edit" [visible]="1" [onClick]="fnEdit"></dxi-button>
                   <dxi-button icon="trash" [visible]="1" [onClick]="fnDelete"></dxi-button>
@@ -141,9 +142,7 @@
               <dxi-item itemType="empty" visible="false"></dxi-item>
               <!-- <dxi-item dataField="Status"  editorType="dxSwitch" [label]="{text: trans.instant('Warehouse.data.Status')}"></dxi-item> -->
               <dxi-item dataField="Status" [label]="{text: trans.instant('Warehouse.data.Status')}"
-                editorType="dxSelectBox" [editorOptions]="{ displayExpr: 'text' ,valueExpr:'id' ,
-                items: [{id: 0, text: trans.instant('Warehouse.data.Status0')}
-                ,{ id: 1, text: trans.instant('Warehouse.data.Status1')}]}">
+                editorType="dxSelectBox" [editorOptions]="{ displayExpr: 'Text' ,valueExpr:'Id' , items: this.lookupField['WarehouseStatus'].items()}">
               </dxi-item>
             </dxi-item>
             <dxi-item itemType="group" [colCount]="3" caption="Size (cm)">

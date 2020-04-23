@@ -13,6 +13,7 @@ import { ToastrService } from 'ngx-toastr';
 import Swal from 'sweetalert2';
 import { DevextremeService } from 'src/app/core/services/general/devextreme.service';
 import { MyHelperService } from 'src/app/core/services/utility/my-helper.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-monitor-standard',
@@ -23,20 +24,25 @@ export class MonitorStandardComponent implements OnInit {
   @ViewChild(DxDataGridComponent, { static: false }) dataGrid: DxDataGridComponent;
   dataSource: any;
   lkDataSourceFactory;
-  myValidation:any ={}
+  myValidation:any ={};
+  lookupField: any = {};
   constructor(
     private monitorStandarService: MonitorStandarService,
     private factoryService: FactoryService,
     private devExtremeService: DevextremeService,
     private auth: AuthService,
     private toastr: ToastrService,
-    private helper: MyHelperService
+    private helper: MyHelperService,
+    public trans: TranslateService
   ) {
+    this.dataSource = this.monitorStandarService.getDataGrid(false);
+    this.lookupField['Status']= devExtremeService.loadDefineSelectBox("Status",trans.currentLang);
+    
   }
 
   ngOnInit() {
+    this.lookupField['Status'].load();
      //LOAD DATAGRID MONITOR
-     this.dataSource = this.monitorStandarService.getDataGrid(false);
      this.loadFactorySelectBox();
      // this.validateMSId = this.validateMSId.bind(this);
      // this.validateDateFrom = this.validateDateFrom.bind(this);
@@ -61,6 +67,7 @@ export class MonitorStandardComponent implements OnInit {
   }
   
   onInitNewRow(e) {
+    debugger;
     e.data.Status = 1;
     e.data.ValidateDateFrom = new Date();
     e.data.ValidateDateTo = new Date();
@@ -78,14 +85,14 @@ export class MonitorStandardComponent implements OnInit {
     e.data.MonitorStandardId = 0;
     e.data.CreateBy = this.auth.currentUser.Username;
     e.data.CreateDate = new Date();
-    e.data.Status = e.data.Status ? 1 : 0;
+    // e.data.Status = e.data.Status ? 1 : 0;
   }
 
   onRowUpdating(e) {
     const data = Object.assign(e.oldData, e.newData);
     data.ModifyBy = this.auth.currentUser.Username;
     data.ModifyDate = new Date();
-    data.Status = data.Status ? 1 : 0;
+    // data.Status = data.Status ? 1 : 0;
     e.newData = data;//set object
   }
 

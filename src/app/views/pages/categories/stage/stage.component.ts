@@ -11,6 +11,7 @@ import { HttpEventType } from '@angular/common/http';
 import { FileService } from 'src/app/core/services/file.service';
 import { DxDataGridComponent } from 'devextreme-angular';
 import { NotifyService } from 'src/app/core/services/utility/notify.service';
+import { DevextremeService } from 'src/app/core/services/general/devextreme.service';
 var URL = "api/v1/Stage";
 @Component({
   selector: 'app-stage',
@@ -27,17 +28,20 @@ export class StageComponent implements OnInit {
   addFiles: { FileList: File[], FileLocalNameList: string[] };
   private pathFile = "uploadFilesStage"
   uploadReportProgress: any = { progress: 0, message: null, isError: null };
+  lookupField: any = {};
   constructor(private stageService: StageService,
     private trans: TranslateService,
     private auth: AuthService,
     private fileService: FileService,
     private helper: MyHelperService,
     private notifyService: NotifyService,
-    private toastr: ToastrService) {
+    private toastr: ToastrService,
+    private devExtremeService: DevextremeService) {
     this.dataSource = this.stageService.getDataGrid(false);
     this.stageValidation = this.stageValidation.bind(this);
     this.validateStageCode = this.validateStageCode.bind(this);
     this.fnDelete = this.fnDelete.bind(this);
+    this.lookupField['Status']= devExtremeService.loadDefineLookup("Status",trans.currentLang);
   }
 
   ngOnInit() {

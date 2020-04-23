@@ -9,6 +9,8 @@ import { DxDataGridComponent } from 'devextreme-angular';
 import config from 'devextreme/core/config';
 import { directions } from 'src/app/core/helpers/DevExtremeExtention';
 import { Unit } from 'src/app/core/models/unit';
+import { DevextremeService } from 'src/app/core/services/general/devextreme.service';
+import { TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'app-unit',
   templateUrl: './unit.component.html',
@@ -18,12 +20,16 @@ export class UnitComponent implements OnInit {
   @ViewChild(DxDataGridComponent, { static: false })
   dataGrid: DxDataGridComponent;
   dataSource: any;
-  entity: Unit = new Unit()
+  entity: Unit = new Unit();
+  lookupField: any = {};
   constructor(
     private unitService: UnitService,
     private auth: AuthService,
+    private devserivce: DevextremeService,
+    private trans: TranslateService
   ) {
     this.dataSource = this.unitService.getDataGrid(false);
+    this.lookupField['Status']= devserivce.loadDefineSelectBox("Status",trans.currentLang);
     this.unitValidation = this.unitValidation.bind(this)
     config({
       floatingActionButtonConfig: directions.down
@@ -31,6 +37,7 @@ export class UnitComponent implements OnInit {
   }
   ngOnInit() {
     this.resetEntity();
+    this.lookupField['Status'].load();
   }
   resetEntity() {
     this.entity = new Unit();
