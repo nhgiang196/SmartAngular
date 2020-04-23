@@ -73,12 +73,13 @@
             </div>
           </div>
           <hr />
+          
           <!-- table Stage -->
           <div class="row">
             <div class="col-lg-12">
               <dx-data-grid
               [dataSource]="entity.BomStage"
-              (onRowValidating)="onRowValidatingBomStage($event)"
+              keyExpr="BomStageId"
               (onContentReady) ="enableActiveTab()"
               [masterDetail]="{ enabled: true, template: 'detail' }"
               [remoteOperations]="true" height="auto"  showBorders="true" [showRowLines]="true">
@@ -97,22 +98,32 @@
                     valueExpr="StageId">
                 </dxo-lookup>
                 <dxi-validation-rule type="required"></dxi-validation-rule>
+                <dxi-validation-rule message="Giai đoạn không được trùng" [validationCallback]="validationStageCallback" type="custom"></dxi-validation-rule>
               </dxi-column>
               <dxi-column dataField="OrderNumber"  dataType="number" caption="{{'BomFactory.BomStage.OrderNumber' | translate }}">
                 <dxi-validation-rule type="required"></dxi-validation-rule>
+                <dxi-validation-rule  [validationCallback]="validationOrderCallback" type="custom"></dxi-validation-rule>
               </dxi-column>
               <dxi-column dataField="IsSequence"  dataType="boolean"  caption="{{'BomFactory.BomStage.Sequence' | translate }}">
               </dxi-column>
               <dxi-column dataField="BomStageDescription" caption="{{'BomFactory.BomStage.Descriptions' | translate }}">
               </dxi-column>
+              <dxi-column type="buttons" [width]="110">
+                <dxi-button
+                      name="edit"></dxi-button>
+                    <dxi-button
+                    icon="trash"
+                    [visible]="1"
+                    [onClick]="fnDeleteStage"></dxi-button>
+              </dxi-column>
 
               <div *dxTemplate="let item of 'detail'">
                 <div class="master-detail-caption">Danh sách đầu ra của {{item.data.StageName | lowercase}}</div>
                 <dx-data-grid
-                    [dataSource]="getBomOut(item.key)"
+                    [dataSource]="getBomOut(item.data)"
                     class="dx-grid-child"
+                    keyExpr="BomItemOutId"
                     [showBorders]="true"
-                    (onRowValidating)="onRowValidatingBomOut($event,item.key)"
                     (onContentReady) ="enableActiveTab()"
                     [masterDetail]="{ enabled: true, template: 'detailIn' }"
                     [columnAutoWidth]="true">
@@ -130,6 +141,7 @@
                               displayExpr="ItemName"
                               valueExpr="ItemId">
                           </dxo-lookup>
+                          <dxi-validation-rule  [validationCallback]="validationItemOutCallback" type="custom"></dxi-validation-rule>
                           <dxi-validation-rule type="required"></dxi-validation-rule>
                         </dxi-column>
                         <dxi-column dataField="UnitId" caption="{{'BomFactory.BomItem.UnitId ' | translate}}" >
@@ -143,12 +155,13 @@
                         <dxi-column dataField="Quantity"  dataType="number" caption="{{'BomFactory.BomItem.Quantity' | translate}}">
                           <dxi-validation-rule type="required"></dxi-validation-rule>
                         </dxi-column>
+                        
                         <div *dxTemplate="let itemChild of 'detailIn'">
                           <div class="master-detail-caption">Danh sách đầu vào của {{itemChild.data.ItemName | lowercase}}</div>
                           <dx-data-grid
-                              [dataSource]="getBomIn(itemChild.key)"
-                              (onRowValidating)="onRowValidatingBomIn($event,itemChild.key)"
+                              [dataSource]="getBomIn(itemChild.data)"
                               (onContentReady) ="enableActiveTab()"
+                              keyExpr="BomItemInId"
                               class="dx-grid-child"
                               [showBorders]="true"
                               [columnAutoWidth]="true">
@@ -167,6 +180,7 @@
                                         valueExpr="ItemId">
                                     </dxo-lookup>
                                     <dxi-validation-rule type="required"></dxi-validation-rule>
+                                    <dxi-validation-rule  [validationCallback]="validationItemInCallback" type="custom"></dxi-validation-rule>
                                   </dxi-column>
                                   <dxi-column dataField="UnitId" caption="{{'BomFactory.BomItem.UnitId ' | translate}}">
                                     <dxo-lookup
@@ -183,7 +197,7 @@
                       </div>
                 </dx-data-grid>
             </div>
-          </dx-data-grid>
+              </dx-data-grid>
             </div>
           </div>
         </form>

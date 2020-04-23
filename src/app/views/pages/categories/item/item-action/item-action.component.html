@@ -116,9 +116,13 @@
                                           <div class="dx-field">
                                                 <div class="dx-field-label">{{'Item.data.ItemManufactureYear' | translate }} </div>
                                                 <div class="dx-field-value">
-                                                    <dx-text-box mode="text" [(value)]="entity.ItemManufactureYear"
+                                                    <dx-text-box mode="number" [(value)]="entity.ItemManufactureYear"
                                                     placeholder="{{'Item.data.ItemManufactureYear' | translate }}">
+                                                    <dx-validator >
+                                                      <dxi-validation-rule message="Năm bạn nhập không hợp lệ" type="pattern" [pattern]="patternYear"></dxi-validation-rule>
+                                                    </dx-validator>
                                                     </dx-text-box>
+                                                    
                                                 </div>
                                             </div>
                                         </div>
@@ -468,7 +472,7 @@
                             <dx-validation-summary [elementAttr]="{ form: 'myform'  }" id="summary"></dx-validation-summary>
                           </div>
                           <div class="col-sm-6">
-                            <dx-button class="pull-right" stylingMode="text" [useSubmitBehavior]="true" template="btnTemplate">
+                            <dx-button class="pull-right" stylingMode="text" [useSubmitBehavior]="true" template="btnTemplate" [disabled]="disabledSave" >
                               <div *dxTemplate="let data of 'btnTemplate'">
                                 <button type="button" class="btn btn-primary dim pull-right" [ladda]="laddaSubmitLoading"><i
                                     class="fa fa-paper-plane-o"></i> {{'Button.Save' | translate}}</button>

@@ -9,6 +9,7 @@ import { ItemType } from 'src/app/core/models/item';
 import { map } from 'rxjs/operators';
 import { DevextremeService } from 'src/app/core/services/general/devextreme.service';
 import swal from "sweetalert2";
+import { NotifyService } from 'src/app/core/services/utility/notify.service';
 @Component({
   selector: 'app-item',
   templateUrl: './item.component.html',
@@ -23,8 +24,10 @@ export class ItemComponent implements OnInit {
     private itemTypeService: ItemTypeService,
     private router: Router,
     private route: ActivatedRoute,
+    private notifyService:NotifyService
   ) {
     this.rediactToAction = this.rediactToAction.bind(this);
+    this.fnDelete = this.fnDelete.bind(this);
   }
   async ngOnInit() {
     await this.getAllItemType();
@@ -53,5 +56,22 @@ export class ItemComponent implements OnInit {
 
   onDataErrorOccurred(err){
     swal.fire("Validate", "Xóa thất bại do ràng buộc khóa", "error");
+  }
+
+  fnDelete(e){
+    this.notifyService.confirmDelete(() => {
+      this.itemService.remove(e.row.data.ItemId).then(
+        (res) => {
+          var operationResult: any = res;
+          if (operationResult.Success) {
+            this.notifyService.confirmDeleteSuccess();
+            this.dataSource.reload();
+          } else this.notifyService.warning(operationResult.Message);
+        },
+        (err) => {
+          this.notifyService.error(err.statusText);
+        }
+      );
+    });
   }
 }
