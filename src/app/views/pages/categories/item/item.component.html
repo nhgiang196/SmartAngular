@@ -52,7 +52,9 @@
               [dataSource]="dataSource"
               (onDataErrorOccurred)="onDataErrorOccurred($event)"
               [errorRowEnabled]="false"
-              [remoteOperations]="true"  [showBorders]="true" [showRowLines]="true" class="m-grid-5">
+              [remoteOperations]="true"  [showBorders]="true" [showRowLines]="true" class="m-grid-5"
+              [allowColumnResizing]="true"
+              [focusedRowEnabled] = "true" columnResizingMode = "widget" >
 
               <dxo-selection mode="single"></dxo-selection>
               <dxo-filter-row [visible]="true"></dxo-filter-row>

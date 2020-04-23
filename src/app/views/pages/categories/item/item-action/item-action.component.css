@@ -1,3 +1,17 @@
 
 
+.dx-field-value, .dx-field-label {  
+    text-align: right;  
+}  
+.dx-fieldset-column {  
+    float: left;  
+    width: 50%;  
+}  
+.clear {  
+    clear: both;  
+}  
 
+.dx-fieldset {
+    margin: 15px 0px !important;
+    padding: 0;
+}

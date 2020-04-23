@@ -11,7 +11,7 @@ import { SmartSelectComponent } from 'src/app/views/UISample/smart-select/smart-
 import { DxFormComponent } from 'devextreme-angular';
 import { DevextremeService } from 'src/app/core/services/general/devextreme.service';
 import DataSource from 'devextreme/data/data_source';
-import { DxoDataSourceModule } from 'devextreme-angular/ui/nested';
+import { DxoDataSourceModule, DxoGridComponent } from 'devextreme-angular/ui/nested';
 declare let $: any;
 @Component({
   selector: 'app-warehouse',
@@ -23,6 +23,7 @@ export class WarehouseComponent implements OnInit {
   @ViewChild('targetSmartUpload', { static: false }) uploadComponent: SmartUploadComponent;
   @ViewChild('targetForm', { static: true }) targetForm: DxFormComponent;
   @ViewChild("childModal", { static: false }) childModal: ModalDirective;
+  @ViewChild("targetGrid", { static: false }) targetGrid: DxoGridComponent;
   pathFile = "uploadFileWarehouse";
   dataSource: DataSource;
   factoryList: any;
@@ -84,7 +85,6 @@ export class WarehouseComponent implements OnInit {
       this.entity = res;
       this.childModal.show();
       this.iboxloading = false;
-      console.log('getEntity', res);
       /**CONTROL FILES */
       this.uploadComponent.loadInit((res as any).WarehouseFile);
       this.entity.ModifyBy = this.auth.currentUser.Username;
@@ -160,6 +160,11 @@ export class WarehouseComponent implements OnInit {
     e.data.WarehouseId = this.entity.WarehouseId;
     e.data.Status = true;
   }
+
+  onRowInsertedLocation(){
+    this.targetGrid.instance.addRow();
+    this.targetGrid.instance.focus(this.targetGrid.instance.getCellElement(0,0))
+  }
   onChangeWarehouseLocationStatus(event) {
     event.data.Status = event.data.Status ? 1 : 0;
   }
@@ -191,7 +196,6 @@ export class WarehouseComponent implements OnInit {
     return true;
   };
   validateAsync = (e) => {
-    console.log('Validate Async', e)
     return new Promise(async (resolve) => {
       this.laddaSubmitLoading = true;
       let obj = new Warehouse; //stop binding

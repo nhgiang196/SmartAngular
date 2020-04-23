@@ -13,7 +13,6 @@
 
 </div>
 
-
 <div class="wrapper wrapper-content animated fadeInRight">
   <div class="row">
     <div class="col-lg-12">
@@ -30,7 +29,7 @@
 
           <div class="row">
             <div class="col-lg-12">
-              <dx-data-grid (onRowUpdating)="onRowUpdatingItemType($event)"
+              <dx-data-grid #masterDataGrid (onRowUpdating)="onRowUpdatingItemType($event)"
                   (onRowInserting)="onRowInsertingItemType($event)"
                   (onEditingStart)="filterByItemTypeId($event)"
                   (onEditorPreparing)="onEditorPreparing($event)"
@@ -38,18 +37,17 @@
                   (onDataErrorOccurred)="onDataErrorOccurred($event)"
                   (onRowValidating)= "masterValidation($event)"
                   [dataSource]="dataSourceItemTypes"
+                  [remoteOperations]="true"
                   [focusedRowEnabled]="true"
+                  [allowColumnResizing] = "true" columnResizingMode = "widget" 
                   [showBorders]="true" [showRowLines]="true" class="m-grid-5">
 
       <dxo-filter-row [visible]="true"></dxo-filter-row>
-      <dxo-header-filter [visible]="true"></dxo-header-filter>
-      <!-- <dxo-group-panel [visible]="true"></dxo-group-panel> -->
-
       <dxo-editing mode="popup" [allowUpdating]="true"
                                 [allowDeleting]="true"
                                 [useIcons]="true">
         <dxo-popup title="ItemType Info" [showTitle]="true" [width]="600" [height]="600"
-            [position]="{ my: 'top', at: 'top', of: 'window' }">
+            [position]="{ my: 'center', at: 'center', of: 'window' }">
         </dxo-popup>
         <dxo-texts confirmDeleteMessage="Are you sure Delete?"></dxo-texts>
         <dxo-form >
@@ -61,9 +59,9 @@
           <!-- Begin Detail DataGrid ItemTypeProperty -->
           <dxi-item [colSpan]="2" >
             <div *dxTemplate>
-              <dx-data-grid
+              <dx-data-grid #detailDataGrid 
                             (onInitNewRow)="onInitNewRowDetail($event)"
-
+                            (onContentReady) ="enableActiveTab()"
                             [dataSource]="dataSourceProperties"
                             keyExpr="ItemTypePropertyId"
                             [focusedRowEnabled]="true"
@@ -83,6 +81,13 @@
                       [validationCallback]="detailValidation"
                       message="ItemTypeName is empty"></dxi-validation-rule>
                 </dxi-column>
+                <dxi-column type="buttons" [width]="110">
+                  <dxi-button name="edit"></dxi-button>
+                  <dxi-button
+                    icon="trash"
+                    [visible]="1"
+                    [onClick]="fnDeleteDetail"></dxi-button>
+              </dxi-column>
                 <dxo-paging [pageSize]="7"></dxo-paging>
                 <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[7,25, 50, 100]"></dxo-pager>
                </dx-data-grid>
@@ -104,7 +109,7 @@
       <dxi-column dataField="ModifyBy"></dxi-column>
       <dxi-column dataField="ModifyDate" dataType="date"></dxi-column>
       <dxi-column dataField="Status" dataType="boolean" caption="Active"></dxi-column>
-      <dxo-paging [pageSize]="10"></dxo-paging>
+      <dxo-paging [pageSize]="25"></dxo-paging>
       <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[25, 50, 100]"></dxo-pager>
     </dx-data-grid>
             </div>

@@ -25,7 +25,7 @@ constructor(private toastr: ToastrService,private trans: TranslateService,privat
   }
 
   confirmDelete(callBack){
-    this.trans.use(this.langService.getLanguage());
+    //this.trans.use(this.langService.getLanguage());
     swal.fire({
       titleText: this.trans.instant('messg.update.confirmDelete'),
       confirmButtonText: this.trans.instant('Button.OK'),

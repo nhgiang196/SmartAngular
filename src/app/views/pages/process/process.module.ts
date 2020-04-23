@@ -34,7 +34,8 @@ const COMPONENTS =[
     DxSwitchModule,
     ModalModule.forRoot(),
     A2Edatetimepicker,
-    DxDateBoxModule
+    DxDateBoxModule,
+    DxValidatorModule
   ],
   declarations: [...COMPONENTS]
 })

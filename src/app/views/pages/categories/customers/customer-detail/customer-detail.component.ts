@@ -58,7 +58,6 @@ export class CustomerDetailComponent implements OnInit {
       this.uploadComponent.loadInit(dataResolver.CustomerFile)
     }
     // await this.loadContractByCustomer();
-    console.log(this.entity);
   }
   private async resetEntity() {
     this.entity = new Customer();
@@ -109,8 +108,6 @@ export class CustomerDetailComponent implements OnInit {
   }
   fnEditItem(contractId, index) {
     if (this.entity.CustomerId != 0) this.childView.resetEntity();
-    console.log('edit item', contractId);
-    console.log('edit index', index)
     this.editIndex = index;
     this.app_contractId = contractId;
     this.childView.resetEntity();
@@ -140,7 +137,6 @@ export class CustomerDetailComponent implements OnInit {
     })
   }
   async onChangeAdd(returnContract: Contract) {
-    console.log('return Contract', returnContract);
     if (returnContract.CustomerId == 0)
       swal.fire({
         titleText: this.trans.instant('Customer.mssg.AskForCreateContractCustomer'),

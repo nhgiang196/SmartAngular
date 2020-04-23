@@ -65,9 +65,9 @@ export class UnitComponent implements OnInit {
       e.setValue((e.value == null) ? "" : (e.value + "")); // Updates the cell value
     }
     //Prepare Status editor to dxSwitch
-    if (e.dataField == "Status" && e.parentType === "dataRow") {
-      e.editorName = "dxSwitch";
-    }
+    // if (e.dataField == "Status" && e.parentType === "dataRow") {
+    //   e.editorName = "dxSwitch";
+    // }
 
   }
 
@@ -81,13 +81,14 @@ export class UnitComponent implements OnInit {
   }
 
   unitValidation(e) {
-    console.log(e);
     if (e.newData == null) {
       if (e.value == "" || e.value == null) {
         return new Promise((resolve, reject) => {
           reject("Field is empty!");
         });
-      } else {
+      } else {  
+        if(e.data.Status == true) e.data.Status= 1
+        if(e.data.Status == false) e.data.Status= 0 
         return new Promise((resolve, reject) => {
           this.unitService.validate(e.data)
             .then((result: any) => {

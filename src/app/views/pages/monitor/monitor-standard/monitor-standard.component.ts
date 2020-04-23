@@ -9,6 +9,7 @@ import { MonitorStandarService, AuthService, FactoryService } from 'src/app/core
 import { DxDataGridComponent } from 'devextreme-angular';
 import config from 'devextreme/core/config';
 import { directions } from 'src/app/core/helpers/DevExtremeExtention';
+import { compareDate } from 'src/app/core/helpers/helper';
 import { ToastrService } from 'ngx-toastr';
 import Swal from 'sweetalert2';
 import { DevextremeService } from 'src/app/core/services/general/devextreme.service';
@@ -22,7 +23,8 @@ import { MyHelperService } from 'src/app/core/services/utility/my-helper.service
 export class MonitorStandardComponent implements OnInit {
   @ViewChild(DxDataGridComponent, { static: false }) dataGrid: DxDataGridComponent;
   dataSource: any;
-  lkDataSourceFactory: any;
+  lkDataSourceFactory;
+  myValidation:any ={}
   constructor(
     private monitorStandarService: MonitorStandarService,
     private factoryService: FactoryService,
@@ -30,18 +32,21 @@ export class MonitorStandardComponent implements OnInit {
     private auth: AuthService,
     private toastr: ToastrService,
     private helper: MyHelperService
-  ) {
-    //LOAD DATAGRID MONITOR
-    this.dataSource = this.monitorStandarService.getDataGrid(false);
-    this.loadFactorySelectBox();
-    // this.validateMSId = this.validateMSId.bind(this);
-    // this.validateDateFrom = this.validateDateFrom.bind(this);
 
+  ) {
   }
 
   ngOnInit() {
-
+     //LOAD DATAGRID MONITOR
+     this.dataSource = this.monitorStandarService.getDataGrid(false);
+     this.loadFactorySelectBox();
+     // this.validateMSId = this.validateMSId.bind(this);
+     // this.validateDateFrom = this.validateDateFrom.bind(this);
   }
+  loadFactorySelectBox() {
+    this.lkDataSourceFactory = this.devExtremeService.loadDxoLookup("Factory");
+  }
+
   addRow() {
     this.dataGrid.instance.addRow();
     this.dataGrid.instance.deselectAll();
@@ -51,16 +56,12 @@ export class MonitorStandardComponent implements OnInit {
     if (e.dataField == "Status" && e.parentType === "dataRow") {
       e.editorName = "dxSwitch";
     }
-    if (e.dataField == "MonitorStandardDescription" && e.parentType === "dataRow") {
-      e.editorName = "dxTextArea";
-      e.editorOptions.height = 50;
-    }
+    // if (e.dataField == "MonitorStandardDescription" && e.parentType === "dataRow") {
+    //   e.editorName = "dxTextArea";
+    //   e.editorOptions.height = 50;
+    // }
   }
-
-  loadFactorySelectBox() {
-    this.lkDataSourceFactory = this.devExtremeService.loadDxoLookup("Factory");
-  }
-
+  
   onInitNewRow(e) {
     e.data.Status = 1;
     e.data.ValidateDateFrom = new Date();
@@ -96,7 +97,7 @@ export class MonitorStandardComponent implements OnInit {
     if (e.oldData != null) {
       data = Object.assign(e.oldData, e.newData);
     } else data = e.newData;
-
+  
     if (data.FactoryId == null) {
       e.isValid = false;
       e.errorText = "Factory is empty!";
@@ -105,6 +106,8 @@ export class MonitorStandardComponent implements OnInit {
       e.isValid = false;
       e.errorText = "Date From greater than date To ";
     } else {
+      if(data.Status == true) data.Status= 1
+      if(data.Status == false) data.Status= 0 
       e.promise = this.monitorStandarService.validate(data)
         .then((result: any) => {
           if (!result.Success) {
@@ -115,16 +118,13 @@ export class MonitorStandardComponent implements OnInit {
     }
   }
   validateMSId(e) {
-    console.log(e);
   }
-
   validateDateFrom(e) {
     let date;
     if (typeof (e.data.ValidateDateTo) === 'string') {
       date = new Date(e.data.ValidateDateTo);
     } else date = e.data.ValidateDateTo
-
-    if (e.value > date) {
+    if ( compareDate(e.value, date) == 1) {
       e.rule.message = "DateFrom greater than dateTo!";
       return false
     } else return true;
@@ -134,10 +134,14 @@ export class MonitorStandardComponent implements OnInit {
     if (typeof (e.data.ValidateDateFrom) === 'string') {
       date = new Date(e.data.ValidateDateFrom);
     } else date = e.data.ValidateDateFrom
-
-    if (e.value < date) {
+    if (compareDate(date,e.value ) == 1) {
       e.rule.message = "DateTo smaller than dateFrom!";
       return false
-    } else return true;
+    } else{
+       return true;
+    }
   }
+  calculateDateTo(rowData) {
+    return rowData.validateDateFrom;
+}
 }

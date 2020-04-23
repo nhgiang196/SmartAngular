@@ -10745,6 +10745,9 @@ bs-datepicker-container, bs-daterangepicker-container { z-index: 3501 !important
 .m-grid-5{
   max-height: 500px;
 }
+.swal2-container {
+  z-index: 10000 !important; 
+}
 
 td[role=columnheader] {
   text-align: center!important;
