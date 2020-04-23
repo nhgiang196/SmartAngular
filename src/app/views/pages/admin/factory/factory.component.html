@@ -104,7 +104,7 @@
       </div>
       <div class="modal-body">
         <form action="your-action" (submit)="fnSave()">
-          <dx-form #targetForm id="form" [(formData)]="entity" (onInitialized)="resetEntity">
+          <dx-form #targetForm id="form" [(formData)]="entity">
             <dxi-item itemType="group" [colCount]="2">
               <dxi-item dataField="FactoryType" [label]="{text: trans.instant('Factory.data.FactoryType')}"
                 editorType="dxSelectBox" [editorOptions]="{ displayExpr: 'Text' ,valueExpr:'Id' , items: lookup['FactoryType'].items() }"></dxi-item>

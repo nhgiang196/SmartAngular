@@ -14,6 +14,7 @@ import { MyHelperService } from 'src/app/core/services/utility/my-helper.service
 import { Customer } from 'src/app/core/models/customer';
 import { Contract } from 'src/app/core/models/contrack';
 import { DevextremeService } from 'src/app/core/services/general/devextreme.service';
+import { LanguageService } from 'src/app/core/services/language.service';
 declare let $: any;
 @Component({
   selector: 'app-customer-detail',
@@ -33,9 +34,14 @@ export class CustomerDetailComponent implements OnInit {
     private auth: AuthService,
     private devService: DevextremeService,
     private contractService: ContractService,
+    private lang: LanguageService,
   ) {
     this.factoryList = devService.loadDxoLookup("Factory");
+    this.lookupField['ContractType'] = devService.loadDefineLookup("ContractType",lang);
+    this.fnEditItem = this.fnEditItem.bind(this);
+    this.fnDeleteItem = this.fnDeleteItem.bind(this);
   }
+  lookupField: any = {};
   factoryList: any;
   pathFile = "uploadFileCustomer";
   entity: Customer;
@@ -106,14 +112,19 @@ export class CustomerDetailComponent implements OnInit {
     return true;
     // }
   }
-  fnEditItem(contractId, index) {
-    if (this.entity.CustomerId != 0) this.childView.resetEntity();
-    this.editIndex = index;
-    this.app_contractId = contractId;
-    this.childView.resetEntity();
-    this.childView.loadInit(contractId)
+
+  fnAddItem(){
+    this.childView.loadInit(0)
   }
-  fnDeleteItem(index) {
+  
+  fnEditItem(rowValue) {
+    // if (this.entity.CustomerId != 0) this.childView.resetEntity();
+    // this.editIndex = index;
+    // this.app_contractId = contractId;
+    this.childView.loadInit(rowValue.row.data.ContractId);
+  }
+  fnDeleteItem(rowValue) {
+    let id = rowValue.row.data.ContractId;
     swal.fire({
       title: this.trans.instant('Contract.mssg.DeleteAsk_Title'),
       titleText: this.trans.instant('Contract.mssg.DeleteAsk_Text'),
@@ -124,10 +135,10 @@ export class CustomerDetailComponent implements OnInit {
       reverseButtons: true
     }).then((result) => {
       if (result.value) {
-        this.contractService.remove(this.entity.Contract[index].ContractId).then((data)=>{
+        this.contractService.remove(id).then((data)=>{
           let res = data as any;
           if (res.Success) {
-            this.entity.Contract.splice(index, 1);
+            this.entity.Contract.splice(this.entity.Contract.indexOf(rowValue.row.data), 1);
             this.toastr.success(this.trans.instant('messg.delete.success'))
           }
           else this.toastr.warning(res.Message)

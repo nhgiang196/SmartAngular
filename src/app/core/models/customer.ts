@@ -11,7 +11,7 @@ export class Customer {
     CustomerAddress?: string = null
     CustomerContact?: string = null
     CustomerContactEmail?: string = null
-    CustomerContactPhone?: string = null
+    CustomerContactPhone?: string = '84'
     CustomerDescription?: string = null
     CreateBy?: string
     CreateDate?: Date

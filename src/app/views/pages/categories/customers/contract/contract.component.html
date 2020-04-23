@@ -1,6 +1,6 @@
 
-<div  bsModal #childModal="bs-modal" class="modal inmodal" id="myContractModal" data-backdrop="static"
-  data-keyboard="true" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal inmodal" bsModal #childModal="bs-modal" id="myModal4" data-backdrop="static" data-keyboard="true"
+  tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-lg " style="width: 80%;">
     <div class="modal-content animated fadeIn">
       <form id="myForm" (submit)="fnSave()">
@@ -72,11 +72,11 @@
               </dxo-editing>
               <dxi-column dataField="BreachType" caption="{{ 'Contract.data.ContractBreach.BreachType' | translate }}">
                 <dxi-validation-rule type="required"></dxi-validation-rule>
-                <dxo-lookup displayExpr="text" valueExpr="id" [dataSource]="breachTypeList"></dxo-lookup>
+                <dxo-lookup displayExpr="Text" valueExpr="Id" [dataSource]="lookupField['BreachType'].items()"></dxo-lookup>
               </dxi-column>
               <dxi-column dataField="ResolveType" caption="{{ 'Contract.data.ContractBreach.ResolveType' | translate }}">
                 <dxi-validation-rule type="required"></dxi-validation-rule>
-                <dxo-lookup displayExpr="text" valueExpr="id" [dataSource]="resolveTypeList"></dxo-lookup>
+                <dxo-lookup displayExpr="Text" valueExpr="Id" [dataSource]="lookupField['ResolveType'].items()"></dxo-lookup>
               </dxi-column>
               <dxi-column dataField="Times" caption="{{ 'Contract.data.ContractBreach.Times' | translate }}"
                 dataType="number">
