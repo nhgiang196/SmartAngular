@@ -74,7 +74,7 @@ export class BomStageComponent implements OnInit {
     }
     
     //Custom remove entity child
-    //this.removeEntityChild();'
+    this.removeDevID();
     console.log(this.entity);
     this.entity.BomFactoryValidateDate = this.helpper.dateConvertToString(this.entity.BomFactoryValidateDate);
     this.laddaSubmitLoading = true;
@@ -136,6 +136,33 @@ export class BomStageComponent implements OnInit {
       return;
     }
   }
+
+  removeDevID(){
+    if( this.entity.BomStage!=null && this.entity.BomStage.length >0){
+      this.entity.BomStage.forEach(x=>{
+        if(typeof x.BomStageId=="string")
+          x.BomStageId =0;
+        if(x.BomItemOut!=null && x.BomItemOut.length>0){
+          x.BomItemOut.forEach(i=>{
+            if(typeof i.BomItemOutId=="string")
+              i.BomItemOutId =0;
+              if(i.BomItemIn!=null && i.BomItemIn.length>0){
+                i.BomItemIn.forEach(z=>{
+                  if(typeof z.BomItemInId=="string")
+                      z.BomItemInId =0;
+                  return z;
+                })
+              }
+            return i;
+          })
+        }
+        
+        return x;
+      })
+    }
+   
+  }
+
   async fnValidateBomServer() {
     
     let model: BomFactory = JSON.parse(JSON.stringify(this.entity));
