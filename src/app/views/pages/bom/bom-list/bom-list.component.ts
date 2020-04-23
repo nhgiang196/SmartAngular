@@ -17,10 +17,12 @@ import { LanguageService } from 'src/app/core/services/language.service';
 export class BomListComponent implements OnInit {
   @ViewChild('modalChild',{static:false}) modalChild;
   dataSource:any;
+  lookupField: any = {};
   dataSourceFactory;
-  constructor(private bomService:BomService,private devExtreme: DevextremeService, private notifyService:NotifyService) {
+  constructor(private bomService:BomService,private devExtreme: DevextremeService, private notifyService:NotifyService, lang: LanguageService) {
     this.showModalBomStage = this.showModalBomStage.bind(this);
     this.fnDelete = this.fnDelete.bind(this);
+    this.lookupField['Status'] = devExtreme.loadDefineLookup('Status',lang.getLanguage());
    }
 
   ngOnInit() {
