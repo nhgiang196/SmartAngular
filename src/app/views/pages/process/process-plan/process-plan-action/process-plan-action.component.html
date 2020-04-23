@@ -113,7 +113,7 @@
                   <div  class="tab-pane" *ngFor="let item of entity.ProcessPlanStage;let i= index" [id]="'tab-'+i"  [class.active]="i==0">
                     <dx-data-grid
                        [dataSource]="item.ProcessPlanItem"
-                       (onContentReady) ="enableActiveTab()"
+                       (onContentReady) ="enableActiveTab($event)"
                        (onEditingStart)="onEditingStart($event)"
                        [remoteOperations]="true" height="auto"  showBorders="true">
 
