@@ -7,7 +7,7 @@ export class BomFactory {
 	BomFactoryId: number = 0
   FactoryId: number= null
   FactoryName: number
-	BomFactoryValidateDate?:any
+	BomFactoryValidateDate?:any = null
   BomFactoryDescription?: string
   CreateBy: string
   CreateDate?: any

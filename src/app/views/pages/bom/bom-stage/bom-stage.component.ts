@@ -72,7 +72,7 @@ export class BomStageComponent implements OnInit {
     if(!this.targetForm.instance.validate().isValid){
       return;
     }
-    
+
     //Custom remove entity child
     this.removeDevID();
     console.log(this.entity);
@@ -156,15 +156,15 @@ export class BomStageComponent implements OnInit {
             return i;
           })
         }
-        
+
         return x;
       })
     }
-   
+
   }
 
   async fnValidateBomServer() {
-    
+
     let model: BomFactory = JSON.parse(JSON.stringify(this.entity));
     model.BomStage = null;
     var data = (await this.bomService
@@ -203,7 +203,7 @@ export class BomStageComponent implements OnInit {
       e.rule.message=">0"
       return false;
     }
-    
+
 
     if(this.entity.BomStage.find(x=>x.OrderNumber ==e.value&& x.BomStageId !=e.data.BomStageId)){
       e.rule.message ="Thứ tự không được trùng"
@@ -218,7 +218,8 @@ export class BomStageComponent implements OnInit {
   }
 
   loadDataSourceItem() {
-    this.dataSourceItem = this.devExtreme.loadDxoLookup("Item");
+    let filter =[["ItemTypeId","=",3],"and",["Status","=",1]];
+    this.dataSourceItem = this.devExtreme.loadDxoLookupFilter("Item",filter);
   }
 
   loaddataSourceUnitOut() {
