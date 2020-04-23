@@ -10,6 +10,8 @@ import { SmartUploadComponent } from 'src/app/views/UISample/smart-upload/smart-
 import { AuthService, ContractService } from 'src/app/core/services';
 import { Contract, ContractPrice, ContractBreach } from 'src/app/core/models/contrack';
 import { DxFormComponent } from 'devextreme-angular';
+import { LanguageService } from 'src/app/core/services/language.service';
+import { DevextremeService } from 'src/app/core/services/general/devextreme.service';
 @Component({
   selector: 'app-contract',
   templateUrl: './contract.component.html',
@@ -19,6 +21,10 @@ export class ContractComponent implements OnInit, AfterViewInit {
   @ViewChild('contractFile', { static: true }) uploadComponent: SmartUploadComponent;
   @ViewChild('targetForm', { static: true }) targetForm: DxFormComponent;
   @ViewChild("childModal", { static: false }) childModal: ModalDirective;
+
+  @Input('contractListModel')  ContractList : Contract[] = [] ; //binding  : D
+  @Output('contractListModel') selectDataChange: EventEmitter<Contract[]> = new EventEmitter<Contract[]>();
+
   @Input('contractid') contractId: number;
   @Output('contract') send_entity = new EventEmitter<Contract>();
   constructor(
@@ -26,30 +32,31 @@ export class ContractComponent implements OnInit, AfterViewInit {
     private route: ActivatedRoute,
     private toastr: ToastrService,
     public trans: TranslateService,
-    private auth: AuthService
+    private auth: AuthService,
+    private router: Router,
+    private lang: LanguageService,
+    private devService: DevextremeService,
   ) {
+    this.lookupField['BreachType'] = devService.loadDefineSelectBox("ContractBreachType",lang.getLanguage());
+    this.lookupField['ResolveType'] = devService.loadDefineSelectBox("ContractResolveType",lang.getLanguage());
   }
-  breachTypeList: any = [
-    { id: 1, text: this.trans.instant('Contract.data.ContractBreach.BreachType1') }
-    , { id: 2, text: this.trans.instant('Contract.data.ContractBreach.BreachType2') }
-  ];
-  resolveTypeList: any = [
-    { id: 1, text: this.trans.instant('Contract.data.ContractBreach.ResolveType1') }
-    , { id: 2, text: this.trans.instant('Contract.data.ContractBreach.ResolveType2') }
-  ];
+
+  lookupField : any = {};
   pathFile = 'uploadFileContract'
   entity: Contract;
   laddaSubmitLoading = false;
   iboxloading = false;
   ngOnInit() {
+    this.lookupField['BreachType'].load();
+    this.lookupField['ResolveType'].load();
   }
   loadInit(id) {
     this.targetForm.instance.resetValues();
+    // this.resetEntity();
     this.uploadComponent.resetEntity();
     if (id && id != 0) {
       this.iboxloading = true;
       this.api.findById(id).subscribe(res => {
-        this.childModal.show();
         this.targetForm.instance.updateData(res);
         this.uploadComponent.loadInit((res as any).ContractFile);
         this.iboxloading = false;
@@ -60,14 +67,16 @@ export class ContractComponent implements OnInit, AfterViewInit {
     }
     else {
       this.targetForm.instance.updateData(new Contract());
+      this.entity.CustomerId = this.route.snapshot.params.id || 0;
     }
+    this.childModal.show();
   }
   async resetEntity() { 
     this.entity = new Contract();
     this.entity.CustomerId = this.route.snapshot.params.id || 0;
   }
   async fnSave() {
-    if (! await this.targetForm.instance.validate().isValid) return;
+    // if (! await this.targetForm.instance.validate().isValid) return;
     var e = this.entity;
     await this.uploadComponent.uploadFile();
     if (e.CustomerId == 0) { //New customer, just send to parrent
@@ -83,6 +92,7 @@ export class ContractComponent implements OnInit, AfterViewInit {
         this.toastr.success(this.trans.instant("messg.add.success"));
         this.entity.ContractId = operationResult.Data; //ID return;
         this.childModal.hide();
+        // this.resetRouter();
         this.sendtoParentView(this.entity);
       }
       else this.toastr.warning(operationResult.Message);
@@ -94,16 +104,23 @@ export class ContractComponent implements OnInit, AfterViewInit {
         this.toastr.success(this.trans.instant("messg.update.success"));
         this.childModal.hide();
         this.sendtoParentView(this.entity);
+        // this.resetRouter();
       }
       else this.toastr.warning(operationResult.Message);
     }
+  }
+  resetRouter(){
+    var reloadpath = location.hash.replace('#', '');
+    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() =>
+    this.router.navigate([reloadpath]));
   }
   private sendtoParentView(e: Contract) {
     let _sendParent = Object.assign({}, e); //stop binding
     delete _sendParent.ContractBreach;
     delete _sendParent.ContractPrice;
     delete _sendParent.ContractFile;
-    this.send_entity.emit(_sendParent);
+    this.ContractList.push(_sendParent);
+    this.selectDataChange.emit(this.ContractList);
     this.childModal.hide();
   }
   validateFunction = (e) => {
