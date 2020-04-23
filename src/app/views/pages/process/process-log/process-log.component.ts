@@ -259,7 +259,7 @@ export class ProcessLogComponent implements OnInit {
     this.modalChildItem.showChildModal(itemOut);
   }
 
-  loadInitItem(e) {
+  loadInitItem() {
     this.dataSourceProcessLog.reload();
   }
 
