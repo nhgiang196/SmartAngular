@@ -43,10 +43,11 @@ export class StageComponent implements OnInit {
     this.stageValidation = this.stageValidation.bind(this);
     this.validateStageCode = this.validateStageCode.bind(this);
     this.fnDelete = this.fnDelete.bind(this);
-    this.lookupField['Status']= devExtremeService.loadDefineLookup("Status",lang.getLanguage());
+    this.lookupField['Status']= devExtremeService.loadDefineSelectBox("Status",lang.getLanguage());
   }
 
   ngOnInit() {
+    this.lookupField['Status'].load();
     this.resetEntity();
     
   }

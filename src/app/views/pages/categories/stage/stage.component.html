@@ -42,7 +42,6 @@
                     columnResizingMode = "widget" 
                     (onEditingStart)="filterByStageId($event)"
                     (onRowUpdating)="onRowUpdatingStage($event)"
-                    (onEditorPreparing)="onEditorPreparing($event)"
                     (onRowInserting)="onRowInsertingStage($event)"
                     (onInitNewRow)="onInitNewRow($event)" showBorders="true">
                     <dxo-filter-row [visible]="true"></dxo-filter-row>
@@ -125,7 +124,7 @@
                       caption="{{ 'Stage.data.ModifyDate' | translate}}"></dxi-column>
                     <dxi-column dataField="ModifyBy" caption="{{ 'Stage.data.ModifyBy' | translate}}"></dxi-column>
                     <dxi-column dataField="Status" dataType="boolean"  caption="{{ 'Stage.data.Status' | translate}}">
-                      <dxo-lookup [dataSource]="lookupField['Status']" displayExpr="Text" valueExpr="Id"></dxo-lookup>
+                      <dxo-lookup [dataSource]="lookupField['Status'].items()" displayExpr="Text" valueExpr="Id"></dxo-lookup>
                     </dxi-column>
                     <dxi-column type="buttons" [width]="110">
                         <dxi-button name="edit"></dxi-button>
