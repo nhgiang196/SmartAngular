@@ -11,7 +11,7 @@
         "pathRewrite": {"^/signalR" : ""}
     },
     "/auth/*":{
-        "target":"https://supporteoffice.becamex.com.vn:6789", 
+        "target":"http://supporteoffice.becamex.com.vn:6789", 
         "secure": false,
         "changeOrigin": true,
         "pathRewrite": {"^/auth" : "api"}
