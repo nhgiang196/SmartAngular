@@ -50,13 +50,16 @@ export class ContractComponent implements OnInit, AfterViewInit {
       this.iboxloading = true;
       this.api.findById(id).subscribe(res => {
         this.childModal.show();
-        this.entity = res;
+        this.targetForm.instance.updateData(res);
         this.uploadComponent.loadInit((res as any).ContractFile);
         this.iboxloading = false;
       }, err => {
         this.toastr.error(err.statusText, "Load contract failed! Check your connection");
         this.iboxloading = false;
       })
+    }
+    else {
+      this.targetForm.instance.updateData(new Contract());
     }
   }
   async resetEntity() { 
@@ -79,6 +82,7 @@ export class ContractComponent implements OnInit, AfterViewInit {
       if (operationResult.Success) {
         this.toastr.success(this.trans.instant("messg.add.success"));
         this.entity.ContractId = operationResult.Data; //ID return;
+        this.childModal.hide();
         this.sendtoParentView(this.entity);
       }
       else this.toastr.warning(operationResult.Message);
@@ -88,6 +92,7 @@ export class ContractComponent implements OnInit, AfterViewInit {
       let operationResult = await this.api.update(e).then().catch(err => this.toastr.error(err.statusText, 'Network')) as any;
       if (operationResult.Success) {
         this.toastr.success(this.trans.instant("messg.update.success"));
+        this.childModal.hide();
         this.sendtoParentView(this.entity);
       }
       else this.toastr.warning(operationResult.Message);
@@ -104,6 +109,7 @@ export class ContractComponent implements OnInit, AfterViewInit {
   validateFunction = (e) => {
     if (e.formItem)
       switch (e.formItem.dataField) {
+        case "StandardType": return (e.value != null && e.value!=0)
         case "ContractEffectiveDate": return (e.value <= this.entity.ContractEndDate) || this.entity.ContractEndDate == null
         case "ContractEndDate": return (this.entity.ContractEffectiveDate <= e.value) || this.entity.ContractEffectiveDate == null
       }

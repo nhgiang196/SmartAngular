@@ -10,8 +10,8 @@ export class Contract {
 	ContractSignDate?: any= null
 	ContractEffectiveDate?: any= null
 	ContractEndDate?: any = null
-	StandardType: number = 0 
-	WasteWaterRatio: any = 1
+	StandardType: number = 2
+	WasteWaterRatio: any = 0
 	CreateBy?: string = null
 	ModifyBy?: string = null 
 	CreateDate?: Date = null
