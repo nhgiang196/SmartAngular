@@ -5,12 +5,12 @@ import { Input } from '@angular/core'
 
 export class Item {
     ItemId?: number = 0
-    ItemTypeId?: number = null
-    ItemCode?: string
-    ItemName?: string
+    ItemTypeId?: number =null
+    ItemCode?: string=null;
+    ItemName?: string=null;
     ItemPrintName?: string
     ItemDescription?: string
-    ItemUnitId?: number = null
+    ItemUnitId?: number  =null
     ItemModel?: string
     ItemSerial?: string
     ItemManufactureCountry?: string
@@ -23,7 +23,7 @@ export class Item {
     CreateDate?: Date
     ModifyBy?: string
     ModifyDate?: Date
-    Status?: number = 0
+    Status?: number =1 
 
     ItemUnit?: Unit
     ItemPackage?: ItemPackage[] = []

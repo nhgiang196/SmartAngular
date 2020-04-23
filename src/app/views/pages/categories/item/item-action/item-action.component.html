@@ -19,403 +19,470 @@
 
     <div class="row">
         <div class="col-lg-12">
-            <div class="tabs-container">
-                <ul class="nav nav-tabs">
-                    <li class="active"><a data-toggle="tab" href="#tab-1"><i class="fa fa-info-circle"></i>
-                            {{'Item.label.Information' | translate }}</a></li>
-                    <li><a data-toggle="tab" href="#tab-2"  class=""><i
-                                class="fa fa-industry"></i> {{'Item.label.Factory' | translate }}</a></li>
-                    <li><a data-toggle="tab" href="#tab-3" ><i
-                                class="fa fa-list-ul" ></i> {{'Item.label.Property' | translate }}</a></li>
-                    <li><a data-toggle="tab" href="#tab-4"><i
-                                class="fa fa-cube" ></i>{{'Item.label.Package' | translate }}</a></li>
-                    <li><a data-toggle="tab"  href="#tab-5"><i class="fa fa-file"></i>
-                            {{ 'Upload.' | translate }}</a></li>
-                    <li><a data-toggle="tab" href="#tab-6"><i class="fa fa-file"></i>
-                            {{ 'Upload.Image' | translate }}</a></li>
-                </ul>
+            <form id="myform" action="your-action" (submit)="fnSave()">
+                <div class="tabs-container">
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a data-toggle="tab" href="#tab-1"><i class="fa fa-info-circle"></i>
+                                {{'Item.label.Information' | translate }}</a></li>
+                        <li><a data-toggle="tab" href="#tab-2"  class=""><i
+                                    class="fa fa-industry"></i> {{'Item.label.Factory' | translate }}</a></li>
+                        <li><a data-toggle="tab" href="#tab-3" ><i
+                                    class="fa fa-list-ul" ></i> {{'Item.label.Property' | translate }}</a></li>
+                        <li><a data-toggle="tab" href="#tab-4"><i
+                                    class="fa fa-cube" ></i>{{'Item.label.Package' | translate }}</a></li>
+                        <li><a data-toggle="tab"  href="#tab-5"><i class="fa fa-file"></i>
+                                {{ 'Upload.' | translate }}</a></li>
+                        <li><a data-toggle="tab" href="#tab-6"><i class="fa fa-file"></i>
+                                {{ 'Upload.Image' | translate }}</a></li>
+                    </ul>
 
 
-                    <div class="tab-content">
+                        <div class="tab-content">
 
-                        <div id="tab-1" class="tab-pane active">
-                            <form role="form" #myForm="ngForm">
+                            <div id="tab-1" class="tab-pane active">
+                                <div class="panel-body">
+                                    <div class="dx-fieldset">
+                                      <div class="dx-fieldset-column">
+                                        <div class="dx-field">
+                                          <div class="dx-field-label">{{'Item.data.ItemNo' | translate }} <span class="dx-field-item-required-mark"> *</span>  </div>
+                                          <div class="dx-field-value">
+                                            <dx-text-box mode="text" [(value)]="entity.ItemCode">
+                                              <dx-validator>
+                                                <dxi-validation-rule message="Yêu cầu nhập mã vật tư" type="required"></dxi-validation-rule>
+                                                <dxi-validation-rule message="Mã vật tư đã tồn tại" type="async" ignoreEmptyValue="true"
+                                                  [validationCallback]="validateAsync_ItemCode"></dxi-validation-rule>
+                                              </dx-validator>
+                                            </dx-text-box>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div class="dx-fieldset-column">
+                                        <div class="dx-field">
+                                            <div class="dx-field-label">{{'Item.data.ItemName' | translate }} <span class="dx-field-item-required-mark"> *</span>  </div>
+                                            <div class="dx-field-value">
+                                              <dx-text-box mode="text" [(value)]="entity.ItemName"
+                                                placeholder="{{'Item.data.ItemName' | translate }} ">
+                                                <dx-validator >
+                                                  <dxi-validation-rule message="Vui lòng nhập tên vật tư" type="required"></dxi-validation-rule>
+                                                </dx-validator>
+                                              </dx-text-box>
+                                            </div>
+                                          </div>
+                                      </div>
+                                      <div class="clearfix"></div>
+                                    </div>
+                                    <div class="dx-fieldset">
+                                        <div class="dx-fieldset-column">
+                                          <div class="dx-field">
+                                            <div class="dx-field-label">{{'Item.data.ItemUnitId' | translate }} <span class="dx-field-item-required-mark"> *</span>  </div>
+                                            <div class="dx-field-value">
+                                              <dx-select-box [(value)]="entity.ItemUnitId" [dataSource]="dataSourceUnit" displayExpr="UnitName"
+                                                valueExpr="UnitId" searchEnabled="true"  searchExpr="UnitName">
+                                                <dx-validator>
+                                                  <dxi-validation-rule message="Vui lòng chọn đơn vị tính" type="required"></dxi-validation-rule>
+                                                  <dxi-validation-rule message="Không được trùng đơn vị tính trong tab đóng gói" [validationCallback]="validationUnitCallback" type="custom"></dxi-validation-rule>
+                                                </dx-validator>
+                                              </dx-select-box>
+                                            </div>
+                                          </div>
+                                        </div>
+                                        <div class="dx-fieldset-column">
+                                          <div class="dx-field">
+                                              <div class="dx-field-label">{{'Item.data.ItemPrintName' | translate }} <span class="dx-field-item-required-mark"> *</span>  </div>
+                                              <div class="dx-field-value">
+                                                <dx-text-box mode="text" [(value)]="entity.ItemPrintName"
+                                                  placeholder="{{'Item.data.ItemPrintName' | translate }}">
+                                                  <dx-validator >
+                                                    <dxi-validation-rule message="Vui lòng nhập tên in" type="required"></dxi-validation-rule>
+                                                  </dx-validator>
+                                                </dx-text-box>
+                                              </div>
+                                            </div>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    <div class="dx-fieldset">
+                                        <div class="dx-fieldset-column">
+                                          <div class="dx-field">
+                                            <div class="dx-field-label">{{'Item.data.ItemManufactureCountry' | translate }} </div>
+                                            <div class="dx-field-value">
+                                                <dx-text-box mode="text" [(value)]="entity.ItemManufactureCountry"
+                                                  placeholder="{{'Item.data.ItemManufactureCountry' | translate }}">
+                                                </dx-text-box>
+                                            </div>
+                                          </div>
+                                        </div>
+                                        <div class="dx-fieldset-column">
+                                          <div class="dx-field">
+                                                <div class="dx-field-label">{{'Item.data.ItemManufactureYear' | translate }} </div>
+                                                <div class="dx-field-value">
+                                                    <dx-text-box mode="text" [(value)]="entity.ItemManufactureYear"
+                                                    placeholder="{{'Item.data.ItemManufactureYear' | translate }}">
+                                                    </dx-text-box>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    <div class="dx-fieldset">
+                                        <div class="dx-fieldset-column">
+                                          <div class="dx-field">
+                                            <div class="dx-field-label">{{'Item.data.ItemModel' | translate }} </div>
+                                            <div class="dx-field-value">
+                                                <dx-text-box mode="text" [(value)]="entity.ItemModel"
+                                                  placeholder="{{'Item.data.ItemModel' | translate }}">
+                                                </dx-text-box>
+                                            </div>
+                                          </div>
+                                        </div>
+                                        <div class="dx-fieldset-column">
+                                          <div class="dx-field">
+                                                <div class="dx-field-label">{{'Item.data.ItemSerial' | translate }} </div>
+                                                <div class="dx-field-value">
+                                                    <dx-text-box mode="text" [(value)]="entity.ItemSerial"
+                                                    placeholder="{{'Item.data.ItemSerial' | translate }}">
+                                                    </dx-text-box>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    <div class="dx-fieldset">
+                                        <div class="dx-fieldset-column">
+                                          <div class="dx-field">
+                                            <div class="dx-field-label">{{'Item.data.ItemLength' | translate }} </div>
+                                            <div class="dx-field-value">
+                                                <dx-text-box mode="text" [(value)]="entity.ItemLength"
+                                                  placeholder="{{'Item.data.ItemLength' | translate }}">
+                                                </dx-text-box>
+                                            </div>
+                                          </div>
+                                        </div>
+                                        <div class="dx-fieldset-column">
+                                          <div class="dx-field">
+                                                <div class="dx-field-label">{{'Item.data.ItemWidth' | translate }} </div>
+                                                <div class="dx-field-value">
+                                                    <dx-text-box mode="text" [(value)]="entity.ItemWidth"
+                                                    placeholder="{{'Item.data.ItemWidth' | translate }}">
+                                                    </dx-text-box>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    <div class="dx-fieldset">
+                                        <div class="dx-fieldset-column">
+                                          <div class="dx-field">
+                                            <div class="dx-field-label">{{'Item.data.ItemHeight' | translate }} </div>
+                                            <div class="dx-field-value">
+                                                <dx-text-box mode="text" [(value)]="entity.ItemHeight"
+                                                  placeholder="{{'Item.data.ItemHeight' | translate }}">
+                                                </dx-text-box>
+                                            </div>
+                                          </div>
+                                        </div>
+                                        <div class="dx-fieldset-column">
+                                          <div class="dx-field">
+                                                <div class="dx-field-label">{{'Item.data.ItemWeight' | translate }} </div>
+                                                <div class="dx-field-value">
+                                                    <dx-text-box mode="text" [(value)]="entity.ItemWeight"
+                                                    placeholder="{{'Item.data.ItemWeight' | translate }}">
+                                                    </dx-text-box>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    <div class="dx-fieldset">
+                                        <div class="dx-fieldset-column">
+                                          <div class="dx-field">
+                                            <div class="dx-field-label">{{'Item.data.ItemDescription' | translate }} </div>
+                                            <div class="dx-field-value">
+                                                <dx-text-area [(value)]="entity.ItemDescription"
+                                                placeholder="{{'Item.data.ItemDescription' | translate }}"></dx-text-area>
+                                            </div>
+                                          </div>
+                                        </div>
+                                        <div class="dx-fieldset-column">
+                                          <div class="dx-field">
+                                                <div class="dx-field-label">{{'Item.data.ItemTypeId' | translate }}<span class="dx-field-item-required-mark"> *</span>   </div>
+                                                <div class="dx-field-value">
+                                                    <dx-select-box [(value)]="entity.ItemTypeId" [dataSource]="dataSourceItemType" displayExpr="ItemTypeName"
+                                                        valueExpr="ItemTypeId" searchEnabled="true"  searchExpr="ItemTypeName" (onValueChanged)="itemTypeChange($event)">
+                                                        <dx-validator>
+                                                        <dxi-validation-rule message="Vui lòng chọn loại vật tư" type="required"></dxi-validation-rule>
+                                                        </dx-validator>
+                                                    </dx-select-box>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    <div class="dx-fieldset">
+                                        <div class="dx-fieldset-column">
+                                            <div class="dx-field"></div>
+                                        </div>
+                                        <div class="dx-fieldset-column">
+                                          <div class="dx-field">
+                                                <div class="dx-field-label">{{'Item.data.Status' | translate }}  </div>
+                                                <div class="dx-field-value">
+                                                    <dx-switch [value]="entity.Status" (onValueChanged)="entity.Status=  entity.Status==1? 0: 1" class="pull-left">
+                                                    </dx-switch>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                  </div>
+                            </div>
+
+
+                            <div id="tab-2" class="tab-pane">
+                              <div class="panel-body">
+                                  <fieldset class="form-horizontal">
+                                      <div class="form-group">
+                                          <div class="col-sm-8">
+                                              <div class="row">
+                                                  <div class="form-group">
+                                                      <div class="col-sm-12 pl-2">
+
+                                                        <dx-data-grid
+                                                        [dataSource]="entity.ItemFactory"
+                                                        keyExpr="ItemFactoryId"
+                                                        (onContentReady) ="enableActiveTab()"
+                                                        [remoteOperations]="true" height="auto"  showBorders="true">
+
+                                                        <dxo-editing
+                                                          [allowAdding]="true"
+                                                          [allowUpdating]="true"
+                                                          [allowDeleting]="true"
+                                                          [useIcons] ="true"
+                                                          >
+                                                          <dxo-texts confirmDeleteMessage="Are you sure Delete?"></dxo-texts>
+                                                        </dxo-editing>
+                                                        <dxi-column dataField="FactoryId" caption="{{'Item.datacolumn.FactoryId' | translate }} (*)" >
+                                                          <dxo-lookup
+                                                              [dataSource]="dataSourceFactory"
+                                                              displayExpr="FactoryName"
+                                                              valueExpr="FactoryId">
+                                                          </dxo-lookup>
+                                                          <dxi-validation-rule
+                                                              type="custom" [validationCallback]="validationFactoryCallback"  message="Không được trùng tên nhà máy">
+                                                          </dxi-validation-rule>
+                                                          <dxi-validation-rule type="required"></dxi-validation-rule>
+                                                        </dxi-column>
+                                                        <dxi-column dataField="IntergrationCode" caption="{{'Item.datacolumn.IntergrationCode' | translate }}">
+                                                        </dxi-column>
+                                                    </dx-data-grid>
+                                                      </div>
+                                                  </div>
+                                              </div>
+
+                                          </div>
+                                      </div>
+
+                                  </fieldset>
+
+                              </div>
+                          </div>
+                          <div id="tab-3" class="tab-pane">
                             <div class="panel-body">
                                 <fieldset class="form-horizontal">
                                     <div class="form-group">
-                                        <label class="col-sm-2 control-label">{{'Item.data.ItemNo' | translate }}
-                                            *:</label>
-                                        <div class="col-sm-4">
-                                            <input autocomplete="off" type="text" [(ngModel)]="entity.ItemCode"
-                                                class="form-control"
-                                                placeholder="{{'Item.placeholder.ItemNo' | translate }}" name="ItemNo"
-                                                required>
-                                        </div>
-                                        <label class="col-sm-2 control-label">{{'Item.data.ItemName' | translate }}
-                                            *:</label>
-                                        <div class="col-sm-4">
-                                            <input autocomplete="off" type="text" [(ngModel)]="entity.ItemName"
-                                                class="form-control"
-                                                placeholder="{{'Item.placeholder.ItemName' | translate }}"
-                                                name="ItemName" required>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-sm-2 control-label">{{'Item.data.ItemUnitId' | translate }}
-                                            *:</label>
-                                        <div class="col-sm-4">
-                                             <ui-select-box entitykey="Unit" [pageSize]="5" [checkstatus]="true" [(ngModelCustom)]="entity.ItemUnitId"></ui-select-box>
-                                        </div>
-                                        <label class="col-sm-2 control-label">{{'Item.data.ItemPrintName' | translate }}
-                                            *:</label>
-                                        <div class="col-sm-4">
-                                            <input autocomplete="off" type="text" [(ngModel)]="entity.ItemPrintName"
-                                                class="form-control"
-                                                placeholder="{{'Item.placeholder.ItemPrintName' | translate }}"
-                                                name="printName" required>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label
-                                            class="col-sm-2 control-label">{{'Item.data.ItemManufactureCountry' | translate }}:</label>
-                                        <div class="col-sm-4">
-                                            <input autocomplete="off" type="text"
-                                                [(ngModel)]="entity.ItemManufactureCountry" class="form-control"
-                                                placeholder="{{'Item.placeholder.ItemManufactureCountry' | translate }}"
-                                                name="manufactureCountry">
-                                        </div>
-                                        <label
-                                            class="col-sm-2 control-label">{{'Item.data.ItemManufactureYear' | translate }}:</label>
-                                        <div class="col-sm-4">
-                                            <input type="text" [(ngModel)]="entity.ItemManufactureYear" bsDatepicker  readonly
-                                            [bsConfig]="bsConfig"
-                                                class="form-control" placeholder="{{'Item.placeholder.ItemManufactureYear' | translate }}" name="ItemManufactureYear">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label
-                                            class="col-sm-2 control-label">{{'Item.data.ItemModel' | translate }}:</label>
-                                        <div class="col-sm-4">
-                                            <input autocomplete="off" type="text" [(ngModel)]="entity.ItemModel"
-                                                class="form-control"
-                                                placeholder="{{'Item.placeholder.ItemModel' | translate }}"
-                                                name="model">
-                                        </div>
-                                        <label
-                                            class="col-sm-2 control-label">{{'Item.data.ItemSerial' | translate }}:</label>
-                                        <div class="col-sm-4">
-                                            <input autocomplete="off" type="text" [(ngModel)]="entity.ItemSerial"
-                                                class="form-control"
-                                                placeholder="{{'Item.placeholder.ItemSerial' | translate }}"
-                                                name="serial">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label
-                                            class="col-sm-2 control-label">{{'Item.data.ItemLength' | translate }}:</label>
-                                        <div class="col-sm-4">
-                                            <input autocomplete="off" type="number" [(ngModel)]="entity.ItemLength"
-                                                class="form-control"
-                                                placeholder="{{'Item.placeholder.ItemLength' | translate }}"
-                                                min="0"
-                                                (change)="($event.target.value<0 ||$event.target.value=='' ) ?entity.ItemLength =0:entity.ItemLength"
-                                                name="length">
-                                        </div>
-                                        <label
-                                            class="col-sm-2 control-label">{{'Item.data.ItemWidth' | translate }}:</label>
-                                        <div class="col-sm-4">
-                                            <input autocomplete="off" type="number" [(ngModel)]="entity.ItemWidth"
-                                                class="form-control"
-                                                placeholder="{{'Item.placeholder.ItemWidth' | translate }}"
-                                                min="0"
-                                                (change)="($event.target.value<0 ||$event.target.value=='' ) ?entity.ItemWidth =0:entity.ItemWidth"
-                                                name="width">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label
-                                            class="col-sm-2 control-label">{{'Item.data.ItemHeight' | translate }}:</label>
-                                        <div class="col-sm-4">
-                                            <input autocomplete="off" type="number" [(ngModel)]="entity.ItemHeight"
-                                                class="form-control"
-                                                placeholder="{{'Item.placeholder.ItemHeight' | translate }}"
-                                                min="0"
-                                                (change)="($event.target.value<0 ||$event.target.value=='' ) ?entity.ItemHeight =0:entity.ItemHeight"
-                                                name="height">
-                                        </div>
-                                        <label
-                                            class="col-sm-2 control-label">{{'Item.data.ItemWeight' | translate }}:</label>
-                                        <div class="col-sm-4">
-                                            <input autocomplete="off" type="number" [(ngModel)]="entity.ItemWeight"
-                                                class="form-control"
-                                                placeholder="{{'Item.placeholder.ItemWeight' | translate }}"
-                                                min="0"
-                                                (change)="($event.target.value<0 ||$event.target.value=='' ) ?entity.ItemWeight =0:entity.ItemWeight"
-                                                name="weight">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label
-                                            class="col-sm-2 control-label">{{'Item.data.ItemDescription' | translate }}:</label>
-                                        <div class="col-sm-4">
-                                            <textarea autocomplete="off" type="text"
-                                                [(ngModel)]="entity.ItemDescription" rows="4" class="form-control"
-                                                placeholder="{{'Item.placeholder.ItemDescription' | translate }}"
-                                                name="ItemDescription"></textarea>
-                                        </div>
-                                        <label
-                                             class="col-sm-2 control-label">{{'Item.data.ItemTypeId' | translate }} *:</label>
-                                            <div class="col-sm-4">
-                                              <ui-select-box entitykey="ItemType" [pageSize]="5" [checkstatus]="true" [(ngModelCustom)]="entity.ItemTypeId" (valueChange)="itemTypeChange($event)"></ui-select-box>
-                                            </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label
-                                            class="col-sm-2 control-label"></label>
-                                        <div class="col-sm-4">
-                                        </div>
-                                        <label class="col-sm-2 control-label p-0">{{ 'Factory.data.Status' | translate }} :</label>
+                                        <div class="col-sm-8">
+                                            <div class="row">
+                                                <div class="form-group">
+                                                    <div class="col-sm-12 pl-2">
+                                                      <!-- (onRowUpdating)="onRowUpdating($event)"
+                                                      (onCellPrepared)="onCellPrepared($event)" -->
+                                                      <!-- (onContentReady) ="enableActiveTab($event)" -->
+                                                      <dx-data-grid
+                                                      [dataSource]="entity.ItemProperty"
+                                                      keyExpr="ItemPropertyId"
+                                                      (onContentReady) ="enableActiveTab()"
+                                                      [remoteOperations]="true" height="auto"  showBorders="true">
 
-                                        <div class="switch col-sm-4">
-                                        <div class="onoffswitch">
-                                            <input type="checkbox" class="onoffswitch-checkbox" name="status" id="status"  (click)="onSwitchStatus()" [checked]="entity.Status==1 ? true : null" >
-                                            <label class="onoffswitch-label" for="status">
-                                            <span class="onoffswitch-inner"></span>
-                                            <span class="onoffswitch-switch"></span>
-                                            </label>
-                                        </div>
+                                                      <dxo-editing
+                                                        [allowAdding]="true"
+                                                        [allowUpdating]="true"
+                                                        [allowDeleting]="true"
+                                                        [useIcons] ="true"
+                                                        >
+                                                        <dxo-texts confirmDeleteMessage="Are you sure Delete?"></dxo-texts>
+                                                      </dxo-editing>
+                                                      <dxi-column dataField="ItemTypePropertyId" caption="{{'Item.datacolumn.ItemTypePropertyId' | translate }} (*)" >
+                                                        <dxo-lookup
+                                                            [dataSource]="dataSourceItemTypeProperty"
+                                                            displayExpr="ItemTypePropertyName"
+                                                            valueExpr="ItemTypePropertyId">
+                                                        </dxo-lookup>
+                                                        <dxi-validation-rule
+                                                        type="custom" [validationCallback]="validationItemPropertyCallback"  message="Không được trùng tên thuộc tính">
+                                                          </dxi-validation-rule>
+                                                        <dxi-validation-rule type="required"></dxi-validation-rule>
+                                                      </dxi-column>
+                                                      <dxi-column dataField="ItemTypePropertyValue" caption="{{'Item.datacolumn.ItemTypePropertyValue' | translate }} (*)">
+                                                        <dxi-validation-rule type="required"></dxi-validation-rule>
+                                                      </dxi-column>
+                                                  </dx-data-grid>
+                                                    </div>
+                                                </div>
+                                            </div>
+
                                         </div>
                                     </div>
 
                                 </fieldset>
+
                             </div>
-                        </form>
                         </div>
-                        <div id="tab-2" class="tab-pane">
+                        <div id="tab-4" class="tab-pane">
                           <div class="panel-body">
-                              <fieldset class="form-horizontal">
-                                  <div class="form-group">
-                                      <div class="col-sm-8">
-                                          <div class="row">
-                                              <div class="form-group">
-                                                  <div class="col-sm-12 pl-2">
-                                                    <!-- (onRowUpdating)="onRowUpdating($event)"
-                                                    (onCellPrepared)="onCellPrepared($event)" -->
-                                                    <!-- (onRowValidating)="onRowValidatingFactory($event)" -->
-                                                    <dx-data-grid
-                                                    [dataSource]="entity.ItemFactory"
-                                                    (onContentReady) ="enableActiveTab()"
-                                                    [remoteOperations]="true" height="auto"  showBorders="true">
+                              <div class="row">
+                                  <div class="col-sm-12">
+                                    <dx-data-grid
+                                    [dataSource]="entity.ItemPackage"
+                                    keyExpr="ItemPackageId"
+                                    (onContentReady) ="enableActiveTab()"
+                                    (onRowValidating)="onRowItemPackageValidating($event)"
+                                    [remoteOperations]="true" height="auto"  showBorders="true">
 
-                                                    <dxo-editing
-                                                      [allowAdding]="true"
-                                                      [allowUpdating]="true"
-                                                      [allowDeleting]="true"
-                                                      [useIcons] ="true"
-                                                      >
-                                                      <dxo-texts confirmDeleteMessage="Are you sure Delete?"></dxo-texts>
-                                                    </dxo-editing>
-                                                    <dxi-column dataField="FactoryId" caption="{{'Item.datacolumn.FactoryId' | translate }} (*)" >
-                                                      <dxo-lookup
-                                                          [dataSource]="dataSourceFactory"
-                                                          displayExpr="FactoryName"
-                                                          valueExpr="FactoryId">
-                                                      </dxo-lookup>
-                                                      <dxi-validation-rule type="required"></dxi-validation-rule>
-                                                    </dxi-column>
-                                                    <dxi-column dataField="IntergrationCode" caption="{{'Item.datacolumn.IntergrationCode' | translate }}">
-                                                    </dxi-column>
-                                                </dx-data-grid>
-                                                  </div>
-                                              </div>
-                                          </div>
-
-                                      </div>
+                                    <dxo-editing
+                                      [allowAdding]="true"
+                                      [allowUpdating]="true"
+                                      [allowDeleting]="true"
+                                      [useIcons] ="true"
+                                      >
+                                      <dxo-texts confirmDeleteMessage="Are you sure Delete?"></dxo-texts>
+                                    </dxo-editing>
+                                    <dxi-column dataField="ItemPackageUnitId" caption="{{'Item.datacolumn.ItemPackageUnitId' | translate }} (*)" >
+                                      <dxo-lookup
+                                          [dataSource]="dataSourceUnit"
+                                          displayExpr="UnitName"
+                                          valueExpr="UnitId">
+                                      </dxo-lookup>
+                                      <dxi-validation-rule
+                                         type="custom" [validationCallback]="validationItemPackageCallback">
+                                       </dxi-validation-rule>
+                                      <dxi-validation-rule type="required"></dxi-validation-rule>
+                                    </dxi-column>
+                                    <dxi-column dataField="ItemPackageCoefficient" caption="{{'Item.datacolumn.ItemPackageCoefficient' | translate }} (*)">
+                                      <dxi-validation-rule type="required" ></dxi-validation-rule>
+                                      <dxi-validation-rule
+                                        type="custom" [validationCallback]="validationNumberCallback"  message=">=0">
+                                    </dxi-validation-rule>
+                                    </dxi-column>
+                                    <dxi-column dataField="ItemPackageLength"  dataType="number"   caption="{{'Item.datacolumn.ItemPackageLength' | translate }}">
+                                      <dxi-validation-rule
+                                        type="custom" [validationCallback]="validationNumberCallback"  message=">=0">
+                                      </dxi-validation-rule>
+                                    </dxi-column>
+                                    <dxi-column dataField="ItemPackageWidth" dataType="number"  caption="{{'Item.datacolumn.ItemPackageWidth' | translate }}">
+                                      <dxi-validation-rule
+                                      type="custom" [validationCallback]="validationNumberCallback"  message=">=0">
+                                    </dxi-validation-rule>
+                                    </dxi-column>
+                                    <dxi-column dataField="ItemPackageHeight" dataType="number"  caption="{{'Item.datacolumn.ItemPackageHeight' | translate }} ">
+                                      <dxi-validation-rule
+                                        type="custom" [validationCallback]="validationNumberCallback"  message=">=0">
+                                      </dxi-validation-rule>
+                                    </dxi-column>
+                                    <dxi-column dataField="ItemPackageWeight" dataType="number"  caption="{{'Item.datacolumn.ItemPackageWeight' | translate }}">
+                                      <dxi-validation-rule
+                                        type="custom" [validationCallback]="validationNumberCallback"  message=">=0">
+                                      </dxi-validation-rule>
+                                    </dxi-column>
+                                </dx-data-grid>
                                   </div>
-
-                              </fieldset>
-
-                          </div>
-                      </div>
-                      <div id="tab-3" class="tab-pane">
-                        <div class="panel-body">
-                            <fieldset class="form-horizontal">
-                                <div class="form-group">
-                                    <div class="col-sm-8">
-                                        <div class="row">
-                                            <div class="form-group">
-                                                <div class="col-sm-12 pl-2">
-                                                  <!-- (onRowUpdating)="onRowUpdating($event)"
-                                                  (onCellPrepared)="onCellPrepared($event)" -->
-                                                  <!-- (onContentReady) ="enableActiveTab($event)" -->
-                                                  <dx-data-grid
-                                                  [dataSource]="entity.ItemProperty"                                                
-                                                  (onRowValidating)="onRowValidatingItemProperty($event)"
-                                                  (onContentReady) ="enableActiveTab()"
-                                                  [remoteOperations]="true" height="auto"  showBorders="true">
-
-                                                  <dxo-editing
-                                                    [allowAdding]="true"
-                                                    [allowUpdating]="true"
-                                                    [allowDeleting]="true"
-                                                    [useIcons] ="true"
-                                                    >
-                                                    <dxo-texts confirmDeleteMessage="Are you sure Delete?"></dxo-texts>
-                                                  </dxo-editing>
-                                                  <dxi-column dataField="ItemTypePropertyId" caption="{{'Item.datacolumn.ItemTypePropertyId' | translate }} (*)" >
-                                                    <dxo-lookup
-                                                        [dataSource]="dataSourceItemTypeProperty"
-                                                        displayExpr="ItemTypePropertyName"
-                                                        valueExpr="ItemTypePropertyId">
-                                                    </dxo-lookup>
-                                                    <dxi-validation-rule type="required"></dxi-validation-rule>
-                                                  </dxi-column>
-                                                  <dxi-column dataField="ItemTypePropertyValue" caption="{{'Item.datacolumn.ItemTypePropertyValue' | translate }} (*)">
-                                                    <dxi-validation-rule type="required"></dxi-validation-rule>
-                                                  </dxi-column>
-                                              </dx-data-grid>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>
-
-                            </fieldset>
-
-                        </div>
-                    </div>
-                    <div id="tab-4" class="tab-pane">
-                      <div class="panel-body">
-                          <div class="row">
-                              <div class="col-sm-12">
-                                <dx-data-grid
-                                [dataSource]="entity.ItemPackage"
-                                (onRowValidating)="onRowValidatingUnit($event)"
-                                (onContentReady) ="enableActiveTab()"
-                                [remoteOperations]="true" height="auto"  showBorders="true">
-
-                                <dxo-editing
-                                  [allowAdding]="true"
-                                  [allowUpdating]="true"
-                                  [allowDeleting]="true"
-                                  [useIcons] ="true"
-                                  >
-                                  <dxo-texts confirmDeleteMessage="Are you sure Delete?"></dxo-texts>
-                                </dxo-editing>
-                                <dxi-column dataField="ItemPackageUnitId" caption="{{'Item.datacolumn.ItemPackageUnitId' | translate }} (*)" >
-                                  <dxo-lookup
-                                      [dataSource]="dataSourceUnit"
-                                      displayExpr="UnitName"
-                                      valueExpr="UnitId">
-                                  </dxo-lookup>
-                                  <dxi-validation-rule type="required"></dxi-validation-rule>
-                                </dxi-column>
-                                <dxi-column dataField="ItemPackageCoefficient" caption="{{'Item.datacolumn.ItemPackageCoefficient' | translate }} (*)">
-                                  <dxi-validation-rule type="required" ></dxi-validation-rule>
-                                </dxi-column>
-                                <dxi-column dataField="ItemPackageLength"  dataType="number"   caption="{{'Item.datacolumn.ItemPackageLength' | translate }}">
-
-                                </dxi-column>
-                                <dxi-column dataField="ItemPackageWidth" dataType="number"  caption="{{'Item.datacolumn.ItemPackageWidth' | translate }}">
-                                </dxi-column>
-                                <dxi-column dataField="ItemPackageHeight" dataType="number"  caption="{{'Item.datacolumn.ItemPackageHeight' | translate }} ">
-                                </dxi-column>
-                                <dxi-column dataField="ItemPackageWeight" dataType="number"  caption="{{'Item.datacolumn.ItemPackageWeight' | translate }}">
-                                </dxi-column>
-                            </dx-data-grid>
                               </div>
+
                           </div>
-
                       </div>
-                  </div>
-                  <div id="tab-5" class="tab-pane">
-                    <div class="panel-body">
-                        <div class="form-group">
-                            <ngx-dropzone (change)="onSelect($event,false)" [expandable]="true"
-                                [maxFileSize]="5000*1024" [id]="'files'">
-                                <ngx-dropzone-label>{{ 'Upload.UploadFileCaption' | translate }}</ngx-dropzone-label>
-                                <ngx-dropzone-preview class="animated fadeInUp"
-                                    ngProjectAs="ngx-dropzone-preview"
-                                    *ngFor="let f of listFiles ;let i = index" [removable]="true"
-                                    (removed)="onRemove(f,false)" (click)="downloadFile(f.File.FileLocalName)">
-                                    <ngx-dropzone-label style="font-size:11px;"> {{f.File.FileOriginalName}}
-                                    </ngx-dropzone-label>
-                                </ngx-dropzone-preview>
-                            </ngx-dropzone>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <span class="badge"
-                                    [ngClass]="{'badge-primary': uploadReportProgress.progress==100, 'badge-danger':uploadReportProgress.isError}">{{uploadReportProgress.message}}</span>
-                                <div *ngIf="uploadReportProgress.progress!=100"
-                                    class="progress progress-striped active">
-                                    <div class="progress-bar progress-bar-success" role="progressbar"
-                                        [style.width.%]="uploadReportProgress.progress">
-                                        {{uploadReportProgress.progress}}%
+                      <div id="tab-5" class="tab-pane">
+                        <div class="panel-body">
+                            <div class="form-group">
+                                <ngx-dropzone (change)="onSelect($event,false)" [expandable]="true"
+                                    [maxFileSize]="5000*1024" [id]="'files'">
+                                    <ngx-dropzone-label>{{ 'Upload.UploadFileCaption' | translate }}</ngx-dropzone-label>
+                                    <ngx-dropzone-preview class="animated fadeInUp"
+                                        ngProjectAs="ngx-dropzone-preview"
+                                        *ngFor="let f of listFiles ;let i = index" [removable]="true"
+                                        (removed)="onRemove(f,false)" (click)="downloadFile(f.File.FileLocalName)">
+                                        <ngx-dropzone-label style="font-size:11px;"> {{f.File.FileOriginalName}}
+                                        </ngx-dropzone-label>
+                                    </ngx-dropzone-preview>
+                                </ngx-dropzone>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <span class="badge"
+                                        [ngClass]="{'badge-primary': uploadReportProgress.progress==100, 'badge-danger':uploadReportProgress.isError}">{{uploadReportProgress.message}}</span>
+                                    <div *ngIf="uploadReportProgress.progress!=100"
+                                        class="progress progress-striped active">
+                                        <div class="progress-bar progress-bar-success" role="progressbar"
+                                            [style.width.%]="uploadReportProgress.progress">
+                                            {{uploadReportProgress.progress}}%
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
 
-                    </div>
-                  </div>
-                  <div id="tab-6" class="tab-pane">
-                    <div class="panel-body">
-                        <div class="form-group">
-                            <ngx-dropzone (change)="onSelect($event,true)" [expandable]="true"
-                                [maxFileSize]="5000*1024" [accept]="'image/*'" [id]="'images'">
-                                <ngx-dropzone-label>{{ 'Upload.UploadImageCaption' | translate }}</ngx-dropzone-label>
-                                <ngx-dropzone-preview class="animated fadeInUp"
-                                    ngProjectAs="ngx-dropzone-preview"
-                                    *ngFor="let f of listImages ;let i = index" [file]="f" [removable]="true"
-                                    (removed)="onRemove(f,true)" (click)="downloadFile(f.File.FileLocalName)">
-                                    <ngx-dropzone-label style="font-size:11px;"> {{f.File.FileOriginalName}}
-                                    </ngx-dropzone-label>
-                                </ngx-dropzone-preview>
-                            </ngx-dropzone>
                         </div>
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <span class="badge"
-                                    [ngClass]="{'badge-primary': uploadReportProgress.progress==100, 'badge-danger':uploadReportProgress.isError}">{{uploadReportProgress.message}}</span>
-                                <div *ngIf="uploadReportProgress.progress!=100"
-                                    class="progress progress-striped active">
-                                    <div class="progress-bar progress-bar-success" role="progressbar"
-                                        [style.width.%]="uploadReportProgress.progress">
-                                        {{uploadReportProgress.progress}}%
+                      </div>
+                      <div id="tab-6" class="tab-pane">
+                        <div class="panel-body">
+                            <div class="form-group">
+                                <ngx-dropzone (change)="onSelect($event,true)" [expandable]="true"
+                                    [maxFileSize]="5000*1024" [accept]="'image/*'" [id]="'images'">
+                                    <ngx-dropzone-label>{{ 'Upload.UploadImageCaption' | translate }}</ngx-dropzone-label>
+                                    <ngx-dropzone-preview class="animated fadeInUp"
+                                        ngProjectAs="ngx-dropzone-preview"
+                                        *ngFor="let f of listImages ;let i = index" [file]="f" [removable]="true"
+                                        (removed)="onRemove(f,true)" (click)="downloadFile(f.File.FileLocalName)">
+                                        <ngx-dropzone-label style="font-size:11px;"> {{f.File.FileOriginalName}}
+                                        </ngx-dropzone-label>
+                                    </ngx-dropzone-preview>
+                                </ngx-dropzone>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <span class="badge"
+                                        [ngClass]="{'badge-primary': uploadReportProgress.progress==100, 'badge-danger':uploadReportProgress.isError}">{{uploadReportProgress.message}}</span>
+                                    <div *ngIf="uploadReportProgress.progress!=100"
+                                        class="progress progress-striped active">
+                                        <div class="progress-bar progress-bar-success" role="progressbar"
+                                            [style.width.%]="uploadReportProgress.progress">
+                                            {{uploadReportProgress.progress}}%
+                                        </div>
                                     </div>
                                 </div>
                             </div>
+
                         </div>
-
-                    </div>
-                  </div>
-
-
-
-                  </div>
-
-
-            </div>
-        </div>
-        <div class="col-sm-12">
-            <div class="ibox-content m-b-sm border-bottom">
-                <div class="row">
-                    <div class="col-sm-12">
-                      <!-- [ladda]="laddaSubmitLoading" -->
-                        <button class="btn btn-primary pull-right btn-save"
-                            [ladda]="laddaSubmitLoading"
-                            [disabled]="myForm.invalid ||entity.ItemUnitId==null" (click)="fnSave()">
-                            <i class="fa fa-plus"></i>
-                            {{'Button.Save' | translate}}
-                        </button>
+                      </div>
+                      </div>
+                </div>
+                <div class="ibox-content m-b-sm border-bottom">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <dx-validation-summary [elementAttr]="{ form: 'myform'  }" id="summary"></dx-validation-summary>
+                          </div>
+                          <div class="col-sm-6">
+                            <dx-button class="pull-right" stylingMode="text" [useSubmitBehavior]="true" template="btnTemplate">
+                              <div *dxTemplate="let data of 'btnTemplate'">
+                                <button type="button" class="btn btn-primary dim pull-right" [ladda]="laddaSubmitLoading"><i
+                                    class="fa fa-paper-plane-o"></i> {{'Button.Save' | translate}}</button>
+                              </div>
+                            </dx-button>
+                            <button class="btn btn-outline dim pull-right" [routerLink]="['/pages/item']"><i
+                                class="fa fa-chevron-circle-left"></i> {{'Button.Back' | translate}} </button>
+                          </div>
                     </div>
 
                 </div>
-
-            </div>
+            </form>
         </div>
+
     </div>
 
 </div>

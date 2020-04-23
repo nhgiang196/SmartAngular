@@ -91,7 +91,6 @@ export class WarehouseComponent implements OnInit {
       this.entity = res;
       this.childModal.show();
       this.iboxloading = false;
-      console.log('getEntity', res);
       /**CONTROL FILES */
       this.uploadComponent.loadInit((res as any).WarehouseFile);
       this.entity.ModifyBy = this.auth.currentUser.Username;
@@ -203,7 +202,6 @@ export class WarehouseComponent implements OnInit {
     return true;
   };
   validateAsync = (e) => {
-    console.log('Validate Async', e)
     return new Promise(async (resolve) => {
       this.laddaSubmitLoading = true;
       let obj = new Warehouse; //stop binding

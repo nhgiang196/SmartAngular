@@ -71,7 +71,6 @@ export class BomStageComponent implements OnInit {
         this.entity.ModifyBy = this.auth.currentUser.Username;
         this.entity.ModifyDate = this.helpper.dateConvertToString(new Date());
         this.removeIdChild();
-        console.log("a", this.entity);
 
         this.bomService.update(this.entity).then(
           res => {
@@ -105,13 +104,12 @@ export class BomStageComponent implements OnInit {
     }
   }
   async fnValidateBomServer() {
-    console.log(this.entity);
+    
     let model: BomFactory = JSON.parse(JSON.stringify(this.entity));
     model.BomStage = null;
     var data = (await this.bomService
       .validate(model)
       .then()) as any;
-    console.log(data);
     return data;
   }
   removeIdChild() {
@@ -168,7 +166,6 @@ export class BomStageComponent implements OnInit {
   }
   showChildModal(item) {
     if (item != null) {
-      console.log(item);
       this.entity = JSON.parse(JSON.stringify(item));
     }
     else {
@@ -183,8 +180,6 @@ export class BomStageComponent implements OnInit {
   }
 
   getFilteredUnit(options) {
-    console.log("=========>")
-    console.log(options)
     if (options == null || options.data == null)
       {
         return {

@@ -29,7 +29,7 @@
 
           <div class="row">
             <div class="col-lg-12">
-              <dx-data-grid (onRowUpdating)="onRowUpdatingItemType($event)"
+              <dx-data-grid #masterDataGrid (onRowUpdating)="onRowUpdatingItemType($event)"
                 (onRowInserting)="onRowInsertingItemType($event)" (onEditingStart)="filterByItemTypeId($event)"
                 (onEditorPreparing)="onEditorPreparing($event)" (onInitNewRow)="onInitNewRow($event)"
                 (onDataErrorOccurred)="onDataErrorOccurred($event)" (onRowValidating)="masterValidation($event)"
@@ -52,10 +52,20 @@
                     <!-- Begin Detail DataGrid ItemTypeProperty -->
                     <dxi-item [colSpan]="2">
                       <div *dxTemplate>
-                        <dx-data-grid (onInitNewRow)="onInitNewRowDetail($event)" [dataSource]="dataSourceProperties"
-                          keyExpr="ItemTypePropertyId" [focusedRowEnabled]="true" [remoteOperations]="true" height="340"
-                          [showBorders]="true" [showRowLines]="true">
-                          <dxo-editing mode="row" [allowAdding]="true" [allowUpdating]="true" [allowDeleting]="true"
+              <dx-data-grid #detailDataGrid 
+                            (onInitNewRow)="onInitNewRowDetail($event)"
+                            (onContentReady) ="enableActiveTab()"
+                            [dataSource]="dataSourceProperties"
+                            keyExpr="ItemTypePropertyId"
+                            [focusedRowEnabled]="true"
+                            [remoteOperations]="true"
+                            height="340"
+                            [showBorders]="true"
+                            [showRowLines]="true">
+                <dxo-editing mode="row"
+                            [allowAdding]="true"
+                            [allowUpdating]="true"
+                            [allowDeleting]="true"
                             [useIcons]="true">
                             <dxo-texts confirmDeleteMessage="Are you sure Delete?"></dxo-texts>
                           </dxo-editing>
@@ -65,6 +75,13 @@
                               [validationCallback]="detailValidation" message="ItemTypeName is empty">
                             </dxi-validation-rule>
                           </dxi-column>
+                <dxi-column type="buttons" [width]="110">
+                  <dxi-button name="edit"></dxi-button>
+                  <dxi-button
+                    icon="trash"
+                    [visible]="1"
+                    [onClick]="fnDeleteDetail"></dxi-button>
+              </dxi-column>
                           <dxo-paging [pageSize]="7"></dxo-paging>
                           <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[7,25, 50, 100]"></dxo-pager>
                         </dx-data-grid>

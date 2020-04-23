@@ -52,6 +52,18 @@ export class DevextremeService {
     }
   }
 
+  loadDxoLookupFilter(entity, filter = []) {
+    return {
+      store: createStore({
+        key: entity + "Id",
+        loadUrl: `${ApiUrl}/${entity}/UI_SelectBox`,
+      }),
+      paginate: true,
+      pageSize: 10,
+      filter:filter
+    }
+  }
+
   loadDefineLookup(columnName, language, checkStatus = false){
     let basicFilter = ["ColumName","=",columnName]
     return  {
