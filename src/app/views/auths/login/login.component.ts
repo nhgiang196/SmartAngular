@@ -35,7 +35,7 @@ export class LoginComponent implements OnInit {
   }
   loginUser() {
     this.laddaSubmitLoading = true;
-    this.authService.login().toPromise().then(res=> {
+    this.authService.ldapLogin().toPromise().then(res=> {
       if (res["Token"] != null) {
         this.authService.currentUser.Token = res["Token"];
         localStorage.setItem('currentUser', JSON.stringify(this.authService.currentUser));
