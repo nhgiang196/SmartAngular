@@ -55,10 +55,10 @@
                     message="">
                   </dxi-validation-rule>
                 </dxi-column>
-                <dxi-column dataField="CreateDate" dataType="date"></dxi-column>
+                <dxi-column dataField="CreateDate" dataType="date" format="d/M/yyyy HH:mm"></dxi-column>
                 <dxi-column dataField="CreateBy"></dxi-column>
                 <dxi-column dataField="ModifyBy"></dxi-column>
-                <dxi-column dataField="ModifyDate" dataType="date"></dxi-column>
+                <dxi-column dataField="ModifyDate" dataType="date" format="d/M/yyyy HH:mm"></dxi-column>
                 <dxi-column dataField="Status" #status dataType="boolean" caption="Active" width="120">
                   <dxo-lookup [dataSource]="lookupField['Status'].items()" displayExpr="Text" valueExpr="Id"></dxo-lookup>
                 </dxi-column>

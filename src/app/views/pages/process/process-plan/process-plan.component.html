@@ -59,9 +59,9 @@
               <dxi-column  dataField="ProcessPlanYear" caption="ProcessPlanYear"></dxi-column>
               <dxi-column  dataField="BomFactoryDescription" caption="{{'BomFactory.data.Descriptions' | translate}}"></dxi-column>
               <dxi-column  dataField="CreateBy" caption="{{'Item.data.CreateBy' | translate}}"></dxi-column>
-              <dxi-column  dataField="CreateDate" caption="{{'Item.data.CreateDate' | translate}}" dataType="date"></dxi-column>
+              <dxi-column  dataField="CreateDate" caption="{{'Item.data.CreateDate' | translate}}" dataType="date" format="d/M/yyyy HH:mm"></dxi-column>
               <dxi-column  dataField="ModifyBy" caption="{{'Item.data.ModifyBy' | translate}}"></dxi-column>
-              <dxi-column  dataField="ModifyDate" caption="{{'Item.data.ModifyDate' | translate}}" dataType="date"></dxi-column>
+              <dxi-column  dataField="ModifyDate" caption="{{'Item.data.ModifyDate' | translate}}" dataType="date" format="d/M/yyyy HH:mm"></dxi-column>
               <dxi-column  dataField="Status" dataType="boolean" caption="{{'Master.data.Status' | translate}}">
                 <dxo-lookup [dataSource]="lookupField['Status']" displayExpr="Text" valueExpr="Id"></dxo-lookup>
               </dxi-column>
