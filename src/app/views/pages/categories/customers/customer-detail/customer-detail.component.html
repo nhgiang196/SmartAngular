@@ -148,13 +148,15 @@
                   <dxi-column dataField="ContractSignDate" caption="{{ 'Contract.data.ContractSignDate' | translate}}" dataType="date"  format="d/M/yyyy"></dxi-column>
                   <dxi-column dataField="ContractEffectiveDate" caption="{{ 'Contract.data.ContractEffectiveDate' | translate}}" dataType="date"  format="d/M/yyyy"></dxi-column>
                   <dxi-column dataField="ContractEndDate" caption="{{ 'Contract.data.ContractEndDate' | translate}}" dataType="date"  format="d/M/yyyy"></dxi-column>
-                  <dxi-column dataField="StandardType" caption="{{ 'Contract.data.StandardType' | translate}}"></dxi-column>
+                  <dxi-column dataField="StandardType" caption="{{ 'Contract.data.StandardType' | translate}}">
+                    <dxo-lookup [dataSource]="lookupField['StandardType']" displayExpr="Text" valueExpr="Id"></dxo-lookup>
+                  </dxi-column>
                   <dxi-column dataField="WasteWaterRatio" caption="{{ 'Contract.data.WasteWaterRatio' | translate}}"></dxi-column>
                   <dxi-column dataField="CreateBy" caption="{{ 'Contract.data.CreateBy' | translate}}"></dxi-column>
                   <dxi-column dataField="ModifyBy" caption="{{ 'Contract.data.ModifyBy' | translate}}"></dxi-column>
                   <dxi-column dataField="CreateDate" caption="{{ 'Contract.data.CreateDate' | translate}}" dataType="date"  format="d/M/yyyy HH:mm"></dxi-column>
                   <dxi-column dataField="ModifyDate" caption="{{ 'Contract.data.ModifyDate' | translate}}" dataType="date"  format="d/M/yyyy HH:mm"></dxi-column>
-                  <dxi-column dataField="IsIntergration" caption="{{ 'Contract.data.IsIntergration' | translate}}" dataType="boolean"></dxi-column>
+                  <dxi-column dataField="IsIntergration" caption="{{ 'Contract.data.IsIntergration' | translate}}" dataType="boolean" trueText="{{lookupField['IsIntergration'].items()[0].Text}}"  falseText="{{lookupField['IsIntergration'].items()[1].Text}}"></dxi-column>
                   <dxi-column type="buttons" [width]="110">
                     <dxi-button icon="edit" [visible]="1" [onClick]="fnEditItem"></dxi-button>
                     <dxi-button icon="trash" [visible]="1" [onClick]="fnDeleteItem"></dxi-button>

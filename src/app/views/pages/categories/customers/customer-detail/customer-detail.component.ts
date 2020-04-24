@@ -38,6 +38,8 @@ export class CustomerDetailComponent implements OnInit {
   ) {
     this.factoryList = devService.loadDxoLookup("Factory");
     this.lookupField['ContractType'] = devService.loadDefineLookup("ContractType",lang);
+    this.lookupField['StandardType'] = devService.loadDefineLookup("StandardType",lang);
+    this.lookupField['IsIntergration'] =  devService.loadDefineSelectBox("IsIntergration",lang);
     this.fnEditItem = this.fnEditItem.bind(this);
     this.fnDeleteItem = this.fnDeleteItem.bind(this);
   }
@@ -52,6 +54,7 @@ export class CustomerDetailComponent implements OnInit {
   app_contractId = 0;
   private editIndex: number = 0;
   ngOnInit() {
+    this.lookupField['IsIntergration'].load();
     this.resetEntity();
     this.childView.resetEntity();
     this.loadInit();
