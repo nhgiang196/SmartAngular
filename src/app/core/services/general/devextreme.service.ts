@@ -94,7 +94,8 @@ export class DevextremeService {
         dataItem.Id = isNaN(dataItem.Id)? dataItem.Id : parseInt(dataItem.Id);
         dataItem.Text = language=='en'? dataItem['DescriptionEn'] : dataItem['DescriptionVn'];
         return dataItem;
-      }
+      },
+      sort: ["OrderBy"]
     })
   }
 

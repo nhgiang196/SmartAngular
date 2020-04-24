@@ -22,7 +22,7 @@ export class ContractComponent implements OnInit, AfterViewInit {
   @ViewChild('targetForm', { static: true }) targetForm: DxFormComponent;
   @ViewChild("childModal", { static: false }) childModal: ModalDirective;
 
-  @Input('contractListModel')  ContractList : Contract[] = [] ; //binding  : D
+  @Input('contractListModel') ContractList: Contract[] = []; //binding  : D
   @Output('contractListModel') selectDataChange: EventEmitter<Contract[]> = new EventEmitter<Contract[]>();
 
   @Input('contractid') contractId: number;
@@ -37,11 +37,11 @@ export class ContractComponent implements OnInit, AfterViewInit {
     private lang: LanguageService,
     private devService: DevextremeService,
   ) {
-    this.lookupField['BreachType'] = devService.loadDefineSelectBox("ContractBreachType",lang.getLanguage());
-    this.lookupField['ResolveType'] = devService.loadDefineSelectBox("ContractResolveType",lang.getLanguage());
+    this.lookupField['BreachType'] = devService.loadDefineSelectBox("ContractBreachType", lang.getLanguage());
+    this.lookupField['ResolveType'] = devService.loadDefineSelectBox("ContractResolveType", lang.getLanguage());
   }
 
-  lookupField : any = {};
+  lookupField: any = {};
   pathFile = 'uploadFileContract'
   entity: Contract;
   laddaSubmitLoading = false;
@@ -52,6 +52,7 @@ export class ContractComponent implements OnInit, AfterViewInit {
   }
   loadInit(id) {
     this.targetForm.instance.resetValues();
+
     // this.resetEntity();
     this.uploadComponent.resetEntity();
     if (id && id != 0) {
@@ -67,21 +68,23 @@ export class ContractComponent implements OnInit, AfterViewInit {
     }
     else {
       this.targetForm.instance.updateData(new Contract());
-      this.entity.CustomerId = this.route.snapshot.params.id || 0;
     }
+    this.entity.CustomerId = this.route.snapshot.params.id || 0;
     this.childModal.show();
   }
-  async resetEntity() { 
+  async resetEntity() {
     this.entity = new Contract();
     this.entity.CustomerId = this.route.snapshot.params.id || 0;
   }
   async fnSave() {
     // if (! await this.targetForm.instance.validate().isValid) return;
+    this.laddaSubmitLoading = true;
     var e = this.entity;
     await this.uploadComponent.uploadFile();
     if (e.CustomerId == 0) { //New customer, just send to parrent
       let _sendParent = Object.assign({}, e); //stop binding
       this.send_entity.emit(_sendParent);
+      this.laddaSubmitLoading = false;
       this.childModal.hide();
     }
     else if (e.ContractId == 0) //add
@@ -109,28 +112,33 @@ export class ContractComponent implements OnInit, AfterViewInit {
       else this.toastr.warning(operationResult.Message);
     }
   }
-  resetRouter(){
+  resetRouter() {
     var reloadpath = location.hash.replace('#', '');
     this.router.navigateByUrl('/', { skipLocationChange: true }).then(() =>
-    this.router.navigate([reloadpath]));
+      this.router.navigate([reloadpath]));
   }
   private sendtoParentView(e: Contract) {
-    let _sendParent = Object.assign({}, e); //stop binding
+    let _sendParent = Object.assign({}, e);
     delete _sendParent.ContractBreach;
     delete _sendParent.ContractPrice;
     delete _sendParent.ContractFile;
-    this.ContractList.push(_sendParent);
+    if (e.ContractId == 0) this.ContractList.push(e);
+    else {
+      let _index = this.ContractList.findIndex(x => x.ContractId == e.ContractId);
+      this.ContractList.splice(_index, 1, e);
+    }
     this.selectDataChange.emit(this.ContractList);
+    this.laddaSubmitLoading = false;
     this.childModal.hide();
   }
   validateFunction = (e) => {
     if (e.formItem)
       switch (e.formItem.dataField) {
-        case "StandardType": return (e.value != null && e.value!=0)
+        case "StandardType": return (e.value != null && e.value != 0)
         case "ContractEffectiveDate": return (e.value <= this.entity.ContractEndDate) || this.entity.ContractEndDate == null
         case "ContractEndDate": return (this.entity.ContractEffectiveDate <= e.value) || this.entity.ContractEffectiveDate == null
       }
-    if (e.column) { 
+    if (e.column) {
       switch (e.column.dataField) {
         case "WaterFlow":
           let _find = this.entity.ContractPrice.find(x => x.WaterFlow == e.data.WaterFlow);
@@ -146,19 +154,21 @@ export class ContractComponent implements OnInit, AfterViewInit {
   validateAsync = (e) => {
     return new Promise(async (resolve) => {
       this.laddaSubmitLoading = true;
-      let obj = Object.assign({}, this.entity); //stop binding
+      // let obj = Object.assign({}, this.entity); //stop binding
+      let obj = new Contract();
       obj[e.formItem.dataField] = e.value;
+      obj.ContractId = this.entity.ContractId;
       let _res = await this.api.validate(obj).then() as any;
       let _validate = _res.Success ? _res.Success : _res.ValidateData.indexOf(e.formItem.dataField) < 0;
       if (_validate == true) this.laddaSubmitLoading = false;
       resolve(_validate);
     });
   }
-  onRowValidatingBreach(e){
+  onRowValidatingBreach(e) {
     var itemAdd = e.newData as ContractBreach;
     for (const i in this.entity.ContractBreach) {
-      let  item = this.entity.ContractBreach[i];
-      if (item.Times== itemAdd.Times && item.BreachType == itemAdd.BreachType) {
+      let item = this.entity.ContractBreach[i];
+      if (item.Times == itemAdd.Times && item.BreachType == itemAdd.BreachType) {
         swal.fire(
           {
             title: this.trans.instant('messg.validation.caption'),
